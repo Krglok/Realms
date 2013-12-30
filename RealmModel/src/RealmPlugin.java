@@ -1,5 +1,4 @@
 import org.bukkit.command.CommandSender;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
