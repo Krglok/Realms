@@ -1,22 +1,23 @@
 Realms
 ======
 
-Bukkit Plugin for managing Realms and settlements. No protrections . 
-Based on the ideas of the plugin Dominion from Pico52 a created this plugin.
+Bukkit Plugin for managing Realms and settlements. DO no protections . 
+Based on the ideas of Dominion from Pico52 i created this plugin.
 I want to resolve some design issues in the dominion design
 - no automatic building verification
 - small bandwidth of produced items and blocks
 - many different units with only virtual representation
 After some analysis of the dominion design i made the decision to make  a new design 
-with a different design and architecture.
+with a different architecture.
 
-Archtecture requirements
-- model design without plugin requirements
-- unittest for zhe model
+Architecture requirements
+- realm design without direct plugin connection
+- unittest for the model
 - Herostronghold as verification for buildings and settlements
 - independant datatypes not directly based on Minecraft datatypes
-- use of basic types String, integer, Double, Enums
-- model run with events , triggered from outside the model
+- use of basic types String, integer, double, enums
+- realm model run with events , triggered from outside the model
+- layer model for realm model, data handling, command and events, pluginframe
 - Units are always virtual and have no representation as entity in game
 
 Design objects and requirements
