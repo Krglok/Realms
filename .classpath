@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="RealmModel/src"/>
 	<classpathentry kind="src" path="RealmModel/test"/>
-	<classpathentry kind="src" path="RealmTest/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.7.2-R0.1-20131205.042212-19.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>

@@ -94,7 +94,7 @@ public class DataTestTest
 	{
 		ConfigTest data = new ConfigTest();
 		ItemList iList = data.getWeaponItems();
-		int expected = 7;
+		int expected = 6;
 		int actual = iList.size();
 		assertEquals(expected, actual);
 
@@ -145,7 +145,7 @@ public class DataTestTest
 	{
 		ConfigTest data = new ConfigTest();
 		ItemList iList = data.getToolItems();
-		int expected = 23;
+		int expected = 24;
 		int actual = iList.size();
 		assertEquals(expected, actual);
 

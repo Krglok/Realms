@@ -1140,15 +1140,27 @@ public class SettlementTest
 		settle.checkBuildingsEnabled(server);
 		settle.produce(server);
 		
-		int expected = 176;
-		int actual = settle.getWarehouse().getItemList().getValue(Material.WHEAT.name()); 
+		int expected = 2;
+		int actual = 0; 
+		for (Building building : settle.getBuildingList().getBuildingList().values())
+		{
+			if (building.isActive() == false)
+			{
+				actual++;
+			}
+		}
+
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
-			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
+			System.out.println("==Settlement Active =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
-				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
+				if (building.isActive() == false)
+				{
+					actual++;
+					System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
+				}
 			}
 			
 			System.out.println("=Warehouse ="+settle.getWarehouse().getItemMax()+":"+settle.getWarehouse().getItemCount());
