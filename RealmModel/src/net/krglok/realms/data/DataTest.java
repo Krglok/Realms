@@ -112,13 +112,12 @@ public class DataTest implements DataInterface
 		Position position = new Position(0.0, 0.0, 0.0);
 		Owner owner = testOwners.getOwner(NPC_0);
 		Barrack barrack = new Barrack(5);
-		Warehouse warehouse = new Warehouse(1000);
-		warehouse.setItemList(defaultWarehouseItems());
+		Warehouse warehouse = new Warehouse(6912);
 		BuildingList buildingList = new BuildingList(); 
 		Townhall townhall = new Townhall(true);
 		Bank bank = new Bank();
 		Resident resident = new Resident();
-
+		resident.setSettlerCount(30);
 		Settlement settle =  new Settlement(
 				id, 
 				SettleType.SETTLE_HAMLET, 
@@ -303,7 +302,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"",
+						"bauern_haus",
 						"", 
 						true
 						);
@@ -321,7 +320,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"",
+						"werkstatt_haus",
 						"", 
 						true,
 						slot1,
@@ -344,7 +343,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"",
+						"haus_baecker",
 						"", 
 						true,
 						slot1,
@@ -385,31 +384,32 @@ public class DataTest implements DataInterface
 	private void initBuildingList()
 	{
 		testBuildings = new BuildingList();
-		testBuildings.addBuilding(createBuildingHome(2, 2,2));
-		testBuildings.addBuilding(createBuildingHome(6, 2,6));
-		testBuildings.addBuilding(createBuildingHome(7, 2,7));
+		testBuildings.addBuilding(createBuildingHome(2, 4,2));
+		testBuildings.addBuilding(createBuildingHome(6, 4,6));
+		testBuildings.addBuilding(createBuildingHome(7, 4,7));
 		testBuildings.addBuilding(createBuildingTaverne(8, 2,8));
-		testBuildings.addBuilding(createBuildingWarehouse(9, 2, 9));
-		testBuildings.addBuilding(createBuildingHome(10, 2,10));
-		testBuildings.addBuilding(createBuildingHome(11, 2,11));
-		testBuildings.addBuilding(createBuildingHome(12, 2,12));
-		testBuildings.addBuilding(createBuildingHome(13, 2,13));
-		testBuildings.addBuilding(createBuildingHome(14, 2,14));
-		testBuildings.addBuilding(createBuildingKornfeld(16, 2, 16));
-		testBuildings.addBuilding(createBuildingKornfeld(18, 2, 18));
-		testBuildings.addBuilding(createBuildingHome(28, 2,28));
-		testBuildings.addBuilding(createBuildingHome(29, 2,29));
-		testBuildings.addBuilding(createBuildingHome(30, 2,20));
-		testBuildings.addBuilding(createBuildingBauernhof(31, 6, 5, 31));
-		testBuildings.addBuilding(createBuildingBauernhof(32, 6, 5, 32));
-		testBuildings.addBuilding(createBuildingBauernhof(33, 6, 5, 33));
+		testBuildings.addBuilding(createBuildingWarehouse(9, 5, 9));
+		testBuildings.addBuilding(createBuildingHome(10, 4,10));
+		testBuildings.addBuilding(createBuildingHome(11, 4,11));
+		testBuildings.addBuilding(createBuildingHome(12, 4,12));
+		testBuildings.addBuilding(createBuildingHome(13, 4,13));
+		testBuildings.addBuilding(createBuildingHome(14, 4,14));
+		testBuildings.addBuilding(createBuildingKornfeld(16, 1, 16));
+		testBuildings.addBuilding(createBuildingKornfeld(18, 1, 18));
+		testBuildings.addBuilding(createBuildingHolzfaeller(19, 1, 18));
+		testBuildings.addBuilding(createBuildingHome(28, 4,28));
+		testBuildings.addBuilding(createBuildingHome(29, 4,29));
+		testBuildings.addBuilding(createBuildingHome(30, 4,20));
+		testBuildings.addBuilding(createBuildingBauernhof(31, 8, 5, 31));
+		testBuildings.addBuilding(createBuildingBauernhof(32, 8, 5, 32));
+		testBuildings.addBuilding(createBuildingBauernhof(33, 8, 5, 33));
 		testBuildings.addBuilding(createBuildingHall(34, 2, 34));
-		testBuildings.addBuilding(createBuildingWerkstatt(41, 6, 5, 41, "FENCE", "STICK", "WOOD", "", ""));
-		testBuildings.addBuilding(createBuildingWerkstatt(42, 6, 5, 42, "IRON_SWORD", "BOW", "ARROW", "ARROW", "ARROW"));
-		testBuildings.addBuilding(createBuildingWerkstatt(43, 6, 5, 42, "IRON_HELMET", "IRON_CHESTPLATE", "IRON_LEGGINGS", "IRON_BOOTS", ""));
-		testBuildings.addBuilding(createBuildingWerkstatt(51, 6, 5, 51, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
-		testBuildings.addBuilding(createBuildingWerkstatt(52, 6, 5, 52, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
-		testBuildings.addBuilding(createBuildingWerkstatt(53, 6, 5, 53, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
+		testBuildings.addBuilding(createBuildingWerkstatt(41, 8, 5, 41, "WOOD_AXE", "STICK", "WOOD", "", ""));
+		testBuildings.addBuilding(createBuildingWerkstatt(42, 8, 5, 42, "IRON_SWORD", "BOW", "ARROW", "ARROW", "ARROW"));
+		testBuildings.addBuilding(createBuildingWerkstatt(43, 8, 5, 42, "IRON_HELMET", "IRON_CHESTPLATE", "IRON_LEGGINGS", "IRON_BOOTS", ""));
+		testBuildings.addBuilding(createBuildingBaecker(51, 8, 5, 51, "BREAD", "", "", "", ""));
+		testBuildings.addBuilding(createBuildingBaecker(52, 8, 5, 52, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
+		testBuildings.addBuilding(createBuildingBaecker(53, 8, 5, 53, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
 	}
 	
 	
@@ -543,23 +543,23 @@ public class DataTest implements DataInterface
 	}
 
 	@Override
-	public void initOwners(RealmModel realmModel)
+	public OwnerList initOwners()
 	{
 	
-		realmModel.setOwners(testOwners);
+		return testOwners;
 	}
 
 	@Override
-	public void initRealms(RealmModel realmModel)
+	public RealmList initRealms()
 	{
-		realmModel.setRealms(testRealms);
+		return testRealms;
 		
 	}
 
 	@Override
-	public void initSettlements(RealmModel realmModel)
+	public SettlementList initSettlements()
 	{
-		realmModel.setSettlements(testSettlements);
+		return testSettlements;
 	}
 
 	public OwnerList getTestOwners()

@@ -62,10 +62,16 @@ public class ConfigTest implements ConfigInterface
 	}
 
 	@Override
-	public void initConfigData()
+	public Boolean initConfigData()
 	{
 		realmCounter = 0;
 		settlementCounter = 0;
+		initRegionBuilding();
+		initSuperSettleTypes();
+		initArmor();
+		initWeapon();
+		initTool();
+		return true;
 	}
 
 	@Override

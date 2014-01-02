@@ -59,5 +59,17 @@ public enum UnitType
 		}
 	}
 
+	public static UnitType getUnitType(String name)
+	{
+		for (UnitType ut : UnitType.values())
+		{
+			if (name.equalsIgnoreCase(ut.name()))
+			{
+				return ut;
+			}
+		}
+		
+		return UNIT_NONE;
+	}
 
 }

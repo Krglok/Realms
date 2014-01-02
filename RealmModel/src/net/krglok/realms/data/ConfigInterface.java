@@ -5,7 +5,7 @@ import net.krglok.realms.core.ItemList;
 public interface ConfigInterface
 {
 
-	public void initConfigData();
+	public Boolean initConfigData();
 	
 	public String getVersion();
 	

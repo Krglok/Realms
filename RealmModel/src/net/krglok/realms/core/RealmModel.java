@@ -1,5 +1,11 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
+
+import net.krglok.realms.data.ConfigInterface;
+import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.ServerInterface;
+
 /**
  * the realmModel is the top Class of the realm handling.
  * all functions and algorithm of the settlements and realm will be executed inside the model.
@@ -9,15 +15,15 @@ package net.krglok.realms.core;
  * (Lehensystem oder Feudalismus).
  * the real objects in the game are realized and representent by a different plugin, HeroStronghold.
  * the aspects and parameters of HeroStronghold are imported in the realmModel
- * - consume of items by region
- * - production of items by region upkeep
- * - production of money by region
- * - production of power in superregion
- * - consum of money by superregion
- * - the instances of the regions and superregions are used as Buildings and Areas
- *  the aspects and parameters of the HeroStronghold are abstracted in the realmModel the real value 
- *  and connection to the HeroStronghold objects are done outside the realmModel by the plugin that 
- *  use this realmModel.
+ * the instances of the regions and superregions are used as Buildings and Areas
+ * the aspects and parameters of the HeroStronghold are abstracted in the realmModel the real value 
+ * and connection to the HeroStronghold objects are done outside the realmModel by the plugin that 
+ * use this realmModel.
+ * the RealmModel are controlled by the ModelStatus.
+ * the RealmModel get Commands from outside over Event Methods.
+ * the Model use queues for commands and other actions. 
+ * so only one single action will be done thru one cycle.s
+ * 
  *    
  * @author oduda    19.12.2013
  *
@@ -27,23 +33,46 @@ public class RealmModel
 	private static final String REALM_MODEL = "RealmModel";
 	private static final String REALM_MODEL_VER = "0.1.0";
 
-	private Boolean isEnabled;
+	private ModelStatus modelStatus;
+	private ServerInterface server;
+	private ConfigInterface config;
+	private DataInterface data;
 	
 	private OwnerList owners;
 	private RealmList realms;
 	private SettlementList settlements;
+	private CommandQueue commandQueue;
+	private ArrayList<Settlement> productionQueue;
+	// private ArrayList<Training> trainingQueue;
+	// private private ArrayList<Trade> tradeQueue;
+	
+	private boolean isInit ;
 	
 	/**
 	 * instances an empty Model , must be initialize external !
+	 * 
 	 * @param realmCounter
 	 * @param settlementCounter
+	 * @param server
+	 * @param config
+	 * @param data
 	 */
-	public RealmModel(int realmCounter, int settlementCounter)
+	public RealmModel(int realmCounter, int settlementCounter,
+			ServerInterface server,
+			ConfigInterface config,
+			DataInterface data
+			)
 	{
-		isEnabled = false;
+		modelStatus =  ModelStatus.MODEL_DISABLED;
+		commandQueue = new CommandQueue();
+		productionQueue = new ArrayList<Settlement>();
 		setOwners(new OwnerList());
 		setRealms(new RealmList(realmCounter));
 		setSettlements(new SettlementList(settlementCounter));
+		isInit = false;
+		this.server = server;
+		this.config = config;
+		this.data   = data;
 	}
 
 	/**
@@ -64,6 +93,26 @@ public class RealmModel
 		return REALM_MODEL_VER;
 	}
 	
+	public Boolean isInit()
+	{
+		return this.isInit;
+	}
+	
+	public ModelStatus getModelStatus()
+	{
+		return modelStatus;
+	}
+	
+	public CommandQueue getcommandQueue()
+	{
+		return commandQueue;
+	}
+	
+	public ArrayList<Settlement> getProductionQueue()
+	{
+		return productionQueue;
+	}
+	
 	/**
 	 * 
 	 * @return OwnerList
@@ -79,6 +128,7 @@ public class RealmModel
 	 */
 	public void setOwners(OwnerList owners)
 	{
+		isInit = true;
 		this.owners = owners;
 	}
 
@@ -95,7 +145,7 @@ public class RealmModel
 	 * replace RealmList
 	 * @param realms
 	 */
-	public void setRealms(RealmList realms)
+	private void setRealms(RealmList realms)
 	{
 		this.realms = realms;
 	}
@@ -118,4 +168,243 @@ public class RealmModel
 		this.settlements = settlements;
 	}
 	
+	public void OnEnable()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_DISABLED :
+			if (initModel())
+			{
+				this.modelStatus = ModelStatus.MODEL_ENABLED;
+			}
+			break;
+		default :
+			break;
+		}
+	}
+	
+	private boolean initModel()
+	{
+		boolean isDone = config.initConfigData();
+		owners = data.initOwners();
+		realms = data.initRealms();
+		settlements = data.initSettlements();
+		isInit = isDone;
+		return isInit;
+	}
+	
+	public void OnDisable()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			// store Queues
+			break;
+		default :
+			break;
+		}
+	}
+
+	public void OnCommand(RealmCommand realmCommand)
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			// store Command in Queue
+			modelStatus = addCommandQueue(realmCommand);
+			modelStatus = nextCommandQueue();
+			//nextCommandQueue
+			break;
+		case MODEL_COMMAND :
+			// store command in commandQueue
+			break;
+		default :
+			// nur Comand Queue erweitern ohne status aenderung
+			addCommandQueue(realmCommand);
+			break;
+		}
+	}
+
+	public void OnProduction()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			// initProductionQueue
+			modelStatus = initProductionQueue();
+			break;
+		case MODEL_PRODUCTION :
+			// NextProduction
+			modelStatus = nextProductionQueue();
+			break;
+		default :
+			break;
+		}
+	}
+
+	public void OnMove()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			break;
+		default :
+			break;
+		}
+	}
+
+	public void OnTrade()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			break;
+		default :
+			break;
+		}
+	}
+
+	public void OnAttack()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			break;
+		default :
+			break;
+		}
+	}
+
+	public void OnTrain()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			break;
+		default :
+			break;
+		}
+	}
+	
+	public void OnTick()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			// checkCommandQueue
+			if (commandQueue.isEmpty())
+			{
+				// checkMoveQueue				
+			
+			} else
+			{
+				modelStatus = nextCommandQueue();
+			}
+
+			break;
+		case MODEL_PRODUCTION :
+			// nextProduction
+			modelStatus = nextProductionQueue();
+			// endProduction
+			break;
+		case MODEL_TRAINING :
+			// nextTraining
+			// endTraining
+			break;
+		case MODEL_BATTLE :
+			// nextBattleStep
+			// endBattle
+			break;
+		case MODEL_TRADE :
+			// nextTradeQueue
+			// end TradeQueue
+			break;
+		case MODEL_MOVE :
+			// nextMoveQueue
+			// endMoveQueue
+			break;
+		case MODEL_COMMAND :
+			// nextCommandQueue
+			modelStatus = nextCommandQueue();
+			break;
+		default :
+			break;
+		}
+	}
+
+	private ModelStatus addCommandQueue(RealmCommand realmCommand)
+	{
+		commandQueue.add(realmCommand);
+		return ModelStatus.MODEL_ENABLED;
+	}
+	
+	
+	private ModelStatus nextCommandQueue()
+	{
+		if (commandQueue.isEmpty()) 
+		{
+			return ModelStatus.MODEL_ENABLED;
+		}
+		// do Command
+		
+		RealmCommand command = commandQueue.get(0);
+		switch (command.command())
+		{
+		case MODEL :
+			// do Model command
+			commandQueue.remove(0);
+			break;
+		case REALM :
+			// do Realm command
+			commandQueue.remove(0);
+			break;
+		case SETTLE :
+			// do Settlement command
+			commandQueue.remove(0);
+			break;
+		case OWNER :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+
+		default :
+			// unknown commands are delete from queue
+			commandQueue.remove(0);
+			break;
+		}
+		return ModelStatus.MODEL_ENABLED;
+	}
+	
+	private ModelStatus initProductionQueue()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+			if (settle.isEnabled())
+			{
+				productionQueue.add(settle);
+			}
+		}
+		return ModelStatus.MODEL_PRODUCTION;
+	}
+
+	private ModelStatus nextProductionQueue()
+	{
+		if (productionQueue.isEmpty())
+		{
+			return ModelStatus.MODEL_ENABLED;
+		}
+		Settlement settle = productionQueue.get(0);
+		settle.setSettlerMax();
+		settle.checkBuildingsEnabled(server);
+		settle.setWorkerNeeded();
+		settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
+		settle.setHappiness();
+		settle.produce(server);
+		productionQueue.remove(0);
+		if (productionQueue.isEmpty())
+		{
+			return ModelStatus.MODEL_ENABLED;
+		}
+		return ModelStatus.MODEL_PRODUCTION;
+	}
 }

@@ -31,7 +31,6 @@ public class BuildingList
 	}
 
 	/**
-	 * the inlude NO null objects
 	 * default buildings is of Type BUILDING_NONE   
 	 * @return  List of Buildings
 	 */

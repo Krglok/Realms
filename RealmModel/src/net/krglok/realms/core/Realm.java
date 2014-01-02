@@ -1,13 +1,13 @@
 package net.krglok.realms.core;
 
 /**
- * 
- * @author krglok
- *
  * The Realm Class represents the  hierarchical top of the feudal system.
  * The settlements are the Plots of the  feudal system.
  * The members of the realms are owners of settlements.
  * The owners are players.
+ * 
+ * @author krglok
+ *
  *  
  */
 

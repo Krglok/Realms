@@ -182,55 +182,59 @@ public class TestServer  implements ServerInterface // extends ServerData
 	public ItemList getRegionOutput(String regionType)
 	{
 		ItemList rList = new ItemList();
-		
-		switch (regionType)
+		if (regionType != null)
 		{
-		case "bibliothek":
-			rList.put("PAPER", 1);
-			break;
-		case "kornfeld":
-			rList.put("WHEAT", 32);
-			break;
-		case "heiler_haus":
-			rList.put("", 0);
-			break;
-		case "prod_brett":
-			rList.put("WOOD", 64);
-			break;
-		case "prod_stick":
-			rList.put("STICK", 64);
-			break;
-		case "prod_waxe":
-			rList.put("WOOD_AXE", 20);
-			break;
-		case "prod_whoe":
-			rList.put("WOOD_HOE", 20);
-			break;
-		case "prod_wpaxe":
-			rList.put("WOOD_PICKAXE", 20);
-			break;
-		case "prod_wsword":
-			rList.put("WOOD_SWORD", 20);
-			break;
-		case "bauern_haus":
-			rList.put("WHEAT", 128);
-			break;
-		case "werkstatt_haus":
-			rList.put("STICK", 1);
-			break;
-		case "koehler":
-			rList.put("COAL", 32);
-			break;
-		case "haus_baecker":
-			rList.put("BREAD", 32);
-			break;
-		case "schmelze":
-			rList.put("IRON_INGOT", 32);
-			break;
-		default:
-			break;
+			switch (regionType)
+			{
+			case "bibliothek":
+				rList.put("PAPER", 1);
+				break;
+			case "kornfeld":
+				rList.put("WHEAT", 32);
+				break;
+			case "heiler_haus":
+				rList.put("", 0);
+				break;
+			case "prod_brett":
+				rList.put("WOOD", 64);
+				break;
+			case "prod_stick":
+				rList.put("STICK", 64);
+				break;
+			case "prod_waxe":
+				rList.put("WOOD_AXE", 20);
+				break;
+			case "prod_whoe":
+				rList.put("WOOD_HOE", 20);
+				break;
+			case "prod_wpaxe":
+				rList.put("WOOD_PICKAXE", 20);
+				break;
+			case "prod_wsword":
+				rList.put("WOOD_SWORD", 20);
+				break;
+			case "bauern_haus":
+				rList.put("WHEAT", 128);
+				break;
+			case "werkstatt_haus":
+				rList.put("STICK", 1);
+				break;
+			case "koehler":
+				rList.put("COAL", 32);
+				break;
+			case "holzfaeller":
+				rList.put("LOG", 32);
+				break;
+			case "haus_baecker":
+				rList.put("BREAD", 32);
+				break;
+			case "schmelze":
+				rList.put("IRON_INGOT", 32);
+				break;
+			default:
+				break;
+			}
 		}
-		
 		return rList;
 	}
 

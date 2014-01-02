@@ -1,6 +1,8 @@
 package net.krglok.realms.data;
 
-import net.krglok.realms.core.RealmModel;
+import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.OwnerList;
 
 /**
  * 
@@ -18,18 +20,18 @@ public class DataStorage implements DataInterface
 	/**
 	 * must be done at first init for realmModel
 	 */
-	public void initOwners(RealmModel realmModel)
+	public OwnerList initOwners()
 	{
-		
+		return new OwnerList();
 	}
 	
 	
 	/**
 	 * must be done after initOwners
 	 */
-	public void initRealms(RealmModel realmModel)
+	public RealmList initRealms()
 	{
-		
+		return new RealmList();
 	}
 	
 	
@@ -37,9 +39,9 @@ public class DataStorage implements DataInterface
 	 * initialize the SettlementList
 	 * must be done after initOwners and initRealms
 	 */
-	public void initSettlements(RealmModel realmModel)
+	public SettlementList initSettlements()
 	{
-		
+		return new SettlementList(0);
 	}
 	
 }

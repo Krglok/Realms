@@ -46,10 +46,13 @@ public class Settlement
 //  private Trader trader;
 //  private Headquarter headquarter;
 	
+	private Boolean isEnabled;
+	private Boolean isActive;
+	
 	private double foodConsumCounter;
 	
 	/**
-	 * instance empty settlement with 
+	 * instance empty settlement with
 	 * - sequential ID
 	 */
 	public Settlement()
@@ -67,7 +70,8 @@ public class Settlement
 		townhall	= new Townhall();
 		bank		= new Bank();
 		resident	= new Resident();
-		
+		isEnabled   = true;
+		isActive    = true;
 		foodConsumCounter = 0.0;
 	}
 
@@ -93,6 +97,9 @@ public class Settlement
 		townhall	= new Townhall();
 		bank		= new Bank();
 		resident	= new Resident();
+		isEnabled   = true;
+		isActive    = true;
+		foodConsumCounter = 0.0;
 	}
 
 	/**
@@ -119,6 +126,9 @@ public class Settlement
 		townhall	= new Townhall();
 		bank		= new Bank();
 		resident	= new Resident();
+		isEnabled   = true;
+		isActive    = true;
+		foodConsumCounter = 0.0;
 	}
 	
 	
@@ -157,6 +167,9 @@ public class Settlement
 		this.townhall = townhall;
 		this.bank = bank;
 		this.resident = resident;
+		isEnabled   = true;
+		isActive    = true;
+		foodConsumCounter = 0.0;
 	}
 
 	/**
@@ -176,6 +189,16 @@ public class Settlement
 	public static void initCounter(int iD)
 	{
 		COUNTER = iD;
+	}
+	
+	public Boolean isEnabled()
+	{
+		return isEnabled;
+	}
+	
+	public Boolean isActive()
+	{
+		return isActive;
 	}
 	
 	/**

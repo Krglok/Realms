@@ -50,7 +50,7 @@ public class Building
 		hsRegionType	= "";
 		hsSuperRegion	= "";
 		isEnabled		= true;
-		isActiv 	    = false;
+		isActiv 	    = true;
 		slots = new ItemArray();
 	}
 	
@@ -67,7 +67,7 @@ public class Building
 		hsRegion		= 0;
 		hsSuperRegion	= "";
 		isEnabled		= true;
-		isActiv 	    = false;
+		isActiv 	    = true;
 		slots = new ItemArray();
 	}
 
@@ -84,10 +84,11 @@ public class Building
 		this.workerNeeded = workerNeeded;
 		this.workerInstalled = workerInstalled;
 		this.iSRegion = isRegion;
+		this.hsRegionType = hsRegionType;
 		this.hsRegion = hsRegion;
 		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
-		isActiv 	    = false;
+		isActiv 	    = true;
 		slots = new ItemArray();
 	}
 	
@@ -105,10 +106,33 @@ public class Building
 		this.workerInstalled = workerInstalled;
 		this.iSRegion = isRegion;
 		this.hsRegion = hsRegion;
+		this.hsRegionType = hsRegionType;
 		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
-		isActiv 	    = false;
+		
+		isActiv 	    = true;
 		slots = new ItemArray();
+		if (slot1 != "")
+		{
+			slots.addItem(slot1, 1);
+		}
+		if (slot2 != "")
+		{
+			slots.addItem(slot2, 1);
+		}
+		if (slot3 != "")
+		{
+			slots.addItem(slot3, 1);
+		}
+		if (slot4 != "")
+		{
+			slots.addItem(slot4, 1);
+		}
+		if (slot5 != "")
+		{
+			slots.addItem(slot5, 1);
+		}
+
 	}
 
 	private void setWorkerDefault(BuildingType buildingType)

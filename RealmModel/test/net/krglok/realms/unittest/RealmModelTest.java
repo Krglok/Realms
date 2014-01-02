@@ -2,11 +2,19 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ModelStatus;
 import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.core.RealmCommand;
+import net.krglok.realms.core.RealmCommandType;
 import net.krglok.realms.core.RealmList;
 import net.krglok.realms.core.RealmModel;
+import net.krglok.realms.core.RealmSubCommandType;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.Warehouse;
@@ -21,113 +29,350 @@ public class RealmModelTest
 
 	private Boolean isOutput = false; // set this to false to suppress println
 
+
 	@Test
-	public void ReamModelTest()
+	public void testRealmModel() 
 	{
+		ConfigTest config = new ConfigTest();
+		config.initConfigData();
+		config.initRegionBuilding();
+		config.initSuperSettleTypes();
+
+		TestServer server = new TestServer();
+
+		int realmCounter = config.getRealmCounter();
+		int settlementCounter = config.getSettlementCounter();
+				
+		DataTest testData = new DataTest();
+		
+		RealmModel rModel = new RealmModel(
+				realmCounter, 
+				settlementCounter,
+				server,
+				config,
+				testData);
+		
+//		rModel.setOwners(ownerList);
+//		rModel.setRealms(realmList);
+//		rModel.setSettlements(settleList);
+
+		Boolean expected = false;
+		Boolean actual = rModel.isInit(); 
+		
+		isOutput = (expected != actual);
+		if (isOutput)
+		{
+			System.out.println(rModel.getModelName()+":"+rModel.getModelVersion());
+
+		}
+		assertEquals(expected, actual);
+		
+	}
+
+	@Test
+	public void testOnEnable() {
+		ConfigTest config = new ConfigTest();
+//		config.initConfigData();
+//		config.initRegionBuilding();
+////		config.initSuperBuilding();
+//		config.initSuperSettleTypes();
+		
+		TestServer server = new TestServer();
+		
+		int realmCounter = config.getRealmCounter();
+		int settlementCounter = config.getSettlementCounter();
+				
+		DataTest testData = new DataTest();
+//		OwnerList ownerList =  testData.getTestOwners();
+//		RealmList realmList =  testData.getTestRealms();
+//		SettlementList settleList = testData.getTestSettlements();
+		
+		RealmModel rModel = new RealmModel(
+				realmCounter, 
+				settlementCounter,
+				server,
+				config,
+				testData);
+		
+//		rModel.setOwners(ownerList);
+//		rModel.setRealms(realmList);
+//		rModel.setSettlements(settleList);
+
+		Boolean expected = true; //rModel.isInit();
+		Boolean actual = false; 
+		
+		rModel.OnEnable();
+		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_ENABLED);
+		isOutput = (expected != actual); //true;
+		if (isOutput)
+		{
+			System.out.println(rModel.getModelName()+":"+rModel.getModelVersion());
+			System.out.println("onEnable  : "+rModel.getModelStatus());
+
+		}
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testOnDisable() {
 		ConfigTest config = new ConfigTest();
 		config.initConfigData();
 		config.initRegionBuilding();
 //		config.initSuperBuilding();
 		config.initSuperSettleTypes();
 		
-		TestServer tServer = new TestServer();
-		
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getTestOwners();
-		RealmList realmList =  testData.getTestRealms();
-		SettlementList settleList = testData.getTestSettlements();
-		
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
-		RealmModel rModel = new RealmModel(realmCounter, settlementCounter);
-		
-		rModel.setOwners(ownerList);
-		rModel.setRealms(realmList);
-		rModel.setSettlements(settleList);
+				
+		TestServer server = new TestServer();
 
-		int expected = 3000;
-		int actual = rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax(); 
+		DataTest testData = new DataTest();
+//		OwnerList ownerList =  testData.getTestOwners();
+//		RealmList realmList =  testData.getTestRealms();
+//		SettlementList settleList = testData.getTestSettlements();
 		
-		//isOutput = true;
+		RealmModel rModel = new RealmModel(
+				realmCounter, 
+				settlementCounter,
+				server,
+				config,
+				testData);
+				
+		
+//		rModel.setOwners(ownerList);
+//		rModel.setRealms(realmList);
+//		rModel.setSettlements(settleList);
+
+		Boolean expected = true; //rModel.isInit();
+		Boolean actual = false; 
+		
+		rModel.OnDisable();
+		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_DISABLED);
+		isOutput = (expected != actual); //true;
 		if (isOutput)
 		{
 			System.out.println(rModel.getModelName()+":"+rModel.getModelVersion());
-			System.out.println("Realm  : "+rModel.getRealms().getRealm(1).getId()+":"+rModel.getRealms().getRealm(1).getName());
+			System.out.println("onDisable  : "+rModel.getModelStatus());
 
-			SettlementList sList = rModel.getSettlements();
-			System.out.println("==Settlements : "+sList.count());
-			for (Settlement settle : sList.getSettlements().values())
+		}
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testOnCommand() {
+		ConfigTest config = new ConfigTest();
+		config.initConfigData();
+		config.initRegionBuilding();
+//		config.initSuperBuilding();
+		config.initSuperSettleTypes();
+		
+		int realmCounter = config.getRealmCounter();
+		int settlementCounter = config.getSettlementCounter();
+				
+		TestServer server = new TestServer();
+
+		DataTest testData = new DataTest();
+//		OwnerList ownerList =  testData.getTestOwners();
+//		RealmList realmList =  testData.getTestRealms();
+//		SettlementList settleList = testData.getTestSettlements();
+		
+		RealmModel rModel = new RealmModel(
+				realmCounter, 
+				settlementCounter,
+				server,
+				config,
+				testData);
+		
+//		rModel.setOwners(ownerList);
+//		rModel.setRealms(realmList);
+//		rModel.setSettlements(settleList);
+
+		
+		String command = RealmCommandType.MODEL.name();
+		String subCommand = "version";
+		RealmCommand realmCommand = new RealmCommand(command, subCommand);
+		
+		rModel.OnEnable();
+		rModel.OnCommand(realmCommand);
+		
+		Boolean expected = rModel.isInit();
+		Boolean actual = false; 
+
+//		actual =  (rModel.getcommandQueue().get(0).command() == RealmCommandType.MODEL);
+		actual =  (rModel.getcommandQueue().size() == 0);
+
+		isOutput = (expected != actual); //true;
+		if (isOutput)
+		{
+			System.out.println(rModel.getModelName()+":"+rModel.getcommandQueue().size());
+			System.out.println("CommandQueue  : "+rModel.getcommandQueue().size());
+//			System.out.println("Command    : "+rModel.getcommandQueue().get(0).command());
+//			System.out.println("SubCommand : "+rModel.getcommandQueue().get(0).subCommand().name());
+
+		}
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testOnProduction() {
+		ConfigTest config = new ConfigTest();
+		config.initConfigData();
+		config.initRegionBuilding();
+		config.initSuperSettleTypes();
+		int realmCounter = config.getRealmCounter();
+		int settlementCounter = config.getSettlementCounter();
+
+		TestServer server = new TestServer();
+
+		DataTest testData = new DataTest();
+		
+		RealmModel rModel = new RealmModel(
+				realmCounter, 
+				settlementCounter,
+				server,
+				config,
+				testData);
+		
+		Boolean expected = true; 
+		Boolean actual = false; 
+		rModel.OnEnable();
+		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
+//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(41).setIsActive(false);
+		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(42).setIsActive(false);
+		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(43).setIsActive(false);
+
+		rModel.OnProduction();
+		if (rModel.getProductionQueue().size() > 0)
+		{
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+			rModel.OnProduction();
+//			rModel.OnProduction();
+		}
+		
+		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_PRODUCTION);
+
+		isOutput = (expected != actual); //true;
+		if (isOutput)
+		{
+			System.out.println(rModel.getModelName()+":"+rModel.getProductionQueue().size());
+			System.out.println("Settlement List: "+rModel.getSettlements().count());
+			System.out.println("Settler Max    : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerMax());
+			System.out.println("Settler Count  : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerCount());
+			System.out.println("OnProduction Queue: "+rModel.getProductionQueue().size());
+			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
+			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
 			{
-				System.out.println(settle.getId()+":"+settle.getName()+":"+settle.getBuildingList().size());
-				System.out.println(" Owner  : "+sList.getSettlement(1).getOwner().getPlayerName());
-				System.out.println(" Realm  : "+rModel.getRealms().getRealm(sList.getSettlement(1).getOwner().getRealmID()).getName());
-				for (Building building : settle.getBuildingList().getBuildingList().values())
+				if (building.getBuildingType() != BuildingType.BUILDING_HOME)
 				{
-					System.out.println("  "+building.getBuildingType().name()+":"+building.getHsRegion());
+					System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
 				}
 			}
-		}
-		assertEquals(expected, actual);
-		
-	}
-
-	@Test
-	public void RealmModelWarehouse()
-	{
-		ConfigTest config = new ConfigTest();
-		config.initConfigData();
-		config.initRegionBuilding();
-//		config.initSuperBuilding();
-		config.initSuperSettleTypes();
-		
-		TestServer tServer = new TestServer();
-		
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getTestOwners();
-		RealmList realmList =  testData.getTestRealms();
-		SettlementList settleList = testData.getTestSettlements();
-		
-		int realmCounter = config.getRealmCounter();
-		int settlementCounter = config.getSettlementCounter();
-		RealmModel rModel = new RealmModel(realmCounter, settlementCounter);
-		
-		rModel.setOwners(ownerList);
-		rModel.setRealms(realmList);
-		rModel.setSettlements(settleList);
-
-		int value = 0;
-		Warehouse w = rModel.getSettlements().getSettlement(1).getWarehouse();
-		for (String itemRef : w.getItemList().keySet())
-		{
-			value = 64;
-			w.depositItemValue(itemRef, value);
-		}
-		
-		String itemRef = "LOG";
-		value	   = 123;
-		
-		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue(itemRef, value);
-		int expected = 2000;
-		int actual = rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax(); 
-		
-		isOutput = true;
-		if (isOutput)
-		{
-			System.out.println(rModel.getModelName()+":"+rModel.getModelVersion());
-			System.out.println("Realm  : "+rModel.getRealms().getRealm(1).getId()+":"+rModel.getRealms().getRealm(1).getName());
-
-			SettlementList sList = rModel.getSettlements();
-			System.out.println("==Warehouse : "+sList.getSettlement(1).getWarehouse().getItemMax()+" : "+sList.getSettlement(1).getWarehouse().getItemCount());
-			int i = 0;
-			for (String itemName : sList.getSettlement(1).getWarehouse().getItemList().keySet())
+			System.out.println("Warehouse : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax());
+			for (String itemRef : rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().keySet())
 			{
-				i++;
-				Item item = sList.getSettlement(1).getWarehouse().getItemList().getItem(itemName);
-				System.out.println(i+":"+item.ItemRef()+":"+item.value());
+				System.out.println(itemRef+" : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().getValue(itemRef));
 			}
 		}
 		assertEquals(expected, actual);
-		
+
 	}
+
+	@Test
+	public void testOnMove() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testOnTrade() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testOnAttack() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testOnTrain() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testOnTick() {
+		ConfigTest config = new ConfigTest();
+		config.initConfigData();
+		config.initRegionBuilding();
+		config.initSuperSettleTypes();
+		int realmCounter = config.getRealmCounter();
+		int settlementCounter = config.getSettlementCounter();
+
+		TestServer server = new TestServer();
+
+		DataTest testData = new DataTest();
+		
+		RealmModel rModel = new RealmModel(
+				realmCounter, 
+				settlementCounter,
+				server,
+				config,
+				testData);
+		String command = RealmCommandType.MODEL.name();
+		String subCommand = "version";
+		RealmCommand realmCommand = new RealmCommand(command, subCommand);
+		
+		Boolean expected = true; 
+		Boolean actual = false; 
+		rModel.OnEnable();
+		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
+//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(41).setIsActive(false);
+		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(42).setIsActive(false);
+		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(43).setIsActive(false);
+
+		rModel.OnProduction();
+		if (rModel.getProductionQueue().size() > 0)
+		{
+			rModel.OnCommand(realmCommand);
+			rModel.OnTick();
+			rModel.OnTick();
+//			rModel.OnTick();
+//			rModel.OnTick();
+//			rModel.OnTick();
+		}
+		
+		actual =  (rModel.getcommandQueue().size() == 0) & (rModel.getProductionQueue().size() == 0);
+
+		isOutput = (expected != actual); //true;
+		if (isOutput)
+		{
+			System.out.println(rModel.getModelName()+":"+rModel.getProductionQueue().size());
+			System.out.println("OnTick ");
+			System.out.println("CommandQueue : "+rModel.getcommandQueue().size());
+			System.out.println("ProdQueue    : "+rModel.getProductionQueue().size());
+			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
+			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
+			{
+				if (building.getBuildingType() != BuildingType.BUILDING_HOME)
+				{
+					System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
+				}
+			}
+			System.out.println("Warehouse : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax());
+			for (String itemRef : rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().keySet())
+			{
+				System.out.println(itemRef+" : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().getValue(itemRef));
+			}
+		}
+		assertEquals(expected, actual);
+	}
+	
+	
 	
 }

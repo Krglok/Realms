@@ -30,10 +30,10 @@ public class ConfigData implements ConfigInterface
 	}
 
 	@Override
-	public void initConfigData()
+	public Boolean initConfigData()
 	{
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
