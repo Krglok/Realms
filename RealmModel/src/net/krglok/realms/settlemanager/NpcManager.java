@@ -58,15 +58,6 @@ public class NpcManager
 		}
 	}
 
-	public NpcItemList getNpcItems() 
-	{
-		return npcItems;
-	}
-
-	public void setNpcItems(NpcItemList npcItems) 
-	{
-		this.npcItems = npcItems;
-	}
 	
 	public void initSupplyRules()
 	{
