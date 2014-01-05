@@ -69,7 +69,9 @@ public class BuildingList
 		return buildingList.isEmpty();
 	}
 	
+	
 	/**
+	 * Normally used by the automatic. USE instead settlement.addBuilding()
 	 * store the building in the List
 	 * if building = null then a default building with buildingType = None 
 	 * id build by buildingList.size()+10000;

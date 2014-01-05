@@ -1,8 +1,5 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.krglok.realms.core.Building;

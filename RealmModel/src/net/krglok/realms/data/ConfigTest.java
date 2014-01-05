@@ -1,6 +1,5 @@
 package net.krglok.realms.data;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 import net.krglok.realms.core.BuildingType;
@@ -25,6 +24,8 @@ public class ConfigTest implements ConfigInterface
 	
 	
 	int realmCounter ;
+	int settlementCounter ;
+	
 	public int getRealmCounter()
 	{
 		return realmCounter;
@@ -46,7 +47,6 @@ public class ConfigTest implements ConfigInterface
 		this.settlementCounter = settlementCounter;
 	}
 
-	int settlementCounter ;
 	
 	public ConfigTest()
 	{

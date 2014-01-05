@@ -2,14 +2,6 @@ package net.krglok.realms.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-
-import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ItemList;
 
 public class TestServer  implements ServerInterface // extends ServerData
@@ -149,33 +141,36 @@ public class TestServer  implements ServerInterface // extends ServerData
 	}
 
 	@Override
-	public HashMap<String, String> getSuperRegionPower(String superRegionName)
+	public int getSuperRegionPower(String superRegionName)
 	{
-		HashMap<String, String> rList = new HashMap<String, String>();
-		
-		rList.put("admin_tower", "99999999");
-		rList.put("Aether_Spawn", "99999999");
-		rList.put("Borum", "10000");
-		rList.put("claim1", "100");
-		rList.put("Clan_Moorhalle", "100");
-		rList.put("Dujar", "1500");
-//		rList.put("", "");
-		return rList;
+
+		switch (superRegionName)
+		{
+		case "admin_tower": return 99999999;
+		case "Aether_Spawn": return 99999999;
+		case "New Haven": return 10000;
+		case "claim1": return 100;
+		case "Clan_Moorhalle":  return 100;
+		case "Dujar": return 1500;
+		default :
+			return 0;
+		}
 	}
 
 	@Override
-	public HashMap<String, String> getSuperRegionbank(String superRegionName)
+	public double getSuperRegionbank(String superRegionName)
 	{
-		HashMap<String, String> rList = new HashMap<String, String>();
-		
-		rList.put("admin_tower", "99999999.0");
-		rList.put("Aether_Spawn", "99999999.0");
-		rList.put("Borum", "1000.0");
-		rList.put("claim1", "100.0");
-		rList.put("Clan_Moorhalle", "100.0");
-		rList.put("Dujar", "1500.0");
-//		rList.put("", "");
-		return rList;
+		switch (superRegionName)
+		{
+		case "admin_tower": return 99999999;
+		case "Aether_Spawn": return 99999999;
+		case "New Haven": return 10000;
+		case "claim1": return 100;
+		case "Clan_Moorhalle":  return 100;
+		case "Dujar": return 1500;
+		default :
+			return 0;
+		}
 	}
 
 	@Override
@@ -310,45 +305,18 @@ public class TestServer  implements ServerInterface // extends ServerData
 	}
 
 	@Override
-	public HashMap<String, String> getRegionUpkeepMoney(String regionType)
+	public double getRegionUpkeepMoney(String regionType)
 	{
-		HashMap<String, String> rList = new HashMap<String, String>();
-		
 		switch (regionType)
 		{
-		case "markt" : 
-			rList.put("1", "5.0");
-			break;
-		case "taverne" :
-			rList.put("1", "7.0");
-			break;
-		case "haus_einfach":
-			rList.put("1", "1.0");
-			break;
-		case "arrowturret1":
-			rList.put("1", "0.0");
-			break;
-		case "stadtwache":
-			rList.put("1", "-5.0");
-			break;
-		case "bibliothek":
-			rList.put("1", "-10.0");
-			break;
-		case "kornfeld":
-			rList.put("1", "0.0");
-			break;
-		case "heiler_haus":
-			rList.put("1", "-5.0");
-			break;
-		case "haus_gross":
-			rList.put("1", "2.0");
-			break;
-		default:
-			rList.put("1", "0.0");
-			break;
+		case "taverne": return 7;
+		case "markt": return 5;
+		case "haus_einfach": return 1;
+		case "haus_gross": return 2;
+		case "haus_stadt":  return 4;
+		default :
+			return 0;
 		}
-		
-		return rList;
 	}
 
 
@@ -454,19 +422,17 @@ public class TestServer  implements ServerInterface // extends ServerData
 	@Override
 	public ItemList getRecipe(String itemRef)
 	{
-		// TODO Auto-generated method stub
 		return recipeData.getRecipe(itemRef);
 	}
 
 	@Override
 	public ItemList getFoodRecipe(String itemRef)
 	{
-		// TODO Auto-generated method stub
 		return recipeData.getFoodRecipe(itemRef);
 	}
 
 	@Override
-	public boolean checkRegionEnabled(String regionId)
+	public boolean checkRegionEnabled(int regionId)
 	{
 		return true;
 	}

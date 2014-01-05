@@ -15,7 +15,6 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Position;
 import net.krglok.realms.core.Realm;
 import net.krglok.realms.core.RealmList;
-import net.krglok.realms.core.RealmModel;
 import net.krglok.realms.core.Resident;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;

@@ -222,13 +222,13 @@ public class SettlementList
 		return settleList;
 	}
 	
-	public void produce()
-	{
-		
-	}
-	
-	public void consume()
-	{
-		
-	}
+//	public void produce()
+//	{
+//		
+//	}
+//	
+//	public void consume()
+//	{
+//		
+//	}
 }

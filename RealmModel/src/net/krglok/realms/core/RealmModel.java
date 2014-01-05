@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerInterface;
 
 /**
@@ -37,6 +38,7 @@ public class RealmModel
 	private ServerInterface server;
 	private ConfigInterface config;
 	private DataInterface data;
+	private MessageData messageData;
 	
 	private OwnerList owners;
 	private RealmList realms;
@@ -46,7 +48,7 @@ public class RealmModel
 	// private ArrayList<Training> trainingQueue;
 	// private private ArrayList<Trade> tradeQueue;
 	
-	private boolean isInit ;
+	private boolean isInit = false;
 	
 	/**
 	 * instances an empty Model , must be initialize external !
@@ -60,19 +62,20 @@ public class RealmModel
 	public RealmModel(int realmCounter, int settlementCounter,
 			ServerInterface server,
 			ConfigInterface config,
-			DataInterface data
+			DataInterface data,
+			MessageData messageData
 			)
 	{
 		modelStatus =  ModelStatus.MODEL_DISABLED;
 		commandQueue = new CommandQueue();
 		productionQueue = new ArrayList<Settlement>();
-		setOwners(new OwnerList());
-		setRealms(new RealmList(realmCounter));
-		setSettlements(new SettlementList(settlementCounter));
-		isInit = false;
+		owners = new OwnerList();
+		realms = new RealmList(realmCounter);
+		settlements = new SettlementList(settlementCounter);
 		this.server = server;
 		this.config = config;
 		this.data   = data;
+		this.messageData = messageData;
 	}
 
 	/**
@@ -284,52 +287,65 @@ public class RealmModel
 		default :
 			break;
 		}
+		return;
 	}
 	
 	public void OnTick()
 	{
-		switch (modelStatus)
+		try
 		{
-		case MODEL_ENABLED :
-			// checkCommandQueue
-			if (commandQueue.isEmpty())
+			switch (modelStatus)
 			{
-				// checkMoveQueue				
-			
-			} else
-			{
+			case MODEL_ENABLED :
+				// checkCommandQueue
+				if (commandQueue.isEmpty())
+				{
+					messageData.log("Enebled Empty Command");
+					// checkMoveQueue				
+					return;
+				} else
+				{
+					messageData.log("Enabled Next Command");
+					modelStatus = nextCommandQueue();
+				}
+	
+				break;
+			case MODEL_PRODUCTION :
+				// nextProduction
+				messageData.log("production Next Produktion");
+				modelStatus = nextProductionQueue();
+				// endProduction
+				break;
+			case MODEL_TRAINING :
+				// nextTraining
+				// endTraining
+				break;
+			case MODEL_BATTLE :
+				// nextBattleStep
+				// endBattle
+				break;
+			case MODEL_TRADE :
+				// nextTradeQueue
+				// end TradeQueue
+				break;
+			case MODEL_MOVE :
+				// nextMoveQueue
+				// endMoveQueue
+				break;
+			case MODEL_COMMAND :
+				// nextCommandQueue
+				messageData.log("Command Next Command");
 				modelStatus = nextCommandQueue();
+				break;
+			default :
+				break;
 			}
-
-			break;
-		case MODEL_PRODUCTION :
-			// nextProduction
-			modelStatus = nextProductionQueue();
-			// endProduction
-			break;
-		case MODEL_TRAINING :
-			// nextTraining
-			// endTraining
-			break;
-		case MODEL_BATTLE :
-			// nextBattleStep
-			// endBattle
-			break;
-		case MODEL_TRADE :
-			// nextTradeQueue
-			// end TradeQueue
-			break;
-		case MODEL_MOVE :
-			// nextMoveQueue
-			// endMoveQueue
-			break;
-		case MODEL_COMMAND :
-			// nextCommandQueue
-			modelStatus = nextCommandQueue();
-			break;
-		default :
-			break;
+		} catch (Exception e)
+		{
+			messageData.log("[Realms] exception "+ e.getMessage());
+			modelStatus = ModelStatus.MODEL_DISABLED;
 		}
+		return;
 	}
 
 	private ModelStatus addCommandQueue(RealmCommand realmCommand)
@@ -394,13 +410,21 @@ public class RealmModel
 			return ModelStatus.MODEL_ENABLED;
 		}
 		Settlement settle = productionQueue.get(0);
+		messageData.log("settle");
 		settle.setSettlerMax();
+		messageData.log("settler max");
 		settle.checkBuildingsEnabled(server);
+		messageData.log("Building enable");
 		settle.setWorkerNeeded();
+		messageData.log("worker needed");
 		settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
+		messageData.log("worker to building");
 		settle.setHappiness();
+		messageData.log("happiness");
 		settle.produce(server);
+		messageData.log("produce");
 		productionQueue.remove(0);
+		messageData.log("remove 0");
 		if (productionQueue.isEmpty())
 		{
 			return ModelStatus.MODEL_ENABLED;

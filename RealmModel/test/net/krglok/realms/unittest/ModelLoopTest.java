@@ -2,6 +2,8 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import java.util.logging.Logger;
+
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.RealmCommand;
@@ -9,6 +11,7 @@ import net.krglok.realms.core.RealmCommandType;
 import net.krglok.realms.core.RealmModel;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
+import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.TestServer;
 
 import org.junit.Test;
@@ -19,7 +22,12 @@ public class ModelLoopTest
 	private Boolean isOutput = false; // set this to false to suppress println
 
 	@Test
-	public void testLoop() {
+	public void testLoop() 
+	{
+		Logger log = Logger.getLogger("Minecraft"); 
+		
+		MessageData messageData = new MessageData(log);
+
 		ConfigTest config = new ConfigTest();
 		config.initConfigData();
 		config.initRegionBuilding();
@@ -36,7 +44,8 @@ public class ModelLoopTest
 				settlementCounter,
 				server,
 				config,
-				testData);
+				testData,
+				messageData);
 		String command = RealmCommandType.MODEL.name();
 		String subCommand = "version";
 		RealmCommand realmCommand = new RealmCommand(command, subCommand);
@@ -45,8 +54,9 @@ public class ModelLoopTest
 		Boolean actual = false; 
 		int steps = 0;
 		rModel.OnEnable();
+		rModel.getSettlements().getSettlement(1).getResident().setSettlerCount(0);
 		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
-//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(41).setIsActive(false);
+		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(8).setIsActive(false);
 //		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(42).setIsActive(false);
 //		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(43).setIsActive(false);
 
@@ -58,7 +68,7 @@ public class ModelLoopTest
 			steps++;
 			rModel.OnTick();
 			steps++;
-			for (int i = 0; i < 100; i++) 
+			for (int i = 0; i < 2; i++) 
 			{
 				rModel.OnProduction();
 				rModel.OnTick();
@@ -86,6 +96,7 @@ public class ModelLoopTest
 			}
 			System.out.println("Settler Max    : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerMax());
 			System.out.println("Settler Count  : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerCount());
+			System.out.println("Happiness      : "+rModel.getSettlements().getSettlement(1).getResident().getHappiness());
 			System.out.println("Warehouse : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax());
 			for (String itemRef : rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().keySet())
 			{

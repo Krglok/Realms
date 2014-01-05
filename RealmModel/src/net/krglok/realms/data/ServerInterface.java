@@ -38,15 +38,15 @@ public interface ServerInterface
 	
 	public HashMap<String,String> getSuperRegionList();
 	
-	public HashMap<String,String> getSuperRegionPower(String superRegionName);
+	public int getSuperRegionPower(String superRegionName);
 	
-	public HashMap<String,String> getSuperRegionbank(String superRegionName);
+	public double getSuperRegionbank(String superRegionName);
 	
 	public ItemList getRegionOutput(String regionType);
 
 	public ItemList getRegionUpkeep(String regionType);
 
-	public HashMap<String,String> getRegionUpkeepMoney(String regionType);
+	public double getRegionUpkeepMoney(String regionType);
 
 	public ItemList getRegionChest(int id, String itemRef);
 	
@@ -60,7 +60,7 @@ public interface ServerInterface
 
 	public ItemList getRecipeProd(String itemRef, String hsRegionType);
 
-	public boolean checkRegionEnabled(String regionId);
+	public boolean checkRegionEnabled(int i);
 
 	
 }

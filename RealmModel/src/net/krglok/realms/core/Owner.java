@@ -30,6 +30,19 @@ public class Owner
 	}
 
 	public Owner(			
+			String playerName,
+			Boolean isNPC)
+
+	{
+		id = 0;
+		level = MemberLevel.MEMBER_NONE;
+		capital = 0;
+		setPlayerName(playerName);
+		realmID = 0;
+		setIsNPC(isNPC);
+	}
+	
+	public Owner(			
 			int id,
 			MemberLevel level,
 			int capital,
@@ -38,7 +51,6 @@ public class Owner
 			Boolean isNPC)
 
 	{
-		// TODO Auto-generated constructor stub
 		setId(id);
 		setLevel(level);
 		setCapital(capital);

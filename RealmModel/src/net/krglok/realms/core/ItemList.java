@@ -28,7 +28,7 @@ public class ItemList  extends  HashMap<String, Integer>
 	
 	/**
 	 * add item to the list
-	 * if exist values are not overwrite
+	 * if exist values are  overwrite
 	 * @param itemRef
 	 * @param iValue
 	 * @return added item or null

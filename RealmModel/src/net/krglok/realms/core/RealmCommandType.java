@@ -7,7 +7,9 @@ public enum RealmCommandType
 	MODEL,
 	REALM ,
 	SETTLE ,
-	OWNER ;
+	OWNER,
+	REALMS,
+	STRONGHOLD;
 	
 //	 RealmCommandType() 
 //	{

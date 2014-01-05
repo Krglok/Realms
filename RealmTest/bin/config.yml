@@ -1,0 +1,56 @@
+#------------------#
+# General Settings #
+#------------------#
+# updatecheck, check for new version and give a message to the server console #
+updatecheck: false
+# autoupdate, is not implemented now and should always false #
+autoupdate: false
+# 
+plugin_name: "Realms"
+plugin_ver : "0.1.0"
+realmCounter: 0
+settlementCounter: 0
+buildingCounter: 0
+
+#---------------------------------------------
+#     Settlement /superregions
+# the SettlementTypes are predefined
+# every SettlementTypes are unique in this list
+#
+superSettleTypes:
+    SETTLE_HAMLET: "Mine"
+    SETTLE_CASTLE: "Burg"
+    SETTLE_HAMLET: "Siedlung"
+    SETTLE_TOWN: "Dorf"
+    SETTLE_CITY: "Stadt"
+    SETTLE_METRO: "Metropole"
+#---------------------------------------------
+#   regions / BuildingType
+# the BuildungTypes are predefined
+# the regions are unique in this list
+#
+regionBuildingTypes:
+    haus_einfach: "BUILDING_HOME"
+    haus_gross: "BUILDING_HOME"
+    haupthaus: "BUILDING_HALL"
+#    regionBuildingTypes.put("haus_stadt", BuildingType.BUILDING_HOME.name());
+#    regionBuildingTypes.put("rathaus", BuildingType.BUILDING_HALL.name());
+    taverne: "BUILDING_ENTERTAIN"
+    markt: "BUILDING_WAREHOUSE"
+    kornfeld: "BUILDING_PROD"
+    holzfaeller: "BUILDING_PROD"
+#    regionBuildingTypes.put("koehler", BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("prod_stick", BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("steinbruch", BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("schweinemast",BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("rindermast",BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("schaefer", BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("tower", BuildingType.BUILDING_MILITARY.name());
+#    regionBuildingTypes.put("waffenkammer",BuildingType.BUILDING_MILITARY.name());
+#    regionBuildingTypes.put("stadtwache",BuildingType.BUILDING_MILITARY.name());
+#    regionBuildingTypes.put("bauern_haus",BuildingType.BUILDING_BAUERNHOF.name());
+#    regionBuildingTypes.put("werkstatt_haus",BuildingType.BUILDING_WERKSTATT.name());
+#    regionBuildingTypes.put("schmelze",BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("koehler",BuildingType.BUILDING_PROD.name());
+#    regionBuildingTypes.put("haus_baecker",BuildingType.BUILDING_BAECKER.name());
+

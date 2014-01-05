@@ -2,7 +2,6 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import java.util.Formatter;
 import java.util.HashMap;
 
 import net.krglok.realms.core.Bank;
@@ -20,7 +19,6 @@ import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.StrongholdAPI;
 import net.krglok.realms.data.TestServer;
 
 import org.bukkit.Material;
@@ -293,7 +291,7 @@ public class SettlementTest
 //		settle.getResident().settlerCount();
 
 		
-		isOutput =   false; //(expected != actual);
+		isOutput =   true; //(expected != actual);
 		int dayCounter = 0;
 		if (isOutput)
 		{
@@ -1167,6 +1165,111 @@ public class SettlementTest
 			for (String itemRef : settle.getWarehouse().getItemList().keySet())
 			{
 				System.out.println(itemRef+":"+settle.getWarehouse().getItemList().getValue(itemRef));
+			}
+		}
+		
+		assertEquals(expected, actual);
+
+	}
+	
+	@Test
+	public void testRequiredProduction()
+	{
+		DataTest testData = new DataTest();
+		OwnerList ownerList =  testData.getTestOwners();
+		TestServer server = new TestServer();
+		
+		ConfigTest config = new ConfigTest();
+		config.initRegionBuilding();
+	
+		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
+		regionTypes.put("1","haupthaus");
+		regionTypes.put("2","haus_einfach");
+		regionTypes.put("6","haus_einfach");
+		regionTypes.put("7","haus_einfach");
+		regionTypes.put("16","kornfeld");
+		regionTypes.put("9","markt");
+		regionTypes.put("31","bauern_haus");
+		regionTypes.put("51","haus_baecker");
+		regionTypes.put("52","haus_baecker");
+		regionTypes.put("61","schmelze");
+		regionTypes.put("41","werkstatt_haus");
+		regionTypes.put("42","werkstatt_haus");
+		
+		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
+
+		SettleType settleType = SettleType.SETTLE_HAMLET;
+		String settleName = "New Haven";
+		
+		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0"),regionTypes, regionBuildings);
+
+		for (Building b : settle.getBuildingList().getBuildingList().values())
+		{
+			b.setIsActive(true);
+			if (b.getHsRegion() == 51)
+			{
+				b.addSlot(Material.BREAD.name(),config);
+				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
+			}
+			if (b.getHsRegion() == 52)
+			{
+				b.setIsActive(false);
+				b.addSlot(Material.BREAD.name(),config);
+				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
+			}
+			if (b.getHsRegion() == 41)
+			{
+				b.setIsActive(false);
+				b.addSlot("WOOD_AXE",config);
+				b.addSlot("WOOD_HOE",config);
+				b.addSlot(Material.WOOD_PICKAXE.name(),config);
+				b.addSlot(Material.IRON_SWORD.name(),config);
+				b.addSlot(Material.LEATHER_CHESTPLATE.name(),config);
+			}
+			if (b.getHsRegion() == 42)
+			{
+				b.setIsActive(true);
+				b.addSlot("STICK",config);
+				b.addSlot("WOOD",config);
+				b.addSlot("WOOD",config);
+				b.addSlot(Material.STICK.name(),config);
+				b.addSlot(Material.WOOD.name(),config);
+			}
+		}
+		
+//		settle.getWarehouse().depositItemValue(Material.WOOD.name(), 64);
+//		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
+//		settle.getWarehouse().depositItemValue(Material.LOG.name(), 64);
+//		settle.getWarehouse().depositItemValue(Material.STICK.name(), 128);
+//		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 512);
+//		settle.getWarehouse().depositItemValue(Material.COAL.name(), 512);
+//		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
+		
+		settle.checkBuildingsEnabled(server);
+		settle.produce(server);
+//		settle.checkBuildingsEnabled(server);
+//		settle.produce(server);
+//		settle.checkBuildingsEnabled(server);
+//		settle.produce(server);
+		
+		int expected = 7;
+		int actual = settle.getRequiredProduction().size(); 
+
+		isOutput = (expected !=  actual);
+		if (isOutput)
+		{
+			System.out.println("==Settlement Required Production =="+settle.getRequiredProduction().size());
+			
+			System.out.println("=Warehouse ="+settle.getWarehouse().getItemMax()+":"+settle.getWarehouse().getItemCount());
+			for (String itemRef : settle.getRequiredProduction().keySet())
+			{
+				System.out.println(itemRef+":"+settle.getRequiredProduction().getValue(itemRef));
 			}
 		}
 		

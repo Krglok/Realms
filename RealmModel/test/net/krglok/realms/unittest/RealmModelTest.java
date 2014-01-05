@@ -2,22 +2,12 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ModelStatus;
-import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.RealmCommand;
 import net.krglok.realms.core.RealmCommandType;
-import net.krglok.realms.core.RealmList;
 import net.krglok.realms.core.RealmModel;
-import net.krglok.realms.core.RealmSubCommandType;
-import net.krglok.realms.core.SettleType;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.TestServer;
@@ -50,7 +40,8 @@ public class RealmModelTest
 				settlementCounter,
 				server,
 				config,
-				testData);
+				testData,
+				null);
 		
 //		rModel.setOwners(ownerList);
 //		rModel.setRealms(realmList);
@@ -92,7 +83,8 @@ public class RealmModelTest
 				settlementCounter,
 				server,
 				config,
-				testData);
+				testData,
+				null);
 		
 //		rModel.setOwners(ownerList);
 //		rModel.setRealms(realmList);
@@ -136,7 +128,8 @@ public class RealmModelTest
 				settlementCounter,
 				server,
 				config,
-				testData);
+				testData,
+				null);
 				
 		
 //		rModel.setOwners(ownerList);
@@ -181,7 +174,8 @@ public class RealmModelTest
 				settlementCounter,
 				server,
 				config,
-				testData);
+				testData,
+				null);
 		
 //		rModel.setOwners(ownerList);
 //		rModel.setRealms(realmList);
@@ -231,7 +225,8 @@ public class RealmModelTest
 				settlementCounter,
 				server,
 				config,
-				testData);
+				testData,
+				null);
 		
 		Boolean expected = true; 
 		Boolean actual = false; 
@@ -323,7 +318,8 @@ public class RealmModelTest
 				settlementCounter,
 				server,
 				config,
-				testData);
+				testData,
+				null);
 		String command = RealmCommandType.MODEL.name();
 		String subCommand = "version";
 		RealmCommand realmCommand = new RealmCommand(command, subCommand);

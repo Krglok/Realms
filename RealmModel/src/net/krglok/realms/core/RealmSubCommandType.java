@@ -2,11 +2,13 @@ package net.krglok.realms.core;
 
 public enum RealmSubCommandType 
 {
-	NONE,
-	VERSION,
+	NONE ,
+	VERSION ,
 	CREATE ,
 	DESTROY ,
 	PRODUCTION ,
+	BUILDING,
+	SETTLEMENT,
 	ADD ,
 	DELETE ,
 	DISBAND ,
@@ -24,19 +26,14 @@ public enum RealmSubCommandType
 	MOVE ,
 	TRANSFER ,
 	ATTACK ,
-	CAMP 
+	CAMP ,
+	TEST ,
+	CONFIG,
+	DEBUG,
+	HELP
 	;
 	
-	
-//	 RealmSubCommandType(String value) {
-//		 this.value =  value;
-//	}
-	
-//	 String value()
-//	 {
-//		 return this.value;
-//	 }
-	
+		
 	public static RealmSubCommandType getRealmSubCommandType(String name)
 	{
 		for (RealmSubCommandType rsc : RealmSubCommandType.values())
@@ -49,8 +46,4 @@ public enum RealmSubCommandType
 		return NONE;
 	}
 	
-//	public static String getValue(RealmSubCommandType rct)
-//	{
-//		return rct.value;
-//	}
 }

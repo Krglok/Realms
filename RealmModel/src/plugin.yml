@@ -1,0 +1,54 @@
+name: Realms
+database: false
+main: net.krglok.realms.Realms
+version: 0.1.0
+description: Allows you to create settlements based on herostronghold regions. 
+author: krglok
+startup: postworld
+website: 
+depend: [HeroStronghold,Vault]
+commands:
+    realms:
+        description: Basic command only show version and commandlist
+        usage: " /model only for ops to control model setup
+ /owner only for ops for managing owners 
+ /realm player command for realm management
+ /settle player command for settlement management
+ "
+    model:
+        description: only for ops to control model setup 
+        usage: " [] = required  {} = optional 
+ /model [subCommand] 
+        "
+    owner: 
+        description: only for ops for managing owners
+        usage: " /owner [subCommand] [ownerId] 
+        "
+    realm:
+        description: player command for realm management 
+        usage: " /realm [subCommand] [realmId]  
+        "
+    settle:
+        description: player command for settlement management
+        usage: " /settle [subCommand] [settlementId] 
+        "
+    stronghold:
+        description: show data from HeroStronghold
+        usage: /stronghold [subCommand] {parameter}
+permissions:
+    realms.admin:
+        description: Gives access to admin commands
+        children:
+            realms.model: true
+            realms.owner: true
+            realms.config: true
+        default: op
+    realms.settle:
+        description: Allows you to managing settlements
+        default: op
+    realms.realm:
+        description: Allows you to managing realms
+        default: op
+    realms.user:
+        description: Allows you to use public commands
+        default: true

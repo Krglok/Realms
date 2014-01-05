@@ -3,6 +3,15 @@ package net.krglok.realms.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.Realms;
 import net.krglok.realms.core.ItemList;
 
 /**
@@ -13,24 +22,35 @@ import net.krglok.realms.core.ItemList;
  */
 public class ServerData implements ServerInterface
 {
+	private Realms plugin;
+	private RecipeData recipeData;
 	
-	public ServerData()
+	public ServerData(Realms plugin)
 	{
-		
+		this.plugin = plugin; 
+		recipeData = new RecipeData();
 	}
 
 	@Override
 	public ArrayList<String> getPlayerNameList()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> players = new ArrayList<String>();
+		for (Player player : plugin.getServer().getOnlinePlayers())
+		{
+			players.add(player.getName());
+		}
+		return players;
 	}
 
 	@Override
 	public ArrayList<String> getOffPlayerNameList()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> players = new ArrayList<String>();
+		for (OfflinePlayer player : plugin.getServer().getOfflinePlayers())
+		{
+			players.add(player.getName());
+		}
+		return players;
 	}
 
 	@Override
@@ -43,50 +63,85 @@ public class ServerData implements ServerInterface
 	@Override
 	public HashMap<String, String> getBuildingList()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, String> regionList = new HashMap<String, String>();
+		for (Region region : plugin.stronghold.getRegionManager().getSortedBuildRegions())
+		{
+			regionList.put(String.valueOf(region.getID()), region.getType());
+		}
+		return regionList;
 	}
 
 	@Override
 	public HashMap<String, String> getSuperRegionList()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String, String> regionList = new HashMap<String, String>();
+		for (SuperRegion region : plugin.stronghold.getRegionManager().getSortedSuperRegions())
+		{
+			regionList.put(String.valueOf(region.getName()), region.getType());
+		}
+		return regionList;
 	}
 
 	@Override
-	public HashMap<String, String> getSuperRegionPower(String superRegionName)
+	public int getSuperRegionPower(String superRegionName)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		
+		Integer power = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName).getPower();
+		if (power != null)
+		{ 
+			return power;
+		} else
+		{
+			return 0;
+		}
 	}
 
 	@Override
-	public HashMap<String, String> getSuperRegionbank(String superRegionName)
+	public double getSuperRegionbank(String superRegionName)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Double bank = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName).getBalance();
+		if (bank != null)
+		{ 
+			return bank;
+		} else
+		{
+			return 0;
+		}
 	}
 
 	@Override
 	public ItemList getRegionOutput(String regionType)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ItemList rList = new ItemList();
+		for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getOutput())
+		{
+			rList.addItem(item.getData().getItemType().name(), item.getAmount());
+		}
+		return rList;
 	}
 
 	@Override
 	public ItemList getRegionUpkeep(String regionType)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ItemList rList = new ItemList();
+		for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getUpkeep())
+		{
+			rList.addItem(item.getData().getItemType().name(), item.getAmount());
+		}
+		return rList;
 	}
 
 	@Override
-	public HashMap<String, String> getRegionUpkeepMoney(String regionType)
+	public double getRegionUpkeepMoney(String regionType)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Double money = plugin.stronghold.getRegionManager().getRegionType(regionType).getMoneyOutput();
+		if (money != null)
+		{ 
+			return money;
+		} else
+		{
+			return 0;
+		}
 	}
 
 	public ItemList getRegionChest(int id, String itemRef)
@@ -103,38 +158,57 @@ public class ServerData implements ServerInterface
 		//TODO Auto-generated
 	}
 
+	public ItemList getItemRecipe(String itemRef)
+	{
+		ItemList itemList = new ItemList();
+		MaterialData material = new MaterialData(Material.getMaterial(itemRef));
+		ItemStack item = material.toItemStack(1);
+		item.getItemMeta().getDisplayName();
+		
+		return itemList;
+	}
+	
 	@Override
 	public ItemList getRecipe(String itemRef)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return recipeData.getRecipe(itemRef);
 	}
 
 	@Override
 	public int getRecipeFactor(String itemRef)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		if (recipeData.getWeaponRecipe(itemRef).size() > 0)
+		{
+			return 1;
+		}
+		if (recipeData.getToolRecipe(itemRef).size() > 0)
+		{
+			return 16;
+		}
+		return 8;
 	}
 
 	@Override
 	public ItemList getFoodRecipe(String itemRef)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return recipeData.getFoodRecipe(itemRef);
 	}
 
 	@Override
 	public ItemList getRecipeProd(String itemRef, String hsRegionType)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ItemList items = new ItemList();
+		items = getRegionUpkeep(hsRegionType);
+		return items;
 	}
 
 	@Override
-	public boolean checkRegionEnabled(String regionId)
+	public boolean checkRegionEnabled(int regionId)
 	{
-		// TODO Auto-generated method stub
+		if (plugin.stronghold.getRegionManager().getRegionByID(regionId)  != null)
+		{
+			return true;
+		}
 		return false;
 	}
 

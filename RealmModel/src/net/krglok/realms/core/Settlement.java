@@ -1,6 +1,5 @@
 package net.krglok.realms.core;
 
-import java.awt.Checkbox;
 import java.util.HashMap;
 
 import net.krglok.realms.data.ServerInterface;
@@ -45,7 +44,8 @@ public class Settlement
 //	private Wellfare wellfare;
 //  private Trader trader;
 //  private Headquarter headquarter;
-	
+	private ItemList requiredProduction;
+
 	private Boolean isEnabled;
 	private Boolean isActive;
 	
@@ -73,6 +73,7 @@ public class Settlement
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
+		requiredProduction = new ItemList();
 	}
 
 	/**
@@ -100,6 +101,7 @@ public class Settlement
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
+		requiredProduction = new ItemList();
 	}
 
 	/**
@@ -129,6 +131,7 @@ public class Settlement
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
+		requiredProduction = new ItemList();
 	}
 	
 	
@@ -170,6 +173,7 @@ public class Settlement
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
+		requiredProduction = new ItemList();
 	}
 
 	/**
@@ -199,6 +203,11 @@ public class Settlement
 	public Boolean isActive()
 	{
 		return isActive;
+	}
+	
+	public void setIsActive(boolean value)
+	{
+		this.isActive = value;
 	}
 	
 	/**
@@ -412,7 +421,12 @@ public class Settlement
 		}
 		return value;
 	}
-	
+	/**
+	 * Add building to buildingList and recalculate settlement parameter
+	 * @param building
+	 * @param settlement
+	 * @return
+	 */
 	public static Boolean addBuilding(Building building, Settlement settlement)
 	{
 		if(settlement.buildingList.addBuilding(building))
@@ -439,6 +453,7 @@ public class Settlement
 			default :
 				break;
 			}
+			return true;
 		}
 		return false;
 	}
@@ -532,6 +547,8 @@ public class Settlement
 		int iValue = 0;
 		ItemArray items;
 		ItemList recipeList;
+		requiredProduction.clear();
+
 		for (Building building : buildingList.getBuildingList().values())
 		{
 			if (building.isEnabled())
@@ -588,6 +605,14 @@ public class Settlement
 			if (this.warehouse.getItemList().getValue(itemRef) < iValue)
 			{
 				isStock = false;
+				if (requiredProduction.containsKey(itemRef))
+				{
+					requiredProduction.depositItem(itemRef, iValue);
+				} else
+				{
+					requiredProduction.addItem(itemRef, iValue);
+				}
+
 			}
 		}
 		return isStock;
@@ -691,6 +716,28 @@ public class Settlement
 	{
 		double factor = 0.0; 
 		int value = resident.getSettlerCount();
+		Integer bread = warehouse.getItemList().get("BREAD");
+//		if (bread != null) 
+//		{ 
+//			if (value <= bread)
+//			{
+//				warehouse.withdrawItemValue("BREAD", value);
+//				foodConsumCounter = foodConsumCounter + (resident.getSettlerCount() / 10.0);
+//				factor = 0.0;
+//				if (resident.getHappiness() < 0.8)
+//				{
+//					factor = 0.2;
+//				}
+//				if (resident.getHappiness() < 0.8)
+//				{
+//					factor = 0.2;
+//				}
+//				foodConsumCounter = 0;
+//				return factor;
+//			}
+//			
+//		} else { bread = 0;}
+
 		Integer wheat = warehouse.getItemList().get("WHEAT");
 		if (wheat == null) { wheat = 0;}
 		if (value > wheat)
@@ -706,7 +753,20 @@ public class Settlement
 				factor = -0.1;
 			} else
 			{
-				factor = 0.0;
+				if (resident.getHappiness() < 0.6)
+				{
+					if (resident.getSettlerMax() > resident.getSettlerCount())
+					{
+						factor = 0.1;
+					} else
+					{
+						factor = 0.0;
+					}
+					
+				} else
+				{
+					factor = 0.0;
+				}
 				foodConsumCounter = 0;
 			}
 		}
@@ -764,11 +824,21 @@ public class Settlement
 			{
 				building.setIsEnabled(true);
 				// pruefe ob Stronghold region enabled sind
-				server.checkRegionEnabled(building.getHsRegionType());
+				server.checkRegionEnabled(building.getHsRegion());
 			} else
 			{
 				building.setIsEnabled(false);
 			}
 		}
 	}
+
+	/**
+	 * 
+	 * @return list of required items from last production cycle
+	 */
+	public ItemList getRequiredProduction()
+	{
+		return requiredProduction;
+	}
+	
 }

@@ -1,9 +1,6 @@
 package net.krglok.realms.core;
 
-import java.util.HashMap;
-
 import net.krglok.realms.data.ConfigInterface;
-import net.krglok.realms.data.ServerData;
 import net.krglok.realms.data.ServerInterface;
 
 /**
@@ -26,14 +23,12 @@ public class Building
 	private int settler;
 	private int workerNeeded;
 	private int workerInstalled;
-	private Boolean iSRegion;
+	private Boolean isRegion;
 	private int hsRegion;
 	private String hsRegionType;
 	private String hsSuperRegion;
 	private Boolean isEnabled;
 	private boolean isActiv;
-
-
 	private ItemArray slots ;
 	
 	
@@ -45,7 +40,7 @@ public class Building
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		workerInstalled = 0;
-		iSRegion 		= true;
+		this.isRegion 		= true;
 		hsRegion		= 0;
 		hsRegionType	= "";
 		hsSuperRegion	= "";
@@ -62,7 +57,7 @@ public class Building
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		workerInstalled = 0;
-		iSRegion 		= isRegion;
+		this.isRegion 		= isRegion;
 		this.hsRegionType	= regionType;
 		hsRegion		= 0;
 		hsSuperRegion	= "";
@@ -71,6 +66,23 @@ public class Building
 		slots = new ItemArray();
 	}
 
+
+	public Building(BuildingType buildingType,	int hsRegion, String hsRegionType, Boolean isRegion)
+	{
+		COUNTER++;
+		id			= COUNTER;
+		this.buildingType = buildingType;
+		setSettlerDefault(buildingType);
+		setWorkerDefault(buildingType);
+		this.workerInstalled = 0;
+		this.isRegion = isRegion;
+		this.hsRegionType = hsRegionType;
+		this.hsRegion = hsRegion;
+		this.hsSuperRegion = "";
+		this.isEnabled  = true;
+		isActiv 	    = true;
+		slots = new ItemArray();
+	}
 	
 	public Building(int id, BuildingType buildingType, int settler,
 			int workerNeeded, int workerInstalled, Boolean isRegion,
@@ -83,7 +95,7 @@ public class Building
 		this.settler = settler;
 		this.workerNeeded = workerNeeded;
 		this.workerInstalled = workerInstalled;
-		this.iSRegion = isRegion;
+		this.isRegion = isRegion;
 		this.hsRegionType = hsRegionType;
 		this.hsRegion = hsRegion;
 		this.hsSuperRegion = hsSuperRegion;
@@ -104,7 +116,7 @@ public class Building
 		this.settler = settler;
 		this.workerNeeded = workerNeeded;
 		this.workerInstalled = workerInstalled;
-		this.iSRegion = isRegion;
+		this.isRegion = isRegion;
 		this.hsRegion = hsRegion;
 		this.hsRegionType = hsRegionType;
 		this.hsSuperRegion = hsSuperRegion;
@@ -176,7 +188,7 @@ public class Building
 	 * 
 	 * @return  Building instances Counter
 	 */
-	public static int getCounter()
+	public static Integer getCounter()
 	{
 		return COUNTER;
 	}
@@ -250,7 +262,7 @@ public class Building
 	 * 
 	 * @return true if owner has to produce , false = no produce
 	 */
-	public boolean isActive()
+	public Boolean isActive()
 	{
 		return isActiv;
 	}
@@ -259,7 +271,7 @@ public class Building
 	 * the building could be disabled due to environment influences
 	 * @return true if building is ready to produce, false = not ready to produce
 	 */
-	public boolean isEnabled()
+	public Boolean isEnabled()
 	{
 		return this.isEnabled;
 	}
@@ -365,7 +377,7 @@ public class Building
 	 */
 	public Boolean isRegion()
 	{
-		return iSRegion;
+		return isRegion;
 	}
 
 	/**
@@ -375,7 +387,7 @@ public class Building
 	 */
 	public void setIsRegion(Boolean isRegion)
 	{
-		this.iSRegion = isRegion;
+		this.isRegion = isRegion;
 	}
 
 	public int getHsRegion()
@@ -386,7 +398,7 @@ public class Building
 	
 	public void setHsRegion(int hsRegion)
 	{
-		if (iSRegion == true)
+		if (isRegion == true)
 		{
 			this.hsRegion = hsRegion;
 		}
@@ -408,7 +420,7 @@ public class Building
 	 */
 	public void setHsSuperRegion(String hsSuperRegion)
 	{
-		if (iSRegion == false)
+		if (isRegion == false)
 		{
 			this.hsSuperRegion = hsSuperRegion;
 		}
