@@ -48,7 +48,7 @@ public class UnitListTest
 		unitList.put(UnitType.UNIT_WORKER.name(),new Unit(UnitType.UNIT_WORKER));
 		unitList.addUnitCount(UnitType.UNIT_WORKER, expected);
 
-		isOutput = true;
+		isOutput = false;
 		if(isOutput)
 		{
 			System.out.println("==UnitList : "+unitList.size());

@@ -13,8 +13,8 @@ import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Position;
-import net.krglok.realms.core.Realm;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.Kingdom;
+import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Resident;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -40,7 +40,7 @@ public class DataTest implements DataInterface
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 	
 	private OwnerList testOwners ;
-	private RealmList testRealms ;
+	private KingdomList testRealms ;
 	private SettlementList testSettlements;
 	private BuildingList testBuildings; 
 	
@@ -82,7 +82,7 @@ public class DataTest implements DataInterface
 	 */
 	private void initRealmList()
 	{
-		testRealms = new RealmList();
+		testRealms = new KingdomList();
 		Owner owner ;
 		if (testOwners == null)
 		{
@@ -91,7 +91,7 @@ public class DataTest implements DataInterface
 		{
 			owner = testOwners.getOwner(NPC_0);
 		}
-		testRealms.addRealm(new Realm(1, "Realm 1 NPC", owner, new MemberList(), true));
+		testRealms.addKingdom(new Kingdom(1, "Realm 1 NPC", owner, new MemberList(), true));
 	}
 	
 	/**
@@ -549,7 +549,7 @@ public class DataTest implements DataInterface
 	}
 
 	@Override
-	public RealmList initRealms()
+	public KingdomList initRealms()
 	{
 		return testRealms;
 		
@@ -566,7 +566,7 @@ public class DataTest implements DataInterface
 		return testOwners;
 	}
 
-	public RealmList getTestRealms()
+	public KingdomList getTestRealms()
 	{
 		return testRealms;
 	}

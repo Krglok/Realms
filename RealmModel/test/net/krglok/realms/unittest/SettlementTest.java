@@ -291,7 +291,7 @@ public class SettlementTest
 //		settle.getResident().settlerCount();
 
 		
-		isOutput =   true; //(expected != actual);
+		isOutput =   false; //(expected != actual);
 		int dayCounter = 0;
 		if (isOutput)
 		{

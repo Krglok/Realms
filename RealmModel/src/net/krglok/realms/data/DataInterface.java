@@ -1,7 +1,7 @@
 package net.krglok.realms.data;
 
 import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.SettlementList;
 
 /**
@@ -22,7 +22,7 @@ public interface DataInterface
 	/**
 	 * must be done after initOwners
 	 */
-	public RealmList initRealms();
+	public KingdomList initRealms();
 	
 	
 	/**

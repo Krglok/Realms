@@ -9,8 +9,8 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Realm;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.Kingdom;
+import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
@@ -42,7 +42,7 @@ public class CommandSettle
 		switch (subCommand)
 		{
 		case ADD:
-			if ((sender.hasPermission(RealmPermission.SETTLE.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
 			{
 				if (commandArg.size() == 0)
 				{
@@ -57,7 +57,7 @@ public class CommandSettle
 			}
 			break;
 		case SET :
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				if (commandArg.size() == 0)
 				{
@@ -72,7 +72,7 @@ public class CommandSettle
 			}
 			break;
 		case DEPOSIT :
-			if ((sender.hasPermission(RealmPermission.SETTLE.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
 			{
 				if (commandArg.size() == 0)
 				{
@@ -87,7 +87,7 @@ public class CommandSettle
 			}
 			break;
 		case SETTLEMENT:
-			if ((sender.hasPermission(RealmPermission.SETTLE.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
 			{
 				if (commandArg.size() == 0)
 				{
@@ -103,7 +103,7 @@ public class CommandSettle
 			}
 			break;
 		case CREATE:
-			if ((sender.hasPermission(RealmPermission.SETTLE.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
 			{
 				cmdCreate(sender, commandArg);
 			} else
@@ -112,7 +112,7 @@ public class CommandSettle
 			}
 			break;
 		case INFO :
-			if ((sender.hasPermission(RealmPermission.SETTLE.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
 			{
 				cmdInfo(sender, commandArg);
 			} else
@@ -121,7 +121,7 @@ public class CommandSettle
 			}
 			break;
 		case LIST :
-			if ((sender.hasPermission(RealmPermission.USER.name())) ) 
+			if ((sender.hasPermission(RealmsPermission.USER.name())) ) 
 			{
 				if (commandArg.size() > 0)
 				{
@@ -139,7 +139,7 @@ public class CommandSettle
 			}
 			
 		case HELP:
-			if ((sender.hasPermission(RealmPermission.USER.name())) ) 
+			if ((sender.hasPermission(RealmsPermission.USER.name())) ) 
 			{
 				cmdHelp(sender, commandArg, subCommand);
 				return true;

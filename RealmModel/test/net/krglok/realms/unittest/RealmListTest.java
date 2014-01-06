@@ -2,8 +2,8 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.core.Realm;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.Kingdom;
+import net.krglok.realms.core.KingdomList;
 
 import org.junit.Test;
 
@@ -13,12 +13,12 @@ public class RealmListTest
 	@Test
 	public void testRealmList()
 	{
-		RealmList realmList = new RealmList(0);
-		Realm realm = new Realm();
-		realmList.addRealm(realm);
-		realmList.addRealm(new Realm());
-		realmList.addRealm(new Realm());
-		realmList.addRealm(new Realm());
+		KingdomList realmList = new KingdomList(0);
+		Kingdom realm = new Kingdom();
+		realmList.addKingdom(realm);
+		realmList.addKingdom(new Kingdom());
+		realmList.addKingdom(new Kingdom());
+		realmList.addKingdom(new Kingdom());
 		int expected = 4;
 		int actual = realmList.size();
 		assertEquals(expected, actual);
@@ -28,10 +28,10 @@ public class RealmListTest
 	@Test
 	public void testGetRealms()
 	{
-		RealmList realmList = new RealmList(0);
-		realmList.addRealm(new Realm());
-		realmList.addRealm(new Realm());
-		realmList.addRealm(new Realm());
+		KingdomList realmList = new KingdomList(0);
+		realmList.addKingdom(new Kingdom());
+		realmList.addKingdom(new Kingdom());
+		realmList.addKingdom(new Kingdom());
 		int expected = 3;
 		int actual = realmList.size();
 		assertEquals(expected, actual);
@@ -40,9 +40,9 @@ public class RealmListTest
 	@Test
 	public void testRealmInit()
 	{
-		RealmList realmList = new RealmList(5);
+		KingdomList realmList = new KingdomList(5);
 		int expected = realmList.getCounter()+1;
-		realmList.addRealm(new Realm());
+		realmList.addKingdom(new Kingdom());
 		int actual = realmList.getCounter();
 		assertEquals(expected, actual);
 

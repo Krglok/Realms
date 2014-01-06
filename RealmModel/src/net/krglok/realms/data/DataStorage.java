@@ -5,10 +5,10 @@ import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Realm;
+import net.krglok.realms.core.Kingdom;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.OwnerList;
 
 /**
@@ -28,7 +28,7 @@ public class DataStorage implements DataInterface
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 
 	private OwnerList owners ;
-	private RealmList realms ;
+	private KingdomList realms ;
 	private SettlementList settlements;
 	private BuildingList buildings; 
 	
@@ -41,7 +41,7 @@ public class DataStorage implements DataInterface
 		this.plugin = plugin;
 		settleData = new SettlementData(plugin);
 		owners = new OwnerList();
-		realms = new RealmList();
+		realms = new KingdomList();
 		settlements = new SettlementList(0);
 		npcOwners();
 		npcRealms(owners.getOwner(NPC_0));
@@ -67,9 +67,9 @@ public class DataStorage implements DataInterface
 	/**
 	 * must be done after initOwners
 	 */
-	public RealmList npcRealms(Owner owner)
+	public KingdomList npcRealms(Owner owner)
 	{
-		realms.addRealm(new Realm(1, Realm_1_NPC, owner, new MemberList(), true));
+		realms.addKingdom(new Kingdom(1, Realm_1_NPC, owner, new MemberList(), true));
 		
 		return realms; 
 	}
@@ -111,7 +111,7 @@ public class DataStorage implements DataInterface
 	}
 
 	@Override
-	public RealmList initRealms()
+	public KingdomList initRealms()
 	{
 		// TODO Auto-generated method stub
 		return realms;

@@ -11,7 +11,7 @@ package net.krglok.realms.core;
  *  
  */
 
-public class Realm 
+public class Kingdom 
 {
 	private static final String NEW_REALM = "NewRealm";
 	private static int ID ;
@@ -19,29 +19,29 @@ public class Realm
 	private String name;
 	private Owner owner;
 	private MemberList memberList;
-	private Boolean isNPCRealm;
+	private Boolean isNPCkingdom;
 	
-	public Realm()
+	public Kingdom()
 	{
 		ID++;
 		id = ID;
 		name = NEW_REALM;
 		memberList = new MemberList();
 		owner = new Owner(0, MemberLevel.MEMBER_NONE, 0, "NPC1", 0, true); //null;  //new Owner());
-		isNPCRealm = owner.isNPC();
+		isNPCkingdom = owner.isNPC();
 	}
 
 	
 	
-	public Realm(int id, String name, Owner owner, MemberList memberList,
-			Boolean isNPCRealm)
+	public Kingdom(int id, String name, Owner owner, MemberList memberList,
+			Boolean isNPCkingdom)
 	{
 		super();
 		this.id = id;
 		this.name = name;
 		this.owner = owner;
 		this.memberList = memberList;
-		this.isNPCRealm = isNPCRealm;
+		this.isNPCkingdom = isNPCkingdom;
 	}
 
 
@@ -113,12 +113,12 @@ public class Realm
 	
 	
 
-	public Boolean isNPCRealm() {
-		return isNPCRealm;
+	public Boolean isNPCkingdom() {
+		return isNPCkingdom;
 	}
 
-	public void setIsNPCRealm(Boolean isNPCRealm) {
-		this.isNPCRealm = isNPCRealm;
+	public void setIsNPCkingdom(Boolean isNPCRealm) {
+		this.isNPCkingdom = isNPCRealm;
 	}
 	
 	

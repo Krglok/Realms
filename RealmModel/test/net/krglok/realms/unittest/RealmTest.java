@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Realm;
+import net.krglok.realms.core.Kingdom;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class RealmTest
 	@Test
 	public void testGetId()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		int expected = 1;
 		realm.setId(expected);
 		int actual = realm.getId(); 
@@ -30,7 +30,7 @@ public class RealmTest
 	@Test
 	public void testSetId()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		int expected = 2;
 		realm.setId(expected);
 		int actual = realm.getId(); 
@@ -40,7 +40,7 @@ public class RealmTest
 	@Test
 	public void testGetName()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		String expected = "NewRealm";
 		String actual = realm.getName(); 
 		assertEquals("Name test ",expected, actual);
@@ -49,7 +49,7 @@ public class RealmTest
 	@Test
 	public void testSetName()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		String expected = "MyRealm";
 		realm.setName(expected);
 		String actual = realm.getName(); 
@@ -59,7 +59,7 @@ public class RealmTest
 	@Test
 	public void testGetOwner()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		Owner expected = new Owner(0, MemberLevel.MEMBER_NONE, 0, "NPC1", 0, true);//null; 
 		Owner actual = realm.getOwner(); 
 		assertEquals("Owner test ",expected.getPlayerName(), actual.getPlayerName());
@@ -68,7 +68,7 @@ public class RealmTest
 	@Test
 	public void testSetOwner()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		Owner expected = new Owner(0, MemberLevel.MEMBER_NONE, 0, "PC1", 0, false);
 		realm.setOwner(expected);
 		Owner actual = realm.getOwner(); 
@@ -78,7 +78,7 @@ public class RealmTest
 	@Test
 	public void testGetMemberList()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		Owner member = new Owner(0, MemberLevel.MEMBER_NONE, 0, "MEMBER1", 0, false);
 		int expected = 1;
 		realm.addMember(member);	// insert 1
@@ -90,7 +90,7 @@ public class RealmTest
 	@Test
 	public void testSetMemberList()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		Owner member = new Owner(0, MemberLevel.MEMBER_NONE, 0, "MEMBER1", 0, false);
 		int expected = 1;
 		realm.addMember(member);
@@ -101,7 +101,7 @@ public class RealmTest
 	@Test
 	public void testAddMember()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		Owner member = new Owner(0, MemberLevel.MEMBER_NONE, 0, "MEMBER1", 0, false);
 		int expected = 1;
 		realm.addMember(member);	// insert 1
@@ -112,19 +112,19 @@ public class RealmTest
 	@Test
 	public void testIsNPCRealm()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		Boolean expected = true;
-		Boolean actual = realm.isNPCRealm(); 
+		Boolean actual = realm.isNPCkingdom(); 
 		assertEquals("isNPCRealm test ",expected, actual);
 	}
 
 	@Test
 	public void testSetIsNPCRealm()
 	{
-		Realm realm = new Realm();
+		Kingdom realm = new Kingdom();
 		Boolean expected = false;
-		realm.setIsNPCRealm(expected);
-		Boolean actual = realm.isNPCRealm(); 
+		realm.setIsNPCkingdom(expected);
+		Boolean actual = realm.isNPCkingdom(); 
 		assertEquals("isNPCRealm test ",expected, actual);
 	}
 

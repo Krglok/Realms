@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionManager;
 import net.krglok.realms.core.BuildingType;
-import net.krglok.realms.core.Realm;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.Kingdom;
+import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
@@ -31,7 +31,7 @@ public class CommandRealm
 		switch (subCommand)
 		{
 		case CREATE:
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				sender.sendMessage("Command not implemented !");
 			} else
@@ -42,7 +42,7 @@ public class CommandRealm
 		case INFO :
 			break;
 		case LIST :
-			if ((sender.hasPermission(RealmPermission.USER.name())) ) 
+			if ((sender.hasPermission(RealmsPermission.USER.name())) ) 
 			{
 				if (commandArg.size() > 0)
 				{
@@ -59,7 +59,7 @@ public class CommandRealm
 				plugin.getMessageData().errorPermission(sender);
 			}
 		case HELP:
-			if ((sender.hasPermission(RealmPermission.USER.name())) ) 
+			if ((sender.hasPermission(RealmsPermission.USER.name())) ) 
 			{
 				cmdHelp(sender, commandArg,subCommand);
 				return true;
@@ -80,10 +80,10 @@ public class CommandRealm
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = CommandArg.argToInt(commandArg.get(0));
 		msg.add("ID |RegionType | BuildingType");
-	    RealmList  rList = plugin.getRealmModel().getRealms();
-	    for (Realm realm : rList.getRealms().values())
+	    KingdomList  rList = plugin.getRealmModel().getRealms();
+	    for (Kingdom realm : rList.getKingdoms().values())
 	    {
-    		msg.add(realm.getId()+" : "+ChatColor.YELLOW+realm.getName()+" : "+ChatColor.GOLD+realm.isNPCRealm()+" Owner: "+realm.getOwner().getPlayerName());
+    		msg.add(realm.getId()+" : "+ChatColor.YELLOW+realm.getName()+" : "+ChatColor.GOLD+realm.isNPCkingdom()+" Owner: "+realm.getOwner().getPlayerName());
 	    }
 		plugin.getMessageData().printPage(sender, msg, page);
 		return true;

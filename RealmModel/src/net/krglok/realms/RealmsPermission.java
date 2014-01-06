@@ -1,6 +1,6 @@
 package net.krglok.realms;
 
-public enum RealmPermission
+public enum RealmsPermission
 {
 	ADMIN ("realms.admin"),
 	USER ("realms.user"),
@@ -9,7 +9,7 @@ public enum RealmPermission
 	
 	private final String value;
 	
-	RealmPermission(String value)
+	RealmsPermission(String value)
 	{
 		this.value = value;
 	}

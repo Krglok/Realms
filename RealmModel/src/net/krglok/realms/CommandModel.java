@@ -33,7 +33,7 @@ public class CommandModel
 		switch (subCommand)
 		{
 		case ACTIVATE:
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				cmdActivate(sender, commandArg);
 			} else
@@ -42,7 +42,7 @@ public class CommandModel
 			}
 			break;
 		case DEACTIVATE:
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				cmdDeactivate(sender, commandArg);
 			} else
@@ -51,7 +51,7 @@ public class CommandModel
 			}
 			break;
 		case PRODUCTION:
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				cmdProduction(sender, commandArg);
 			} else
@@ -60,7 +60,7 @@ public class CommandModel
 			}
 			break;
 		case SET :
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				cmdSet(sender, commandArg);
 			} else

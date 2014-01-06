@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.TestServer;
@@ -43,7 +43,7 @@ public class DataTestTest
 	public void testInitRealmList()
 	{
 		DataTest data = new DataTest();
-		RealmList rList = data.getTestRealms();
+		KingdomList rList = data.getTestRealms();
 		int expected = 1; 
 		int actual = rList.size();
 		assertEquals(expected, actual);
@@ -51,8 +51,8 @@ public class DataTestTest
 		if (isOutput)
 		{	
 			System.out.println("===Realm Test 1 ====");
-			System.out.println(rList.getRealm(1).getName());
-			System.out.println(rList.getRealm(1).getOwner().getPlayerName());
+			System.out.println(rList.getKingdom(1).getName());
+			System.out.println(rList.getKingdom(1).getOwner().getPlayerName());
 		}
 	}
 
@@ -60,7 +60,7 @@ public class DataTestTest
 	public void testInitRealmListOwner()
 	{
 		DataTest data = new DataTest();
-		RealmList rList = data.getTestRealms();
+		KingdomList rList = data.getTestRealms();
 		int expected = 1; 
 		int actual = rList.size();
 		assertEquals(expected, actual);
@@ -68,8 +68,8 @@ public class DataTestTest
 		if (isOutput)
 		{	
 			System.out.println("===Realm Test 2 ====");
-			System.out.println(rList.getRealm(1).getName());
-			System.out.println(rList.getRealm(1).getOwner().getPlayerName());
+			System.out.println(rList.getKingdom(1).getName());
+			System.out.println(rList.getKingdom(1).getOwner().getPlayerName());
 		}
 	}
 	

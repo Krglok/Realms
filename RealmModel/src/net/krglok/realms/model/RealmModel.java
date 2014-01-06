@@ -3,7 +3,7 @@ package net.krglok.realms.model;
 import java.util.ArrayList;
 
 import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
@@ -45,7 +45,7 @@ public class RealmModel
 	private MessageData messageData;
 	
 	private OwnerList owners;
-	private RealmList realms;
+	private KingdomList realms;
 	private SettlementList settlements;
 	private CommandQueue commandQueue;
 	private ArrayList<Settlement> productionQueue;
@@ -74,7 +74,7 @@ public class RealmModel
 		commandQueue = new CommandQueue();
 		productionQueue = new ArrayList<Settlement>();
 		owners = new OwnerList();
-		realms = new RealmList(realmCounter);
+		realms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
 		this.server = server;
 		this.config = config;
@@ -143,7 +143,7 @@ public class RealmModel
 	 * 
 	 * @return RealmList
 	 */
-	public RealmList getRealms()
+	public KingdomList getRealms()
 	{
 		return realms;
 	}
@@ -152,7 +152,7 @@ public class RealmModel
 	 * replace RealmList
 	 * @param realms
 	 */
-	private void setRealms(RealmList realms)
+	private void setRealms(KingdomList realms)
 	{
 		this.realms = realms;
 	}

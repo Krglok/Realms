@@ -26,7 +26,7 @@ public class CommandRealms
 		switch (subCommand)
 		{
 		case DEBUG:
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				cmdDebug(sender, commandArg);
 			} else
@@ -35,7 +35,7 @@ public class CommandRealms
 			}
 			break;
 		case SET :
-			if ((sender.hasPermission(RealmPermission.ADMIN.name())) || sender.isOp() ) 
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
 				cmdSet(sender, commandArg);
 			} else
