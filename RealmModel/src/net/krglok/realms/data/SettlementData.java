@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -106,7 +107,7 @@ public class SettlementData
 
 	private String getSettleKey(int id)
 	{
-		return "SETTLE"+String.valueOf(id);
+		return "SETTLEMENT."+String.valueOf(id);
 	}
 	
 	public void writeSettledata(Settlement settle) 
@@ -130,7 +131,7 @@ public class SettlementData
 	            config.set(MemorySection.createPath(settleSec, "settleType"), settle.getSettleType().name());
 	            config.set(MemorySection.createPath(settleSec, "position"), settle.getPosition().toString());
 	            config.set(MemorySection.createPath(settleSec, "name"), settle.getName());
-	            config.set(MemorySection.createPath(settleSec, "owner"), settle.getOwner().getPlayerName());
+	            config.set(MemorySection.createPath(settleSec, "owner"), settle.getOwner());
 	            config.set(MemorySection.createPath(settleSec, "isCapital"), settle.getIsCapital());
 //	            config.set(MemorySection.createPath(settleSec, "isEnabled"), settle.isEnabled());
 	            config.set(MemorySection.createPath(settleSec, "isActive"), settle.isActive());
@@ -227,34 +228,66 @@ public class SettlementData
             	settle.setSettleType(SettleType.valueOf(config.getString(settleSec+".settleType")));
             	//settle.setposition()
             	settle.setName(config.getString(settleSec+".name"));
-            	settle.setOwner(plugin.getRealmModel().getOwners().getOwner(config.getString(settleSec+".owner")));
+            	settle.setOwner(null);
             	settle.setIsCapital(config.getBoolean(settleSec+".isCapital"));
             	settle.setIsActive(config.getBoolean(settleSec+".isActive"));
             	
-            	settle.getTownhall().setIsEnabled(config.getBoolean(settleSec+".townhall"+".isEnable"));
-            	settle.getTownhall().setWorkerNeeded(config.getInt(settleSec+".townhall"+".workerNeeded"));
-            	settle.getTownhall().setWorkerCount(config.getInt(settleSec+".townhall"+".workerCount"));
+            	// die werte werden als String gelesen, da verschiedene Datentypen im array sind
+            	settle.getTownhall().setIsEnabled(Boolean.valueOf(config.getString(settleSec+".townhall"+".isEnable")));
+            	settle.getTownhall().setWorkerNeeded(Integer.valueOf(config.getString(settleSec+".townhall"+".workerNeeded")));
+            	settle.getTownhall().setWorkerCount(Integer.valueOf(config.getString(settleSec+".townhall"+".workerCount")));
             	
-            	settle.getResident().setSettlerMax(config.getInt(settleSec+".resident"+"settlerMax"));
-            	settle.getResident().setSettlerCount(config.getInt(settleSec+".resident"+"settlerCount"));
-            	settle.getResident().setFeritilityCounter(config.getInt(settleSec+".resident"+".fertilityCounter"));
-            	settle.getResident().setHappiness(config.getDouble(settleSec+".resident"+".happiness"));
-            	settle.getResident().setCowCount(config.getInt(settleSec+".resident"+".cowCount"));
-            	settle.getResident().setHorseCount(config.getInt(settleSec+".resident"+".horseCount"));
+            	// die werte werden als String gelesen, da verschiedene Datentypen im array sind
+            	settle.getResident().setSettlerMax(Integer.valueOf(config.getString(settleSec+".resident"+".settlerMax")));
+            	settle.getResident().setSettlerCount(Integer.valueOf(config.getString(settleSec+".resident"+".settlerCount")));
+            	settle.getResident().setFeritilityCounter(Double.valueOf(config.getString(settleSec+".resident"+".fertilityCounter")));
+            	settle.getResident().setHappiness(Double.valueOf(config.getString(settleSec+".resident"+".happiness")));
+            	settle.getResident().setCowCount(Integer.valueOf(config.getString(settleSec+".resident"+".cowCount")));
+            	settle.getResident().setHorseCount(Integer.valueOf(config.getString(settleSec+".resident"+".horseCount")));
             	
-            	ArrayList<String> buildings =  (ArrayList<String>) config.getList(settleSec+".buildinglist");
-            	for (String ref : buildings)
+    			ArrayList<String> msg = new ArrayList<String>();
+    			
+    			Map<String,Object> buildings = config.getConfigurationSection(settleSec+".buildinglist").getValues(false);
+            	for (String ref : buildings.keySet())
             	{
+                	System.out.println("Part 5 "+ref);
 
-            		int buildingId = config.getInt(settleSec+".buildinglist."+ref+".id");
-            		BuildingType bType = BuildingType.getBuildingType(config.getString(settleSec+".buildinglist."+ref+".buildingType"));
-            		int settler = config.getInt(settleSec+".buildinglist."+ref+".settler");
-            		int workerNeeded = config.getInt(settleSec+".buildinglist."+ref+".workerNeeded");
-            		int workerInstalled = config.getInt(settleSec+".buildinglist."+ref+".workerInstalled");
-            		Boolean isRegion = config.getBoolean(settleSec+".buildinglist."+ref+".isRegion");
-            		int hsRegion = config.getInt(settleSec+".buildinglist."+ref+".hsRegion");
-//            		String hsRegionType
-            	
+            		int buildingId = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".id"));
+            		BuildingType buildingType = BuildingType.getBuildingType(config.getString(settleSec+".buildinglist."+ref+".buildingType"));
+            		int settler = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".settler"));
+            		int workerNeeded = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerNeeded"));
+            		int workerInstalled = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerInstalled"));
+            		Boolean isRegion = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isRegion"));
+            		int hsRegion = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".hsRegion"));
+        			String hsRegionType = config.getString(settleSec+".buildinglist."+ref+".hsRegionType");
+        			String hsSuperRegion = config.getString(settleSec+".buildinglist."+ref+".hsSuperRegion");
+        			Boolean isEnabled = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isEnabled"));
+        			boolean isActiv = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isActiv"));
+        			String slot1 = config.getString(settleSec+".buildinglist."+ref+".slot1","");
+        			String slot2 = config.getString(settleSec+".buildinglist."+ref+".slot2","");
+        			String slot3 = config.getString(settleSec+".buildinglist."+ref+".slot3","");
+        			String slot4 = config.getString(settleSec+".buildinglist."+ref+".slot4","");
+        			String slot5 = config.getString(settleSec+".buildinglist."+ref+".slot5","");
+        			
+        			Settlement.addBuilding(
+        					new Building(
+        							buildingId, 
+        							buildingType, 
+        							settler, 
+        							workerNeeded, 
+        							workerInstalled, 
+        							isRegion, 
+        							hsRegion, 
+        							hsRegionType, 
+        							hsSuperRegion, 
+        							isEnabled, 
+        							slot1, 
+        							slot2, 
+        							slot3, 
+        							slot4, 
+        							slot5), 
+        					settle
+        					);
             	}
             }
 		} catch (Exception e)

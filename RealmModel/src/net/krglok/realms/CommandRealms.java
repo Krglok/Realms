@@ -2,6 +2,7 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmSubCommandType;
@@ -34,15 +35,23 @@ public class CommandRealms
 				plugin.getMessageData().errorPermission(sender);
 			}
 			break;
-		case SET :
+		case WRITE :
 			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
-				cmdSet(sender, commandArg);
+				cmdWrite(sender, commandArg);
 			} else
 			{
 				plugin.getMessageData().errorPermission(sender);
 			}
 			break;
+		case READ :
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
+			{
+				cmdRead(sender, commandArg);
+			} else
+			{
+				plugin.getMessageData().errorPermission(sender);
+			}
 		case LIST :
 			break;
 		case VERSION :
@@ -70,7 +79,7 @@ public class CommandRealms
 		return true;
 	}
 
-	private boolean cmdSet(CommandSender sender, CommandArg commandArg)
+	private boolean cmdWrite(CommandSender sender, CommandArg commandArg)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		if (commandArg.size() == 0)
@@ -82,8 +91,43 @@ public class CommandRealms
 		if (settle != null)
 		{
 			plugin.getData().writeSettlement(settle);
-			msg.add("[Realms] SAVE  Settlement "+value);
+			msg.add("[Realms] WRITE  Settlement "+value);
 			msg.add("save settlement data to file ");
+		}
+		plugin.getMessageData().printPage(sender, msg, 1);
+		return true;
+	}
+
+	private boolean cmdRead(CommandSender sender, CommandArg commandArg)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		if (commandArg.size() == 0)
+		{
+			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.DEBUG);
+		}
+		int value = CommandArg.argToInt(commandArg.get(0));
+		Settlement settle = plugin.getData().readSettlement(value);
+		if (settle != null)
+		{
+			plugin.getRealmModel().getSettlements().addSettlement(settle);
+			msg.add("[Realms] READ  Settlement "+value);
+			msg.add(settle.getId()+" : "+settle.getName());
+			msg.add("Storage  : "+settle.getWarehouse().getItemMax());
+			msg.add("Capacity : "+settle.getResident().getSettlerMax());
+			msg.add("Settlers : "+settle.getResident().getSettlerCount());
+			msg.add("Workers  : "+settle.getTownhall().getWorkerCount());
+			msg.add("Happiness: "+settle.getResident().getHappiness());
+			msg.add("Fertility: "+settle.getResident().getFertilityCounter());
+			msg.add("Deathrate: "+settle.getResident().getDeathrate());
+			msg.add("Building : "+settle.getBuildingList().size());
+			msg.add("Bank     : "+settle.getBank().getKonto());
+			msg.add("Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
+			msg.add("Required Items "+settle.getRequiredProduction().size());
+			for (String itemRef : settle.getRequiredProduction().keySet())
+			{
+				Item item = settle.getRequiredProduction().getItem(itemRef);
+				msg.add(item.ItemRef()+" : "+item.value());
+			}
 		}
 		plugin.getMessageData().printPage(sender, msg, 1);
 		return true;

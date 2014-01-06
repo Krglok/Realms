@@ -1,5 +1,7 @@
 package net.krglok.realms.data;
 
+import org.bukkit.command.CommandSender;
+
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.MemberLevel;
@@ -92,12 +94,21 @@ public class DataStorage implements DataInterface
 	{
 		settleData.writeSettledata(settle);
 	}
+
+	/**
+	 * Read Settlement from File
+	 * @param id
+	 * @param sender  only for Debug messages
+	 * @return
+	 */
+	public Settlement readSettlement(int id)
+	{
+		return settleData.readSettledata(id);
+	}
 	
 	private Settlement initSettlement()
 	{
 		Settlement settle = new Settlement();
-		
-		
 		settle.setBuildingList(initBuildings(settle));
 		return settle;
 	}

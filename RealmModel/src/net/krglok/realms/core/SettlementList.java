@@ -68,7 +68,7 @@ public class SettlementList
 	{
 		String key = String.valueOf(settlement.getId());
 		settlementList.put(key,settlement);
-		setOwnerCapital(settlement.getOwner(), settlement.getId());
+//		setOwnerCapital(settlement.getOwner(), settlement.getId());
 	}
 	
 	/**
@@ -76,14 +76,14 @@ public class SettlementList
 	 * @param id
 	 * @param owner
 	 */
-	public void setOwner(int id, Owner owner)
+	public void setOwner(int id, String owner)
 	{
 		Settlement settlement = settlementList.get(String.valueOf(id));
 		settlement.setOwner(owner);
 		settlementList.put(String.valueOf(id) ,settlement);
 	}
 
-	public Settlement setOwner(Settlement settlement, Owner owner)
+	public Settlement setOwner(Settlement settlement, String owner)
 	{
 		settlement.setOwner(owner);
 		settlementList.put(String.valueOf(settlement.getId()) ,settlement);
@@ -209,7 +209,7 @@ public class SettlementList
 	public static SettlementList createSettlement(HashMap<String,String> superRegionTypes, 
 			                                      HashMap<String,String> regionTypes, 
 			                                      HashMap<String,String> regionBuildings, 
-			                                      Owner owner)
+			                                      String owner)
 	{
 		SettlementList settleList = new SettlementList(0);
 		SettleType settleType = getSuperRegionSettleType(superRegionTypes);

@@ -122,7 +122,7 @@ public class DataTest implements DataInterface
 				SettleType.SETTLE_HAMLET, 
 				"TestSiedlung", 
 				position, 
-				owner,
+				owner.getPlayerName(),
 				true, 
 				barrack, 
 				warehouse,
@@ -497,7 +497,7 @@ public class DataTest implements DataInterface
 	{
 		Settlement plot = new Settlement();
 		
-		plot.setOwner(testOwners.getOwner(NPC_0));
+		plot.setOwner(testOwners.getOwner(NPC_0).getPlayerName());
 		plot.getWarehouse().setItemList(defaultWarehouseItems());
 		return plot;
 	}

@@ -479,7 +479,7 @@ public class CommandSettle
 			plugin.getMessageData().printPage(sender, msg, page);
 			return true;
 		}
-		Settlement settlement = new Settlement(owner, settleType, superRegionName);
+		Settlement settlement = new Settlement(playerName, settleType, superRegionName);
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 		
 		msg.add("");
@@ -522,7 +522,7 @@ public class CommandSettle
 			msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
 		    for (Settlement settle : rList.getSettlements().values())
 		    {
-	    		msg.add(settle.getId()+" : "+ChatColor.YELLOW+settle.getName()+" : "+ChatColor.GOLD+settle.isEnabled()+" Owner: "+settle.getOwner().getPlayerName());
+	    		msg.add(settle.getId()+" : "+ChatColor.YELLOW+settle.getName()+" : "+ChatColor.GOLD+settle.isEnabled()+" Owner: "+settle.getOwner());
 		    }
 	    } else
 	    {

@@ -12,12 +12,12 @@ import net.krglok.realms.model.RealmSubCommandType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CommandRealm
+public class CommandKingdom
 {
 	
 	private Realms plugin;
 
-	public CommandRealm(Realms plugin)
+	public CommandKingdom(Realms plugin)
 	{
 		this.plugin = plugin;
 
@@ -114,10 +114,10 @@ public class CommandRealm
 		switch (subCommand)
 		{
 		case CREATE:
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 			msg.add("SubCommands: "+subCommand);
-			msg.add("/realm create [realmName] {ownerName} ");
-			msg.add("creates a new Realm. the Realmname must be");
+			msg.add("/kingdom create [kingdomName] {ownerName} ");
+			msg.add("creates a new kingdom. the kingdomName must be");
 			msg.add("set. Ownername (the king) is optional ");
 			msg.add("");
 			msg.add("");
@@ -132,9 +132,9 @@ public class CommandRealm
 			msg.add("");
 			break;
 		case INFO :
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 			msg.add("SubCommands: "+subCommand);
-			msg.add("/realm info [realmName] ");
+			msg.add("/kingdom info [kingdomName] ");
 			msg.add("");
 			msg.add("");
 			msg.add("");
@@ -150,7 +150,7 @@ public class CommandRealm
 			msg.add("");
 			break;
 		case LIST :
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 			msg.add("SubCommands: "+subCommand);
 			msg.add("");
 			msg.add("");
@@ -168,7 +168,7 @@ public class CommandRealm
 			msg.add("");
 			break;
 		case ADD :
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 			msg.add("SubCommands: "+subCommand);
 			msg.add("");
 			msg.add("");
@@ -186,7 +186,7 @@ public class CommandRealm
 			msg.add("");
 			break;
 		case DELETE:
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 			msg.add("SubCommands: "+subCommand);
 			msg.add("");
 			msg.add("");
@@ -204,7 +204,7 @@ public class CommandRealm
 			msg.add("");
 			break;
 		case SET :
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 			msg.add("SubCommands: "+subCommand);
 			msg.add("");
 			msg.add("");
@@ -222,7 +222,7 @@ public class CommandRealm
 			msg.add("");
 			break;
 		case HELP:
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 			msg.add("SubCommands: "+subCommand);
 			msg.add("");
 			msg.add("");
@@ -241,18 +241,18 @@ public class CommandRealm
 			break;
 		
 		default :
-			msg.add("[Realms] Command: Realm                  ");
+			msg.add("[Realms] Command: kingdom                  ");
 	    	msg.add("Parameter  [] = required  {} = optional ");
-			msg.add("/realms create ......");
-			msg.add("/realm info [RealmID] ,show overview realm");
-			msg.add("/realm list {page} , show list of realms");
-			msg.add("/realm help {SubCommand} , show help ");
+			msg.add("/kingdom create ......");
+			msg.add("/kingdom info [RealmID] ,show overview realm");
+			msg.add("/kingdom list {page} , show list of realms");
+			msg.add("/kingdom help {SubCommand} , show help ");
 			msg.add("for SubCommand");
-			msg.add("/realm add [PlayerName] {level}, add ");
+			msg.add("/kingdom add [PlayerName] {level}, add ");
 			msg.add("playername to memberlist");
-			msg.add("/realm delete [PlayerName] , delete ");
+			msg.add("/kingdom delete [PlayerName] , delete ");
 			msg.add("playername from memberlist");
-			msg.add("/realm set {PlayerName} , set playername ");
+			msg.add("/kingdom set {PlayerName} , set playername ");
 			msg.add("to owner of realm");
 			msg.add("");
 			msg.add("");

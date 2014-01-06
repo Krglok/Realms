@@ -24,7 +24,7 @@ commands:
         description: only for ops for managing owners
         usage: " /owner [subCommand] [ownerId] 
         "
-    realm:
+    kingdom:
         description: player command for realm management 
         usage: " /realm [subCommand] [realmId]  
         "

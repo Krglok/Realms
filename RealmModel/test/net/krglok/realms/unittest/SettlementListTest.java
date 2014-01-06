@@ -33,11 +33,11 @@ public class SettlementListTest
 	{
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
-		Settlement settlement = new Settlement(owner);
+		Settlement settlement = new Settlement(owner.getPlayerName());
 		sList.addSettlement(settlement);
 		sList.setOwnerCapital(owner, settlement.getId());
 		int expected = settlement.getId();
-		int actual = sList.getSettlement(2).getOwner().getCapital();
+		int actual = owner.getCapital();
 		assertEquals(expected, actual);
 	}
 
@@ -46,13 +46,13 @@ public class SettlementListTest
 	{
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
-		Settlement settlement = new Settlement(owner);
+		Settlement settlement = new Settlement(owner.getPlayerName());
 		sList.addSettlement(settlement);
-		settlement = new Settlement(owner);
+		settlement = new Settlement(owner.getPlayerName());
 		sList.addSettlement(settlement);
 		sList.updateOwnerCapital(owner, settlement.getId());
 		int expected = settlement.getId();
-		int actual = sList.getSettlement(3).getOwner().getCapital();
+		int actual = owner.getCapital();
 		assertEquals(expected, actual);
 	}
 
@@ -74,7 +74,7 @@ public class SettlementListTest
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
 		
-		sList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner);
+		sList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		
 		int expected = 1;
 		int actual = sList.count();
@@ -104,13 +104,13 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner);
+		SettlementList newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner);
+		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner);
+		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
 		int expected = 3;
@@ -157,16 +157,16 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner);
+		SettlementList newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner);
+		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner);
+		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		int expected = 1;
+		int expected = 3;
 		int actual = sList.count();
 		int dayCounter = 0;
 

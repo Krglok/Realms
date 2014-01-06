@@ -29,6 +29,8 @@ public enum RealmSubCommandType
 	CAMP ,
 	TEST ,
 	CONFIG,
+	READ,
+	WRITE,
 	DEBUG,
 	HELP
 	;

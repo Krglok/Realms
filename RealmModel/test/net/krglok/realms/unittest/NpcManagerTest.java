@@ -47,7 +47,7 @@ public class NpcManagerTest {
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0"),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{

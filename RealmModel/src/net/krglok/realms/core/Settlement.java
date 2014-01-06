@@ -33,7 +33,7 @@ public class Settlement
 	private SettleType settleType = SettleType.SETTLE_NONE;
 	private Position position;
 	private String name;
-	private Owner owner;
+	private String owner;
 	private Boolean isCapital;
 	private Barrack barrack ;
 	private Warehouse warehouse ;
@@ -62,7 +62,7 @@ public class Settlement
 		settleType 	= SettleType.SETTLE_NONE;
 		position 	= new Position();
 		name		= NEW_SETTLEMENT;
-		owner 		= new Owner();
+		owner 		= "";
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
@@ -83,14 +83,14 @@ public class Settlement
 	 * 
 	 * @param Owner
 	 */
-	public Settlement(Owner Owner)
+	public Settlement(String owner)
 	{
 		COUNTER++;
 		id			= COUNTER;
 		settleType 	= SettleType.SETTLE_NONE;
 		name		= NEW_SETTLEMENT;
 		position 	= new Position();
-		this.setOwner(Owner);
+		this.owner = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
@@ -113,14 +113,14 @@ public class Settlement
 	 * @param settleType
 	 * @param name
 	 */
-	public Settlement(Owner Owner, SettleType settleType, String name)
+	public Settlement(String owner, SettleType settleType, String name)
 	{
 		COUNTER++;
 		id			= COUNTER;
 		this.settleType = settleType;
 		this.name		= name;
 		position 	= new Position();
-		this.setOwner(Owner);
+		this.owner = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
@@ -153,7 +153,7 @@ public class Settlement
 	 * @param resident
 	 */
 	public Settlement(int id, SettleType settleType, String name, 
-			Position position, Owner owner,
+			Position position, String owner,
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
 			Resident resident)
@@ -288,12 +288,12 @@ public class Settlement
 		this.name = name;
 	}
 
-	public Owner getOwner()
+	public String getOwner()
 	{
 		return owner;
 	}
 
-	public void setOwner(Owner owner)
+	public void setOwner(String owner)
 	{
 		this.owner = owner;
 	}
@@ -509,7 +509,7 @@ public class Settlement
 	 * @param regionTypes
 	 * @return
 	 */
-	public static Settlement createSettlement(SettleType settleType, String settleName, Owner owner, 
+	public static Settlement createSettlement(SettleType settleType, String settleName, String owner, 
 											HashMap<String,String> regionTypes, 
 											HashMap<String,String> regionBuildings)
 	{

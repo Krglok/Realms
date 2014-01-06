@@ -26,7 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Realms extends JavaPlugin
 {
 	private Logger log = Logger.getLogger("Minecraft"); 
-	private final CommandRealm commandRealm  = new CommandRealm(this);
+	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
 	private final CommandModel commandModel  = new CommandModel(this);
 	private final CommandStronghold commandStronghold = new CommandStronghold(this);
 	private final CommandSettle commandSettle = new CommandSettle(this);
@@ -133,11 +133,11 @@ public final class Realms extends JavaPlugin
     	case REALM :
     		if (args.length == 0)
     		{
-    		  cmdRealmNone(sender);
+    		  cmdKingdomNone(sender);
     		  return true;
     		} else
     		{
-    			commandRealm.run(sender, args);
+    			commandKingdom.run(sender, args);
     		}
     		return true;
     	case REALMS :
@@ -176,7 +176,7 @@ public final class Realms extends JavaPlugin
     	msg.add(ChatColor.GREEN+"commands:"+ChatColor.YELLOW+" ");
     	msg.add("/model  only for ops to control model setup");
     	msg.add("/owner  only for ops for managing owners");
-    	msg.add("/realm  player command for realm management");
+    	msg.add("/kingdom  player command for realm management");
     	msg.add("/settle player command for settlement management");
     	msg.add("/stronghold plyer command for Stronghold Data");
 //    	msg.add(ChatColor.GREEN+"<command> help "+ChatColor.YELLOW+", show help text for command");
@@ -191,7 +191,7 @@ public final class Realms extends JavaPlugin
      * explanation for realm command
      * @param sender
      */
-    private void cmdRealmNone(CommandSender sender)
+    private void cmdKingdomNone(CommandSender sender)
     {
     	ArrayList<String> msg = new ArrayList<String>();
     	msg.add(ChatColor.GREEN+"== "+this.getName()+" Vers.: "+config.getVersion()+" ==============");
@@ -295,9 +295,9 @@ public final class Realms extends JavaPlugin
 	/**
 	 * @return the commandRealm
 	 */
-	public CommandRealm getCommandRealm()
+	public CommandKingdom getCommandRealm()
 	{
-		return commandRealm;
+		return commandKingdom;
 	}
 
 	/**
