@@ -1,4 +1,5 @@
-package net.krglok.realms.core;
+package net.krglok.realms.model;
+
 
 public class RealmCommand 
 {

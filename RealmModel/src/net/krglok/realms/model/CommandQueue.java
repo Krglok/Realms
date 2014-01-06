@@ -1,6 +1,7 @@
-package net.krglok.realms.core;
+package net.krglok.realms.model;
 
 import java.util.ArrayList;
+
 
 
 public class CommandQueue extends ArrayList<RealmCommand> 

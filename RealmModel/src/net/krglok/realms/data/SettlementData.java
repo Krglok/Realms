@@ -20,7 +20,6 @@ import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.core.LogList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Position;
 import net.krglok.realms.core.Resident;
@@ -28,6 +27,7 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
+import net.krglok.realms.model.LogList;
 
 /**
  * read Data from YML file 
@@ -253,7 +253,7 @@ public class SettlementData
             		int workerInstalled = config.getInt(settleSec+".buildinglist."+ref+".workerInstalled");
             		Boolean isRegion = config.getBoolean(settleSec+".buildinglist."+ref+".isRegion");
             		int hsRegion = config.getInt(settleSec+".buildinglist."+ref+".hsRegion");
-            		String hsRegionType
+//            		String hsRegionType
             	
             	}
             }

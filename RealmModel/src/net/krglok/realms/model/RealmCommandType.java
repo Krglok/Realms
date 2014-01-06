@@ -1,4 +1,4 @@
-package net.krglok.realms.core;
+package net.krglok.realms.model;
 
 public enum RealmCommandType 
 {

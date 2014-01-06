@@ -4,6 +4,8 @@ import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.data.*;
+import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.core.*;
 
 import org.bukkit.ChatColor;

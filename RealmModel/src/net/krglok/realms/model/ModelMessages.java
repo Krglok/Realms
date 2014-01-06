@@ -1,4 +1,4 @@
-package net.krglok.realms.data;
+package net.krglok.realms.model;
 
 import net.krglok.realms.core.UnitType;
 

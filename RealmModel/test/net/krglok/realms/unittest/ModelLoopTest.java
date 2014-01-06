@@ -6,13 +6,13 @@ import java.util.logging.Logger;
 
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
-import net.krglok.realms.core.RealmCommand;
-import net.krglok.realms.core.RealmCommandType;
-import net.krglok.realms.core.RealmModel;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.TestServer;
+import net.krglok.realms.model.RealmCommand;
+import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
 

@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import net.krglok.realms.model.LogList;
+
 /**
  * @author oduda
  *

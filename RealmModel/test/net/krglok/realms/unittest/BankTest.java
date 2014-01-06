@@ -3,7 +3,7 @@ package net.krglok.realms.unittest;
 import static org.junit.Assert.*;
 
 import net.krglok.realms.core.Bank;
-import net.krglok.realms.core.LogList;
+import net.krglok.realms.model.LogList;
 
 import org.junit.Test;
 

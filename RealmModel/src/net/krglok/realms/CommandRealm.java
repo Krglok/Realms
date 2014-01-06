@@ -7,7 +7,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionManager;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Realm;
 import net.krglok.realms.core.RealmList;
-import net.krglok.realms.core.RealmSubCommandType;
+import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

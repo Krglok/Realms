@@ -10,7 +10,6 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.StrongholdAPI;
 import net.krglok.realms.data.TestServer;
 
 import org.junit.Test;

@@ -2,9 +2,9 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.core.ModelStatus;
-import net.krglok.realms.core.RealmSubCommandType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

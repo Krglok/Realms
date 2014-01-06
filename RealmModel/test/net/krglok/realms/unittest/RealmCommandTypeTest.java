@@ -1,6 +1,8 @@
-package net.krglok.realms.core;
+package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
+
+import net.krglok.realms.model.RealmCommandType;
 
 import org.junit.Test;
 

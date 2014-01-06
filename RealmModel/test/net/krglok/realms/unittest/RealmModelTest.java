@@ -4,13 +4,13 @@ import static org.junit.Assert.*;
 
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
-import net.krglok.realms.core.ModelStatus;
-import net.krglok.realms.core.RealmCommand;
-import net.krglok.realms.core.RealmCommandType;
-import net.krglok.realms.core.RealmModel;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.TestServer;
+import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.model.RealmCommand;
+import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
 

@@ -1,7 +1,11 @@
-package net.krglok.realms.core;
+package net.krglok.realms.model;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.core.RealmList;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.MessageData;

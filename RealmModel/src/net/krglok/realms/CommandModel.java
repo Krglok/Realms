@@ -3,11 +3,11 @@ package net.krglok.realms;
 import java.util.ArrayList;
 
 import net.krglok.realms.core.Item;
-import net.krglok.realms.core.ModelStatus;
-import net.krglok.realms.core.RealmCommand;
-import net.krglok.realms.core.RealmCommandType;
-import net.krglok.realms.core.RealmSubCommandType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.model.RealmCommand;
+import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

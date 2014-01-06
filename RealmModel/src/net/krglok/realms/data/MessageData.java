@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import net.krglok.realms.core.RealmCommandType;
-import net.krglok.realms.core.RealmSubCommandType;
+import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
