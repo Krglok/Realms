@@ -173,7 +173,7 @@ public class SettlementListTest
 		for (Settlement settle : sList.getSettlements().values())
 		{
 			dayCounter++;
-			settle.produce(server);
+			settle.doProduce(server);
 			settle.setHappiness();
 			if (dayCounter == 30)
 			{

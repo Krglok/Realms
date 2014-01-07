@@ -1,14 +1,12 @@
 package net.krglok.realms;
 
-import org.bukkit.Server;
-
 public class TickTask implements Runnable
 {
     //private final transient Server server;
     private final Realms plugin;
-    private int counter;
-    private boolean isProduction = true;
-    private int prodCounter = 20;
+    private static int counter = 0;
+    private static boolean isProduction = true;
+    private static int prodCounter = 20;
 	
 	public TickTask(Realms plugin)
 	{
@@ -16,19 +14,19 @@ public class TickTask implements Runnable
 		counter = 0;
 	}
     
-	public void setProduction(boolean value)
+	public static void setProduction(boolean value)
 	{
-		this.isProduction = value;
+		TickTask.isProduction = value;
 	}
 	
-	public int getCounter()
+	public static int getCounter()
 	{
 		return counter;
 	}
 	
-	public void setProdCounter(int value)
+	public static void setProdCounter(int value)
 	{
-		this.prodCounter = value;
+		TickTask.prodCounter = value;
 	}
 	
 	
@@ -45,7 +43,7 @@ public class TickTask implements Runnable
 			if (isProduction)
 			{
 				plugin.getRealmModel().OnProduction();
-				plugin.getLog().info("[Realms] production");
+				plugin.getLog().info("[Realms] production calculation");
 			}
 			
 		}

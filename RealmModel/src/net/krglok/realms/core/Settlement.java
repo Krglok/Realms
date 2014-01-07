@@ -13,6 +13,10 @@ import net.krglok.realms.data.ServerInterface;
  */
 public class Settlement
 {
+	private static final double TAVERNE_UNHAPPY_FACTOR = 2.0;
+	private static final double BASE_TAX_FACTOR = 0.1;
+	private static double TAVERNE_FREQUENT = 10.0;
+
 	private static final String NEW_SETTLEMENT = "New Settlement";
 
 	private static double SETTLER_TAXE = 1.0;
@@ -45,11 +49,13 @@ public class Settlement
 //  private Trader trader;
 //  private Headquarter headquarter;
 	private ItemList requiredProduction;
-
+	
 	private Boolean isEnabled;
 	private Boolean isActive;
 	
 	private double foodConsumCounter;
+	private Double buildingTax ;
+	
 	
 	/**
 	 * instance empty settlement with
@@ -74,6 +80,7 @@ public class Settlement
 		isActive    = true;
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
+		setBuildingTax(BASE_TAX_FACTOR);
 	}
 
 	/**
@@ -102,7 +109,8 @@ public class Settlement
 		isActive    = true;
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
-	}
+		setBuildingTax(BASE_TAX_FACTOR);
+}
 
 	/**
 	 * instances settlement with
@@ -132,6 +140,7 @@ public class Settlement
 		isActive    = true;
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
+		setBuildingTax(BASE_TAX_FACTOR);
 	}
 	
 	
@@ -174,6 +183,7 @@ public class Settlement
 		isActive    = true;
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
+		setBuildingTax(BASE_TAX_FACTOR);
 	}
 
 	/**
@@ -499,6 +509,16 @@ public class Settlement
 		this.position = position;
 	}
 	
+	public Double getBuildingTax()
+	{
+		return buildingTax;
+	}
+
+	public void setBuildingTax(Double buildingTax)
+	{
+		this.buildingTax = buildingTax;
+	}
+
 	/**
 	 * Create a new settlement by SettleType 
 	 * and regionTypes List <String, String>  for building list
@@ -537,61 +557,6 @@ public class Settlement
 		return null;
 	}
 
-	/**
-	 * get production get from producer buildings in the settlement
-	 * @param server
-	 */
-	public void produce(ServerInterface server)
-	{
-		int prodFactor = 1;
-		int iValue = 0;
-		ItemArray items;
-		ItemList recipeList;
-		requiredProduction.clear();
-
-		for (Building building : buildingList.getBuildingList().values())
-		{
-			if (building.isEnabled())
-			{
-				items = building.produce(server);
-				for (Item item : items)
-				{
-					switch(building.getBuildingType())
-					{
-					case BUILDING_PROD :
-						recipeList = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-						prodFactor = 1;
-						break;
-					case BUILDING_BAUERNHOF:
-						recipeList = server.getRecipe(item.ItemRef());
-						prodFactor = server.getRecipeFactor(item.ItemRef());
-						break;
-					case BUILDING_WERKSTATT:
-						recipeList = server.getRecipe(item.ItemRef());
-						recipeList.remove(item.ItemRef());
-						prodFactor = server.getRecipeFactor(item.ItemRef());
-						break;
-					case BUILDING_BAECKER:
-						recipeList = server.getRecipe(item.ItemRef());
-						recipeList.remove(item.ItemRef());
-						prodFactor = server.getRecipeFactor(item.ItemRef());
-						break;
-					default :
-						recipeList = new ItemList();
-						prodFactor = 1;
-						break;
-					}
-					
-					if (checkStock(prodFactor, recipeList))
-					{
-						consumStock(prodFactor, recipeList);
-						iValue = item.value();
-						warehouse.depositItemValue(item.ItemRef(),iValue);
-					}
-				}
-			}
-		}
-	}
 	
 
 	public boolean checkStock(int prodFactor, ItemList items)
@@ -840,5 +805,97 @@ public class Settlement
 	{
 		return requiredProduction;
 	}
+
+	/**
+	 * get production get from producer buildings in the settlement
+	 * @param server
+	 */
+	public void doProduce(ServerInterface server)
+	{
+		int prodFactor = 1;
+		int iValue = 0;
+		Double sale = 0.0;
+		ItemArray items;
+		ItemList recipeList;
+		requiredProduction.clear();
+
+		for (Building building : buildingList.getBuildingList().values())
+		{
+			if (building.isEnabled())
+			{
+				items = building.produce(server);
+				for (Item item : items)
+				{
+					switch(building.getBuildingType())
+					{
+					case BUILDING_PROD :
+						recipeList = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
+						prodFactor = 1;
+						break;
+					case BUILDING_BAUERNHOF:
+						recipeList = server.getRecipe(item.ItemRef());
+						prodFactor = server.getRecipeFactor(item.ItemRef());
+						break;
+					case BUILDING_WERKSTATT:
+						recipeList = server.getRecipe(item.ItemRef());
+						recipeList.remove(item.ItemRef());
+						prodFactor = server.getRecipeFactor(item.ItemRef());
+						break;
+					case BUILDING_BAECKER:
+						recipeList = server.getRecipe(item.ItemRef());
+						recipeList.remove(item.ItemRef());
+						prodFactor = server.getRecipeFactor(item.ItemRef());
+						break;
+					case BUILDING_ENTERTAIN:
+						if (resident.getHappiness() > Resident.getBaseHappines())
+						{
+							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness();
+						} else
+						{
+							if (resident.getHappiness() > 0.0)
+							{
+								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness()*TAVERNE_UNHAPPY_FACTOR;
+							}
+						}
+						if (resident.getDeathrate() > 0)
+						{
+							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * TAVERNE_UNHAPPY_FACTOR;
+						}
+						building.setSales(sale);	
+						recipeList = new ItemList();
+						break;
+					case BUILDING_GOVERNMENT:
+						// the can consum money by collect negativ values
+						// the minimum is the tax_rate for Settlers
+						recipeList = new ItemList();
+						break;
+					default :
+						recipeList = new ItemList();
+						prodFactor = 1;
+						break;
+					}
+					
+					if (checkStock(prodFactor, recipeList))
+					{
+						consumStock(prodFactor, recipeList);
+						iValue = item.value();
+						warehouse.depositItemValue(item.ItemRef(),iValue);
+					}
+				}
+			}
+		}
+	}
 	
+	public void doCalcTax()
+	{
+		Double taxSum = 0.0;
+		for (Building building : buildingList.getBuildingList().values())
+		{
+			taxSum = taxSum + (building.getSales() * BASE_TAX_FACTOR);
+				// pruefe ob Stronghold region enabled sind
+		}
+		bank.depositKonto(taxSum, "TAX_COLLECTOR");
+		//  Kingdom tax are an open item
+		
+	}
 }

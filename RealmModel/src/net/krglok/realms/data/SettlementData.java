@@ -249,6 +249,7 @@ public class SettlementData
         			String slot3 = config.getString(settleSec+".buildinglist."+ref+".slot3","");
         			String slot4 = config.getString(settleSec+".buildinglist."+ref+".slot4","");
         			String slot5 = config.getString(settleSec+".buildinglist."+ref+".slot5","");
+        			Double sale = Double.valueOf(config.getString(settleSec+".buildinglist."+ref+".sale"));
         			
         			Settlement.addBuilding(
         					new Building(
@@ -266,14 +267,14 @@ public class SettlementData
         							slot2, 
         							slot3, 
         							slot4, 
-        							slot5), 
+        							slot5,
+        							sale), 
         					settle
         					);
             	}
             }
 		} catch (Exception e)
 		{
-			// TODO: handle exception
 			plugin.getMessageData().errorFileIO("readSettledata", e);
 		}
 		return settle;

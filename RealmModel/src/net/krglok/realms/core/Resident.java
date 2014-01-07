@@ -256,6 +256,11 @@ public class Resident
 		return settlerDeathrate;
 	}
 	
+	public static double getBaseHappines()
+	{
+		return BASE_HAPPINES;
+	}
+
 	/**
 	 * calutae happines based on settlercount
 	 * @param value

@@ -49,6 +49,7 @@ public class RealmModel
 	private SettlementList settlements;
 	private CommandQueue commandQueue;
 	private ArrayList<Settlement> productionQueue;
+	private ArrayList<Settlement> taxQueue;
 	// private ArrayList<Training> trainingQueue;
 	// private private ArrayList<Trade> tradeQueue;
 	
@@ -248,6 +249,24 @@ public class RealmModel
 			break;
 		}
 	}
+	
+	public void OnTax()
+	{
+		switch (modelStatus)
+		{
+		case MODEL_ENABLED :
+			// initProductionQueue
+			modelStatus = initTaxQueue();
+			break;
+		case MODEL_PRODUCTION :
+			// NextProduction
+			modelStatus = nextTaxQueue();
+			break;
+		default :
+			break;
+		}
+		
+	}
 
 	public void OnMove()
 	{
@@ -425,7 +444,7 @@ public class RealmModel
 		messageData.log("worker to building");
 		settle.setHappiness();
 		messageData.log("happiness");
-		settle.produce(server);
+		settle.doProduce(server);
 		messageData.log("produce");
 		productionQueue.remove(0);
 		messageData.log("remove 0");
@@ -435,4 +454,37 @@ public class RealmModel
 		}
 		return ModelStatus.MODEL_PRODUCTION;
 	}
+
+	
+	private ModelStatus initTaxQueue()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+			if (settle.isEnabled())
+			{
+				taxQueue.add(settle);
+			}
+		}
+		return ModelStatus.MODEL_TAX;
+	}
+	
+	
+	private ModelStatus nextTaxQueue()
+	{
+		if (taxQueue.isEmpty())
+		{
+			return ModelStatus.MODEL_ENABLED;
+		}
+		Settlement settle = taxQueue.get(0);
+		messageData.log("settle");
+		settle.doCalcTax();
+		taxQueue.remove(0);
+		messageData.log("remove 0");
+		if (taxQueue.isEmpty())
+		{
+			return ModelStatus.MODEL_ENABLED;
+		}
+		return ModelStatus.MODEL_TAX;
+	}
+
 }

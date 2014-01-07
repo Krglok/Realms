@@ -189,7 +189,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
 		
-		settle.produce(server);
+		settle.doProduce(server);
 		
 		int expected = 32;
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
@@ -300,7 +300,7 @@ public class SettlementTest
 		for (int i = 0; i < 198; i++)
 		{
 			dayCounter++;
-			settle.produce(server);
+			settle.doProduce(server);
 			settle.setHappiness();
 			if (dayCounter == 30)
 			{
@@ -324,7 +324,7 @@ public class SettlementTest
 		}
 		for (int i = 0; i < 100; i++)
 		{
-			settle.produce(server);
+			settle.doProduce(server);
 			settle.setHappiness();
 			settle.getTaxe(server);
 			if (isOutput)
@@ -343,7 +343,7 @@ public class SettlementTest
 		}
 		for (int i = 0; i < 300; i++)
 		{
-			settle.produce(server);
+			settle.doProduce(server);
 			settle.setHappiness();
 			settle.getTaxe(server);
 			if (isOutput)
@@ -444,7 +444,7 @@ public class SettlementTest
 		}
 		for (int i = 0; i < 198; i++)
 		{
-			settle.produce(server);
+			settle.doProduce(server);
 			settle.setHappiness();
 			dayCount++;
 			if (dayCount == 30)
@@ -725,14 +725,14 @@ public class SettlementTest
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		int freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-		settle.produce(server);
+		settle.doProduce(server);
 		settle.setHappiness();
 		settle.getTaxe(server);
 
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-		settle.produce(server);
+		settle.doProduce(server);
 		settle.setHappiness();
 		settle.getTaxe(server);
 		
@@ -781,7 +781,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
 		
-		settle.produce(server);
+		settle.doProduce(server);
 		
 		int expected = 160;
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
@@ -858,7 +858,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.IRON_INGOT.name(), 32);
 		settle.getWarehouse().depositItemValue(Material.LEATHER.name(), 32);
 		
-		settle.produce(server);
+		settle.doProduce(server);
 //		settle.produce(server);
 //		settle.produce(server);
 //		settle.produce(server);
@@ -939,7 +939,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.STICK.name(), 128);
 		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 512);
 		
-		settle.produce(server);
+		settle.doProduce(server);
 //		settle.produce(server);
 //		settle.produce(server);
 //		settle.produce(server);
@@ -1023,7 +1023,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.COAL.name(), 512);
 		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
-		settle.produce(server);
+		settle.doProduce(server);
 //		settle.produce(server);
 //		settle.produce(server);
 //		settle.produce(server);
@@ -1132,11 +1132,11 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
 		settle.checkBuildingsEnabled(server);
-		settle.produce(server);
+		settle.doProduce(server);
 		settle.checkBuildingsEnabled(server);
-		settle.produce(server);
+		settle.doProduce(server);
 		settle.checkBuildingsEnabled(server);
-		settle.produce(server);
+		settle.doProduce(server);
 		
 		int expected = 2;
 		int actual = 0; 
@@ -1252,7 +1252,7 @@ public class SettlementTest
 //		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
 		settle.checkBuildingsEnabled(server);
-		settle.produce(server);
+		settle.doProduce(server);
 //		settle.checkBuildingsEnabled(server);
 //		settle.produce(server);
 //		settle.checkBuildingsEnabled(server);

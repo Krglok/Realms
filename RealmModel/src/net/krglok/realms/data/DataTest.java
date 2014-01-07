@@ -326,7 +326,8 @@ public class DataTest implements DataInterface
 						slot2,
 						slot3,
 						slot4,
-						slot5
+						slot5,
+						0.0
 						);
 		
 	}
@@ -349,7 +350,8 @@ public class DataTest implements DataInterface
 						slot2,
 						slot3,
 						slot4,
-						slot5
+						slot5,
+						0.0
 						);
 		
 	}

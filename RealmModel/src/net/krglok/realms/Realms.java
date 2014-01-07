@@ -1,5 +1,6 @@
 package net.krglok.realms;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
@@ -36,6 +37,7 @@ public final class Realms extends JavaPlugin
 	private RealmModel realmModel;
 	
 	private TickTask tick = null;
+	private TaxTask taxTask = null;
 	
 	private final MessageData messageData = new MessageData(log);
 	private final ServerListener serverListener = new ServerListener(this);
@@ -75,9 +77,15 @@ public final class Realms extends JavaPlugin
 
         realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData);
         
-        //Setup repeating sync task for checking model
+        //Setup repeating sync task for calculating model
         tick = new TickTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, tick, 40L, 40L);
+        
+        Date date = new Date();
+        long timeUntilDay = (86400000 + date.getTime() - System.currentTimeMillis()) / 50;
+        TaxTask taxTask = new TaxTask(this);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
+
 		log.info("[Realms] is now enabled !");
 	}
 	

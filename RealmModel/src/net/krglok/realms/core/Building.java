@@ -30,6 +30,7 @@ public class Building
 	private Boolean isEnabled;
 	private boolean isActiv;
 	private ItemArray slots ;
+	private Double sales;
 	
 	
 	public Building()
@@ -47,6 +48,7 @@ public class Building
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new ItemArray();
+		sales = 0.0;
 	}
 	
 	public Building(BuildingType buildingType, String regionType, boolean isRegion)
@@ -64,6 +66,7 @@ public class Building
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new ItemArray();
+		sales = 0.0;
 	}
 
 
@@ -82,6 +85,7 @@ public class Building
 		this.isEnabled  = true;
 		isActiv 	    = true;
 		slots = new ItemArray();
+		sales = 0.0;
 	}
 	
 	public Building(int id, BuildingType buildingType, int settler,
@@ -102,13 +106,14 @@ public class Building
 		this.isEnabled = isEnabled;
 		isActiv 	    = true;
 		slots = new ItemArray();
+		sales = 0.0;
 	}
 	
 	public Building(int id, BuildingType buildingType, int settler,
 			int workerNeeded, int workerInstalled, Boolean isRegion,
 			int hsRegion, String hsRegionType, String hsSuperRegion, 
 			Boolean isEnabled, String slot1, String slot2, String slot3, 
-			String slot4, String slot5)
+			String slot4, String slot5,Double sales)
 	{
 		super();
 		this.id = id;
@@ -144,6 +149,7 @@ public class Building
 		{
 			slots.addItem(slot5, 1);
 		}
+		this.sales = sales;
 
 	}
 
@@ -506,6 +512,18 @@ public class Building
 		return hsRegionType;
 	}
 	
+	public Double getSales()
+	{
+		return sales;
+	}
+
+	public void setSales(Double sales)
+	{
+		this.sales = sales;
+	}
+
+
+	
 	public static Building createRegionBuilding(String typeName, int regionId, String regionType, boolean isRegion)
 	{
 		BuildingType buildingType = BuildingType.getBuildingType(typeName);
@@ -571,6 +589,18 @@ public class Building
 		return items;
 	}
 
+	private Double calcSales(ServerInterface server, ItemArray outValues)
+	{
+		Double BasePrice = 17.0;
+		Double sum = 0.0;
+		Double price = 1.0;
+		for (int i = 0; i < outValues.size(); i++)
+		{
+			price = (BasePrice - server.getRecipeFactor(outValues.get(i).ItemRef()));
+			sum = sum + (outValues.get(i).value()*price);
+		}
+		return sum;
+	}
 	
 	/**
 	 * get produced items from stronghold chest
@@ -597,7 +627,8 @@ public class Building
 		default :
 			break;
 		}
-		
+		this.sales = this.sales+calcSales(server,outValues);
+
 		return outValues;
 	}
 	
@@ -620,7 +651,7 @@ public class Building
 	 * @param id of building
 	 * @return value
 	 */
-	public Double getTaxe(ServerInterface server, int id)
+	public Double getTaxe(ServerInterface server, int SettlerCount)
 	{
 		double value = 0;
 		switch(buildingType)
