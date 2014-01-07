@@ -344,5 +344,9 @@ public final class Realms extends JavaPlugin
 	{
 		return data;
 	}
-	
+
+	public ServerData getServerData()
+	{
+		return server;
+	}
 }

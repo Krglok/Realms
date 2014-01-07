@@ -2,6 +2,9 @@ package net.krglok.realms.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.bukkit.Material;
+
 import net.krglok.realms.core.ItemList;
 
 public class TestServer  implements ServerInterface // extends ServerData
@@ -218,13 +221,36 @@ public class TestServer  implements ServerInterface // extends ServerData
 				rList.put("COAL", 32);
 				break;
 			case "holzfaeller":
-				rList.put("LOG", 32);
+				rList.put("LOG", 15);
 				break;
 			case "haus_baecker":
 				rList.put("BREAD", 32);
 				break;
 			case "schmelze":
 				rList.put("IRON_INGOT", 32);
+				break;
+			case "prod_isword":
+				rList.put(Material.IRON_SWORD.name(), 1);
+				break;
+			case "prod_ihelmet":
+				rList.put(Material.IRON_HELMET.name(), 1);
+				break;
+			case "prod_ichest":
+				rList.put(Material.IRON_CHESTPLATE.name(), 1);
+				break;
+			case "prod_ihose":
+				rList.put(Material.IRON_LEGGINGS.name(), 1);
+				break;
+			case "prod_ishoe": 
+				rList.put(Material.IRON_BOOTS.name(), 1);
+				break;
+			case "mine": 
+				rList.put(Material.IRON_ORE.name(), 8);
+				break;
+			case "stone" :
+				rList.put(Material.STONE.name(), 6);
+//				rList.put(Material.COBBLESTONE.name(), 6);
+//				rList.put(Material.COAL.name(), 1);
 				break;
 			default:
 				break;
@@ -297,7 +323,38 @@ public class TestServer  implements ServerInterface // extends ServerData
 			rList.put("IRON_ORE", 32);
 			rList.put("COAL", 5);
 			break;
-		default:
+		case "prod_isword":
+			rList.put("BREAD", 1);
+			rList.put("IRON_INGOT", 2);
+			rList.put("STICK", 1);
+			break;
+		case "prod_ihelmet":
+			rList.put("BREAD", 1);
+			rList.put("IRON_INGOT", 5);
+			break;
+		case "prod_ichest":
+			rList.put("BREAD", 1);
+			rList.put("IRON_INGOT", 8);
+			break;
+		case "prod_ihose":
+			rList.put("BREAD", 1);
+			rList.put("IRON_INGOT", 7);
+			break;
+		case "prod_ishoe":
+			rList.put("BREAD", 1);
+			rList.put("IRON_INGOT", 4);
+			break;
+		case "mine":
+			rList.put("BREAD", 5);
+			rList.put(Material.WOOD_PICKAXE.name(), 4);
+			rList.put(Material.LOG.name(), 12);
+			break;
+		case "stone" :
+//			rList.put(Material.STONE.name(), 6);
+			rList.put(Material.COBBLESTONE.name(), 6);
+			rList.put(Material.COAL.name(), 1);
+			break;
+			default:
 			break;
 		}
 		

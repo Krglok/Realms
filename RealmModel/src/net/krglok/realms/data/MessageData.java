@@ -21,6 +21,7 @@ class PageList extends HashMap<Integer,ArrayList<String>>
 
 public class MessageData
 {
+	private static final String WRONG_ITEMNAME = "Wrong itemname !";
 	private static final String FILE_IO_ERROR = ": File IO error !";
 	private static final String REGION_NOT_FOUND = "Region not found!";
 	private static final String WRONG_SETTLEMNET_ID = "Wrong Settlemnet ID ";
@@ -207,6 +208,11 @@ public class MessageData
 		sender.sendMessage(ChatColor.RED+REGION_NOT_FOUND+" "+subCommand);
 	}
 
+	public void errorItem(CommandSender sender, RealmSubCommandType subCommand)
+	{
+		sender.sendMessage(ChatColor.RED+WRONG_ITEMNAME+" "+subCommand);
+	}
+	
 	public void errorFileIO(String name, Exception e)
 	{
 		log.info(name+ FILE_IO_ERROR);

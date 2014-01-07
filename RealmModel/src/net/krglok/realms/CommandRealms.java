@@ -3,12 +3,17 @@ package net.krglok.realms;
 import java.util.ArrayList;
 
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmSubCommandType;
+import net.minecraft.server.v1_7_R1.RecipesCrafting;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 
 public class CommandRealms
 {
@@ -44,6 +49,24 @@ public class CommandRealms
 				plugin.getMessageData().errorPermission(sender);
 			}
 			break;
+		case SET:
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
+			{
+				cmdSet(sender, subCommand,commandArg);
+			} else
+			{
+				plugin.getMessageData().errorPermission(sender);
+			}
+			break;
+		case INFO :
+			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
+			{
+				cmdInfo(sender,subCommand, commandArg);
+			} else
+			{
+				plugin.getMessageData().errorPermission(sender);
+			}
+			break;
 		case READ :
 			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
@@ -52,6 +75,7 @@ public class CommandRealms
 			{
 				plugin.getMessageData().errorPermission(sender);
 			}
+			break;
 		case LIST :
 			break;
 		case VERSION :
@@ -60,7 +84,7 @@ public class CommandRealms
 		case TEST :
 			if (commandArg.size() > 0)
 			{
-//				cmdTest(sender, commandArg);
+				cmdTest(sender, commandArg);
 				return true;
 			} else
 			{
@@ -78,14 +102,86 @@ public class CommandRealms
 		}
 		return true;
 	}
-
-	private boolean cmdWrite(CommandSender sender, CommandArg commandArg)
+	
+	//org.bukkit.material.MaterialData.getData(),
+	private boolean cmdTest(CommandSender sender, CommandArg commandArg)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		if (commandArg.size() == 0)
 		{
 			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.DEBUG);
 		}
+		String itemRef = commandArg.get(0);
+		if (Material.getMaterial(itemRef) != null)
+		{
+			Material material = Material.getMaterial(itemRef);
+			ItemStack  itemStack = new ItemStack(material);
+			sender.sendMessage(itemStack.getType().name()+":"+itemStack.getAmount());
+		}
+		return true;
+	}
+
+	private boolean cmdInfo(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		if (commandArg.size() < 2)
+		{
+			plugin.getMessageData().errorArgs(sender, subCommand);
+			return true;
+		}
+		String ListRef = commandArg.get(0);
+		if (ListRef.equalsIgnoreCase("PRICE"))
+		{
+			String itemRef = commandArg.get(1);
+			Material material = Material.getMaterial(itemRef);
+			if (material == null)
+			{
+				plugin.getMessageData().errorItem(sender, subCommand);
+			}
+			msg.add("== Produktion price :"+itemRef);
+			for (ItemPrice itemPrice : plugin.getServerData().getProductionPrice(itemRef).values())
+			{
+				msg.add("your price : "+String.valueOf(itemPrice.getBasePrice()*1.25));
+				msg.add("base price : "+itemPrice.getBasePrice());
+				msg.add("==");
+			}
+			plugin.getMessageData().printPage(sender, msg, 1);
+		}
+		return true;
+	}
+	
+	private boolean cmdSet(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		if (commandArg.size() < 3)
+		{
+			plugin.getMessageData().errorArgs(sender, subCommand);
+			return true;
+		}
+		String ListRef = commandArg.get(0);
+		if (ListRef.equalsIgnoreCase("PRICE"))
+		{
+			String itemRef = commandArg.get(1);
+			Material material = Material.getMaterial(itemRef);
+			if (material == null)
+			{
+				plugin.getMessageData().errorItem(sender, subCommand);
+			}
+			Double price = CommandArg.argToDouble(commandArg.get(2));
+			plugin.getData().addPrice(itemRef, price);
+			sender.sendMessage(itemRef+":"+price);
+		}
+		return true;
+	}
+	
+	private boolean cmdWrite(CommandSender sender, CommandArg commandArg)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		if (commandArg.size() == 0)
+		{
+			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.DEBUG);
+			return true;
+}
 		int value = CommandArg.argToInt(commandArg.get(0));
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(value);
 		if (settle != null)
@@ -104,7 +200,8 @@ public class CommandRealms
 		if (commandArg.size() == 0)
 		{
 			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.DEBUG);
-		}
+			return true;
+}
 		int value = CommandArg.argToInt(commandArg.get(0));
 		Settlement settle = plugin.getData().readSettlement(value);
 		if (settle != null)
@@ -140,6 +237,7 @@ public class CommandRealms
 		if (commandArg.size() == 0)
 		{
 			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.DEBUG);
+			return true;
 		}
 		boolean value = CommandArg.argToBool(commandArg.get(0));
 		plugin.getMessageData().setisLogAll(value);
@@ -156,6 +254,7 @@ public class CommandRealms
 		if (commandArg.size() > 0)
 		{
 			subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+			return true;
 		}
 		switch (subCommand)
 		{

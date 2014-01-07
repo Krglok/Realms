@@ -17,6 +17,7 @@ public class RecipeData
 
 	}
 
+	
 	public ItemList getFoodRecipe(String itemRef)
 	{
 		ItemList itemList = new ItemList();
@@ -84,7 +85,67 @@ public class RecipeData
 			itemList.addItem(Material.COBBLESTONE.name(), 6);
 			itemList.addItem(Material.COAL.name(), 1);
 			break;
-			
+		case IRON_INGOT:
+			itemList.addItem(Material.IRON_INGOT.name(), 6);
+			itemList.addItem(Material.IRON_ORE.name(), 6);
+			itemList.addItem(Material.COAL.name(), 1);
+			break;
+		case GOLD_INGOT:
+			itemList.addItem(Material.GOLD_INGOT.name(), 4);
+			itemList.addItem(Material.GOLD_ORE.name(), 4);
+			itemList.addItem(Material.COAL.name(), 1);
+			break;
+		case FENCE:
+			itemList.addItem(Material.FENCE.name(), 2);
+			itemList.addItem(Material.STICK.name(), 6);
+			break;
+		case IRON_BARDING:
+			itemList.addItem(Material.IRON_BARDING.name(), 16);
+			itemList.addItem(Material.IRON_INGOT.name(), 6);
+			break;
+		case GLASS:
+			itemList.addItem(Material.GLASS.name(), 5);
+			itemList.addItem(Material.SAND.name(), 5);
+			itemList.addItem(Material.COAL.name(), 1);
+			break;
+		case GLASS_BOTTLE:
+			itemList.addItem(Material.GLASS_BOTTLE.name(), 3);
+			itemList.addItem(Material.GLASS.name(), 3);
+			break;
+		case WOOD_DOOR:
+			itemList.addItem(Material.WOOD_DOOR.name(), 1);
+			itemList.addItem(Material.WOOD.name(), 6);
+			break;
+		case IRON_DOOR:
+			itemList.addItem(Material.IRON_DOOR.name(), 1);
+			itemList.addItem(Material.IRON_INGOT.name(), 6);
+			break;
+		case BED:
+			itemList.addItem(Material.BED.name(), 1);
+			itemList.addItem(Material.WOOD.name(), 3);
+			itemList.addItem(Material.WOOL.name(), 3);
+			break;
+		case SIGN:
+			itemList.addItem(Material.SIGN.name(), 1);
+			itemList.addItem(Material.WOOD.name(), 6);
+			itemList.addItem(Material.STICK.name(), 1);
+			break;
+		case WOOD_STAIRS:
+			itemList.addItem(Material.WOOD_STAIRS.name(), 4);
+			itemList.addItem(Material.WOOD.name(), 6);
+			break;
+		case WOOD_STEP:
+			itemList.addItem(Material.WOOD_STEP.name(), 6);
+			itemList.addItem(Material.WOOD.name(), 3);
+			break;
+		case COBBLESTONE_STAIRS:
+			itemList.addItem(Material.COBBLESTONE_STAIRS.name(), 4);
+			itemList.addItem(Material.COBBLESTONE.name(), 6);
+			break;
+		case STEP:
+			itemList.addItem(Material.STEP.name(), 6);
+			itemList.addItem(Material.COBBLESTONE.name(), 3);
+			break;
 		default :
 			itemList = getFoodRecipe(itemRef);
 			break;
@@ -163,6 +224,10 @@ public class RecipeData
 			itemList.addItem(Material.WOOL.name(), 3);
 			itemList.addItem(Material.WOOD.name(), 3);
 			break;
+		case PAPER:
+			itemList.addItem(Material.PAPER.name(), 3);
+			itemList.addItem(Material.SUGAR_CANE.name(), 3);
+			break;
 		case BOOKSHELF :
 			itemList.addItem(Material.BOOKSHELF.name(), 1);
 			itemList.addItem(Material.BOOK.name(), 3);
@@ -190,6 +255,16 @@ public class RecipeData
 		case FURNACE :
 			itemList.addItem(Material.FURNACE.name(), 1);
 			itemList.addItem(Material.COBBLESTONE.name(), 8);
+			break;
+		case STONE_SPADE :
+			itemList.addItem(Material.STONE_SPADE.name(), 1);
+			itemList.addItem(Material.STICK.name(), 1);
+			itemList.addItem(Material.COBBLESTONE.name(), 1);
+			break;
+		case IRON_SPADE :
+			itemList.addItem(Material.IRON_SPADE.name(), 1);
+			itemList.addItem(Material.STICK.name(), 1);
+			itemList.addItem(Material.IRON_INGOT.name(), 1);
 			break;
 
 		default :

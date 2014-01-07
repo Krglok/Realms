@@ -13,6 +13,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPriceList;
 
 /**
  * here will be the Data from the Server are transformed to RealData
@@ -22,6 +23,7 @@ import net.krglok.realms.core.ItemList;
  */
 public class ServerData implements ServerInterface
 {
+	private static final double VERKAUF_FAKTOR = 1.25;
 	private Realms plugin;
 	private RecipeData recipeData;
 	
@@ -211,5 +213,46 @@ public class ServerData implements ServerInterface
 		}
 		return false;
 	}
+	
+	private Double getRecipePrice(String itemRef, ItemList ingredients)
+	{
+		Double prodCost = 0.0;
+		Double price = 0.0;
+		int amount = 1;
+		for (String recipeRef : ingredients.keySet())
+		{
+			if (!recipeRef.equals(itemRef))
+			{
+				price =  plugin.getData().getPriceList().getBasePrice(itemRef);
+				if (price == 0.0)
+				{
+					price =1.0;
+				}
+				prodCost = prodCost + (ingredients.getValue(itemRef) * price * VERKAUF_FAKTOR);
+			} else
+			{
+				amount = ingredients.getValue(recipeRef);
+				if (amount == 0)
+				{
+					amount = 1;
+				}
+			}
+		}
+		prodCost = prodCost / amount;
+		if (prodCost == 0.0)
+		{
+			prodCost = 1.0;
+		}
+		return prodCost;
+	}
 
+	public ItemPriceList getProductionPrice(String itemRef)
+	{
+		ItemPriceList items = new ItemPriceList();
+		ItemList ingredients =  recipeData.getRecipe(itemRef);
+		Double prodCost = getRecipePrice(itemRef, ingredients);
+		items.add(itemRef, prodCost);
+		return items;
+	}
+	
 }

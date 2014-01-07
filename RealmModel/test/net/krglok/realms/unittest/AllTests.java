@@ -10,8 +10,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	PositionTest.class,
-	TestNPCOwner.class, 
-	TestPCOwner.class, 
 	OwnerListTest.class,
 	RealmTest.class,
 	RealmListTest.class,

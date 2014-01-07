@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.BuildingList;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
@@ -30,9 +31,11 @@ public class DataStorage implements DataInterface
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 
 	private OwnerList owners ;
-	private KingdomList realms ;
+	private KingdomList kingdoms ;
 	private SettlementList settlements;
-	private BuildingList buildings; 
+	
+	private PriceData priceData;
+	private ItemPriceList priceList;
 	
 	private SettlementData settleData;
 	
@@ -43,10 +46,12 @@ public class DataStorage implements DataInterface
 		this.plugin = plugin;
 		settleData = new SettlementData(plugin);
 		owners = new OwnerList();
-		realms = new KingdomList();
+		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
 		npcOwners();
 		npcRealms(owners.getOwner(NPC_0));
+		priceData = new PriceData(plugin);
+		priceList = priceData.readPriceData();
 	}
 	
 	/**
@@ -71,9 +76,9 @@ public class DataStorage implements DataInterface
 	 */
 	public KingdomList npcRealms(Owner owner)
 	{
-		realms.addKingdom(new Kingdom(1, Realm_1_NPC, owner, new MemberList(), true));
+		kingdoms.addKingdom(new Kingdom(1, Realm_1_NPC, owner, new MemberList(), true));
 		
-		return realms; 
+		return kingdoms; 
 	}
 	
 	
@@ -106,26 +111,19 @@ public class DataStorage implements DataInterface
 		return settleData.readSettledata(id);
 	}
 	
-	private Settlement initSettlement()
-	{
-		Settlement settle = new Settlement();
-		settle.setBuildingList(initBuildings(settle));
-		return settle;
-	}
+//	private Settlement initSettlement()
+//	{
+//		Settlement settle = new Settlement();
+//		settle = settleData.readSettledata(id)
+//		return settle;
+//	}
 
 	
-	private BuildingList initBuildings(Settlement settle)
-	{
-		BuildingList buildingList = new BuildingList();
-		
-		return buildingList;
-	}
-
 	@Override
 	public KingdomList initRealms()
 	{
 		// TODO Auto-generated method stub
-		return realms;
+		return kingdoms;
 	}
 
 	@Override
@@ -135,5 +133,15 @@ public class DataStorage implements DataInterface
 		return owners;
 	}
 
+	public ItemPriceList getPriceList()
+	{
+		return priceList;
+	}
+
+	public void addPrice(String itemRef, Double price)
+	{
+		priceList.add(itemRef, price);
+		priceData.writePriceData(priceList);
+	}
 	
 }
