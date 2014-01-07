@@ -1,34 +1,20 @@
 package net.krglok.realms.data;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.core.Bank;
-import net.krglok.realms.core.Barrack;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.BuildingType;
-import net.krglok.realms.core.ItemArray;
-import net.krglok.realms.core.ItemList;
-import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Position;
-import net.krglok.realms.core.Resident;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.core.Townhall;
-import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.model.LogList;
 
 /**
  * read Data from YML file 
@@ -93,9 +79,6 @@ public class SettlementData
 //		private double happiness ;
 //		private ItemArray slots ;
 	
-//	private Wellfare wellfare;
-//  private Trader trader;
-//  private Headquarter headquarter;
 	
 //	private ItemList requiredProduction;
 //
@@ -250,8 +233,6 @@ public class SettlementData
     			Map<String,Object> buildings = config.getConfigurationSection(settleSec+".buildinglist").getValues(false);
             	for (String ref : buildings.keySet())
             	{
-                	System.out.println("Part 5 "+ref);
-
             		int buildingId = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".id"));
             		BuildingType buildingType = BuildingType.getBuildingType(config.getString(settleSec+".buildinglist."+ref+".buildingType"));
             		int settler = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".settler"));

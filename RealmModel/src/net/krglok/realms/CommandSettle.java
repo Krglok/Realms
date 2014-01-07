@@ -1,16 +1,12 @@
 package net.krglok.realms;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Kingdom;
-import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;

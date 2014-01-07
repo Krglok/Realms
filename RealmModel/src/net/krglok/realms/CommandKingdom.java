@@ -2,9 +2,6 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionManager;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Kingdom;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.model.RealmSubCommandType;

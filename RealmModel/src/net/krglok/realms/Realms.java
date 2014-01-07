@@ -6,12 +6,9 @@ import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.data.*;
 import net.krglok.realms.model.RealmCommandType;
 import net.krglok.realms.model.RealmModel;
-import net.krglok.realms.core.*;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;

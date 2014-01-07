@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.krglok.realms.core.BuildingType;
@@ -14,7 +13,6 @@ import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;

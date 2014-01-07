@@ -1,12 +1,8 @@
 package net.krglok.realms.data;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.libs.org.ibex.nestedvm.util.Seekable.InputStream;
-
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;

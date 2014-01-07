@@ -3,8 +3,6 @@ package net.krglok.realms.settlemanager;
 import java.util.ArrayList;
 
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingList;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.Settlement;
