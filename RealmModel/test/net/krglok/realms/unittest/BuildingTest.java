@@ -89,6 +89,34 @@ public class BuildingTest
 	}
 
 	@Test
+	public void testBuildingTax()
+	{
+		TestServer server = new TestServer();
+		ItemArray outValues = new ItemArray(); 
+		BuildingType buildingType = BuildingType.BUILDING_PROD;
+		String regionType 	= "kornfeld";
+		boolean isRegion 	= true;
+		Building building = new Building(buildingType, regionType, isRegion);
+
+		outValues = building.produce(server);
+		
+		Double expected = 30.0;
+		Double actual 	 = building.getSales();
+		isOutput = (expected != actual);
+		if (isOutput)
+		{
+			System.out.println("==Produce == : "+outValues.size());
+			for (Item item : outValues)
+			{
+				System.out.println(item.ItemRef()+":"+item.value());
+				System.out.println(item.ItemRef()+":"+building.calcSales(server, outValues));
+			}
+		}
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
 	public void testBuildingIntBuildingConsume()
 	{
 		TestServer server = new TestServer();
@@ -107,7 +135,7 @@ public class BuildingTest
 		outValues = building.produce(server);
 		
 		
-		isOutput = true;
+		isOutput = false;
 		if (isOutput)
 		{
 			System.out.println("==Matlist == : "+matList.size());

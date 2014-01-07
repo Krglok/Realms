@@ -89,6 +89,7 @@ public final class Realms extends JavaPlugin
 		log.info("[Realms] is now enabled !");
 	}
 	
+	
 
 	/**
 	 * interpreter for all commands, start the detailed command execution in seperate

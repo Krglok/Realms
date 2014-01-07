@@ -589,7 +589,7 @@ public class Building
 		return items;
 	}
 
-	private Double calcSales(ServerInterface server, ItemArray outValues)
+	public Double calcSales(ServerInterface server, ItemArray outValues)
 	{
 		Double BasePrice = 17.0;
 		Double sum = 0.0;
