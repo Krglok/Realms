@@ -5,6 +5,11 @@ import java.util.HashMap;
 public class ItemPriceList extends HashMap<String,ItemPrice>
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -970781088522071013L;
+
 	public ItemPriceList()
 	{
 		

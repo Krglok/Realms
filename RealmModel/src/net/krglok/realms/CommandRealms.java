@@ -3,17 +3,14 @@ package net.krglok.realms;
 import java.util.ArrayList;
 
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmSubCommandType;
-import net.minecraft.server.v1_7_R1.RecipesCrafting;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 
 public class CommandRealms
 {
@@ -114,9 +111,13 @@ public class CommandRealms
 		String itemRef = commandArg.get(0);
 		if (Material.getMaterial(itemRef) != null)
 		{
-			Material material = Material.getMaterial(itemRef);
-			ItemStack  itemStack = new ItemStack(material);
-			sender.sendMessage(itemStack.getType().name()+":"+itemStack.getAmount());
+			ItemStack  itemStack = new ItemStack(Material.getMaterial(itemRef));
+			sender.sendMessage("Item: "+itemStack.getType().name());
+			ItemList items = plugin.getServerData().getDefaultRecipe(itemRef);
+			for (String ref :items.keySet())
+			{
+				System.out.println("- "+ref+":"+items.get(ref));
+			}
 		}
 		return true;
 	}

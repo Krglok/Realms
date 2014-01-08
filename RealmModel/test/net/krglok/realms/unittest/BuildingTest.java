@@ -109,7 +109,7 @@ public class BuildingTest
 			for (Item item : outValues)
 			{
 				System.out.println(item.ItemRef()+":"+item.value());
-				System.out.println(item.ItemRef()+":"+building.calcSales(server, outValues));
+				System.out.println(item.ItemRef()+":"+building.calcSales(server, item));
 			}
 		}
 		
@@ -120,6 +120,7 @@ public class BuildingTest
 	public void testBuildingIntBuildingConsume()
 	{
 		TestServer server = new TestServer();
+		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
 		BuildingType buildingType = BuildingType.BUILDING_PROD;
 		String regionType 	= "kornfeld";
@@ -130,7 +131,7 @@ public class BuildingTest
 		
 		matList = server.getRegionUpkeep(regionType);
 		
-		building.setConsume(server, matList, 18);
+//		building.setConsume(server, matList, 18);  // die methode wurde gelöscht !!!
 		
 		outValues = building.produce(server);
 		

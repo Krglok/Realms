@@ -522,6 +522,10 @@ public class Building
 		this.sales = sales;
 	}
 
+	public void addSales(Double sale)
+	{
+		this.sales = this.sales + sales;
+	}
 
 	
 	public static Building createRegionBuilding(String typeName, int regionId, String regionType, boolean isRegion)
@@ -589,21 +593,40 @@ public class Building
 		return items;
 	}
 
-	public Double calcSales(ServerInterface server, ItemArray outValues)
+//	private Double calcSales(ServerInterface server, ItemArray outValues)
+//	{
+//		Double BasePrice = 17.0;
+//		Double sum = 0.0;
+//		Double price = 1.0;
+//		for (int i = 0; i < outValues.size(); i++)
+//		{
+//			price = (BasePrice - server.getRecipeFactor(outValues.get(i).ItemRef()));
+//			sum = sum + (outValues.get(i).value()*price);
+//		}
+//		return sum;
+//	}
+
+	/**
+	 * berechnet den gesamten Umsatz des produzierten Items
+	 * @param server
+	 * @param outValue the produced Item
+	 * @return amount * price
+	 */
+	public Double calcSales(ServerInterface server, Item outValue)
 	{
 		Double BasePrice = 17.0;
 		Double sum = 0.0;
 		Double price = 1.0;
-		for (int i = 0; i < outValues.size(); i++)
-		{
-			price = (BasePrice - server.getRecipeFactor(outValues.get(i).ItemRef()));
-			sum = sum + (outValues.get(i).value()*price);
-		}
+		price = (BasePrice - server.getRecipeFactor(outValue.ItemRef()));
+		sum = (outValue.value()*price);
 		return sum;
 	}
 	
 	/**
 	 * get produced items from stronghold chest
+	 * will calculate the amount that will be produced when enough stock is available
+	 * dont set the production to storage, this be be done by settlement 
+	 * after checking the stock 
 	 * @param server for stronghold action
 	 * @return List of (itemRef, int)
 	 */
@@ -627,22 +650,21 @@ public class Building
 		default :
 			break;
 		}
-		this.sales = this.sales+calcSales(server,outValues);
 
 		return outValues;
 	}
 	
-	/**
-	 * 
-	 * @param server for stronghold action
-	 * @param matList
-	 * @param id
-	 */
-	public void setConsume(ServerInterface server, ItemList matList, int id)
-	{
-		server.setRegionChest(id, matList);
-		
-	}
+//	/**
+//	 * 
+//	 * @param server for stronghold action
+//	 * @param matList
+//	 * @param id
+//	 */
+//	public void setConsume(ServerInterface server, ItemList matList, int id)
+//	{
+//		server.setRegionChest(id, matList);
+//		
+//	}
 	
 
 	/**

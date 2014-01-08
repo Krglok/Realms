@@ -5,6 +5,11 @@ import java.util.ArrayList;
 public class ItemArray extends ArrayList<Item>
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7213096475060542956L;
+
 	public ItemArray()
 	{
 		

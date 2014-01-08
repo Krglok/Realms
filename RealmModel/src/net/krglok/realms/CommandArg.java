@@ -5,6 +5,11 @@ import java.util.ArrayList;
 public class CommandArg extends ArrayList<String>
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8914435038020195742L;
+
 	public CommandArg()
 	{
 		

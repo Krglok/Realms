@@ -7,8 +7,9 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
-
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
@@ -154,20 +155,64 @@ public class ServerData implements ServerInterface
 		return outList;
 	}
 
+	/**
+	 * unused !!!!
+	 */
 	public void setRegionChest(int id, ItemList itemList)
 	{
 				
-		//TODO Auto-generated
 	}
 
-	public ItemList getItemRecipe(String itemRef)
+	public ItemList getDefaultRecipe(String itemRef)
 	{
 		ItemList itemList = new ItemList();
-		MaterialData material = new MaterialData(Material.getMaterial(itemRef));
-		ItemStack item = material.toItemStack(1);
-		item.getItemMeta().getDisplayName();
-		
+		ItemStack  itemStack = new ItemStack(Material.getMaterial(itemRef));
+		for (Recipe recipe :plugin.getServer().getRecipesFor(itemStack))
+		{
+			if (recipe instanceof ShapelessRecipe)
+			{
+				ShapelessRecipe sr = (ShapelessRecipe) recipe;
+				for (ItemStack item : sr.getIngredientList())
+				{
+					itemList.putItem(item.getType().name(),item.getAmount());
+				}
+			}
+			if (recipe instanceof ShapedRecipe)
+			{
+				ShapedRecipe sr = (ShapedRecipe) recipe;
+				for (ItemStack item : sr.getIngredientMap().values())
+				{
+					if (item != null)
+					{
+						itemList.putItem(item.getType().name(),item.getAmount());
+					}
+				}
+			}
+		}
 		return itemList;
+	}
+	
+	public ItemList findRecipe(String itemRef)
+	{
+		ItemList items = new ItemList();
+		items = recipeData.getRecipe(itemRef);
+		if (items.size() == 0 )
+		{
+			items = recipeData.getWeaponRecipe(itemRef);
+		}
+		if (items.size() == 0 )
+		{
+			items = recipeData.getToolRecipe(itemRef);
+		}
+		if (items.size() == 0 )
+		{
+			items = recipeData.getFoodRecipe(itemRef);
+		}
+		if (items.size() == 0 )
+		{
+			items = getDefaultRecipe(itemRef);
+		}
+		return items;
 	}
 	
 	@Override
@@ -214,7 +259,7 @@ public class ServerData implements ServerInterface
 		return false;
 	}
 	
-	private Double getRecipePrice(String itemRef, ItemList ingredients)
+	public Double getRecipePrice(String itemRef, ItemList ingredients)
 	{
 		Double prodCost = 0.0;
 		Double price = 0.0;
@@ -246,6 +291,8 @@ public class ServerData implements ServerInterface
 		return prodCost;
 	}
 
+	
+	
 	public ItemPriceList getProductionPrice(String itemRef)
 	{
 		ItemPriceList items = new ItemPriceList();

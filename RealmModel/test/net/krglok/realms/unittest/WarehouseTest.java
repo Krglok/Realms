@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
-
 import org.junit.Test;
 
 public class WarehouseTest

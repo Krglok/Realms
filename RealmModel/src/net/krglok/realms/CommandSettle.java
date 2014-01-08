@@ -230,9 +230,9 @@ public class CommandSettle
 	{
 //		msg.add("/settle add [SettleID] [RegionId] ");
 		ArrayList<String> msg = new ArrayList<String>();
-		Player player = (Player) sender;
+//		Player player = (Player) sender;
 		int page = 1;
-		int regionId = 0;
+//		int regionId = 0;
 		Region region = null;
 		Settlement settle = null;
 		
@@ -522,7 +522,7 @@ public class CommandSettle
 		    }
 	    } else
 	    {
-			msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
+			msg.add("ID |Settlement | Active | Owner [  ]");
 	    	msg.add("/settle list ");
 	    	msg.add("NO settlements found !!");
 	    }

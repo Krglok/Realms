@@ -33,7 +33,7 @@ public class DataTest implements DataInterface
 	private static final String NPC_0 = "NPC0";
 	private static final String NPC_1 = "NPC1";
 	private static final String NPC_2 = "NPC2";
-	private static final String NPC_4 = "NPC4";
+//	private static final String NPC_4 = "NPC4";
 	private static final String PC_3 = "NPC3";
 	private static final String PC_4 = "NPC4";
 	private static final String PC_5 = "NPC5";

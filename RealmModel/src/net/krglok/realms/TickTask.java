@@ -4,10 +4,10 @@ public class TickTask implements Runnable
 {
     //private final transient Server server;
     private final Realms plugin;
+	public  static long GameDay = Realms.dayNight / Realms.RealmTick;
     private static int counter = 0;
-    private static boolean isProduction = true;
+    private static boolean isProduction = false;
     private static int prodCounter = 20;
-	
 	public TickTask(Realms plugin)
 	{
 		this.plugin = plugin;

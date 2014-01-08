@@ -23,6 +23,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class Realms extends JavaPlugin
 {
+	public final static long dayNight = 24000 ; // serverTicks 
+	public final static long RealmTick = 40L; 
+	public final static long DelayTick = 40L; 
 	private Logger log = Logger.getLogger("Minecraft"); 
 	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
 	private final CommandModel commandModel  = new CommandModel(this);
@@ -44,7 +47,7 @@ public final class Realms extends JavaPlugin
 	@SuppressWarnings("unused")
 	private final Update update = new Update();
 
-    public static HeroStronghold stronghold = null;
+    public HeroStronghold stronghold = null;
     
     
 	
@@ -79,10 +82,11 @@ public final class Realms extends JavaPlugin
         
         //Setup repeating sync task for calculating model
         tick = new TickTask(this);
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, tick, 40L, 40L);
+        // parameter plugin, Runnable , DealyTick to start, Tick to run
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, tick, DelayTick, RealmTick);
         
         Date date = new Date();
-        long timeUntilDay = (86400000 + date.getTime() - System.currentTimeMillis()) / 50;
+        long timeUntilDay = (TaxTask.DAY_SECONDS + date.getTime() - System.currentTimeMillis()) / TaxTask.TICKTIME;
         TaxTask taxTask = new TaxTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
 

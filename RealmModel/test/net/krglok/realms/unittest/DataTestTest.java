@@ -76,7 +76,7 @@ public class DataTestTest
 	@Test
 	public void testInitItemList()
 	{
-		TestServer server = new TestServer();
+//		TestServer server = new TestServer();
 		ItemList iList = new ItemList();
 		iList.depositItem("AIR",5);
 		int expected = 5;

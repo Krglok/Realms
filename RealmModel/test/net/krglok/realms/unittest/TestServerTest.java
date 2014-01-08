@@ -1,7 +1,5 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.material.MaterialData;
 import org.junit.Test;
 
 public class TestServerTest
@@ -24,7 +20,7 @@ public class TestServerTest
 	{
 		
 		TestServer  server = new TestServer();
-		Map<Character,ItemStack> myRecipeMap = new HashMap<Character,ItemStack>();
+//		Map<Character,ItemStack> myRecipeMap = new HashMap<Character,ItemStack>();
 		String itemRef = "WOOD";
 		Material material = Material.getMaterial(itemRef);
 		ItemStack itemStack = new ItemStack(material);

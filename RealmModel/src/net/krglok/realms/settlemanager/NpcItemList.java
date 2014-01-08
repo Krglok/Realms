@@ -3,8 +3,14 @@ package net.krglok.realms.settlemanager;
 import java.util.ArrayList;
 
 
+
 public class NpcItemList extends ArrayList<String>
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4708677781920362964L;
 
 	public NpcItemList()
 	{
@@ -31,6 +37,7 @@ public class NpcItemList extends ArrayList<String>
 
 	}
 
+	@SuppressWarnings("unused")
 	private void initNpcToolItems()
 	{
 		add("LOG");
@@ -45,6 +52,7 @@ public class NpcItemList extends ArrayList<String>
 
 	}
 
+	@SuppressWarnings("unused")
 	private void initNpcDefendItems()
 	{
 		add("LOG");

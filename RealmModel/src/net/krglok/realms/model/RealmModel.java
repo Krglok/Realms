@@ -153,9 +153,9 @@ public class RealmModel
 	 * replace RealmList
 	 * @param realms
 	 */
-	private void setRealms(KingdomList realms)
+	private void setRealms(KingdomList kingdoms)
 	{
-		this.realms = realms;
+		this.realms = kingdoms;
 	}
 
 	/**

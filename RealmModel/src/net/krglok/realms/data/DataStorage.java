@@ -1,9 +1,6 @@
 package net.krglok.realms.data;
 
-import org.bukkit.command.CommandSender;
-
 import net.krglok.realms.Realms;
-import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.MemberList;
@@ -22,12 +19,12 @@ import net.krglok.realms.core.OwnerList;
 public class DataStorage implements DataInterface
 {
 	private static final String NPC_0 = "NPC0";
-	private static final String NPC_1 = "NPC1";
-	private static final String NPC_2 = "NPC2";
-	private static final String NPC_4 = "NPC4";
-	private static final String PC_3 = "NPC3";
-	private static final String PC_4 = "NPC4";
-	private static final String PC_5 = "NPC5";
+//	private static final String NPC_1 = "NPC1";
+//	private static final String NPC_2 = "NPC2";
+//	private static final String NPC_4 = "NPC4";
+//	private static final String PC_3 = "NPC3";
+//	private static final String PC_4 = "NPC4";
+//	private static final String PC_5 = "NPC5";
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 
 	private OwnerList owners ;

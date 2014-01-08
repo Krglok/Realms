@@ -1,7 +1,5 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,16 +7,15 @@ import java.util.Map;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.PriceData;
 import net.krglok.realms.data.RecipeData;
 import net.krglok.realms.data.TestServer;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
 public class PriceDataTest
@@ -28,6 +25,13 @@ public class PriceDataTest
 	public void testWritePriceData()
 	{
 		ItemPriceList items = new ItemPriceList();
+		for (Material mat : Material.values())
+		{
+			if (mat.name().contains("IRON"))
+			{
+				items.add(mat.name(), 1.0);
+			}
+		}
 		items.add("WHEAT", 0.30);
 		items.add("LOG", 0.5);
 		items.add("COBBLESTONE", 0.5);
@@ -45,8 +49,6 @@ public class PriceDataTest
 		items.add("COAL", 3.0);
 		items.add("IRON_ORE", 15.0);
 		items.add("IRON_SWORD", 235.0);
-		
-	
 		writePriceData(items);
 		
 	}
@@ -58,7 +60,13 @@ public class PriceDataTest
 		items = readPriceData();
 		for (ItemPrice item : items.values())
 		{
-			System.out.println(item.ItemRef()+" : "+item.getBasePrice());
+			if (Material.getMaterial(item.ItemRef()) == Material.WOOD)
+			{
+				Material mat = Material.getMaterial(item.ItemRef());
+				ItemStack  itemStack = new ItemStack(mat);
+				System.out.println("=="+itemStack.getType().name());
+			}
+			System.out.println(Material.getMaterial(item.ItemRef()).name()+" : "+item.getBasePrice());
 		}
 	}
 
@@ -117,11 +125,13 @@ public class PriceDataTest
 	{
 		try
 		{
-            File DataFile = new File("\\Program Files\\BuckitTest\\plugins\\Realms", "baseprice.yml");
-            if (!DataFile.exists()) 
-            {
-            	DataFile.createNewFile();
-            }
+			//\\Program Files\\BuckitTest\\plugins\\Realms
+            File DataFile = new File("\\GIT\\OwnPlugins", "baseprice.yml");
+//            if (!DataFile.exists()) 
+//            {
+//            	DataFile.createNewFile();
+//            }
+            System.out.println(DataFile.exists());
             HashMap<String,String> values; // = new HashMap<String,String>();
             
             FileConfiguration config = new YamlConfiguration();
@@ -149,8 +159,9 @@ public class PriceDataTest
         ItemPriceList items = new ItemPriceList();
 		try
 		{
-            File DataFile = new File("\\Program Files\\BuckitTest\\plugins\\Realms", "baseprice.yml");
-            if (! DataFile.exists()) 
+			//\\Program Files\\BuckitTest\\plugins\\Realms
+            File DataFile = new File("\\GIT\\OwnPlugins", "baseprice.yml");
+            if (!DataFile.exists()) 
             {
             	DataFile.createNewFile();
             }

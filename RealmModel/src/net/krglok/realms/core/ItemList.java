@@ -9,7 +9,11 @@ import java.util.HashMap;
  */
 public class ItemList  extends  HashMap<String, Integer>
 {
-//	private Map<String, Integer> itemList;
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3351533128792676311L;
+	//	private Map<String, Integer> itemList;
 	private int itemCount;
 
 	public ItemList()
@@ -40,6 +44,23 @@ public class ItemList  extends  HashMap<String, Integer>
 		return item;
 	}
 	
+	/**
+	 * add Item to the list
+	 * if exist add value to existing item
+	 * @param itemRef
+	 * @param iValue
+	 * @return
+	 */
+	public Item putItem(String itemRef, int iValue)
+	{
+		if (this.containsKey(itemRef))
+		{
+			int value = this.get(itemRef);
+			this.put(itemRef, value+iValue);
+			return new  Item(itemRef, value+iValue);
+		}
+		return addItem(itemRef, iValue);
+	}
 	
 	/**
 	 * 

@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
-import net.krglok.realms.model.RealmCommand;
 import net.krglok.realms.model.RealmCommandType;
 import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.libs.jline.internal.Log.Level;
-import org.bukkit.entity.Player;
 
 public class CommandModel
 {

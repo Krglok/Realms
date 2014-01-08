@@ -12,6 +12,11 @@ public class UnitList extends HashMap<String,Unit>
 //	private Map<String,Unit> unitList;
 //	private int unitCount;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 574604357282114718L;
+
 	public UnitList()
 	{
 		initUnitList();

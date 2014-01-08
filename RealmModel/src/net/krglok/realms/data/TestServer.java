@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.bukkit.Material;
 
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPriceList;
 
 public class TestServer  implements ServerInterface // extends ServerData
 {
@@ -492,5 +493,21 @@ public class TestServer  implements ServerInterface // extends ServerData
 	public boolean checkRegionEnabled(int regionId)
 	{
 		return true;
+	}
+
+	@Override
+	public Double getRecipePrice(String itemRef, ItemList ingredients)
+	{
+		return 0.0;
+	}
+
+	@Override
+	public ItemPriceList getProductionPrice(String itemRef)
+	{
+		ItemPriceList items = new ItemPriceList();
+//		ItemList ingredients =  recipeData.getRecipe(itemRef);
+//		Double prodCost = getRecipePrice(itemRef, ingredients);
+//		items.add(itemRef, prodCost);
+		return items;
 	}
 }

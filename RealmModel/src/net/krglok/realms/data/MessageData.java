@@ -1,26 +1,18 @@
 package net.krglok.realms.data;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import net.krglok.realms.model.RealmCommandType;
 import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-class PageList extends HashMap<Integer,ArrayList<String>>
-{
-	public PageList()
-	{
-	}
-}
 
 public class MessageData
 {
+	
 	private static final String WRONG_ITEMNAME = "Wrong itemname !";
 	private static final String FILE_IO_ERROR = ": File IO error !";
 	private static final String REGION_NOT_FOUND = "Region not found!";
@@ -87,9 +79,9 @@ public class MessageData
 	 * @param msg
 	 * @return
 	 */
-	public PageList  preparePage(ArrayList<String> msg)
+	public HashMap<Integer,ArrayList<String>>  preparePage(ArrayList<String> msg)
 	{
-		PageList pages = new PageList();
+		HashMap<Integer,ArrayList<String>> pages = new HashMap<Integer,ArrayList<String>>();
 		if (msg.size() == 0)
 		{
 			return pages;
@@ -144,7 +136,7 @@ public class MessageData
 	{
 		if (msg.size() > 0)
 		{
-			PageList pages = preparePage(msg);
+			HashMap<Integer,ArrayList<String>> pages = preparePage(msg);
 			if (pageNumber > pages.size())
 			{
 				pageNumber = pages.size()-1;

@@ -3,8 +3,6 @@ package net.krglok.realms.data;
 import java.util.HashMap;
 
 import org.bukkit.Material;
-import org.bukkit.material.MaterialData;
-
 import net.krglok.realms.core.ItemList;
 
 public class RecipeData
@@ -61,7 +59,7 @@ public class RecipeData
 			break;
 			
 		default :
-			itemList = getToolRecipe(itemRef);
+//			itemList = getToolRecipe(itemRef);
 			break;
 		}
 		return itemList;
@@ -147,7 +145,7 @@ public class RecipeData
 			itemList.addItem(Material.COBBLESTONE.name(), 3);
 			break;
 		default :
-			itemList = getFoodRecipe(itemRef);
+			//itemList = getFoodRecipe(itemRef);
 			break;
 		}
 		return itemList;
@@ -268,7 +266,7 @@ public class RecipeData
 			break;
 
 		default :
-			itemList = getWeaponRecipe(itemRef);
+//			itemList = getWeaponRecipe(itemRef);
 			break;
 		}
 		return itemList;
@@ -301,7 +299,7 @@ public class RecipeData
 			break;
 			
 		default :
-			itemList = getArmorRecipe(itemRef);
+//			itemList = getArmorRecipe(itemRef);
 			break;
 		}
 		return itemList;

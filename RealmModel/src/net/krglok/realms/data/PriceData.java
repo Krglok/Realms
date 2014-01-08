@@ -33,10 +33,10 @@ public class PriceData
 		try
 		{
             File DataFile = new File(plugin.getDataFolder(), "baseprice.yml");
-            if (!DataFile.exists()) 
-            {
-            	DataFile.createNewFile();
-            }
+//            if (!DataFile.exists()) 
+//            {
+//            	//DataFile.createNewFile();
+//            }
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
@@ -69,7 +69,6 @@ public class PriceData
             {
             	DataFile.createNewFile();
             }
-            HashMap<String,String> values; // = new HashMap<String,String>();
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);

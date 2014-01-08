@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPriceList;
 
 /**
  *  private Map<Location, Region> liveRegions = new HashMap<Location, Region>();
@@ -61,6 +62,10 @@ public interface ServerInterface
 	public ItemList getRecipeProd(String itemRef, String hsRegionType);
 
 	public boolean checkRegionEnabled(int i);
+
+	public Double getRecipePrice(String itemRef, ItemList ingredients);
+	
+	public ItemPriceList getProductionPrice(String itemRef);
 
 	
 }

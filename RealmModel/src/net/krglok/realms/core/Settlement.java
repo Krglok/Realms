@@ -681,7 +681,7 @@ public class Settlement
 	{
 		double factor = 0.0; 
 		int value = resident.getSettlerCount();
-		Integer bread = warehouse.getItemList().get("BREAD");
+//		Integer bread = warehouse.getItemList().get("BREAD");
 //		if (bread != null) 
 //		{ 
 //			if (value <= bread)
@@ -815,6 +815,7 @@ public class Settlement
 		int prodFactor = 1;
 		int iValue = 0;
 		Double sale = 0.0;
+		Double cost = 0.0;
 		ItemArray items;
 		ItemList recipeList;
 		requiredProduction.clear();
@@ -877,6 +878,12 @@ public class Settlement
 					
 					if (checkStock(prodFactor, recipeList))
 					{
+						// berechne Umsatz der Produktion
+						sale = building.calcSales(server,item);
+						// berechne Kosten der Produktion
+						cost = server.getRecipePrice(item.ItemRef(), recipeList);
+						// setze Ertrag auf Building .. der Ertrag wird versteuert !!
+						building.addSales(sale-cost);
 						consumStock(prodFactor, recipeList);
 						iValue = item.value();
 						warehouse.depositItemValue(item.ItemRef(),iValue);

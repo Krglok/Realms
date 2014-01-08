@@ -3,7 +3,6 @@ package net.krglok.realms.unittest;
 import java.util.HashMap;
 
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
