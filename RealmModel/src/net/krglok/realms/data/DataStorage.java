@@ -1,5 +1,7 @@
 package net.krglok.realms.data;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.MemberLevel;
@@ -32,7 +34,7 @@ public class DataStorage implements DataInterface
 	private SettlementList settlements;
 	
 	private PriceData priceData;
-	private ItemPriceList priceList;
+	private ItemPriceList priceList ;
 	
 	private SettlementData settleData;
 	
@@ -45,10 +47,19 @@ public class DataStorage implements DataInterface
 		owners = new OwnerList();
 		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
+		priceData = new PriceData(plugin);
+		priceList = new ItemPriceList();
+	}
+	
+	public boolean initData()
+	{
+		Boolean isReady = false;
+		priceList = priceData.readPriceData();
 		npcOwners();
 		npcRealms(owners.getOwner(NPC_0));
-		priceData = new PriceData(plugin);
-		priceList = priceData.readPriceData();
+		ArrayList<String> settleInit = settleData.readSettleList();
+		isReady = initSettlements(settleInit);
+		return isReady;
 	}
 	
 	/**
@@ -83,9 +94,14 @@ public class DataStorage implements DataInterface
 	 * initialize the SettlementList
 	 * must be done after initOwners and initRealms
 	 */
-	public SettlementList initSettlements()
+	public boolean initSettlements(ArrayList<String> settleInit)
 	{
-		return settlements;
+		for (String settleId : settleInit)
+		{
+			plugin.getMessageData().log("SettleRead: "+settleId );
+			settlements.addSettlement(readSettlement(Integer.valueOf(settleId)));
+		}
+		return true;
 	}
 
 	/**
@@ -99,6 +115,7 @@ public class DataStorage implements DataInterface
 
 	/**
 	 * Read Settlement from File
+	 * normaly not used !!
 	 * @param id
 	 * @param sender  only for Debug messages
 	 * @return
@@ -117,7 +134,7 @@ public class DataStorage implements DataInterface
 
 	
 	@Override
-	public KingdomList initRealms()
+	public KingdomList initKingdoms()
 	{
 		// TODO Auto-generated method stub
 		return kingdoms;
@@ -139,6 +156,14 @@ public class DataStorage implements DataInterface
 	{
 		priceList.add(itemRef, price);
 		priceData.writePriceData(priceList);
+	}
+
+	@Override
+	public SettlementList initSettlements()
+	{
+		// TODO Auto-generated method stub
+		plugin.getMessageData().log("SettleInit: ");
+		return settlements;
 	}
 	
 }

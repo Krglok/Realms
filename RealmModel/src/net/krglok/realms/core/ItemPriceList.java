@@ -51,4 +51,6 @@ public class ItemPriceList extends HashMap<String,ItemPrice>
 		}
 		return 0.0;
 	}
+
+	
 }

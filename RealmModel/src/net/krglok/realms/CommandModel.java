@@ -84,10 +84,7 @@ public class CommandModel
 			break;
 		default :
 			sender.sendMessage("["+args[0]+"] "+"SubCommand not found else "+RealmSubCommandType.getRealmSubCommandType(args[0]));
-			for (RealmSubCommandType rsc : RealmSubCommandType.values())
-			{
-				sender.sendMessage(rsc.name());
-			}
+			cmdHelp(sender, commandArg, subCommand);
 			return false;
 		}
 		return true;

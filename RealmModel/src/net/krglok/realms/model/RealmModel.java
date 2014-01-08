@@ -1,6 +1,7 @@
 package net.krglok.realms.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
@@ -52,6 +53,7 @@ public class RealmModel
 	private ArrayList<Settlement> taxQueue;
 	// private ArrayList<Training> trainingQueue;
 	// private private ArrayList<Trade> tradeQueue;
+	private HashMap<Integer,Integer> storeQueue;
 	
 	private boolean isInit = false;
 	
@@ -74,6 +76,9 @@ public class RealmModel
 		modelStatus =  ModelStatus.MODEL_DISABLED;
 		commandQueue = new CommandQueue();
 		productionQueue = new ArrayList<Settlement>();
+		taxQueue = new ArrayList<Settlement>();
+		storeQueue = new HashMap<Integer,Integer>();
+		
 		owners = new OwnerList();
 		realms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
@@ -176,6 +181,11 @@ public class RealmModel
 		this.settlements = settlements;
 	}
 	
+	public HashMap<Integer,Integer> getStoreQueue()
+	{
+		return storeQueue;
+	}
+
 	public void OnEnable()
 	{
 		switch (modelStatus)
@@ -195,7 +205,7 @@ public class RealmModel
 	{
 		boolean isDone = config.initConfigData();
 		owners = data.initOwners();
-		realms = data.initRealms();
+		realms = data.initKingdoms();
 		settlements = data.initSettlements();
 		isInit = isDone;
 		return isInit;
@@ -446,8 +456,11 @@ public class RealmModel
 		messageData.log("happiness");
 		settle.doProduce(server);
 		messageData.log("produce");
+		data.writeSettlement(settle);
+//		storeQueue.put(settle.getId(), settle.getId());
 		productionQueue.remove(0);
 		messageData.log("remove 0");
+		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
 		if (productionQueue.isEmpty())
 		{
 			return ModelStatus.MODEL_ENABLED;

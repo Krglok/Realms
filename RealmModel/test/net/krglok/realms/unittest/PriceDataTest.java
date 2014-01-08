@@ -49,7 +49,7 @@ public class PriceDataTest
 		items.add("COAL", 3.0);
 		items.add("IRON_ORE", 15.0);
 		items.add("IRON_SWORD", 235.0);
-		writePriceData(items);
+	//	writePriceData(items);
 		
 	}
 
@@ -161,10 +161,10 @@ public class PriceDataTest
 		{
 			//\\Program Files\\BuckitTest\\plugins\\Realms
             File DataFile = new File("\\GIT\\OwnPlugins", "baseprice.yml");
-            if (!DataFile.exists()) 
-            {
-            	DataFile.createNewFile();
-            }
+//            if (!DataFile.exists()) 
+//            {
+//            	DataFile.createNewFile();
+//            }
             HashMap<String,String> values; // = new HashMap<String,String>();
             
             FileConfiguration config = new YamlConfiguration();

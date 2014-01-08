@@ -55,7 +55,10 @@ public class SettlementList
 	{
 		for (Settlement settlement : newList.getSettlements().values())
 		{
-			settlementList.put(String.valueOf(settlement.getId()), settlement);
+			addSettlement(settlement);
+//			settlementList.put(String.valueOf(settlement.getId()), settlement);
+//			settlement.initSettlement();
+//			setOwner(settlement.getId(), settlement.getOwner());
 		}
 	}
 	
@@ -68,6 +71,8 @@ public class SettlementList
 	{
 		String key = String.valueOf(settlement.getId());
 		settlementList.put(key,settlement);
+		settlement.initSettlement();
+		setOwner(settlement.getId(), settlement.getOwner());
 //		setOwnerCapital(settlement.getOwner(), settlement.getId());
 	}
 	

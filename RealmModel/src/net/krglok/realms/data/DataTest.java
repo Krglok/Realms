@@ -550,7 +550,6 @@ public class DataTest implements DataInterface
 		return testOwners;
 	}
 
-	@Override
 	public KingdomList initRealms()
 	{
 		return testRealms;
@@ -576,6 +575,20 @@ public class DataTest implements DataInterface
 	public SettlementList getTestSettlements()
 	{
 		return testSettlements;
+	}
+
+	@Override
+	public KingdomList initKingdoms()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void writeSettlement(Settlement settle)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

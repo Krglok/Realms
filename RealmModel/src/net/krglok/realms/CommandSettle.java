@@ -17,6 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.hamcrest.core.IsInstanceOf;
 
 public class CommandSettle
 {
@@ -352,7 +353,15 @@ public class CommandSettle
 	private boolean cmdDeposit(CommandSender sender, CommandArg commandArg)
 	{
 //		msg.add("/settle deposit [SettleID] [WAREHOUSE/BANK] [amount] {ItemRef} ");
-		Player player = (Player) sender;
+		String refName = "";
+		if (sender instanceof Player)
+		{
+			Player player = (Player) sender;
+			refName = player.getName();
+		} else
+		{
+			refName = sender.getName();
+		}
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1;
 		if (commandArg.size() < 3)
@@ -388,7 +397,7 @@ public class CommandSettle
 			if (bName.equalsIgnoreCase("bank"))
 			{
 				double value = CommandArg.argToDouble(commandArg.get(2));
-				settle.getBank().depositKonto(value, player.getName());
+				settle.getBank().depositKonto(value, refName);
 				msg.add("Settlement Bank Deposit [ "+value+" ]");
 			}else
 			{
@@ -420,6 +429,7 @@ public class CommandSettle
 		if (commandArg.size() == 0)
 		{
 			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.CREATE);
+			msg.add("");
 		}
 		superRegionName = commandArg.get(0);
 		msg.add("Settlement Create [ "+superRegionName+" ]");
@@ -427,6 +437,7 @@ public class CommandSettle
 		if (plugin.getRealmModel().getModelStatus() != ModelStatus.MODEL_ENABLED)
 		{
 			msg.add("The model is note ready or too busy !");
+			msg.add("");
 			plugin.getMessageData().printPage(sender, msg, page);
 			return true;
 		}
@@ -434,12 +445,14 @@ public class CommandSettle
 		if (sRegion == null)
 		{
 	    	msg.add("No Superregions found !");
+			msg.add("");
 			plugin.getMessageData().printPage(sender, msg, page);
 			return true;
 		}
 		if(plugin.getRealmModel().getSettlements().containsName(superRegionName))
 		{
 	    	msg.add("Superregion is already a Settlement !");
+			msg.add("");
 			plugin.getMessageData().printPage(sender, msg, page);
 			return true;
 		}
@@ -473,11 +486,12 @@ public class CommandSettle
 		{
 			msg.add("wrong stronghold Type !!");
 			plugin.getMessageData().printPage(sender, msg, page);
+			msg.add("");
 			return true;
 		}
 		Settlement settlement = new Settlement(playerName, settleType, superRegionName);
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
-		
+
 		msg.add("");
 		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
 		{
@@ -492,12 +506,15 @@ public class CommandSettle
 		// make not dynamic initialization
 		settlement.setSettlerMax();
 		settlement.setWorkerNeeded();
-		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
+
 		// minimum settler on create
 		settlement.getResident().setSettlerCount(settlement.getResident().getSettlerMax()/2);
 		settlement.getWarehouse().depositItemValue("WHEAT",settlement.getResident().getSettlerMax()*2 );
 		settlement.getWarehouse().depositItemValue("WOOD_HOE",settlement.getResident().getSettlerMax());
+		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
 
+		plugin.getData().writeSettlement(settlement);
+		
 		msg.add("Storage : "+settlement.getWarehouse().getItemMax());
 		msg.add("Capacity: "+settlement.getResident().getSettlerMax());
 		msg.add("Settlers: "+settlement.getResident().getSettlerCount());

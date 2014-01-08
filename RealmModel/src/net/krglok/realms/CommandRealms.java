@@ -148,6 +148,20 @@ public class CommandRealms
 			}
 			plugin.getMessageData().printPage(sender, msg, 1);
 		}
+		if (ListRef.equalsIgnoreCase("PRICELIST"))
+		{
+			int page = CommandArg.argToInt(commandArg.get(1));
+			msg.add("== Price list :"+plugin.getData().getPriceList());
+			for (ItemPrice item : plugin.getData().getPriceList().values())
+			{
+				msg.add(item.ItemRef()+ " : "+item.getFormatedBasePrice());
+			}
+			if (msg.size() < 2)
+			{
+				msg.add("== ");
+			}
+			plugin.getMessageData().printPage(sender, msg, page);
+		}
 		return true;
 	}
 	

@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 
@@ -27,58 +28,6 @@ public class SettlementData
 {
 
 	private Realms plugin;
-	
-//	private int id;
-//	private SettleType settleType = SettleType.SETTLE_NONE;
-//	private Position position;
-//	private String name;
-//	private Owner owner;
-//	private Boolean isCapital;
-//	private Boolean isEnabled;
-//	private Boolean isActive;
-//	private Barrack barrack ;
-//	private Warehouse warehouse ;
-//		private Boolean isEnabled;
-//		private int itemMax;
-//		private int itemCount;
-//		private ItemList itemList;
-//
-//	private BuildingList buildingList;
-//		private Map<String,Building> buildingList;
-//			private int id;
-//			private BuildingType buildingType;
-//			private int settler;
-//			private int workerNeeded;
-//			private int workerInstalled;
-//			private Boolean iSRegion;
-//			private int hsRegion;
-//			private String hsRegionType;
-//			private String hsSuperRegion;
-//			private Boolean isEnabled;
-//			private boolean isActiv;
-//	
-//	private Townhall townhall;
-//		private Boolean isEnabled;
-//		private int workerNeeded;
-//		private int workerCount;
-//
-//	private Bank bank;
-//		private Boolean isEnabled;
-//		private Double konto;
-//		private LogList transactionList;
-//	
-//	private Resident resident;
-//		private int settlerMax;
-//		private int settlerBirthrate;
-//		private int settlerDeathrate;
-//		private double fertilityCounter ;
-//		private int settlerCount;
-//		private int workerCount;
-//		private int cowCount;
-//		private int horseCount;
-//		private double happiness ;
-//		private ItemArray slots ;
-	
 	
 //	private ItemList requiredProduction;
 //
@@ -98,10 +47,10 @@ public class SettlementData
 		try
 		{
 	            File settleFile = new File(plugin.getDataFolder(), "settlement.yml");
-	            if (! settleFile.exists()) 
-	            {
-	            	settleFile.createNewFile();
-	            }
+//	            if (!settleFile.exists()) 
+//	            {
+//	            	settleFile.createNewFile();
+//	            }
 	            HashMap<String,String> values; // = new HashMap<String,String>();
 	            
 	            FileConfiguration config = new YamlConfiguration();
@@ -182,8 +131,12 @@ public class SettlementData
 			
 		} catch (Exception e)
 		{
-			// TODO: handle exception
-			plugin.getMessageData().errorFileIO("writeSettledata", e);
+			 String name = "" ;
+			 StackTraceElement[] st = new Throwable().getStackTrace();
+			 if (st.length > 0)
+			 {
+				 name = st[0].getClassName()+":"+st[0].getMethodName();
+			 }
 		}
 	
 
@@ -192,21 +145,16 @@ public class SettlementData
 	public Settlement readSettledata(int id) 
 	{
 		Settlement settle = new Settlement();
-        String settleSec = getSettleKey(settle.getId());
+        String settleSec = getSettleKey(id);
 		try
 		{
             File settleFile = new File(plugin.getDataFolder(), "settlement.yml");
-            if (! settleFile.exists()) 
-            {
-            	settleFile.createNewFile();
-            }
-            HashMap<String,String> values; // = new HashMap<String,String>();
-            
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
-            
+//            System.out.println(settleFile.getName()+":"+settleFile.length());
             if (config.isConfigurationSection(settleSec))
             {
+//                System.out.println(settleSec);
             	settle.setId(config.getInt(settleSec+".id"));
             	settle.setSettleType(SettleType.valueOf(config.getString(settleSec+".settleType")));
             	//settle.setposition()
@@ -228,28 +176,36 @@ public class SettlementData
             	settle.getResident().setCowCount(Integer.valueOf(config.getString(settleSec+".resident"+".cowCount")));
             	settle.getResident().setHorseCount(Integer.valueOf(config.getString(settleSec+".resident"+".horseCount")));
             	
-    			ArrayList<String> msg = new ArrayList<String>();
-    			
+//                System.out.println(settleSec+".buildinglist");
     			Map<String,Object> buildings = config.getConfigurationSection(settleSec+".buildinglist").getValues(false);
             	for (String ref : buildings.keySet())
             	{
-            		int buildingId = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".id"));
-            		BuildingType buildingType = BuildingType.getBuildingType(config.getString(settleSec+".buildinglist."+ref+".buildingType"));
-            		int settler = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".settler"));
-            		int workerNeeded = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerNeeded"));
-            		int workerInstalled = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerInstalled"));
-            		Boolean isRegion = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isRegion"));
-            		int hsRegion = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".hsRegion"));
-        			String hsRegionType = config.getString(settleSec+".buildinglist."+ref+".hsRegionType");
-        			String hsSuperRegion = config.getString(settleSec+".buildinglist."+ref+".hsSuperRegion");
-        			Boolean isEnabled = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isEnabled"));
-        			boolean isActiv = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isActiv"));
-        			String slot1 = config.getString(settleSec+".buildinglist."+ref+".slot1","");
-        			String slot2 = config.getString(settleSec+".buildinglist."+ref+".slot2","");
-        			String slot3 = config.getString(settleSec+".buildinglist."+ref+".slot3","");
-        			String slot4 = config.getString(settleSec+".buildinglist."+ref+".slot4","");
-        			String slot5 = config.getString(settleSec+".buildinglist."+ref+".slot5","");
-        			Double sale = Double.valueOf(config.getString(settleSec+".buildinglist."+ref+".sale"));
+//                    System.out.println(ref);
+            		int buildingId = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".id","0"));
+            		BuildingType buildingType = BuildingType.getBuildingType(config.getString(settleSec+".buildinglist."+ref+".buildingType","None"));
+            		int settler = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".settler","0"));
+            		int workerNeeded = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerNeeded","0"));
+            		int workerInstalled = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerInstalled","0"));
+            		Boolean isRegion = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isRegion","false"));
+            		int hsRegion = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".hsRegion","0"));
+        			String hsRegionType = config.getString(settleSec+".buildinglist."+ref+".hsRegionType","");
+        			String hsSuperRegion = config.getString(settleSec+".buildinglist."+ref+".hsSuperRegion","");
+        			Boolean isEnabled = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isEnabled","false"));
+        			Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isActiv","false"));
+        			String slot1 = "";
+        			String slot2 = "";
+        			String slot3 = "";
+        			String slot4 = "";
+        			String slot5 = "";
+        			slot1 = config.getString(settleSec+".buildinglist."+ref+".slot1","");
+        			slot2 = config.getString(settleSec+".buildinglist."+ref+".slot2","");
+        			slot3 = config.getString(settleSec+".buildinglist."+ref+".slot3","");
+        			slot4 = config.getString(settleSec+".buildinglist."+ref+".slot4","");
+        			slot5 = config.getString(settleSec+".buildinglist."+ref+".slot5","");
+        			
+        			Double sale = Double.valueOf(config.getString(settleSec+".buildinglist."+ref+".sale","0.0"));
+        			
+//        			System.out.println(buildingId+" : "+buildingType);
         			
         			Settlement.addBuilding(
         					new Building(
@@ -273,10 +229,65 @@ public class SettlementData
         					);
             	}
             }
+            settle.getWarehouse().setItemMax(Integer.valueOf(config.getString(settleSec+".warehouse"+".itemMax","0")));
+            settle.getWarehouse().setIsEnabled(Boolean.valueOf(config.getString(settleSec+".warehouse"+".isEnable","false")));
+            
+            ItemList iList = new ItemList();
+			Map<String,Object> itemList = config.getConfigurationSection(settleSec+".itemList").getValues(false);
+        	for (String ref : itemList.keySet())
+        	{
+        		int value = Integer.valueOf(config.getString(settleSec+".itemList."+ref,"0"));
+//                System.out.println(ref+":"+value);
+                iList.addItem(ref, value);
+        	}    
+        	settle.getWarehouse().setItemList(iList);
 		} catch (Exception e)
 		{
-			plugin.getMessageData().errorFileIO("readSettledata", e);
+			 String name = "" ;
+			 StackTraceElement[] st = new Throwable().getStackTrace();
+			 if (st.length > 0)
+			 {
+				 name = st[0].getClassName()+":"+st[0].getMethodName();
+			 }
+ 			plugin.getMessageData().errorFileIO(name, e);
 		}
 		return settle;
 	}
+	
+	public ArrayList<String> readSettleList() 
+	{
+        String settleSec = "SETTLEMENT"; // getSettleKey(settle.getId());
+		ArrayList<String> msg = new ArrayList<String>();
+		try
+		{
+            File settleFile = new File(plugin.getDataFolder(), "settlement.yml");
+            FileConfiguration config = new YamlConfiguration();
+            config.load(settleFile);
+//            System.out.println(settleFile.getName()+":"+settleFile.length());
+//            System.out.println(settleSec);
+            
+            if (config.isConfigurationSection(settleSec))
+            {
+            	
+//                System.out.println(settleSec);
+   			
+    			Map<String,Object> settles = config.getConfigurationSection(settleSec).getValues(false);
+            	for (String ref : settles.keySet())
+            	{
+            		msg.add(ref);
+            		plugin.getMessageData().log(ref);
+            	}
+            }
+		} catch (Exception e)
+		{
+			 String name = "" ;
+			 StackTraceElement[] st = new Throwable().getStackTrace();
+			 if (st.length > 0)
+			 {
+				 name = st[0].getClassName()+":"+st[0].getMethodName();
+			 }
+		}
+		return msg;
+	}
+	
 }

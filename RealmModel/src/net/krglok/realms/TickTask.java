@@ -34,8 +34,8 @@ public class TickTask implements Runnable
 	@Override
 	public void run()
 	{
-		// TODO Auto-generated method stub
 		counter++;
+		// starte speichern der Settlement vor onTick
 		plugin.getRealmModel().OnTick();
 		if (counter == prodCounter)
 		{

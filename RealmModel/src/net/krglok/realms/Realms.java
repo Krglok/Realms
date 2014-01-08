@@ -61,6 +61,7 @@ public final class Realms extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
+		
 //		log = Logger.getLogger("Minecraft"); 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(serverListener, this);
@@ -70,12 +71,25 @@ public final class Realms extends JavaPlugin
             log.info("[Realms] found HeroStronghold !");
             stronghold = ((HeroStronghold) currentPlugin);
         } else {
-            log.info("[Realms] didnt find HeroStronghold.");
+            log.warning("[Realms] didnt find HeroStronghold.");
+            log.info("[Realms] please install the plugin HerStronghold .");
+            log.info("[Realms] will NOT be Enabled");
+            this.setEnabled(false);
+            return;
         }
+        boolean isReady = true; // flag for Init contrll
 		// Vault economy
         config = new ConfigData(this);
-        config.initConfigData();
-	
+        if (!config.initConfigData())
+        {
+        	isReady = false;
+    		log.info("[Realms] Config not properly read !");
+        }
+        if (!data.initData())
+        {
+        	isReady = false;
+    		log.info("[Realms] Data not properly read !");
+        }
         new ServerListener(this);
 
         realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData);
@@ -90,7 +104,17 @@ public final class Realms extends JavaPlugin
         TaxTask taxTask = new TaxTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
 
-		log.info("[Realms] is now enabled !");
+        if (isReady)
+        {
+        	realmModel.OnEnable();
+    		log.info("[Realms] Model is now enabled !");
+        } else
+        {
+    		log.warning("[Realms] Model is disabled !");
+    		log.info("[Realms] Some Data may misted for the Model !");
+    		log.info("[Realms] You must manually activate the model");
+        	log.info("[Realms] is now ready !");
+        }
 	}
 	
 	

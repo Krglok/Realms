@@ -19,7 +19,6 @@ public class PriceData
 
 	public PriceData(Realms plugin)
 	{
-		super();
 		this.plugin = plugin;
 	}
 
@@ -65,23 +64,25 @@ public class PriceData
 		try
 		{
             File DataFile = new File(plugin.getDataFolder(), "baseprice.yml");
-            if (! DataFile.exists()) 
-            {
-            	DataFile.createNewFile();
-            }
+//            if (!DataFile.exists()) 
+//            {
+//            	DataFile.createNewFile();
+//            }
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
+            plugin.getMessageData().log("Read Pricelist");
             
             if (config.isConfigurationSection(base))
             {
-            	
     			Map<String,Object> buildings = config.getConfigurationSection(base).getValues(false);
+    			plugin.getMessageData().log("Read "+base+" : "+buildings.size());
             	for (String ref : buildings.keySet())
             	{
             		Double price = config.getDouble(base+"."+ref,0.0);
             		ItemPrice item = new ItemPrice(ref, price);
             		items.add(item);
+            		plugin.getMessageData().log(item.ItemRef());
             	}
             }
 		} catch (Exception e)

@@ -258,6 +258,12 @@ public class Settlement
 		}
 	}
 	
+	public void initSettlement()
+	{
+		calcItemMax( buildingList,  warehouse,  settleType);
+		setSettlerMax();
+		setWorkerNeeded();
+	}
 	
 	/**
 	 * actual number of the settlement

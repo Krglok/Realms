@@ -2,6 +2,7 @@ package net.krglok.realms.data;
 
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 
 /**
@@ -22,7 +23,7 @@ public interface DataInterface
 	/**
 	 * must be done after initOwners
 	 */
-	public KingdomList initRealms();
+	public KingdomList initKingdoms();
 	
 	
 	/**
@@ -30,5 +31,8 @@ public interface DataInterface
 	 * must be done after initOwners and initRealms
 	 */
 	public SettlementList initSettlements();
+	
+	public void writeSettlement(Settlement settle);
+
 
 }

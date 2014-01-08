@@ -44,5 +44,12 @@ public class ItemPrice extends Item
 	{
 		this.basePrice = basePrice;
 	}
-	
+
+	public Double getFormatedBasePrice()
+	{
+		Integer iPrice = (int) (basePrice * 100);
+		double  Price  = iPrice;
+		return Price/100.0;
+	}
+
 }
