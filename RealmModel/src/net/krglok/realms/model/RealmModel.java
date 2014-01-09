@@ -256,6 +256,7 @@ public class RealmModel
 			modelStatus = nextProductionQueue();
 			break;
 		default :
+			//modelStatus = initProductionQueue();
 			break;
 		}
 	}
@@ -266,9 +267,12 @@ public class RealmModel
 		{
 		case MODEL_ENABLED :
 			// initProductionQueue
-			modelStatus = initTaxQueue();
+			//modelStatus = initTaxQueue();
 			break;
 		case MODEL_PRODUCTION :
+			modelStatus = initTaxQueue();
+			break;
+		case MODEL_TAX :
 			// NextProduction
 			modelStatus = nextTaxQueue();
 			break;
@@ -348,6 +352,12 @@ public class RealmModel
 				messageData.log("production Next Produktion");
 				modelStatus = nextProductionQueue();
 				// endProduction
+				break;
+			case MODEL_TAX :
+				// nextTax
+				messageData.log("Next Tax");
+				modelStatus = nextTaxQueue();
+				
 				break;
 			case MODEL_TRAINING :
 				// nextTraining
@@ -460,7 +470,7 @@ public class RealmModel
 //		storeQueue.put(settle.getId(), settle.getId());
 		productionQueue.remove(0);
 		messageData.log("remove 0");
-		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
+//		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
 		if (productionQueue.isEmpty())
 		{
 			return ModelStatus.MODEL_ENABLED;
@@ -475,6 +485,7 @@ public class RealmModel
 		{
 			if (settle.isEnabled())
 			{
+				System.out.println("initTax");
 				taxQueue.add(settle);
 			}
 		}
@@ -489,10 +500,11 @@ public class RealmModel
 			return ModelStatus.MODEL_ENABLED;
 		}
 		Settlement settle = taxQueue.get(0);
-		messageData.log("settle");
+		messageData.log("TAx queue");
+		System.out.println("next Tax");
 		settle.doCalcTax();
 		taxQueue.remove(0);
-		messageData.log("remove 0");
+		messageData.log("Tax queue remove 0");
 		if (taxQueue.isEmpty())
 		{
 			return ModelStatus.MODEL_ENABLED;

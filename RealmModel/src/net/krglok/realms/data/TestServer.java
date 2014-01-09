@@ -510,4 +510,11 @@ public class TestServer  implements ServerInterface // extends ServerData
 //		items.add(itemRef, prodCost);
 		return items;
 	}
+
+	@Override
+	public Double getItemPrice(String itemRef)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

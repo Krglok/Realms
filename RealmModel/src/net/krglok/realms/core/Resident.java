@@ -271,7 +271,7 @@ public class Resident
 		double dif = 0.0;
 		if (settlerMax > 0)
 		{
-	    	dif = ((settlerMax  - settlerCount) / settlerMax );
+	    	dif = ((double)(settlerMax  - settlerCount) / (double)settlerMax );
 			value = value + dif;
 		}
 		if (value < 0.3)

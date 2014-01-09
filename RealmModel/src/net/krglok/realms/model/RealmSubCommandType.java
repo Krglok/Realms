@@ -7,6 +7,7 @@ public enum RealmSubCommandType
 	CREATE ,
 	DESTROY ,
 	PRODUCTION ,
+	TAX,
 	BUILDING,
 	SETTLEMENT,
 	ADD ,

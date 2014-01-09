@@ -149,7 +149,7 @@ public class CommandStronghold
 		int page = CommandArg.argToInt(commandArg.get(0));
 		msg.add("ID |RegionType | BuildingType");
 	    RegionManager rManager = plugin.stronghold.getRegionManager();
-	    int range = 0;
+//	    int range = 0;
 	    SettleType settleType;
 	    for (SuperRegion sRegion : rManager.getSortedSuperRegions())
 	    {
@@ -173,6 +173,7 @@ public class CommandStronghold
 		return true;
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmSubCommandType subCommand)
 	{
 		ArrayList<String> msg = new ArrayList<String>();

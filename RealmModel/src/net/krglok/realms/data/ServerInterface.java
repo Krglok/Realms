@@ -67,5 +67,6 @@ public interface ServerInterface
 	
 	public ItemPriceList getProductionPrice(String itemRef);
 
+	public Double getItemPrice(String itemRef);
 	
 }

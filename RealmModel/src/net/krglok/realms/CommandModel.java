@@ -100,6 +100,7 @@ public class CommandModel
 		return true;
 	}
 
+	@SuppressWarnings("static-access")
 	private boolean cmdSet(CommandSender sender, CommandArg commandArg)
 	{
 //		msg.add("/model set [AUTO] [true/false] ");
@@ -123,8 +124,10 @@ public class CommandModel
 		case "auto":
 			boolean bValue = CommandArg.argToBool(commandArg.get(1));
 			plugin.getTickTask().setProduction(bValue);
+			plugin.getTaxTask().setTax(bValue);
 			msg.add("Model SET auto production to [ "+bValue+" ]");
-			msg.add("Production Cycles with  ["+plugin.getTickTask().getCounter()+"]");
+			msg.add("Production Cycles with  ["+plugin.getTickTask().getProdCounter()+"]");
+			msg.add("Tax Cycles with  ["+plugin.getTaxTask().getTaxCounter()+"]");
 			break;
 		default :
 			plugin.getMessageData().errorArgWrong(sender, RealmSubCommandType.SET);

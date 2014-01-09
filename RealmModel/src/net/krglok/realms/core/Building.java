@@ -522,9 +522,9 @@ public class Building
 		this.sales = sales;
 	}
 
-	public void addSales(Double sale)
+	public void addSales(Double value)
 	{
-		this.sales = this.sales + sales;
+		this.sales = this.sales + value;
 	}
 
 	
@@ -612,14 +612,20 @@ public class Building
 	 * @param outValue the produced Item
 	 * @return amount * price
 	 */
-	public Double calcSales(ServerInterface server, Item outValue)
+	public Double calcSales(ServerInterface server, String itemRef)
 	{
-		Double BasePrice = 17.0;
+//		Double BasePrice = 17.0;
 		Double sum = 0.0;
 		Double price = 1.0;
-		price = (BasePrice - server.getRecipeFactor(outValue.ItemRef()));
-		sum = (outValue.value()*price);
-		return sum;
+//		price = (BasePrice - server.getRecipeFactor(outValue.ItemRef()));
+		price = server.getItemPrice(itemRef);
+		if (price == 0.0)
+		{
+			price = 1.0;
+		}
+//		sum = sum + (outValue.value()*price);
+//		System.out.println("calcSale"+sum+"/"+price);
+		return price;
 	}
 	
 	/**

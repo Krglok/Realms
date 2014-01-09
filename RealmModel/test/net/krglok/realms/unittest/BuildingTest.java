@@ -109,7 +109,7 @@ public class BuildingTest
 			for (Item item : outValues)
 			{
 				System.out.println(item.ItemRef()+":"+item.value());
-				System.out.println(item.ItemRef()+":"+building.calcSales(server, item));
+				System.out.println(item.ItemRef()+":"+building.calcSales(server, item.ItemRef()));
 			}
 		}
 		

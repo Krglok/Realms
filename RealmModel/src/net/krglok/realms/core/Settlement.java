@@ -14,7 +14,7 @@ import net.krglok.realms.data.ServerInterface;
 public class Settlement
 {
 	private static final double TAVERNE_UNHAPPY_FACTOR = 2.0;
-	private static final double BASE_TAX_FACTOR = 0.1;
+	private static final double BASE_TAX_FACTOR = 10;
 	private static double TAVERNE_FREQUENT = 10.0;
 
 	private static final String NEW_SETTLEMENT = "New Settlement";
@@ -56,6 +56,9 @@ public class Settlement
 	private double foodConsumCounter;
 	private Double buildingTax ;
 	
+	private BoardItemList productionOverview;
+	private BoardItemList taxOverview;
+	
 	
 	/**
 	 * instance empty settlement with
@@ -81,6 +84,8 @@ public class Settlement
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
+		productionOverview = new BoardItemList();
+		taxOverview = new BoardItemList();
 	}
 
 	/**
@@ -110,6 +115,8 @@ public class Settlement
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
+		productionOverview = new BoardItemList();
+		taxOverview = new BoardItemList();
 }
 
 	/**
@@ -141,6 +148,8 @@ public class Settlement
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
+		productionOverview = new BoardItemList();
+		taxOverview = new BoardItemList();
 	}
 	
 	
@@ -184,6 +193,8 @@ public class Settlement
 		foodConsumCounter = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
+		productionOverview = new BoardItemList();
+		taxOverview = new BoardItemList();
 	}
 
 	/**
@@ -525,6 +536,16 @@ public class Settlement
 		this.buildingTax = buildingTax;
 	}
 
+	public BoardItemList getProductionOverview()
+	{
+		return productionOverview;
+	}
+
+	public BoardItemList getTaxOverview()
+	{
+		return taxOverview;
+	}
+	
 	/**
 	 * Create a new settlement by SettleType 
 	 * and regionTypes List <String, String>  for building list
@@ -820,19 +841,22 @@ public class Settlement
 	{
 		int prodFactor = 1;
 		int iValue = 0;
-		Double sale = 0.0;
-		Double cost = 0.0;
+		double sale = 0.0;
+		double cost = 0.0;
+		double account = 0.0; 
 		ItemArray items;
 		ItemList recipeList;
 		requiredProduction.clear();
-
+		productionOverview.resetLastAll();
 		for (Building building : buildingList.getBuildingList().values())
 		{
 			if (building.isEnabled())
 			{
+				sale = 0.0;
 				items = building.produce(server);
 				for (Item item : items)
 				{
+					
 					switch(building.getBuildingType())
 					{
 					case BUILDING_PROD :
@@ -884,27 +908,44 @@ public class Settlement
 					
 					if (checkStock(prodFactor, recipeList))
 					{
+						iValue = item.value();
 						// berechne Umsatz der Produktion
-						sale = building.calcSales(server,item);
+						sale = building.calcSales(server,item.ItemRef());
 						// berechne Kosten der Produktion
 						cost = server.getRecipePrice(item.ItemRef(), recipeList);
+						if ((sale - cost) > 0.0)
+						{
 						// setze Ertrag auf Building .. der Ertrag wird versteuert !!
-						building.addSales(sale-cost);
+							account = (sale-cost) * (double) iValue;
+							building.addSales(account); //-cost);
+						} else
+						{
+							account =  1.0 * (double) iValue;
+							building.addSales(account); //-cost);
+						}
 						consumStock(prodFactor, recipeList);
-						iValue = item.value();
 						warehouse.depositItemValue(item.ItemRef(),iValue);
+						productionOverview.addCycleValue(item.ItemRef(), iValue);
 					}
 				}
+				building.addSales(sale);
 			}
 		}
 	}
 	
 	public void doCalcTax()
 	{
-		Double taxSum = 0.0;
+		double taxSum = 0.0;
+		double value = 0.0; 
 		for (Building building : buildingList.getBuildingList().values())
 		{
-			taxSum = taxSum + (building.getSales() * BASE_TAX_FACTOR);
+//			System.out.println("doCalcTax"+building.getSales());
+			value = (building.getSales() * BASE_TAX_FACTOR/ 100.0);
+			if (value > 0.0)
+			{
+				taxOverview.addCycleValue(building.getId()+"."+building.getHsRegionType() , value);
+			}
+			taxSum = taxSum + value;
 				// pruefe ob Stronghold region enabled sind
 		}
 		bank.depositKonto(taxSum, "TAX_COLLECTOR");

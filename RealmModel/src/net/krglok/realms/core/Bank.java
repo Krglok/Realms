@@ -37,7 +37,7 @@ public class Bank
 	 * 
 	 * @return value of konto 
 	 */
-	public Double getKonto()
+	public double getKonto()
 	{
 		return konto;
 	}
@@ -77,7 +77,7 @@ public class Bank
 	 * @param user
 	 * @return new value of konto
 	 */
-	public Double depositKonto (Double value, String user)
+	public double depositKonto (Double value, String user)
 	{
 		konto = konto + value;
 		if (transactionList != null)

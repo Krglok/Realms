@@ -24,8 +24,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Realms extends JavaPlugin
 {
 	public final static long dayNight = 24000 ; // serverTicks 
-	public final static long RealmTick = 40L; 
-	public final static long DelayTick = 40L; 
+	public final static long RealmTick = 20L; 
+	public final static long DelayTick = 20L; 
 	private Logger log = Logger.getLogger("Minecraft"); 
 	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
 	private final CommandModel commandModel  = new CommandModel(this);
@@ -377,4 +377,13 @@ public final class Realms extends JavaPlugin
 	{
 		return server;
 	}
+
+	/**
+	 * @return the taxTask
+	 */
+	public TaxTask getTaxTask()
+	{
+		return taxTask;
+	}
+
 }

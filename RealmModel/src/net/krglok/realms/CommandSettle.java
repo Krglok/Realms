@@ -3,6 +3,7 @@ package net.krglok.realms;
 import java.util.ArrayList;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
@@ -38,6 +39,36 @@ public class CommandSettle
 		commandArg.remove(0);
 		switch (subCommand)
 		{
+		case TAX:
+			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
+			{
+				if (commandArg.size() == 0)
+				{
+					plugin.getMessageData().errorArgs(sender, subCommand);
+				} else
+				{
+					cmdTax(sender, subCommand, commandArg);
+				}
+			} else
+			{
+				plugin.getMessageData().errorPermission(sender);
+			}
+			break;
+		case PRODUCTION:
+			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
+			{
+				if (commandArg.size() == 0)
+				{
+					plugin.getMessageData().errorArgs(sender, subCommand);
+				} else
+				{
+					cmdProduction(sender, subCommand, commandArg);
+				}
+			} else
+			{
+				plugin.getMessageData().errorPermission(sender);
+			}
+			break;
 		case ADD:
 			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
 			{
@@ -120,16 +151,8 @@ public class CommandSettle
 		case LIST :
 			if ((sender.hasPermission(RealmsPermission.USER.name())) ) 
 			{
-				if (commandArg.size() > 0)
-				{
-					cmdList(sender, commandArg);
-					return true;
-				} else
-				{
-					commandArg.add("1");
-					cmdList(sender, commandArg);
-					return true;
-				}
+				cmdList(sender, subCommand, commandArg);
+				return true;
 			} else
 			{
 				plugin.getMessageData().errorPermission(sender);
@@ -150,6 +173,93 @@ public class CommandSettle
 		}
 		return true;
 	}
+
+	private boolean cmdTax(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
+	{
+		// /settle info {page} {ID}
+		ArrayList<String> msg = new ArrayList<String>();
+		int page = 1;
+		int id = 0;
+		if (commandArg.size() < 2)
+		{
+			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			return true;
+		}
+		page = CommandArg.argToInt(commandArg.get(0));
+		id = CommandArg.argToInt(commandArg.get(1));
+		
+		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
+		{
+			Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(id);
+			if (settle != null)
+			{
+				msg.add("Tax Overview "+settle.getId()+" : "+settle.getName());
+				msg.add(" Product : "+"Last"+ " | "+"Cycle"+" | "+"Sum"+" | "+"Period"+" | "+"Sum");
+				
+				for (BoardItem b :  plugin.getRealmModel().getSettlements().getSettlement(id).getTaxOverview().values())
+				{
+					msg.add(b.getName()+": "+ChatColor.GREEN+(int)b.getLastValue()+ " | "+ChatColor.YELLOW+b.getCycleCount()+" | "+(int)b.getCycleSum()+ChatColor.GOLD+" | "+b.getPeriodCount()+" | "+(int)b.getPeriodSum());
+				}
+			} else
+			{
+				plugin.getMessageData().errorSettleID(sender, subCommand);
+				return true;
+			}
+		} else
+		{
+			msg.add("[Realm Model] NOT enabled or too busy");
+			msg.add("Try later again");
+		}
+		plugin.getMessageData().printPage(sender, msg, page);
+		return true;
+	}
+
+	private boolean cmdProduction(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
+	{
+		// /settle info {page} {ID}
+		ArrayList<String> msg = new ArrayList<String>();
+		int page = 1;
+		int id = 0;
+		if (commandArg.size() < 2)
+		{
+			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			return true;
+		}
+		page = CommandArg.argToInt(commandArg.get(0));
+		id = CommandArg.argToInt(commandArg.get(1));
+		
+		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
+		{
+			Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(id);
+			if (settle != null)
+			{
+				msg.add("Production Overview "+settle.getId()+" : "+settle.getName());
+				msg.add(" Product : "+"Last"+ " | "+"Cycle"+" | "+"Sum"+" | "+"Period"+" | "+"Sum");
+				
+				for (BoardItem b :  plugin.getRealmModel().getSettlements().getSettlement(id).getProductionOverview().values())
+				{
+					msg.add(ChatColor.GREEN+b.getName()+": "+b.getLastValue()+ " | "+ChatColor.YELLOW+b.getCycleCount()+" | "+b.getCycleSum()+ChatColor.GOLD+" | "+b.getPeriodCount()+" | "+b.getPeriodSum());
+				}
+				msg.add(ChatColor.GOLD+"=================================");
+				msg.add(ChatColor.ITALIC+"Required Items : "+settle.getRequiredProduction().size());
+				for (String itemRef : settle.getRequiredProduction().keySet())
+				{
+					Item item = settle.getRequiredProduction().getItem(itemRef);
+					msg.add(ChatColor.ITALIC+" -"+item.ItemRef()+" : "+item.value());
+				}
+			} else
+			{
+				plugin.getMessageData().errorSettleID(sender, subCommand);
+				return true;
+			}
+		} else
+		{
+			msg.add("[Realm Model] NOT enabled or too busy");
+			msg.add("Try later again");
+		}
+		plugin.getMessageData().printPage(sender, msg, page);
+		return true;
+	}
 	
 	private boolean cmdInfo(CommandSender sender, CommandArg commandArg)
 	{
@@ -157,64 +267,61 @@ public class CommandSettle
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1;
 		int id = 0;
-		if (commandArg.size()>0)
+		if (commandArg.size() < 1)
 		{
-			page = CommandArg.argToInt(commandArg.get(0));
+			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			return true;
 		}
 		if (commandArg.size()>1)
 		{
 			page = CommandArg.argToInt(commandArg.get(0));
 			id = CommandArg.argToInt(commandArg.get(1));
+		} else
+		{
+			page = CommandArg.argToInt(commandArg.get(0));
 		}
-		sender.sendMessage("Page: "+page+ "  /   ID: "+id);
-		
 		
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
 		{
 			if (id == 0)
 			{
-				msg.add("[Realm Model] Production");
 				for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
 				{
-					msg.add(settle.getId()+" : "+settle.getName());
+					msg.add("Settlement Info "+settle.getId()+" : "+settle.getName());
 					msg.add("Storage  : "+settle.getWarehouse().getItemMax());
-					msg.add("Capacity : "+settle.getResident().getSettlerMax());
-					msg.add("Settlers : "+settle.getResident().getSettlerCount());
+					msg.add("Residence: "+settle.getResident().getSettlerMax());
+					msg.add("Settlers  : "+settle.getResident().getSettlerCount());
+					msg.add("Needed     : "+settle.getTownhall().getWorkerNeeded());
 					msg.add("Workers  : "+settle.getTownhall().getWorkerCount());
-					msg.add("Happiness: "+settle.getResident().getHappiness());
-					msg.add("Fertility: "+settle.getResident().getFertilityCounter());
-					msg.add("Deathrate: "+settle.getResident().getDeathrate());
 					msg.add("Building : "+settle.getBuildingList().size());
-					msg.add("Bank     : "+settle.getBank().getKonto());
+					msg.add("Bank     : "+((int) settle.getBank().getKonto()));
 					msg.add("Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
 					msg.add("Required Items "+settle.getRequiredProduction().size());
-					for (String itemRef : settle.getRequiredProduction().keySet())
-					{
-						Item item = settle.getRequiredProduction().getItem(itemRef);
-						msg.add(item.ItemRef()+" : "+item.value());
-					}
+					msg.add("====================== ");
 				}
 			} else
 			{
 				Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(id);
 				if (settle != null)
 				{
-					msg.add(settle.getId()+" : "+settle.getName());
-					msg.add("Storage  : "+settle.getWarehouse().getItemMax());
-					msg.add("Capacity : "+settle.getResident().getSettlerMax());
-					msg.add("Settlers : "+settle.getResident().getSettlerCount());
-					msg.add("Workers  : "+settle.getTownhall().getWorkerCount());
-					msg.add("Happiness: "+settle.getResident().getHappiness());
-					msg.add("Fertility: "+settle.getResident().getFertilityCounter());
-					msg.add("Deathrate: "+settle.getResident().getDeathrate());
-					msg.add("Building : "+settle.getBuildingList().size());
-					msg.add("Bank     : "+settle.getBank().getKonto());
-					msg.add("Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
-					msg.add("Required Items "+settle.getRequiredProduction().size());
+					msg.add("Settlement Info "+settle.getId()+" : "+settle.getName());
+					msg.add("Residence: "+ChatColor.YELLOW+settle.getResident().getSettlerMax());
+					msg.add("Settlers  : "+ChatColor.GOLD+settle.getResident().getSettlerCount());
+					msg.add("Needed     : "+ChatColor.YELLOW+settle.getTownhall().getWorkerNeeded());
+					msg.add("Workers  : "+ChatColor.GOLD+settle.getTownhall().getWorkerCount());
+					msg.add("Happiness: "+ChatColor.GOLD+settle.getResident().getHappiness());
+					msg.add("Fertility   : "+settle.getResident().getFertilityCounter());
+					msg.add("Deathrate: "+ChatColor.RED+settle.getResident().getDeathrate());
+					msg.add("Bank       : "+ChatColor.GREEN+((int) settle.getBank().getKonto()));
+					msg.add("Storage   : "+settle.getWarehouse().getItemMax());
+					msg.add("Building   : "+settle.getBuildingList().size());
+					msg.add("Food      : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
+					msg.add("====================== ");
+					msg.add(ChatColor.ITALIC+"Required Items : "+settle.getRequiredProduction().size());
 					for (String itemRef : settle.getRequiredProduction().keySet())
 					{
 						Item item = settle.getRequiredProduction().getItem(itemRef);
-						msg.add(item.ItemRef()+" : "+item.value());
+						msg.add(ChatColor.ITALIC+" -"+item.ItemRef()+" : "+item.value());
 					}
 				}
 			}
@@ -525,10 +632,23 @@ public class CommandSettle
 		return true;
 	}
 	
-	private boolean cmdList(CommandSender sender, CommandArg commandArg)
+	private boolean cmdList(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		int page = CommandArg.argToInt(commandArg.get(0));
+		int page = 1;
+		String lCommand = "";
+		if (commandArg.size() > 0)
+		{
+			lCommand = commandArg.get(0);
+			if (lCommand.equalsIgnoreCase("WAREHOUSE"))
+			{
+				page = CommandArg.argToInt(commandArg.get(1));
+			}else
+			{
+				page = CommandArg.argToInt(commandArg.get(0));
+			}
+			
+		} 
 	    SettlementList  rList = plugin.getRealmModel().getSettlements();
 	    if (rList != null)
 	    {

@@ -7,7 +7,15 @@ public class TickTask implements Runnable
 	public  static long GameDay = Realms.dayNight / Realms.RealmTick;
     private static int counter = 0;
     private static boolean isProduction = false;
-    private static int prodCounter = 20;
+    private static int prodLimit = 40;  // GameDay;
+    private static int taxCounter = 0;
+    private static int taxLimit = prodLimit * 10;
+	
+    public static int getProdCounter()
+	{
+		return prodLimit;
+	}
+
 	public TickTask(Realms plugin)
 	{
 		this.plugin = plugin;
@@ -26,7 +34,7 @@ public class TickTask implements Runnable
 	
 	public static void setProdCounter(int value)
 	{
-		TickTask.prodCounter = value;
+		TickTask.prodLimit = value;
 	}
 	
 	
@@ -35,17 +43,28 @@ public class TickTask implements Runnable
 	public void run()
 	{
 		counter++;
+		taxCounter++;
 		// starte speichern der Settlement vor onTick
 		plugin.getRealmModel().OnTick();
-		if (counter == prodCounter)
+		if (counter == prodLimit)
 		{
 			counter = 0;
 			if (isProduction)
 			{
 				plugin.getRealmModel().OnProduction();
 				plugin.getLog().info("[Realms] production calculation");
+//				plugin.getLog().info("Tax counter "+taxCounter);
 			}
 			
+		}
+		if(taxCounter >= taxLimit)
+		{
+			taxCounter = 0;
+			if (isProduction)
+			{
+				plugin.getRealmModel().OnTax();
+				plugin.getLog().info("[Realms] Tax calculation");
+			}
 		}
 	}
 

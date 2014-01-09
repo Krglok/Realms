@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -286,7 +287,7 @@ public class ServerData implements ServerInterface
 		prodCost = prodCost / amount;
 		if (prodCost == 0.0)
 		{
-			prodCost = 1.0;
+			//prodCost = 1.0;
 		}
 		return prodCost;
 	}
@@ -302,4 +303,14 @@ public class ServerData implements ServerInterface
 		return items;
 	}
 	
+	public Double getItemPrice(String itemRef)
+	{
+		return plugin.getData().getPriceList().getBasePrice(itemRef);
+	}
+	
+	public void getBiome()
+	{
+//		Biome biome = plugin.getServer().getWorld("SteamHaven").getBiome(arg0, arg1);
+//		Biome.
+	}
 }
