@@ -2,13 +2,18 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import net.krglok.realms.core.Bank;
 import net.krglok.realms.core.Barrack;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Position;
@@ -22,6 +27,8 @@ import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.TestServer;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
 public class SettlementTest
@@ -29,6 +36,8 @@ public class SettlementTest
 
 	private Boolean isOutput = false; // set this to false to suppress println
 
+	
+	
 	@Test
 	public void testInitID()
 	{
