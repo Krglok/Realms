@@ -24,16 +24,26 @@ public class ItemArray extends ArrayList<Item>
 	
 	public Item getItem(String itemRef)
 	{
-		Item item ;
 		for (int i = 0; i < this.size(); i++)
 		{
-			item = this.get(i); 
-			if (item.ItemRef() == itemRef)
+			if (this.get(i).ItemRef().equals(itemRef))
 			{
-				return item;
+				return this.get(i);
 			}
 		}
 		return new Item("",0);
 	}
 	
+	public void putItem(String itemRef, int iValue)
+	{
+		for (int i = 0; i < this.size(); i++)
+		{
+			if (this.get(i).ItemRef().equals(itemRef))
+			{
+				this.getItem(itemRef).setValue(this.getItem(itemRef).value()+iValue);
+			}
+			return;
+		}
+		addItem( itemRef,  iValue);
+	}
 }

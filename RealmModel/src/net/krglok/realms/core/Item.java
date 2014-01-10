@@ -18,7 +18,7 @@ public class Item
 	   
    }
    
-   public String ItemRef()
+   public  String ItemRef()
    {
 	   return sRef;
    }

@@ -369,7 +369,7 @@ public class SettlementTest
 		isOutput = (expected != actual);
 		if (isOutput)
 		{
-			System.out.println("=Settle Count : "+settle.getResident().getSettlerCount());
+			System.out.println("==Settler Breed : "+settle.getResident().getSettlerCount());
 		}
 		
 		assertEquals(expected, actual);
@@ -916,7 +916,7 @@ public class SettlementTest
 		regionTypes.put("9","markt");
 //		regionTypes.put("31","bauern_haus");
 		regionTypes.put("51","haus_baecker");
-//		regionTypes.put("52","haus_baecker");
+		regionTypes.put("52","haus_baecker");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -960,7 +960,7 @@ public class SettlementTest
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
-			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
+			System.out.println("==Settlement Baecker =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
@@ -1199,9 +1199,9 @@ public class SettlementTest
 		regionTypes.put("16","kornfeld");
 		regionTypes.put("9","markt");
 		regionTypes.put("31","bauern_haus");
-		regionTypes.put("51","haus_baecker");
-		regionTypes.put("52","haus_baecker");
-		regionTypes.put("61","schmelze");
+//		regionTypes.put("51","haus_baecker");
+//		regionTypes.put("52","haus_baecker");
+//		regionTypes.put("61","schmelze");
 		regionTypes.put("41","werkstatt_haus");
 		regionTypes.put("42","werkstatt_haus");
 		
@@ -1217,8 +1217,9 @@ public class SettlementTest
 			b.setIsActive(true);
 			if (b.getHsRegion() == 51)
 			{
-				b.addSlot(Material.BREAD.name(),config);
-				b.addSlot(Material.BREAD.name(),config);
+				b.setIsActive(false);
+//				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
@@ -1226,8 +1227,8 @@ public class SettlementTest
 			if (b.getHsRegion() == 52)
 			{
 				b.setIsActive(false);
-				b.addSlot(Material.BREAD.name(),config);
-				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
+//				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
@@ -1243,7 +1244,7 @@ public class SettlementTest
 			}
 			if (b.getHsRegion() == 42)
 			{
-				b.setIsActive(true);
+				b.setIsActive(false);
 				b.addSlot("STICK",config);
 				b.addSlot("WOOD",config);
 				b.addSlot("WOOD",config);

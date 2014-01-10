@@ -570,6 +570,9 @@ public class Building
 				iValue = recipeList.getValue(item.ItemRef())*prodFactor;
 				items.addItem(item.ItemRef(), iValue);
 			}
+		} else
+		{
+			
 		}
 		return items;
 	}
@@ -580,15 +583,37 @@ public class Building
 		ItemArray items = new ItemArray();
 		int iValue = 0;
 		int prodFactor = 1;
-		if (slots.isEmpty() == false)
+		boolean isSlot = false;
+		for (Item item : slots)
 		{
-			for (Item item : slots)
+			if (item.ItemRef().equals("") == false)
 			{
+				System.out.println("RecipeFood "+item.ItemRef());
 				prodFactor = server.getRecipeFactor(item.ItemRef());
 				recipeList = server.getFoodRecipe(item.ItemRef());
 				iValue = recipeList.getValue(item.ItemRef())*prodFactor;
 				items.addItem(item.ItemRef(), iValue);
+				isSlot = true;
 			}
+//				System.out.println(iValue);
+		}
+		if (isSlot == false)
+		{
+			System.out.println("PROD");
+			items = buildingProd(server, regionType);
+			if (items.isEmpty() == false)
+			{
+				for (Item item : items)
+				{
+					prodFactor = server.getRecipeFactor(item.ItemRef());
+					iValue = item.value() *prodFactor;
+					items.putItem(item.ItemRef(), iValue);
+				}
+			}
+		}
+		for (Item sRef : items)
+		{
+			System.out.println(this.hsRegion+"-"+sRef.ItemRef()+":"+sRef.value()+":"+prodFactor);
 		}
 		return items;
 	}
@@ -631,7 +656,7 @@ public class Building
 	/**
 	 * get produced items from stronghold chest
 	 * will calculate the amount that will be produced when enough stock is available
-	 * dont set the production to storage, this be be done by settlement 
+	 * dont set the production to storage, this will be done by settlement 
 	 * after checking the stock 
 	 * @param server for stronghold action
 	 * @return List of (itemRef, int)

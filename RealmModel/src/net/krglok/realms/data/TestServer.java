@@ -225,7 +225,7 @@ public class TestServer  implements ServerInterface // extends ServerData
 				rList.put("LOG", 15);
 				break;
 			case "haus_baecker":
-				rList.put("BREAD", 32);
+				rList.put("BREAD", 8);
 				break;
 			case "schmelze":
 				rList.put("IRON_INGOT", 32);
@@ -317,7 +317,7 @@ public class TestServer  implements ServerInterface // extends ServerData
 			rList.put("LOG", 32);
 			break;
 		case "haus_baecker":
-			rList.put("WHEAT", 64);
+			rList.put("WHEAT", 24);
 			break;
 		case "schmelze":
 			rList.put("BREAD", 1);
@@ -514,7 +514,39 @@ public class TestServer  implements ServerInterface // extends ServerData
 	@Override
 	public Double getItemPrice(String itemRef)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ItemPriceList items = new ItemPriceList();
+		for (Material mat : Material.values())
+		{
+			if (mat.name().contains("IRON"))
+			{
+				items.add(mat.name(), 1.0);
+			}
+		}
+		items.add("WHEAT", 0.30);
+		items.add("LOG", 0.5);
+		items.add("COBBLESTONE", 0.5);
+		items.add("SAND", 0.5);
+		items.add("STONE", 1.7);
+		items.add("IRON_INGOT", 56.0);
+		items.add("GOLD_INGOT", 400.0);
+		items.add("WOOD", 0.1666);
+		items.add("STICK", 0.0555);
+		items.add("WOOD_AXE", 1.25);
+		items.add("WOOD_PICKAXE", 1.25);
+		items.add("WOOD_HOE", 1.00);
+		items.add("WOOD_SWORD", 0.6);
+		items.add("BREAD", 1.0);
+		items.add("COAL", 3.0);
+		items.add("IRON_ORE", 15.0);
+		items.add("IRON_SWORD", 235.0);
+	
+		if (items.get(itemRef) != null)
+		{
+			return  items.get(itemRef).getBasePrice();
+		} else
+		{
+			return 0.9;
+		}
+
 	}
 }
