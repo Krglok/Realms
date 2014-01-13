@@ -65,6 +65,7 @@ public class WarehouseTest
 		Boolean actual = warehouse.depositItemValue(lastRef, i);
 		assertEquals(expected, actual);
 	}
+
 	
 
 }

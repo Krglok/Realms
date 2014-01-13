@@ -6,6 +6,8 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
+import net.krglok.realms.data.MessageTest;
+import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.TestServer;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmCommand;
@@ -217,8 +219,8 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		TestServer server = new TestServer();
-
 		DataTest testData = new DataTest();
+		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -226,7 +228,7 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null);
+				message);
 		
 		Boolean expected = true; 
 		Boolean actual = false; 
@@ -277,7 +279,6 @@ public class RealmModelTest
 			}
 		}
 		assertEquals(expected, actual);
-
 	}
 
 	@Test
@@ -310,8 +311,8 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		TestServer server = new TestServer();
-
 		DataTest testData = new DataTest();
+		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -319,7 +320,7 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null);
+				message);
 		String command = RealmCommandType.MODEL.name();
 		String subCommand = "version";
 		RealmCommand realmCommand = new RealmCommand(command, subCommand);

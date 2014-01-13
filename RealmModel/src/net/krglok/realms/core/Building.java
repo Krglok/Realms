@@ -31,6 +31,8 @@ public class Building
 	private boolean isActiv;
 	private ItemArray slots ;
 	private Double sales;
+	private boolean isSlot;
+	private int storeCapacity;
 	
 	
 	public Building()
@@ -48,7 +50,9 @@ public class Building
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new ItemArray();
+		setSlot(false);
 		sales = 0.0;
+		storeCapacity   = setStoreCapacity(buildingType);
 	}
 	
 	public Building(BuildingType buildingType, String regionType, boolean isRegion)
@@ -67,6 +71,7 @@ public class Building
 		isActiv 	    = true;
 		slots = new ItemArray();
 		sales = 0.0;
+		storeCapacity   = setStoreCapacity(buildingType);
 	}
 
 
@@ -85,7 +90,9 @@ public class Building
 		this.isEnabled  = true;
 		isActiv 	    = true;
 		slots = new ItemArray();
+		setSlot(false);
 		sales = 0.0;
+		storeCapacity   = setStoreCapacity(buildingType);
 	}
 	
 	public Building(int id, BuildingType buildingType, int settler,
@@ -106,7 +113,9 @@ public class Building
 		this.isEnabled = isEnabled;
 		isActiv 	    = true;
 		slots = new ItemArray();
+		setSlot(false);
 		sales = 0.0;
+		storeCapacity   = setStoreCapacity(buildingType);
 	}
 	
 	public Building(int id, BuildingType buildingType, int settler,
@@ -126,28 +135,35 @@ public class Building
 		this.hsRegionType = hsRegionType;
 		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
+		storeCapacity   = setStoreCapacity(buildingType);
 		
 		isActiv 	    = true;
+		setSlot(false);
 		slots = new ItemArray();
 		if (slot1 != "")
 		{
 			slots.addItem(slot1, 1);
+			setSlot(true);
 		}
 		if (slot2 != "")
 		{
 			slots.addItem(slot2, 1);
+			setSlot(true);
 		}
 		if (slot3 != "")
 		{
 			slots.addItem(slot3, 1);
+			setSlot(true);
 		}
 		if (slot4 != "")
 		{
 			slots.addItem(slot4, 1);
+			setSlot(true);
 		}
 		if (slot5 != "")
 		{
 			slots.addItem(slot5, 1);
+			setSlot(true);
 		}
 		this.sales = sales;
 
@@ -165,13 +181,15 @@ public class Building
 		break;
 		case BUILDING_PROD : setWorkerNeeded(1);
 		break;
+		case BUILDING_WHEAT : setWorkerNeeded(1);
+		break;
 		case BUILDING_BAUERNHOF : setWorkerNeeded(5);
 		break;
 		case BUILDING_WERKSTATT : setWorkerNeeded(5);
 		break;
 		case BUILDING_MILITARY : setWorkerNeeded(5);
 		break;
-		case BUILDING_WAREHOUSE : setWorkerNeeded(5);
+		case BUILDING_WAREHOUSE : setWorkerNeeded(0);
 		break;
 		case BUILDING_TRADER : setWorkerNeeded(5);
 		break;
@@ -230,6 +248,29 @@ public class Building
 			break;
 		}
 	}
+	
+	/**
+	 * Setzt den Staroage Factor fuer den BuidingType
+	 * dieser wird bei der Verteilung der Worker auf die Building
+	 * benutzt um festzustellen ob die Produktion sinnvoll ist.
+	 * @param bType
+	 * @return
+	 */
+	private int setStoreCapacity(BuildingType bType)
+	{
+		switch(bType)
+		{
+		case BUILDING_BAECKER : return 320;
+		case BUILDING_BAUERNHOF:return 128;
+		case BUILDING_WHEAT: return 64;
+		case BUILDING_PROD:  return 64;
+		case BUILDING_WERKSTATT: return 320;
+		case BUILDING_MILITARY: return 32;
+		case BUILDING_TRADER: return 1728;
+		default:  return 0; 
+		}
+	}
+
 
 	public ItemArray getSlot1()
 	{
@@ -528,6 +569,44 @@ public class Building
 	}
 
 	
+	/**
+	 * @return the isSlot
+	 */
+	public boolean isSlot()
+	{
+		if (slots.isEmpty())
+		{
+			return false;
+		}
+		isSlot = false;
+		for (Item item : slots)
+		{
+			if(item.ItemRef() != "")
+			{
+				isSlot = true;
+			}
+		}
+		return isSlot;
+	}
+
+	/**
+	 * @param isSlot the isSlot to set
+	 */
+	public void setSlot(boolean isSlot)
+	{
+		this.isSlot = isSlot;
+	}
+
+	public int getStoreCapacity()
+	{
+		return storeCapacity;
+	}
+
+	public void setStoreCapacity(int storeCapacity)
+	{
+		this.storeCapacity = storeCapacity;
+	}
+
 	public static Building createRegionBuilding(String typeName, int regionId, String regionType, boolean isRegion)
 	{
 		BuildingType buildingType = BuildingType.getBuildingType(typeName);
@@ -542,14 +621,14 @@ public class Building
 		return null;
 	}
 	
-	private  ItemArray buildingProd(ServerInterface server, String regionType)
+	public  ItemArray buildingProd(ServerInterface server, String regionType)
 	{
 		ItemList outValues = new ItemList();
 		ItemArray items = new ItemArray(); 
 		outValues = server.getRegionOutput(regionType);
 		for (String itemRef : outValues.keySet())
 		{
-			items.addItem(itemRef, Integer.valueOf(outValues.get(itemRef)));
+			items.addItem(itemRef, outValues.getValue(itemRef));
 		}
 		return items;
 	}
@@ -583,23 +662,24 @@ public class Building
 		ItemArray items = new ItemArray();
 		int iValue = 0;
 		int prodFactor = 1;
-		boolean isSlot = false;
-		for (Item item : slots)
+		if (this.isSlot())
 		{
-			if (item.ItemRef().equals("") == false)
+			for (Item item : slots)
 			{
-				System.out.println("RecipeFood "+item.ItemRef());
-				prodFactor = server.getRecipeFactor(item.ItemRef());
-				recipeList = server.getFoodRecipe(item.ItemRef());
-				iValue = recipeList.getValue(item.ItemRef())*prodFactor;
-				items.addItem(item.ItemRef(), iValue);
-				isSlot = true;
+				if (item.ItemRef().equals("") == false)
+				{
+//					System.out.println("RecipeFood "+item.ItemRef());
+					prodFactor = server.getRecipeFactor(item.ItemRef());
+					recipeList = server.getFoodRecipe(item.ItemRef());
+					iValue = recipeList.getValue(item.ItemRef())*prodFactor;
+					items.addItem(item.ItemRef(), iValue);
+					this.isSlot = true;
+				}
+//					System.out.println(iValue);
 			}
-//				System.out.println(iValue);
-		}
-		if (isSlot == false)
+		} else
 		{
-			System.out.println("PROD");
+//			System.out.println("PROD");
 			items = buildingProd(server, regionType);
 			if (items.isEmpty() == false)
 			{
@@ -607,14 +687,15 @@ public class Building
 				{
 					prodFactor = server.getRecipeFactor(item.ItemRef());
 					iValue = item.value() *prodFactor;
-					items.putItem(item.ItemRef(), iValue);
+					items.setItem(item.ItemRef(), iValue);
+//					System.out.println("baeckerProd: "+item.ItemRef()+":"+item.value());
 				}
 			}
 		}
-		for (Item sRef : items)
-		{
-			System.out.println(this.hsRegion+"-"+sRef.ItemRef()+":"+sRef.value()+":"+prodFactor);
-		}
+//		for (Item item : items)
+//		{
+//			System.out.println(this.hsRegion+"-"+item.ItemRef()+":"+item.value()+":"+prodFactor);
+//		}
 		return items;
 	}
 
@@ -666,6 +747,9 @@ public class Building
 		ItemArray outValues = new ItemArray();
 		switch(buildingType)
 		{
+		case BUILDING_WHEAT : 
+			outValues = buildingProd(server,hsRegionType);
+			break;
 		case BUILDING_PROD : 
 			outValues = buildingProd(server,hsRegionType);
 			break;

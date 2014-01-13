@@ -10,6 +10,7 @@ import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.MessageData;
+import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
 
 /**
@@ -43,7 +44,7 @@ public class RealmModel
 	private ServerInterface server;
 	private ConfigInterface config;
 	private DataInterface data;
-	private MessageData messageData;
+	private MessageInterface messageData;
 	
 	private OwnerList owners;
 	private KingdomList realms;
@@ -70,7 +71,7 @@ public class RealmModel
 			ServerInterface server,
 			ConfigInterface config,
 			DataInterface data,
-			MessageData messageData
+			MessageInterface messageData
 			)
 	{
 		modelStatus =  ModelStatus.MODEL_DISABLED;

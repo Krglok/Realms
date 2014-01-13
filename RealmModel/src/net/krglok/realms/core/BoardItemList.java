@@ -5,14 +5,36 @@ import java.util.HashMap;
 public class BoardItemList extends HashMap<String,BoardItem>
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
+	private int cycleCount;
+	private int periodCount;
 
 	public BoardItemList()
 	{
+		cycleCount	= 0;
+		periodCount = 0;
 		
+	}
+	
+	public int getCycleCount()
+	{
+		return cycleCount;
+	}
+
+	public void setCycleCount(int cycleCount)
+	{
+		this.cycleCount = cycleCount;
+	}
+	
+	public int getPeriodCount()
+	{
+		return periodCount;
+	}
+
+	public void setPeriodCount(int periodCount)
+	{
+		this.periodCount = periodCount;
 	}
 	
 	public boolean addBoardItem(BoardItem boardItem)
@@ -73,15 +95,19 @@ public class BoardItemList extends HashMap<String,BoardItem>
 		BoardItem boardItem;
 		if (this.containsKey(name))
 		{
-		boardItem = this.get(name) ;
+			boardItem = this.get(name) ;
 		} else
 		{
 			boardItem = this.addBoardItem(name);
 		}
 		boardItem.setLastValue(value);
-		boardItem.setCycleCount(boardItem.getCycleCount()+1);
 		boardItem.setCycleSum(boardItem.getCycleSum()+value);
 		boardItem.setPeriodSum(boardItem.getPeriodSum()+value);
+	}
+
+	public void addCycle()
+	{
+		this.cycleCount++;
 	}
 	
 	/**
@@ -90,16 +116,11 @@ public class BoardItemList extends HashMap<String,BoardItem>
 	 */
 	public void newCycle(String name)
 	{
-		BoardItem boardItem;
-		if (this.containsKey(name))
+		this.cycleCount = 0;
+		for (BoardItem b : this.values())
 		{
-		boardItem = this.get(name) ;
-		} else
-		{
-			boardItem = this.addBoardItem(name);
+			b.setCycleSum(0.0);
 		}
-		boardItem.setCycleCount(0);
-		boardItem.setCycleSum(0.0);
 	}
 
 	/**
@@ -108,15 +129,7 @@ public class BoardItemList extends HashMap<String,BoardItem>
 	 */
 	public void addPeriod(String name)
 	{
-		BoardItem boardItem;
-		if (this.containsKey(name))
-		{
-		boardItem = this.get(name) ;
-		} else
-		{
-			boardItem = this.addBoardItem(name);
-		}
-		boardItem.setPeriodCount(boardItem.getPeriodCount()+1);
+		periodCount++;
 	}
 	
 	/**
@@ -127,16 +140,9 @@ public class BoardItemList extends HashMap<String,BoardItem>
 	public void newPeriod(String name)
 	{
 		BoardItem boardItem;
-		if (this.containsKey(name))
+		for (BoardItem b : this.values())
 		{
-		boardItem = this.get(name) ;
-		} else
-		{
-			boardItem = this.addBoardItem(name);
+			b.setPeriodSum(0.0);
 		}
-		boardItem.setPeriodCount(0);
-		boardItem.setPeriodSum(0.0);
-		boardItem.setCycleCount(0);
-		boardItem.setCycleSum(0.0);
 	}
 }

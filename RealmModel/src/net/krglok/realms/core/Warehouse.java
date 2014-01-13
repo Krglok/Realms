@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import java.util.HashMap;
+
 /**
  * 
  * @author oduda
@@ -14,6 +16,7 @@ public class Warehouse
 	private int itemMax;
 	private int itemCount;
 	private ItemList itemList;
+	private HashMap<BuildingType,Integer> typeCapacity;
 	
 	public Warehouse(int itemMax)
 	{
@@ -21,8 +24,39 @@ public class Warehouse
 		this.itemMax	  = itemMax;
 		itemCount = 0;
 		itemList  = new ItemList();
+		typeCapacity = new HashMap<BuildingType,Integer>();
 	}
 
+	public void setTypeCapacity(BuildingType bType, int value)
+	{
+		if (typeCapacity.containsKey(bType))
+		{
+			typeCapacity.put(bType,typeCapacity.get(bType)+value);
+		}else
+		{
+			typeCapacity.put(bType,value);
+		}
+	}
+	
+	public int getTypeCapacity(BuildingType bType)
+	{
+		if (typeCapacity.containsKey(bType))
+		{
+			return typeCapacity.get(bType);
+		}
+		return 0;
+	}
+	
+	public HashMap<BuildingType,Integer> getTypeCapacityList()
+	{
+		return typeCapacity;
+	}
+	
+	public void setTypeCapacityList(HashMap<BuildingType,Integer> capacityList)
+	{
+		this.typeCapacity = capacityList;
+	}
+	
 	/**
 	 * 
 	 * @return  Boolean 
@@ -105,7 +139,7 @@ public class Warehouse
 		int actual = itemList.getValue(itemRef);
 		if ((actual-value) >= 0)
 		{
-			itemList.setValue(itemRef, (actual-value));
+			itemList.withdrawItem(itemRef, value);
 			itemCount = itemCount - value;
 			return true;
 		}

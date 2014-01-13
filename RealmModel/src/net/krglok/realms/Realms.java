@@ -101,8 +101,8 @@ public final class Realms extends JavaPlugin
         
         Date date = new Date();
         long timeUntilDay = (TaxTask.DAY_SECONDS + date.getTime() - System.currentTimeMillis()) / TaxTask.TICKTIME;
-        TaxTask taxTask = new TaxTask(this);
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
+//        TaxTask taxTask = new TaxTask(this);
+//        getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
 
         if (isReady)
         {

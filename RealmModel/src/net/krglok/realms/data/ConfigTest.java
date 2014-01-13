@@ -116,9 +116,16 @@ public class ConfigTest implements ConfigInterface
 		regionBuildingTypes.put("rathaus", BuildingType.BUILDING_HALL.name());
 		regionBuildingTypes.put("taverne", BuildingType.BUILDING_ENTERTAIN.name());
 		regionBuildingTypes.put("markt", BuildingType.BUILDING_WAREHOUSE.name());
-		regionBuildingTypes.put("kornfeld", BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("kornfeld", BuildingType.BUILDING_WHEAT.name());
 		regionBuildingTypes.put("holzfaeller",BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("schreiner",BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("tischler",BuildingType.BUILDING_PROD.name());
 		regionBuildingTypes.put("koehler", BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("prod_waxe", BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("prod_whoe", BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("prod_wpaxe", BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("prod_wsword", BuildingType.BUILDING_PROD.name());
+		regionBuildingTypes.put("prod_stick", BuildingType.BUILDING_PROD.name());
 		regionBuildingTypes.put("prod_stick", BuildingType.BUILDING_PROD.name());
 		regionBuildingTypes.put("steinbruch", BuildingType.BUILDING_PROD.name());
 		regionBuildingTypes.put("schweinemast",BuildingType.BUILDING_PROD.name());

@@ -2,21 +2,17 @@ package net.krglok.realms.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-
-public class MessageData implements MessageInterface
+public class MessageTest implements MessageInterface
 {
-	private Logger log;
-	
-	public MessageData(Logger logger)
+	public MessageTest()
 	{
-		this.log = logger;
 	}
 
 	public Boolean isLogAll()
@@ -37,22 +33,22 @@ public class MessageData implements MessageInterface
 	 * @param player
 	 * @param msg
 	 */
-	public void sendPage(CommandSender sender, ArrayList<String> page)
+	public void sendPage(  ArrayList<String> page)
 	{
 		if (page != null)
 		{
 			for (String line : page)
 			{
-				sender.sendMessage(line);
+				System.out.println(line);
 				if (MessageText.isLogAll)
 				{
-					log.info(line);
+					System.out.println(line);
 				}
 			}
 		} else
 		{
-			sender.sendMessage(MessageText.NO_PAGE);
-			log.info(MessageText.NO_PAGE);
+			System.out.println(MessageText.NO_PAGE);
+			System.out.println(MessageText.NO_PAGE);
 		}
 	}
 	
@@ -117,7 +113,7 @@ public class MessageData implements MessageInterface
 	 * @param msg , ArrayList<String> to print
 	 * @param doPage , pagenumber to print
 	 */
-	public void printPage(CommandSender sender, ArrayList<String> msg, int pageNumber)
+	public void printPage(  ArrayList<String> msg, int pageNumber)
 	{
 		if (msg.size() > 0)
 		{
@@ -131,10 +127,10 @@ public class MessageData implements MessageInterface
 				pageNumber = 1;
 			}
 			ArrayList<String> page = pages.get(pageNumber);
-			sendPage(sender, page);
+			sendPage(page);
 		} else
 		{
-			sender.sendMessage("NO data in message !");
+			System.out.println("NO data in message !");
 		}
 	}
 	
@@ -161,46 +157,99 @@ public class MessageData implements MessageInterface
 	public void errorPermission(CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.RED+MessageText.NO_PERMISSION);
-		log.info(MessageText.NO_PERMISSION);
+		System.out.println(MessageText.NO_PERMISSION);
 	}
 
-	public void errorArgs(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorArgs(RealmSubCommandType subCommand)
 	{
-		sender.sendMessage(ChatColor.RED+MessageText.NOT_ENOUGH_ARGUMENTS_FOR+" "+subCommand);
+		System.out.println(ChatColor.RED+MessageText.NOT_ENOUGH_ARGUMENTS_FOR+" "+subCommand);
 	}
 
-	public void errorArgWrong(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorArgWrong(  RealmSubCommandType subCommand)
 	{
-		sender.sendMessage(ChatColor.RED+MessageText.WRONG_ARGUMENTS+" "+subCommand);
+		System.out.println(ChatColor.RED+MessageText.WRONG_ARGUMENTS+" "+subCommand);
 	}
 
-	public void errorSettleID(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorSettleID(  RealmSubCommandType subCommand)
 	{
-		sender.sendMessage(ChatColor.RED+MessageText.WRONG_SETTLEMNET_ID+" "+subCommand);
+		System.out.println(ChatColor.RED+MessageText.WRONG_SETTLEMNET_ID+" "+subCommand);
 		
 	}
 
-	public void errorRegion(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorRegion(  RealmSubCommandType subCommand)
 	{
-		sender.sendMessage(ChatColor.RED+MessageText.REGION_NOT_FOUND+" "+subCommand);
+		System.out.println(ChatColor.RED+MessageText.REGION_NOT_FOUND+" "+subCommand);
 	}
 
-	public void errorItem(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorItem(  RealmSubCommandType subCommand)
 	{
-		sender.sendMessage(ChatColor.RED+MessageText.WRONG_ITEMNAME+" "+subCommand);
+		System.out.println(ChatColor.RED+MessageText.WRONG_ITEMNAME+" "+subCommand);
 	}
 	
 	public void errorFileIO(String name, Exception e)
 	{
-		log.info(name+ MessageText.FILE_IO_ERROR);
-		log.info(e.getMessage());
+		System.out.println(name+ MessageText.FILE_IO_ERROR);
+		System.out.println(e.getMessage());
 	}
 	
 	public void log(String msg)
 	{
 		if (MessageText.isLogAll)
 		{
-			log.info(msg);
+			System.out.println(msg);
 		}
 	}
+
+	@Override
+	public void sendPage(CommandSender sender, ArrayList<String> page)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void printPage(CommandSender sender, ArrayList<String> msg,
+			int pageNumber)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void errorArgs(CommandSender sender, RealmSubCommandType subCommand)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void errorArgWrong(CommandSender sender,
+			RealmSubCommandType subCommand)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void errorSettleID(CommandSender sender,
+			RealmSubCommandType subCommand)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void errorRegion(CommandSender sender, RealmSubCommandType subCommand)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void errorItem(CommandSender sender, RealmSubCommandType subCommand)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

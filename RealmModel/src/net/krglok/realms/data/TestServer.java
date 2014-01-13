@@ -185,73 +185,91 @@ public class TestServer  implements ServerInterface // extends ServerData
 		{
 			switch (regionType)
 			{
-			case "bibliothek":
-				rList.put("PAPER", 1);
-				break;
 			case "kornfeld":
-				rList.put("WHEAT", 32);
+				rList.putItem("WHEAT", 16);
 				break;
-			case "heiler_haus":
-				rList.put("", 0);
+			case "schreiner":
+				rList.putItem("WOOD", 30);
+				rList.putItem("STICK", 30);
 				break;
-			case "prod_brett":
-				rList.put("WOOD", 64);
+			case "steinbruch":
+				rList.putItem("COBBLESTONE", 30);
 				break;
-			case "prod_stick":
-				rList.put("STICK", 64);
-				break;
-			case "prod_waxe":
-				rList.put("WOOD_AXE", 20);
-				break;
-			case "prod_whoe":
-				rList.put("WOOD_HOE", 20);
-				break;
-			case "prod_wpaxe":
-				rList.put("WOOD_PICKAXE", 20);
-				break;
-			case "prod_wsword":
-				rList.put("WOOD_SWORD", 20);
-				break;
-			case "bauern_haus":
-				rList.put("WHEAT", 128);
-				break;
-			case "werkstatt_haus":
-				rList.put("STICK", 1);
-				break;
-			case "koehler":
-				rList.put("COAL", 32);
+			case "schaefer":
+				rList.putItem("WOOL", 1);
 				break;
 			case "holzfaeller":
-				rList.put("LOG", 15);
+				rList.putItem("LOG", 32);
+				break;
+			case "tischler":
+				rList.putItem("TORCH", 16);
+				break;
+			case "prod_waxe":
+				rList.putItem("WOOD_AXE", 20);
+				break;
+			case "prod_whoe":
+				rList.putItem("WOOD_HOE", 20);
+				break;
+			case "prod_wpaxe":
+				rList.putItem("WOOD_PICKAXE", 20);
+				break;
+			case "prod_wsword":
+				rList.putItem("WOOD_SWORD", 20);
+				break;
+			case "bauern_haus":
+				rList.putItem("WHEAT", 32);
+				break;
+			case "werkstatt_haus":
+				rList.putItem("STICK", 1);
+				break;
+			case "koehler":
+				rList.putItem("COAL", 32);
 				break;
 			case "haus_baecker":
-				rList.put("BREAD", 8);
+				rList.putItem("BREAD", 8);
 				break;
 			case "schmelze":
-				rList.put("IRON_INGOT", 32);
+				rList.putItem("IRON_INGOT", 32);
 				break;
 			case "prod_isword":
-				rList.put(Material.IRON_SWORD.name(), 1);
+				rList.putItem(Material.IRON_SWORD.name(), 1);
 				break;
 			case "prod_ihelmet":
-				rList.put(Material.IRON_HELMET.name(), 1);
+				rList.putItem(Material.IRON_HELMET.name(), 1);
 				break;
 			case "prod_ichest":
-				rList.put(Material.IRON_CHESTPLATE.name(), 1);
+				rList.putItem(Material.IRON_CHESTPLATE.name(), 1);
 				break;
 			case "prod_ihose":
-				rList.put(Material.IRON_LEGGINGS.name(), 1);
+				rList.putItem(Material.IRON_LEGGINGS.name(), 1);
 				break;
 			case "prod_ishoe": 
-				rList.put(Material.IRON_BOOTS.name(), 1);
+				rList.putItem(Material.IRON_BOOTS.name(), 1);
 				break;
-			case "mine": 
-				rList.put(Material.IRON_ORE.name(), 8);
+			case "huehnerstall": 
+				rList.putItem(Material.FEATHER.name(), 1);
+				rList.putItem(Material.RAW_CHICKEN.name(), 1);
+				break;
+			case "rinderstall": 
+				rList.putItem(Material.RAW_BEEF.name(), 2);
+				rList.putItem(Material.LEATHER.name(), 1);
+				break;
+			case "steinmine": 
+				rList.putItem(Material.IRON_ORE.name(), 1);
+				rList.putItem(Material.COBBLESTONE.name(), 16);
+				rList.putItem(Material.GRAVEL.name(), 8);
+				rList.putItem(Material.FLINT.name(), 3);
 				break;
 			case "stone" :
-				rList.put(Material.STONE.name(), 6);
+				rList.putItem(Material.STONE.name(), 6);
 //				rList.put(Material.COBBLESTONE.name(), 6);
 //				rList.put(Material.COAL.name(), 1);
+				break;
+			case "bibliothek":
+				rList.putItem("PAPER", 1);
+				break;
+			case "heiler_haus":
+				rList.putItem("", 0);
 				break;
 			default:
 				break;
@@ -267,95 +285,101 @@ public class TestServer  implements ServerInterface // extends ServerData
 		
 		switch (regionType)
 		{
-		case "bibliothek":
-			break;
-		case "kornfeld":
-			rList.put("WOOD_HOE", 1);
-			break;
-		case "heiler_haus":
+		case "schreiner":
+//			rList.putItem("WHEAT", 1);
+			rList.putItem("LOG", 32);
 			break;
 		case "holzfaeller":
-			rList.put("BREAD", 1);
-			rList.put("WOOD_AXE", 1);
+//			rList.putItem("WHEAT", 2);
+			rList.putItem("WOOD_AXE", 1);
 			break;
-		case "prod_brett":
-			rList.put("BREAD", 1);
-			rList.put("LOG", 16);
+		case "tischler":
+			rList.putItem("LOG", 8);
 			break;
-		case "prod_stick":
-			rList.put("BREAD", 1);
-			rList.put("WOOD", 10);
+		case "steinbruch":
+			rList.putItem("WHEAT", 2);
+			rList.putItem("WOOD_PICKAXE", 30);
 			break;
-		case "prod_waxe":
-			rList.put("BREAD", 1);
-			rList.put("STICK", 40);
-			rList.put("WOOD", 60);
-			break;
-		case "prod_whoe":
-			rList.put("BREAD", 1);
-			rList.put("STICK", 40);
-			rList.put("WOOD", 40);
-			break;
-		case "prod_wpaxe":
-			rList.put("BREAD", 1);
-			rList.put("STICK", 40);
-			rList.put("WOOD", 60);
-			break;
-		case "prod_wsword":
-			rList.put("BREAD", 1);
-			rList.put("STICK", 20);
-			rList.put("WOOD", 60);
-			break;
-		case "werkstatt_haus":
-			rList.put("BREAD", 4);
-			break;
-		case "bauern_haus":
-			rList.put("WOOD_HOE", 1);
+		case "schaefer":
+			rList.putItem("WHEAT", 1);
 			break;
 		case "koehler":
-			rList.put("BREAD", 1);
-			rList.put("LOG", 32);
+			rList.putItem("WHEAT", 1);
+			rList.putItem("LOG", 32);
+			break;
+		case "prod_waxe":
+//			rList.putItem("BREAD", 1);
+			rList.putItem("WHEAT", 2);
+			rList.putItem("STICK", 40);
+			rList.putItem("WOOD", 60);
+			break;
+		case "prod_whoe":
+//			rList.putItem("BREAD", 1);
+			rList.putItem("WHEAT", 1);
+			rList.putItem("STICK", 40);
+			rList.putItem("WOOD", 5);
+			break;
+		case "prod_wpaxe":
+//			rList.putItem("BREAD", 1);
+			rList.putItem("WHEAT", 1);
+			rList.putItem("STICK", 40);
+			rList.putItem("WOOD", 5);
+			break;
+		case "prod_wsword":
+//			rList.putItem("BREAD", 1);
+			rList.putItem("WHEAT", 1);
+			rList.putItem("STICK", 20);
+			rList.putItem("WOOD", 5);
+			break;
+		case "werkstatt_haus":
+			rList.putItem("BREAD", 5);
+			break;
+		case "bauern_haus":
+			rList.putItem("WOOD_HOE", 1);
 			break;
 		case "haus_baecker":
-			rList.put("WHEAT", 24);
+			rList.putItem("WHEAT", 24);
 			break;
 		case "schmelze":
-			rList.put("BREAD", 1);
-			rList.put("IRON_ORE", 32);
-			rList.put("COAL", 5);
+			rList.putItem("BREAD", 1);
+			rList.putItem("IRON_ORE", 32);
+			rList.putItem("COAL", 5);
 			break;
 		case "prod_isword":
-			rList.put("BREAD", 1);
-			rList.put("IRON_INGOT", 2);
-			rList.put("STICK", 1);
+			rList.putItem("BREAD", 1);
+			rList.putItem("IRON_INGOT", 2);
+			rList.putItem("STICK", 1);
 			break;
 		case "prod_ihelmet":
-			rList.put("BREAD", 1);
-			rList.put("IRON_INGOT", 5);
+			rList.putItem("BREAD", 1);
+			rList.putItem("IRON_INGOT", 5);
 			break;
 		case "prod_ichest":
-			rList.put("BREAD", 1);
-			rList.put("IRON_INGOT", 8);
+			rList.putItem("BREAD", 1);
+			rList.putItem("IRON_INGOT", 8);
 			break;
 		case "prod_ihose":
-			rList.put("BREAD", 1);
-			rList.put("IRON_INGOT", 7);
+			rList.putItem("BREAD", 1);
+			rList.putItem("IRON_INGOT", 7);
 			break;
 		case "prod_ishoe":
-			rList.put("BREAD", 1);
-			rList.put("IRON_INGOT", 4);
+			rList.putItem("BREAD", 1);
+			rList.putItem("IRON_INGOT", 4);
 			break;
-		case "mine":
-			rList.put("BREAD", 5);
-			rList.put(Material.WOOD_PICKAXE.name(), 4);
-			rList.put(Material.LOG.name(), 12);
+		case "huehnerstall": 
+			rList.putItem(Material.SEEDS.name(), 1);
+			break;
+		case "rinderstall": 
+			rList.putItem(Material.WHEAT.name(), 2);
 			break;
 		case "stone" :
 //			rList.put(Material.STONE.name(), 6);
-			rList.put(Material.COBBLESTONE.name(), 6);
-			rList.put(Material.COAL.name(), 1);
+			rList.putItem(Material.COBBLESTONE.name(), 6);
+			rList.putItem(Material.COAL.name(), 1);
 			break;
-			default:
+		case "heiler_haus":
+			break;
+		default:
 			break;
 		}
 		
@@ -391,23 +415,23 @@ public class TestServer  implements ServerInterface // extends ServerData
 		
 		switch(itemRef)
 		{
-		case "LOG" :  outList.put("LOG",  64);
+		case "LOG" :  outList.putItem("LOG",  64);
 		break;
-		case "WOOD" : outList.put("WOOD",  64);
+		case "WOOD" : outList.putItem("WOOD",  64);
 		break;
-		case "STICK" : outList.put("STICK",  64);
+		case "STICK" : outList.putItem("STICK",  64);
 		break;
-		case "WOOD_HOE" : outList.put("WOOD_HOE",  20);
+		case "WOOD_HOE" : outList.putItem("WOOD_HOE",  20);
 		break;
-		case "WOOD_AXE" : outList.put("WOOD_AXE",  20);
+		case "WOOD_AXE" : outList.putItem("WOOD_AXE",  20);
 		break;
-		case "WOOD_PICKAXE" : outList.put("WOOD_PICKAXE",  20);
+		case "WOOD_PICKAXE" : outList.putItem("WOOD_PICKAXE",  20);
 		break;
-		case "WOOD_SWORD" : outList.put("WOOD_SWORD",  20);
+		case "WOOD_SWORD" : outList.putItem("WOOD_SWORD",  20);
 		break;
-		case "WHEAT" : outList.put("WHEAT",  64);
+		case "WHEAT" : outList.putItem("WHEAT",  64);
 		break;
-		case "BREAD" : outList.put("BREAD",  32);
+		case "BREAD" : outList.putItem("BREAD",  32);
 		break;
 		
 		default : 
@@ -440,7 +464,7 @@ public class TestServer  implements ServerInterface // extends ServerData
 			if (iList.get(matRef) != null)
 			{
 				//add material to chest
-				iList.put(matRef,iList.get(matRef)+itemList.get(matRef));
+				iList.putItem(matRef,(iList.getValue(matRef)+itemList.getValue(matRef)));
 			} else
 			{
 				// add new material to chest

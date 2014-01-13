@@ -12,7 +12,7 @@ import java.util.Map;
 public class SettlementList
 {
 
-	private Map<String,Settlement> settlementList;
+	private Map<Integer,Settlement> settlementList;
 	
 
 	/**
@@ -25,14 +25,14 @@ public class SettlementList
 		{
 			Settlement.initCounter(initCounter);
 		}
-		setSettlements(new HashMap<String,Settlement>());
+		setSettlements(new HashMap<Integer,Settlement>());
 	}
 
 	/**
 	 * 
 	 * @return settlements <id, Settlement>
 	 */
-	public Map<String,Settlement> getSettlements()
+	public Map<Integer,Settlement> getSettlements()
 	{
 		return settlementList;
 	}
@@ -41,7 +41,7 @@ public class SettlementList
 	 * replace settlementList
 	 * @param settlements <id, Settlement>
 	 */
-	public void setSettlements(Map<String,Settlement> settlements)
+	public void setSettlements(Map<Integer,Settlement> settlements)
 	{
 		this.settlementList = settlements;
 	}
@@ -69,8 +69,7 @@ public class SettlementList
 	 */
 	public void addSettlement(Settlement settlement)
 	{
-		String key = String.valueOf(settlement.getId());
-		settlementList.put(key,settlement);
+		settlementList.put(settlement.getId(),settlement);
 		settlement.initSettlement();
 		setOwner(settlement.getId(), settlement.getOwner());
 //		setOwnerCapital(settlement.getOwner(), settlement.getId());
@@ -83,15 +82,15 @@ public class SettlementList
 	 */
 	public void setOwner(int id, String owner)
 	{
-		Settlement settlement = settlementList.get(String.valueOf(id));
+		Settlement settlement = settlementList.get(id);
 		settlement.setOwner(owner);
-		settlementList.put(String.valueOf(id) ,settlement);
+		settlementList.put(id ,settlement);
 	}
 
 	public Settlement setOwner(Settlement settlement, String owner)
 	{
 		settlement.setOwner(owner);
-		settlementList.put(String.valueOf(settlement.getId()) ,settlement);
+		settlementList.put(settlement.getId() ,settlement);
 		return settlement;
 	}
 	
@@ -126,7 +125,7 @@ public class SettlementList
 	 */
 	public Settlement getSettlement(int id)
 	{
-		return settlementList.get(String.valueOf(id)); 
+		return settlementList.get(id); 
 	}
 	
 	

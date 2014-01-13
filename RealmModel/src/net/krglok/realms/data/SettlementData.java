@@ -67,6 +67,7 @@ public class SettlementData
 	            config.set(MemorySection.createPath(settleSec, "isCapital"), settle.getIsCapital());
 //	            config.set(MemorySection.createPath(settleSec, "isEnabled"), settle.isEnabled());
 	            config.set(MemorySection.createPath(settleSec, "isActive"), settle.isActive());
+	            config.set(MemorySection.createPath(settleSec, "bank"), settle.getBank().getKonto());
 
 	            values = new HashMap<String,String>();
 	            values.put("isEnabled",settle.getTownhall().getIsEnabled().toString());
@@ -162,6 +163,7 @@ public class SettlementData
             	settle.setOwner(null);
             	settle.setIsCapital(config.getBoolean(settleSec+".isCapital"));
             	settle.setIsActive(config.getBoolean(settleSec+".isActive"));
+            	settle.getBank().addKonto(config.getDouble(settleSec+".bank",0.0));
             	
             	// die werte werden als String gelesen, da verschiedene Datentypen im array sind
             	settle.getTownhall().setIsEnabled(Boolean.valueOf(config.getString(settleSec+".townhall"+".isEnable")));

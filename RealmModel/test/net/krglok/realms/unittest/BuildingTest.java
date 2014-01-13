@@ -148,7 +148,7 @@ public class BuildingTest
 		}
 		HashMap<Integer,ItemList> prodStore = server.getProdStore();
 		int expected = 1;
-		int actual 	 = prodStore.get(18).get("WOOD_HOE");
+		int actual 	 = prodStore.get(18).getValue("WHEAT");
 		assertEquals(expected, actual);
 	}
 	

@@ -7,7 +7,7 @@ import java.util.HashMap;
  * @author oduda
  *
  */
-public class ItemList  extends  HashMap<String, Integer>
+public class ItemList  extends  HashMap<String, Item>
 {
 /**
 	 * 
@@ -33,33 +33,50 @@ public class ItemList  extends  HashMap<String, Integer>
 	/**
 	 * add item to the list
 	 * if exist values are  overwrite
+	 * @param item
+	 */
+	public void addItem(Item item)
+	{
+		this.put(item.ItemRef(), item);
+//		Item item = new Item(itemRef, iValue);
+//		return item;
+	}
+	
+	/**
+	 * add item to the list
+	 * if exist values are  overwrite
 	 * @param itemRef
 	 * @param iValue
 	 * @return added item or null
 	 */
-	public Item addItem(String itemRef, int iValue)
+	public void addItem(String itemRef, int iValue)
 	{
-		this.put(itemRef, iValue);
-		Item item = new Item(itemRef, iValue);
-		return item;
+		this.put(itemRef, new Item(itemRef, iValue));
+		itemCount = itemCount + iValue;
+//		Item item = new Item(itemRef, iValue);
+//		return item;
 	}
 	
 	/**
-	 * add Item to the list
-	 * if exist add value to existing item
+	 * add value to the item in the list
+	 * if not exist add item
 	 * @param itemRef
 	 * @param iValue
 	 * @return
 	 */
 	public Item putItem(String itemRef, int iValue)
 	{
+		Item item;
 		if (this.containsKey(itemRef))
 		{
-			int value = this.get(itemRef);
-			this.put(itemRef, value+iValue);
-			return new  Item(itemRef, value+iValue);
+			item = this.get(itemRef);
+			item.setValue(item.value()+iValue);
+			itemCount = itemCount + iValue;
+			return item; 
 		}
-		return addItem(itemRef, iValue);
+		item = new Item(itemRef,iValue);
+		this.addItem(item);
+		return item;
 	}
 	
 	/**
@@ -69,15 +86,7 @@ public class ItemList  extends  HashMap<String, Integer>
 	 */
 	public Item getItem(String itemRef)
 	{
-		Item item;
-		if (containsKey(itemRef))
-		{
-			item = new Item(itemRef, get(itemRef));
-		} else
-		{
-			item = null; 
-		}
-		return item;
+		return this.get(itemRef);
 	}
 		
 //	public Boolean isEmpty()
@@ -91,28 +100,41 @@ public class ItemList  extends  HashMap<String, Integer>
 	 * @param itemRef
 	 * @param value
 	 */
-	public void depositItem(String itemRef, int value)
+	public void depositItem(String itemRef, int iValue)
 	{
+		Item item;
 		if (containsKey(itemRef))
 		{
-			put(itemRef, get(itemRef)+value);
+			item = this.get(itemRef);
+//			System.out.println("deposit: "+iValue);
+			item.setValue(item.value()+iValue);
+//			put(itemRef, get(itemRef)+value);
 		} else
 		{
-			put(itemRef, value);
+			this.addItem(itemRef, iValue);
 		}
-		itemCount = itemCount + value;
+		itemCount = itemCount + iValue;
 	}
 
+	/**
+	 * bucht value von item ab , 
+	 * wenn bestand > 0
+	 * @param itemRef
+	 * @param value
+	 * @return
+	 */
 	public Boolean withdrawItem(String itemRef, int value)
 	{
 		int actual = 0;
 		if(this.containsKey(itemRef))
 		{
-			actual = this.get(itemRef);
+			actual = this.get(itemRef).value();
 		}
 		if ((actual-value) >= 0)
 		{
-			this.put(itemRef, (actual - value));
+			value = value * -1;
+//			System.out.println("withdraw: "+value);
+			this.depositItem(itemRef, (value));
 			return true;
 		}
 		
@@ -123,7 +145,7 @@ public class ItemList  extends  HashMap<String, Integer>
 	{
 		if (containsKey(itemRef))
 		{
-			return get(itemRef);
+			return get(itemRef).value();
 		} else
 		{
 			return 0;
@@ -132,7 +154,7 @@ public class ItemList  extends  HashMap<String, Integer>
 	
 	public void setValue(String itemRef, int value)
 	{
-		put(itemRef, value);
+		putItem(itemRef, value);
 	}
 	
 //	public int size()
@@ -140,24 +162,24 @@ public class ItemList  extends  HashMap<String, Integer>
 //		return itemList.size();
 //	}
 	
-	/**
-	 * search in the itemlist for subString of search
-	 * @param search
-	 * @return result list of item , null if not found 
-	 */
-	public ItemList getSubList(String search)
-	{
-		ItemList subList = new ItemList();
-		for (String ref : keySet())
-		{
-			if (ref.contains(search))
-			{
-				subList.addItem(ref, get(ref));
-			}
-		}
-		
-		return subList;
-	}
+//	/**
+//	 * search in the itemlist for subString of search
+//	 * @param search
+//	 * @return result list of item , null if not found 
+//	 */
+//	public ItemList getSubList(String search)
+//	{
+//		ItemList subList = new ItemList();
+//		for (String ref : keySet())
+//		{
+//			if (ref.contains(search))
+//			{
+//				subList.addItem(ref, get(ref));
+//			}
+//		}
+//		
+//		return subList;
+//	}
 
 	public int getItemCount()
 	{
@@ -170,9 +192,9 @@ public class ItemList  extends  HashMap<String, Integer>
 	public void setItemCount()
 	{
 		itemCount = 0;
-		for (Integer value : values())
+		for (Item item : this.values())
 		{
-			itemCount = itemCount + value;
+			itemCount = itemCount + item.value();
 		}
 	}
 	

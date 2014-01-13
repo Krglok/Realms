@@ -101,7 +101,7 @@ public class DataTest implements DataInterface
 	 */
 	private void initSettlementList ()
 	{
-		testSettlements = new SettlementList(0);
+		testSettlements = new SettlementList(1);
 		testSettlements.addSettlement(createSettlement(1));
 	}
 
@@ -116,7 +116,7 @@ public class DataTest implements DataInterface
 		Townhall townhall = new Townhall(true);
 		Bank bank = new Bank();
 		Resident resident = new Resident();
-		resident.setSettlerCount(30);
+		resident.setSettlerCount(13);
 		Settlement settle =  new Settlement(
 				id, 
 				SettleType.SETTLE_HAMLET, 
@@ -172,7 +172,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_PROD, 
+						BuildingType.BUILDING_WHEAT, 
 						0,
 						workerNeeded,
 						0, 
@@ -390,27 +390,21 @@ public class DataTest implements DataInterface
 		testBuildings.addBuilding(createBuildingHome(7, 4,7));
 		testBuildings.addBuilding(createBuildingTaverne(8, 2,8));
 		testBuildings.addBuilding(createBuildingWarehouse(9, 5, 9));
-		testBuildings.addBuilding(createBuildingHome(10, 4,10));
-		testBuildings.addBuilding(createBuildingHome(11, 4,11));
-		testBuildings.addBuilding(createBuildingHome(12, 4,12));
-		testBuildings.addBuilding(createBuildingHome(13, 4,13));
-		testBuildings.addBuilding(createBuildingHome(14, 4,14));
 		testBuildings.addBuilding(createBuildingKornfeld(16, 1, 16));
 		testBuildings.addBuilding(createBuildingKornfeld(18, 1, 18));
 		testBuildings.addBuilding(createBuildingHolzfaeller(19, 1, 18));
 		testBuildings.addBuilding(createBuildingHome(28, 4,28));
 		testBuildings.addBuilding(createBuildingHome(29, 4,29));
-		testBuildings.addBuilding(createBuildingHome(30, 4,20));
-		testBuildings.addBuilding(createBuildingBauernhof(31, 8, 5, 31));
-		testBuildings.addBuilding(createBuildingBauernhof(32, 8, 5, 32));
-		testBuildings.addBuilding(createBuildingBauernhof(33, 8, 5, 33));
+//		testBuildings.addBuilding(createBuildingBauernhof(31, 8, 5, 31));
+//		testBuildings.addBuilding(createBuildingBauernhof(32, 8, 5, 32));
+//		testBuildings.addBuilding(createBuildingBauernhof(33, 8, 5, 33));
 		testBuildings.addBuilding(createBuildingHall(34, 2, 34));
-		testBuildings.addBuilding(createBuildingWerkstatt(41, 8, 5, 41, "WOOD_AXE", "STICK", "WOOD", "", ""));
-		testBuildings.addBuilding(createBuildingWerkstatt(42, 8, 5, 42, "IRON_SWORD", "BOW", "ARROW", "ARROW", "ARROW"));
-		testBuildings.addBuilding(createBuildingWerkstatt(43, 8, 5, 42, "IRON_HELMET", "IRON_CHESTPLATE", "IRON_LEGGINGS", "IRON_BOOTS", ""));
-		testBuildings.addBuilding(createBuildingBaecker(51, 8, 5, 51, "BREAD", "", "", "", ""));
-		testBuildings.addBuilding(createBuildingBaecker(52, 8, 5, 52, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
-		testBuildings.addBuilding(createBuildingBaecker(53, 8, 5, 53, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
+//		testBuildings.addBuilding(createBuildingWerkstatt(41, 8, 5, 41, "WOOD_AXE", "STICK", "WOOD", "", ""));
+//		testBuildings.addBuilding(createBuildingWerkstatt(42, 8, 5, 42, "IRON_SWORD", "BOW", "ARROW", "ARROW", "ARROW"));
+//		testBuildings.addBuilding(createBuildingWerkstatt(43, 8, 5, 42, "IRON_HELMET", "IRON_CHESTPLATE", "IRON_LEGGINGS", "IRON_BOOTS", ""));
+//		testBuildings.addBuilding(createBuildingBaecker(51, 8, 5, 51, "BREAD", "", "", "", ""));
+//		testBuildings.addBuilding(createBuildingBaecker(52, 8, 5, 52, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
+//		testBuildings.addBuilding(createBuildingBaecker(53, 8, 5, 53, "BREAD", "BREAD", "BREAD", "BREAD", "BREAD"));
 	}
 	
 	

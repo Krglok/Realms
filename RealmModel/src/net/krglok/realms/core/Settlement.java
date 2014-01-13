@@ -2,6 +2,9 @@ package net.krglok.realms.core;
 
 import java.util.HashMap;
 
+import org.bukkit.Material;
+
+import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.ServerInterface;
 
 /**
@@ -13,23 +16,14 @@ import net.krglok.realms.data.ServerInterface;
  */
 public class Settlement
 {
+	private static final int MAX_FOUND_ITEM = 128;
+	private static final double MIN_FOODCONSUM_COUNTER = -5.0;
 	private static final double TAVERNE_UNHAPPY_FACTOR = 2.0;
 	private static final double BASE_TAX_FACTOR = 10;
 	private static double TAVERNE_FREQUENT = 10.0;
 
 	private static final String NEW_SETTLEMENT = "New Settlement";
 
-	private static double SETTLER_TAXE = 1.0;
-	private static double TRADER_TAXE = 5.0;
-	private static double TAVERNE_TAXE = 7.0;
-
-	private static final int ENTERTAIN_SETTLERS = 50;
-
-	private static final int WarehouseChestFactor = 9;
-	private static final int TraderChestFactor = 4;
-	private static final int Chest_Store = 1728;
-	
-	private static final int Haupthaus_Settler = 5; 
 	
 	private static int COUNTER;
 	
@@ -53,13 +47,17 @@ public class Settlement
 	private Boolean isEnabled;
 	private Boolean isActive;
 	
+	private double hungerCounter = 0.0;
 	private double foodConsumCounter;
 	private Double buildingTax ;
 	
 	private BoardItemList productionOverview;
 	private BoardItemList taxOverview;
-	
-	
+
+	private double EntertainFactor = 0.0;
+	private double FoodFactor = 0.0;
+	private double SettlerFactor = 0.0;
+
 	/**
 	 * instance empty settlement with
 	 * - sequential ID
@@ -176,7 +174,6 @@ public class Settlement
 			BuildingList buildingList, Townhall townhall, Bank bank,
 			Resident resident)
 	{
-		super();
 		this.id = id;
 		this.settleType = settleType;
 		this.name = name;
@@ -240,11 +237,11 @@ public class Settlement
 	{
 		switch (settleType)
 		{
-		case SETTLE_HAMLET : return 4 * Chest_Store;
-		case SETTLE_TOWN   : return 4 * Chest_Store;
-		case SETTLE_CITY   : return 4 * Chest_Store;
-		case SETTLE_METRO  : return 4 * Chest_Store;
-		case SETTLE_CASTLE : return 4 * Chest_Store;
+		case SETTLE_HAMLET : return 4 * MessageText.CHEST_STORE;
+		case SETTLE_TOWN   : return 4 * MessageText.CHEST_STORE;
+		case SETTLE_CITY   : return 4 * MessageText.CHEST_STORE;
+		case SETTLE_METRO  : return 4 * MessageText.CHEST_STORE;
+		case SETTLE_CASTLE : return 4 * MessageText.CHEST_STORE;
 		default :
 			return 0;
 		}
@@ -259,11 +256,11 @@ public class Settlement
 	{
 		switch (settleType)
 		{
-		case SETTLE_HAMLET : return 1 * Haupthaus_Settler;
-		case SETTLE_TOWN   : return 1 * Haupthaus_Settler;
-		case SETTLE_CITY   : return 2 * Haupthaus_Settler;
-		case SETTLE_METRO  : return 4 * Haupthaus_Settler;
-		case SETTLE_CASTLE : return 4 * Haupthaus_Settler;
+		case SETTLE_HAMLET : return 1 * MessageText.Haupthaus_Settler;
+		case SETTLE_TOWN   : return 1 * MessageText.Haupthaus_Settler;
+		case SETTLE_CITY   : return 2 * MessageText.Haupthaus_Settler;
+		case SETTLE_METRO  : return 4 * MessageText.Haupthaus_Settler;
+		case SETTLE_CASTLE : return 4 * MessageText.Haupthaus_Settler;
 		default :
 			return 0;
 		}
@@ -392,8 +389,8 @@ public class Settlement
 	{
 		switch(building.getBuildingType())
 		{
-		case BUILDING_WAREHOUSE : return   WarehouseChestFactor * Chest_Store;
-		case BUILDING_TRADER    : return   TraderChestFactor * Chest_Store;
+		case BUILDING_WAREHOUSE : return   MessageText.WAREHOUSE_CHEST_FACTOR * MessageText.CHEST_STORE;
+		case BUILDING_TRADER    : return   MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
 		case BUILDING_WERKSTATT : return   0; //WerkstattChestFactor * Chest_Store;
 		case BUILDING_BAUERNHOF : return   0; //BauernhofChestFactor * Chest_Store;
 		default :
@@ -413,7 +410,7 @@ public class Settlement
 	{
 		switch(building.getBuildingType())
 		{
-			case BUILDING_TRADER    : return TraderChestFactor * Chest_Store;
+			case BUILDING_TRADER    : return MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
 			default :
 				return 0 ;
 		}
@@ -456,31 +453,34 @@ public class Settlement
 	 */
 	public static Boolean addBuilding(Building building, Settlement settlement)
 	{
-		if(settlement.buildingList.addBuilding(building))
+		if (settlement != null)
 		{
-			int value = settlement.getWarehouse().getItemMax();
-			switch(building.getBuildingType())
+			if(settlement.buildingList.addBuilding(building))
 			{
-			case BUILDING_HALL: 
-				settlement.townhall.setIsEnabled(true);
-				settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
-				break;
-			case BUILDING_WAREHOUSE :
-				settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
-				break;
-			case BUILDING_TRADER :
-				settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
-				break;
-			case BUILDING_MILITARY :
-				settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
-				break;
-			default :
-				break;
+				int value = settlement.getWarehouse().getItemMax();
+				switch(building.getBuildingType())
+				{
+				case BUILDING_HALL: 
+					settlement.townhall.setIsEnabled(true);
+					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
+	//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
+					break;
+				case BUILDING_WAREHOUSE :
+					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
+	//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
+					break;
+				case BUILDING_TRADER :
+					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
+	//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
+					break;
+				case BUILDING_MILITARY :
+					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
+					break;
+				default :
+					break;
+				}
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
@@ -534,6 +534,26 @@ public class Settlement
 	public void setBuildingTax(Double buildingTax)
 	{
 		this.buildingTax = buildingTax;
+	}
+
+	public double getFoodConsumCounter()
+	{
+		return foodConsumCounter;
+	}
+
+	public double getEntertainFactor()
+	{
+		return EntertainFactor;
+	}
+
+	public double getFoodFactor()
+	{
+		return FoodFactor;
+	}
+
+	public double getSettlerFactor()
+	{
+		return SettlerFactor;
 	}
 
 	public BoardItemList getProductionOverview()
@@ -593,7 +613,7 @@ public class Settlement
 		boolean isStock = true;
 		for (String itemRef : items.keySet())
 		{
-			iValue = items.get(itemRef)*prodFactor;
+			iValue = items.getValue(itemRef)*prodFactor;
 			if (this.warehouse.getItemList().getValue(itemRef) < iValue)
 			{
 				isStock = false;
@@ -602,7 +622,8 @@ public class Settlement
 					requiredProduction.depositItem(itemRef, iValue);
 				} else
 				{
-					requiredProduction.addItem(itemRef, iValue);
+					requiredProduction.depositItem(itemRef, iValue);
+//					requiredProduction.addItem(itemRef, iValue);
 				}
 
 			}
@@ -613,11 +634,102 @@ public class Settlement
 	public void consumStock(int prodFactor, ItemList items)
 	{
 		int iValue = 0;
-		for (String itemRef : items.keySet())
+		for (Item item : items.values())
 		{
-			iValue = items.get(itemRef)*prodFactor;
-			this.getWarehouse().withdrawItemValue(itemRef, iValue);
+			iValue = item.value() *prodFactor;
+			this.getWarehouse().withdrawItemValue(item.ItemRef(), iValue);
+//			System.out.println("Withdraw-"+item.ItemRef()+":"+iValue+":"+prodFactor);
 		}
+	}
+	
+	private void checkDecay()
+	{
+		int wheat = warehouse.getItemList().getValue("WHEAT");
+		// berechnet mindestBestand
+		wheat = wheat - (resident.getSettlerMax()*5);
+		if (wheat > 0)
+		{
+			int decay = wheat / 100;
+			warehouse.withdrawItemValue("WHEAT", decay);
+		}
+	}
+	
+	public int getUsedBuildingCapacity()
+	{
+		int usedCapacity = 0;
+		for (BuildingType bType : warehouse.getTypeCapacityList().keySet())
+		{
+			usedCapacity = usedCapacity + warehouse.getTypeCapacity(bType);
+		}
+		return usedCapacity;
+	}
+	
+	private int getFoundCapacity()
+	{
+		int usedBuildCap = getUsedBuildingCapacity();
+		if ( usedBuildCap > warehouse.getItemCount())
+		{
+			return warehouse.getItemMax() - usedBuildCap - 512;
+		} else
+		{
+			return warehouse.getItemMax() - warehouse.getItemCount() - 512;
+		}
+	}
+	
+	private String getFoundItem()
+	{
+		int Dice = 20;
+		int wuerfel = (int) (Math.random()*Dice+1);
+		switch (wuerfel)
+		{
+		case 1 : return Material.WOOD.name();
+		case 2 : return Material.STICK.name();
+		case 3 : return Material.IRON_ORE.name();
+		case 4 : return Material.IRON_INGOT.name();
+		case 5 : return Material.RAW_FISH.name();
+		case 6 : return Material.SEEDS.name();
+		case 7 : return Material.WOOD.name();
+		case 8 : return Material.GOLD_NUGGET.name();
+		case 9 : return Material.SEEDS.name();
+		case 10 : return Material.CARROT.name();
+		case 11 : return Material.BREAD.name();
+		case 12 : return Material.BONE.name();
+		case 13 : return Material.WOOL.name();
+		case 14 : return Material.WOOL.name();
+		case 15 : return Material.SAND.name();
+		case 16 : return Material.SAND.name();
+		default :
+			return Material.AIR.name();
+		}
+	}
+	
+	private void checkFoundItems()
+	{
+		if (getFoundCapacity() < resident.getSettlerCount()-townhall.getWorkerCount())
+		{
+			return;
+		}
+		int notWorker = resident.getSettlerCount()-townhall.getWorkerCount();
+		int Dice = 20;
+		int wuerfel = 0;
+		String foundItem = "";
+		for (int i = 0; i < notWorker; i++)
+		{
+			wuerfel = (int) (Math.random()*Dice+1);
+			if (wuerfel < 3)
+			{
+				foundItem = getFoundItem();
+				if (foundItem != Material.AIR.name())
+				{
+					if (getFoundCapacity() > 1)
+					{
+						warehouse.depositItemValue(foundItem, 1);
+						productionOverview.addCycleValue(foundItem, 1);
+					}
+				}
+			}
+		}
+		
 	}
 	
 	/**
@@ -634,7 +746,7 @@ public class Settlement
 				taxSum = taxSum + building.getTaxe(server, building.getId());
 			}
 		}
-		taxSum = taxSum + townhall.getWorkerCount() * SETTLER_TAXE;
+		taxSum = taxSum + townhall.getWorkerCount() * MessageText.SETTLER_TAXE;
 //		taxSum = resident.getSettlerCount() * SETTLER_TAXE;
 		bank.addKonto(taxSum);
 	}
@@ -661,7 +773,7 @@ public class Settlement
 	 */
 	private double calcEntertainment()
 	{
-		int tavernNeeded = (resident.getSettlerCount() / ENTERTAIN_SETTLERS)+1;
+		int tavernNeeded = (resident.getSettlerCount() / MessageText.ENTERTAIN_SETTLERS);
 		int tavernCount = 0;
 		double factor = 0.0;
 		for (Building building : buildingList.getBuildingList().values())
@@ -676,7 +788,13 @@ public class Settlement
 		}
 		if (tavernCount > 0)
 		{
-		  factor = ((tavernCount * 100.0) / (tavernNeeded * 100.0)) / 100 * 0.2;
+			if (tavernNeeded >= tavernCount)
+			{
+			  factor = ((double) tavernCount  / (double)tavernNeeded );
+			} else
+			{
+				factor = 0.5;
+			}
 		}
 		
 		return factor;
@@ -688,61 +806,57 @@ public class Settlement
 	public void setHappiness()
 	{
 		double sumDif = 0.0;
-		sumDif = calcEntertainment();
-		sumDif = sumDif + consumeFood(resident.calcResidentHappiness(resident.getHappiness()));
-		sumDif = sumDif + resident.calcResidentHappiness(resident.getHappiness());
+		double resiDif = 0.0;
+		EntertainFactor = calcEntertainment();
+		SettlerFactor = resident.calcResidentHappiness(SettlerFactor); //resident.getHappiness());
+		FoodFactor = consumeFood(); //SettlerFactor);
+		sumDif = EntertainFactor + SettlerFactor + FoodFactor;
 		resident.setHappiness(sumDif);
 		resident.settlerCount();
 
 	}
 	
-	/**
-	 * calculate happines for the food supply of the settlers
-	 * - no influence if fodd supply is guarantee 
-	 * - haevy influence if food supply too low.
-	 * the settlers are all supplied or none  
-	 * @param oldFactor
-	 * @return happiness factor of food supply 
-	 */
-	private double consumeFood(double oldFactor)
+	
+	private double checkConsume(String foodItem , int amount, int required)
 	{
 		double factor = 0.0; 
-		int value = resident.getSettlerCount();
-//		Integer bread = warehouse.getItemList().get("BREAD");
-//		if (bread != null) 
-//		{ 
-//			if (value <= bread)
-//			{
-//				warehouse.withdrawItemValue("BREAD", value);
-//				foodConsumCounter = foodConsumCounter + (resident.getSettlerCount() / 10.0);
-//				factor = 0.0;
-//				if (resident.getHappiness() < 0.8)
-//				{
-//					factor = 0.2;
-//				}
-//				if (resident.getHappiness() < 0.8)
-//				{
-//					factor = 0.2;
-//				}
-//				foodConsumCounter = 0;
-//				return factor;
-//			}
-//			
-//		} else { bread = 0;}
-
-		Integer wheat = warehouse.getItemList().get("WHEAT");
-		if (wheat == null) { wheat = 0;}
-		if (value > wheat)
-		{		
-			factor = (resident.getSettlerCount() / -10.0);
-			foodConsumCounter = foodConsumCounter + factor;
+		if (required > amount)
+		{	
+			// keine Versorgung
+			if (resident.getSettlerCount() > 5)
+			{
+				
+				factor = hungerCounter + ((double)required / (double)resident.getSettlerMax()) * -1.0;
+				if (foodConsumCounter > MIN_FOODCONSUM_COUNTER)
+				{
+					foodConsumCounter = foodConsumCounter + factor;
+				}
+				requiredProduction.depositItem(foodItem, required);
+				hungerCounter = factor ; // hungerCounter + factor;
+				if (resident.getHappiness() < MIN_FOODCONSUM_COUNTER)
+				{
+					factor = 0.0;
+				}
+			}
 		} else
 		{
-			warehouse.withdrawItemValue("WHEAT", value);
-			foodConsumCounter = foodConsumCounter + (resident.getSettlerCount() / 20.0);
+			hungerCounter = 0.0;
+			warehouse.withdrawItemValue(foodItem, required);
+//			System.out.println(foodItem+":"+required);
+			productionOverview.addCycleValue(foodItem, (required* -1));
+			if (foodConsumCounter > MIN_FOODCONSUM_COUNTER)
+			{
+				foodConsumCounter = foodConsumCounter + ((double)resident.getSettlerCount() / 20.0);
+			}
 			if (foodConsumCounter < 1)
 			{
-				factor = -0.1;
+				if (resident.getHappiness() > MIN_FOODCONSUM_COUNTER)
+				{
+					factor = -0.1;
+				} else
+				{
+					factor = 0.0;
+				}
 			} else
 			{
 				if (resident.getHappiness() < 0.6)
@@ -762,7 +876,50 @@ public class Settlement
 				foodConsumCounter = 0;
 			}
 		}
-		
+		return factor;
+	}
+	
+	/**
+	 * calculate happines for the food supply of the settlers
+	 * - no influence if fodd supply is guarantee 
+	 * - haevy influence if food supply too low.
+	 * the settlers are all supplied or none  
+	 * @param oldFactor
+	 * @return happiness factor of food supply 
+	 */
+	private double consumeFood() //double oldFactor)
+	{
+		double factor = 0.0; 
+		int required = resident.getSettlerCount();
+		String foodItem = "";
+		int amount = 0;
+		// Bread consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "BREAD";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount);
+			}
+		}
+		foodItem = "WHEAT";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > required)
+		{
+			factor = factor + checkConsume(foodItem, amount, required);
+			
+		} else
+		{
+			factor = factor + checkConsume(foodItem, amount, required);
+		}
+//		
 		return factor;
 	}
 	
@@ -781,6 +938,31 @@ public class Settlement
 		}
 		townhall.setWorkerNeeded(workerSum);
 	}
+
+	private void setStoreCapacity()
+	{
+		warehouse.getTypeCapacityList().clear();
+		for (Building building : buildingList.getBuildingList().values())
+		{
+			warehouse.setTypeCapacity(building.getBuildingType(), building.getStoreCapacity());
+		}
+	}
+	
+	private boolean checkStoreCapacity(ServerInterface server, Building building)
+	{
+		String itemRef = "";
+		boolean isResult = true;
+		ItemArray products = building.buildingProd(server, building.getHsRegionType());
+		for (Item item : products)
+		{
+			itemRef = item.ItemRef();
+			if (warehouse.getItemList().getValue(itemRef) > warehouse.getTypeCapacity(building.getBuildingType()))
+			{
+				isResult = false;
+			}
+		}
+		return isResult;
+	}
 	
 	/**
 	 * set workers to buildings. no priority
@@ -792,7 +974,21 @@ public class Settlement
 		int workerCount = 0;
 		for (Building building : buildingList.getBuildingList().values())
 		{
-			if (building.isEnabled())
+			if ((building.isEnabled()) &&(building.getHsRegionType().equalsIgnoreCase("kornfeld")))
+			{
+				if (workerSum >= workerCount + building.getWorkerNeeded())
+				{
+					workerCount = workerCount + building.getWorkerNeeded();
+					building.setWorkerInstalled(building.getWorkerNeeded());
+				} else
+				{
+//					building.setIsEnabled(false);
+				}
+			}
+		}
+		for (Building building : buildingList.getBuildingList().values())
+		{
+			if ((building.isEnabled()) &&(!building.getHsRegionType().equalsIgnoreCase("kornfeld")))
 			{
 				if (workerSum >= workerCount + building.getWorkerNeeded())
 				{
@@ -808,13 +1004,21 @@ public class Settlement
 		return workerSum-workerCount;
 	}
 
+	
 	public void checkBuildingsEnabled(ServerInterface server)
 	{
 		for (Building building : buildingList.getBuildingList().values())
 		{
 			if (building.isActive())
 			{
-				building.setIsEnabled(true);
+				// Pruefe ob StorageCapacitaet des Types ausgelastet ist
+				if (checkStoreCapacity(server, building))
+				{
+					building.setIsEnabled(true);
+				} else
+				{
+					building.setIsEnabled(false);
+				}
 				// pruefe ob Stronghold region enabled sind
 				server.checkRegionEnabled(building.getHsRegion());
 			} else
@@ -833,6 +1037,7 @@ public class Settlement
 		return requiredProduction;
 	}
 
+	
 	/**
 	 * get production get from producer buildings in the settlement
 	 * @param server
@@ -844,37 +1049,51 @@ public class Settlement
 		double sale = 0.0;
 		double cost = 0.0;
 		double account = 0.0; 
-		ItemArray items;
-		ItemList recipeList;
+		ItemArray products;
+		ItemList ingredients;
 		requiredProduction.clear();
 		productionOverview.resetLastAll();
+		setStoreCapacity();
+//		checkDecay();
+		checkFoundItems();
 		for (Building building : buildingList.getBuildingList().values())
 		{
 			if (building.isEnabled())
 			{
 				sale = 0.0;
-				items = building.produce(server);
-				for (Item item : items)
+				products = building.produce(server);
+				for (Item item : products)
 				{
-					
 					switch(building.getBuildingType())
 					{
+					case BUILDING_WHEAT :
+						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
+						prodFactor = 1;
+						break;
 					case BUILDING_PROD :
-						recipeList = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
+						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
 						prodFactor = 1;
 						break;
 					case BUILDING_BAUERNHOF:
-						recipeList = server.getRecipe(item.ItemRef());
+//						ingredients = server.getRecipe(item.ItemRef());
+						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
 						prodFactor = server.getRecipeFactor(item.ItemRef());
 						break;
 					case BUILDING_WERKSTATT:
-						recipeList = server.getRecipe(item.ItemRef());
-						recipeList.remove(item.ItemRef());
+						ingredients = server.getRecipe(item.ItemRef());
+						ingredients.remove(item.ItemRef());
 						prodFactor = server.getRecipeFactor(item.ItemRef());
 						break;
 					case BUILDING_BAECKER:
-						recipeList = server.getRecipe(item.ItemRef());
-						recipeList.remove(item.ItemRef());
+						if (building.isSlot())
+						{
+//							System.out.println("SLOT "+item.ItemRef());
+							ingredients = server.getRecipe(item.ItemRef());
+							ingredients.remove(item.ItemRef());
+						} else
+						{
+							ingredients = server.getRegionUpkeep(building.getHsRegionType());
+						}
 						prodFactor = server.getRecipeFactor(item.ItemRef());
 						break;
 					case BUILDING_ENTERTAIN:
@@ -893,26 +1112,26 @@ public class Settlement
 							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * TAVERNE_UNHAPPY_FACTOR;
 						}
 						building.setSales(sale);	
-						recipeList = new ItemList();
+						ingredients = new ItemList();
 						break;
 					case BUILDING_GOVERNMENT:
 						// the can consum money by collect negativ values
 						// the minimum is the tax_rate for Settlers
-						recipeList = new ItemList();
+						ingredients = new ItemList();
 						break;
 					default :
-						recipeList = new ItemList();
+						ingredients = new ItemList();
 						prodFactor = 1;
 						break;
 					}
 					
-					if (checkStock(prodFactor, recipeList))
+					if (checkStock(prodFactor, ingredients))
 					{
 						iValue = item.value();
 						// berechne Umsatz der Produktion
 						sale = building.calcSales(server,item.ItemRef());
 						// berechne Kosten der Produktion
-						cost = server.getRecipePrice(item.ItemRef(), recipeList);
+						cost = server.getRecipePrice(item.ItemRef(), ingredients);
 						if ((sale - cost) > 0.0)
 						{
 						// setze Ertrag auf Building .. der Ertrag wird versteuert !!
@@ -923,7 +1142,8 @@ public class Settlement
 							account =  1.0 * (double) iValue;
 							building.addSales(account); //-cost);
 						}
-						consumStock(prodFactor, recipeList);
+						consumStock(prodFactor, ingredients);
+//						System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
 						warehouse.depositItemValue(item.ItemRef(),iValue);
 						productionOverview.addCycleValue(item.ItemRef(), iValue);
 					}
@@ -931,6 +1151,7 @@ public class Settlement
 				building.addSales(sale);
 			}
 		}
+		productionOverview.addCycle();
 	}
 	
 	public void doCalcTax()

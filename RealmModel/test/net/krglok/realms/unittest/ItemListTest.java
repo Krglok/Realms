@@ -82,29 +82,5 @@ public class ItemListTest
 		assertEquals(expected, actual);
 	}
 
-	@Test
-	public void testInitItemSublList()
-	{
-		ConfigTest data = new ConfigTest();
-		ItemList iList = data.getToolItems();
-
-		if (isOutput)
-		{	
-			System.out.println("===Item search sublist ====");
-		}
-		int i = 0;
-		for (String ref : iList.getSubList("STONE").keySet())
-		{
-			if (isOutput)
-			{	
-				i++;
-				System.out.println(ref+ " : "+iList.getValue(ref));
-			}
-		}
-		
-		int expected = 4;
-		int actual = iList.getSubList("STONE").size();
-		assertEquals(expected, actual);
-	}
 	
 }

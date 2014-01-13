@@ -9,14 +9,17 @@ package net.krglok.realms.core;
  */
 public class Resident
 {
+	private static final double FertilityCounter_Limit = 50.0;
 	private static double FERTILITY = 3.0;   //  % satz 
-	private static double  LETHALITY= 3.0;   //  % satz
+	private static double  LETHALITY= 1.0;   //  % satz
 	private static final double BASE_HAPPINES = 0.5;   
 	
 	private int settlerMax;
 	private int settlerBirthrate;
 	private int settlerDeathrate;
 	private double fertilityCounter ;
+	private double fertilityBase ;
+	private double deathCounter = 0.0;
 	
 	private int settlerCount;
 //	private int workerCount;
@@ -269,15 +272,24 @@ public class Resident
 	public double calcResidentHappiness(double value)
 	{
 		double dif = 0.0;
-		if (settlerMax > 0)
+		if (settlerMax <= 0)
 		{
-	    	dif = ((double)(settlerMax  - settlerCount) / (double)settlerMax );
-			value = value + dif;
+			return 0.0;
 		}
-		if (value < 0.3)
+		if ((settlerMax  - settlerCount) > 0 )
 		{
-			value = 0.3;
+			if (happiness < 5.0)
+			{
+				dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 20.0 );
+			}
+		} else
+		{
+			if (happiness > -5.0)
+			{
+				dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 6.0 );
+			}
 		}
+		value = value + dif;
 		return value;
 	}
 	
@@ -289,9 +301,14 @@ public class Resident
 	private double calcHappyFactor(double value)
 	{
 		double factor = 0.0;
-		factor = (happiness - BASE_HAPPINES);
-		value = (value * factor);
-		return value;
+		if (happiness > 1.5)
+		{
+			return value;
+		} else
+		{
+			factor = (happiness - BASE_HAPPINES);
+			return (value * factor);
+		}
 	}
 
 	/**
@@ -320,32 +337,64 @@ public class Resident
 	{
 		// guaranted minimum settler
 		double value = 0.0;
+		double factor =  0.0 ;
+		double overload = settlerMax * happiness / 100;
 		if (settlerCount < 5)
 		{
 			settlerCount = 5;
+			settlerBirthrate = 0;
+			
 		}
-		double factor = (settlerMax-settlerCount);
-//		factor = factor / settlerMax;
-		if (happiness > 0.5)
+		if (happiness < 0.0)
 		{
-			value = (settlerCount * FERTILITY/100)+(factor * calcHappyFactor(FERTILITY)/100);
+			value  = 0;
 		} else
 		{
-			value = (factor * calcHappyFactor(FERTILITY)/100);
-		}
-		if (fertilityCounter >= 100.0)
-		{
-			value = value +1;
-			fertilityCounter = factor/10 ;
-		} else
-		{
-			fertilityCounter = fertilityCounter + factor/10;
-		}
-		if (happiness < 0)
-		{
-			value = 0;
-		}
-		
+			// basis Counter zählt in 30 runden bis 100
+			fertilityBase = fertilityBase + (100 / 30.0);
+			// Freier Platzfaktor in %
+			if ((settlerMax > settlerCount))
+			{
+				fertilityBase = fertilityBase + (settlerMax-settlerCount)/settlerMax ;
+	//		} else
+	//		{
+	//			fertilityBase = fertilityBase +(happiness / 10.0) ;
+			}
+			// Happiness einfluss auf fertilty 
+			fertilityBase = fertilityBase  + calcHappyFactor(FERTILITY);
+			
+			if (fertilityBase > 50.0)
+			{
+				// normale fertility rate based on populatio
+				fertilityBase = fertilityBase -50.0;
+				value = (settlerCount) * FERTILITY / 100;
+				// minimum birthrate = 1 
+				if (value < 1.0)
+				{
+					value = value +1.0;
+				}
+			}
+			if (fertilityCounter >= FertilityCounter_Limit)
+			{
+				value = value + 1.0;
+				fertilityCounter = fertilityCounter - FertilityCounter_Limit;
+			} else
+			{
+				if ((settlerMax-settlerCount) > 0)
+				{
+					if (happiness > 1.0)
+					{
+						fertilityCounter = fertilityCounter + ((settlerMax-settlerCount)/settlerMax *2.0) ;
+					} else
+					{
+						fertilityCounter = fertilityCounter + (settlerMax-settlerCount)/settlerMax;
+					}
+				} else
+				{
+					
+				}
+			}
+		}		
 		settlerBirthrate = (int) value;
 		
 	}
@@ -361,26 +410,40 @@ public class Resident
 	private void setDeathrate()
 	{
 		// guaranted minimum settler
-		if (settlerCount < 5)
+		double value = 0.0;
+		if (settlerCount <= 5)
 		{
 			settlerCount = 5;
+			settlerDeathrate = 0;
+			return;
 		}
 		double factor = 0.0;
+		value = (double)(settlerCount) * LETHALITY / 100.0;
 		if (happiness > BASE_HAPPINES )
 		{
-			factor = 0;
+			value  = 0;
 		} else
 		{
 			if (happiness < 0)
 			{
-				factor = happiness-1;
+				factor = value / 2;
+				value = value + factor;
+				deathCounter = deathCounter + LETHALITY; // - happiness;
 			} else
 			{
-				factor = ((settlerMax-settlerCount) * LETHALITY/100)  + ((settlerMax-settlerCount) *calcUnhappyFactor(LETHALITY)/100);
+//				value = value / 2;
 			}
 		}
+		if (deathCounter > 100.0)
+		{
+			value = value + 1;
+			deathCounter = deathCounter -100.0;
+		} else
+		{
+			deathCounter = deathCounter + 10;
+		}
 		// deatrate !! not  > =
-		settlerDeathrate = (int) factor;
+		settlerDeathrate = (int) value;
 	}
 	
 	/**
@@ -390,7 +453,7 @@ public class Resident
 	{
 		setBirthrate();
 		setDeathrate();
-		settlerCount = settlerCount + settlerBirthrate + settlerDeathrate;
+		settlerCount = settlerCount + settlerBirthrate - settlerDeathrate;
 	}
 
 	

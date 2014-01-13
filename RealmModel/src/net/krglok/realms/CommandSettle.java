@@ -198,7 +198,7 @@ public class CommandSettle
 				
 				for (BoardItem b :  plugin.getRealmModel().getSettlements().getSettlement(id).getTaxOverview().values())
 				{
-					msg.add(b.getName()+": "+ChatColor.GREEN+(int)b.getLastValue()+ " | "+ChatColor.YELLOW+b.getCycleCount()+" | "+(int)b.getCycleSum()+ChatColor.GOLD+" | "+b.getPeriodCount()+" | "+(int)b.getPeriodSum());
+					msg.add(b.getName()+": "+ChatColor.GREEN+(int)b.getLastValue()+ " | "+ChatColor.YELLOW+ plugin.getRealmModel().getSettlements().getSettlement(id).getTaxOverview().getCycleCount()+" | "+(int)b.getCycleSum()+ChatColor.GOLD+" | "+ plugin.getRealmModel().getSettlements().getSettlement(id).getTaxOverview().getPeriodCount()+" | "+(int)b.getPeriodSum());
 				}
 			} else
 			{
@@ -238,7 +238,7 @@ public class CommandSettle
 				
 				for (BoardItem b :  plugin.getRealmModel().getSettlements().getSettlement(id).getProductionOverview().values())
 				{
-					msg.add(ChatColor.GREEN+b.getName()+": "+b.getLastValue()+ " | "+ChatColor.YELLOW+b.getCycleCount()+" | "+b.getCycleSum()+ChatColor.GOLD+" | "+b.getPeriodCount()+" | "+b.getPeriodSum());
+					msg.add(ChatColor.GREEN+b.getName()+": "+b.getLastValue()+ " | "+ChatColor.YELLOW+ plugin.getRealmModel().getSettlements().getSettlement(id).getTaxOverview().getCycleCount()+" | "+b.getCycleSum()+ChatColor.GOLD+" | "+ plugin.getRealmModel().getSettlements().getSettlement(id).getTaxOverview().getPeriodCount()+" | "+b.getPeriodSum());
 				}
 				msg.add(ChatColor.GOLD+"=================================");
 				msg.add(ChatColor.ITALIC+"Required Items : "+settle.getRequiredProduction().size());
@@ -617,7 +617,14 @@ public class CommandSettle
 		// minimum settler on create
 		settlement.getResident().setSettlerCount(settlement.getResident().getSettlerMax()/2);
 		settlement.getWarehouse().depositItemValue("WHEAT",settlement.getResident().getSettlerMax()*2 );
+		settlement.getWarehouse().depositItemValue("BREAD",settlement.getResident().getSettlerMax()*2 );
 		settlement.getWarehouse().depositItemValue("WOOD_HOE",settlement.getResident().getSettlerMax());
+		settlement.getWarehouse().depositItemValue("WOOD_AXE",settlement.getResident().getSettlerMax());
+		settlement.getWarehouse().depositItemValue("WOOD_PICKAXE",settlement.getResident().getSettlerMax());
+		settlement.getWarehouse().depositItemValue("LOG",settlement.getResident().getSettlerMax());
+		settlement.getWarehouse().depositItemValue("WOOD",settlement.getResident().getSettlerMax());
+		settlement.getWarehouse().depositItemValue("STICK",settlement.getResident().getSettlerMax());
+		settlement.getWarehouse().depositItemValue("COBBLESTONE",settlement.getResident().getSettlerMax());
 		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
 
 		plugin.getData().writeSettlement(settlement);
@@ -636,33 +643,58 @@ public class CommandSettle
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1;
+		int id = 0;
 		String lCommand = "";
 		if (commandArg.size() > 0)
 		{
 			lCommand = commandArg.get(0);
 			if (lCommand.equalsIgnoreCase("WAREHOUSE"))
 			{
+				if (commandArg.size() < 3)
+				{
+					plugin.getMessageData().errorSettleID(sender, subCommand);
+					return true;
+				}
 				page = CommandArg.argToInt(commandArg.get(1));
+				id = CommandArg.argToInt(commandArg.get(2));
 			}else
 			{
 				page = CommandArg.argToInt(commandArg.get(0));
 			}
 			
 		} 
-	    SettlementList  rList = plugin.getRealmModel().getSettlements();
-	    if (rList != null)
-	    {
-			msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
-		    for (Settlement settle : rList.getSettlements().values())
+		if (lCommand.equalsIgnoreCase("WAREHOUSE"))
+		{
+		    Settlement  settle = plugin.getRealmModel().getSettlements().getSettlement(id);
+		    if (settle != null)
 		    {
-	    		msg.add(settle.getId()+" : "+ChatColor.YELLOW+settle.getName()+" : "+ChatColor.GOLD+settle.isEnabled()+" Owner: "+settle.getOwner());
+				msg.add(settle.getName()+" Warehouse  [ "+settle.getWarehouse().getItemList().size()+"/"+settle.getWarehouse().getItemList().getItemCount() +" ]");
+			    for (Item item : settle.getWarehouse().getItemList().values())
+			    {
+		    		msg.add(item.ItemRef()+" : "+ChatColor.YELLOW+item.value());
+			    }
+		    } else
+		    {
+				plugin.getMessageData().errorSettleID(sender, subCommand);
+		    	return true;
 		    }
-	    } else
-	    {
-			msg.add("ID |Settlement | Active | Owner [  ]");
-	    	msg.add("/settle list ");
-	    	msg.add("NO settlements found !!");
-	    }
+		} else
+		{
+		    SettlementList  rList = plugin.getRealmModel().getSettlements();
+		    if (rList != null)
+		    {
+				msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
+			    for (Settlement settle : rList.getSettlements().values())
+			    {
+		    		msg.add(settle.getId()+" : "+ChatColor.YELLOW+settle.getName()+" : "+ChatColor.GOLD+settle.isEnabled()+" Owner: "+settle.getOwner());
+			    }
+		    } else
+		    {
+				msg.add("ID |Settlement | Active | Owner [  ]");
+		    	msg.add("/settle list ");
+		    	msg.add("NO settlements found !!");
+		    }
+		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		return true;
 	}
@@ -894,6 +926,7 @@ public class CommandSettle
 			msg.add("/settle delete  <not implemented>");
 			msg.add("/settle info {page} {ID} ,show overview realm");
 			msg.add("/settle list {page} , list the settlements");
+			msg.add("/settle list Warehouse [page] [id] ,Items in warehouse");
 			msg.add("/settle set [SettleID] [SETTLER] [amount] ");
 			msg.add("/settle help {SubCommand} , show help ");
 			msg.add("for SubCommand");

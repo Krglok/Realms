@@ -46,4 +46,17 @@ public class ItemArray extends ArrayList<Item>
 		}
 		addItem( itemRef,  iValue);
 	}
+
+	public void setItem(String itemRef, int iValue)
+	{
+		for (int i = 0; i < this.size(); i++)
+		{
+			if (this.get(i).ItemRef().equals(itemRef))
+			{
+				this.getItem(itemRef).setValue(iValue);
+			}
+			return;
+		}
+		addItem( itemRef,  iValue);
+	}
 }
