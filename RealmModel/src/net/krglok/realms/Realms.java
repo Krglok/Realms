@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.data.*;
 import net.krglok.realms.model.RealmCommandType;
 import net.krglok.realms.model.RealmModel;
@@ -23,9 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class Realms extends JavaPlugin
 {
-	public final static long dayNight = 24000 ; // serverTicks 
-	public final static long RealmTick = 20L; 
-	public final static long DelayTick = 20L; 
 	private Logger log = Logger.getLogger("Minecraft"); 
 	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
 	private final CommandModel commandModel  = new CommandModel(this);
@@ -97,7 +95,7 @@ public final class Realms extends JavaPlugin
         //Setup repeating sync task for calculating model
         tick = new TickTask(this);
         // parameter plugin, Runnable , DealyTick to start, Tick to run
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, tick, DelayTick, RealmTick);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, tick, ConfigBasis.DelayTick, ConfigBasis.RealmTick);
         
         Date date = new Date();
         long timeUntilDay = (TaxTask.DAY_SECONDS + date.getTime() - System.currentTimeMillis()) / TaxTask.TICKTIME;

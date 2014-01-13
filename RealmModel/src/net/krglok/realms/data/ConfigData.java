@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.bukkit.configuration.file.FileConfiguration;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
 
@@ -15,14 +16,8 @@ import net.krglok.realms.core.SettleType;
  * @author Windu
  *
  */
-public class ConfigData implements ConfigInterface
+public class ConfigData extends ConfigBasis implements ConfigInterface
 {
-	private static final String CONFIG_SETTLEMENT_COUNTER = "settlementCounter";
-	private static final String CONFIG_REALM_COUNTER = "realmCounter";
-	private static final String CONFIG_PLUGIN_VER = "plugin_ver";
-	private static final String CONFIG_PLUGIN_NAME = "plugin_name";
-	private static final String PLUGIN_NAME = "Realms";
-	private static String PLUGIN_VER = "0.1.0";
 
 	// RegionTypeBuildingType
 	private HashMap<String,String> regionBuildingTypes;

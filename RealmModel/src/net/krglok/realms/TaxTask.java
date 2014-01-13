@@ -1,12 +1,14 @@
 package net.krglok.realms;
 
+import net.krglok.realms.core.ConfigBasis;
+
 
 public class TaxTask implements Runnable
 {
     private final Realms plugin;
     public static final long TICKTIME = 50;
     public static final long DAY_SECONDS = 86400000;
-	public static long TAX_SCHEDULE =  20* Realms.RealmTick * 30 * 12; //Realms.dayNight / Realms.RealmTick * 30;  //1728000;
+	public static long TAX_SCHEDULE =  20* ConfigBasis.RealmTick * 30 * 12; //Realms.dayNight / Realms.RealmTick * 30;  //1728000;
     private static int counter = 0;
     private static boolean isTax = true;
     private static int taxCounter = 1;

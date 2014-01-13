@@ -9,7 +9,6 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
-import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
 
@@ -38,7 +37,7 @@ import net.krglok.realms.data.ServerInterface;
 public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
-	private static final String REALM_MODEL_VER = "0.1.0";
+	private static final String REALM_MODEL_VER = "0.3.0";
 
 	private ModelStatus modelStatus;
 	private ServerInterface server;

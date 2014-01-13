@@ -58,6 +58,8 @@ public class Settlement
 	private double FoodFactor = 0.0;
 	private double SettlerFactor = 0.0;
 
+	private String world;
+
 	/**
 	 * instance empty settlement with
 	 * - sequential ID
@@ -84,6 +86,7 @@ public class Settlement
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
+		world = "";
 	}
 
 	/**
@@ -115,6 +118,7 @@ public class Settlement
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
+		world = "";
 }
 
 	/**
@@ -148,6 +152,7 @@ public class Settlement
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
+		world = "";
 	}
 	
 	
@@ -172,7 +177,7 @@ public class Settlement
 			Position position, String owner,
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
-			Resident resident)
+			Resident resident, String world)
 	{
 		this.id = id;
 		this.settleType = settleType;
@@ -192,6 +197,7 @@ public class Settlement
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
+		this.world = world;
 	}
 
 	/**
@@ -554,6 +560,16 @@ public class Settlement
 	public double getSettlerFactor()
 	{
 		return SettlerFactor;
+	}
+
+	public String getWorld()
+	{
+		return world;
+	}
+
+	public void setWorld(String world)
+	{
+		this.world = world;
 	}
 
 	public BoardItemList getProductionOverview()

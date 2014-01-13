@@ -7,7 +7,6 @@ import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
-import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.TestServer;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmCommand;

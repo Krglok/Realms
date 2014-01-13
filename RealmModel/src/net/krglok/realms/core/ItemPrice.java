@@ -6,6 +6,11 @@ public class ItemPrice extends Item
 {
 	private Double basePrice; 
 	
+	public ItemPrice()
+	{
+		
+	}
+	
 	/**
 	 * basePrice = 0.0;
 	 * @param itemRef
@@ -23,12 +28,11 @@ public class ItemPrice extends Item
 	 * @param amount
 	 * @param price
 	 */
-	public ItemPrice (String itemRef, Double price, int amount)
+	public ItemPrice (String itemRef, int amount, double price)
 	{
 		super(itemRef, amount);
 		basePrice = price;
 	}
-
 	/**
 	 * @return the basePrice
 	 */

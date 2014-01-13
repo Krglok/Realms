@@ -11,6 +11,12 @@ public class Item
    private String sRef;
    private int iValue;
    
+   public Item()
+   {
+	   sRef = "";
+	   iValue = 0;
+   }
+   
    public Item(String itemRef, int value)
    {
 	   this.sRef = itemRef;

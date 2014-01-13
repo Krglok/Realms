@@ -129,7 +129,7 @@ public class DataTest implements DataInterface
 				buildingList, 
 				townhall, 
 				bank,
-				resident);
+				resident,"");
 		
 		for (Building b : testBuildings.getBuildingList().values())
 		{

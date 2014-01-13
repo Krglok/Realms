@@ -17,7 +17,6 @@ import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.model.RealmSubCommandType;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.junit.Test;
 

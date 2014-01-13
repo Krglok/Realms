@@ -15,7 +15,6 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.TestServer;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.junit.Test;
 

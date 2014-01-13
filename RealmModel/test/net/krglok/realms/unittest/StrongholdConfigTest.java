@@ -4,12 +4,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
-import net.krglok.realms.core.ItemPriceList;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

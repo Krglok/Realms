@@ -1,7 +1,6 @@
 package net.krglok.realms.data;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;

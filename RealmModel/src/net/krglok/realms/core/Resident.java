@@ -312,20 +312,6 @@ public class Resident
 	}
 
 	/**
-	 * calculate deathrate bae´sed on unhappyfactor
-	 * @param value
-	 * @return
-	 */
-	private double calcUnhappyFactor(double value)
-	{
-		double factor = 0.0;
-		factor = (BASE_HAPPINES - happiness);
-		
-		value = (value * factor) ;
-		return value;
-	}
-	
-	/**
 	 * calculate birthrate for settlement based on 
 	 * - settlerMax
 	 * - FERTILITY

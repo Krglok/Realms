@@ -1,9 +1,6 @@
 package net.krglok.realms.unittest;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import net.krglok.realms.data.TestServer;
 
 import org.bukkit.Bukkit;
