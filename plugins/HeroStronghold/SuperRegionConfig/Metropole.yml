@@ -1,0 +1,30 @@
+effects:
+- denyblockbuild
+- denyblockbreak
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 220
+requirements:
+- haus_stadt.10
+- haus_einfach.5
+- rathaus.1
+- markt.2
+- taverne.2
+- hospital.1
+central-structure: townhall
+money-requirement: 1900000.0
+money-output-daily: -1000.0
+max-power: 3000
+daily-power-increase: 500
+charter: 5
+child-regions:
+- town
+- siedlung
+- dorf
+- ward
+- burg
+- werkstatt
+exp: 25000

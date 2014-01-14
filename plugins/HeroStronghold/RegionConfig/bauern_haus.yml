@@ -1,0 +1,31 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 5
+requirements:
+- WOODEN_DOOR.1
+- BED_BLOCK.2
+- CHEST.1
+- WALL_SIGN.1
+- COBBLESTONE.42
+- GRASS.72
+reagents:
+- GOLD_NUGGET.1
+- IRON_INGOT.8
+- BREAD.4
+upkeep:
+- WOOD_HOE.1
+upkeep-chance: 0.001
+output: 
+- WHEAT.128
+money-requirement: 1000.0
+upkeep-money-output: 100.0
+super-regions: 
+- Dorf
+- Siedlung
+- Bauernhof

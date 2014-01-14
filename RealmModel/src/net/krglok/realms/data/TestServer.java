@@ -372,6 +372,9 @@ public class TestServer  implements ServerInterface // extends ServerData
 		case "rinderstall": 
 			rList.putItem(Material.WHEAT.name(), 2);
 			break;
+		case "haus_trader":
+			rList.putItem("WHEAT", 1);
+			break;
 		case "stone" :
 //			rList.put(Material.STONE.name(), 6);
 			rList.putItem(Material.COBBLESTONE.name(), 6);

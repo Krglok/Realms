@@ -23,13 +23,14 @@ public class TradeMarketOrder extends TradeOrder
 		this.setTickCount(0);
 		this.setStatus(order.getStatus());
 		this.setWorld(order.getWorld());
+		this.setTargetId(order.getTargetId());
 	}
 	
 	
 	
 	public TradeMarketOrder(int settleID, int id, TradeType tradeType, String itemRef , int value, double price, 
 			long maxTicks, long tickCount,
-			TradeStatus status, String world)
+			TradeStatus status, String world, int targetId)
 	{
 		super();
 		this.setSettleID(settleID);
@@ -41,6 +42,7 @@ public class TradeMarketOrder extends TradeOrder
 		this.setTickCount(0);
 		this.setStatus(status);
 		this.setWorld(world);
+		this.setTargetId(targetId);
 	}
 
 

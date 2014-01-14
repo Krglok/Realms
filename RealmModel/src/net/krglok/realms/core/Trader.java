@@ -3,7 +3,8 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 
 /**
- * Der Rrder ist kein Gebaeude. Das entsprechnde Gebaeude ist unter buildungs zu finden.
+ * Der Trader ist kein Gebaeude, sondern ein Manager der Handel abwickelt. 
+ * Das entsprechnde Gebaeude ist unter buildungs zu finden.
  * Der Trader wickelt die Handelsaktionen ab.
  * Hierzu benutzt er Karawanen. Jede Karawane hat einen Esel zum Transport der Warenkiste
  * Jeder Trader hat 5 Handelskisten. Fuer jede Handelskiste kann eine Handelstransaktion ausgeführt werden . 
@@ -21,7 +22,6 @@ public class Trader
 {
 	private int caravanMax;
 	private int caravanCount;
-	private TradeOrderList transportOrders;
 	private int buildingId;
 	private boolean isEnabled;
 	private boolean isActive;
@@ -35,7 +35,6 @@ public class Trader
 	{
 		caravanMax = 5;
 		caravanCount = 0;
-		transportOrders = new TradeOrderList();
 		buildingId = 0;
 		isEnabled = false;
 		isActive  = false;
@@ -54,7 +53,6 @@ public class Trader
 		super();
 		this.caravanMax = caravanMax;
 		this.caravanCount = caravanCount;
-		this.transportOrders = tradeOrders;
 		this.buildingId = buildingId;
 		this.isEnabled = isEnabled;
 		this.isActive = isActive;
@@ -74,7 +72,6 @@ public class Trader
 		super();
 		this.caravanMax = caravanMax;
 		this.caravanCount = caravanCount;
-		this.transportOrders = tradeOrders;
 		this.buildingId = buildingId;
 		this.isActive = isActive;
 		this.buyOrders = buyOrder;
@@ -82,13 +79,6 @@ public class Trader
 		OrderMax = orderMax;
 	}
 
-	public void runTick()
-	{
-		for (TradeOrder to : transportOrders.values())
-		{
-			to.runTick();
-		}
-	}
 
 	public int getCaravanMax()
 	{
@@ -115,14 +105,6 @@ public class Trader
 	{
 		this.caravanCount = caravanCount;
 	}
-
-
-
-	public TradeOrderList getTradeTasks()
-	{
-		return transportOrders;
-	}
-
 
 
 
@@ -194,48 +176,46 @@ public class Trader
 		OrderMax = orderMax;
 	}
 	
-	public TradeOrderList getTransportOrders()
-	{
-		return transportOrders;
-	}
-
-
-
-	public void setTransportOrders(TradeOrderList tradeOrders)
-	{
-		this.transportOrders = tradeOrders;
-	}
-
-
-
 	/**
+	 * Erzeugt eine TransportOrder mit gekaufter Menge und Preis
 	 * berechne Menge und buche sie vom MarketOrder ab
-	 * verschiebe buyOrder in tradeOrder 
+	 * berechnet den Kaufpreis und bucht ihn vom kaeufer ab
+	 * SettleId , ist derjenige, der das Geld erhaelt
+	 * TargetId , ist derjenige der die Ware erhaelt
+	 * errorHandling, wenn der Kaeufer nicht genug Geld hat passiert nix
 	 * @param tmo
 	 * @param foundOrder
+	 * @param transport
+	 * @param SettleId
 	 */
-	public void makeTradeOrder(TradeMarketOrder tmo, TradeOrder foundOrder )
+	public void makeTransportOrder(TradeMarketOrder tmo, TradeOrder foundOrder, TradeTransport transport , Settlement settle)
 	{
 		int amount = 0;
+		double cost = 0.0 ;
 		if (tmo.value() >= foundOrder.value())
 		{
 			amount = foundOrder.value();
+			cost = amount * tmo.getBasePrice();
 			tmo.setValue(tmo.value() - amount);
-			transportOrders.addTradeOrder(
-					TradeType.TRANSPORT, 
-					foundOrder.ItemRef(), 
-					amount,						// gepkaufte Menge 
-					tmo.getBasePrice(),  		// Kaufpreis
-					ConfigBasis.GameDay, 		// Laufzeit des Transports
-					0, 							// abgelaufene Transportzeit
-					TradeStatus.STARTED, 		// automatischer Start des Transport
-					foundOrder.getWorld(),
-					tmo.getId());
-			tmo.setStatus(TradeStatus.WAIT);
-//		}else
-//		{
-//			amount = tmo.value();
-//			foundOrder.setValue(foundOrder.value() -amount);
+			if (settle.getBank().getKonto() >= cost)
+			{
+				TradeMarketOrder tto = new TradeMarketOrder(
+						tmo.getSettleID(),			// ID des Absenders
+						tmo.getId(),				// Id der sellOrder
+						TradeType.TRANSPORT, 
+						foundOrder.ItemRef(), 		// Ware
+						amount,						// gepkaufte Menge 
+						tmo.getBasePrice(),  		// Kaufpreis
+						ConfigBasis.GameDay, 		// Laufzeit des Transports
+						0, 							// abgelaufene Transportzeit
+						TradeStatus.STARTED, 		// automatischer Start des Transport
+						tmo.getWorld(),				// ZielWelt
+						settle.getId()					// ID des Ziel Settlement
+						);			
+				transport.addOrder(tto);
+				settle.getBank().withdrawKonto(cost, "Trader "+settle.getId());
+				tmo.setStatus(TradeStatus.WAIT);
+			}	
 		}
 	}
 	
@@ -254,7 +234,16 @@ public class Trader
 		return null;
 	}
 	
-	public void checkMarket(TradeMarket tradeMarket)
+	/**
+	 * Versucht eine sellOrder zu finden fuer seine buyOrder
+	 * prueft Anzahl der Caravan
+	 * prueft Verkaufpreis <= Kaufpreis
+	 * prueft VerkaufMenge >= Kaufmenge 
+	 * @param tradeMarket
+	 * @param tradeTransport
+	 * @param settle
+	 */
+	public void checkMarket(TradeMarket tradeMarket, TradeTransport tradeTransport, Settlement settle )
 	{
 		TradeOrder foundOrder = null;
 		if (tradeMarket.isEmpty())
@@ -268,11 +257,7 @@ public class Trader
 			{
 				if (caravanCount < caravanMax)
 				{
-					makeTradeOrder(tmo, foundOrder );
-					if (tmo.value() == 0)
-					{
-						tradeMarket.remove(tmo.getId());
-					}
+					makeTransportOrder(tmo, foundOrder, tradeTransport, settle );
 				} else
 				{
 					return;
@@ -288,5 +273,5 @@ public class Trader
 			TradeMarketOrder tmo = new TradeMarketOrder(settleId, sellOrder);
 			tradeMarket.addOrder(tmo);
 	}
-	
+
 }

@@ -1,0 +1,22 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicfarm.2
+- periodicupkeep.1
+radius: 7
+requirements:
+- FENCE.16
+- FENCE_GATE.2
+- GRASS.16
+- CHEST.2
+reagents:
+- WHEAT.2
+upkeep:
+- WHEAT.2
+upkeep-chance: 0.01
+output:
+- STICK.1
+money-requirement: 3200.0
+upkeep-money-output: -10.0
+super-regions:
+- Bauernhof

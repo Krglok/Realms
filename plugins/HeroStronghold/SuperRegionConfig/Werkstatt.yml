@@ -1,0 +1,24 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyplayerinteractnoreagent
+- denyfriendlyfirenoreagent
+- denyblockbuild
+- denyblockbreak
+- denyplayerinteract
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 4
+requirements:
+- haus_hof.1
+central-structure: 
+money-requirement: 2000.0
+money-output-daily: 100.0
+max-power: 100
+daily-power-increase: 10
+charter: 0
+children: []
+exp: 100

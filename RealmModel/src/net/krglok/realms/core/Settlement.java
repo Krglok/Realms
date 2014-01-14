@@ -39,8 +39,7 @@ public class Settlement
 	private Townhall townhall;
 	private Bank bank;
 	private Resident resident;
-//	private Wellfare wellfare;
-//  private Trader trader;
+	private Trader trader;
 //  private Headquarter headquarter;
 	private ItemList requiredProduction;
 	
@@ -87,6 +86,7 @@ public class Settlement
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
 		world = "";
+		trader = new Trader();
 	}
 
 	/**
@@ -119,6 +119,7 @@ public class Settlement
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
 		world = "";
+		trader = new Trader();
 }
 
 	/**
@@ -153,6 +154,7 @@ public class Settlement
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
 		world = "";
+		trader = new Trader();
 	}
 	
 	
@@ -198,6 +200,7 @@ public class Settlement
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
 		this.world = world;
+		trader = new Trader();
 	}
 
 	/**
@@ -469,15 +472,14 @@ public class Settlement
 				case BUILDING_HALL: 
 					settlement.townhall.setIsEnabled(true);
 					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-	//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
 					break;
 				case BUILDING_WAREHOUSE :
 					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-	//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
 					break;
 				case BUILDING_TRADER :
+					settlement.trader.setActive(true);
+					settlement.trader.setEnabled(true);
 					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-	//				settlement.warehouse.setItemMax(getTraderItemMax(building,settlement.warehouse.getItemMax()));
 					break;
 				case BUILDING_MILITARY :
 					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
@@ -572,6 +574,16 @@ public class Settlement
 		this.world = world;
 	}
 
+	public Trader getTrader()
+	{
+		return trader;
+	}
+
+	public void setTrader(Trader trader)
+	{
+		this.trader = trader;
+	}
+
 	public BoardItemList getProductionOverview()
 	{
 		return productionOverview;
@@ -614,6 +626,8 @@ public class Settlement
 				isRegion = true;
 				addBuilding(Building.createRegionBuilding(BuildingTypeName, regionId, regionType, isRegion),settlement);
 			}
+			settlement.setStoreCapacity();
+
 //			settlement.setBuildingList(buildingList);
 			return settlement;
 		}

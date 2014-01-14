@@ -1,0 +1,27 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 2
+requirements:
+- WORKBENCH.1
+- CHEST.1
+reagents:
+- BREAD.2
+upkeep:
+- BREAD.4
+- GRILLED_PORK.4
+- STONE_HOE.1
+- LEATHER.22
+upkeep-chance: 0.0005
+output:
+- CHAINMAIL_BOOTS.1
+- CHAINMAIL_CHESTPLATE.1
+- CHAINMAIL_HELMET.1
+- CHAINMAIL_LEGGINGS.1
+money-requirement: 500.0
+upkeep-money-output: 0.0
+super-regions:
+- Lager
+- Hauptlager
+- Werkstatt

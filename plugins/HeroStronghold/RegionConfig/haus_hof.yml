@@ -1,0 +1,21 @@
+effects:
+- periodicupkeep.1
+radius: 5
+requirements:
+- WOODEN_DOOR.1
+- BED_BLOCK.2
+- WORKBENCH.1
+- CHEST.2
+- WALL_SIGN.1
+- COBBLESTONE.25
+- LOG.23
+reagents:
+- GOLD_NUGGET.1
+- IRON_INGOT.4
+- BREAD.2
+upkeep-chance: 0.001
+output:
+- WHEAT.16
+- SEEDS.5
+money-requirement: 50.0
+upkeep-money-output: -10.0

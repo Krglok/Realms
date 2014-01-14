@@ -1,0 +1,25 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- gainhealth.1
+- gainstamina.1
+radius: 7
+requirements:
+- WORKBENCH.1
+- FURNACE.1
+- CHEST.2
+- BED_BLOCK.6
+- COBBLESTONE.90
+- WOOD.16
+- WOODEN_DOOR.1
+- THIN_GLASS.4
+reagents:
+- WHEAT.1
+upkeep:
+- WHEAT.1
+- BREAD.1
+upkeep-chance: 0.0
+output:
+- STICK.1
+money-requirement: 16900.0
+upkeep-money-output: -200.0

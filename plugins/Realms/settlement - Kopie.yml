@@ -1,0 +1,249 @@
+SETTLE1:
+  id: 1
+  settleType: SETTLE_CITY
+  position: 0.0,0.0,0.0
+  name: NewHaven
+  owner: dradmin
+  isCapital: false
+  isEnabled: true
+  isActive: true
+  buildingCounter: '18'
+  townhall:
+    workerNeeded: '25'
+    workerCount: '15'
+    isEnabled: 'true'
+  resident:
+    cowCount: '0'
+    horseCount: '0'
+    settlerCount: '15'
+    fertilityCounter: '5.699999999999999'
+    happiness: '0.606'
+    workerCount: '0'
+    settlerMax: '29'
+  buildinglist:
+    '17':
+      id: '17'
+      settler: '0'
+      hsRegionType: haus_hof
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '59'
+      workerInstalled: '1'
+      buildingType: BUILDING_PROD
+      workerNeeded: '1'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '18':
+      id: '18'
+      settler: '0'
+      hsRegionType: holzfaeller
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '55'
+      workerInstalled: '1'
+      buildingType: BUILDING_PROD
+      workerNeeded: '1'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '15':
+      id: '15'
+      settler: '0'
+      hsRegionType: haus_hof
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '60'
+      workerInstalled: '1'
+      buildingType: BUILDING_PROD
+      workerNeeded: '1'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '16':
+      id: '16'
+      settler: '0'
+      hsRegionType: markt
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '61'
+      workerInstalled: '5'
+      buildingType: BUILDING_WAREHOUSE
+      workerNeeded: '5'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '13':
+      id: '13'
+      settler: '0'
+      hsRegionType: markt
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '61'
+      workerInstalled: '5'
+      buildingType: BUILDING_WAREHOUSE
+      workerNeeded: '5'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '14':
+      id: '14'
+      settler: '0'
+      hsRegionType: haupthaus
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '52'
+      workerInstalled: '0'
+      buildingType: BUILDING_HALL
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '11':
+      id: '11'
+      settler: '0'
+      hsRegionType: stadtwache
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '5'
+      workerInstalled: '0'
+      buildingType: BUILDING_MILITARY
+      workerNeeded: '5'
+      isEnabled: 'false'
+      isActiv: 'true'
+    '12':
+      id: '12'
+      settler: '0'
+      hsRegionType: bibliothek
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '6'
+      workerInstalled: '0'
+      buildingType: BUILDING_NONE
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '3':
+      id: '3'
+      settler: '4'
+      hsRegionType: haus_einfach
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '14'
+      workerInstalled: '0'
+      buildingType: BUILDING_HOME
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '2':
+      id: '2'
+      settler: '0'
+      hsRegionType: taverne
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '8'
+      workerInstalled: '2'
+      buildingType: BUILDING_ENTERTAIN
+      workerNeeded: '2'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '1':
+      id: '1'
+      settler: '4'
+      hsRegionType: haus_stadt
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '15'
+      workerInstalled: '0'
+      buildingType: BUILDING_HOME
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '10':
+      id: '10'
+      settler: '0'
+      hsRegionType: rathaus
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '4'
+      workerInstalled: '0'
+      buildingType: BUILDING_HALL
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '7':
+      id: '7'
+      settler: '0'
+      hsRegionType: markt
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '9'
+      workerInstalled: '0'
+      buildingType: BUILDING_WAREHOUSE
+      workerNeeded: '5'
+      isEnabled: 'false'
+      isActiv: 'true'
+    '6':
+      id: '6'
+      settler: '4'
+      hsRegionType: haus_einfach
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '12'
+      workerInstalled: '0'
+      buildingType: BUILDING_HOME
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '5':
+      id: '5'
+      settler: '4'
+      hsRegionType: haus_einfach
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '11'
+      workerInstalled: '0'
+      buildingType: BUILDING_HOME
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '4':
+      id: '4'
+      settler: '4'
+      hsRegionType: haus_einfach
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '10'
+      workerInstalled: '0'
+      buildingType: BUILDING_HOME
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '9':
+      id: '9'
+      settler: '0'
+      hsRegionType: hospital
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '7'
+      workerInstalled: '0'
+      buildingType: BUILDING_NONE
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+    '8':
+      id: '8'
+      settler: '4'
+      hsRegionType: haus_einfach
+      isRegion: 'true'
+      hsSuperRegion: ''
+      hsRegion: '13'
+      workerInstalled: '0'
+      buildingType: BUILDING_HOME
+      workerNeeded: '0'
+      isEnabled: 'true'
+      isActiv: 'true'
+  warehouse:
+    itemCount: '305'
+    itemMax: '60480'
+    isEnabled: 'false'
+  itemList:
+    WOOD_AXE: '8'
+    SEEDS: '40'
+    LOG: '40'
+    WOOD_HOE: '29'
+    WHEAT: '123'

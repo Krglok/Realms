@@ -1,0 +1,19 @@
+effects:
+- denyblockbuild
+- denybucketuse
+- denyfire
+- denyfriendlyfire
+radius: 25
+requirements:
+- tower.1
+- arrowturret.4
+- hospital.1
+central-structure: tower
+money-requirement: 30000.0
+money-output-daily: -150.0
+max-power: 200
+daily-power-increase: 150
+charter: 0
+child-regions:
+- werkstatt
+exp: 2500

@@ -1,0 +1,19 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- LOG.16
+- GRASS.14
+reagents:
+- WHEAT.2
+upkeep:
+- WOOD_HOE.1
+upkeep-chance: 0.001
+output:
+- WHEAT.16
+- SEEDS.5
+money-requirement: 500.0
+upkeep-money-output: 0.0
+super-regions: []

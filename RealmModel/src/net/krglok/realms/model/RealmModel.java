@@ -7,6 +7,8 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.core.TradeMarket;
+import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.MessageInterface;
@@ -49,11 +51,15 @@ public class RealmModel
 	private KingdomList realms;
 	private SettlementList settlements;
 	private CommandQueue commandQueue;
+	private ArrayList<Settlement> tradeQueue;
 	private ArrayList<Settlement> productionQueue;
 	private ArrayList<Settlement> taxQueue;
 	// private ArrayList<Training> trainingQueue;
 	// private private ArrayList<Trade> tradeQueue;
 	private HashMap<Integer,Integer> storeQueue;
+
+	private TradeTransport tradeTransport = new TradeTransport();
+	private TradeMarket tradeMarket = new TradeMarket();
 	
 	private boolean isInit = false;
 	
@@ -75,6 +81,7 @@ public class RealmModel
 	{
 		modelStatus =  ModelStatus.MODEL_DISABLED;
 		commandQueue = new CommandQueue();
+		tradeQueue = new ArrayList<Settlement>();
 		productionQueue = new ArrayList<Settlement>();
 		taxQueue = new ArrayList<Settlement>();
 		storeQueue = new HashMap<Integer,Integer>();
@@ -300,6 +307,7 @@ public class RealmModel
 		case MODEL_ENABLED :
 			break;
 		default :
+			
 			break;
 		}
 	}
@@ -331,6 +339,11 @@ public class RealmModel
 	{
 		try
 		{
+			// make timer run for trade  every tick 
+			tradeTransport.runTick();
+			tradeMarket.runTick();
+			// check tradequeues for fullfill order
+			
 			switch (modelStatus)
 			{
 			case MODEL_ENABLED :
@@ -433,6 +446,41 @@ public class RealmModel
 		}
 		return ModelStatus.MODEL_ENABLED;
 	}
+
+	private ModelStatus initTradeQueue()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+			if (settle.isEnabled())
+			{
+				productionQueue.add(settle);
+			}
+		}
+		return ModelStatus.MODEL_PRODUCTION;
+	}
+	
+	private ModelStatus nextTradeQueue()
+	{
+		if (tradeQueue.isEmpty())
+		{
+			return ModelStatus.MODEL_ENABLED;
+		}
+		Settlement settle = tradeQueue.get(0);
+
+		settle.getTrader().checkMarket(tradeMarket, tradeTransport, settle);
+		tradeTransport.fullfillTarget(settle);
+		tradeTransport.fullfillSender(settle);
+		
+		tradeQueue.remove(0);
+		messageData.log("remove 0");
+//		System.out.println("[Realms] trade calculation ["+tradeQueue.size()+"] ");
+		if (tradeQueue.isEmpty())
+		{
+			return ModelStatus.MODEL_ENABLED;
+		}
+		return ModelStatus.MODEL_TRADE;
+		
+	}
 	
 	private ModelStatus initProductionQueue()
 	{
@@ -512,4 +560,5 @@ public class RealmModel
 		return ModelStatus.MODEL_TAX;
 	}
 
+	
 }

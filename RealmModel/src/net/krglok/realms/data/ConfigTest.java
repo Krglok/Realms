@@ -139,6 +139,7 @@ public class ConfigTest implements ConfigInterface
 		regionBuildingTypes.put("schmelze",BuildingType.BUILDING_PROD.name());
 		regionBuildingTypes.put("koehler",BuildingType.BUILDING_PROD.name());
 		regionBuildingTypes.put("haus_baecker",BuildingType.BUILDING_BAECKER.name());
+		regionBuildingTypes.put("haus_trader",BuildingType.BUILDING_TRADER.name());
 		
 	}
 

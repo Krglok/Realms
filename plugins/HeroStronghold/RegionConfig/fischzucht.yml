@@ -1,0 +1,28 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- LOG.5
+- GRASS.5
+- FURNACE.1
+reagents:
+- BREAD.2
+- GOLD_NUGGET.1
+- IRON_INGOT.8
+upkeep:
+- BREAD.10
+- FISHING_ROD.1
+upkeep-chance: 0.001
+output:
+- COOKED_FISH.10
+money-requirement: 500.0
+upkeep-money-output: 0.0
+super-regions:
+- Bauernhof
+- Grossbauer
+- Gutshof
+- Dorf
+- Lager
+- Hauptlager

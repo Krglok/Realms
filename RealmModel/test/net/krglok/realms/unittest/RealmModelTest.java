@@ -166,9 +166,6 @@ public class RealmModelTest
 		TestServer server = new TestServer();
 
 		DataTest testData = new DataTest();
-//		OwnerList ownerList =  testData.getTestOwners();
-//		RealmList realmList =  testData.getTestRealms();
-//		SettlementList settleList = testData.getTestSettlements();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -177,11 +174,6 @@ public class RealmModelTest
 				config,
 				testData,
 				null);
-		
-//		rModel.setOwners(ownerList);
-//		rModel.setRealms(realmList);
-//		rModel.setSettlements(settleList);
-
 		
 		String command = RealmCommandType.MODEL.name();
 		String subCommand = "version";
@@ -193,7 +185,6 @@ public class RealmModelTest
 		Boolean expected = rModel.isInit();
 		Boolean actual = false; 
 
-//		actual =  (rModel.getcommandQueue().get(0).command() == RealmCommandType.MODEL);
 		actual =  (rModel.getcommandQueue().size() == 0);
 
 		isOutput = (expected != actual); //true;
@@ -201,8 +192,6 @@ public class RealmModelTest
 		{
 			System.out.println(rModel.getModelName()+":"+rModel.getcommandQueue().size());
 			System.out.println("CommandQueue  : "+rModel.getcommandQueue().size());
-//			System.out.println("Command    : "+rModel.getcommandQueue().get(0).command());
-//			System.out.println("SubCommand : "+rModel.getcommandQueue().get(0).subCommand().name());
 
 		}
 		assertEquals(expected, actual);
@@ -233,9 +222,6 @@ public class RealmModelTest
 		Boolean actual = false; 
 		rModel.OnEnable();
 		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
-//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(41).setIsActive(false);
-		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(42).setIsActive(false);
-		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(43).setIsActive(false);
 
 		rModel.OnProduction();
 		if (rModel.getProductionQueue().size() > 0)
@@ -280,25 +266,6 @@ public class RealmModelTest
 		assertEquals(expected, actual);
 	}
 
-	@Test
-	public void testOnMove() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testOnTrade() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testOnAttack() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testOnTrain() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testOnTick() {
@@ -328,9 +295,6 @@ public class RealmModelTest
 		Boolean actual = false; 
 		rModel.OnEnable();
 		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
-//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(41).setIsActive(false);
-		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(42).setIsActive(false);
-		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(43).setIsActive(false);
 
 		rModel.OnProduction();
 		if (rModel.getProductionQueue().size() > 0)
@@ -338,9 +302,6 @@ public class RealmModelTest
 			rModel.OnCommand(realmCommand);
 			rModel.OnTick();
 			rModel.OnTick();
-//			rModel.OnTick();
-//			rModel.OnTick();
-//			rModel.OnTick();
 		}
 		
 		actual =  (rModel.getcommandQueue().size() == 0) & (rModel.getProductionQueue().size() == 0);

@@ -1,0 +1,27 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyplayerinteractnoreagent
+- denyfriendlyfirenoreagent
+- denyblockbuild
+- denyblockbreak
+- denyplayerinteract
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 40
+requirements:
+- hauptzelt.1
+- haus_zelt.2
+central-structure: hauptzelt
+money-requirement: 1000.0
+money-output-daily: -150.0
+max-power: 500
+daily-power-increase: 50
+charter: 0
+children:
+- werkstatt
+- bauernhof
+exp: 5000

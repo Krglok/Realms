@@ -1,0 +1,27 @@
+effects:
+- denyblockbuild
+- denyblockbreak
+- denyplayerinteract
+- denyfriendlyfire
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 70
+requirements:
+- shack.10
+- house.2
+- estate.1
+- pigfarm.1
+- townhall.1
+- inn.1
+central-structure: townhall
+money-requirement: 5000.0
+money-output-daily: -250.0
+max-power: 500
+daily-power-increase: 50
+charter: 2
+children:
+- werkstatt
+- bauernhof
+exp: 5000

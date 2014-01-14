@@ -1,0 +1,21 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- LOG.5
+- GRASS.5
+- FURNACE.1
+reagents:
+- SHEARS.2
+- GOLD_NUGGET.1
+- IRON_INGOT.8
+upkeep:
+- WHEAT.1
+upkeep-chance: 0.0005
+output:
+- WOOL.1
+money-requirement: 500.0
+upkeep-money-output: 0.0
+

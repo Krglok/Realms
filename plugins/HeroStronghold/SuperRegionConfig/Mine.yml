@@ -1,0 +1,22 @@
+effects:
+- denyblockbuild
+- denyblockbreak
+- denyplayerinteract
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 30
+requirements:
+- haupthuette.1
+- haus_huette.1
+central-structure: haupthuette
+money-requirement: 6000.0
+money-output-daily: -30.0
+max-power: 300
+daily-power-increase: 30
+charter: 2
+child-regions: 
+- werkstatt
+exp: 3000

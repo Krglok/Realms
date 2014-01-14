@@ -1,0 +1,24 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbreak.1
+- denyblockbuild.1
+- denyfriendlyfire.1
+radius: 7
+requirements:
+- CHEST.6
+- BED_BLOCK.2
+- WOODEN_DOOR.3
+- WOOD.32
+- WALL_SIGN.1
+- COBBLESTONE.16
+reagents:
+- BREAD.8
+- COOKED_BEEF.8
+upkeep:
+- BREAD.8
+- GRILLED_PORK.4
+upkeep-chance: 0.0050
+output: []
+money-requirement: 16900.0
+upkeep-money-output: 200.0

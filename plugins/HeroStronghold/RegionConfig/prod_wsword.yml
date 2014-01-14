@@ -1,0 +1,22 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 2
+requirements:
+- WORKBENCH.1
+- CHEST.1
+reagents:
+- BREAD.2
+- GOLD_NUGGET.1
+- IRON_INGOT.8
+upkeep:
+- WHEAT.1
+- STICK.5
+- WOOD.15
+upkeep-chance: 0.001
+output:
+- WOOD_SWORD.5
+money-requirement: 500.0
+upkeep-money-output: 0.0
+
