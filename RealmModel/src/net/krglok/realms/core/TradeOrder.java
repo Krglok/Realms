@@ -13,12 +13,13 @@ package net.krglok.realms.core;
  */
 public class TradeOrder extends ItemPrice
 {
-	protected int id;
-	protected TradeType tradeType;
-	protected int maxTicks; 
-	protected int tickCount;
-	protected TradeStatus status;
-	protected String world;
+	private int id;
+	private TradeType tradeType;
+	private long maxTicks; 
+	private long tickCount;
+	private TradeStatus status;
+	private String world;
+	private int targetId;
 	
 	
 	public TradeOrder()
@@ -30,15 +31,14 @@ public class TradeOrder extends ItemPrice
 		tickCount = 0;
 		status = TradeStatus.NONE;
 		world ="";
+		targetId = 0;
 	}
 
-	
-	
 
 
 	public TradeOrder(int id, TradeType tradeType, String itemRef , int value, double price, 
-			int maxTicks, int tickCount,
-			TradeStatus status, String world)
+			long maxTicks, long tickCount,
+			TradeStatus status, String world, int targetId)
 	{
 		super(itemRef, value, price);
 		this.setId(id);
@@ -47,6 +47,7 @@ public class TradeOrder extends ItemPrice
 		this.tickCount = tickCount;
 		this.status = status;
 		this.world =world;
+		this.targetId = targetId;
 	}
 
 	public String getWorld()
@@ -66,25 +67,15 @@ public class TradeOrder extends ItemPrice
 	}
 
 
-
-
-
 	public void setTradeType(TradeType tradeType)
 	{
 		this.tradeType = tradeType;
 	}
 
-
-
-
-
 	public int getId()
 	{
 		return id;
 	}
-
-
-
 
 
 	public void setId(int id)
@@ -93,16 +84,10 @@ public class TradeOrder extends ItemPrice
 	}
 
 
-
-
-
 	public TradeStatus getStatus()
 	{
 		return status;
 	}
-
-
-
 
 
 	public void setStatus(TradeStatus status)
@@ -111,6 +96,45 @@ public class TradeOrder extends ItemPrice
 	}
 
 
+	public long getMaxTicks()
+	{
+		return maxTicks;
+	}
+
+
+
+	public void setMaxTicks(long maxTicks)
+	{
+		this.maxTicks = maxTicks;
+	}
+
+
+
+	public long getTickCount()
+	{
+		return tickCount;
+	}
+
+
+
+	public void setTickCount(long tickCount)
+	{
+		this.tickCount = tickCount;
+	}
+
+
+
+	public int getTargetId()
+	{
+		return targetId;
+	}
+
+
+
+	public void setTargetId(int targetId)
+	{
+		this.targetId = targetId;
+	}
 
 
 
@@ -128,6 +152,10 @@ public class TradeOrder extends ItemPrice
 		if (status == TradeStatus.STARTED)
 		{
 			this.tickCount++;
+			if (this.tickCount >= this.maxTicks)
+			{
+				status = TradeStatus.DECLINE;
+			}
 		}
 	}
 	
@@ -149,7 +177,7 @@ public class TradeOrder extends ItemPrice
 		return false;
 	}
 	
-	public int getRemainPeriod()
+	public long getRemainPeriod()
 	{
 		return (maxTicks - tickCount);
 		

@@ -3,7 +3,7 @@ package net.krglok.realms.core;
 public enum TradeType
 {
 	NONE,
-	PURCHASE,
+	BUY,
 	SELL,
 	TRANSPORT;
 	

@@ -18,7 +18,7 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 	
 	private static final long serialVersionUID = 1L;
 
-	protected static int lastNumber;
+	private static int lastNumber;
 
 
 	public TradeMarket()
@@ -134,7 +134,7 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 	{
 		lastNumber++;
 		tmo.setId(lastNumber);
-		this.put(tmo.getId(), tmo);
+		this.put(lastNumber, tmo);
 		return tmo;
 	}
 	

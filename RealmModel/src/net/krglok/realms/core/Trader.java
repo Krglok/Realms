@@ -21,12 +21,12 @@ public class Trader
 {
 	private int caravanMax;
 	private int caravanCount;
-	private TradeOrderList tradeOrders;
+	private TradeOrderList transportOrders;
 	private int buildingId;
 	private boolean isEnabled;
 	private boolean isActive;
-	private TradeOrderList buyOrder;
-	private TradeOrderList sellOrder;
+	private TradeOrderList buyOrders;
+//	private TradeOrderList sellOrders;
 	private int OrderMax;
 	
 	
@@ -35,13 +35,13 @@ public class Trader
 	{
 		caravanMax = 5;
 		caravanCount = 0;
-		tradeOrders = new TradeOrderList();
+		transportOrders = new TradeOrderList();
 		buildingId = 0;
 		isEnabled = false;
 		isActive  = false;
 		OrderMax = 5;
-		buyOrder = new TradeOrderList();
-		sellOrder = new TradeOrderList();
+		buyOrders = new TradeOrderList();
+//		sellOrders = new TradeOrderList();
 		
 	}
 
@@ -54,13 +54,13 @@ public class Trader
 		super();
 		this.caravanMax = caravanMax;
 		this.caravanCount = caravanCount;
-		this.tradeOrders = tradeOrders;
+		this.transportOrders = tradeOrders;
 		this.buildingId = buildingId;
 		this.isEnabled = isEnabled;
 		this.isActive = isActive;
 		OrderMax = 5;
-		buyOrder = new TradeOrderList();
-		sellOrder = new TradeOrderList();
+		buyOrders = new TradeOrderList();
+//		sellOrders = new TradeOrderList();
 	}
 
 	
@@ -74,15 +74,21 @@ public class Trader
 		super();
 		this.caravanMax = caravanMax;
 		this.caravanCount = caravanCount;
-		this.tradeOrders = tradeOrders;
+		this.transportOrders = tradeOrders;
 		this.buildingId = buildingId;
 		this.isActive = isActive;
-		this.buyOrder = buyOrder;
-		this.sellOrder = sellOrder;
+		this.buyOrders = buyOrder;
+//		this.sellOrders = sellOrder;
 		OrderMax = orderMax;
 	}
 
-
+	public void runTick()
+	{
+		for (TradeOrder to : transportOrders.values())
+		{
+			to.runTick();
+		}
+	}
 
 	public int getCaravanMax()
 	{
@@ -114,15 +120,9 @@ public class Trader
 
 	public TradeOrderList getTradeTasks()
 	{
-		return tradeOrders;
+		return transportOrders;
 	}
 
-
-
-	public void setTradeTasks(TradeOrderList tradeTasks)
-	{
-		this.tradeOrders = tradeTasks;
-	}
 
 
 
@@ -136,6 +136,8 @@ public class Trader
 	public void setBuildingId(int buildingId)
 	{
 		this.buildingId = buildingId;
+		this.isEnabled = true;
+		this.isActive = true;
 	}
 
 
@@ -168,32 +170,17 @@ public class Trader
 
 
 
-	public TradeOrderList getBuyOrder()
+	public TradeOrderList getBuyOrders()
 	{
-		return buyOrder;
+		return buyOrders;
 	}
 
 
 
-	public void setBuyOrder(TradeOrderList buyOrder)
+	public void setBuyOrders(TradeOrderList buyOrder)
 	{
-		this.buyOrder = buyOrder;
+		this.buyOrders = buyOrder;
 	}
-
-
-
-	public HashMap<Integer, TradeOrder> getSellOrder()
-	{
-		return sellOrder;
-	}
-
-
-
-	public void setSellOrder(TradeOrderList sellOrder)
-	{
-		this.sellOrder = sellOrder;
-	}
-
 
 
 	public int getOrderMax()
@@ -207,6 +194,20 @@ public class Trader
 		OrderMax = orderMax;
 	}
 	
+	public TradeOrderList getTransportOrders()
+	{
+		return transportOrders;
+	}
+
+
+
+	public void setTransportOrders(TradeOrderList tradeOrders)
+	{
+		this.transportOrders = tradeOrders;
+	}
+
+
+
 	/**
 	 * berechne Menge und buche sie vom MarketOrder ab
 	 * verschiebe buyOrder in tradeOrder 
@@ -216,16 +217,31 @@ public class Trader
 	public void makeTradeOrder(TradeMarketOrder tmo, TradeOrder foundOrder )
 	{
 		int amount = 0;
-		if (tmo.value() > foundOrder.value())
+		if (tmo.value() >= foundOrder.value())
 		{
 			amount = foundOrder.value();
 			tmo.setValue(tmo.value() - amount);
+			transportOrders.addTradeOrder(
+					TradeType.TRANSPORT, 
+					foundOrder.ItemRef(), 
+					amount,						// gepkaufte Menge 
+					tmo.getBasePrice(),  		// Kaufpreis
+					ConfigBasis.GameDay, 		// Laufzeit des Transports
+					0, 							// abgelaufene Transportzeit
+					TradeStatus.STARTED, 		// automatischer Start des Transport
+					foundOrder.getWorld(),
+					tmo.getId());
+			tmo.setStatus(TradeStatus.WAIT);
+//		}else
+//		{
+//			amount = tmo.value();
+//			foundOrder.setValue(foundOrder.value() -amount);
 		}
 	}
 	
-	public TradeOrder checkBuyOrder(String itemRef, int offerValue, double offerPrice)
+	private TradeOrder checkBuyOrder(String itemRef, int offerValue, double offerPrice)
 	{
-		for (TradeOrder to : buyOrder.values())
+		for (TradeOrder to : buyOrders.values())
 		{
 			if (to.ItemRef().equalsIgnoreCase(itemRef))
 			{
@@ -266,6 +282,11 @@ public class Trader
 		
 	}
 	
-	
+	public void makeSellOrder(TradeMarket tradeMarket, int settleId, TradeOrder sellOrder)
+	{
+			sellOrder.setStatus(TradeStatus.STARTED);
+			TradeMarketOrder tmo = new TradeMarketOrder(settleId, sellOrder);
+			tradeMarket.addOrder(tmo);
+	}
 	
 }

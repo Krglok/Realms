@@ -7,7 +7,8 @@ public enum TradeStatus
 	READY,
 	STARTED,
 	FULFILL,
-	DECLINE;
+	DECLINE,
+	WAIT;
 	
 	public static TradeStatus getTradeStatus(String name)
 	{
