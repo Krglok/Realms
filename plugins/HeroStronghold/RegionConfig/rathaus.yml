@@ -15,15 +15,11 @@ requirements:
 - COBBLESTONE.169
 - WOOD_STAIRS.4
 reagents:
-- GOLD_NUGGET.4
+- GOLD_INGOT.4
 - IRON_INGOT.8
 - BREAD.4
-upkeep:
-- BREAD.4
-- GRILLED_PORK.2
-- PAPER.8
-- FEATHER.1
+upkeep: []
 upkeep-chance: 0.001
 output: []
 money-requirement: 2000.0
-upkeep-money-output: -200.0
+upkeep-money-output: -10.0

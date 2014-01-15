@@ -1,0 +1,19 @@
+effects:
+- denyblockbuildnoreagent
+- denyexplosionnoreagent
+- denyblockbreaknoreagent
+- denybucketusenoreagent
+- denyfirenoreagent
+- denydamagenoreagent
+radius: 120
+requirements:
+- breadmarket.1
+- tannery.1
+- ironworks.1
+- shack.8
+money-requirement: 10000.0
+max-power: 999999
+daily-power-increase: 999999
+population: 16
+children:
+- town

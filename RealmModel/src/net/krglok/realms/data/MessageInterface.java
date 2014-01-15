@@ -3,7 +3,7 @@ package net.krglok.realms.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.krglok.realms.model.RealmSubCommandType;
+import net.krglok.realms.RealmsSubCommandType;
 
 import org.bukkit.command.CommandSender;
 
@@ -55,15 +55,15 @@ public interface MessageInterface
 	 */
 	public void errorPermission(CommandSender sender);
 
-	public void errorArgs(CommandSender sender, RealmSubCommandType subCommand);
+	public void errorArgs(CommandSender sender, RealmsSubCommandType subCommand);
 
-	public void errorArgWrong(CommandSender sender, RealmSubCommandType subCommand);
+	public void errorArgWrong(CommandSender sender, RealmsSubCommandType subCommand);
 
-	public void errorSettleID(CommandSender sender, RealmSubCommandType subCommand);
+	public void errorSettleID(CommandSender sender, RealmsSubCommandType subCommand);
 
-	public void errorRegion(CommandSender sender, RealmSubCommandType subCommand);
+	public void errorRegion(CommandSender sender, RealmsSubCommandType subCommand);
 
-	public void errorItem(CommandSender sender, RealmSubCommandType subCommand);
+	public void errorItem(CommandSender sender, RealmsSubCommandType subCommand);
 	
 	public void errorFileIO(String name, Exception e);
 	

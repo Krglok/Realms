@@ -1,9 +1,7 @@
 effects:
 - denyblockbuildnoreagent
 - denyblockbreaknoreagent
-- denyplayerinteractnoreagent
 - denyfriendlyfirenoreagent
-- denybucketusenoreagent
 - denyfirenoreagent
 - denyliquidnoreagent
 - denyexplosionnoreagent
@@ -11,15 +9,12 @@ radius: 70
 requirements:
 - haupthaus.1
 - markt.1
-- heiler_haus.1
 - taverne.1
-- bibliothek.1
-- bauernhof.3
 - haus_einfach.3
 central-structure: haupthaus
-money-requirement: 20000.0
-money-output-daily: -250.0
-max-power: 500
+money-requirement: 200000.0
+money-output-daily: -10.0
+max-power: 1500
 daily-power-increase: 50
 charter: 2
 child-super-regions: 
@@ -27,4 +22,6 @@ child-super-regions:
 - mine
 - werkstatt
 - bauernhof
+- soeldnergilde
+- claim
 exp: 5000

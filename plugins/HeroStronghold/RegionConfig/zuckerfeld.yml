@@ -4,7 +4,7 @@ effects:
 - periodicupkeep.1
 radius: 4
 requirements:
-- LOG.16
+- LOG.10
 - SAND.14
 reagents:
 - WHEAT.2

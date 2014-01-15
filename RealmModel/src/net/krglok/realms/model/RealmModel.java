@@ -39,7 +39,7 @@ import net.krglok.realms.data.ServerInterface;
 public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
-	private static final String REALM_MODEL_VER = "0.3.0";
+	private static final String REALM_MODEL_VER = "0.4.0";
 
 	private ModelStatus modelStatus;
 	private ServerInterface server;
@@ -50,13 +50,13 @@ public class RealmModel
 	private OwnerList owners;
 	private KingdomList realms;
 	private SettlementList settlements;
-	private CommandQueue commandQueue;
-	private ArrayList<Settlement> tradeQueue;
-	private ArrayList<Settlement> productionQueue;
-	private ArrayList<Settlement> taxQueue;
+	private CommandQueue commandQueue;				// List von Commands , die abgearbeitet werden muessen
+	private ArrayList<Settlement> tradeQueue;		// List von Settlements , die abgearbeitet werden muessen
+	private ArrayList<Settlement> productionQueue;	// List von Settlements , die abgearbeitet werden muessen
+	private ArrayList<Settlement> taxQueue;			// List von Settlements , die abgearbeitet werden muessen
 	// private ArrayList<Training> trainingQueue;
 	// private private ArrayList<Trade> tradeQueue;
-	private HashMap<Integer,Integer> storeQueue;
+	private HashMap<Integer,Integer> storeQueue;	// Liste von Settlement Id, die gepeichert werden sollen
 
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
@@ -230,7 +230,7 @@ public class RealmModel
 		}
 	}
 
-	public void OnCommand(RealmCommand realmCommand)
+	public void OnCommand(ModelCommand realmCommand)
 	{
 		switch (modelStatus)
 		{
@@ -404,7 +404,7 @@ public class RealmModel
 		return;
 	}
 
-	private ModelStatus addCommandQueue(RealmCommand realmCommand)
+	private ModelStatus addCommandQueue(ModelCommand realmCommand)
 	{
 		commandQueue.add(realmCommand);
 		return ModelStatus.MODEL_ENABLED;
@@ -419,22 +419,59 @@ public class RealmModel
 		}
 		// do Command
 		
-		RealmCommand command = commandQueue.get(0);
+		ModelCommand command = commandQueue.get(0);
 		switch (command.command())
 		{
-		case MODEL :
+		case ADDSETTLEMENT :
 			// do Model command
+			doAddSettlement(command);
 			commandQueue.remove(0);
 			break;
-		case REALM :
+		case CREATESETTLEMENT :
 			// do Realm command
 			commandQueue.remove(0);
 			break;
-		case SETTLE :
+		case CREATEBUILDING :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case ADDBUILDING :
 			// do Settlement command
 			commandQueue.remove(0);
 			break;
-		case OWNER :
+		case BUYITEM :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case SELLITEM :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case DEPOSITWAREHOUSE :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case WITHDRAWWAREHOUSE :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case DEPOSITBANK :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case WITHDRAWBANK :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case ACTIVATEBUILDING :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case DEACTIVATEBUILDING :
+			// do Owner command
+			commandQueue.remove(0);
+			break;
+		case NONE :
 			// do Owner command
 			commandQueue.remove(0);
 			break;
@@ -560,5 +597,9 @@ public class RealmModel
 		return ModelStatus.MODEL_TAX;
 	}
 
+	private void doAddSettlement(ModelCommand command)
+	{
+		
+	}
 	
 }

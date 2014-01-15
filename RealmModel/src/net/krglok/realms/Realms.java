@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.data.*;
-import net.krglok.realms.model.RealmCommandType;
 import net.krglok.realms.model.RealmModel;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -130,7 +129,7 @@ public final class Realms extends JavaPlugin
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
     {
-    	switch (RealmCommandType.getRealmCommandType(command.getName()))
+    	switch (RealmsCommandType.getRealmCommandType(command.getName()))
     	{
     	case MODEL :
     		if (args.length == 0)

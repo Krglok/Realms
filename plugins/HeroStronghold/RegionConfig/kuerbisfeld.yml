@@ -4,19 +4,20 @@ effects:
 - periodicupkeep.1
 radius: 4
 requirements:
-- LOG.16
-- GRASS.14
+- LOG.10
+- DIRT.9
 reagents:
-- PUMPKIN_SEEDS.14
+- GOLD_NUGGET.1
+- IRON_INGOT.8
+- BREAD.4
+- IRON_HOE.1
 upkeep:
-- PUMPKIN_SEEDS.14
 - WOOD_HOE.1
-upkeep-chance: 0.0005
+upkeep-chance: 0.001
 output:
 - PUMPKIN.14
-- PUMPKIN_SEEDS.14
-money-requirement: 500.0
-upkeep-money-output: 0.0
+money-requirement: 1000.0
+upkeep-money-output: -1.0
 super-regions:
 - Bauernhof
 - Grossbauer

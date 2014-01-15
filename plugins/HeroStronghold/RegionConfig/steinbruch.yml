@@ -17,10 +17,10 @@ reagents:
 - IRON_INGOT.8
 - IRON_PICKAXE.1
 upkeep:
-- WHEAT.1
+- BREAD.1
 - WOOD_PICKAXE.1
 upkeep-chance: 0.001
 output:
-- COBBLESTONE.30
+- COBBLESTONE.64
 money-requirement: 5000.0
 upkeep-money-output: -2.0

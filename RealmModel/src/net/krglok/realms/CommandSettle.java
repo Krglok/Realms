@@ -12,7 +12,6 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.model.ModelStatus;
-import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -35,7 +34,7 @@ public class CommandSettle
 	public boolean run(CommandSender sender, String[] args)
 	{
 		CommandArg commandArg = new CommandArg(args);
-		RealmSubCommandType subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+		RealmsSubCommandType subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		commandArg.remove(0);
 		switch (subCommand)
 		{
@@ -174,7 +173,7 @@ public class CommandSettle
 		return true;
 	}
 
-	private boolean cmdTax(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
+	private boolean cmdTax(CommandSender sender, RealmsSubCommandType subCommand, CommandArg commandArg)
 	{
 		// /settle info {page} {ID}
 		ArrayList<String> msg = new ArrayList<String>();
@@ -182,7 +181,7 @@ public class CommandSettle
 		int id = 0;
 		if (commandArg.size() < 2)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.ADD);
 			return true;
 		}
 		page = CommandArg.argToInt(commandArg.get(0));
@@ -214,7 +213,7 @@ public class CommandSettle
 		return true;
 	}
 
-	private boolean cmdProduction(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
+	private boolean cmdProduction(CommandSender sender, RealmsSubCommandType subCommand, CommandArg commandArg)
 	{
 		// /settle info {page} {ID}
 		ArrayList<String> msg = new ArrayList<String>();
@@ -222,7 +221,7 @@ public class CommandSettle
 		int id = 0;
 		if (commandArg.size() < 2)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.ADD);
 			return true;
 		}
 		page = CommandArg.argToInt(commandArg.get(0));
@@ -269,7 +268,7 @@ public class CommandSettle
 		int id = 0;
 		if (commandArg.size() < 1)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.ADD);
 			return true;
 		}
 		if (commandArg.size()>1)
@@ -346,7 +345,7 @@ public class CommandSettle
 		
 		if (commandArg.size() == 0)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.ADD);
 			return true;
 		}
 
@@ -354,7 +353,7 @@ public class CommandSettle
 		settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 		if (settle == null)
 		{
-			plugin.getMessageData().errorSettleID(sender, RealmSubCommandType.ADD);
+			plugin.getMessageData().errorSettleID(sender, RealmsSubCommandType.ADD);
 			return true;
 		}
 		if (commandArg.size() > 1)
@@ -371,7 +370,7 @@ public class CommandSettle
 			msg.add("Add stronghold Region [ "+value+" ]");
 		} else
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.ADD);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.ADD);
 //			// get region by location
 //			Location position = player.getLocation();
 //			region = plugin.stronghold.getRegionManager().getRegion(position);
@@ -405,7 +404,7 @@ public class CommandSettle
 			}
 		} else
 		{
-			plugin.getMessageData().errorRegion(sender, RealmSubCommandType.ADD);
+			plugin.getMessageData().errorRegion(sender, RealmsSubCommandType.ADD);
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		
@@ -420,7 +419,7 @@ public class CommandSettle
 		int page = 1;
 		if (commandArg.size() < 3)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.SET);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.SET);
 			return true;
 		}
 
@@ -428,7 +427,7 @@ public class CommandSettle
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 		if (settle == null)
 		{
-			plugin.getMessageData().errorSettleID(sender, RealmSubCommandType.SET);
+			plugin.getMessageData().errorSettleID(sender, RealmsSubCommandType.SET);
 			return true;
 		}
 
@@ -440,7 +439,7 @@ public class CommandSettle
 			msg.add("Settlement SET Settler to [ "+value+" ]");
 		}else
 		{
-			plugin.getMessageData().errorArgWrong(sender, RealmSubCommandType.SET);
+			plugin.getMessageData().errorArgWrong(sender, RealmsSubCommandType.SET);
 			return true;
 		}
 		msg.add("Settlement ["+settle.getId()+"]  "+settle.getName());
@@ -473,7 +472,7 @@ public class CommandSettle
 		int page = 1;
 		if (commandArg.size() < 3)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.DEPOSIT);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.DEPOSIT);
 			return true;
 		}
 
@@ -481,7 +480,7 @@ public class CommandSettle
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 		if (settle == null)
 		{
-			plugin.getMessageData().errorSettleID(sender, RealmSubCommandType.DEPOSIT);
+			plugin.getMessageData().errorSettleID(sender, RealmsSubCommandType.DEPOSIT);
 			return true;
 		}
 
@@ -490,7 +489,7 @@ public class CommandSettle
 		{
 			if (commandArg.size() < 4)
 			{
-				plugin.getMessageData().errorArgs(sender, RealmSubCommandType.DEPOSIT);
+				plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.DEPOSIT);
 				return true;
 			}
 			
@@ -508,7 +507,7 @@ public class CommandSettle
 				msg.add("Settlement Bank Deposit [ "+value+" ]");
 			}else
 			{
-				plugin.getMessageData().errorArgWrong(sender, RealmSubCommandType.DEPOSIT);
+				plugin.getMessageData().errorArgWrong(sender, RealmsSubCommandType.DEPOSIT);
 				return true;
 			}
 		}
@@ -535,7 +534,7 @@ public class CommandSettle
 		String superRegionName = "";
 		if (commandArg.size() == 0)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.CREATE);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.CREATE);
 			msg.add("");
 		}
 		superRegionName = commandArg.get(0);
@@ -639,7 +638,7 @@ public class CommandSettle
 		return true;
 	}
 	
-	private boolean cmdList(CommandSender sender, RealmSubCommandType subCommand, CommandArg commandArg)
+	private boolean cmdList(CommandSender sender, RealmsSubCommandType subCommand, CommandArg commandArg)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1;
@@ -724,13 +723,13 @@ public class CommandSettle
 		return true;
 	}
 	
-	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmSubCommandType subCommand)
+	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmsSubCommandType subCommand)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1; //CommandArg.argToInt(commandArg.get(0));
 		if (commandArg.size() > 0)
 		{
-			subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+			subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		}
 
 		switch (subCommand)

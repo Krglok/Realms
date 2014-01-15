@@ -1,5 +1,7 @@
-location: Morgenwald:381.37624735329734:73:648.4805384116283
-type: haus_einfach
+location: SteamHaven:173.36706654394783:65:466.68917482723583
+type: markt
 owners:
 - dradmin
-members: []
+- Balathrus
+members:
+- dradmin

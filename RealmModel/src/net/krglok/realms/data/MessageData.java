@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
-import net.krglok.realms.model.RealmSubCommandType;
+import net.krglok.realms.RealmsSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -164,28 +164,28 @@ public class MessageData implements MessageInterface
 		log.info(MessageText.NO_PERMISSION);
 	}
 
-	public void errorArgs(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorArgs(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		sender.sendMessage(ChatColor.RED+MessageText.NOT_ENOUGH_ARGUMENTS_FOR+" "+subCommand);
 	}
 
-	public void errorArgWrong(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorArgWrong(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		sender.sendMessage(ChatColor.RED+MessageText.WRONG_ARGUMENTS+" "+subCommand);
 	}
 
-	public void errorSettleID(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorSettleID(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		sender.sendMessage(ChatColor.RED+MessageText.WRONG_SETTLEMNET_ID+" "+subCommand);
 		
 	}
 
-	public void errorRegion(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorRegion(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		sender.sendMessage(ChatColor.RED+MessageText.REGION_NOT_FOUND+" "+subCommand);
 	}
 
-	public void errorItem(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorItem(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		sender.sendMessage(ChatColor.RED+MessageText.WRONG_ITEMNAME+" "+subCommand);
 	}

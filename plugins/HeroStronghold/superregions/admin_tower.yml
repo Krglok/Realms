@@ -2,6 +2,8 @@ location: SteamHaven:-461.5757324262045:73:-1347.6746422452843
 type: Admin
 owners:
 - dradmin
-members: {}
+members:
+  Draskoria:
+  - member
 power: 99999999
 balance: 0.0

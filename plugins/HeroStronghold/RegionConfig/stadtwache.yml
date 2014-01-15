@@ -17,12 +17,9 @@ reagents:
 - GOLD_NUGGET.1
 - IRON_INGOT.8
 - BREAD.4
-upkeep:
-- BREAD.4
-- WHEAT.2
-- GRILLED_PORK.2
-- TORCH.1
+upkeep: []
 upkeep-chance: 0.001
 output: []
 money-requirement: 1000.0
-upkeep-money-output: -50.0
+upkeep-money-output: -5.0
+daily.power-increase: 5.0

@@ -2,21 +2,30 @@ friendly-classes: []
 enemy-classes: []
 effects:
 - periodicupkeep.1
-radius: 2
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
+radius: 3
 requirements:
 - FURNACE.1
 - CHEST.1
+- LOG.10
 reagents:
-- BREAD.2
 - GOLD_NUGGET.1
 - IRON_INGOT.8
+- IRON_PICKAXE.1
 upkeep:
-- WHEAT.4
-- COAL.3
-- IRON_ORE.24
+- BREAD.1
+- COAL.5
+- IRON_ORE.32
 upkeep-chance: 0.001
 output:
-- IRON_INGOT.26
-money-requirement: 500.0
-upkeep-money-output: 0.0
-
+- IRON_INGOT.32
+money-requirement: 5000.0
+upkeep-money-output: -2.0
+super-regions:
+- Mine
+- Lager
+- Hauptlager
+- Werkstatt

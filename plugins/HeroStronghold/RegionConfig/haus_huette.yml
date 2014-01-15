@@ -17,9 +17,8 @@ requirements:
 reagents:
 - GOLD_NUGGET.1
 - WHEAT.4
-upkeep:
-- WHEAT.2
+upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 1000.0
-upkeep-money-output: 100.0
+money-requirement: 500.0
+upkeep-money-output: 0.5

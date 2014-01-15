@@ -7,7 +7,6 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.SettleType;
-import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,7 +27,7 @@ public class CommandStronghold
 	public boolean run(CommandSender sender, String[] args)
 	{
 		CommandArg commandArg = new CommandArg(args);
-		RealmSubCommandType subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+		RealmsSubCommandType subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		commandArg.remove(0);
 		switch (subCommand)
 		{
@@ -71,8 +70,8 @@ public class CommandStronghold
 			
 			break;
 		default :
-			sender.sendMessage("["+args[0]+"] "+"SubCommand not found else "+RealmSubCommandType.getRealmSubCommandType(args[0]));
-			for (RealmSubCommandType rsc : RealmSubCommandType.values())
+			sender.sendMessage("["+args[0]+"] "+"SubCommand not found else "+RealmsSubCommandType.getRealmSubCommandType(args[0]));
+			for (RealmsSubCommandType rsc : RealmsSubCommandType.values())
 			{
 				sender.sendMessage(rsc.name());
 			}
@@ -174,13 +173,13 @@ public class CommandStronghold
 	}
 	
 	@SuppressWarnings("unused")
-	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmSubCommandType subCommand)
+	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmsSubCommandType subCommand)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1; //CommandArg.argToInt(commandArg.get(0));
 		if (commandArg.size() > 0)
 		{
-			subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+			subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		}
 		switch (subCommand)
 		{

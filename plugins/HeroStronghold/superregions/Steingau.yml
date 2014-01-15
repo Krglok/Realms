@@ -1,0 +1,13 @@
+location: DRASKORIA:2524.6425620561977:72:1832.6687665695492
+type: Stadt
+owners:
+- Krglok
+- dradmin
+members:
+  Draskoria:
+  - member
+  Eisenhammer:
+  - member
+  dradmin: []
+power: 10000
+balance: 46205.0

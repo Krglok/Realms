@@ -1,0 +1,9 @@
+location: DRASKORIA:1954.300000011921:70:-1032.300000011921
+type: Dorf
+owners:
+- Eisenhammer
+members:
+  dradmin:
+  - member
+power: 1500
+balance: 3000.0

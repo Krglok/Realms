@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 
 
-public class CommandQueue extends ArrayList<RealmCommand> 
+
+public class CommandQueue extends ArrayList<ModelCommand> 
 {
 
 	/**

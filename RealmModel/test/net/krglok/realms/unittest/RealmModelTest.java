@@ -2,6 +2,7 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.data.ConfigTest;
@@ -9,8 +10,7 @@ import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.TestServer;
 import net.krglok.realms.model.ModelStatus;
-import net.krglok.realms.model.RealmCommand;
-import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.model.ModelCommand;
 import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
@@ -175,9 +175,9 @@ public class RealmModelTest
 				testData,
 				null);
 		
-		String command = RealmCommandType.MODEL.name();
+		String command = RealmsCommandType.MODEL.name();
 		String subCommand = "version";
-		RealmCommand realmCommand = new RealmCommand(command, subCommand);
+		ModelCommand realmCommand = new ModelCommand();
 		
 		rModel.OnEnable();
 		rModel.OnCommand(realmCommand);
@@ -287,9 +287,9 @@ public class RealmModelTest
 				config,
 				testData,
 				message);
-		String command = RealmCommandType.MODEL.name();
+		String command = RealmsCommandType.MODEL.name();
 		String subCommand = "version";
-		RealmCommand realmCommand = new RealmCommand(command, subCommand);
+		ModelCommand realmCommand = new ModelCommand();
 		
 		Boolean expected = true; 
 		Boolean actual = false; 

@@ -13,10 +13,11 @@ requirements:
 - haus_huette.1
 central-structure: haupthuette
 money-requirement: 6000.0
-money-output-daily: -30.0
+money-output-daily: -5.0
 max-power: 300
 daily-power-increase: 30
 charter: 2
 child-regions: 
 - werkstatt
+- claim
 exp: 3000

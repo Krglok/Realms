@@ -15,7 +15,7 @@ effects:
 radius: 10
 requirements: []
 money-requirement: 1000.0
-money-output-daily: -10.0
+money-output-daily: -1.0
 max-power: 100
 daily-power-increase: 2
 charter: 0

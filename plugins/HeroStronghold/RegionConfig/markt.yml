@@ -12,10 +12,8 @@ requirements:
 - WOOD.32
 - COBBLESTONE.169
 reagents: []
-upkeep:
-- BREAD.4
-- GRILLED_PORK.2
-upkeep-chance: 0.0050
+upkeep: []
+upkeep-chance: 0.001
 output: []
 money-requirement: 15000.0
-upkeep-money-output: 200.0
+upkeep-money-output: 5.0

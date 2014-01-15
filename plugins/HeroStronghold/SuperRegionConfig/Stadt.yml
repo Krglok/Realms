@@ -13,13 +13,11 @@ requirements:
 - rathaus.1
 - markt.1
 - taverne.1
-- hospital.1
-- bibliothek.1
 - stadtwache.1
 central-structure: rathaus
 money-requirement: 470000.0
-money-output-daily: -500.0
-max-power: 1000
+money-output-daily: -15.0
+max-power: 10000
 daily-power-increase: 150
 charter: 4
 child-regions:
@@ -28,4 +26,7 @@ child-regions:
 - ward
 - burg
 - werkstatt
+- soeldnergilde
+- claim
+- stadtviertel
 exp: 10000

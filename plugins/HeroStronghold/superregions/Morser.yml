@@ -1,0 +1,13 @@
+location: Morser:5.460386231004409:120:-211.4634643902388
+type: Stadt
+owners:
+- Balathrus
+members:
+  Krglok:
+  - member
+  dradmin:
+  - member
+  Eisenhammer:
+  - member
+power: 10000
+balance: 5545.0

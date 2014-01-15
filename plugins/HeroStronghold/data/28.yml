@@ -1,5 +1,7 @@
-location: Morser:1013.3000000119209:70:-844.3000000119209
-type: arrowturret
+location: SteamHaven:114.51956773591286:68:462.3558861279081
+type: haus_einfach
 owners:
 - dradmin
-members: []
+- Balathrus
+members:
+- dradmin

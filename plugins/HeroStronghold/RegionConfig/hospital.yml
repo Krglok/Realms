@@ -14,12 +14,11 @@ requirements:
 - WOODEN_DOOR.1
 - THIN_GLASS.4
 reagents:
-- WHEAT.1
-upkeep:
-- WHEAT.1
-- BREAD.1
-upkeep-chance: 0.0
+- WOOL.10
+- WHEAT.10
+upkeep: []
+upkeep-chance: 0.001
 output:
 - STICK.1
 money-requirement: 16900.0
-upkeep-money-output: -200.0
+upkeep-money-output: -10.0

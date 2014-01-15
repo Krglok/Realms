@@ -1,0 +1,18 @@
+location: SteamHaven:-1264.093521085782:72:131.97906372436142
+type: Claim
+owners:
+- yuran89
+members:
+  dradmin:
+  - member
+  sebbra:
+  - member
+power: 100
+balance: 228500.0
+taxes: 500.0
+tax-revenue:
+- 1000.0
+- 1000.0
+- 1000.0
+- 1000.0
+- 1000.0

@@ -2,6 +2,15 @@ location: SteamHaven:-1202.4901687679026:103:-1109.7698984394854
 type: Bauernhof
 owners:
 - sebbra
-members: {}
+members:
+  yuran89:
+  - member
 power: 100
-balance: 3800.0
+balance: 11061.0
+taxes: 1.0
+tax-revenue:
+- 1.0
+- 1.0
+- 1.0
+- 1.0
+- 1.0

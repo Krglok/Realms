@@ -2,21 +2,23 @@ friendly-classes: []
 enemy-classes: []
 effects:
 - periodicupkeep.1
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
 radius: 4
 requirements:
-- LOG.5
-- GRASS.14
-- FURNACE.1
+- LOG.6
+- WOOD.9
+- GRASS.5
 reagents:
-- BREAD.2
 - GOLD_NUGGET.1
-- IRON_INGOT.8
+- IRON_INGOT.4
 upkeep:
-- SEEDS.10
+- SEEDS.5
 upkeep-chance: 0.001
 output:
-- FEATHER.2
 - RAW_CHICKEN.2
+- FEATHER.4
 money-requirement: 500.0
-upkeep-money-output: 0.0
-
+upkeep-money-output: -2.0

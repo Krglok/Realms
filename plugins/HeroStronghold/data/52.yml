@@ -1,5 +1,7 @@
-location: SteamHaven:-531.8745005755329:73:-1358.460798347247
-type: haupthaus
+location: SteamHaven:152.30000001192093:66:489.3039398909727
+type: haus_einfach
 owners:
 - dradmin
-members: []
+- Balathrus
+members:
+- dradmin

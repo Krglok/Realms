@@ -1,0 +1,23 @@
+effects:
+- denyblockbuild
+- denyblockbreak
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 30
+requirements: []
+central-structure: gilden_haus
+money-requirement: 10000.0
+money-output-daily: -50.0
+max-power: 750
+daily-power-increase: 50
+charter: 3
+child-regions:
+- stadt
+- stadtviertel
+- siedlung
+- dorf
+- claim
+exp: 2000

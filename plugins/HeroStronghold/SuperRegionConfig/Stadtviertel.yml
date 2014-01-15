@@ -1,0 +1,20 @@
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denypvp.1
+- denybucketuse.1
+radius: 50
+requirements: []
+money-requirement: 5000.0
+money-output-daily: -1.0
+max-power: 100.0
+daily-power-increase: 10
+charter: 0
+exp: 500
+child-regions:
+- stadt
+- stadtviertel
+- siedlung
+- dorf
+- soeldnergilde
+- claim

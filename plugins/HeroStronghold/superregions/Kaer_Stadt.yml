@@ -1,0 +1,18 @@
+location: DRASKORIA:5810.479626411909:70:3751.428602050867
+type: Stadt
+owners:
+- sebbra
+members:
+  ZabulaLegato:
+  - member
+  dradmin:
+  - member
+power: 10000
+balance: 96065.0
+taxes: 10.0
+tax-revenue:
+- 10.0
+- 10.0
+- 10.0
+- 10.0
+- 10.0

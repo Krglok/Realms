@@ -1,0 +1,26 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 2
+requirements:
+- WORKBENCH.1
+- CHEST.1
+reagents:
+- BREAD.4
+upkeep:
+- NETHERRACK.64
+- COAL.8
+upkeep-chance: 0.01
+output:
+- NETHER_BRICK.64
+money-requirement: 500.0
+upkeep-money-output: 0.0
+super-regions:
+- gutshof
+- dorf
+- stadt
+- lager
+- hauptlager
+- werkstatt
+- mine

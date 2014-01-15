@@ -1,5 +1,7 @@
-location: SteamHaven:-1203.5917620317482:103:-1203.4504246388065
-type: kornfeld
+location: SteamHaven:164.34571222770003:65:444.30000001192093
+type: haupthaus
 owners:
 - dradmin
-members: []
+- Balathrus
+members:
+- dradmin

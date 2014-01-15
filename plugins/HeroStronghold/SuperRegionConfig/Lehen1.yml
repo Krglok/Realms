@@ -1,0 +1,35 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+radius: 200
+requirements: 
+- haupthaus.1
+- Bauernhof.1
+reagents:
+- GOLD_NUGGET.5
+- IRON_INGOT.30
+- BREAD.30
+- CHAINMAIL_BOOTS.1
+- CHAINMAIL_CHESTPLATE.1
+- CHAINMAIL_HELMET.1
+- CHAINMAIL_LEGGINGS.1
+money-requirement: 200000.0
+money-output-daily: -50.0
+max-power: 5000.0
+daily-power-increase: 10
+charter: 1
+child-super-regions: 
+- Siedlung
+- Mine
+- Werkstatt
+- Bauernhof
+- Dorf
+- Claim
+- Home
+- Hafen
+- Soeldnergilde
+exp: 500

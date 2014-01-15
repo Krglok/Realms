@@ -1,0 +1,21 @@
+location: SteamHaven:135.7103016391366:71:450.4112196737742
+type: Dorf
+owners:
+- dradmin
+members:
+  dradmin: []
+  Draskoria:
+  - member
+  sebbra:
+  - member
+  Balathrus:
+  - member
+power: 1500
+balance: 11006.0
+taxes: 5.0
+tax-revenue:
+- 15.0
+- 15.0
+- 15.0
+- 15.0
+- 15.0

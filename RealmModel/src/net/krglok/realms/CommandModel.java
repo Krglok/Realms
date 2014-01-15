@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
-import net.krglok.realms.model.RealmCommandType;
-import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +23,7 @@ public class CommandModel
 	public boolean run(CommandSender sender, String[] args)
 	{
 		CommandArg commandArg = new CommandArg(args);
-		RealmSubCommandType subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+		RealmsSubCommandType subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		commandArg.remove(0);
 		switch (subCommand)
 		{
@@ -83,7 +81,7 @@ public class CommandModel
 			
 			break;
 		default :
-			sender.sendMessage("["+args[0]+"] "+"SubCommand not found else "+RealmSubCommandType.getRealmSubCommandType(args[0]));
+			sender.sendMessage("["+args[0]+"] "+"SubCommand not found else "+RealmsSubCommandType.getRealmSubCommandType(args[0]));
 			cmdHelp(sender, commandArg, subCommand);
 			return false;
 		}
@@ -109,7 +107,7 @@ public class CommandModel
 		int page = 1;
 		if (commandArg.size() < 2)
 		{
-			plugin.getMessageData().errorArgs(sender, RealmSubCommandType.SET);
+			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.SET);
 			return true;
 		}
 
@@ -130,7 +128,7 @@ public class CommandModel
 			msg.add("Tax Cycles with  ["+plugin.getTaxTask().getTaxCounter()+"]");
 			break;
 		default :
-			plugin.getMessageData().errorArgWrong(sender, RealmSubCommandType.SET);
+			plugin.getMessageData().errorArgWrong(sender, RealmsSubCommandType.SET);
 			return true;
 		}
 		msg.add("");
@@ -213,10 +211,10 @@ public class CommandModel
 		return true;
 	}
 	
-	private void argsError(CommandSender sender, RealmSubCommandType subCommand)
+	private void argsError(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add(ChatColor.RED+"Not enough arguments for "+RealmCommandType.MODEL+" "+subCommand);
+		msg.add(ChatColor.RED+"Not enough arguments for "+RealmsCommandType.MODEL+" "+subCommand);
 		switch (subCommand)
 		{
 		case TEST :	msg.add(ChatColor.YELLOW+"/model test pageNr , the pageNr is required as number");
@@ -228,13 +226,13 @@ public class CommandModel
 		
 	}
 
-	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmSubCommandType subCommand)
+	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmsSubCommandType subCommand)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1; //CommandArg.argToInt(commandArg.get(0));
 		if (commandArg.size() > 0)
 		{
-			subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+			subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		}
 		switch (subCommand)
 		{

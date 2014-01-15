@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.krglok.realms.core.Kingdom;
 import net.krglok.realms.core.KingdomList;
-import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +22,7 @@ public class CommandKingdom
 	public boolean run(CommandSender sender, String[] args)
 	{
 		CommandArg commandArg = new CommandArg(args);
-		RealmSubCommandType subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+		RealmsSubCommandType subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		commandArg.remove(0);
 		switch (subCommand)
 		{
@@ -99,13 +98,13 @@ public class CommandKingdom
 	
 	
 	
-	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmSubCommandType subCommand)
+	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmsSubCommandType subCommand)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		int page = 1; //CommandArg.argToInt(commandArg.get(0));
 		if (commandArg.size() > 0)
 		{
-			subCommand = RealmSubCommandType.getRealmSubCommandType(commandArg.get(0));
+			subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
 		}
 		
 		switch (subCommand)

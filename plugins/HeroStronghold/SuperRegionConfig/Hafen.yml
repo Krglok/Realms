@@ -1,0 +1,20 @@
+effects:
+- denymobspawnnoreagent
+- denyblockbuild
+- denyblockbreak
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+- denymobspawn
+radius: 40
+requirements:
+- hafenmeister.5
+- pier.3
+central-structure: hafenmeister
+money-requirement: 150000.0
+money-output-daily: 5.0
+max-power: 1000
+daily-power-increase: 50
+charter: 4
+exp: 10000

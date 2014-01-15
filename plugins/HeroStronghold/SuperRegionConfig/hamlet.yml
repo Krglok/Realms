@@ -1,0 +1,12 @@
+effects:
+- denyblockbuildnoreagent
+- denyexplosionnoreagent
+- denyblockbreaknoreagent
+- denybucketusenoreagent
+- denyfirenoreagent
+- denyfriendlyfirenoreagent
+- denyliquid
+radius: 30
+money-requirement: 2500.0
+max-power: 999999
+daily-power-increase: 999999

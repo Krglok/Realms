@@ -12,14 +12,13 @@ requirements:
 - BOOKSHELF.1
 - CHEST.4
 - WALL_SIGN.1
-- WOOL.200
+- WOOL.36
 reagents:
 - GOLD_INGOT.1
 - IRON_INGOT.8
 - BREAD.4
-upkeep:
-- BREAD.4
-upkeep-chance: 0.0150
+upkeep: []
+upkeep-chance: 0.001
 output: []
 money-requirement: 500.0
-upkeep-money-output: 50.0
+upkeep-money-output: -2.0

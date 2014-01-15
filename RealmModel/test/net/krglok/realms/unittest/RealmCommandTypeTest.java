@@ -2,7 +2,7 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.RealmsCommandType;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class RealmCommandTypeTest {
 
 	@Test
 	public void test() {
-		RealmCommandType rct = RealmCommandType.MODEL;
+		RealmsCommandType rct = RealmsCommandType.MODEL;
 		
 		Boolean expected = true;
 		Boolean actual = false; 

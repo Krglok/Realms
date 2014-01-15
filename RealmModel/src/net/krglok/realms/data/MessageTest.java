@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 //import java.util.logging.Logger;
 
-import net.krglok.realms.model.RealmSubCommandType;
+import net.krglok.realms.RealmsSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -160,28 +160,28 @@ public class MessageTest implements MessageInterface
 		System.out.println(MessageText.NO_PERMISSION);
 	}
 
-	public void errorArgs(RealmSubCommandType subCommand)
+	public void errorArgs(RealmsSubCommandType subCommand)
 	{
 		System.out.println(ChatColor.RED+MessageText.NOT_ENOUGH_ARGUMENTS_FOR+" "+subCommand);
 	}
 
-	public void errorArgWrong(  RealmSubCommandType subCommand)
+	public void errorArgWrong(  RealmsSubCommandType subCommand)
 	{
 		System.out.println(ChatColor.RED+MessageText.WRONG_ARGUMENTS+" "+subCommand);
 	}
 
-	public void errorSettleID(  RealmSubCommandType subCommand)
+	public void errorSettleID(  RealmsSubCommandType subCommand)
 	{
 		System.out.println(ChatColor.RED+MessageText.WRONG_SETTLEMNET_ID+" "+subCommand);
 		
 	}
 
-	public void errorRegion(  RealmSubCommandType subCommand)
+	public void errorRegion(  RealmsSubCommandType subCommand)
 	{
 		System.out.println(ChatColor.RED+MessageText.REGION_NOT_FOUND+" "+subCommand);
 	}
 
-	public void errorItem(  RealmSubCommandType subCommand)
+	public void errorItem(  RealmsSubCommandType subCommand)
 	{
 		System.out.println(ChatColor.RED+MessageText.WRONG_ITEMNAME+" "+subCommand);
 	}
@@ -216,7 +216,7 @@ public class MessageTest implements MessageInterface
 	}
 
 	@Override
-	public void errorArgs(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorArgs(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		// TODO Auto-generated method stub
 		
@@ -224,7 +224,7 @@ public class MessageTest implements MessageInterface
 
 	@Override
 	public void errorArgWrong(CommandSender sender,
-			RealmSubCommandType subCommand)
+			RealmsSubCommandType subCommand)
 	{
 		// TODO Auto-generated method stub
 		
@@ -232,21 +232,21 @@ public class MessageTest implements MessageInterface
 
 	@Override
 	public void errorSettleID(CommandSender sender,
-			RealmSubCommandType subCommand)
+			RealmsSubCommandType subCommand)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void errorRegion(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorRegion(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void errorItem(CommandSender sender, RealmSubCommandType subCommand)
+	public void errorItem(CommandSender sender, RealmsSubCommandType subCommand)
 	{
 		// TODO Auto-generated method stub
 		

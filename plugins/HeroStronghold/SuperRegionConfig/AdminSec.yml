@@ -15,7 +15,7 @@ effects:
 - denyfire
 - denyliquid
 - denyexplosion
-radius: 10
+radius: 30
 requirements: []
 money-requirements: 0
 money-output-daily: 0

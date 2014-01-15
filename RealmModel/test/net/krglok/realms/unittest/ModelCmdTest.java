@@ -4,14 +4,14 @@ import static org.junit.Assert.*;
 
 import java.util.logging.Logger;
 
+import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.TestServer;
-import net.krglok.realms.model.RealmCommand;
-import net.krglok.realms.model.RealmCommandType;
+import net.krglok.realms.model.ModelCommand;
 import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
@@ -46,9 +46,9 @@ public class ModelCmdTest
 				config,
 				testData,
 				messageData);
-		String command = RealmCommandType.MODEL.name();
+		String command = RealmsCommandType.MODEL.name();
 		String subCommand = "version";
-		RealmCommand realmCommand = new RealmCommand(command, subCommand);
+		ModelCommand realmCommand = new ModelCommand();
 		
 		Boolean expected = true; 
 		Boolean actual = false; 
@@ -75,6 +75,9 @@ public class ModelCmdTest
 				steps++;
 			
 			}
+			rModel.OnTick();
+			rModel.OnTick();
+			rModel.OnTick();
 		}
 		
 		actual =  (rModel.getcommandQueue().size() == 0) & (rModel.getProductionQueue().size() == 0);

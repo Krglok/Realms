@@ -11,12 +11,11 @@ effects:
 - denyfire
 - denyliquid
 - denyexplosion
-radius: 4
-requirements:
-- haus_hof.1
+radius: 9
+requirements: []
 central-structure: 
 money-requirement: 2000.0
-money-output-daily: 100.0
+money-output-daily: 2.0
 max-power: 100
 daily-power-increase: 10
 charter: 0

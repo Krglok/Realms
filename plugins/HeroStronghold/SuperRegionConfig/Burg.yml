@@ -7,13 +7,12 @@ radius: 25
 requirements:
 - tower.1
 - arrowturret.4
-- hospital.1
 central-structure: tower
-money-requirement: 30000.0
-money-output-daily: -150.0
-max-power: 200
+money-requirement: 300000.0
+money-output-daily: -15.0
+max-power: 5000
 daily-power-increase: 150
 charter: 0
-child-regions:
+child-super-regions: 
 - werkstatt
 exp: 2500

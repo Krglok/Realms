@@ -1,0 +1,18 @@
+location: DRASKORIA:353.30000001192093:79:-1866.5194136674072
+type: Stadt
+owners:
+- sebbra
+members:
+  dradmin:
+  - member
+  Eisenhammer:
+  - member
+power: 10000
+balance: 119543.0
+taxes: 10.0
+tax-revenue:
+- 20.0
+- 20.0
+- 20.0
+- 20.0
+- 20.0

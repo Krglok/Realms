@@ -5,23 +5,20 @@ effects:
 - gainstamina.1
 radius: 5
 requirements:
-- WORKBENCH.1
-- FURNACE.1
+- BREWING_STAND.1
 - CHEST.2
 - BED_BLOCK.6
-- COBBLESTONE.90
+- COBBLESTONE.81
 - WOOD.16
 - WOODEN_DOOR.1
 - THIN_GLASS.4
 reagents:
 - GOLD_NUGGET.1
-- WHEAT.1
-upkeep:
-- WHEAT.1
-- BREAD.1
-- WOOL.1
-upkeep-chance: 0.0
+- BREAD.10
+- WOOL.10
+upkeep: []
+upkeep-chance: 0.001
 output:
-- STICK.1
+- POTION.1
 money-requirement: 8100.0
-upkeep-money-output: -50.0
+upkeep-money-output: -5.0

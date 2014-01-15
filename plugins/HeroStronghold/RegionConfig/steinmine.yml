@@ -17,13 +17,12 @@ reagents:
 - BREAD.4
 - IRON_PICKAXE.1
 upkeep:
-- BREAD.5
-- LOG.3
-- WOOD_PICKAXE.3
+- WHEAT.5
+- COAL.2
+- WOOD_PICKAXE.1
 upkeep-chance: 0.001
 output:
-- STONE.32
-- IRON_ORE.1
+- STONE.64
 money-requirement: 5000.0
 upkeep-money-output: -2.0
 super-regions:

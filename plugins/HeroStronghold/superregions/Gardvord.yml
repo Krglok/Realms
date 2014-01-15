@@ -1,0 +1,16 @@
+location: SteamHaven:-172.62454960198693:68:892.4301330263008
+type: Dorf
+owners:
+- sebbra
+members:
+  dradmin:
+  - member
+power: 1500
+balance: 19739.67
+taxes: 10.0
+tax-revenue:
+- 10.0
+- 10.0
+- 10.0
+- 10.0
+- 10.0

@@ -16,14 +16,17 @@ effects:
 - denyexplosion
 radius: 40
 requirements:
-- house.2
+- haupthaus.1
+- haus_einfach.3
 money-requirement: 50000.0
-money-output-daily: -100.0
+money-output-daily: -10.0
 max-power: 100.0
 daily-power-increase: 10
 charter: 0
 child-regions:
-- mine
-- werkstatt
-- bauernhof
+- Mine
+- Werkstatt
+- Bauernhof
+- Soeldnergilde
+- Claim
 exp: 500

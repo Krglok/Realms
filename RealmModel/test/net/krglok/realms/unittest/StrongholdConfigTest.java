@@ -4,9 +4,13 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -38,8 +42,12 @@ public class StrongholdConfigTest
 	public RegionConfig getRegionConfig(String pathName, String sRegionFile)
 	{
         try {
-        		sRegionFile = sRegionFile + ".yml";
+//        		sRegionFile = sRegionFile;
         		File currentRegionFile = new File(pathName,sRegionFile);
+        		if (currentRegionFile == null)
+        		{
+        			System.out.println(pathName+"\\"+sRegionFile);
+        		}
         		
                 FileConfiguration rConfig = new YamlConfiguration();
                 rConfig.load(currentRegionFile);
@@ -73,15 +81,172 @@ public class StrongholdConfigTest
 	}
 	
 
-	@Test
-	public void getStrongholdBuild()
+//	@Test
+//	public void getStrongholdBuild()
+//	{
+//		String pathName = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold\\RegionConfig";
+//		String  sRegionFile = "haus_einfach" + ".yml";
+//		RegionConfig region = getRegionConfig(pathName, sRegionFile); 
+//		
+//        System.out.println("[Stronghold] Config" + sRegionFile);
+//        System.out.println("Radius    : " + region.getRawRadius());
+//        System.out.println("Construct===== ");
+//        for(ItemStack required : region.getRequirements())
+//        {
+//        	System.out.println(required.getType().name()+":"+required.getAmount());
+//        }
+//        System.out.println("Build========= ");
+//        for(ItemStack required : region.getReagents())
+//        {
+//        	System.out.println(required.getType().name()+":"+required.getAmount());
+//        }
+//        System.out.println("Production==== ");
+//        System.out.println("Ingredients=== ");
+//        for(ItemStack required : region.getReagents())
+//        {
+//        	System.out.println(required.getType().name()+":"+required.getAmount());
+//        }
+//        System.out.println("Product======= ");
+//        for(ItemStack required : region.getReagents())
+//        {
+//        	System.out.println(required.getType().name()+":"+required.getAmount());
+//        }
+//		
+//	}
+
+	private void showRegionConfig(RegionConfig region)
 	{
-		String pathName = "\\GIT\\BukkitTest\\plugins\\HeroStronghold\\RegionConfig";
-		String  sRegionFile = "haus_einfach";
-		RegionConfig region = getRegionConfig(pathName, sRegionFile); 
-		
-        System.out.println("[Stronghold] Config" + sRegionFile);
         System.out.println("Radius    : " + region.getRawRadius());
+        System.out.println("Construct===== ");
+        for(ItemStack required : region.getRequirements())
+        {
+        	System.out.println(required.getType().name()+":"+required.getAmount());
+        }
+        System.out.println("Build========= ");
+        for(ItemStack required : region.getReagents())
+        {
+        	System.out.println(required.getType().name()+":"+required.getAmount());
+        }
+        System.out.println("Production==== ");
+        System.out.println("Ingredients=== ");
+        for(ItemStack required : region.getReagents())
+        {
+        	System.out.println(required.getType().name()+":"+required.getAmount());
+        }
+        System.out.println("Product======= ");
+        for(ItemStack required : region.getReagents())
+        {
+        	System.out.println(required.getType().name()+":"+required.getAmount());
+        }
 		
+	}
+	
+	@Test
+	public void getStrongholdConstructionMaterial()
+	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+        File regionFolder = new File(path, "RegionConfig");
+        if (!regionFolder.exists()) {
+        	System.out.println("Folder not found !");
+            return;
+        }
+        HashMap<String,Integer> required = new HashMap<String,Integer>();
+        HashMap<String,Integer> reagent = new HashMap<String,Integer>();
+        String sRegionFile = "";
+        RegionConfig region;
+        String materials = "  ";
+        String reagents = "  ";
+        String sGroup = "prod";
+        System.out.println("[Stronghold] Building cost" );
+        for (File RegionFile : regionFolder.listFiles()) 
+        {
+        	
+        	sRegionFile = RegionFile.getName();
+            if (sRegionFile.contains(sGroup))
+            {
+	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	            System.out.println(sRegionFile.replace(".yml", "")+"  Cost : "+region.getMoneyRequirement());
+
+	            for (ItemStack item : region.getRequirements())
+	            {
+	            	required.put(item.getType().name(), 0);
+	            }
+	            for (ItemStack item : region.getReagents())
+	            {
+	            	reagent.put(item.getType().name(), 0);
+	            }
+            }
+        }
+        System.out.println("[Construction] Resources : " + required.size());
+        for (String sName : required.keySet())
+        {
+    	materials = materials +""+sName+" ";
+        }
+        System.out.println(materials);
+        
+        for (File RegionFile : regionFolder.listFiles()) 
+        {
+        	sRegionFile = RegionFile.getName();
+            if (sRegionFile.contains(sGroup))
+            {
+	            for (String itemRef : required.keySet())
+	            {
+	            	required.put(itemRef, 0);
+	            }
+	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	            for (ItemStack item : region.getRequirements())
+	            {
+	            	required.put(item.getType().name(), item.getAmount());
+	            }
+		        materials = "  ";
+		        for (String sName : required.keySet())
+		        {
+		        	int value = required.get(sName);
+		        	String sValue = String.valueOf(value);
+		        	for (int i = 0; i < (sName.length()-1); i++)
+					{
+						sValue = sValue + " ";
+					}
+		        	materials = materials +""+sValue+" ";
+		        }
+		        System.out.println(materials + sRegionFile);
+		        
+            }
+        }
+        for (String sName : reagent.keySet())
+        {
+    	reagents = reagents +""+sName+" ";
+        }
+        System.out.println(reagents);
+        for (File RegionFile : regionFolder.listFiles()) 
+        {
+        	sRegionFile = RegionFile.getName();
+            if (sRegionFile.contains(sGroup))
+            {
+	            for (String itemRef : reagent.keySet())
+	            {
+	            	reagent.put(itemRef, 0);
+	            }
+	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	            for (ItemStack item : region.getReagents())
+	            {
+	            	reagent.put(item.getType().name(), item.getAmount());
+	            }
+	            reagents = "  ";
+		        for (String sName : reagent.keySet())
+		        {
+		        	int value = reagent.get(sName);
+		        	String sValue = String.valueOf(value);
+		        	for (int i = 0; i < (sName.length()-1); i++)
+					{
+						sValue = sValue + " ";
+					}
+		        	reagents = reagents +""+sValue+" ";
+		        }
+		        System.out.println(reagents + sRegionFile);
+		        
+            }
+        }
+
 	}
 }

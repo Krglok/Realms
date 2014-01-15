@@ -19,11 +19,8 @@ reagents:
 - GOLD_NUGGET.1
 - IRON_INGOT.8
 - BREAD.4
-upkeep:
-- BREAD.4
-- GRILLED_PORK.2
-- PAPER.1
+upkeep: []
 upkeep-chance: 0.001
 output: []
 money-requirement: 2000.0
-upkeep-money-output: -200.0
+upkeep-money-output: -5.0

@@ -15,10 +15,8 @@ requirements:
 reagents:
 - BREAD.8
 - COOKED_BEEF.8
-upkeep:
-- BREAD.8
-- GRILLED_PORK.4
-upkeep-chance: 0.0050
+upkeep: []
+upkeep-chance: 0.001
 output: []
-money-requirement: 16900.0
-upkeep-money-output: 200.0
+money-requirement: 16000.0
+upkeep-money-output: 7.0

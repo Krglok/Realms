@@ -3,6 +3,10 @@ enemy-classes: []
 effects:
 - periodicfarm.2
 - periodicupkeep.1
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
 radius: 7
 requirements:
 - FENCE.16
@@ -10,13 +14,13 @@ requirements:
 - GRASS.16
 - CHEST.2
 reagents:
-- WHEAT.2
+- GOLD_NUGGET.1
+- IRON_INGOT.8
+- BREAD.4
 upkeep:
 - WHEAT.2
-upkeep-chance: 0.01
+upkeep-chance: 0.001
 output:
-- STICK.1
+- PORK.1
 money-requirement: 3200.0
-upkeep-money-output: -10.0
-super-regions:
-- Bauernhof
+upkeep-money-output: -2.0

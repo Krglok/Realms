@@ -7,16 +7,21 @@ requirements:
 - WORKBENCH.1
 - CHEST.1
 reagents:
-- BREAD.2
 - GOLD_NUGGET.1
 - IRON_INGOT.8
 upkeep:
-- WHEAT.1
-- STICK.10
-- WOOD.15
+- STICK.40
+- WOOD.60
 upkeep-chance: 0.001
 output:
-- WOOD_PICKAXE.5
+- WOOD_PICKAXE.20
 money-requirement: 500.0
 upkeep-money-output: 0.0
-
+super-regions:
+- Mine
+- Gutshof
+- Bauernhof
+- Lager
+- Hauptlager
+- Werkstatt
+- mine

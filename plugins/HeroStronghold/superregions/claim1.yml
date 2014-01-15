@@ -2,6 +2,15 @@ location: SteamHaven:-1213.5157135511695:102:-1098.5106522392434
 type: Claim
 owners:
 - sebbra
-members: {}
+members:
+  yuran89:
+  - member
 power: 100
-balance: -360.0
+balance: 9592.0
+taxes: 1.0
+tax-revenue:
+- 1.0
+- 1.0
+- 1.0
+- 1.0
+- 1.0

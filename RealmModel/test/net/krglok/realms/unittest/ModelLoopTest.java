@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import net.krglok.realms.CommandArg;
+import net.krglok.realms.RealmsSubCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
@@ -15,7 +16,6 @@ import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.TestServer;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
-import net.krglok.realms.model.RealmSubCommandType;
 
 import org.bukkit.command.CommandSender;
 import org.junit.Test;
@@ -76,7 +76,7 @@ public class ModelLoopTest
 		int page = 1;
 		if (commandArg.size() < 2)
 		{
-			getMessageData().errorArgs(  RealmSubCommandType.SET);
+			getMessageData().errorArgs(  RealmsSubCommandType.SET);
 			return true;
 		}
 
@@ -94,7 +94,7 @@ public class ModelLoopTest
 			msg.add("Tax Cycles with  [1]");
 			break;
 		default :
-			getMessageData().errorArgWrong(  RealmSubCommandType.SET);
+			getMessageData().errorArgWrong(  RealmsSubCommandType.SET);
 			return true;
 		}
 		msg.add("");
@@ -179,7 +179,7 @@ public class ModelLoopTest
 	
 
 	
-	private boolean cmdInfo(RealmSubCommandType subCommand, CommandArg commandArg)
+	private boolean cmdInfo(RealmsSubCommandType subCommand, CommandArg commandArg)
 	{
 		// /settle info {page} {ID}
 		ArrayList<String> msg = new ArrayList<String>();
@@ -516,7 +516,7 @@ public class ModelLoopTest
 		CommandArg commandArg = new CommandArg();
 		commandArg.add(SettleId);
 		commandArg.add(SettleId);
-		RealmSubCommandType subCommand = RealmSubCommandType.INFO;
+		RealmsSubCommandType subCommand = RealmsSubCommandType.INFO;
 		
 		cmdInfo(subCommand , commandArg);
 		

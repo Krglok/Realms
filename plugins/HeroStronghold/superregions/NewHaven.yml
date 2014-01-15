@@ -1,11 +1,15 @@
-location: SteamHaven:-468.69999998807907:68:-1251.300000011921
+location: SteamHaven:-469.51819223615206:72:-1236.6592548015324
 type: Stadt
 owners:
 - dradmin
+- Draskoria
 members:
-  Balathrus:
+  Draskoria: []
+  ZabulaLegato:
   - member
   Krglok:
   - member
-power: 1000
-balance: 36000.0
+  Pasnick1:
+  - member
+power: 10000
+balance: 44600.0

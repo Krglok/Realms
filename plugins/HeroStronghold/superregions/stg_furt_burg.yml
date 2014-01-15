@@ -1,0 +1,9 @@
+location: DRASKORIA:6703.300000011921:82:-4245.474417616545
+type: Bauernhof
+owners:
+- Krglok
+members:
+  dradmin:
+  - member
+power: 100
+balance: 1226.0
