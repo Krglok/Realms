@@ -8,7 +8,7 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.settlemanager.NpcManager;
 import net.krglok.realms.settlemanager.ProductBuilding;
 
@@ -22,7 +22,7 @@ public class NpcManagerTest {
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();

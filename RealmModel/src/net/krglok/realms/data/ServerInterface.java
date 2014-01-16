@@ -3,6 +3,9 @@ package net.krglok.realms.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 
@@ -37,6 +40,10 @@ public interface ServerInterface
 	
 	public HashMap<String,String> getBuildingList();
 	
+	public String getSuperRegionType(String superRegionName);
+	
+	public ArrayList<Region> getRegionInSuperRegion(String superRegionName);
+
 	public HashMap<String,String> getSuperRegionList();
 	
 	public int getSuperRegionPower(String superRegionName);
@@ -49,7 +56,7 @@ public interface ServerInterface
 
 	public double getRegionUpkeepMoney(String regionType);
 
-	public ItemList getRegionChest(int id, String itemRef);
+	public String getRegionType(int id);
 	
 	public void setRegionChest(int id, ItemList itemList);
 

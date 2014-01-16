@@ -147,13 +147,6 @@ public class ServerData implements ServerInterface
 		}
 	}
 
-	public ItemList getRegionChest(int id, String itemRef)
-	{
-		ItemList outList = new ItemList();
-		// TODO Auto-generated
-		
-		return outList;
-	}
 
 	/**
 	 * unused !!!!
@@ -311,5 +304,37 @@ public class ServerData implements ServerInterface
 	{
 //		Biome biome = plugin.getServer().getWorld("SteamHaven").getBiome(arg0, arg1);
 //		Biome.
+	}
+
+	@Override
+	public ArrayList<Region> getRegionInSuperRegion(String superRegionName)
+	{
+		ArrayList<Region> rList = new ArrayList<Region>();
+		SuperRegion superReg = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName);
+		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(superReg))
+		{
+			rList.add(region);
+		}
+
+		return rList;
+	}
+
+	@Override
+	public String getSuperRegionType(String superRegionName)
+	{
+		for (SuperRegion region : plugin.stronghold.getRegionManager().getSortedSuperRegions())
+		{
+			if (region.getName().equalsIgnoreCase(superRegionName))
+			{
+				return region.getType();
+			}
+		}
+		return "";
+	}
+
+	@Override
+	public String getRegionType(int id)
+	{
+		return plugin.stronghold.getRegionManager().getRegionByID(id).getType();
 	}
 }

@@ -3,12 +3,15 @@ package net.krglok.realms.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 
-public class TestServer  implements ServerInterface // extends ServerData
+public class ServerTest  implements ServerInterface // extends ServerData
 {
 	ArrayList<String> playerNameList;
 	ArrayList<String> offPlayerNameList;
@@ -25,7 +28,7 @@ public class TestServer  implements ServerInterface // extends ServerData
 		return null; //defaultItems;
 	}
 
-	public TestServer()
+	public ServerTest()
 	{
 //		initItemList();
 		playerNameList = getPlayerNameList();
@@ -78,7 +81,7 @@ public class TestServer  implements ServerInterface // extends ServerData
 		rList.put("2", "haus_einfach");
 		rList.put("3", "arrowturret1");
 		rList.put("4", "stadtwache");
-		rList.put("5", "bibliothek");
+		rList.put("5", "haendler");
 		rList.put("6", "haus_einfach");
 		rList.put("7", "haus_einfach");
 		rList.put("8", "taverne");
@@ -110,9 +113,9 @@ public class TestServer  implements ServerInterface // extends ServerData
 		rList.put("33", "bauern_haus");
 		rList.put("34", "haupthaus");
 		rList.put("35", "bibliothek");
-		rList.put("36", "haus_einfach");
-		rList.put("37", "haus_einfach");
-		rList.put("38", "haus_einfach");
+		rList.put("36", "schreiner");
+		rList.put("37", "tischler");
+		rList.put("38", "schaefer");
 		rList.put("39", "haus_gross");
 		rList.put("41", "werkstatt_haus");
 		rList.put("42", "werkstatt_haus");
@@ -121,6 +124,19 @@ public class TestServer  implements ServerInterface // extends ServerData
 		return rList;
 	}
 
+
+	@Override
+	public String getSuperRegionType(String superRegionName)
+	{
+		switch(superRegionName)
+		{
+		case "Dunjar" : return "Siedlung";
+		case "NewHaven" : return "Stadt";
+		case "Helnrau" : return "Dorf";
+		default :
+			return "";
+		}
+	}
 	@Override
 	public HashMap<String, String> getSuperRegionList()
 	{
@@ -131,7 +147,6 @@ public class TestServer  implements ServerInterface // extends ServerData
 		rList.put("Borum", "Stadt");
 		rList.put("claim1", "Claim");
 		rList.put("Clan_Moorhalle", "Claim");
-		rList.put("Dujar", "Dorf");
 		rList.put("Bauernhof1", "Bauernhof");
 		rList.put("Bauernhof2", "Bauernhof");
 		rList.put("Bauernhof3", "Bauernhof");
@@ -404,77 +419,6 @@ public class TestServer  implements ServerInterface // extends ServerData
 		}
 	}
 
-
-	/**
-	 * get all items off the chest
-	 * 
-	 * @param id  of building
-	 * @param itemRef 
-	 * @return value amount of items from chest
-	 */
-	public ItemList getRegionChest(int id, String itemRef)
-	{
-		ItemList outList = new ItemList();
-		
-		switch(itemRef)
-		{
-		case "LOG" :  outList.putItem("LOG",  64);
-		break;
-		case "WOOD" : outList.putItem("WOOD",  64);
-		break;
-		case "STICK" : outList.putItem("STICK",  64);
-		break;
-		case "WOOD_HOE" : outList.putItem("WOOD_HOE",  20);
-		break;
-		case "WOOD_AXE" : outList.putItem("WOOD_AXE",  20);
-		break;
-		case "WOOD_PICKAXE" : outList.putItem("WOOD_PICKAXE",  20);
-		break;
-		case "WOOD_SWORD" : outList.putItem("WOOD_SWORD",  20);
-		break;
-		case "WHEAT" : outList.putItem("WHEAT",  64);
-		break;
-		case "BREAD" : outList.putItem("BREAD",  32);
-		break;
-		
-		default : 
-		break;
-		}
-		// hier kann ein Zufallsgenerator für unschrfe sorgen
-		return outList;
-	}
-
-	/**
-	 * 
-	 * @param id of building
-	 * @param itemRef
-	 * @param value  amount of items to set in chest
-	 * @return  value of not set items to chest
-	 */
-	public void setRegionChest(int id, ItemList itemList)
-	{
-		// id wird im live System benoetigt um die Liste zu finden,
-		// prodStore <id, ItemList>  die liste der Materialien zu id
-		ItemList iList = prodStore.get(id);
-		if (iList == null)
-		{
-			iList = new ItemList();
-			prodStore.put(id, iList);
-		}
-		
-		for (String matRef : itemList.keySet())
-		{
-			if (iList.get(matRef) != null)
-			{
-				//add material to chest
-				iList.putItem(matRef,(iList.getValue(matRef)+itemList.getValue(matRef)));
-			} else
-			{
-				// add new material to chest
-				iList.put(matRef,itemList.get(matRef));
-			}
-		}
-	}
 	
 	public HashMap<Integer,ItemList> getProdStore()
 	{
@@ -575,5 +519,165 @@ public class TestServer  implements ServerInterface // extends ServerData
 			return 0.9;
 		}
 
+	}
+
+	@Override
+	public ArrayList<Region> getRegionInSuperRegion(String superRegionName)
+	{
+		ArrayList<Region> rList = new ArrayList<Region>() ;
+		Location loc = new Location(null, (double) 0.0, (double) 0.0, (double) 0.0);
+		int id = 0;
+		Region region;
+		if (superRegionName.equalsIgnoreCase("Dunjar"))
+		{
+			id++;
+			region = new Region(id, loc, "haupthaus", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "kornfeld", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "kornfeld", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "holzfaeller", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "steinbruch", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "schreiner", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "tischler", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "schaefer", null, null);
+			rList.add(region);
+		}		
+
+		if (superRegionName.equalsIgnoreCase("NewHaven"))
+		{
+			id++;
+			region = new Region(id, loc, "haupthaus", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "markt", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "taverne", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "kornfeld", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "kornfeld", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "holzfaeller", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "steinbruch", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "kornfeld", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "schreiner", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "tischler", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "schaefer", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "bauern_haus", null, null);
+			rList.add(region);
+		} else
+		{
+			id++;
+			region = new Region(id, loc, "haupthaus", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "haus_einfach", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "kornfeld", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "kornfeld", null, null);
+			rList.add(region);
+			id++;
+			region = new Region(id, loc, "schaefer", null, null);
+			rList.add(region);
+		}		
+			
+		
+		return rList;
+	}
+
+	@Override
+	public String getRegionType(int id)
+	{
+		return getBuildingList().get(String.valueOf(id));
+	}
+
+	@Override
+	public void setRegionChest(int id, ItemList itemList)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

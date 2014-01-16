@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.krglok.realms.RealmCommand;
 import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
@@ -16,8 +17,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
-import net.krglok.realms.data.TestServer;
-import net.krglok.realms.model.ModelCommand;
+import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
@@ -240,7 +240,7 @@ public class RealmLoopTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		DataTest testData = new DataTest();
 		MessageTest message = new MessageTest();
 		
@@ -253,7 +253,7 @@ public class RealmLoopTest
 				message);
 		String command = RealmsCommandType.MODEL.name();
 		String subCommand = "version";
-		ModelCommand realmCommand = new ModelCommand();
+		RealmCommand realmCommand = new RealmCommand();
 		
 		Boolean expected = true; 
 		Boolean actual = false; 

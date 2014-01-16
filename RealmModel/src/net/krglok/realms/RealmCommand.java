@@ -1,22 +1,20 @@
-package net.krglok.realms.model;
+package net.krglok.realms;
 
-import net.krglok.realms.RealmsSubCommandType;
-import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.SettleType;
 
 
-public class ModelCommand 
+public class RealmCommand 
 {
-	private ModelCommandType command;
+	private RealmsCommandType command;
 	private String[] typs;
 	private String[] args;
 	private String description;
 	
 	
-	public ModelCommand()
+	public RealmCommand()
 	{
-		command = ModelCommandType.NONE;
+		command = RealmsCommandType.NONE;
 		typs  = null; 
 		args  = null;
 		description = "None";
@@ -59,7 +57,7 @@ public class ModelCommand
 //	}
 	
 	
-	public ModelCommandType command()
+	public RealmsCommandType command()
 	{
 		return this.command;
 	}
@@ -86,7 +84,7 @@ public class ModelCommand
 	}
 	
 	
-	public static String getDescription(ModelCommandType command)
+	public static String getDescription(RealmsCommandType command)
 	{
 		String [] argTyps = getArgTyps(command);
 		return argTyps[0];
@@ -105,7 +103,7 @@ public class ModelCommand
 	 * @param command
 	 * @return
 	 */
-	public static String[] getArgTyps(ModelCommandType command)
+	public static String[] getArgTyps(RealmsCommandType command)
 	{
 		String[] typs = null;
 		String desc = "";
@@ -118,43 +116,26 @@ public class ModelCommand
 		
 		switch (command)
 		{
-		case 	ADDSETTLEMENT:
+		case 	SETTLE:
 			desc = "[SettleTyp] [Name] [OwnerName] ";
 			typs = new String[] {desc, settleTyp, stringTyp, stringTyp};
 			break;
-		case 	CREATESETTLEMENT :
+		case 	STRONGHOLD :
 			desc = "[StrongholdName] ";
 			typs = new String[] {desc, stringTyp};
 			break;
-		case 	ADDBUILDING :
+		case 	MODEL :
 			typs = new String[] {buildingTyp, intTyp, stringTyp, booleanTyp};
 			break;
-		case 	CREATEBUILDING :
+		case 	OWNER :
 			typs = new String[] {buildingTyp, stringTyp, booleanTyp};
 			break;
-		case 	ACTIVATEBUILDING :
+		case 	REALM :
 			typs = new String[] {intTyp};
 			break;
-		case 	DEACTIVATEBUILDING :
+		case 	REALMS :
 			typs = new String[] {intTyp};
 			break;
-		case 	DEPOSITWAREHOUSE :
-			typs = new String[] {stringTyp, intTyp};
-			break;
-		case 	WITHDRAWWAREHOUSE :
-			typs = new String[] {stringTyp, intTyp};
-			break;
-		case 	DEPOSITBANK :
-			typs = new String[] {intTyp, doubleTyp};
-			break;
-		case 	WITHDRAWBANK :
-			typs = new String[] {intTyp, doubleTyp};
-			break;
-		case 	SELLITEM : // settleID, itemRef, amount, price, laufzeitDays
-			typs = new String[] {intTyp, stringTyp,intTyp, doubleTyp, intTyp };
-			break;
-		case 	BUYITEM :
-
 		default :
 			desc = "No Command ";
 			typs = new String[] {desc};

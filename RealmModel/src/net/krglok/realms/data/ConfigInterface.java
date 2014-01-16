@@ -1,5 +1,6 @@
 package net.krglok.realms.data;
 
+import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
 
 public interface ConfigInterface
@@ -16,5 +17,8 @@ public interface ConfigInterface
 	public ItemList getWeaponItems();
 
 	public ItemList getArmorItems();
+	
+	public BuildingType regionToBuildingType(String regionTypeName);
+
 	
 }

@@ -2,21 +2,22 @@ package net.krglok.realms.model;
 
 import java.util.ArrayList;
 
-
-
-
-public class CommandQueue extends ArrayList<ModelCommand> 
+/**
+ * 
+ * @author Windu
+ *
+ */
+public class CommandQueue extends ArrayList<iModelCommand> 
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -679979589435638753L;
+	private static final long serialVersionUID = 1L;
+
 
 	public CommandQueue()
 	{
-	
+		
 	}
+
 	
 
 }

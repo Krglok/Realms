@@ -2,15 +2,16 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import net.krglok.realms.RealmCommand;
 import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.model.ModelEnable;
 import net.krglok.realms.model.ModelStatus;
-import net.krglok.realms.model.ModelCommand;
 import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class RealmModelTest
 		config.initRegionBuilding();
 		config.initSuperSettleTypes();
 
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
@@ -69,7 +70,7 @@ public class RealmModelTest
 ////		config.initSuperBuilding();
 //		config.initSuperSettleTypes();
 		
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
@@ -117,7 +118,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 				
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 
 		DataTest testData = new DataTest();
 //		OwnerList ownerList =  testData.getTestOwners();
@@ -163,7 +164,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 				
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 
 		DataTest testData = new DataTest();
 		
@@ -177,10 +178,10 @@ public class RealmModelTest
 		
 		String command = RealmsCommandType.MODEL.name();
 		String subCommand = "version";
-		ModelCommand realmCommand = new ModelCommand();
+		ModelEnable modelCommand = new ModelEnable(rModel);
 		
-		rModel.OnEnable();
-		rModel.OnCommand(realmCommand);
+//		rModel.OnEnable();
+		rModel.OnCommand(modelCommand);
 		
 		Boolean expected = rModel.isInit();
 		Boolean actual = false; 
@@ -206,7 +207,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		DataTest testData = new DataTest();
 		MessageTest message = new MessageTest();
 		
@@ -276,7 +277,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		DataTest testData = new DataTest();
 		MessageTest message = new MessageTest();
 		
@@ -287,9 +288,8 @@ public class RealmModelTest
 				config,
 				testData,
 				message);
-		String command = RealmsCommandType.MODEL.name();
-		String subCommand = "version";
-		ModelCommand realmCommand = new ModelCommand();
+		
+		ModelEnable modelCommand = new ModelEnable(rModel);
 		
 		Boolean expected = true; 
 		Boolean actual = false; 
@@ -299,7 +299,7 @@ public class RealmModelTest
 		rModel.OnProduction();
 		if (rModel.getProductionQueue().size() > 0)
 		{
-			rModel.OnCommand(realmCommand);
+			rModel.OnCommand(modelCommand);
 			rModel.OnTick();
 			rModel.OnTick();
 		}

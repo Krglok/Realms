@@ -19,7 +19,7 @@ import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
 import org.junit.Test;
@@ -168,7 +168,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -222,7 +222,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -355,7 +355,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -459,7 +459,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -571,7 +571,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -629,7 +629,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -682,7 +682,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -765,7 +765,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -849,7 +849,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -969,7 +969,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();

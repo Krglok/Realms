@@ -18,7 +18,7 @@ import net.krglok.realms.core.TradeType;
 import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 
 import org.junit.Test;
 
@@ -105,7 +105,7 @@ public class TraderTest
 	@Test
 	public void testcheckSellOrder()
 	{
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		Settlement sender = createSettlement();
 		Settlement target = createSettlement();
 		target.getBank().depositKonto(10000.0, "Admin");

@@ -1,7 +1,7 @@
 package net.krglok.realms.unittest;
 
 import java.util.List;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,7 +16,7 @@ public class TestServerTest
 	public void testGetRecipe()
 	{
 		
-		TestServer  server = new TestServer();
+		ServerTest  server = new ServerTest();
 //		Map<Character,ItemStack> myRecipeMap = new HashMap<Character,ItemStack>();
 		String itemRef = "WOOD";
 		Material material = Material.getMaterial(itemRef);

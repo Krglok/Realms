@@ -3,6 +3,7 @@ package net.krglok.realms.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.krglok.realms.RealmCommand;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
@@ -193,6 +194,27 @@ public class RealmModel
 		return storeQueue;
 	}
 
+	public ServerInterface getServer()
+	{
+		return server;
+	}
+
+
+	public DataInterface getData()
+	{
+		return data;
+	}
+
+	public ConfigInterface getConfig()
+	{
+		return config;
+	}
+
+	public TradeMarket getTradeMarket()
+	{
+		return tradeMarket;
+	}
+
 	public void OnEnable()
 	{
 		switch (modelStatus)
@@ -208,7 +230,7 @@ public class RealmModel
 		}
 	}
 	
-	private boolean initModel()
+	public boolean initModel()
 	{
 		boolean isDone = config.initConfigData();
 		owners = data.initOwners();
@@ -216,6 +238,12 @@ public class RealmModel
 		settlements = data.initSettlements();
 		isInit = isDone;
 		return isInit;
+	}
+	
+	public boolean disableModel()
+	{
+		
+		return true;
 	}
 	
 	public void OnDisable()
@@ -230,22 +258,36 @@ public class RealmModel
 		}
 	}
 
-	public void OnCommand(ModelCommand realmCommand)
+	public void OnCommand(iModelCommand command)
 	{
 		switch (modelStatus)
 		{
 		case MODEL_ENABLED :
 			// store Command in Queue
-			modelStatus = addCommandQueue(realmCommand);
+			modelStatus = addCommandQueue(command);
 			modelStatus = nextCommandQueue();
 			//nextCommandQueue
 			break;
+		case MODEL_DISABLED:
+			if (command.command() == ModelCommandType.MODELENABLE)
+			{
+				if (command.canExecute())
+				{
+					command.execute();
+					if (isInit)
+					{
+						modelStatus = ModelStatus.MODEL_ENABLED;
+					}
+				}
+			}
+			break;
 		case MODEL_COMMAND :
 			// store command in commandQueue
+			modelStatus = addCommandQueue(command);
 			break;
 		default :
 			// nur Comand Queue erweitern ohne status aenderung
-			addCommandQueue(realmCommand);
+			addCommandQueue(command);
 			break;
 		}
 	}
@@ -305,9 +347,12 @@ public class RealmModel
 		switch (modelStatus)
 		{
 		case MODEL_ENABLED :
+			modelStatus = initTradeQueue();
+			return;
+		case MODEL_TRADE :
+			modelStatus = nextTradeQueue();
 			break;
 		default :
-			
 			break;
 		}
 	}
@@ -348,15 +393,19 @@ public class RealmModel
 			{
 			case MODEL_ENABLED :
 				// checkCommandQueue
-				if (commandQueue.isEmpty())
+				if (commandQueue.isEmpty() == false)
 				{
-					messageData.log("Enebled Empty Command");
+					messageData.log("Enabled Empty Command");
+					modelStatus = nextCommandQueue();
 					// checkMoveQueue				
 					return;
-				} else
+				}
+				if (tradeQueue.isEmpty() == false)
 				{
+					modelStatus = nextTradeQueue();
+				}
+				else {
 					messageData.log("Enabled Next Command");
-					modelStatus = nextCommandQueue();
 				}
 	
 				break;
@@ -382,6 +431,7 @@ public class RealmModel
 				break;
 			case MODEL_TRADE :
 				// nextTradeQueue
+				modelStatus = nextTradeQueue();
 				// end TradeQueue
 				break;
 			case MODEL_MOVE :
@@ -404,9 +454,9 @@ public class RealmModel
 		return;
 	}
 
-	private ModelStatus addCommandQueue(ModelCommand realmCommand)
+	private ModelStatus addCommandQueue(iModelCommand command)
 	{
-		commandQueue.add(realmCommand);
+		commandQueue.add(command);
 		return ModelStatus.MODEL_ENABLED;
 	}
 	
@@ -418,68 +468,12 @@ public class RealmModel
 			return ModelStatus.MODEL_ENABLED;
 		}
 		// do Command
-		
-		ModelCommand command = commandQueue.get(0);
-		switch (command.command())
+		modelStatus = ModelStatus.MODEL_COMMAND;
+		iModelCommand command = commandQueue.get(0);
+		if (command.canExecute())
 		{
-		case ADDSETTLEMENT :
-			// do Model command
-			doAddSettlement(command);
+			command.execute();
 			commandQueue.remove(0);
-			break;
-		case CREATESETTLEMENT :
-			// do Realm command
-			commandQueue.remove(0);
-			break;
-		case CREATEBUILDING :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case ADDBUILDING :
-			// do Settlement command
-			commandQueue.remove(0);
-			break;
-		case BUYITEM :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case SELLITEM :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case DEPOSITWAREHOUSE :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case WITHDRAWWAREHOUSE :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case DEPOSITBANK :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case WITHDRAWBANK :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case ACTIVATEBUILDING :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case DEACTIVATEBUILDING :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-		case NONE :
-			// do Owner command
-			commandQueue.remove(0);
-			break;
-
-		default :
-			// unknown commands are delete from queue
-			commandQueue.remove(0);
-			break;
 		}
 		return ModelStatus.MODEL_ENABLED;
 	}
@@ -490,10 +484,10 @@ public class RealmModel
 		{
 			if (settle.isEnabled())
 			{
-				productionQueue.add(settle);
+				tradeQueue.add(settle);
 			}
 		}
-		return ModelStatus.MODEL_PRODUCTION;
+		return ModelStatus.MODEL_ENABLED;
 	}
 	
 	private ModelStatus nextTradeQueue()
@@ -597,7 +591,7 @@ public class RealmModel
 		return ModelStatus.MODEL_TAX;
 	}
 
-	private void doAddSettlement(ModelCommand command)
+	private void doAddSettlement(RealmCommand command)
 	{
 		
 	}

@@ -13,7 +13,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
 
@@ -23,7 +23,7 @@ import org.junit.Test;
 public class ModelLoopTest
 {
 	private Boolean isOutput = false; // set this to false to suppress println
-	private TestServer server = new TestServer();
+	private ServerTest server = new ServerTest();
 	private DataTest testData = new DataTest();
 	private MessageTest message = new MessageTest();
 	private RealmModel rModel;

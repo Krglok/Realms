@@ -9,7 +9,7 @@ import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 
 import org.junit.Test;
 
@@ -64,7 +64,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingProduce()
 	{
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		ItemArray outValues = new ItemArray(); 
 		BuildingType buildingType = BuildingType.BUILDING_PROD;
 		String regionType 	= "kornfeld";
@@ -91,7 +91,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingTax()
 	{
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		ItemArray outValues = new ItemArray(); 
 		BuildingType buildingType = BuildingType.BUILDING_PROD;
 		String regionType 	= "kornfeld";
@@ -119,7 +119,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingIntBuildingConsume()
 	{
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
 		BuildingType buildingType = BuildingType.BUILDING_PROD;

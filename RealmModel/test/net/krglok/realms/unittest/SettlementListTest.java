@@ -10,7 +10,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 
 import org.junit.Test;
 
@@ -139,7 +139,7 @@ public class SettlementListTest
 		DataTest testData = new DataTest();
 		HashMap<String,String> regionTypes = testData.defaultRegionList();
 		HashMap<String,String> superRegionTypes = testData.defaultSuperregionList();
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();

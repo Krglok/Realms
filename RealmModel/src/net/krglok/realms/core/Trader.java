@@ -274,4 +274,8 @@ public class Trader
 			tradeMarket.addOrder(tmo);
 	}
 
+	public void makeBuyOrder(TradeOrder buyOrder)
+	{
+		buyOrders.addTradeOrder(buyOrder);
+	}
 }

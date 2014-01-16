@@ -51,5 +51,11 @@ public class ConfigBasis implements ConfigInterface
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public BuildingType regionToBuildingType(String regionTypeName)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

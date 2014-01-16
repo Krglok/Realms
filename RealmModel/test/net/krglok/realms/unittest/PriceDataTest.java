@@ -8,7 +8,7 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.data.RecipeData;
-import net.krglok.realms.data.TestServer;
+import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -85,7 +85,7 @@ public class PriceDataTest
 //			System.out.println(item.ItemRef()+" : "+item.getBasePrice());
 //		}
 		
-		TestServer server = new TestServer();
+		ServerTest server = new ServerTest();
 		
 		ItemList  ingredients = new ItemList();
 		
