@@ -10,14 +10,17 @@ reagents:
 - GOLD_NUGGET.1
 upkeep:
 - BREAD.1
-- LOG.16
+- STICK.20
+- WOOD.40
 upkeep-chance: 0.001
 output:
-- WOOD.64
-money-requirement: 1000.0
+- WOOD_SPADE.20
+money-requirement: 500.0
 upkeep-money-output: 0.0
 super-regions:
+- Mine
 - Gutshof
+- Bauernhof
 - Lager
 - Hauptlager
 - Werkstatt

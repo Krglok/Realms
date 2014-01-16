@@ -13,7 +13,6 @@ requirements:
 - WOOD.9
 reagents:
 - GOLD_NUGGET.1
-- IRON_INGOT.4
 upkeep:
 - CARROT.2
 upkeep-chance: 0.001

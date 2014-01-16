@@ -22,41 +22,41 @@ public class ModelCommand
 		description = "None";
 	}
 
-	public ModelCommand(ModelCommandType CommandType)
-	{
-		this.command = CommandType;
-		String[] argTyps = getArgTyps(command);
-		description =  argTyps[0];
-		typs = null;
-		args = null;
-	}
-	
-	public ModelCommand(ModelCommandType CommandType, String arg0)
-	{
-		this.command = CommandType;
-		String[] argTyps = getArgTyps(command);
-		description =  argTyps[0];
-		typs = new String[] {argTyps[1]};
-		args = new String[] {arg0};
-	}
-	
-	public ModelCommand(ModelCommandType CommandType, String arg0, String arg1)
-	{
-		this.command = CommandType;
-		String[] argTyps = getArgTyps(command);
-		description =  argTyps[0];
-		typs = new String[] {argTyps[1], argTyps[2]};
-		args = new String[] {arg0, arg1};
-	}
-	
-	public ModelCommand(ModelCommandType CommandType, String arg0, String arg1, String arg2)
-	{
-		this.command = CommandType;
-		String[] argTyps = getArgTyps(command);
-		description =  argTyps[0];
-		typs = new String[] {argTyps[1], argTyps[2], argTyps[3]};
-		args = new String[] {arg0, arg1, arg2};
-	}
+//	public ModelCommand(ModelCommandType CommandType)
+//	{
+//		this.command = CommandType;
+//		String[] argTyps = getArgTyps(command);
+//		description =  argTyps[0];
+//		typs = null;
+//		args = null;
+//	}
+//	
+//	public ModelCommand(ModelCommandType CommandType, String arg0)
+//	{
+//		this.command = CommandType;
+//		String[] argTyps = getArgTyps(command);
+//		description =  argTyps[0];
+//		typs = new String[] {argTyps[1]};
+//		args = new String[] {arg0};
+//	}
+//	
+//	public ModelCommand(ModelCommandType CommandType, String arg0, String arg1)
+//	{
+//		this.command = CommandType;
+//		String[] argTyps = getArgTyps(command);
+//		description =  argTyps[0];
+//		typs = new String[] {argTyps[1], argTyps[2]};
+//		args = new String[] {arg0, arg1};
+//	}
+//	
+//	public ModelCommand(ModelCommandType CommandType, String arg0, String arg1, String arg2)
+//	{
+//		this.command = CommandType;
+//		String[] argTyps = getArgTyps(command);
+//		description =  argTyps[0];
+//		typs = new String[] {argTyps[1], argTyps[2], argTyps[3]};
+//		args = new String[] {arg0, arg1, arg2};
+//	}
 	
 	
 	public ModelCommandType command()

@@ -7,14 +7,15 @@ requirements:
 - FURNACE.1
 - CHEST.1
 reagents:
-- BREAD.4
+- GOLD_NUGGET.1
 upkeep:
+- BREAD.1
 - COBBLESTONE.64
 - COAL.8
 upkeep-chance: 0.01
 output:
 - BRICK.64
-money-requirement: 500.0
+money-requirement: 1000.0
 upkeep-money-output: 0.0
 super-regions:
 - gutshof

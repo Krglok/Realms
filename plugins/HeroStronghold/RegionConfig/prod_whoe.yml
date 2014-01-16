@@ -8,7 +8,6 @@ requirements:
 - CHEST.1
 reagents:
 - GOLD_NUGGET.1
-- IRON_INGOT.8
 upkeep:
 - BREAD.1
 - STICK.40
@@ -16,7 +15,7 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - WOOD_HOE.20
-money-requirement: 500.0
+money-requirement: 1000.0
 upkeep-money-output: 0.0
 super-regions:
 - Gutshof

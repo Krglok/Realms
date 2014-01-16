@@ -18,7 +18,6 @@ requirements:
 reagents:
 - GOLD_NUGGET.1
 - IRON_INGOT.8
-- BREAD.4
 upkeep: []
 upkeep-chance: 0.001
 output: []

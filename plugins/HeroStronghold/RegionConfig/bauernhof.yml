@@ -6,22 +6,28 @@ effects:
 - denyplayerinteract.1
 - periodicupkeep.1
 - denyfriendlyfire.1
-radius: 4
+radius: 5
 requirements:
 - WOODEN_DOOR.1
-- BED_BLOCK.2
+- BED_BLOCK.4
 - WORKBENCH.1
 - FURNACE.1
-- CHEST.1
+- CHEST.5
 - WALL_SIGN.1
 - COBBLESTONE.61
+- WOOD.25
+- LOG.16
 reagents:
-- GOLD_NUGGET.1
+- GOLD_NUGGET.5
 - COAL.5
+- STONE_HOE.5
+- STONE_SPADE.5
+- STONE_AXE.5
 upkeep:
-- WHEAT.63
+- WOOD_HOE.1
+- SEEDS.5
 upkeep-chance: 0.001
-output:
-- BREAD.21
+output: 
+- CARROT.5
 money-requirement: 5000.0
-upkeep-money-output: -2.0
+upkeep-money-output: 0.0

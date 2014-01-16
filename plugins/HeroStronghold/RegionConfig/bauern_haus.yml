@@ -1,7 +1,11 @@
 friendly-classes: []
 enemy-classes: []
 effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
 - periodicupkeep.1
+- denyfriendlyfire.1
 radius: 4
 requirements:
 - WOODEN_DOOR.1
@@ -9,15 +13,14 @@ requirements:
 - WORKBENCH.1
 - CHEST.1
 - WALL_SIGN.1
-- COBBLESTONE.49
+- COBBLESTONE.61
 reagents:
 - GOLD_NUGGET.1
 upkeep:
-- WHEAT.1
-- LOG.32
+- WOOD_HOE.64
 upkeep-chance: 0.001
 output:
-- WOOD.30
-- STICK.30
-money-requirement: 500.0
-upkeep-money-output: -5.0
+- WHEAT.64
+- SEEDS.4
+money-requirement: 1500.0
+upkeep-money-output: -2.0

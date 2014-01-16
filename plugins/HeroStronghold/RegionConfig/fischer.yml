@@ -13,9 +13,9 @@ requirements:
 - WATER.4
 reagents:
 - GOLD_NUGGET.1
-- IRON_INGOT.4
+- WOOD_SWORD.1
 upkeep:
-- WHEAT.1
+- BREAD.1
 upkeep-chance: 0.001
 output:
 - RAW_FISH.3
