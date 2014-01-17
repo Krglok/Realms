@@ -480,6 +480,7 @@ public class Settlement
 					settlement.trader.setActive(true);
 					settlement.trader.setEnabled(true);
 					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
+					settlement.trader.setOrderMax(settlement.trader.getOrderMax()+5);
 					break;
 				case BUILDING_MILITARY :
 					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());

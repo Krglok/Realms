@@ -204,8 +204,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 				rList.putItem("WHEAT", 16);
 				break;
 			case "schreiner":
-				rList.putItem("WOOD", 30);
-				rList.putItem("STICK", 30);
+				rList.putItem("WOOD", 68);
+				rList.putItem("STICK", 60);
 				break;
 			case "steinbruch":
 				rList.putItem("COBBLESTONE", 30);

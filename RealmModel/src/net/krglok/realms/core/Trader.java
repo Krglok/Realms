@@ -26,8 +26,8 @@ public class Trader
 	private boolean isEnabled;
 	private boolean isActive;
 	private TradeOrderList buyOrders;
-//	private TradeOrderList sellOrders;
-	private int OrderMax;
+	private int orderMax;
+	private int orderCount;
 	
 	
 	
@@ -38,7 +38,7 @@ public class Trader
 		buildingId = 0;
 		isEnabled = false;
 		isActive  = false;
-		OrderMax = 5;
+		orderMax = 1;
 		buyOrders = new TradeOrderList();
 //		sellOrders = new TradeOrderList();
 		
@@ -48,7 +48,7 @@ public class Trader
 
 	public Trader(int caravanMax, int caravanCount,
 			TradeOrderList tradeOrders, int buildingId,
-			boolean isEnabled, boolean isActive)
+			boolean isEnabled, boolean isActive, int orderMax)
 	{
 		super();
 		this.caravanMax = caravanMax;
@@ -56,7 +56,7 @@ public class Trader
 		this.buildingId = buildingId;
 		this.isEnabled = isEnabled;
 		this.isActive = isActive;
-		OrderMax = 5;
+		this.orderMax = orderMax;
 		buyOrders = new TradeOrderList();
 //		sellOrders = new TradeOrderList();
 	}
@@ -76,9 +76,10 @@ public class Trader
 		this.isActive = isActive;
 		this.buyOrders = buyOrder;
 //		this.sellOrders = sellOrder;
-		OrderMax = orderMax;
+		orderMax = orderMax;
 	}
 
+	//public 
 
 	public int getCaravanMax()
 	{
@@ -107,6 +108,19 @@ public class Trader
 	}
 
 
+	public boolean isFreeSellOrder()
+	{
+		return (this.orderMax >= orderCount);
+	}
+	
+	public boolean isFreeBuyOrder()
+	{
+		if (orderMax >= buyOrders.size())
+		{
+			return true;
+		}
+		return false;
+	}
 
 	public int getBuildingId()
 	{
@@ -167,13 +181,13 @@ public class Trader
 
 	public int getOrderMax()
 	{
-		return OrderMax;
+		return orderMax;
 	}
 
 
 	public void setOrderMax(int orderMax)
 	{
-		OrderMax = orderMax;
+		this.orderMax = orderMax;
 	}
 	
 	/**
@@ -272,6 +286,7 @@ public class Trader
 			sellOrder.setStatus(TradeStatus.STARTED);
 			TradeMarketOrder tmo = new TradeMarketOrder(settleId, sellOrder);
 			tradeMarket.addOrder(tmo);
+			orderCount++;
 	}
 
 	public void makeBuyOrder(TradeOrder buyOrder)

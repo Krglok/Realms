@@ -103,9 +103,11 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 				{
 					cost = to.value() * to.getBasePrice();
 					settle.getBank().depositKonto(cost, "Trader "+to.getTargetId());
-//					to.setStatus(TradeStatus.NONE);
 				}
-				
+				if (to.getTargetId() == 0)
+				{
+					to.setStatus(TradeStatus.NONE);
+				}
 			}
 		}
 	}
@@ -119,6 +121,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 				if (to.getTargetId() == settle.getId())
 				{
 					settle.getWarehouse().depositItemValue(to.ItemRef(), to.value());
+					to.setTargetId(0);
 //					to.setStatus(TradeStatus.NONE);
 				}
 			}

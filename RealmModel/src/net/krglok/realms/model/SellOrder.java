@@ -63,7 +63,10 @@ public class SellOrder implements iModelCommand
 	{
 		if (rModel.getSettlements().getSettlement(settleId) != null)
 		{
-			return true;
+			if (rModel.getSettlements().getSettlement(settleId).getTrader().isFreeSellOrder())
+			{
+				return true;				
+			}
 		}
 		return false;
 	}

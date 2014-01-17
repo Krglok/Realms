@@ -9,6 +9,7 @@ import net.krglok.realms.RealmCommand;
 import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
@@ -52,7 +53,7 @@ public class ModelCmdTest
 		System.out.println("Market Buy Orders");
 		for (TradeOrder tmo : settle.getTrader().getBuyOrders().values())
 		{
-			System.out.println("- for : "+settle.getId()+":"+tmo.ItemRef()+":"+tmo.value()+":"+tmo.getBasePrice());
+			System.out.println("- for : "+settle.getId()+":"+tmo.ItemRef()+":"+tmo.value()+":"+tmo.getBasePrice()+" :"+tmo.getStatus());
 		}
 		String reqI = "-";
 		for (String itemRef : settle.getRequiredProduction().keySet())
@@ -149,23 +150,18 @@ public class ModelCmdTest
 	{
 		for (int i=0; i < 5; i++)
 		{
-			rModel.OnTick();
-			steps++;
-			rModel.OnTick();
-			steps++;
-			rModel.OnTick();
-			steps++;
-			rModel.OnTick();
-			steps++;
+			for (int j = 0; j < ConfigBasis.GameDay/2; j++)
+			{
+				rModel.OnTick();
+				steps++;
+			}
 			rModel.OnProduction();
 			steps++;
-			rModel.OnTick();
-			steps++;
-			rModel.OnTick();
-			steps++;
-			rModel.OnTick();
-			steps++;
-			rModel.OnTick();
+			for (int j = 0; j < ConfigBasis.GameDay/2; j++)
+			{
+				rModel.OnTick();
+				steps++;
+			}
 		}
 		
 	}
@@ -203,13 +199,6 @@ public class ModelCmdTest
 		Boolean actual = false; 
 
 		rModel.OnCommand(modelEnable);
-		
-//		rModel.OnEnable();
-//		rModel.getSettlements().getSettlement(1).getResident().setSettlerCount(0);
-//		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
-//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(8).setIsActive(false);
-//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(42).setIsActive(false);
-//		rModel.getSettlements().getSettlement(1).getBuildingList().getBuilding(43).setIsActive(false);
 
 		steps++;
 		someLoops(5, rModel);
@@ -220,18 +209,23 @@ public class ModelCmdTest
 		deposit = new DepositWarehouse(rModel, 1, "WOOD_PICKAXE", 32);
 		rModel.OnCommand(deposit);
 		someLoops(5, rModel);
+		
 		AddBuilding addBuilding = new AddBuilding(rModel, 1, 38);
 		rModel.OnCommand(addBuilding);
 		someLoops(5, rModel);
+		
 		addBuilding = new AddBuilding(rModel, 1, 5);  //trader
 		rModel.OnCommand(addBuilding);
 		someLoops(5, rModel);
+		
 		SellOrder sellOrder = new SellOrder(rModel, 1, "WOOL", 5, 1.0 , 2);
 		rModel.OnCommand(sellOrder);
 		someLoops(5, rModel);
+		
 		CreateSettlement createSettle = new CreateSettlement(rModel, "BlaBla", "NPC1", SettleType.SETTLE_HAMLET);
 		rModel.OnCommand(createSettle);
 		someLoops(5, rModel);
+		
 		addBuilding = new AddBuilding(rModel, 2, 5);
 		rModel.OnCommand(addBuilding);
 		someLoops(25, rModel);
@@ -239,6 +233,7 @@ public class ModelCmdTest
 		BuyOrder buyOrder = new BuyOrder(rModel, 2, "WOOD_AXE", 5, 1.0, 2);
 		rModel.OnCommand(buyOrder);
 		someLoops(25, rModel);
+		
 		sellOrder = new SellOrder(rModel, 1, "WOOD_AXE", 5, 1.0 , 2);
 		rModel.OnCommand(sellOrder);
 		someLoops(5, rModel);		
@@ -252,6 +247,7 @@ public class ModelCmdTest
 			System.out.println("OnTick ");
 			System.out.println("CommandQueue : "+rModel.getcommandQueue().size());
 			System.out.println("ProdQueue    : "+rModel.getProductionQueue().size());
+			System.out.println("SellOrders   : "+rModel.getTradeMarket().size());
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
 			for (Settlement settle : rModel.getSettlements().getSettlements().values())
 			{
@@ -262,7 +258,7 @@ public class ModelCmdTest
 			System.out.println("Zentral Market Sell Orders");
 			for (TradeMarketOrder tmo : rModel.getTradeMarket().values())
 			{
-				System.out.println("- from: "+tmo.getSettleID()+":"+tmo.ItemRef()+":"+tmo.value()+":"+tmo.getBasePrice());
+				System.out.println("- from: "+tmo.getSettleID()+":"+tmo.ItemRef()+":"+tmo.value()+":"+tmo.getBasePrice()+" :"+tmo.getStatus());
 			}
 		}
 		assertEquals(expected, actual);

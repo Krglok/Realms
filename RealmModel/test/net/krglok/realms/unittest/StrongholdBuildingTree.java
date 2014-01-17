@@ -39,33 +39,33 @@ public class StrongholdBuildingTree
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	
-        	sRegionFile = RegionFile.getName();
-            if ( isInList(sRegionFile,sList))
-            {
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
-	            System.out.println(sRegionFile.replace(".yml", "")+"  Cost : "+region.getMoneyRequirement());
-
-	            for (ItemStack item : region.getRequirements())
-	            {
-	            	required.put(item.getType().name(), 0);
-	            }
-	            for (ItemStack item : region.getReagents())
-	            {
-	            	reagent.put(item.getType().name(), 0);
-	            }
-	            for (String item : region.getSuperRegions())
-	            {
-	            	superRef.put(item, 0);
-	            }
-	            for (ItemStack item : region.getUpkeep())
-	            {
-	            	ingredient.put(item.getType().name(), 0);
-	            }
-	            for (ItemStack item : region.getOutput())
-	            {
-	            	product.put(item.getType().name(), 0);
-	            }
-            }
+//        	sRegionFile = RegionFile.getName();
+//            if ( isInList(sRegionFile,sList))
+//            {
+//	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+//	            System.out.println(sRegionFile.replace(".yml", "")+"  Cost : "+region.getMoneyRequirement());
+//
+//	            for (ItemStack item : region.getRequirements())
+//	            {
+//	            	required.put(item.getType().name(), 0);
+//	            }
+//	            for (ItemStack item : region.getReagents())
+//	            {
+//	            	reagent.put(item.getType().name(), 0);
+//	            }
+//	            for (String item : region.getSuperRegions())
+//	            {
+//	            	superRef.put(item, 0);
+//	            }
+//	            for (ItemStack item : region.getUpkeep())
+//	            {
+//	            	ingredient.put(item.getType().name(), 0);
+//	            }
+//	            for (ItemStack item : region.getOutput())
+//	            {
+//	            	product.put(item.getType().name(), 0);
+//	            }
+//            }
         }
 	}
 }

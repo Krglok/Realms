@@ -9,6 +9,8 @@ import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.TradeMarket;
+import net.krglok.realms.core.TradeOrder;
+import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
@@ -385,9 +387,9 @@ public class RealmModel
 		try
 		{
 			// make timer run for trade  every tick 
+			// check transportqueues for fullfill 
 			tradeTransport.runTick();
 			tradeMarket.runTick();
-			// check tradequeues for fullfill order
 			
 			switch (modelStatus)
 			{
@@ -395,7 +397,7 @@ public class RealmModel
 				// checkCommandQueue
 				if (commandQueue.isEmpty() == false)
 				{
-					messageData.log("Enabled Empty Command");
+					messageData.log("Enabled Next Command");
 					modelStatus = nextCommandQueue();
 					// checkMoveQueue				
 					return;
@@ -405,9 +407,10 @@ public class RealmModel
 					modelStatus = nextTradeQueue();
 				}
 				else {
-					messageData.log("Enabled Next Command");
+					messageData.log("Enabled Garbage Collector for TradeOrder");
+					doGarbageOrders();
 				}
-	
+				
 				break;
 			case MODEL_PRODUCTION :
 				// nextProduction
@@ -449,6 +452,7 @@ public class RealmModel
 		} catch (Exception e)
 		{
 			messageData.log("[Realms] exception "+ e.getMessage());
+			System.out.println("[Realms] ERROR exception "+ e.getMessage());
 			modelStatus = ModelStatus.MODEL_DISABLED;
 		}
 		return;
@@ -591,9 +595,57 @@ public class RealmModel
 		return ModelStatus.MODEL_TAX;
 	}
 
-	private void doAddSettlement(RealmCommand command)
+	/**
+	 * delete Orders with Status NONE from BuyOrders and tradeMarket
+	 */
+	private void doGarbageOrders()
 	{
+		// Buyorders of Settlement do Garbage
+		try
+		{
+			for (Settlement settle : settlements.getSettlements().values())
+			{
+				for (int i = 0; i < settle.getTrader().getBuyOrders().size()-1; i++)
+				{
+					Integer[] keyArray = new Integer[settle.getTrader().getBuyOrders().size()];
+					keyArray = settle.getTrader().getBuyOrders().keySet().toArray(keyArray);
+					for (Integer id : keyArray)
+					{
+						if (settle.getTrader().getBuyOrders().get(id).getStatus() == TradeStatus.NONE)
+						{
+							settle.getTrader().getBuyOrders().remove(id);
+						}
+					}
+				}
+			}
+		} catch (Exception e)
+		{
+			messageData.log("[Realms] doGarbageOrders BuyOrder exception "+ e.getMessage());
+			System.out.println("[Realms] ERROR doGarbageOrders BuyOrder exception "+ e.getMessage());
+			modelStatus = ModelStatus.MODEL_DISABLED;
+		}
 		
+		try
+		{
+			// Central TradeMarket do Garbage
+			if ((tradeMarket != null) && (tradeMarket.size() > 0))
+			{				
+				Integer[] keyArray = new Integer[tradeMarket.size()];
+				keyArray = tradeMarket.keySet().toArray(keyArray);
+				for (Integer id : keyArray)
+				{
+					if(tradeMarket.get(id).getStatus() == TradeStatus.NONE)
+					{
+						tradeMarket.remove(id);
+					}
+				}
+			}
+		} catch (Exception e)
+		{
+			messageData.log("[Realms] doGarbageOrders SellOrder exception "+ e.getMessage());
+			System.out.println("[Realms] ERROR doGarbageOrders SellOrder exception "+ e.getMessage());
+			modelStatus = ModelStatus.MODEL_DISABLED;
+		}
 	}
 	
 }

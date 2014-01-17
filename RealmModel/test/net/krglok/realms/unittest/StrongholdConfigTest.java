@@ -489,9 +489,9 @@ public class StrongholdConfigTest
         String reagents = "  ";
         String superRefs = "";
         String[] sList ;
-//        sList = setBasisList();
+        sList = setBasisList();
 //        sList = setErweitertList();
-        sList = setEnhancedList();
+//        sList = setEnhancedList();
         System.out.println("[Stronghold] Building cost" );
         for (File RegionFile : regionFolder.listFiles()) 
         {

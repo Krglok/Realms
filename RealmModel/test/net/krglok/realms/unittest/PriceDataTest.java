@@ -70,50 +70,6 @@ public class PriceDataTest
 		}
 	}
 
-	@Test
-	public void testRecipeCost()
-	{
-		ItemPriceList itemPrices = new ItemPriceList();
-		itemPrices = readPriceData();
-		RecipeData recipe = new RecipeData();
-		
-//		recipe.getRecipe(itemRef);
-		System.out.println("=====================");
-		
-//		for (ItemPrice item : itemPrices.values())
-//		{
-//			System.out.println(item.ItemRef()+" : "+item.getBasePrice());
-//		}
-		
-		ServerTest server = new ServerTest();
-		
-		ItemList  ingredients = new ItemList();
-		
-		String regionType = "stone";
-		ingredients = server.getRegionUpkeep(regionType);
-		
-		double prodCost = 0.0;
-		double basePrice = 0.0;
-		System.out.println("upkeep: "+regionType+":"+ingredients.size());
-		for (String itemRef : ingredients.keySet())
-		{
-			prodCost = prodCost + (ingredients.getValue(itemRef) * itemPrices.getBasePrice(itemRef) * 1.25);
-			System.out.println(itemRef+": "+ingredients.getValue(itemRef)+" : "+itemPrices.getBasePrice(itemRef)*1.25);
-			
-		}
-		ingredients.clear();
-		ingredients = server.getRegionOutput(regionType);
-		System.out.println("output: "+regionType+":"+ingredients.size());
-		for (String itemRef : ingredients.keySet())
-		{
-			
-			basePrice = (prodCost / ingredients.getValue(itemRef)/0.75);
-			System.out.println(itemRef+": "+ingredients.getValue(itemRef)+" : "+(prodCost / ingredients.getValue(itemRef))+" : "+basePrice);
-			System.out.println("Ertrag : "+(basePrice*ingredients.getValue(itemRef)-prodCost)+ " : "+(basePrice*ingredients.getValue(itemRef)-prodCost)*30);
-			System.out.println("Steuer : "+(basePrice*ingredients.getValue(itemRef)-prodCost)*10.0/100.0*30);
-		
-		}
-	}
 	
 	
 	private String getBaseKey()
@@ -126,7 +82,7 @@ public class PriceDataTest
 		try
 		{
 			//\\Program Files\\BuckitTest\\plugins\\Realms
-            File DataFile = new File("\\GIT\\OwnPlugins", "baseprice.yml");
+            File DataFile = new File("\\GIT\\OwnPlugins\\plugins\\Realms", "baseprice.yml");
 //            if (!DataFile.exists()) 
 //            {
 //            	DataFile.createNewFile();
@@ -160,7 +116,7 @@ public class PriceDataTest
 		try
 		{
 			//\\Program Files\\BuckitTest\\plugins\\Realms
-            File DataFile = new File("\\GIT\\OwnPlugins", "baseprice.yml");
+            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms", "baseprice.yml");
 //            if (!DataFile.exists()) 
 //            {
 //            	DataFile.createNewFile();
@@ -185,6 +141,56 @@ public class PriceDataTest
 		{
 		}
 		return items;
+	}
+
+	@Test
+	public void testRecipeCost()
+	{
+		ItemPriceList itemPrices = new ItemPriceList();
+		itemPrices = readPriceData();
+		RecipeData recipe = new RecipeData();
+		
+//		recipe.getRecipe(itemRef);
+		System.out.println("=====================");
+		
+//		for (ItemPrice item : itemPrices.values())
+//		{
+//			System.out.println(item.ItemRef()+" : "+item.getBasePrice());
+//		}
+		
+		ServerTest server = new ServerTest();
+		
+		ItemList  ingredients = new ItemList();
+		
+		String regionType = "prod_waxe";
+		ingredients = server.getRegionUpkeep(regionType);
+		
+		double prodCost = 0.0;
+		double basePrice = 0.0;
+		System.out.println("upkeep: "+regionType+":"+ingredients.size());
+		for (String itemRef : ingredients.keySet())
+		{
+			prodCost = prodCost + (ingredients.getValue(itemRef) * itemPrices.getBasePrice(itemRef) * 1.25);
+			System.out.println(itemRef+": "+ingredients.getValue(itemRef)+" : "+itemPrices.getBasePrice(itemRef)*1.25);
+			
+		}
+		ingredients.clear();
+		ingredients = server.getRegionOutput(regionType);
+		System.out.println("output: "+regionType+":"+ingredients.size());
+		for (String itemRef : ingredients.keySet())
+		{
+			
+			basePrice = (prodCost / ingredients.getValue(itemRef)/0.75);
+			System.out.println(itemRef+": "+ingredients.getValue(itemRef)+" : "+(prodCost / ingredients.getValue(itemRef))+" : "+basePrice);
+			System.out.println("Ertrag : "+(basePrice*ingredients.getValue(itemRef)-prodCost)+ " : "+(basePrice*ingredients.getValue(itemRef)-prodCost)*30);
+			System.out.println("Steuer : "+(basePrice*ingredients.getValue(itemRef)-prodCost)*10.0/100.0*30);
+		
+		}
+//		System.out.println("Pricelist =================");
+//		for (ItemPrice ip : itemPrices.values())
+//		{
+//			System.out.println("-"+ip.ItemRef()+" : "+ip.getBasePrice());
+//		}
 	}
 	
 }
