@@ -14,10 +14,9 @@ requirements:
 - WALL_SIGN.1
 reagents:
 - GOLD_NUGGET.1
-upkeep:
-- WOOD_AXE.1
+upkeep: []
 upkeep-chance: 0.001
 output:
-- LOG.32
+- LOG.16
 money-requirement: 500.0
 upkeep-money-output: -2.0

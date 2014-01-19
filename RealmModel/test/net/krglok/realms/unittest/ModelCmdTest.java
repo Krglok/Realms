@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import net.krglok.realms.RealmCommand;
+import net.krglok.realms.RealmsCommand;
 import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;

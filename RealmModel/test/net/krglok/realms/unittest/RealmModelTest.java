@@ -2,7 +2,7 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.RealmCommand;
+import net.krglok.realms.RealmsCommand;
 import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;

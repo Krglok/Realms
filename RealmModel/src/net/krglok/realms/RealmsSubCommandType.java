@@ -12,6 +12,8 @@ public enum RealmsSubCommandType
 	SETTLEMENT,
 	ADD ,
 	DELETE ,
+	PRICE,
+	PRICELIST,
 	DISBAND ,
 	ACTIVATE ,
 	DEACTIVATE ,

@@ -14,87 +14,38 @@ import org.bukkit.inventory.ItemStack;
 public class CommandRealms
 {
 	private Realms plugin;
+	RealmsCommand[] cmdList ;
+	CommandParser parser ;
 	
 	public CommandRealms(Realms plugin)
 	{
 		this.plugin = plugin;
+		cmdList = makeCommandList();
+		parser = new CommandParser(cmdList);
 	}
 
+	private RealmsCommand[] makeCommandList()
+	{
+		RealmsCommand[] commandList = new RealmsCommand[] {
+			new cmdRealmNone(),
+			new CmdRealmsVersion(),
+			new CmdRealmsHelp(),
+			new cmdRealmsInfoPricelist(),
+			new cmdRealmsTest()
+			
+		};
+		return commandList;
+	}
+	
 	public boolean run(CommandSender sender, String[] args)
 	{
-		CommandArg commandArg = new CommandArg(args);
-		RealmsSubCommandType subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
-		commandArg.remove(0);
-		switch (subCommand)
+		RealmsCommand cmd = parser.getRealmsCommand(args);
+		if (cmd != null)
 		{
-		case DEBUG:
-			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
+			if (cmd.canExecute(plugin, sender))
 			{
-				cmdDebug(sender, commandArg);
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
+				cmd.execute(plugin, sender);
 			}
-			break;
-		case WRITE :
-			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
-			{
-				cmdWrite(sender, commandArg);
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case SET:
-			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
-			{
-				cmdSet(sender, subCommand,commandArg);
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case INFO :
-			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
-			{
-				cmdInfo(sender,subCommand, commandArg);
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case READ :
-			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
-			{
-				cmdRead(sender, commandArg);
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case LIST :
-			break;
-		case VERSION :
-			sender.sendMessage(ChatColor.GREEN+"== "+plugin.getConfigData().getPluginName()+" Vers.: "+plugin.getConfigData().getVersion()+" ==============");
-			break;
-		case TEST :
-			if (commandArg.size() > 0)
-			{
-				cmdTest(sender, commandArg);
-				return true;
-			} else
-			{
-//				sender.sendMessage("Args Error !");
-				plugin.getMessageData().errorArgs(sender, subCommand);
-			}
-			break;
-		default :
-			sender.sendMessage("["+args[0]+"] "+"SubCommand not found else "+RealmsSubCommandType.getRealmSubCommandType(args[0]));
-			for (RealmsSubCommandType rsc : RealmsSubCommandType.values())
-			{
-				sender.sendMessage(rsc.name());
-			}
-			return false;
 		}
 		return true;
 	}
@@ -146,20 +97,6 @@ public class CommandRealms
 				msg.add("==");
 			}
 			plugin.getMessageData().printPage(sender, msg, 1);
-		}
-		if (ListRef.equalsIgnoreCase("PRICELIST"))
-		{
-			int page = CommandArg.argToInt(commandArg.get(1));
-			msg.add("== Price list :"+plugin.getData().getPriceList());
-			for (ItemPrice item : plugin.getData().getPriceList().values())
-			{
-				msg.add(item.ItemRef()+ " : "+item.getFormatedBasePrice());
-			}
-			if (msg.size() < 2)
-			{
-				msg.add("== ");
-			}
-			plugin.getMessageData().printPage(sender, msg, page);
 		}
 		return true;
 	}

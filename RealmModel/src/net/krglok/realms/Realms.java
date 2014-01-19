@@ -131,16 +131,6 @@ public final class Realms extends JavaPlugin
     {
     	switch (RealmsCommandType.getRealmCommandType(command.getName()))
     	{
-    	case MODEL :
-    		if (args.length == 0)
-    		{
-    		  cmdModelNone(sender);
-    		  return true;
-    		} else
-    		{
-    			commandModel.run(sender, args);
-    		}
-    		return true;
     	case OWNER :
     		if (args.length == 0)
     		{
@@ -172,51 +162,12 @@ public final class Realms extends JavaPlugin
     		}
     		return true;
     	case REALMS :
-    		if (args.length == 0)
-    		{
-    		  cmdRealmsNone(sender);
-    		  return true;
-    		} else
-    		{
-    			commandRealms.run(sender, args);
-    		}
-    		return true;
-    	case STRONGHOLD:
-    		if (args.length == 0)
-    		{
-    		  cmdStrongholdNone(sender);
-    		  return true;
-    		} else
-    		{
-    			commandStronghold.run(sender, args);
-    		}
-    		return true;
 		default:
-			return false;
+   			commandRealms.run(sender, args);
+			return true;
     	}
     }
 
-    /**
-     * General command explanation for plugin
-     * @param sender
-     */
-    private void cmdRealmsNone(CommandSender sender)
-    {
-    	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add("== "+this.getName()+" Vers.: "+config.getVersion()+" ==============");
-    	msg.add(ChatColor.GREEN+"commands:"+ChatColor.YELLOW+" ");
-    	msg.add("/model  only for ops to control model setup");
-    	msg.add("/owner  only for ops for managing owners");
-    	msg.add("/kingdom  player command for realm management");
-    	msg.add("/settle player command for settlement management");
-    	msg.add("/stronghold plyer command for Stronghold Data");
-//    	msg.add(ChatColor.GREEN+"<command> help "+ChatColor.YELLOW+", show help text for command");
-    	for (String line:msg)
-    	{
-    		line = ChatColor.YELLOW+line;
-    		sender.sendMessage(line);
-    	}
-    }
 
     /**
      * explanation for realm command

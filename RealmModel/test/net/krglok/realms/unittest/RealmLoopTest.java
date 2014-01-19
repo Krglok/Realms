@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.krglok.realms.RealmCommand;
+import net.krglok.realms.CmdRealmsVersion;
+import net.krglok.realms.RealmsCommand;
 import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
@@ -253,7 +254,7 @@ public class RealmLoopTest
 				message);
 		String command = RealmsCommandType.MODEL.name();
 		String subCommand = "version";
-		RealmCommand realmCommand = new RealmCommand();
+		RealmsCommand realmCommand = new CmdRealmsVersion();
 		
 		Boolean expected = true; 
 		Boolean actual = false; 

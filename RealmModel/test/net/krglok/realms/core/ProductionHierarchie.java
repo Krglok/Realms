@@ -1,4 +1,4 @@
-package net.krglok.realms.unittest;
+package net.krglok.realms.core;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Queue;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
+import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,9 +19,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
-public class StrongholdConfigTest
+public class ProductionHierarchie
 {
-	
     private ArrayList<ItemStack> processItemStackList(List<String> input, String filename) {
         ArrayList<ItemStack> returnList = new ArrayList<ItemStack>();
         for (String current : input) {
@@ -150,44 +150,94 @@ public class StrongholdConfigTest
 			String path
 			)
 	{
+		int OFFSET1 = 21;
+		int OFFSET2 = OFFSET1 * 2;
+		int OFFSET3 = OFFSET1 * 3;
+		
 		String materials = "";
         String sRegionFile = "";
         RegionConfig region ;
 //        String[] outLines ;
 
-        System.out.println("[Construction] Resources : " + required.size());
-        for (String sName : required.keySet())
-        {
-    	materials = materials +""+sName+" ";
-        }
-        System.out.println(materials);
-        
+        required.clear();
+        required.put("INPUT",0);
+        required.put("OUTPUT",0);
+        System.out.println(" ");
+        System.out.println(setStrleft("Ebene 0 : ",15)+"IN   "+"OUT");
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	sRegionFile = RegionFile.getName();
             if (isInList(sRegionFile,sList))
             {
-	            for (String itemRef : required.keySet())
-	            {
-	            	required.put(itemRef, 0);
-	            }
 	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
-	            for (ItemStack item : region.getRequirements())
-	            {
-	            	required.put(item.getType().name(), item.getAmount());
-	            }
-		        materials = "  ";
-		        for (String sName : required.keySet())
-		        {
-		        	int value = required.get(sName);
-		        	String sValue = String.valueOf(value);
-		        	for (int i = 0; i < (sName.length()-1); i++)
-					{
-						sValue = sValue + " ";
-					}
-		        	materials = materials +""+sValue+" ";
-		        }
-		        System.out.println(materials + sRegionFile.replace(".yml", ""));
+	        	if (region.getUpkeep().size() == 0)
+	        	{
+	            	required.put("INPUT",region.getUpkeep().size());
+	            	required.put("OUTPUT",region.getOutput().size());
+	            	
+//			        System.out.println(setStrleft(+materials );
+			        System.out.println(setStrleft(sRegionFile.replace(".yml", ""),15)+setStrleft(String.valueOf(required.get("INPUT"))  ,5)+setStrleft(String.valueOf(required.get("OUTPUT"))  ,6) );
+	        	}
+		        
+            }
+        }
+        System.out.println(setStrleft(" ",OFFSET1)+setStrleft("Ebene 1 : ",15)+"IN   "+"OUT");
+        for (File RegionFile : regionFolder.listFiles()) 
+        {
+        	sRegionFile = RegionFile.getName();
+            if (isInList(sRegionFile,sList))
+            {
+	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	if (region.getUpkeep().size() == 1)
+	        	{
+	            	required.put("INPUT",region.getUpkeep().size());
+	            	required.put("OUTPUT",region.getOutput().size());
+	            	
+			        System.out.println(setStrleft(" ",OFFSET1)+
+			        		setStrleft(sRegionFile.replace(".yml", ""),15)+
+			        		setStrleft(String.valueOf(required.get("INPUT"))  ,5)+
+			        		setStrleft(String.valueOf(required.get("OUTPUT"))  ,6) );
+	        	}
+		        
+            }
+        }
+        System.out.println(setStrleft(" ",OFFSET2)+setStrleft("Ebene 2 : ",15)+"IN   "+"OUT");
+        for (File RegionFile : regionFolder.listFiles()) 
+        {
+        	sRegionFile = RegionFile.getName();
+            if (isInList(sRegionFile,sList))
+            {
+	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	if (region.getUpkeep().size() == 2)
+	        	{
+	            	required.put("INPUT",region.getUpkeep().size());
+	            	required.put("OUTPUT",region.getOutput().size());
+	            	
+			        System.out.println(setStrleft(" ",OFFSET2)+
+			        		setStrleft(sRegionFile.replace(".yml", ""),15)+
+			        		setStrleft(String.valueOf(required.get("INPUT"))  ,5)+
+			        		setStrleft(String.valueOf(required.get("OUTPUT"))  ,6) );
+	        	}
+		        
+            }
+        }
+        System.out.println(setStrleft(" ",OFFSET3)+setStrleft("Ebene 3 : ",15)+"IN   "+"OUT");
+        for (File RegionFile : regionFolder.listFiles()) 
+        {
+        	sRegionFile = RegionFile.getName();
+            if (isInList(sRegionFile,sList))
+            {
+	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	if (region.getUpkeep().size() > 2)
+	        	{
+	            	required.put("INPUT",region.getUpkeep().size());
+	            	required.put("OUTPUT",region.getOutput().size());
+	            	
+			        System.out.println(setStrleft(" ",OFFSET3)+
+			        		setStrleft(sRegionFile.replace(".yml", ""),15)+
+			        		setStrleft(String.valueOf(required.get("INPUT"))  ,5)+
+			        		setStrleft(String.valueOf(required.get("OUTPUT"))  ,6) );
+	        	}
 		        
             }
         }
@@ -195,169 +245,6 @@ public class StrongholdConfigTest
 		
 	}
 
-	private void showReagentList( 
-			HashMap<String,Integer> reagent, 
-			String[] sList,
-			File regionFolder,
-			String path
-			)
-	{
-		String reagents = "";
-        String sRegionFile = "";
-        RegionConfig region ;
-//        String[] outLines ;
-
-        // REAGENTS LIST
-        for (String sName : reagent.keySet())
-        {
-    	reagents = reagents +""+sName+" ";
-        }
-        System.out.println(reagents);
-        for (File RegionFile : regionFolder.listFiles()) 
-        {
-        	sRegionFile = RegionFile.getName();
-            if (isInList(sRegionFile,sList))
-            {
-	            for (String itemRef : reagent.keySet())
-	            {
-	            	reagent.put(itemRef, 0);
-	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
-	            for (ItemStack item : region.getReagents())
-	            {
-	            	reagent.put(item.getType().name(), item.getAmount());
-	            }
-	            reagents = "  ";
-		        for (String sName : reagent.keySet())
-		        {
-		        	int value = reagent.get(sName);
-		        	String sValue = String.valueOf(value);
-		        	for (int i = 0; i < (sName.length()-1); i++)
-					{
-						sValue = sValue + " ";
-					}
-		        	reagents = reagents +""+sValue+" ";
-		        }
-		        System.out.println(reagents + sRegionFile.replace(".yml", ""));
-		        
-            }
-        }
-		
-	}
-	
-
-	private void showBuildingAllowed( 
-			HashMap<String,Integer> superRef, 
-			String[] sList,
-			File regionFolder,
-			String path
-			)
-	{
-		String superRefs = "";
-        String sRegionFile = "";
-        RegionConfig region ;
-//        String[] outLines ;
-
-        System.out.println("[Construction] Build allowed : " + superRef.size());
-        for (String sName : superRef.keySet())
-        {
-        	superRefs = superRefs +""+sName+" ";
-        }
-        System.out.println(superRefs);
-        for (File RegionFile : regionFolder.listFiles()) 
-        {
-        	sRegionFile = RegionFile.getName();
-            if (isInList(sRegionFile,sList))
-            {
-	            for (String itemRef : superRef.keySet())
-	            {
-	            	superRef.put(itemRef, 0);
-	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
-	            for (String item : region.getSuperRegions())
-	            {
-	            	superRef.put(item, 1);
-	            }
-            	if (region.getSuperRegions().size() == 0)
-            	{
-            		superRef.put("Anywhere", 1);
-            	}
-	            superRefs = "  ";
-		        for (String sName : superRef.keySet())
-		        {
-		        	int value = superRef.get(sName);
-		        	
-		        	String sValue = "";
-		        	if (value == 0)
-		        	{
-		        		sValue = " ";
-		        	} else
-		        	{
-		        		sValue = String.valueOf(value);		        		
-		        	}
-		        	
-		        	for (int i = 0; i < (sName.length()-1); i++)
-					{
-						sValue = sValue + " ";
-					}
-		        	superRefs = superRefs +""+sValue+" ";
-		        }
-		        System.out.println(superRefs + sRegionFile.replace(".yml", ""));
-		        
-            }
-        }
-		
-	}
-
-	private void showIngredientList( 
-			HashMap<String,Integer> ingredient, 
-			String[] sList,
-			File regionFolder,
-			String path
-			)
-	{
-		String ingredients = "";
-        String sRegionFile = "";
-        RegionConfig region ;
-//        String[] outLines ;
-
-        // REAGENTS LIST
-        for (String sName : ingredient.keySet())
-        {
-    	ingredients = ingredients +""+sName+" ";
-        }
-        System.out.println(ingredients);
-        for (File RegionFile : regionFolder.listFiles()) 
-        {
-        	sRegionFile = RegionFile.getName();
-            if (isInList(sRegionFile,sList))
-            {
-	            for (String itemRef : ingredient.keySet())
-	            {
-	            	ingredient.put(itemRef, 0);
-	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
-	            for (ItemStack item : region.getUpkeep())
-	            {
-	            	ingredient.put(item.getType().name(), item.getAmount());
-	            }
-	            ingredients = "  ";
-		        for (String sName : ingredient.keySet())
-		        {
-		        	int value = ingredient.get(sName);
-		        	String sValue = String.valueOf(value);
-		        	for (int i = 0; i < (sName.length()-1); i++)
-					{
-						sValue = sValue + " ";
-					}
-		        	ingredients = ingredients +""+sValue+" ";
-		        }
-		        System.out.println(ingredients + sRegionFile.replace(".yml", ""));
-		        
-            }
-        }
-		
-	}
 
 	private void showProductList( 
 			HashMap<String,Integer> product, 
@@ -372,11 +259,13 @@ public class StrongholdConfigTest
 //        String[] outLines ;
 
         // REAGENTS LIST
+        System.out.println(" ");
+        System.out.println("[Production] Products : " + product.size());
         for (String sName : product.keySet())
         {
     	products = products +""+sName+" ";
         }
-        System.out.println(products);
+        System.out.println(setStrleft(" ",15)+products);
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	sRegionFile = RegionFile.getName();
@@ -391,18 +280,19 @@ public class StrongholdConfigTest
 	            {
 	            	product.put(item.getType().name(), item.getAmount());
 	            }
-	            products = "  ";
+	            products = "";
 		        for (String sName : product.keySet())
 		        {
 		        	int value = product.get(sName);
 		        	String sValue = String.valueOf(value);
 		        	for (int i = 0; i < (sName.length()-1); i++)
 					{
-						sValue = sValue + " ";
+//						sValue = sValue + " ";
+						sValue = setStrleft(sValue,sName.length());
 					}
 		        	products = products +""+sValue+" ";
 		        }
-		        System.out.println(products + sRegionFile.replace(".yml", ""));
+		        System.out.println(setStrleft(sRegionFile.replace(".yml", ""),15)+products );
 		        
             }
         }
@@ -467,6 +357,92 @@ public class StrongholdConfigTest
         		};
 	}
 	
+	private String[] setBuildingList()
+	{
+		return new String[] 
+        		{
+        		"kornfeld", 
+        		"holzfaeller",
+        		"steinbruch",
+        		"schaefer",
+        		"schreiner",
+        		"tischler",
+        		"prod_waxe",
+        		"prod_whoe", 
+        		"prod_wpaxe", 
+        		"prod_wsword",
+        		"prod_wspade",
+        		"prod_steinziegel",
+        		"prod_netherziegel",
+        		"bauern_haus",
+        		"haus_baecker",
+        		"koehler",
+        		"rinderstall",
+        		"huehnerstall",
+        		"fischer",
+        		"werkstatt",
+				"steinmine",
+				"schmelze",
+				"bauernhof",
+				"schweinestall"
+        		};
+	}
+	
+	public String setStrleft(String in, int len)
+	{
+		char[] out = new char[len];
+		for (int i = 0; i < out.length; i++)
+		{
+			out[i] = ' ';
+		}
+		if (len >= in.length())
+		{
+			char[] zw  = in.toCharArray();
+			for (int i = 0; i < zw.length; i++)
+			{
+				out[i] = zw[i]; 
+			}
+		} else
+		{
+			char[] zw  = in.toCharArray();
+			for (int i = 0; i < out.length; i++)
+			{
+				out[i] = zw[i]; 
+			}
+			
+		}
+		return String.valueOf(out);
+	}
+
+	public String setStrright(String in, int len)
+	{
+		char[] out = new char[len];
+		for (int i = 0; i < out.length; i++)
+		{
+			out[i] = ' ';
+		}
+		if (len >= in.length())
+		{
+			char[] zw  = in.toCharArray();
+			int zwl = zw.length;
+			for (int i = 0; i < zw.length; i++)
+			{
+				out[len-i-1] = zw[zwl-i-1]; 
+			}
+		} else
+		{
+			char[] zw  = in.toCharArray();
+			int zwl = zw.length;
+			for (int i = 0; i < out.length; i++)
+			{
+				out[len-i] = zw[zwl-i]; 
+//				out[i] = zw[i]; 
+			}
+			
+		}
+		return String.valueOf(out);
+	}
+	
 	@Test
 	public void getStrongholdConstructionMaterial()
 	{
@@ -485,14 +461,12 @@ public class StrongholdConfigTest
         String sRegionFile = "";
         
         RegionConfig region;
-        String materials = "  ";
-        String reagents = "  ";
-        String superRefs = "";
         String[] sList ;
-        sList = setBasisList();
+//        sList = setBasisList();
 //        sList = setErweitertList();
 //        sList = setEnhancedList();
-        System.out.println("[Stronghold] Building cost" );
+        sList = setBuildingList();
+        System.out.println("[Stronghold] Building  Hierarchie" );
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	
@@ -500,7 +474,6 @@ public class StrongholdConfigTest
             if ( isInList(sRegionFile,sList))
             {
 	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
-	            System.out.println(sRegionFile.replace(".yml", "")+"  Cost : "+region.getMoneyRequirement());
 
 	            for (ItemStack item : region.getRequirements())
 	            {
@@ -525,18 +498,16 @@ public class StrongholdConfigTest
             }
         }
 
-        showBuildingList( required, sList, regionFolder, path);        
+        showBuildingList( ingredient, sList, regionFolder, path);        
         
-        showReagentList( reagent, sList, regionFolder, path);
+//        showReagentList( reagent, sList, regionFolder, path);
+//        
+//        showBuildingAllowed(superRef, sList, regionFolder, path );
+//
+//        showIngredientList(ingredient, sList, regionFolder, path );
+//        
+//        showProductList(product, sList, regionFolder, path );
         
-        showBuildingAllowed(superRef, sList, regionFolder, path );
-
-        showIngredientList(ingredient, sList, regionFolder, path );
-        
-        showProductList(product, sList, regionFolder, path );
-        
-//        Queue<RegionType> myQueue = new Queue<RegionType>();
-		{
-		};
 	}
+
 }

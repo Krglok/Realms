@@ -8,8 +8,7 @@ requirements:
 - DIRT.9
 reagents:
 - GOLD_NUGGET.1
-upkeep:
-- WOOD_HOE.1
+upkeep: []
 upkeep-chance: 0.001
 output:
 - WHEAT.32

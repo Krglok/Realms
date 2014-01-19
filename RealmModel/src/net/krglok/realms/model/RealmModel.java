@@ -3,7 +3,7 @@ package net.krglok.realms.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.krglok.realms.RealmCommand;
+import net.krglok.realms.RealmsCommand;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
