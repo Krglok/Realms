@@ -1,4 +1,4 @@
-package net.krglok.realms.core;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 

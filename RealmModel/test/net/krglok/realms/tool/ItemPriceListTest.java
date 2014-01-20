@@ -1,4 +1,4 @@
-package net.krglok.realms.core;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.data.RecipeData;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.unittest.RegionConfig;

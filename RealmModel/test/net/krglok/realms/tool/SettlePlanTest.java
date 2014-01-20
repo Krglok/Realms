@@ -1,10 +1,12 @@
-package net.krglok.realms.core;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import net.krglok.realms.core.PlanMap;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;

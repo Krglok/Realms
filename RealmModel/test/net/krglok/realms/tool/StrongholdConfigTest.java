@@ -1,4 +1,4 @@
-package net.krglok.realms.core;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 
@@ -22,66 +22,6 @@ import org.junit.Test;
 public class StrongholdConfigTest
 {
 	
-    private ArrayList<ItemStack> processItemStackList(List<String> input, String filename) {
-        ArrayList<ItemStack> returnList = new ArrayList<ItemStack>();
-        for (String current : input) {
-            String[] params = current.split("\\.");
-            if (Material.getMaterial(params[0]) != null) {
-                ItemStack is;
-                if (params.length < 3) {
-                    is = new ItemStack(Material.getMaterial(params[0]),Integer.parseInt(params[1]));
-                } else {
-                    is = new ItemStack(Material.getMaterial(params[0]),Integer.parseInt(params[1]), Short.parseShort(params[2]));
-                }
-                returnList.add(is);
-            } else {
-            	System.out.println("[Stronghold] could not find item " + params[0] + " in " + filename);
-            }
-        }
-        return returnList;
-    }
-	
-	
-	private RegionConfig getRegionConfig(String pathName, String sRegionFile)
-	{
-        try {
-//        		sRegionFile = sRegionFile;
-        		File currentRegionFile = new File(pathName,sRegionFile);
-        		if (currentRegionFile == null)
-        		{
-        			System.out.println(pathName+"\\"+sRegionFile);
-        		}
-        		
-                FileConfiguration rConfig = new YamlConfiguration();
-                rConfig.load(currentRegionFile);
-                String regionName = currentRegionFile.getName().replace(".yml", "");
-                RegionConfig regionConfig = new RegionConfig(regionName,
-                        rConfig.getString("group", regionName),
-                        (ArrayList<String>) rConfig.getStringList("friendly-classes"),
-                        (ArrayList<String>) rConfig.getStringList("enemy-classes"),
-                        (ArrayList<String>) rConfig.getStringList("effects"),
-                        (int) Math.pow(rConfig.getInt("radius"), 2),
-                        (int) Math.pow(rConfig.getInt("build-radius", rConfig.getInt("radius", 2)), 2),
-                        processItemStackList(rConfig.getStringList("requirements"), currentRegionFile.getName()),
-                        rConfig.getStringList("super-regions"),
-                        processItemStackList(rConfig.getStringList("reagents"), currentRegionFile.getName()),
-                        processItemStackList(rConfig.getStringList("upkeep"), currentRegionFile.getName()),
-                        processItemStackList(rConfig.getStringList("output"), currentRegionFile.getName()),
-                        rConfig.getDouble("upkeep-chance"),
-                        rConfig.getDouble("money-requirement"),
-                        rConfig.getDouble("upkeep-money-output"),
-                        rConfig.getDouble("exp"),
-                        rConfig.getString("description"),
-                        rConfig.getInt("power-drain", 0),
-                        rConfig.getInt("housing", 0),
-                        rConfig.getStringList("biome"));
-                return regionConfig;
-            } catch (Exception e) {
-                System.out.println("[Stronghold] failed to load " + sRegionFile);
-                e.printStackTrace();
-            }
-        return null;
-	}
 	
 
 //	@Test
@@ -117,32 +57,6 @@ public class StrongholdConfigTest
 //		
 //	}
 
-	private void showRegionConfig(RegionConfig region)
-	{
-        System.out.println("Radius    : " + region.getRawRadius());
-        System.out.println("Construct===== ");
-        for(ItemStack required : region.getRequirements())
-        {
-        	System.out.println(required.getType().name()+":"+required.getAmount());
-        }
-        System.out.println("Build========= ");
-        for(ItemStack required : region.getReagents())
-        {
-        	System.out.println(required.getType().name()+":"+required.getAmount());
-        }
-        System.out.println("Production==== ");
-        System.out.println("Ingredients=== ");
-        for(ItemStack required : region.getReagents())
-        {
-        	System.out.println(required.getType().name()+":"+required.getAmount());
-        }
-        System.out.println("Product======= ");
-        for(ItemStack required : region.getReagents())
-        {
-        	System.out.println(required.getType().name()+":"+required.getAmount());
-        }
-		
-	}
 	
 	private void showBuildingList( 
 			HashMap<String,Integer> required, 
@@ -162,7 +76,7 @@ public class StrongholdConfigTest
         {
         	materials = materials +""+sName+" ";
         }
-        System.out.println(setStrleft(" ",15)+materials);
+        System.out.println(StrongholdTools.setStrleft(" ",15)+materials);
         
         for (File RegionFile : regionFolder.listFiles()) 
         {
@@ -173,7 +87,7 @@ public class StrongholdConfigTest
 	            {
 	            	required.put(itemRef, 0);
 	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
 	            for (ItemStack item : region.getRequirements())
 	            {
 	            	required.put(item.getType().name(), item.getAmount());
@@ -185,11 +99,11 @@ public class StrongholdConfigTest
 		        	String sValue = String.valueOf(value);
 		        	for (int i = 0; i < (sName.length()-1); i++)
 					{
-						sValue = setStrleft(sValue,sName.length());
+						sValue = StrongholdTools.setStrleft(sValue,sName.length());
 					}
 		        	materials = materials +""+sValue+" ";
 		        }
-		        System.out.println(setStrleft(sRegionFile.replace(".yml", ""),15)+materials );
+		        System.out.println(StrongholdTools.setStrleft(sRegionFile.replace(".yml", ""),15)+materials );
 		        
             }
         }
@@ -215,7 +129,7 @@ public class StrongholdConfigTest
         {
     	reagents = reagents +""+sName+" ";
         }
-        System.out.println(setStrleft(" ",15)+reagents);
+        System.out.println(StrongholdTools.setStrleft(" ",15)+reagents);
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	sRegionFile = RegionFile.getName();
@@ -225,7 +139,7 @@ public class StrongholdConfigTest
 	            {
 	            	reagent.put(itemRef, 0);
 	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
 	            for (ItemStack item : region.getReagents())
 	            {
 	            	reagent.put(item.getType().name(), item.getAmount());
@@ -238,11 +152,11 @@ public class StrongholdConfigTest
 		        	for (int i = 0; i < (sName.length()-1); i++)
 					{
 //						sValue = sValue + " ";
-						sValue = setStrleft(sValue,sName.length());
+						sValue = StrongholdTools.setStrleft(sValue,sName.length());
 					}
 		        	reagents = reagents +""+sValue+" ";
 		        }
-		        System.out.println(setStrleft(sRegionFile.replace(".yml", ""),15) + reagents );
+		        System.out.println(StrongholdTools.setStrleft(sRegionFile.replace(".yml", ""),15) + reagents );
 		        
             }
         }
@@ -268,7 +182,7 @@ public class StrongholdConfigTest
         {
         	superRefs = superRefs +""+sName+" ";
         }
-        System.out.println(setStrleft("",15)+superRefs);
+        System.out.println(StrongholdTools.setStrleft("",15)+superRefs);
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	sRegionFile = RegionFile.getName();
@@ -278,7 +192,7 @@ public class StrongholdConfigTest
 	            {
 	            	superRef.put(itemRef, 0);
 	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
 	            for (String item : region.getSuperRegions())
 	            {
 	            	superRef.put(item, 1);
@@ -307,7 +221,7 @@ public class StrongholdConfigTest
 					}
 		        	superRefs = superRefs +""+sValue+" ";
 		        }
-		        System.out.println(setStrleft(sRegionFile.replace(".yml", ""),15)+superRefs );
+		        System.out.println(StrongholdTools.setStrleft(sRegionFile.replace(".yml", ""),15)+superRefs );
 		        
             }
         }
@@ -333,7 +247,7 @@ public class StrongholdConfigTest
         {
     	ingredients = ingredients +""+sName+" ";
         }
-        System.out.println(setStrleft(" ",15)+ingredients);
+        System.out.println(StrongholdTools.setStrleft(" ",15)+ingredients);
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	sRegionFile = RegionFile.getName();
@@ -343,7 +257,7 @@ public class StrongholdConfigTest
 	            {
 	            	ingredient.put(itemRef, 0);
 	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
 	            for (ItemStack item : region.getUpkeep())
 	            {
 	            	ingredient.put(item.getType().name(), item.getAmount());
@@ -356,11 +270,11 @@ public class StrongholdConfigTest
 		        	for (int i = 0; i < (sName.length()-1); i++)
 					{
 //						sValue = sValue + " ";
-						sValue = setStrleft(sValue,sName.length());
+						sValue = StrongholdTools.setStrleft(sValue,sName.length());
 }
 		        	ingredients = ingredients +""+sValue+" ";
 		        }
-		        System.out.println(setStrleft(sRegionFile.replace(".yml", ""),15)+ingredients );
+		        System.out.println(StrongholdTools.setStrleft(sRegionFile.replace(".yml", ""),15)+ingredients );
 		        
             }
         }
@@ -386,7 +300,7 @@ public class StrongholdConfigTest
         {
     	products = products +""+sName+" ";
         }
-        System.out.println(setStrleft(" ",15)+products);
+        System.out.println(StrongholdTools.setStrleft(" ",15)+products);
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	sRegionFile = RegionFile.getName();
@@ -396,7 +310,7 @@ public class StrongholdConfigTest
 	            {
 	            	product.put(itemRef, 0);
 	            }
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
 	            for (ItemStack item : region.getOutput())
 	            {
 	            	product.put(item.getType().name(), item.getAmount());
@@ -409,11 +323,11 @@ public class StrongholdConfigTest
 		        	for (int i = 0; i < (sName.length()-1); i++)
 					{
 //						sValue = sValue + " ";
-						sValue = setStrleft(sValue,sName.length());
+						sValue = StrongholdTools.setStrleft(sValue,sName.length());
 					}
 		        	products = products +""+sValue+" ";
 		        }
-		        System.out.println(setStrleft(sRegionFile.replace(".yml", ""),15)+products );
+		        System.out.println(StrongholdTools.setStrleft(sRegionFile.replace(".yml", ""),15)+products );
 		        
             }
         }
@@ -478,64 +392,11 @@ public class StrongholdConfigTest
         		};
 	}
 	
-	public String setStrleft(String in, int len)
-	{
-		char[] out = new char[len];
-		for (int i = 0; i < out.length; i++)
-		{
-			out[i] = ' ';
-		}
-		if (len >= in.length())
-		{
-			char[] zw  = in.toCharArray();
-			for (int i = 0; i < zw.length; i++)
-			{
-				out[i] = zw[i]; 
-			}
-		} else
-		{
-			char[] zw  = in.toCharArray();
-			for (int i = 0; i < out.length; i++)
-			{
-				out[i] = zw[i]; 
-			}
-			
-		}
-		return String.valueOf(out);
-	}
-
-	public String setStrright(String in, int len)
-	{
-		char[] out = new char[len];
-		for (int i = 0; i < out.length; i++)
-		{
-			out[i] = ' ';
-		}
-		if (len >= in.length())
-		{
-			char[] zw  = in.toCharArray();
-			int zwl = zw.length;
-			for (int i = 0; i < zw.length; i++)
-			{
-				out[len-i-1] = zw[zwl-i-1]; 
-			}
-		} else
-		{
-			char[] zw  = in.toCharArray();
-			int zwl = zw.length;
-			for (int i = 0; i < out.length; i++)
-			{
-				out[len-i] = zw[zwl-i]; 
-//				out[i] = zw[i]; 
-			}
-			
-		}
-		return String.valueOf(out);
-	}
 	
 	@Test
 	public void getStrongholdConstructionMaterial()
 	{
+//		StrongholdTools shTools = new StrongholdTools();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
         File regionFolder = new File(path, "RegionConfig");
         if (!regionFolder.exists()) {
@@ -562,9 +423,9 @@ public class StrongholdConfigTest
         	sRegionFile = RegionFile.getName();
             if ( isInList(sRegionFile,sList))
             {
-	        	region= getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
 	        	
-	            System.out.println(setStrleft(sRegionFile.replace(".yml", ""),20)+"  Cost : "+ setStrright(String.valueOf(region.getMoneyRequirement()),10));
+	            System.out.println(StrongholdTools.setStrleft(sRegionFile.replace(".yml", ""),20)+"  Cost : "+ StrongholdTools.setStrright(String.valueOf(region.getMoneyRequirement()),10));
 
 	            for (ItemStack item : region.getRequirements())
 	            {
