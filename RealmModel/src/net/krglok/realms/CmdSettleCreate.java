@@ -73,7 +73,7 @@ public class CmdSettleCreate extends RealmsCommand
 		return new String[] {String.class.getName() };
 	}
 
-	private boolean cmdCreate(CommandSender sender)
+	private boolean cmdCreate(Realms plugin, CommandSender sender)
 	{
 		// /settle create [SuperRegion]
 		int page = 1;
@@ -162,7 +162,7 @@ public class CmdSettleCreate extends RealmsCommand
 
 	}
 	
-	private String findSuperRegionAtLocation(Player player)
+	private String findSuperRegionAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
@@ -201,7 +201,7 @@ public class CmdSettleCreate extends RealmsCommand
 		{
 			if (sender instanceof Player)
 			{
-				name = findSuperRegionAtLocation((Player) sender);
+				name = findSuperRegionAtLocation(plugin, (Player) sender);
 				// pruefe leeren Namen
 				if (name.equals(""))
 				{

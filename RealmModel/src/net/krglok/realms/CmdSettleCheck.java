@@ -76,7 +76,7 @@ public class CmdSettleCheck extends RealmsCommand
 		return new String[] {String.class.getName() , int.class.getName() };
 	}
 
-	private String findSuperRegionAtLocation(Player player)
+	private String findSuperRegionAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
@@ -90,11 +90,16 @@ public class CmdSettleCheck extends RealmsCommand
 		return "";
 	}
 	
-	private boolean cmdSettlement(CommandSender sender)
+	private boolean cmdSettlement(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Building in Superregion [ "+" ]");
-		
+		System.out.println(name);
+		if ( plugin.stronghold.getRegionManager().getSuperRegion(name) == null)
+		{
+			this.addErrorMsg(this.command()+":"+this.subCommand()+ "  No SuperRegion (null)");
+			return false;
+		}
 	    SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(name);
 		msg.add(sRegion.getType()+" : "+ChatColor.YELLOW+sRegion.getName()+" : "+" Owner: "+sRegion.getOwners());
 		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
@@ -113,7 +118,7 @@ public class CmdSettleCheck extends RealmsCommand
 		{
 			page = 1;
 		}
-		cmdSettlement(sender);
+		cmdSettlement(plugin, sender);
 	}
 
 	/**
@@ -135,6 +140,7 @@ public class CmdSettleCheck extends RealmsCommand
 			{
 				if (sender.hasPermission("") == false)
 				{
+					this.addErrorMsg(this.command()+":"+this.subCommand()+ "  No Permissions");
 					return false;
 				}
 			}
@@ -144,14 +150,16 @@ public class CmdSettleCheck extends RealmsCommand
 		{
 			if (sender instanceof Player)
 			{
-				name = findSuperRegionAtLocation((Player) sender);
+				name = findSuperRegionAtLocation(plugin, (Player) sender);
 				// pruefe leeren Namen
 				if (name.equals(""))
 				{
+					this.addErrorMsg(this.command()+":"+this.subCommand()+ "  No SuperRegionName");
 					return false;
 				}
 			} else
 			{
+				this.addErrorMsg(this.command()+":"+this.subCommand()+ "  Console must use the Name Parameter");
 				return false;
 			}
 		}
@@ -164,6 +172,7 @@ public class CmdSettleCheck extends RealmsCommand
 				if (plugin.stronghold.getRegionManager().getSuperRegion(name).getOwners().isEmpty() == false)
 				{
 					isReady = sender.getName().equalsIgnoreCase(plugin.stronghold.getRegionManager().getSuperRegion(name).getOwners().get(0));
+					this.addErrorMsg(this.command()+":"+this.subCommand()+ "  You are not the Owner !");
 				} else
 				{
 					isReady = true;

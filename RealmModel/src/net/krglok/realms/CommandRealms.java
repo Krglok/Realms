@@ -2,6 +2,7 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
@@ -46,6 +47,15 @@ public class CommandRealms
 			{
 				cmd.execute(plugin, sender);
 			}
+		} else
+		{
+	    	ArrayList<String> msg = new ArrayList<String>();
+	    	msg.add(ChatColor.GREEN+ConfigBasis.setStrleft(ConfigBasis.LINE,30));
+	    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
+	    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
+	    	msg.add(ChatColor.RED+"OOPS Parser dont find a Command ! ");
+			plugin.getMessageData().printPage(sender, msg, 1);
+			
 		}
 		return true;
 	}

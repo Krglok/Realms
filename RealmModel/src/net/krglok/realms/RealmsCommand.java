@@ -10,23 +10,20 @@ import net.krglok.realms.core.SettleType;
 
 public abstract class RealmsCommand implements iRealmsCommand
 {
-	Realms plugin;
-	CommandSender sender;
-
 	private RealmsCommandType command;
 	private RealmsSubCommandType subCommand;
 	protected String[] description;
 	protected int requiredArgs;
+	protected ArrayList<String> errorMsg;
 	
 	
 	public RealmsCommand(RealmsCommandType command, RealmsSubCommandType subCommand)
 	{
-		this.sender = sender;
-		this.plugin = plugin;
 		this.command = command; 
 		this.subCommand = subCommand;
 		this.description = null;
 		this.requiredArgs = 0;
+		this.errorMsg = new ArrayList<String>();
 	}
 
 
@@ -93,6 +90,17 @@ public abstract class RealmsCommand implements iRealmsCommand
 	public int getRequiredArgs()
 	{
 		return requiredArgs;
+	}
+
+	@Override
+	public  ArrayList<String> getErrorMsg()
+	{
+		return this.errorMsg;
+	}
+	
+	public void addErrorMsg (String s)
+	{
+		this.errorMsg.add(s);
 	}
 
 }

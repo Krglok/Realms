@@ -15,6 +15,7 @@ public class CommandParser
 
 	public RealmsCommand getRealmsCommand(String[] args)
 	{
+	
 		if (args.length == 0)
 		{
 			return findSubCommand(RealmsSubCommandType.NONE);
@@ -26,11 +27,6 @@ public class CommandParser
 		}else
 		{
 			return findSubCommand(RealmsSubCommandType.HELP);
-//			RealmsCommand cmd = findSubCommand(subCommand);
-//			if (cmd != null )
-//			{
-//				return cmd;
-//			}
 		}
 	}
 	
@@ -42,6 +38,7 @@ public class CommandParser
 			{
 				if (commandList[i].subCommand() == subCommand)
 				{
+					commandList[i].getErrorMsg().clear();
 					return commandList[i];
 				}
 			}
@@ -59,22 +56,33 @@ public class CommandParser
 		{
 			return  findSubCommand(RealmsSubCommandType.HELP);
 		}
-		// SubCommand NO arguments
-		if (cmd.getRequiredArgs() == 0 )
-		{
-			return cmd;
-		}
+//		// SubCommand NO arguments
+//		if (cmd.getRequiredArgs() == 0 )
+//		{
+//			return cmd;
+//		}
 		// Check Arguments of SubCommand
+		cmd.addErrorMsg("Arguments "+(args.length-1)+" < "+cmd.getRequiredArgs());
 		if ((args.length-1) < cmd.getRequiredArgs() )
 		{
 			return  findSubCommand(RealmsSubCommandType.HELP);
 		} else
 		{
-			// Array of required ArgumentTypes
 			String[] paraTypes = cmd.getParaTypes();
-			for (int i = 0; i < paraTypes.length; i++)
+			int len = 0;
+			if ((args.length-1) > paraTypes.length)
 			{
-				if (int.class.getName() == paraTypes[i])
+				len = paraTypes.length;
+			} else
+			{
+				len = (args.length-1);
+			}
+			cmd.addErrorMsg("Arguments "+(args.length-1));
+			// Array of required ArgumentTypes
+			for (int i = 0; i <len; i++)
+			{
+				cmd.addErrorMsg("SetPara "+i+":"+paraTypes[i]);
+				if (paraTypes[i].equalsIgnoreCase(int.class.getName()))
 				{
 					cmd.setPara(i, (int) Integer.valueOf(args[i+1]));
 				}
@@ -96,6 +104,7 @@ public class CommandParser
 				}
 				if (String.class.getName() == paraTypes[i])
 				{
+					cmd.addErrorMsg("String Parmeter "+i+" : "+args[i+1]);
 					cmd.setPara(i, args[i+1]);
 				} else
 				{

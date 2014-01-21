@@ -6,6 +6,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -23,155 +24,52 @@ public class CommandSettle
 {
 
 	private Realms plugin;
-//	private HashMap<String, String> ;
+	RealmsCommand[] cmdList ;
+	CommandParser parser ;
 
 	public CommandSettle(Realms plugin)
 	{
 		this.plugin = plugin;
+		cmdList = makeCommandList();
+		parser = new CommandParser(cmdList);
 
+	}
+	
+	private RealmsCommand[] makeCommandList()
+	{
+		RealmsCommand[] commandList = new RealmsCommand[] {
+			new CmdRealmNone(),
+			new CmdSettleCheck(),
+			new CmdSettleCreate(),
+			new CmdSettleHelp(),
+			new CmdSettleList()
+			
+		};
+		return commandList;
 	}
 	
 	public boolean run(CommandSender sender, String[] args)
 	{
-		CommandArg commandArg = new CommandArg(args);
-		RealmsSubCommandType subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
-		commandArg.remove(0);
-		switch (subCommand)
+		RealmsCommand cmd = parser.getRealmsCommand(args);
+		if (cmd != null)
 		{
-		case TAX:
-			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
+			if (cmd.canExecute(plugin, sender))
 			{
-				if (commandArg.size() == 0)
-				{
-					plugin.getMessageData().errorArgs(sender, subCommand);
-				} else
-				{
-					cmdTax(sender, subCommand, commandArg);
-				}
-			} else
+				cmd.execute(plugin, sender);
+			}else
 			{
-				plugin.getMessageData().errorPermission(sender);
+		    	ArrayList<String> msg = new ArrayList<String>();
+		    	msg.add(ChatColor.GREEN+ConfigBasis.setStrleft(ConfigBasis.LINE,30));
+		    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
+		    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
+		    	msg.addAll(cmd.getErrorMsg());
+				plugin.getMessageData().printPage(sender, msg, 1);
 			}
-			break;
-		case PRODUCTION:
-			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
-			{
-				if (commandArg.size() == 0)
-				{
-					plugin.getMessageData().errorArgs(sender, subCommand);
-				} else
-				{
-					cmdProduction(sender, subCommand, commandArg);
-				}
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case ADD:
-			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
-			{
-				if (commandArg.size() == 0)
-				{
-					plugin.getMessageData().errorArgs(sender, subCommand);
-				} else
-				{
-					cmdAdd(sender, commandArg);
-				}
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case SET :
-			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
-			{
-				if (commandArg.size() == 0)
-				{
-					plugin.getMessageData().errorArgs(sender, subCommand);
-				} else
-				{
-					cmdSet(sender, commandArg);
-				}
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case DEPOSIT :
-			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
-			{
-				if (commandArg.size() == 0)
-				{
-					plugin.getMessageData().errorArgs(sender, subCommand);
-				} else
-				{
-					cmdDeposit(sender, commandArg);
-				}
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case SETTLEMENT:
-			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
-			{
-				if (commandArg.size() == 0)
-				{
-					commandArg.add("1");
-					cmdSettlement(sender, commandArg);
-				} else
-				{
-					cmdSettlement(sender, commandArg);
-				}
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case CREATE:
-			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
-			{
-				cmdCreate(sender, commandArg);
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case INFO :
-			if ((sender.hasPermission(RealmsPermission.SETTLE.name())) || sender.isOp() ) 
-			{
-				cmdInfo(sender, commandArg);
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			break;
-		case LIST :
-			if ((sender.hasPermission(RealmsPermission.USER.name())) ) 
-			{
-				cmdList(sender, subCommand, commandArg);
-				return true;
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-			
-		case HELP:
-			if ((sender.hasPermission(RealmsPermission.USER.name())) ) 
-			{
-				cmdHelp(sender, commandArg, subCommand);
-				return true;
-			} else
-			{
-				plugin.getMessageData().errorPermission(sender);
-			}
-		default :
-			cmdHelp(sender, commandArg, subCommand);
-			return false;
-		}
-		return true;
+
+		} 		return true;
 	}
+	
+	
 
 	private boolean cmdTax(CommandSender sender, RealmsSubCommandType subCommand, CommandArg commandArg)
 	{
@@ -333,83 +231,6 @@ public class CommandSettle
 		return true;
 	}
 	
-	private boolean cmdAdd(CommandSender sender, CommandArg commandArg)
-	{
-//		msg.add("/settle add [SettleID] [RegionId] ");
-		ArrayList<String> msg = new ArrayList<String>();
-//		Player player = (Player) sender;
-		int page = 1;
-//		int regionId = 0;
-		Region region = null;
-		Settlement settle = null;
-		
-		if (commandArg.size() == 0)
-		{
-			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.ADD);
-			return true;
-		}
-
-		int settleID = CommandArg.argToInt(commandArg.get(0));
-		settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
-		if (settle == null)
-		{
-			plugin.getMessageData().errorSettleID(sender, RealmsSubCommandType.ADD);
-			return true;
-		}
-		if (commandArg.size() > 1)
-		{
-			//get region by number
-			int value = CommandArg.argToInt(commandArg.get(1));
-			sender.sendMessage("Region suchen : "+value);
-			region = plugin.stronghold.getRegionManager().getRegionByID(value);
-			if (region == null)
-			{
-				msg.add("/settle add [settleID] [regionID] ");
-				msg.add("Stronghold region not found : [ "+value+" ]");
-			}
-			msg.add("Add stronghold Region [ "+value+" ]");
-		} else
-		{
-			plugin.getMessageData().errorArgs(sender, RealmsSubCommandType.ADD);
-//			// get region by location
-//			Location position = player.getLocation();
-//			region = plugin.stronghold.getRegionManager().getRegion(position);
-//			if (region == null)
-//			{
-//				msg.add("/settle add [settleID] [regionID] ");
-//				msg.add("NO Stronghold region at this location !");
-//			}
-//			msg.add("Add stronghold Region from this location");
-		}
-		if (region != null)
-		{
-			sender.sendMessage("Region found : "+region.getID());
-			int hsRegion = region.getID();
-			String hsRegionType = region.getType();
-			BuildingType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
-			Building building = new Building(buildingType, hsRegion, hsRegionType, true);
-			if (Settlement.addBuilding(building, settle))
-			{
-				msg.add("Settlement ["+settle.getId()+"]  "+settle.getName());
-				msg.add("Storage : "+settle.getWarehouse().getItemList().getItemCount());
-				msg.add("Capacity: "+settle.getResident().getSettlerMax());
-				msg.add("Settlers: "+settle.getResident().getSettlerCount());
-				msg.add("Building: "+settle.getBuildingList().size());
-				msg.add("Bank    : "+settle.getBank().getKonto());
-				msg.add("");
-			} else
-			{
-				msg.add("/settle add [settleID] [regionID] ");
-				msg.add("NO Building was added, unknown error !");
-			}
-		} else
-		{
-			plugin.getMessageData().errorRegion(sender, RealmsSubCommandType.ADD);
-		}
-		plugin.getMessageData().printPage(sender, msg, page);
-		
-		return true;
-	}
 
 	
 	private boolean cmdSet(CommandSender sender, CommandArg commandArg)
@@ -679,20 +500,6 @@ public class CommandSettle
 		    }
 		} else
 		{
-		    SettlementList  rList = plugin.getRealmModel().getSettlements();
-		    if (rList != null)
-		    {
-				msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
-			    for (Settlement settle : rList.getSettlements().values())
-			    {
-		    		msg.add(settle.getId()+" : "+ChatColor.YELLOW+settle.getName()+" : "+ChatColor.GOLD+settle.isEnabled()+" Owner: "+settle.getOwner());
-			    }
-		    } else
-		    {
-				msg.add("ID |Settlement | Active | Owner [  ]");
-		    	msg.add("/settle list ");
-		    	msg.add("NO settlements found !!");
-		    }
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		return true;

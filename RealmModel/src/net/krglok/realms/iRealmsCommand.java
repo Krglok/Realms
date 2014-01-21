@@ -32,4 +32,6 @@ public interface iRealmsCommand
 	public void setPara(int index , boolean value);
 
 	public void setPara(int index , double value);
+	
+	public ArrayList<String> getErrorMsg();
 }

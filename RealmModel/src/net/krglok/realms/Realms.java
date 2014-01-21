@@ -118,7 +118,7 @@ public final class Realms extends JavaPlugin
 
 	/**
 	 * interpreter for all commands, start the detailed command execution in seperate
-	 * methods. Basic help for no SubCommand are handled here.  
+	 * methods. Basic help for no SubCommand are handled in command parser.  
 	 * 
 	 *  @param sender is player , Operator or console
 	 *  @param command 
@@ -132,34 +132,13 @@ public final class Realms extends JavaPlugin
     	switch (RealmsCommandType.getRealmCommandType(command.getName()))
     	{
     	case OWNER :
-    		if (args.length == 0)
-    		{
-    		  cmdOwnerNone(sender);
-    		  return true;
-    		} else
-    		{
-				sender.sendMessage("Command not implemented !");
-    		}
+    		cmdOwnerNone(sender);
     		return true;
     	case SETTLE :
-    		if (args.length == 0)
-    		{
-    		  cmdSettleNone(sender);
-    		  return true;
-    		} else
-    		{
-    			commandSettle.run(sender, args);
-    		}
+   			commandSettle.run(sender, args);
     		return true;
-    	case REALM :
-    		if (args.length == 0)
-    		{
-    		  cmdKingdomNone(sender);
-    		  return true;
-    		} else
-    		{
-    			commandKingdom.run(sender, args);
-    		}
+    	case KINGDOM :
+   			commandKingdom.run(sender, args);
     		return true;
     	case REALMS :
 		default:

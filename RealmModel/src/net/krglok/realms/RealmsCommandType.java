@@ -5,7 +5,7 @@ public enum RealmsCommandType
 
 	NONE ,
 	MODEL,
-	REALM ,
+	KINGDOM ,
 	SETTLE ,
 	OWNER,
 	REALMS,
