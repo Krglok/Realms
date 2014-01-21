@@ -107,7 +107,7 @@ public class StrongholdTools
         		File currentRegionFile = new File(pathName,sRegionFile);
         		if (currentRegionFile == null)
         		{
-        			System.out.println(pathName+"\\"+sRegionFile);
+        			System.out.println(pathName+"\\RegionConfig"+sRegionFile);
         		}
         		
                 FileConfiguration rConfig = new YamlConfiguration();
@@ -280,8 +280,9 @@ public class StrongholdTools
             try {
                 FileConfiguration rConfig = new YamlConfiguration();
                 rConfig.load(currentRegionFile);
-                String regionName = currentRegionFile.getName().replace(".yml", "");
-                rList.add(getRegionConfig(path, regionName));
+                String regionName = currentRegionFile.getName();
+                
+                rList.add(getRegionConfig(path+"\\RegionConfig", regionName));
             } catch (Exception e) {
             	System.out.println("[Realms] failed to load " + currentRegionFile.getName());
                 e.printStackTrace();

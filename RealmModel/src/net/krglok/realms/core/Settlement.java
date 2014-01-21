@@ -242,7 +242,7 @@ public class Settlement
 	 * @param settleType
 	 * @return number of items 
 	 */
-	private static int defaultItemMax(SettleType settleType)
+	public static int defaultItemMax(SettleType settleType)
 	{
 		switch (settleType)
 		{

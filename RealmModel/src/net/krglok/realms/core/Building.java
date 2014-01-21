@@ -52,7 +52,7 @@ public class Building
 		slots = new ItemArray();
 		setSlot(false);
 		sales = 0.0;
-		storeCapacity   = setStoreCapacity(buildingType);
+		storeCapacity   = getStoreCapacity(buildingType);
 	}
 	
 	public Building(BuildingType buildingType, String regionType, boolean isRegion)
@@ -71,7 +71,7 @@ public class Building
 		isActiv 	    = true;
 		slots = new ItemArray();
 		sales = 0.0;
-		storeCapacity   = setStoreCapacity(buildingType);
+		storeCapacity   = getStoreCapacity(buildingType);
 	}
 
 
@@ -92,7 +92,7 @@ public class Building
 		slots = new ItemArray();
 		setSlot(false);
 		sales = 0.0;
-		storeCapacity   = setStoreCapacity(buildingType);
+		storeCapacity   = getStoreCapacity(buildingType);
 	}
 	
 	public Building(int id, BuildingType buildingType, int settler,
@@ -115,7 +115,7 @@ public class Building
 		slots = new ItemArray();
 		setSlot(false);
 		sales = 0.0;
-		storeCapacity   = setStoreCapacity(buildingType);
+		storeCapacity   = getStoreCapacity(buildingType);
 	}
 	
 	public Building(int id, BuildingType buildingType, int settler,
@@ -135,7 +135,7 @@ public class Building
 		this.hsRegionType = hsRegionType;
 		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
-		storeCapacity   = setStoreCapacity(buildingType);
+		storeCapacity   = getStoreCapacity(buildingType);
 		
 		isActiv 	    = true;
 		setSlot(false);
@@ -169,6 +169,7 @@ public class Building
 
 	}
 
+	
 	private void setWorkerDefault(BuildingType buildingType)
 	{
 		switch(buildingType)
@@ -227,27 +228,30 @@ public class Building
 	}
 	
 	
+	public static int getDefaultSettler(BuildingType buildingType)
+	{
+		switch(buildingType)
+		{
+		case BUILDING_NONE : return 0;
+		case BUILDING_HOME : return SETTLER_COUNT;
+		case BUILDING_BAUERNHOF : return (2 * SETTLER_COUNT);
+		case BUILDING_WERKSTATT : return(2 * SETTLER_COUNT);
+		default :
+			return 0;
+		}
+		
+	}
+
+	
 	/**
 	 * Set the default amont of residents for building by type
 	 * @param buildingType
 	 */
 	private void setSettlerDefault(BuildingType buildingType)
 	{
-		switch(buildingType)
-		{
-		case BUILDING_NONE : setSettler(0);
-			break;
-		case BUILDING_HOME : setSettler(SETTLER_COUNT);
-			break;
-		case BUILDING_BAUERNHOF : setSettler(2 * SETTLER_COUNT);
-			break;
-		case BUILDING_WERKSTATT : setSettler(2 * SETTLER_COUNT);
-			break;
-		default :
-			setSettler(0);
-			break;
-		}
+		setSettler(getDefaultSettler(buildingType));
 	}
+	
 	
 	/**
 	 * Setzt den Staroage Factor fuer den BuidingType
@@ -256,7 +260,7 @@ public class Building
 	 * @param bType
 	 * @return
 	 */
-	private int setStoreCapacity(BuildingType bType)
+	public static int getStoreCapacity(BuildingType bType)
 	{
 		switch(bType)
 		{

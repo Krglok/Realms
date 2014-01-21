@@ -155,7 +155,7 @@ public class RegionData
 	 * @param radius
 	 * @return
 	 */
-    public static ArrayList<RegionData> getContainingRegions(LocationData loc, ArrayList<RegionData> rList, int radius) 
+    public static ArrayList<RegionData> getContainingRegions(LocationData loc, ArrayList<RegionData> rList, double radius) 
     {
         ArrayList<RegionData> tempList = new ArrayList<RegionData>();
         double x = loc.getX();
@@ -174,20 +174,6 @@ public class RegionData
                 {
                 	 tempList.add(r);
                 }
-//                if (l.getX() + radius < x) 
-//                {
-//                    break;
-//                }
-//                if (l.getX() - radius < x 
-//                		&& l.getY() + radius > y 
-//                		&& l.getY() - radius < y 
-//                		&& l.getZ() + radius > z 
-//                		&& l.getZ() - radius < z 
-//                		&& l.getWorld().equals(loc.getWorld())
-//                		) 
-//                {
-//                    tempList.add(r);
-//                }
             } catch (NullPointerException npe) 
             {
                 System.out.println("Region " + r.getId() + " is corrupted");
