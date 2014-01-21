@@ -7,11 +7,11 @@ import org.bukkit.command.CommandSender;
 
 import net.krglok.realms.core.ConfigBasis;
 
-public class cmdRealmNone extends RealmsCommand
+public class CmdRealmNone extends RealmsCommand
 {
 	
 
-	public cmdRealmNone()
+	public CmdRealmNone()
 	{
 		super(RealmsCommandType.REALMS ,  RealmsSubCommandType.NONE);
 		description = new String[] {

@@ -27,11 +27,11 @@ public class CommandRealms
 	private RealmsCommand[] makeCommandList()
 	{
 		RealmsCommand[] commandList = new RealmsCommand[] {
-			new cmdRealmNone(),
+			new CmdRealmNone(),
 			new CmdRealmsVersion(),
 			new CmdRealmsHelp(),
-			new cmdRealmsInfoPricelist(),
-			new cmdRealmsTest()
+			new CmdRealmsInfoPricelist(),
+			new CmdRealmsTest()
 			
 		};
 		return commandList;

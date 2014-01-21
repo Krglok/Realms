@@ -1,13 +1,13 @@
 package net.krglok.realms.model;
 
-public class ModelEnable implements iModelCommand
+public class McmdEnable implements iModelCommand
 {
 
 	private ModelCommandType commandType = ModelCommandType.MODELENABLE;
 	private RealmModel rModel;
 	private boolean value ;
 	
-	public ModelEnable(RealmModel rModel)
+	public McmdEnable(RealmModel rModel)
 	{
 		this.rModel = rModel;
 		value = false;

@@ -9,12 +9,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.hamcrest.core.IsInstanceOf;
 
-public class cmdRealmsTest extends RealmsCommand
+public class CmdRealmsTest extends RealmsCommand
 {
 
 	private int sektor;
 	
-	public cmdRealmsTest()
+	public CmdRealmsTest()
 	{
 		super (RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {

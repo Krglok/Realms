@@ -18,14 +18,14 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerTest;
-import net.krglok.realms.model.AddBuilding;
-import net.krglok.realms.model.BuyOrder;
-import net.krglok.realms.model.CreateSettlement;
-import net.krglok.realms.model.DepositWarehouse;
-import net.krglok.realms.model.DepositeBank;
-import net.krglok.realms.model.ModelEnable;
+import net.krglok.realms.model.McmdAddBuilding;
+import net.krglok.realms.model.McmdBuyOrder;
+import net.krglok.realms.model.McmdCreateSettle;
+import net.krglok.realms.model.McmdDepositWarehouse;
+import net.krglok.realms.model.McmdDepositeBank;
+import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.RealmModel;
-import net.krglok.realms.model.SellOrder;
+import net.krglok.realms.model.McmdSellOrder;
 
 import org.junit.Test;
 
@@ -193,7 +193,7 @@ public class ModelCmdTest
 				testData,
 				messageData);
 
-		ModelEnable modelEnable = new ModelEnable(rModel);
+		McmdEnable modelEnable = new McmdEnable(rModel);
 		
 		Boolean expected = true; 
 		Boolean actual = false; 
@@ -202,39 +202,39 @@ public class ModelCmdTest
 
 		steps++;
 		someLoops(5, rModel);
-		DepositWarehouse deposit = new DepositWarehouse(rModel, 1, "WOOD_AXE", 32);
+		McmdDepositWarehouse deposit = new McmdDepositWarehouse(rModel, 1, "WOOD_AXE", 32);
 		rModel.OnCommand(deposit);
-		DepositeBank setKonto = new DepositeBank(rModel, 1, 870.0, "Admin");
+		McmdDepositeBank setKonto = new McmdDepositeBank(rModel, 1, 870.0, "Admin");
 		rModel.OnCommand(setKonto);
-		deposit = new DepositWarehouse(rModel, 1, "WOOD_PICKAXE", 32);
+		deposit = new McmdDepositWarehouse(rModel, 1, "WOOD_PICKAXE", 32);
 		rModel.OnCommand(deposit);
 		someLoops(5, rModel);
 		
-		AddBuilding addBuilding = new AddBuilding(rModel, 1, 38);
+		McmdAddBuilding addBuilding = new McmdAddBuilding(rModel, 1, 38);
 		rModel.OnCommand(addBuilding);
 		someLoops(5, rModel);
 		
-		addBuilding = new AddBuilding(rModel, 1, 5);  //trader
+		addBuilding = new McmdAddBuilding(rModel, 1, 5);  //trader
 		rModel.OnCommand(addBuilding);
 		someLoops(5, rModel);
 		
-		SellOrder sellOrder = new SellOrder(rModel, 1, "WOOL", 5, 1.0 , 2);
+		McmdSellOrder sellOrder = new McmdSellOrder(rModel, 1, "WOOL", 5, 1.0 , 2);
 		rModel.OnCommand(sellOrder);
 		someLoops(5, rModel);
 		
-		CreateSettlement createSettle = new CreateSettlement(rModel, "BlaBla", "NPC1", SettleType.SETTLE_HAMLET);
+		McmdCreateSettle createSettle = new McmdCreateSettle(rModel, "BlaBla", "NPC1", SettleType.SETTLE_HAMLET);
 		rModel.OnCommand(createSettle);
 		someLoops(5, rModel);
 		
-		addBuilding = new AddBuilding(rModel, 2, 5);
+		addBuilding = new McmdAddBuilding(rModel, 2, 5);
 		rModel.OnCommand(addBuilding);
 		someLoops(25, rModel);
 
-		BuyOrder buyOrder = new BuyOrder(rModel, 2, "WOOD_AXE", 5, 1.0, 2);
+		McmdBuyOrder buyOrder = new McmdBuyOrder(rModel, 2, "WOOD_AXE", 5, 1.0, 2);
 		rModel.OnCommand(buyOrder);
 		someLoops(25, rModel);
 		
-		sellOrder = new SellOrder(rModel, 1, "WOOD_AXE", 5, 1.0 , 2);
+		sellOrder = new McmdSellOrder(rModel, 1, "WOOD_AXE", 5, 1.0 , 2);
 		rModel.OnCommand(sellOrder);
 		someLoops(5, rModel);		
 		

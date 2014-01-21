@@ -5,6 +5,7 @@ public enum RealmsSubCommandType
 	NONE ,
 	VERSION ,
 	CREATE ,
+	CHECK,
 	DESTROY ,
 	PRODUCTION ,
 	TAX,

@@ -4,14 +4,14 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Settlement;
 
-public class AddBuilding implements iModelCommand
+public class McmdAddBuilding implements iModelCommand
 {
 	private ModelCommandType commandType = ModelCommandType.ADDBUILDING;
 	private RealmModel rModel;
 	private int settleId; 
 	private int buildingId;
 
-	public AddBuilding(RealmModel rModel, int settleId, int buildingId)
+	public McmdAddBuilding(RealmModel rModel, int settleId, int buildingId)
 	{
 		this.rModel = rModel;
 		this.settleId = settleId;

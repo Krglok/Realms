@@ -17,9 +17,9 @@ public class CmdRealmsHelp extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.HELP);
 		description = new String[] {
 			"command not found this will help you ",
-	    	"/realms INFO PRICE [item], show the production price",
-	    	"/realms INFO PRICELIST {page}, show the pricelist  ",
-	    	"/realms SET PRICE [item] [#.#], set the price  ",
+	    	"/realms PRICE [item], show the production price",
+	    	"/realms PRICELIST {page}, show the pricelist  ",
+	    	"/realms PRICE [item] [#.#], set the price  ",
 	    	"/realms WRITE [#], write the settlement to file ",
 	    	"/realms READ [#], read the the settlement from file ",
 	    	"/realms DEBUG[true/false], set/unset Debug Mode ",
@@ -35,7 +35,7 @@ public class CmdRealmsHelp extends RealmsCommand
 	    	"/realms LIST  ",
 	    	"/realms LIST  "
 		};
-		requiredArgs = 1;
+		requiredArgs = 0;
 	}
 	
 	

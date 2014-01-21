@@ -10,7 +10,7 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
-import net.krglok.realms.model.ModelEnable;
+import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
 
@@ -178,7 +178,7 @@ public class RealmModelTest
 		
 		String command = RealmsCommandType.MODEL.name();
 		String subCommand = "version";
-		ModelEnable modelCommand = new ModelEnable(rModel);
+		McmdEnable modelCommand = new McmdEnable(rModel);
 		
 //		rModel.OnEnable();
 		rModel.OnCommand(modelCommand);
@@ -289,7 +289,7 @@ public class RealmModelTest
 				testData,
 				message);
 		
-		ModelEnable modelCommand = new ModelEnable(rModel);
+		McmdEnable modelCommand = new McmdEnable(rModel);
 		
 		Boolean expected = true; 
 		Boolean actual = false; 

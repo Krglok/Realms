@@ -2,7 +2,7 @@ package net.krglok.realms.model;
 
 import net.krglok.realms.core.Settlement;
 
-public class DepositeBank implements iModelCommand
+public class McmdDepositeBank implements iModelCommand
 {
 	private ModelCommandType commandType = ModelCommandType.DEPOSITBANK;
 	private RealmModel rModel;
@@ -11,7 +11,7 @@ public class DepositeBank implements iModelCommand
 	private String userName;
 
 	
-	public DepositeBank(RealmModel rModel, int settleId, double amount, String userName)
+	public McmdDepositeBank(RealmModel rModel, int settleId, double amount, String userName)
 	{
 		super();
 		this.rModel = rModel;

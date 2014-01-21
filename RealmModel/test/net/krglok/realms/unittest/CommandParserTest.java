@@ -8,7 +8,7 @@ import net.krglok.realms.CmdRealmsHelp;
 import net.krglok.realms.CmdRealmsVersion;
 import net.krglok.realms.CommandParser;
 import net.krglok.realms.RealmsCommand;
-import net.krglok.realms.cmdRealmNone;
+import net.krglok.realms.CmdRealmNone;
 
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -24,7 +24,7 @@ public class CommandParserTest
 	private RealmsCommand[] makeCommandList()
 	{
 		RealmsCommand[] commandList = new RealmsCommand[] {
-			new cmdRealmNone(),
+			new CmdRealmNone(),
 			new CmdRealmsVersion(),
 			new CmdRealmsHelp()
 			

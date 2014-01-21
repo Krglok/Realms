@@ -8,7 +8,7 @@ import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 
-public class CreateSettlement implements iModelCommand
+public class McmdCreateSettle implements iModelCommand
 {
 	private ModelCommandType commandType = ModelCommandType.CREATESETTLEMENT;
 	private RealmModel rModel;
@@ -16,7 +16,7 @@ public class CreateSettlement implements iModelCommand
 	private SettleType settleType;
 	private String superRegionName;
 	
-	public CreateSettlement(RealmModel rModel, String superRegionName, String playerName, SettleType settleType)
+	public McmdCreateSettle(RealmModel rModel, String superRegionName, String playerName, SettleType settleType)
 	{
 		this.rModel = rModel;
 		this.superRegionName = superRegionName;

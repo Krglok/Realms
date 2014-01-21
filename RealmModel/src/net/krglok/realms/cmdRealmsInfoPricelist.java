@@ -6,11 +6,11 @@ import net.krglok.realms.core.ItemPrice;
 
 import org.bukkit.command.CommandSender;
 
-public class cmdRealmsInfoPricelist extends RealmsCommand
+public class CmdRealmsInfoPricelist extends RealmsCommand
 {
 	private int page;
 
-	public cmdRealmsInfoPricelist()
+	public CmdRealmsInfoPricelist()
 	{
 		super(RealmsCommandType.REALMS,RealmsSubCommandType.PRICELIST);
 		description = new String[] {

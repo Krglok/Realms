@@ -7,21 +7,19 @@ import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeType;
 
-public class BuyOrder implements iModelCommand
+public class McmdSellOrder implements iModelCommand
 {
-	
-	private ModelCommandType commandType = ModelCommandType.BUYITEM;
+	private ModelCommandType commandType = ModelCommandType.SELLITEM;
 	private RealmModel rModel;
 	private int settleId;
 	private String itemRef;
 	private int amount;
 	private double price;
 	private int delayDays;
-	
 
 	
-	public BuyOrder(RealmModel rModel, int settleId, String itemRef,
-			int amount, double price, int delayDays)
+	
+	public McmdSellOrder(RealmModel rModel, int settleId, String itemRef, int amount, double price, int delayDays)
 	{
 		super();
 		this.rModel = rModel;
@@ -56,8 +54,8 @@ public class BuyOrder implements iModelCommand
 			delayDays = 1;
 		}
 		long maxTicks = ConfigBasis.GameDay * delayDays;
-		TradeOrder buyOrder = new TradeOrder(id , TradeType.SELL, itemRef, amount, price, maxTicks, 0L, TradeStatus.STARTED, "", 0);
-		settle.getTrader().makeBuyOrder(buyOrder);
+		TradeOrder sellOrder = new TradeOrder(id , TradeType.SELL, itemRef, amount, price, maxTicks, 0L, TradeStatus.STARTED, "", 0);
+		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settleId, sellOrder);
 	}
 
 	@Override
@@ -65,9 +63,12 @@ public class BuyOrder implements iModelCommand
 	{
 		if (rModel.getSettlements().getSettlement(settleId) != null)
 		{
-			return true;
+			if (rModel.getSettlements().getSettlement(settleId).getTrader().isFreeSellOrder())
+			{
+				return true;				
+			}
 		}
-return false;
+		return false;
 	}
 
 }
