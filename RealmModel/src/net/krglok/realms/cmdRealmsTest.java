@@ -1,6 +1,7 @@
 package net.krglok.realms;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.PlanMap;
 
 import org.bukkit.Location;
@@ -82,7 +83,7 @@ public class CmdRealmsTest extends RealmsCommand
 		
 		Block b = pos.getWorld().getBlockAt(pos);
 		
-		return  PlanMap.getBlockId(b); 
+		return  ConfigBasis.getBlockId(b); 
 	}
 	
 	@Override
@@ -155,7 +156,7 @@ public class CmdRealmsTest extends RealmsCommand
 //		System.out.println("World "+pos.getWorld().getName()+" / "+pos.getX()+":"+pos.getZ());
 		for (int i = 0; i < PlanMap.getPlanSize(radius); i++)
 		{
-			System.out.print(PlanMap.showMapPlan(cMap[i]));
+			System.out.print(ConfigBasis.showPlanValue(cMap[i]));
 		}
 		PlanMap.writePlanData(name, radius, cMap, path, sektor);
 		System.out.println("File "+path+":"+name);

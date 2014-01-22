@@ -1,5 +1,8 @@
 package net.krglok.realms.core;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+
 import net.krglok.realms.data.ConfigInterface;
 
 public class ConfigBasis implements ConfigInterface
@@ -16,7 +19,99 @@ public class ConfigBasis implements ConfigInterface
 	public  static long GameDay = ConfigBasis.dayNight / ConfigBasis.RealmTick;
 	
 	public static final String LINE = "=============================== ";
+
+	public static byte getBlockId(Block block)
+	{
+		return getMaterialId(block.getType());
+	}
 	
+	public static byte getMaterialId(Material mat)
+	{
+		switch (mat)
+		{
+		case STONE : return 1;
+		case GRASS : return 2;
+		case DIRT  : return 3;
+		case COBBLESTONE : return 4;
+		case WATER: return 8;
+		case OBSIDIAN : return 49;
+		case ICE : return 79;
+		case MYCEL : return 110;
+		case WOOD  : return 5;
+		case LAVA  : return 10;
+		case GRAVEL: return 13;
+		case LOG : return 17;
+		case LOG_2: return 17;
+		case SAND : return 12;
+		case SANDSTONE : return 24;
+		case CLAY: return 82;
+		case MOSSY_COBBLESTONE : return 48;
+		case IRON_BARDING: return 101;
+		case FENCE: return 85;
+		case WOOD_STAIRS: return 53;
+		case COBBLESTONE_STAIRS: return 67;
+		case BRICK: return 98;
+		case SANDSTONE_STAIRS: return (byte) 128;
+		case CHEST : return (byte) 54;
+		case WORKBENCH : return 58;
+		case WOOD_DOOR: return 64;
+		case SIGN: return 63;
+		case WALL_SIGN : return 68;
+		case BED_BLOCK : return 26;
+		case BOOKSHELF : return 47;
+		default:
+			return 0;
+		}
+	}
+
+	public static char planValueToChar(byte value)
+	{
+		switch (value)
+		{
+		case 1 : return 'S';
+		case 2 : return'G';
+		case 3 : return'D';
+		case 4 : return'C';
+		case 5 : return 'W';
+		case 7 : return'B';
+		case 8 : return'w';
+		case 12 : return's';
+		case 13 : return'G';
+		case 14 : return'g';
+		case 15 : return'i';
+		case 16 : return'c';
+		case 17 : return'L';
+		case 18 : return'l';
+		case 24 : return'T';
+		case 31 : return'g';
+		case 56 : return'd';
+		case 110 : return'M';
+		case 85 : return'#';
+		case (byte) 254: return'.';
+		case (byte) 255: return'X';
+		case 54 : return '*';
+		case 58 : return'*';
+		case 64 : return '-';
+		case 63 : return '-';
+		case 68 : return '-';
+		case 26 : return '=';
+		case 47 : return '*';
+		default :
+			return' ';
+		}
+		
+	}
+	
+	public static String showPlanValue (byte[] mapRow )
+	{
+		String charRow = "";
+		for (int i = 0; i < mapRow.length; i++) 
+		{
+			charRow = charRow + planValueToChar(mapRow[i]);
+		}
+		return charRow;
+	}
+
 	
 	@Override
 	public Boolean initConfigData()

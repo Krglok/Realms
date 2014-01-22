@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.PlanMap;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -305,7 +306,7 @@ public class SettlePlanTest
 		{
 			for (int i = 0; i < setRegionLength(radius); i++)
 			{
-				System.out.println(i+" |"+PlanMap.showMapPlan(mapPlan[i])+"|");
+				System.out.println(i+" |"+ConfigBasis.showPlanValue(mapPlan[i])+"|");
 			}
 		}
 	}
