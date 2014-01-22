@@ -33,6 +33,7 @@ public class ConfigBasis implements ConfigInterface
 		case GRASS : return 2;
 		case DIRT  : return 3;
 		case COBBLESTONE : return 4;
+		case BEDROCK : return 7;
 		case WATER: return 8;
 		case OBSIDIAN : return 49;
 		case ICE : return 79;
@@ -59,11 +60,13 @@ public class ConfigBasis implements ConfigInterface
 		case WALL_SIGN : return 68;
 		case BED_BLOCK : return 26;
 		case BOOKSHELF : return 47;
+		case TORCH : return 50;
 		default:
 			return 0;
 		}
 	}
 
+	
 	public static char planValueToChar(byte value)
 	{
 		switch (value)
@@ -96,8 +99,49 @@ public class ConfigBasis implements ConfigInterface
 		case 68 : return '-';
 		case 26 : return '=';
 		case 47 : return '*';
+		case 50 : return '*';
 		default :
 			return' ';
+		}
+		
+	}
+
+	public static Material getPlanMaterial(byte value)
+	{
+		switch (value)
+		{
+		case 1 : return Material.STONE;
+		case 2 : return Material.GRASS;
+		case 3 : return Material.DIRT;
+		case 4 : return Material.COBBLESTONE;
+		case 5 : return Material.WOOD;
+		case 7: return Material.BEDROCK;
+		case 8 : return Material.WATER;
+		case 12 : return Material.SAND;
+		case 13 : return Material.GRAVEL;
+		case 14 : return Material.GOLD_ORE;
+		case 15 : return Material.IRON_ORE;
+		case 16 : return Material.COAL_ORE;
+		case 17 : return Material.LOG;
+		case 18 : return Material.LEAVES;
+		case 24 : return Material.SANDSTONE;
+		case 31 : return Material.GRASS;
+		case 56 : return Material.DIAMOND_ORE;
+		case 110 : return Material.MYCEL;
+		case 85 : return Material.FENCE;
+		case (byte) 254: return Material.AIR;
+		case (byte) 255: return Material.AIR;
+		case 54 : return Material.CHEST;
+		case 58 : return Material.WORKBENCH;
+		case 64 : return Material.WOOD_DOOR;
+		case 63 : return Material.SIGN;
+		case 68 : return Material.WALL_SIGN;
+		case 26 : return Material.BED_BLOCK;
+		case 47 : return Material.BOOKSHELF;
+		case 50 : return Material.TORCH;
+		
+		default :
+			return Material.AIR;
 		}
 		
 	}

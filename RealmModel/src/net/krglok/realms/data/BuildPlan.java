@@ -1,9 +1,10 @@
-package net.krglok.realms.tool;
-
-import org.bukkit.Material;
+package net.krglok.realms.data;
 
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
+
+import org.bukkit.Material;
+
 
 /**
  * The BuildPlan represent a simple cubic building Instruction
@@ -18,12 +19,12 @@ import net.krglok.realms.core.ConfigBasis;
 public abstract class BuildPlan
 {
 	private BuildingType buildingType;
-	private int radius;
-	private byte[][][] cube;
-	private boolean isInit;
-	private int edge; 
-	private char[][] signText ;
-	private int offsetY;
+	protected int radius;
+	protected byte[][][] cube;
+	protected boolean isInit;
+	protected int edge; 
+	protected char[][] signText ;
+	protected int offsetY;
 	
 	public BuildPlan(BuildingType buildingType, int radius, int offsetY)
 	{

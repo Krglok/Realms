@@ -42,7 +42,8 @@ public class CommandSettle
 			new CmdSettleCheck(),
 			new CmdSettleCreate(),
 			new CmdSettleHelp(),
-			new CmdSettleList()
+			new CmdSettleList(),
+			new CmdSettleTest()
 			
 		};
 		return commandList;

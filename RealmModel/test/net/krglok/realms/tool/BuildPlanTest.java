@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.data.BuildPlan;
+import net.krglok.realms.data.BuildPlanHome;
 
 import org.bukkit.Material;
 import org.junit.Test;
