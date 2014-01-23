@@ -29,7 +29,7 @@ public class Settlement
 	
 	private int id;
 	private SettleType settleType = SettleType.SETTLE_NONE;
-	private Position position;
+	private LocationData position;
 	private String name;
 	private String owner;
 	private Boolean isCapital;
@@ -68,7 +68,7 @@ public class Settlement
 		COUNTER++;
 		id			= COUNTER;
 		settleType 	= SettleType.SETTLE_NONE;
-		position 	= new Position();
+		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
@@ -96,13 +96,13 @@ public class Settlement
 	 * 
 	 * @param Owner
 	 */
-	public Settlement(String owner)
+	public Settlement(String owner, LocationData position)
 	{
 		COUNTER++;
 		id			= COUNTER;
 		settleType 	= SettleType.SETTLE_NONE;
 		name		= NEW_SETTLEMENT;
-		position 	= new Position();
+		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
@@ -131,13 +131,13 @@ public class Settlement
 	 * @param settleType
 	 * @param name
 	 */
-	public Settlement(String owner, SettleType settleType, String name)
+	public Settlement(String owner, LocationData position, SettleType settleType, String name)
 	{
 		COUNTER++;
 		id			= COUNTER;
 		this.settleType = settleType;
 		this.name		= name;
-		position 	= new Position();
+		position 	= position;
 		this.owner = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
@@ -176,7 +176,7 @@ public class Settlement
 	 * @param resident
 	 */
 	public Settlement(int id, SettleType settleType, String name, 
-			Position position, String owner,
+			LocationData position, String owner,
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
 			Resident resident, String world)
@@ -525,12 +525,12 @@ public class Settlement
 		this.resident = resident;
 	}
 
-	public Position getPosition()
+	public LocationData getPosition()
 	{
 		return position;
 	}
 
-	public void setPosition(Position position)
+	public void setPosition(LocationData position)
 	{
 		this.position = position;
 	}
@@ -605,13 +605,14 @@ public class Settlement
 	 * @param regionTypes
 	 * @return
 	 */
-	public static Settlement createSettlement(SettleType settleType, String settleName, String owner, 
+	public static Settlement createSettlement(LocationData position, SettleType 
+											settleType, String settleName, String owner, 
 											HashMap<String,String> regionTypes, 
 											HashMap<String,String> regionBuildings)
 	{
 		if (settleType != SettleType.SETTLE_NONE)
 		{
-			Settlement settlement = new Settlement(owner,settleType, settleName);
+			Settlement settlement = new Settlement(owner,position, settleType, settleName);
 //			BuildingList buildingList = new BuildingList();
 			int regionId = 0;
 			String BuildingTypeName = "";

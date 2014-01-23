@@ -75,14 +75,9 @@ public class ServerData implements ServerInterface
 	}
 
 	@Override
-	public HashMap<String, String> getSuperRegionList()
+	public SuperRegion getSuperRegion(String SuperregionName)
 	{
-		HashMap<String, String> regionList = new HashMap<String, String>();
-		for (SuperRegion region : plugin.stronghold.getRegionManager().getSortedSuperRegions())
-		{
-			regionList.put(String.valueOf(region.getName()), region.getType());
-		}
-		return regionList;
+		return plugin.stronghold.getRegionManager().getSuperRegion(SuperregionName);
 	}
 
 	@Override

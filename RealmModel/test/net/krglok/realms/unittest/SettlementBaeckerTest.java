@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -19,6 +20,7 @@ public class SettlementBaeckerTest
 {
 
 	private Boolean isOutput = false; // set this to false to suppress println
+	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
 	@Test
 	public void testSettlementBaecker()
@@ -46,7 +48,7 @@ public class SettlementBaeckerTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(pos, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{

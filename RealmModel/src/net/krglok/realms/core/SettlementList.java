@@ -100,7 +100,7 @@ public class SettlementList
 	}
 	
 	/**
-	 * Search for Settlementname
+	 * check for Settlementname
 	 * @param settleName
 	 * @return true if found otherwise false
 	 */
@@ -116,6 +116,21 @@ public class SettlementList
 		}
 		
 		return false;
+	}
+	
+	
+	public Settlement findName(String settleName)
+	{
+		for (Settlement settlement : settlementList.values())
+		{
+			if (settlement.getName().equals(settleName))
+			{
+				return settlement;
+			}
+			
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -200,6 +215,8 @@ public class SettlementList
 		return "";
 	}
 	
+	
+	
 	/**
 	 * create a new settlementList based on 
 	 * - superRegion list , <superegionName , settleTypeName>  
@@ -210,17 +227,19 @@ public class SettlementList
 	 * @param owner , of the settlement
 	 * @return new Settlement or null
 	 */
-	public static SettlementList createSettlement(HashMap<String,String> superRegionTypes, 
-			                                      HashMap<String,String> regionTypes, 
-			                                      HashMap<String,String> regionBuildings, 
-			                                      String owner)
+	public static SettlementList createSettlement(
+			LocationData position ,
+			HashMap<String,String> superRegionTypes, 
+			HashMap<String,String> regionTypes, 
+			HashMap<String,String> regionBuildings, 
+			String owner)
 	{
 		SettlementList settleList = new SettlementList(0);
 		SettleType settleType = getSuperRegionSettleType(superRegionTypes);
 		if (settleType != SettleType.SETTLE_NONE)
 		{
 			String settleName = getSettleName(superRegionTypes); 
-			Settlement settlement =  Settlement.createSettlement(settleType, settleName, owner, regionTypes, regionBuildings);
+			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, owner, regionTypes, regionBuildings);
 			settleList.addSettlement(settlement);
 		}
 		return settleList;

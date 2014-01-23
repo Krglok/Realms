@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.PlanMap;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.data.StrongholdTools;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -94,19 +97,49 @@ public class CmdSettleCheck extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Building in Superregion [ "+" ]");
-		System.out.println(name);
+		if (plugin.getRealmModel().getSettlements().containsName(name))
+		{
+			msg.add("see Settlement :"+ name
+					+" as :"+plugin.getRealmModel().getSettlements().findName(name).getId()
+//					+":"+plugin.getRealmModel().getSettlements().findName(name).getSettleType()
+					);
+		}
+//		msg.add(name);
 		if ( plugin.stronghold.getRegionManager().getSuperRegion(name) == null)
 		{
 			this.addErrorMsg(this.command()+":"+this.subCommand()+ "  No SuperRegion (null)");
 			return false;
 		}
 	    SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(name);
+		LocationData position = new LocationData(
+				sRegion.getLocation().getWorld().getName(),
+				sRegion.getLocation().getX(), 
+				sRegion.getLocation().getY(),
+				sRegion.getLocation().getZ());
 		msg.add(sRegion.getType()+" : "+ChatColor.YELLOW+sRegion.getName()+" : "+" Owner: "+sRegion.getOwners());
 		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
 		{
-    		msg.add("  "+region.getType()+" : "+ChatColor.YELLOW+region.getID()+" : "+" Owner: "+region.getOwners());
+	    	String sName = StrongholdTools.setStrleft(region.getType(), 20);
+    		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getID()+" : "+" Owner: "+region.getOwners());
 		}
-		msg.add("==");
+		msg.add("== Region List");
+		String sName = "";
+		for (Region region : plugin.stronghold.getRegionManager().getRegions().values())
+		{
+			LocationData loc = new LocationData(
+					region.getLocation().getWorld().getName(),
+					region.getLocation().getX(), 
+					region.getLocation().getY(),
+					region.getLocation().getZ());
+			
+			double d =  Math.round(position.distance(loc));
+			
+			if (d > 70)
+			{
+				sName = StrongholdTools.setStrleft(region.getType(), 15);
+	    		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getID()+"  at : "+d);
+			}
+		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		return true;
 	}
@@ -175,10 +208,12 @@ public class CmdSettleCheck extends RealmsCommand
 					this.addErrorMsg(this.command()+":"+this.subCommand()+ "  You are not the Owner !");
 				} else
 				{
+					this.addErrorMsg(this.command()+":"+this.subCommand()+ " Superregion & Owner found !");
 					isReady = true;
 				}
 			} else
 			{
+				this.addErrorMsg(this.command()+":"+this.subCommand()+ " Superregion found as OP !");
 				isReady = true;
 			}
 		}

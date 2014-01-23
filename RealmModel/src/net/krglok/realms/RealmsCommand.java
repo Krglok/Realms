@@ -38,7 +38,6 @@ public abstract class RealmsCommand implements iRealmsCommand
 	public abstract void execute(Realms plugin, CommandSender sender);
 //	{
 //		// TODO Auto-generated method stub
-		ArrayList<String> msg = new ArrayList<String>();
 //		
 //	}
 

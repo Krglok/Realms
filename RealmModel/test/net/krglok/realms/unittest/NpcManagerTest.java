@@ -3,7 +3,9 @@ package net.krglok.realms.unittest;
 import java.util.HashMap;
 
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
+//import net.krglok.realms.core.Position;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
@@ -45,8 +47,9 @@ public class NpcManagerTest {
 
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
+		LocationData position = new LocationData("SteamHaven", -469.51819223615206,72,-1236.6592548015324);
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{

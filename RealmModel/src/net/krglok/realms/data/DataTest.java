@@ -8,11 +8,12 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.Position;
+//import net.krglok.realms.core.Position;
 import net.krglok.realms.core.Kingdom;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Resident;
@@ -101,14 +102,15 @@ public class DataTest implements DataInterface
 	 */
 	private void initSettlementList ()
 	{
+		LocationData position = new LocationData("",0.0,0.0,0.0);
 		testSettlements = new SettlementList(1);
-		testSettlements.addSettlement(createSettlement(1));
+		testSettlements.addSettlement(createSettlement(1, position));
 	}
 
-	private Settlement createSettlement(int id)
+	private Settlement createSettlement(int id, LocationData position)
 	{
 		
-		Position position = new Position(0.0, 0.0, 0.0);
+//		Position position = position; //new Position(0.0, 0.0, 0.0);
 		Owner owner = testOwners.getOwner(NPC_0);
 		Barrack barrack = new Barrack(5);
 		Warehouse warehouse = new Warehouse(6912);

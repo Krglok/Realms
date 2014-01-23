@@ -30,7 +30,7 @@ public class CommandModel
 		case ACTIVATE:
 			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
-				cmdActivate(sender, commandArg);
+//				cmdActivate(sender, commandArg);
 			} else
 			{
 				plugin.getMessageData().errorPermission(sender);
@@ -39,7 +39,7 @@ public class CommandModel
 		case DEACTIVATE:
 			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
-				cmdDeactivate(sender, commandArg);
+//				cmdDeactivate(sender, commandArg);
 			} else
 			{
 				plugin.getMessageData().errorPermission(sender);
@@ -48,7 +48,7 @@ public class CommandModel
 		case PRODUCTION:
 			if ((sender.hasPermission(RealmsPermission.ADMIN.name())) || sender.isOp() ) 
 			{
-				cmdProduction(sender, commandArg);
+//				cmdProduction(sender, commandArg);
 			} else
 			{
 				plugin.getMessageData().errorPermission(sender);
@@ -76,13 +76,13 @@ public class CommandModel
 			} else
 			{
 //				sender.sendMessage("Args Error !");
-				argsError(sender,subCommand);
+//				argsError(sender,subCommand);
 			}
 			
 			break;
 		default :
 			sender.sendMessage("["+args[0]+"] "+"SubCommand not found else "+RealmsSubCommandType.getRealmSubCommandType(args[0]));
-			cmdHelp(sender, commandArg, subCommand);
+//			cmdHelp(sender, commandArg, subCommand);
 			return false;
 		}
 		return true;
@@ -139,145 +139,6 @@ public class CommandModel
 		return true;
 	}
 
-	private boolean cmdActivate(CommandSender sender, CommandArg commandArg)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-		plugin.getRealmModel().OnEnable();
-		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
-		{
-			msg.add("[Realm Model] Enabled");
-			msg.add(plugin.getRealmModel().getModelName()+" Vers.: "+plugin.getRealmModel().getModelVersion());
-		} else
-		{
-			msg.add("[Realm Model] NOT Enabled");
-			msg.add("Something unknown is wrong :(");
-			plugin.getLog().info("[Realm Model] NOT Enabled. Something unknown is wrong :( ");
-		}
-		plugin.getMessageData().printPage(sender, msg, 1);
-		return true;
-	}
 
-	private boolean cmdDeactivate(CommandSender sender, CommandArg commandArg)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-		plugin.getRealmModel().OnDisable();
-		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
-		{
-			msg.add("[Realm Model] Disabled");
-			msg.add(plugin.getRealmModel().getModelName()+" Vers.: "+plugin.getRealmModel().getModelVersion());
-			msg.add("All Task are not executed !");
-		} else
-		{
-			msg.add("[Realm Model] NOT Disabled");
-			msg.add("Something unknown is wrong :(");
-			plugin.getLog().info("[Realm Model] NOT Disabled. Something unknown is wrong :( ");
-		}
-		plugin.getMessageData().printPage(sender, msg, 1);
-		return true;
-	}
-
-	private boolean cmdProduction(CommandSender sender, CommandArg commandArg)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-//		msg.add("/model production ");
-		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
-		//  || (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED))
-		{
-			plugin.getRealmModel().OnProduction();
-			msg.add("[Realm Model] Production");
-			for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
-			{
-				msg.add(settle.getId()+" : "+settle.getName());
-				msg.add("Storage  : "+settle.getWarehouse().getItemMax());
-				msg.add("Capacity : "+settle.getResident().getSettlerMax());
-				msg.add("Settlers : "+settle.getResident().getSettlerCount());
-				msg.add("Workers  : "+settle.getTownhall().getWorkerCount());
-				msg.add("Happiness: "+settle.getResident().getHappiness());
-				msg.add("Fertility: "+settle.getResident().getFertilityCounter());
-				msg.add("Deathrate: "+settle.getResident().getDeathrate());
-				msg.add("Required Items "+settle.getRequiredProduction().size());
-				for (String itemRef : settle.getRequiredProduction().keySet())
-				{
-					Item item = settle.getRequiredProduction().getItem(itemRef);
-					msg.add(item.ItemRef()+" : "+item.value());
-				}
-			}
-		} else
-		{
-			msg.add("[Realm Model] NOT enabled or too busy");
-			msg.add("Try later again");
-		}
-		plugin.getMessageData().printPage(sender, msg, 1);
-		return true;
-	}
-	
-	private void argsError(CommandSender sender, RealmsSubCommandType subCommand)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-		msg.add(ChatColor.RED+"Not enough arguments for "+RealmsCommandType.MODEL+" "+subCommand);
-		switch (subCommand)
-		{
-		case TEST :	msg.add(ChatColor.YELLOW+"/model test pageNr , the pageNr is required as number");
-			break;
-		default :
-			break;
-		}
-		plugin.getMessageData().printPage(sender, msg, 1);
-		
-	}
-
-	private boolean cmdHelp(CommandSender sender, CommandArg commandArg, RealmsSubCommandType subCommand)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-		int page = 1; //CommandArg.argToInt(commandArg.get(0));
-		if (commandArg.size() > 0)
-		{
-			subCommand = RealmsSubCommandType.getRealmSubCommandType(commandArg.get(0));
-		}
-		switch (subCommand)
-		{
-		case LIST :
-			msg.add("[Realms] Command: Model                ");
-			msg.add("SubCommands: "+subCommand);
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			break;
-		case HELP:
-		
-		default :
-			msg.add("[Realms] Command: Model                 ");
-	    	msg.add("Parameter  [] = required  {} = optional ");
-			msg.add("/model activate");
-			msg.add("/model deactivate");
-			msg.add("/model set [AUTO] [true/false] ");
-			msg.add("/model set [COUNTER] [20-24000] ");
-			msg.add("/model production ");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			msg.add("");
-			break;
-		}
-
-		plugin.getMessageData().printPage(sender, msg, page);
-		return true;
-	}
 
 }

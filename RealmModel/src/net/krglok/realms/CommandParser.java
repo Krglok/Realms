@@ -62,13 +62,19 @@ public class CommandParser
 //			return cmd;
 //		}
 		// Check Arguments of SubCommand
-		cmd.addErrorMsg("Arguments "+(args.length-1)+" < "+cmd.getRequiredArgs());
 		if ((args.length-1) < cmd.getRequiredArgs() )
 		{
+			cmd.addErrorMsg("Arguments "+(args.length-1)+" < "+cmd.getRequiredArgs());
 			return  findSubCommand(RealmsSubCommandType.HELP);
 		} else
 		{
 			String[] paraTypes = cmd.getParaTypes();
+			// in case of optional parameter null is possible
+			if (paraTypes == null)
+			{
+				cmd.addErrorMsg("No Parameter required");
+				return cmd;
+			}
 			int len = 0;
 			if ((args.length-1) > paraTypes.length)
 			{
@@ -77,7 +83,7 @@ public class CommandParser
 			{
 				len = (args.length-1);
 			}
-			cmd.addErrorMsg("Arguments "+(args.length-1));
+//			cmd.addErrorMsg("Arguments "+(args.length-1));
 			// Array of required ArgumentTypes
 			for (int i = 0; i <len; i++)
 			{
@@ -104,7 +110,7 @@ public class CommandParser
 				}
 				if (String.class.getName() == paraTypes[i])
 				{
-					cmd.addErrorMsg("String Parmeter "+i+" : "+args[i+1]);
+//					cmd.addErrorMsg("String Parmeter "+i+" : "+args[i+1]);
 					cmd.setPara(i, args[i+1]);
 				} else
 				{

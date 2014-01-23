@@ -9,9 +9,10 @@ import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.Position;
+//import net.krglok.realms.core.Position;
 import net.krglok.realms.core.Resident;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -28,6 +29,7 @@ public class SettlementTest
 {
 
 	private Boolean isOutput = false; // set this to false to suppress println
+	LocationData position  = new LocationData("SteamHaven",-519.5118200333327,68,-1415.4833680460988); 
 
 	
 	@Test
@@ -55,7 +57,7 @@ public class SettlementTest
 		Owner owner = new Owner();
 		owner.setId(5);
 		String expected =  "";
-		Settlement settlement = new Settlement(owner.getPlayerName());
+		Settlement settlement = new Settlement(owner.getPlayerName(), position);
 		String actual = settlement.getOwner();
 		assertEquals(expected, actual);
 	}
@@ -76,7 +78,6 @@ public class SettlementTest
 		Townhall townhall 	= new Townhall();
 		Bank bank 			= new Bank();
 		Resident resident	= new Resident();
-		Position position  = new Position(); 
 		
 		Settlement settlement = new Settlement(
 				id, settletype, name, position,  
@@ -103,7 +104,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(), regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position,settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(), regionTypes, regionBuildings);
 
 		int expected = 6;
 		int actual = settle.getBuildingList().size(); 
@@ -143,7 +144,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(), regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position,settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(), regionTypes, regionBuildings);
 
 		int expected = 22464;
 		int actual = settle.getWarehouse().getItemMax(); 
@@ -185,7 +186,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position,settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
@@ -277,16 +278,17 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
-		settle.getResident().setSettlerCount(30);
+		int startWith = 30;
+		settle.getResident().setSettlerCount(startWith);
 		settle.setSettlerMax();
 
 //		settle.getResident().settlerCount();
 //		settle.getResident().settlerCount();
 //		settle.getResident().settlerCount();
 
-		isOutput =  false; //(expected != actual);
+		isOutput =  true; //(expected != actual);
 		int dayCount = 0;
 		if (isOutput)
 		{
@@ -332,7 +334,7 @@ public class SettlementTest
 					}
 				}
 				sb = sb+"#" +"     "+ settle.getResident().getHappiness();
-				System.out.println(rs+sb);
+				System.out.println(rs+sb+"WHEAT:"+settle.getWarehouse().getItemList().getValue("WHEAT")+"BREAD:"+settle.getWarehouse().getItemList().getValue("BREAD"));
 			}
 			
 		}
@@ -344,6 +346,8 @@ public class SettlementTest
 		{
 			
 			System.out.println("==Settler Supply Max : "+settle.getResident().getSettlerMax());
+			System.out.println("=StartWith      : "+startWith);
+			System.out.println("=Expectedt      : "+expected);
 			System.out.println("=Actual Settler : "+settle.getResident().getSettlerCount());
 		}
 		
@@ -416,14 +420,14 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		settle.getResident().setSettlerCount(50);
 		settle.setSettlerMax();
 		settle.setWorkerNeeded();
 
 
-		isOutput = false; //true; //(expected != actual);
+		isOutput = true; //true; //(expected != actual);
 		if (isOutput)
 		{
 		  System.out.println("==Settlement Needed Settler : "+settle.getTownhall().getWorkerNeeded());
@@ -527,7 +531,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		settle.getResident().setSettlerCount(50);
 		settle.setSettlerMax();
@@ -592,7 +596,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
@@ -648,7 +652,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
@@ -703,7 +707,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{
@@ -787,7 +791,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{
@@ -873,7 +877,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{
@@ -993,7 +997,7 @@ public class SettlementTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(position, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{

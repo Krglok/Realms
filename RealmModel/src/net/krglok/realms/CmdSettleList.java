@@ -1,5 +1,7 @@
 package net.krglok.realms;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 
@@ -63,17 +65,22 @@ public class CmdSettleList extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-	    SettlementList  rList = plugin.getRealmModel().getSettlements();
+		ArrayList<String> msg = new ArrayList<String>();
+		SettlementList  rList = plugin.getRealmModel().getSettlements();
 	    if (rList != null)
 	    {
 			msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
 		    for (Settlement settle : rList.getSettlements().values())
 		    {
-	    		msg.add(settle.getId()+" : "+ChatColor.YELLOW+settle.getName()+" : "+ChatColor.GOLD+settle.isEnabled()+" Owner: "+settle.getOwner());
+	    		msg.add(settle.getId()
+	    				+" : "+ChatColor.YELLOW+settle.getName()
+	    				+" : "+ChatColor.GOLD+settle.isEnabled()
+	    				+" Owner: "+settle.getOwner()
+	    				+" in "+settle.getPosition().getWorld());
 		    }
 	    } else
 	    {
-			msg.add("ID |Settlement | Active | Owner [  ]");
+			msg.add("ID |Settlement | Active | Owner [ null ]");
 	    	msg.add("/settle LIST [page] ");
 	    	msg.add("NO settlements found !!");
 	    }

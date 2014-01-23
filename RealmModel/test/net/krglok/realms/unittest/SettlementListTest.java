@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
@@ -18,6 +19,8 @@ public class SettlementListTest
 {
 
 	private Boolean isOutput = false; // set this to false to suppress println
+	
+	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 	
 	@Test
 	public void settlementListTest()
@@ -33,7 +36,7 @@ public class SettlementListTest
 	{
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
-		Settlement settlement = new Settlement(owner.getPlayerName());
+		Settlement settlement = new Settlement(owner.getPlayerName(),pos);
 		sList.addSettlement(settlement);
 		sList.setOwnerCapital(owner, settlement.getId());
 		int expected = settlement.getId();
@@ -46,9 +49,9 @@ public class SettlementListTest
 	{
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
-		Settlement settlement = new Settlement(owner.getPlayerName());
+		Settlement settlement = new Settlement(owner.getPlayerName(),pos);
 		sList.addSettlement(settlement);
-		settlement = new Settlement(owner.getPlayerName());
+		settlement = new Settlement(owner.getPlayerName(),pos);
 		sList.addSettlement(settlement);
 		sList.updateOwnerCapital(owner, settlement.getId());
 		int expected = settlement.getId();
@@ -74,7 +77,7 @@ public class SettlementListTest
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
 		
-		sList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		sList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		
 		int expected = 1;
 		int actual = sList.count();
@@ -104,13 +107,13 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
 		int expected = 3;
@@ -157,13 +160,13 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
 		sList.addSettlements(newList);
 
 		int expected = 3;

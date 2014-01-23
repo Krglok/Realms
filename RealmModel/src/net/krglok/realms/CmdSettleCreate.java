@@ -6,6 +6,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -111,8 +112,13 @@ public class CmdSettleCreate extends RealmsCommand
     			owner = new Owner(playerName, isNPC);
     		}
 		}
+		LocationData position = new LocationData(
+				sRegion.getLocation().getWorld().getName(),
+				sRegion.getLocation().getX(), 
+				sRegion.getLocation().getY(),
+				sRegion.getLocation().getZ());
 		msg.add(" Owner: "+playerName);
-		Settlement settlement = new Settlement(playerName, settleType, superRegionName);
+		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName);
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 
 		msg.add("");

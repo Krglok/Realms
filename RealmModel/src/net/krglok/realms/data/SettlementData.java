@@ -14,6 +14,7 @@ import net.krglok.realms.Realms;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 
@@ -61,7 +62,7 @@ public class SettlementData
 	            ConfigurationSection settleSec = config.createSection(base);
 	            config.set(MemorySection.createPath(settleSec, "id"), settle.getId());
 	            config.set(MemorySection.createPath(settleSec, "settleType"), settle.getSettleType().name());
-	            config.set(MemorySection.createPath(settleSec, "position"), settle.getPosition().toString());
+	            config.set(MemorySection.createPath(settleSec, "position"), LocationData.toString(settle.getPosition()));
 	            config.set(MemorySection.createPath(settleSec, "name"), settle.getName());
 	            config.set(MemorySection.createPath(settleSec, "owner"), settle.getOwner());
 	            config.set(MemorySection.createPath(settleSec, "isCapital"), settle.getIsCapital());
@@ -158,7 +159,7 @@ public class SettlementData
 //                System.out.println(settleSec);
             	settle.setId(config.getInt(settleSec+".id"));
             	settle.setSettleType(SettleType.valueOf(config.getString(settleSec+".settleType")));
-            	//settle.setposition()
+            	settle.setPosition(LocationData.toLocation(config.getString(settleSec+".position")));
             	settle.setName(config.getString(settleSec+".name"));
             	settle.setOwner(null);
             	settle.setIsCapital(config.getBoolean(settleSec+".isCapital"));

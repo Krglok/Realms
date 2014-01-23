@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Queue;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
+import net.krglok.realms.data.StrongholdTools;
 import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Bukkit;

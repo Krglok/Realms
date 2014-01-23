@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.Position;
+//import net.krglok.realms.core.Position;
 import net.krglok.realms.data.BuildPlanHome;
 import net.minecraft.server.v1_7_R1.BlockBed;
 import net.minecraft.server.v1_7_R1.BlockDoor;
@@ -29,7 +29,7 @@ import org.bukkit.plugin.Plugin;
 
 public class CmdSettleTest extends RealmsCommand
 {
-	Position position;
+	LocationData position;
 	
 	
 	public CmdSettleTest( )
@@ -42,7 +42,7 @@ public class CmdSettleTest extends RealmsCommand
 		    	"/settle  "
 			};
 			requiredArgs = 3;
-			position = new Position( 0.0, 0.0, 0.0);
+			position = new LocationData("", 0.0, 0.0, 0.0);
 	}
 
 	@Override

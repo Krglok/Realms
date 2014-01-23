@@ -44,7 +44,7 @@ public interface ServerInterface
 	
 	public ArrayList<Region> getRegionInSuperRegion(String superRegionName);
 
-	public HashMap<String,String> getSuperRegionList();
+	public SuperRegion getSuperRegion(String SuperregionName);
 	
 	public int getSuperRegionPower(String superRegionName);
 	

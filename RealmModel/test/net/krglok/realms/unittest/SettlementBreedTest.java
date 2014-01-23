@@ -12,6 +12,7 @@ import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -32,6 +33,7 @@ public class SettlementBreedTest
 	private boolean showSettler = true;
 	private int dayCounter = 0;
 	private int month = 0;
+	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
 	public ItemPriceList testPriceList()
 	{
@@ -369,7 +371,7 @@ public class SettlementBreedTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(pos, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
 
 //		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 52);
 //		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 120);

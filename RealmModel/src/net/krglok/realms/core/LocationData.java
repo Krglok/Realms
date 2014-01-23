@@ -1,5 +1,8 @@
 package net.krglok.realms.core;
 
+import org.bukkit.Location;
+import org.bukkit.World;
+
 public class LocationData
 {
 
@@ -8,10 +11,12 @@ public class LocationData
     private double posY;
     private double posZ;
 
-    public LocationData()
-    {
-    	
-    }
+//    public LocationData()
+//    {
+//    	world = "";
+//    	posX = 0.0;
+//    	posY = 
+//    }
 
 	public LocationData(String world, double posX, double posY, double posZ)
 	{
@@ -98,6 +103,41 @@ public class LocationData
     public double deltaY(LocationData loc)
     {
     	return Math.abs(loc.posY - this.posY);    	
+    }
+ 
+    /**
+     * erzeugt eine Location als String
+     * World:X:Y:Z
+     * @param position
+     * @return
+     */
+    public static String toString(LocationData position)
+    {
+    	String sLocation = position.getWorld()+":"+String.valueOf(position.getX())+":"+String.valueOf(position.getY())+":"+String.valueOf(position.getZ()); 
+    	return sLocation ;
+    }
+    
+    /**
+     * Erzeugt aus einem String eine Location
+     * error Handling , erzeugt  Location mit "", 0.0, 0.0, 0.0
+     * @param locationString
+     * @return
+     */
+    public static LocationData toLocation(String locationString)
+    {
+        if (locationString != null) 
+        {
+        	try
+			{
+                String[] params = locationString.split(":");
+                return new LocationData(params[0], Double.parseDouble(params[1]),Double.parseDouble(params[2]),Double.parseDouble(params[3]));
+				
+			} catch (Exception e)
+			{
+		    	return new LocationData(locationString, 0.0, 0.0, 0.0); 
+			}
+        }
+    	return new LocationData(locationString, 0.0, 0.0, 0.0); 
     }
 }
 

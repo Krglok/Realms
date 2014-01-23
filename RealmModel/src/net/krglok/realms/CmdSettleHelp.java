@@ -34,6 +34,14 @@ public class CmdSettleHelp extends RealmsCommand
 	@Override
 	public void setPara(int index, int value)
 	{
+		switch (index)
+		{
+		case 0 :
+				page = value;
+			break;
+		default:
+			break;
+		}
 
 	}
 
@@ -52,7 +60,7 @@ public class CmdSettleHelp extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return null;
+		return new String[] { int.class.getName() };
 	}
 
 	@Override

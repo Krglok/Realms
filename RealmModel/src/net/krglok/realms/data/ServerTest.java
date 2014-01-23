@@ -8,8 +8,10 @@ import org.bukkit.Material;
 import org.bukkit.World;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.tool.SuperRegionData;
 
 public class ServerTest  implements ServerInterface // extends ServerData
 {
@@ -138,25 +140,44 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		}
 	}
 	@Override
-	public HashMap<String, String> getSuperRegionList()
+	public SuperRegion getSuperRegion(String superRegionName)
 	{
-		HashMap<String, String> rList = new HashMap<String, String>();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+		ArrayList<SuperRegionData> sRegions =  StrongholdTools.getSuperRegionData(path);
 		
-		rList.put("admin_tower", "Admin");
-		rList.put("Aether_Spawn", "AdminSec");
-		rList.put("Borum", "Stadt");
-		rList.put("claim1", "Claim");
-		rList.put("Clan_Moorhalle", "Claim");
-		rList.put("Bauernhof1", "Bauernhof");
-		rList.put("Bauernhof2", "Bauernhof");
-		rList.put("Bauernhof3", "Bauernhof");
-		rList.put("Werkstatt1", "Werkstatt");
-		rList.put("Werkstatt2", "Werkstatt");
-		rList.put("Werkstatt3", "Werkstatt");
+		for(SuperRegionData sr : sRegions)
+		{
+			if (sr.getName().equalsIgnoreCase(superRegionName))
+			{
+				return null;
+//						new SuperRegion(
+//						name, 
+//						l, 
+//						type, 
+//						owner, 
+//						members, 
+//						power, 
+//						taxes, 
+//						balance, 
+//						taxRevenue
+//						);
+			}
+		}
+//		rList.put("admin_tower", "Admin");
+//		rList.put("Aether_Spawn", "AdminSec");
+//		rList.put("Borum", "Stadt");
+//		rList.put("claim1", "Claim");
+//		rList.put("Clan_Moorhalle", "Claim");
+//		rList.put("Bauernhof1", "Bauernhof");
+//		rList.put("Bauernhof2", "Bauernhof");
+//		rList.put("Bauernhof3", "Bauernhof");
+//		rList.put("Werkstatt1", "Werkstatt");
+//		rList.put("Werkstatt2", "Werkstatt");
+//		rList.put("Werkstatt3", "Werkstatt");
 //		rList.put("", "");
 //		rList.put("", "");
 		
-		return rList;
+		return null;
 	}
 
 	@Override

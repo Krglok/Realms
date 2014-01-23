@@ -4,6 +4,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -29,6 +30,7 @@ public class McmdCreateSettle implements iModelCommand
 	{
 		return commandType;
 	}
+	
 
 	@Override
 	public String[] getParaTypes()
@@ -60,7 +62,20 @@ public class McmdCreateSettle implements iModelCommand
     			owner = new Owner(playerName, isNPC);
     		}
 		}
-		Settlement settlement = new Settlement(playerName, settleType, superRegionName);
+		LocationData position;
+		SuperRegion sRegion =  rModel.getServer().getSuperRegion(superRegionName);
+		if (sRegion == null)
+		{
+			position = new LocationData("", 0.0, 0.0, 0.0);
+			return;
+		}
+		position = new LocationData(
+				sRegion.getLocation().getWorld().getName(),
+				sRegion.getLocation().getX(), 
+				sRegion.getLocation().getY(),
+				sRegion.getLocation().getZ());
+
+		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName);
 		rModel.getSettlements().addSettlement(settlement);
 //		System.out.println(superRegionName+" : "+settlement.getId());
 		for (Region region : rModel.getServer().getRegionInSuperRegion(superRegionName))

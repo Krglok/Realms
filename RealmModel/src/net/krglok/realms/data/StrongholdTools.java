@@ -1,4 +1,4 @@
-package net.krglok.realms.tool;
+package net.krglok.realms.data;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,6 +10,8 @@ import java.util.Map;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.tool.RegionData;
+import net.krglok.realms.tool.SuperRegionData;
 import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Material;

@@ -12,6 +12,14 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Command handling for the command /realms
+ * every subCommand is a separate instance of abstract class  RealmsCommand
+ * allactive commands must be in the cmdList
+ * 
+ * @author Windu
+ *
+ */
 public class CommandRealms
 {
 	private Realms plugin;
@@ -32,6 +40,10 @@ public class CommandRealms
 			new CmdRealmsVersion(),
 			new CmdRealmsHelp(),
 			new CmdRealmsInfoPricelist(),
+			new CmdRealmsActivate(),
+			new CmdRealmsDeactivate(),
+			new CmdRealmsProduce(),
+			new CmdRealmsCheck(),
 			new CmdRealmsTest()
 			
 		};
@@ -46,11 +58,17 @@ public class CommandRealms
 			if (cmd.canExecute(plugin, sender))
 			{
 				cmd.execute(plugin, sender);
+			} else
+			{
+		    	ArrayList<String> msg = new ArrayList<String>();
+		    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
+		    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
+		    	msg.addAll(cmd.getErrorMsg());
+				plugin.getMessageData().printPage(sender, msg, 1);
 			}
 		} else
 		{
 	    	ArrayList<String> msg = new ArrayList<String>();
-	    	msg.add(ChatColor.GREEN+ConfigBasis.setStrleft(ConfigBasis.LINE,30));
 	    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
 	    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
 	    	msg.add(ChatColor.RED+"OOPS Parser dont find a Command ! ");
