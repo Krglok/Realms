@@ -717,18 +717,19 @@ public class Settlement
 		case 2 : return Material.STICK.name();
 		case 3 : return Material.IRON_ORE.name();
 		case 4 : return Material.IRON_INGOT.name();
-		case 5 : return Material.RAW_FISH.name();
+		case 5 : return Material.LOG.name();
 		case 6 : return Material.SEEDS.name();
 		case 7 : return Material.WOOD.name();
-		case 8 : return Material.GOLD_NUGGET.name();
+		case 8 : return Material.DIRT.name();
 		case 9 : return Material.SEEDS.name();
 		case 10 : return Material.CARROT.name();
 		case 11 : return Material.BREAD.name();
-		case 12 : return Material.BONE.name();
+		case 12 : return Material.WATER.name();
 		case 13 : return Material.WOOL.name();
 		case 14 : return Material.WOOL.name();
 		case 15 : return Material.SAND.name();
 		case 16 : return Material.SAND.name();
+		case 20 : return Material.GOLD_NUGGET.name();
 		default :
 			return Material.AIR.name();
 		}

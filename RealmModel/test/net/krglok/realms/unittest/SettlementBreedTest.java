@@ -2,12 +2,16 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -16,6 +20,8 @@ import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
 public class SettlementBreedTest
@@ -26,6 +32,71 @@ public class SettlementBreedTest
 	private boolean showSettler = true;
 	private int dayCounter = 0;
 	private int month = 0;
+
+	public ItemPriceList testPriceList()
+	{
+		ItemPriceList items = new ItemPriceList();
+//		for (Material mat : Material.values())
+//		{
+//			if (mat.name().contains("IRON"))
+//			{
+//				items.add(mat.name(), 1.0);
+//			}
+//		}
+		items.add("WHEAT", 0.30);
+		items.add("LOG", 0.5);
+		items.add("COBBLESTONE", 0.1);
+		items.add("SAND", 0.2);
+		items.add("DIRT", 0.2);
+		items.add("GRASS", 0.5);
+		items.add("STONE", 1.7);
+		items.add("COAL", 3.0);
+		items.add("WOOL", 0.5);
+		items.add("IRON_ORE", 15.0);
+		items.add("SEEDS", 0.2);
+		items.add("GRAVEL", 0.5);
+		items.add("FLINT", 1.0);
+		items.add("FEATHER", 0.5);
+		items.add("GOLD_NUGGET", 44.0);
+		
+		return items;
+	}
+
+	public ItemPriceList readPriceData() 
+	{
+        String base = "BASEPRICE";
+        ItemPriceList items = new ItemPriceList();
+		try
+		{
+			//\\Program Files\\BuckitTest\\plugins\\Realms
+            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms", "baseprice.yml");
+            if (!DataFile.exists()) 
+            {
+            	items = testPriceList();
+            	DataFile.createNewFile();
+            	return items;
+            }
+            HashMap<String,String> values; // = new HashMap<String,String>();
+            
+            FileConfiguration config = new YamlConfiguration();
+            config.load(DataFile);
+            
+            if (config.isConfigurationSection(base))
+            {
+            	
+    			Map<String,Object> buildings = config.getConfigurationSection(base).getValues(false);
+            	for (String ref : buildings.keySet())
+            	{
+            		Double price = config.getDouble(base+"."+ref,0.0);
+            		ItemPrice item = new ItemPrice(ref, price);
+            		items.add(item);
+            	}
+            }
+		} catch (Exception e)
+		{
+		}
+		return items;
+	}
 
 
 	private String showBalkenHappy(Settlement settle, boolean isDay, boolean isSettler)
@@ -150,7 +221,7 @@ public class SettlementBreedTest
 		
 	}
 
-	private void makeSettleAnalysis(Settlement settle, int moth)
+	private void makeSettleAnalysis(Settlement settle, int moth, ItemPriceList priceList)
 	{
 		ArrayList<String> msg = new ArrayList<>();
 		// Resident Analyse
@@ -164,7 +235,7 @@ public class SettlementBreedTest
 		msg.add("Anzahl Gebäude: "+(int) settle.getBuildingList().size());
 		msg.add("Items im Lager: "+(int) settle.getWarehouse().getItemCount());
 		msg.add("fehlende Items: "+(int) settle.getRequiredProduction().size());
-
+		msg.add(getReqList(settle));
 		msg.add("!  ");
 		msg.add("Bevölkerungsanalyse  ");
 		if (settle.getResident().getSettlerCount() > settle.getResident().getSettlerMax())
@@ -196,6 +267,15 @@ public class SettlementBreedTest
 		msg.add("  ");
 		msg.add("Wirtschaftsanalyse  ");
 		msg.add("!  Ihre Siedler haben "+(int)(settle.getBank().getKonto())+" Thaler erarbeitet.  Herzlichen Glückwunsch.");
+
+		double price = 0.0;
+		double balance = 0.0;
+		for (Item item : settle.getWarehouse().getItemList().values())
+		{
+			price = Math.round(priceList.getBasePrice(item.ItemRef()));
+			balance = balance + (item.value()*price);
+		}
+		msg.add("!  Das Warenlager hat einen Wert von:  "+balance);
 		
 		if (settle.getTownhall().getWorkerCount() < settle.getTownhall().getWorkerNeeded())
 		{
@@ -236,38 +316,44 @@ public class SettlementBreedTest
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
+		ItemPriceList priceList = readPriceData(); 
+		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
+        ItemPriceList itemPrices = testPriceList();
+		
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
 		regionTypes.put("1","haupthaus");
 		regionTypes.put("2","haus_einfach");
 		regionTypes.put("3","haus_einfach");
 		regionTypes.put("4","haus_einfach");
 		regionTypes.put("5","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("8","haus_einfach");
-		regionTypes.put("9","haus_einfach");
-		regionTypes.put("10","haus_einfach");
-		regionTypes.put("11","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("13","haus_einfach");
-		regionTypes.put("14","haus_einfach");
-		regionTypes.put("15","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("18","haus_einfach");
-		regionTypes.put("19","haus_einfach");
-		regionTypes.put("20","haus_einfach");
-		regionTypes.put("60","taverne");
+//		regionTypes.put("6","haus_einfach");
+//		regionTypes.put("7","haus_einfach");
+//		regionTypes.put("8","haus_einfach");
+//		regionTypes.put("9","haus_einfach");
+//		regionTypes.put("10","haus_einfach");
+//		regionTypes.put("11","haus_einfach");
+//		regionTypes.put("12","haus_einfach");
+//		regionTypes.put("13","haus_einfach");
+//		regionTypes.put("14","haus_einfach");
+//		regionTypes.put("15","haus_einfach");
+//		regionTypes.put("16","haus_einfach");
+//		regionTypes.put("17","haus_einfach");
+//		regionTypes.put("18","haus_einfach");
+//		regionTypes.put("19","haus_einfach");
+//		regionTypes.put("20","haus_einfach");
+//		regionTypes.put("60","taverne");
 //		regionTypes.put("61","taverne");
 //		regionTypes.put("62","taverne");
 		regionTypes.put("65","kornfeld");
 		regionTypes.put("66","kornfeld");
-		regionTypes.put("67","kornfeld");
-		regionTypes.put("68","kornfeld");
-		regionTypes.put("69","markt");
+//		regionTypes.put("67","kornfeld");
+//		regionTypes.put("68","kornfeld");
+//		regionTypes.put("69","markt");
+		regionTypes.put("69","holzfaeller");
+		regionTypes.put("68","schreiner");
 //		regionTypes.put("31","bauern_haus");
 //		regionTypes.put("70","haus_einfach");
 //		regionTypes.put("71","haus_einfach");
@@ -311,184 +397,185 @@ public class SettlementBreedTest
 		System.out.println("==Settlement Breed  : "+settle.getResident().getSettlerMax());
 		BreedingLoop(settle, server, 3080);
 		
-		makeSettleAnalysis(settle, month);
+		makeSettleAnalysis(settle, month, priceList);
+		
 
 		int hsRegion = 28;
 		Building building;
 		
 		System.out.println(month+"=====Settler go away "+settle.getResident().getSettlerMax());
 		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
 
 //		settle.getResident().setSettlerCount(90);
 		settle.setSettlerMax();
 		BreedingLoop(settle, server, 510);
 
-		makeSettleAnalysis(settle, month);
+		makeSettleAnalysis(settle, month, priceList);
 
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
-		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
+//		Settlement.addBuilding(building, settle);
 //		hsRegion++;
 //		building =  new Building(BuildingType.BUILDING_BAUERNHOF, hsRegion, "bauern_haus", true);
 //		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
 
 		settle.setSettlerMax();
 		System.out.println(month+"======New Houses "+settle.getResident().getSettlerMax());
@@ -496,167 +583,166 @@ public class SettlementBreedTest
 
 		BreedingLoop(settle, server, 110);
 
-		makeSettleAnalysis(settle, month);
+		makeSettleAnalysis(settle, month, priceList);
 
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schreiner", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schreiner", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_BAECKER, hsRegion, "haus_baecker", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
 		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schreiner", true);
 		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schreiner", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_BAECKER, hsRegion, "haus_baecker", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schreiner", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "tischler", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
-		Settlement.addBuilding(building, settle);
-		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
-		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "tischler", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "holzfaeller", true);
+//		Settlement.addBuilding(building, settle);
+//		hsRegion++;
+//		building =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
+//		Settlement.addBuilding(building, settle);
 
 		settle.setSettlerMax();
 		System.out.println(month+"======New Production "+settle.getResident().getSettlerMax());
 
 		isOutput =   false; //(expected != actual);
 		BreedingLoop(settle, server, 1310);
-		makeSettleAnalysis(settle, month);
+		makeSettleAnalysis(settle, month, priceList);
 
 		
 		settle.getResident().setSettlerCount(50);
 		settle.setSettlerMax();
 		System.out.println(month+"====Now only 50 Settler in Settlement / Homes : "+settle.getResident().getSettlerMax());
 		BreedingLoop(settle, server, 510);
-		makeSettleAnalysis(settle, month);
-
+		makeSettleAnalysis(settle, month, priceList);
 		
 		settle.setSettlerMax();
 		System.out.println(month+"==Last Run   "+settle.getResident().getSettlerMax());
@@ -696,7 +782,7 @@ public class SettlementBreedTest
 		
 		System.out.println(" ");
 		System.out.println("== Laufzeit "+month*30+" Tage ");
-		makeSettleAnalysis(settle, month);
+		makeSettleAnalysis(settle, month, priceList);
 		int expected = 138;
 		int actual = settle.getResident().getSettlerCount(); 
 		isOutput = (expected != actual);
@@ -705,6 +791,16 @@ public class SettlementBreedTest
 			System.out.println(" ");
 			System.out.println(" ");
 			System.out.println("==Settler Breed : "+settle.getResident().getSettlerCount());
+			System.out.println("Warehouse");
+			double price = 0.0;
+			double balance = 0.0;
+			for (Item item : settle.getWarehouse().getItemList().values())
+			{
+				price = Math.round(priceList.getBasePrice(item.ItemRef()));
+				System.out.println(item.ItemRef()+": "+item.value()+" = "+(item.value()*price));
+				balance = balance + (item.value()*price);
+			}
+			System.out.println("Item balance = "+balance);
 		}
 		
 		assertEquals(expected, actual);

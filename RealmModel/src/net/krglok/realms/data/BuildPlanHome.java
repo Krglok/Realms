@@ -25,7 +25,7 @@ public class BuildPlanHome extends BuildPlan
 	{
 		byte[][][] cube = new byte[edge][edge][edge];
 		// Grundplatte Cobblestone
-		BuildPlan.fillLevel(cube[0], Matterial.COBBLESTONE);
+		BuildPlan.fillLevel(cube[0], Material.COBBLESTONE);
 		//Eckpfosten Log 1 , 4 hoch
 		BuildPlan.setHeight(cube, Material.LOG, 1, 0, 0, 3);
 		BuildPlan.setHeight(cube, Material.LOG, 1, 6, 0, 3);

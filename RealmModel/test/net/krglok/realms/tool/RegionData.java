@@ -3,6 +3,7 @@ package net.krglok.realms.tool;
 import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Location;

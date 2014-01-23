@@ -1,4 +1,4 @@
-package net.krglok.realms.tool;
+package net.krglok.realms.core;
 
 public class LocationData
 {

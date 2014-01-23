@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.List;
 
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Position;
 import net.krglok.realms.data.BuildPlanHome;
-import net.krglok.realms.tool.LocationData;
 import net.minecraft.server.v1_7_R1.BlockBed;
 import net.minecraft.server.v1_7_R1.BlockDoor;
 import net.minecraft.server.v1_7_R1.BlockSign;

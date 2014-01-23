@@ -5,14 +5,11 @@ effects:
 radius: 4
 requirements:
 - LOG.10
-- DIRT.9
+- DIRT.10
+- WATER.1
 reagents:
 - GOLD_NUGGET.1
-- IRON_INGOT.8
-- BREAD.4
-- IRON_HOE.1
-upkeep:
-- WOOD_HOE.1
+upkeep: []
 upkeep-chance: 0.001
 output:
 - PUMPKIN.14
