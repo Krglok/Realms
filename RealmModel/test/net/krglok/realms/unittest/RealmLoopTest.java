@@ -254,7 +254,7 @@ public class RealmLoopTest
 				config,
 				testData,
 				message);
-		String command = RealmsCommandType.MODEL.name();
+		String command = RealmsCommandType.REALMS.name();
 		String subCommand = "version";
 		RealmsCommand realmCommand = new CmdRealmsVersion();
 		

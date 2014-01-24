@@ -176,7 +176,7 @@ public class RealmModelTest
 				testData,
 				null);
 		
-		String command = RealmsCommandType.MODEL.name();
+		String command = RealmsCommandType.REALMS.name();
 		String subCommand = "version";
 		McmdEnable modelCommand = new McmdEnable(rModel);
 		

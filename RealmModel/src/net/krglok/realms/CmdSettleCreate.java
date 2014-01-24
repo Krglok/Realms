@@ -192,16 +192,17 @@ public class CmdSettleCreate extends RealmsCommand
 			return false;
 		}
 
-		if (sender.isOp() == false)
-		{
-			if (sender instanceof Player)
-			{
-				if (sender.hasPermission("") == false)
-				{
-					return false;
-				}
-			}
-		}
+//		if (sender.isOp() == false)
+//		{
+//			if (sender instanceof Player)
+//			{
+//				if (sender.hasPermission("") == false)
+//				{
+//					errorMsg.add("You have not the right permissions  ");
+//					return false;
+//				}
+//			}
+//		}
 		// fehlenden Parameter Name ersetzen
 		if (this.name == "")
 		{
@@ -215,32 +216,28 @@ public class CmdSettleCreate extends RealmsCommand
 				}
 			} else
 			{
+				errorMsg.add("name must be given as Console operator  ");
 				return false;
 			}
 		}
 		// pruefe ob bereits ein Settlement mit dem Namen vorhanden ist
 		if(plugin.getRealmModel().getSettlements().containsName(name))
 		{
+			errorMsg.add("Settlement already exist ! ");
 			return false;
 		}
 		
-		// pruefe ob Superegion gueltig bzw. vorhanden ist
+		// pruefe ob SupeRegion gueltig bzw. vorhanden ist
 		if (plugin.stronghold.getRegionManager().getSuperRegionNames().contains(name))
 		{
-			if (sender.isOp() == false)
-			{
-				// pruefe ob der Player der Owner ist
-				if (plugin.stronghold.getRegionManager().getSuperRegion(name).getOwners().isEmpty() == false)
-				{
-					isReady = sender.getName().equalsIgnoreCase(plugin.stronghold.getRegionManager().getSuperRegion(name).getOwners().get(0));
-				} else
-				{
-					isReady = true;
-				}
+			if (isSuperRegionOwner ( plugin, sender,  name ))
+			{	
+				isReady = true;
 			} else
 			{
-				isReady = true;
+				return false;
 			}
+			// pruefe settleType der SuperRegion und setze den internen wert
 			this.settleType = plugin.getConfigData().superRegionToSettleType((plugin.stronghold.getRegionManager().getSuperRegion(name).getType()));
 			if (settleType == SettleType.SETTLE_NONE)
 			{

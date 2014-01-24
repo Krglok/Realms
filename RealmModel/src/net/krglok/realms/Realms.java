@@ -7,11 +7,17 @@ import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.data.*;
 import net.krglok.realms.model.RealmModel;
+import net.milkbowl.vault.Vault;
+import net.milkbowl.vault.VaultEco.VaultAccount;
+import net.milkbowl.vault.economy.Economy;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -45,6 +51,8 @@ public final class Realms extends JavaPlugin
 	private final Update update = new Update();
 
     public HeroStronghold stronghold = null;
+//    public Vault vault = null;
+    public static Economy economy = null;
     
     
 	
@@ -70,6 +78,20 @@ public final class Realms extends JavaPlugin
         } else {
             log.warning("[Realms] didnt find HeroStronghold.");
             log.info("[Realms] please install the plugin HerStronghold .");
+            log.info("[Realms] will NOT be Enabled");
+            this.setEnabled(false);
+            return;
+        }
+        Plugin vaultPlugin = pm.getPlugin("Vault");
+        if (vaultPlugin != null) {
+            log.info("[Realms] found Vault Economy !");
+            RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+            if (economyProvider != null) {
+                economy = economyProvider.getProvider();
+            }
+        } else {
+            log.warning("[Realms] didnt find Vault.");
+            log.info("[Realms] please install the plugin Vault .");
             log.info("[Realms] will NOT be Enabled");
             this.setEnabled(false);
             return;

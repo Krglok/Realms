@@ -135,16 +135,6 @@ public class CmdSettleAddBuilding extends RealmsCommand
 		{
 			return true;
 		}
-		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(this.settleId);
-		if (settle.getOwner() == "")
-		{
-			return true;
-		}
-		if (sender.getName().equalsIgnoreCase(settle.getOwner()) == false)
-		{
-			errorMsg.add("You are NOT the owner of the Settlement !");
-			return false;
-		}
-		return true;
+		return isSettleOwner(plugin, sender, settleId);
 	}
 }

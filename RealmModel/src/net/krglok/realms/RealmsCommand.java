@@ -2,10 +2,14 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.model.ModelStatus;
 
 
 public abstract class RealmsCommand implements iRealmsCommand
@@ -100,6 +104,127 @@ public abstract class RealmsCommand implements iRealmsCommand
 	public void addErrorMsg (String s)
 	{
 		this.errorMsg.add(s);
+	}
+
+	public boolean isOpOrAdmin(CommandSender sender)
+	{
+		if (sender.isOp() == false)
+		{
+			errorMsg.add("Only for Ops and Admins !  ");
+			return false;
+		}
+		if (sender instanceof Player)
+		{
+			if (sender.hasPermission(RealmsPermission.ADMIN.getValue()) == false)
+			{
+				errorMsg.add("You are not an Admins !  ");
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean existSettlement (Realms plugin, int settleID)
+	{
+		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
+		{
+			if (plugin.getRealmModel().getSettlements().getSettlement(settleID) != null)
+			{
+				return true;
+			}
+			errorMsg.add("Settlement not found !!!");
+			errorMsg.add("The ID is wrong or not a number ?");
+			return false;
+		}
+		errorMsg.add("[Realm Model] NOT enabled or too busy");
+		errorMsg.add("Try later again");
+		return false;
+
+	}
+	
+	public boolean isSuperRegionOwner (Realms plugin,CommandSender sender, String name )
+	{
+		// pruefe ob Superegion gueltig bzw. vorhanden ist
+		if (plugin.stronghold.getRegionManager().getSuperRegionNames().contains(name))
+		{
+			if (sender.isOp() == false)
+			{
+				// pruefe ob der Player der Owner ist
+				if (plugin.stronghold.getRegionManager().getSuperRegion(name).getOwners().isEmpty() == false)
+				{
+					if( sender.getName().equalsIgnoreCase(plugin.stronghold.getRegionManager().getSuperRegion(name).getOwners().get(0)) == false)
+					{
+						return false;
+					}
+				}
+			}
+			SettleType settleType = plugin.getConfigData().superRegionToSettleType((plugin.stronghold.getRegionManager().getSuperRegion(name).getType()));
+			if (settleType == SettleType.SETTLE_NONE)
+			{
+				return false;
+			}
+		}
+		return true;
+		
+	}
+	
+	public boolean isSettleOwner(Realms plugin, CommandSender sender, int settleID)
+	{
+		if (isOpOrAdmin(sender))
+		{
+			return true;
+		}
+		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
+		if (settle.getOwner() == "")
+		{
+			return true;
+		}
+		if (sender.getName().equalsIgnoreCase(settle.getOwner()) == false)
+		{
+			errorMsg.add("You are NOT the owner of the Settlement !");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean hasItem( CommandSender sender, String itemRef, int amount)
+	{
+		if ((sender instanceof Player) == false)
+		{
+			errorMsg.add("You are NOT a Player !");
+			return false;
+		}
+		Player player = (Player) sender;
+		
+		if (player.getInventory().contains(Material.getMaterial(itemRef), amount) == false)
+		{
+			errorMsg.add("You have NOT enough items !");
+			return false;
+		}
+		return false;
+	}
+
+	public boolean hasMoney(Realms plugin, CommandSender sender,  double amount)
+	{
+		if ((sender instanceof Player) == false)
+		{
+			errorMsg.add("You are NOT a Player !");
+			return false;
+		}
+		if (Realms.economy != null)
+		{
+			errorMsg.add("NO economy is installed !");
+			return false;
+		}
+		Player player = (Player) sender;
+		
+		if (Realms.economy.has(player.getName(),  amount) == false)
+		{
+			errorMsg.add("You have NOT enough money !");
+			return false;
+		}
+		return false;
 	}
 
 }

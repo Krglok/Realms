@@ -4,12 +4,11 @@ public enum RealmsCommandType
 {
 
 	NONE ,
-	MODEL,
 	KINGDOM ,
 	SETTLE ,
 	OWNER,
-	REALMS,
-	STRONGHOLD;
+	REALMS
+	;
 	
 //	 RealmCommandType() 
 //	{

@@ -21,7 +21,7 @@ public class CmdSettleInfo extends RealmsCommand
 		    	"/settle INFO [SettleID] [page] ",
 				"Show Infomation about the Settlement ",
 		    	"and show the analysis report ",
-		    	"  ",
+		    	"  "
 		};
 		requiredArgs = 1;
 		this.settleID = 0;
@@ -111,7 +111,7 @@ public class CmdSettleInfo extends RealmsCommand
 	{
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
-			if (plugin.getRealmModel().getSettlements().getSettlement(settleID) != null)
+			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
 				return true;
 			}

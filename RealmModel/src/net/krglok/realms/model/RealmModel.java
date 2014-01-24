@@ -181,6 +181,7 @@ public class RealmModel
 	{
 		return settlements;
 	}
+	
 
 	/**
 	 * replace SettlementList

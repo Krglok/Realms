@@ -117,7 +117,16 @@ public class SettlementList
 		
 		return false;
 	}
-	
+
+	public boolean containsID(int settleID)
+	{
+		if (getSettlement(settleID) != null)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	
 	public Settlement findName(String settleName)
 	{
