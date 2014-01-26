@@ -3,9 +3,6 @@ package net.krglok.productionrules;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-
 
 public class ProductionEngine
 {

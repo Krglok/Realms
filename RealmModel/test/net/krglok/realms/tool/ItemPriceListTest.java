@@ -149,6 +149,7 @@ public class ItemPriceListTest
     }
 	
 	
+	@SuppressWarnings("unused")
 	private RegionConfig getRegionConfig(String pathName, String sRegionFile)
 	{
         try {

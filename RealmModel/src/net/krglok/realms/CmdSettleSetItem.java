@@ -1,8 +1,11 @@
 package net.krglok.realms;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,11 +21,10 @@ public class CmdSettleSetItem extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.SETITEM);
 		description = new String[] {
-		    	"/settle SETITEM [SettleID] [item] [amount] ",
+				ChatColor.YELLOW+"/settle SETITEM [SettleID] [item] [amount] ",
 				"Set the amount of item into the warehouse ",
-		    	"of Settlement <ID> ",
+		    	"of the Settlement  ",
 		    	"The amount must available in your inventory ! ",
-		    	" ",
 		    	"  "
 		};
 		requiredArgs = 3;
@@ -83,6 +85,7 @@ public class CmdSettleSetItem extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
+    	ArrayList<String> msg = new ArrayList<String>();
 		// remove item / amount from player inventory
 		Player player = (Player) sender;
 		ItemStack item = new ItemStack(Material.getMaterial(itemRef), amount);
@@ -90,6 +93,9 @@ public class CmdSettleSetItem extends RealmsCommand
 		// set itemRef / amount in warehopuse
 		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
 		plugin.getRealmModel().OnCommand(cmd);
+    	msg.add(ChatColor.YELLOW+"Set Item: "+ChatColor.GREEN+itemRef+":"+amount);
+//		msg.addAll(getDescriptionString());
+		plugin.getMessageData().printPage(sender, msg, 1);
 
 	}
 

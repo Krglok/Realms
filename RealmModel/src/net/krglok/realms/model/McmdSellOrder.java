@@ -54,8 +54,8 @@ public class McmdSellOrder implements iModelCommand
 			delayDays = 1;
 		}
 		long maxTicks = ConfigBasis.GameDay * delayDays;
-		TradeOrder sellOrder = new TradeOrder(id , TradeType.SELL, itemRef, amount, price, maxTicks, 0L, TradeStatus.STARTED, "", 0);
-		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settleId, sellOrder);
+		TradeOrder sellOrder = new TradeOrder(id , TradeType.SELL, itemRef, amount, price, maxTicks, 0L, TradeStatus.STARTED, settle.getPosition().getWorld(), 0);
+		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, sellOrder);
 	}
 
 	@Override

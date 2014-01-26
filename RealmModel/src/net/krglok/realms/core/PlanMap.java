@@ -3,7 +3,6 @@ package net.krglok.realms.core;
 import java.io.File;
 import java.util.Map;
 
-import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;

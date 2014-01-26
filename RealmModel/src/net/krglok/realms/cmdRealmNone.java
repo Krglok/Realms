@@ -15,12 +15,13 @@ public class CmdRealmNone extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS ,  RealmsSubCommandType.NONE);
 		description = new String[] {
-				"Subcommand not found , use /realms help ",
-		    	"/realms  only for ops to control plugin & model",
-		    	"/owner only for ops for managing owners",
-		    	"/kingdom  player command for kingdom management",
-		    	"/settle player command for settlement management",
-		    	"/stronghold plyer command for Stronghold Data"
+				ChatColor.RED+"command not found , use one of the following ",
+				ChatColor.YELLOW+"/realms  HELP [page] {String} ",
+				ChatColor.GREEN+"/realms  only for ops to control plugin & model",
+				ChatColor.GREEN+"/owner only for ops for managing owners",
+				ChatColor.GREEN+"/kingdom  player command for kingdom management",
+				ChatColor.GREEN+"/settle,  player command for settlements management",
+		    	" "
 		};
 		requiredArgs = 0;
 	}
@@ -36,7 +37,7 @@ public class CmdRealmNone extends RealmsCommand
 	{
     	ArrayList<String> msg = new ArrayList<String>();
     	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
-    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
+    	msg.add(ChatColor.YELLOW+"Status: "+"["+plugin.getRealmModel().getModelStatus()+"]");
 		msg.addAll(getDescriptionString());
 		plugin.getMessageData().printPage(sender, msg, 1);
 		

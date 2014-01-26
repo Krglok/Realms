@@ -1,24 +1,15 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.PlanMap;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemorySection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
 public class SettlePlanTest
 {
 
 
+	@SuppressWarnings("unused")
 	private String setStoreString(byte[] planRow)
 	{
 		char[] charRow = new char[planRow.length];

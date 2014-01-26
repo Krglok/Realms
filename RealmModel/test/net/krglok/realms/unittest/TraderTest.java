@@ -10,6 +10,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.TradeMarket;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
@@ -22,10 +23,6 @@ import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
 
 import org.junit.Test;
-
-import com.avaje.ebean.Transaction;
-
-import sun.awt.geom.AreaOp.AddOp;
 
 public class TraderTest
 {
@@ -111,10 +108,18 @@ public class TraderTest
 		ServerTest server = new ServerTest();
 		Settlement sender = createSettlement();
 		Settlement target = createSettlement();
+		sender.setId(0);
+		target.setId(1);
 		target.getBank().depositKonto(10000.0, "Admin");
 //		target.doProduce(server);
 //		sender.doProduce(server);
 		sender.getBank().depositKonto(10000.0, "Admin");
+		
+		SettlementList setteList = new SettlementList(0);
+		setteList.addSettlement(sender);
+		setteList.addSettlement(target);
+		sender.setPosition(new LocationData("SteamHaven", -469.51819223615206, 72, -1236.6592548015324));
+		target.setPosition(new LocationData("SteamHaven", -1215.6704984377348, 103, -3210.300000011921));
 		
 		TradeOrder sellOrder = new TradeOrder(sender.getId(), TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
 		TradeOrder buyOrder = new TradeOrder(target.getId(), TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
@@ -129,16 +134,20 @@ public class TraderTest
 		
 		TradeTransport tpo = new TradeTransport();
 		TradeMarket tm = new TradeMarket();
+		System.out.println("Sender  : "+sender.getId());
+		System.out.println("Target  : "+target.getId());
 		System.out.println("Sender Bank : "+sender.getBank().getKonto());
 		System.out.println("Target Bank : "+target.getBank().getKonto());
-
-		sender.getTrader().makeSellOrder(tm, sender.getId(), sellOrder);
+		System.out.println("Distance    : "+ (int)sender.getPosition().distance(setteList.getSettlement(1).getPosition()));
+		System.out.println("Delay(ticks): "+ target.getTrader().getTransportDelay(sender.getPosition().distance((setteList.getSettlement(1).getPosition()))));
+//		System.out.println((settlements.getSettlement(tmo.getSettleID()).getPosition());
+		sender.getTrader().makeSellOrder(tm, sender, sellOrder);
 
 		TradeStatus expected = TradeStatus.FULFILL;
 		TradeStatus actual = TradeStatus.NONE;
 		
 		
-		target.getTrader().checkMarket(tm, tpo, target);
+		target.getTrader().checkMarket(tm, tpo, target, setteList);
 
 		for (int i = 0; i < 1205; i++)
 		{

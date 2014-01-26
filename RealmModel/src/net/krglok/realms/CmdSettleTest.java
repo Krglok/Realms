@@ -11,6 +11,7 @@ import net.minecraft.server.v1_7_R1.BlockBed;
 import net.minecraft.server.v1_7_R1.BlockDoor;
 import net.minecraft.server.v1_7_R1.BlockSign;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,10 +37,13 @@ public class CmdSettleTest extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.TEST);
 		description = new String[] {
-				"command not found this will help you ",
-		    	"/settle CHECK [SuperRegionName] ",
-		    	"/setlle CREATE [SuperRegionName]  ",
-		    	"/settle  "
+				ChatColor.YELLOW+"/settle TEST [x] [Y] [Z] ",
+		    	"Build a new Building HOME  ",
+		    	" Size = 7 x 7 , height Offset -1 ", 
+		    	" X = East/West ",
+		    	" Y = Height",
+		    	" Z = Nortz/South",
+		    	" "
 			};
 			requiredArgs = 3;
 			position = new LocationData("", 0.0, 0.0, 0.0);

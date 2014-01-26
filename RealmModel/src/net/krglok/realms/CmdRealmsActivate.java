@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class CmdRealmsActivate extends RealmsCommand
@@ -14,7 +15,7 @@ public class CmdRealmsActivate extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.ACTIVATE);
 		description = new String[] {
-		    	"/realms ACTIVATE ",
+				ChatColor.YELLOW+"/realms ACTIVATE ",
 		    	"Set the RealmsModel to Enable and make initialization.  ",
 		    	"Only when enabled, the Settlement produce  ",
 		    	"Only when enabled commands are accepted  ",
@@ -90,7 +91,7 @@ public class CmdRealmsActivate extends RealmsCommand
 		{
 			return true;
 		}
-		errorMsg.add("The Model is Enabled !  ");
+		errorMsg.add("The Model is always Enabled !  ");
 		return false;
 	}
 

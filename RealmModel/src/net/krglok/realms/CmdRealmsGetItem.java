@@ -3,6 +3,7 @@ package net.krglok.realms;
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
@@ -16,11 +17,10 @@ public class CmdRealmsGetItem extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.GETITEM);
 		description = new String[] {
-		    	"/realms GETITEM [SettleID] [item] [amount] ",
+				ChatColor.YELLOW+"/realms GETITEM [SettleID] [item] [amount] ",
 				"Get the amount of item from the warehouse ",
 		    	"of Settlement <ID> ",
 		    	"This is an Admin & OP command ",
-		    	" ",
 		    	"  "
 		};
 		requiredArgs = 3;

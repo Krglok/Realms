@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 
 public class MessageData implements MessageInterface
 {
+	private static final int LINE_LENGTH = 54;
 	private Logger log;
 	
 	public MessageData(Logger logger)
@@ -60,7 +61,7 @@ public class MessageData implements MessageInterface
 	 * prepare output page for chat
 	 * first line always repeated on each page, insert color FIRST_LINE_COLOUR
 	 * a page contains 17 content lines  + 2 lines for header
-	 * cut line length to 50 characters
+	 * cut line length to LINE_LENGTH characters
 	 * @param msg
 	 * @return
 	 */
@@ -72,9 +73,9 @@ public class MessageData implements MessageInterface
 			return pages;
 		}
 		String header =  msg.get(0);
-		if (header.length() > 50)
+		if (header.length() > LINE_LENGTH)
 		{
-			header = String.copyValueOf(header.toCharArray(), 1, 50);
+			header = String.copyValueOf(header.toCharArray(), 0, LINE_LENGTH);
 		}
 		int pageMax = ((msg.size()-1)/MessageText.pageLines)+1;
 		int pageNr = 1;
@@ -85,16 +86,16 @@ public class MessageData implements MessageInterface
 		{
 
 			// add header to page
-			if (lineCount == 0)
+			if ((lineCount == 0) && (pageNr == 1))
 			{
 				pageLine.add(MessageText.FIRST_LINE_COLOUR+MessageText.FIRST_LINE+" ["+pageNr+"/"+pageMax+"]");
 				pageLine.add(header);
 			}
 			lineCount++;
 			String sLine = msg.get(i);
-			if (sLine.length() > 50)
+			if (sLine.length() > LINE_LENGTH)
 			{
-				sLine = String.copyValueOf(sLine.toCharArray(), 1, 50);
+				sLine = String.copyValueOf(sLine.toCharArray(), 0, LINE_LENGTH);
 			}
 			pageLine.add(sLine);
 			if (lineCount == MessageText.pageLines)

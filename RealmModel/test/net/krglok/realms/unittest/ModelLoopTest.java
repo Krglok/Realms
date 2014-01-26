@@ -1,14 +1,11 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.CommandArg;
-import net.krglok.realms.RealmsSubCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
@@ -17,11 +14,11 @@ import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
 
-import org.bukkit.command.CommandSender;
 import org.junit.Test;
 
 public class ModelLoopTest
 {
+	@SuppressWarnings("unused")
 	private Boolean isOutput = false; // set this to false to suppress println
 	private ServerTest server = new ServerTest();
 	private DataTest testData = new DataTest();
@@ -67,190 +64,7 @@ public class ModelLoopTest
 		return this.rModel;
 	}
 	
-	@SuppressWarnings("static-access")
-	private boolean cmdSet( CommandArg commandArg)
-	{
-//		msg.add("/model set [AUTO] [true/false] ");
-//		msg.add("/model set [COUNTER] [20-24000] ");
-		ArrayList<String> msg = new ArrayList<String>();
-		int page = 1;
-		if (commandArg.size() < 2)
-		{
-			getMessageData().errorArgs(  RealmsSubCommandType.SET);
-			return true;
-		}
 
-		String bName = commandArg.get(0);
-		switch (bName)
-		{
-		case "counter" :
-			int iValue = CommandArg.argToInt(commandArg.get(1));
-			msg.add("Model SET Production Counter to [ "+iValue+" ]");
-			break;
-		case "auto":
-			boolean bValue = CommandArg.argToBool(commandArg.get(1));
-			msg.add("Model SET auto production to [ "+bValue+" ]");
-			msg.add("Production Cycles with  [30]");
-			msg.add("Tax Cycles with  [1]");
-			break;
-		default :
-			getMessageData().errorArgWrong(  RealmsSubCommandType.SET);
-			return true;
-		}
-		msg.add("");
-		msg.add("");
-		
-		getMessageData().printPage(  msg, page);
-		
-		return true;
-	}
-
-	private boolean cmdActivate( CommandArg commandArg)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-		getRealmModel().OnEnable();
-		if (getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
-		{
-			msg.add("[Realm Model] Enabled");
-			msg.add(getRealmModel().getModelName()+" Vers.: "+getRealmModel().getModelVersion());
-		} else
-		{
-			msg.add("[Realm Model] NOT Enabled");
-			msg.add("Something unknown is wrong :(");
-			getMessageData().log("[Realm Model] NOT Enabled. Something unknown is wrong :( ");
-		}
-		getMessageData().printPage(  msg, 1);
-		return true;
-	}
-
-	private boolean cmdDeactivate(  CommandArg commandArg)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-		getRealmModel().OnDisable();
-		if (getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
-		{
-			msg.add("[Realm Model] Disabled");
-			msg.add(getRealmModel().getModelName()+" Vers.: "+getRealmModel().getModelVersion());
-			msg.add("All Task are not executed !");
-		} else
-		{
-			msg.add("[Realm Model] NOT Disabled");
-			msg.add("Something unknown is wrong :(");
-			getMessageData().log("[Realm Model] NOT Disabled. Something unknown is wrong :( ");
-		}
-		getMessageData().printPage(  msg, 1);
-		return true;
-	}
-
-	private boolean cmdProduction(CommandArg commandArg)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-//		msg.add("/model production ");
-		if (getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
-		//  || (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED))
-		{
-			getRealmModel().OnProduction();
-			msg.add("[Realm Model] Production");
-			for (Settlement settle : getRealmModel().getSettlements().getSettlements().values())
-			{
-				msg.add(settle.getId()+" : "+settle.getName());
-				msg.add("Storage  : "+settle.getWarehouse().getItemMax());
-				msg.add("Capacity : "+settle.getResident().getSettlerMax());
-				msg.add("Settlers : "+settle.getResident().getSettlerCount());
-				msg.add("Workers  : "+settle.getTownhall().getWorkerCount());
-				msg.add("Happiness: "+settle.getResident().getHappiness());
-				msg.add("Fertility: "+settle.getResident().getFertilityCounter());
-				msg.add("Deathrate: "+settle.getResident().getDeathrate());
-				msg.add("Required Items "+settle.getRequiredProduction().size());
-				for (String itemRef : settle.getRequiredProduction().keySet())
-				{
-					Item item = settle.getRequiredProduction().getItem(itemRef);
-					msg.add(item.ItemRef()+" : "+item.value());
-				}
-			}
-		} else
-		{
-			msg.add("[Realm Model] NOT enabled or too busy");
-			msg.add("Try later again");
-		}
-		getMessageData().printPage(  msg, 1);
-		return true;
-	}
-	
-
-	
-	private boolean cmdInfo(RealmsSubCommandType subCommand, CommandArg commandArg)
-	{
-		// /settle info {page} {ID}
-		ArrayList<String> msg = new ArrayList<String>();
-		int page = 1;
-		int id = 0;
-		if (commandArg.size() < 1)
-		{
-			getMessageData().errorArgs(  subCommand);
-			return true;
-		}
-		if (commandArg.size()>1)
-		{
-			page = CommandArg.argToInt(commandArg.get(0));
-			id = CommandArg.argToInt(commandArg.get(1));
-		} else
-		{
-			page = CommandArg.argToInt(commandArg.get(0));
-		}
-		
-		if (getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
-		{
-			if (id == 0)
-			{
-				for (Settlement settle : getRealmModel().getSettlements().getSettlements().values())
-				{
-					msg.add("Settlement Info "+settle.getId()+" : "+settle.getName());
-					msg.add("Storage  : "+settle.getWarehouse().getItemMax());
-					msg.add("Residence: "+settle.getResident().getSettlerMax());
-					msg.add("Settlers : "+settle.getResident().getSettlerCount());
-					msg.add("Needed   : "+settle.getTownhall().getWorkerNeeded());
-					msg.add("Workers  : "+settle.getTownhall().getWorkerCount());
-					msg.add("Building : "+settle.getBuildingList().size());
-					msg.add("Bank     : "+((int) settle.getBank().getKonto()));
-					msg.add("Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
-					msg.add("Required Items "+settle.getRequiredProduction().size());
-					msg.add("====================== ");
-				}
-			} else
-			{
-				Settlement settle = getRealmModel().getSettlements().getSettlement(id);
-				if (settle != null)
-				{
-					msg.add("Settlement Info "+settle.getId()+" : "+settle.getName());
-					msg.add("Residence : "+settle.getResident().getSettlerMax());
-					msg.add("Settlers  : "+settle.getResident().getSettlerCount());
-					msg.add("Needed    : "+settle.getTownhall().getWorkerNeeded());
-					msg.add("Workers   : "+settle.getTownhall().getWorkerCount());
-					msg.add("Happiness : "+settle.getResident().getHappiness());
-					msg.add("Fertility : "+settle.getResident().getFertilityCounter());
-					msg.add("Deathrate : "+settle.getResident().getDeathrate());
-					msg.add("Bank      : "+((int) settle.getBank().getKonto()));
-					msg.add("Storage   : "+settle.getWarehouse().getItemMax());
-					msg.add("Building  : "+settle.getBuildingList().size());
-					msg.add("Food      : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
-					msg.add("====================== ");
-					msg.add("Required Items : "+settle.getRequiredProduction().size());
-					for (String itemRef : settle.getRequiredProduction().keySet())
-					{
-						Item item = settle.getRequiredProduction().getItem(itemRef);
-						msg.add(" -"+item.ItemRef()+" : "+item.value());
-					}
-				}
-			}
-		} else
-		{
-			msg.add("[Realm Model] NOT enabled or too busy");
-			msg.add("Try later again");
-		}
-		getMessageData().printPage(  msg, page);
-		return true;
-	}
 	
 	/**
 	 * maximal 6 settlement werden verarbeitet !!
@@ -511,16 +325,6 @@ public class ModelLoopTest
 		}
 	}
 	
-	private void cmdSettleInfo(String SettleId)
-	{
-		CommandArg commandArg = new CommandArg();
-		commandArg.add(SettleId);
-		commandArg.add(SettleId);
-		RealmsSubCommandType subCommand = RealmsSubCommandType.INFO;
-		
-		cmdInfo(subCommand , commandArg);
-		
-	}
 	
 	@Test
 	public void test()
@@ -577,7 +381,6 @@ public class ModelLoopTest
 		rounds = 150;
 		for(int i=0; i<rounds+1; i++) makeProductionTick();
 		
-		cmdSettleInfo("1");
 		showResult();
 		
 		Boolean expected = true; 

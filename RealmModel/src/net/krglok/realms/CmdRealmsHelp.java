@@ -9,39 +9,33 @@ import org.bukkit.command.CommandSender;
 
 public class CmdRealmsHelp extends RealmsCommand
 {
-
 	private int page;
+	private String search ;
 	
 	public CmdRealmsHelp()
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.HELP);
 		description = new String[] {
-			"command not found this will help you ",
-	    	"/realms PRICE [item], show the production price",
-	    	"/realms PRICELIST {page}, show the pricelist  ",
-	    	"/realms PRICE [item] [#.#], set the price  ",
-	    	"/realms WRITE [#], write the settlement to file ",
-	    	"/realms READ [#], read the the settlement from file ",
-	    	"/realms DEBUG[true/false], set/unset Debug Mode ",
-	    	"/realms ACTIV , activate the Model and make init ",
-	    	"/realms DEACTIV , deactivate the model ",
-	    	"/realms SET AUTO [true/false], start/stop tick processing",
-	    	"/realms SET COUNTER [#] , set the production Counter ",
-	    	"/realms LIST BUILDING, list the Stronghold Regions ",
-	    	"/realms LIST SETTLE, list the Stronghold Superegions ",
-	    	"/realms LIST  ",
-	    	"/realms LIST  ",
-	    	"/realms LIST  ",
-	    	"/realms LIST  ",
-	    	"/realms LIST  "
+			ChatColor.YELLOW+"/realms HELP [page] {WORD} ",
+			ChatColor.GREEN+"  ",
 		};
 		requiredArgs = 0;
+		page = 1;
+		search = "";
 	}
 	
 	
 	@Override
 	public void setPara(int index, String value)
 	{
+		switch (index)
+		{
+		case 1 :
+				search = value;
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -73,19 +67,19 @@ public class CmdRealmsHelp extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName() };
+		return new String[] {int.class.getName(), String.class.getName()  };
 	}
 
+	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+ConfigBasis.setStrleft(ConfigBasis.LINE,30));
-    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
-    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
-		msg.addAll(getDescriptionString());
+    	msg = makeHelpPage(plugin.getCommandRealms().cmdList, msg, search);
 		plugin.getMessageData().printPage(sender, msg, page);
-
+		helpPage = "";
+		page = 1;
+		msg.clear();
 	}
 
 	@Override

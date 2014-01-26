@@ -16,10 +16,8 @@ public class CmdSettleHelp extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.HELP);
 		description = new String[] {
-				"command not found this will help you ",
-		    	"/settle CHECK [SuperRegionName] ",
-		    	"/setlle CREATE [SuperRegionName]  ",
-		    	"/settle  "
+				ChatColor.YELLOW+"/settle HELP [page] {WORD} ",
+		    	" "
 			};
 			requiredArgs = 0;
 			page = 1;
@@ -28,6 +26,14 @@ public class CmdSettleHelp extends RealmsCommand
 	@Override
 	public void setPara(int index, String value)
 	{
+		switch (index)
+		{
+		case 1 :
+				this.helpPage = value;
+			break;
+		default:
+			break;
+		}
 
 	}
 
@@ -60,26 +66,26 @@ public class CmdSettleHelp extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] { int.class.getName() };
+		return new String[] { int.class.getName(), String.class.getName() };
 	}
 
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+ConfigBasis.setStrleft(ConfigBasis.LINE,30));
-    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
-    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
-		msg.addAll(getDescriptionString());
+    	msg = makeHelpPage(plugin.getCommandRealms().cmdList, msg, this.helpPage);
+
 		plugin.getMessageData().printPage(sender, msg, page);
+		helpPage = "";
+		page = 1;
+		msg.clear();
 
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

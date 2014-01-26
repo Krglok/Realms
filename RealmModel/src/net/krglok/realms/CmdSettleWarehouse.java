@@ -18,7 +18,7 @@ public class CmdSettleWarehouse extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.WAREHOUSE);
 		description = new String[] {
-				"/settle WAREHOUSE [SettleID] [page] ",
+				ChatColor.YELLOW+"/settle WAREHOUSE [SettleID] [page] ",
 		    	"List all Items in the Warehouse ",
 		    	"  "
 			};

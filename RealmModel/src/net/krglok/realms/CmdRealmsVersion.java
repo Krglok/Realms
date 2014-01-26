@@ -14,7 +14,8 @@ public class CmdRealmsVersion extends RealmsCommand implements iRealmsCommand
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.VERSION);
 		description = new String[] {
-		"Show the plugin and model Version",		
+			ChatColor.YELLOW+"/realms VERSION ",
+			"Show the plugin and model Version",		
 		" "
 		};
 		requiredArgs = 0;
@@ -34,10 +35,8 @@ public class CmdRealmsVersion extends RealmsCommand implements iRealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+ConfigBasis.setStrleft("=============================== ",30));
     	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
-    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+" ");
-		
+    	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+"["+plugin.getRealmModel().getModelStatus()+"]");
 	}
 
 

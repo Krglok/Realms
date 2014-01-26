@@ -1,7 +1,5 @@
 package net.krglok.realms.data;
 
-import java.awt.geom.CubicCurve2D;
-
 import net.krglok.realms.core.BuildingType;
 
 import org.bukkit.Material;

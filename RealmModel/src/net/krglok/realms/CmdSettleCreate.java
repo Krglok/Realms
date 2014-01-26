@@ -12,6 +12,7 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,11 +26,11 @@ public class CmdSettleCreate extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.CREATE);
 		description = new String[] {
-		    	"/settle CREATE [SuperRegionName] ",
+				ChatColor.YELLOW+"/settle CREATE [SuperRegionName] ",
 				"Create a Settlement from the supereregion <NAME> ",
 				"You must be the Owner or an OP",
 		    	"show a status report ",
-		    	"  ",
+		    	"  "
 		};
 		requiredArgs = 1;
 		this.name = "";

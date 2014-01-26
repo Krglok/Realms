@@ -103,6 +103,7 @@ public class StrongholdTools
     }
 	
 	
+	@SuppressWarnings("unused")
 	public static RegionConfig getRegionConfig(String pathName, String sRegionFile)
 	{
         try {

@@ -43,7 +43,8 @@ public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
 	private static final String REALM_MODEL_VER = "0.4.0";
-
+	private static int garbageCounterLimit = 57;
+	
 	private ModelStatus modelStatus;
 	private ServerInterface server;
 	private ConfigInterface config;
@@ -65,6 +66,7 @@ public class RealmModel
 	private TradeMarket tradeMarket = new TradeMarket();
 	
 	private boolean isInit = false;
+	private int garbageCounter;
 	
 	/**
 	 * instances an empty Model , must be initialize external !
@@ -96,6 +98,7 @@ public class RealmModel
 		this.config = config;
 		this.data   = data;
 		this.messageData = messageData;
+		this.garbageCounter = 0;
 	}
 
 	/**
@@ -218,6 +221,11 @@ public class RealmModel
 		return tradeMarket;
 	}
 
+	public TradeTransport getTradeTransport()
+	{
+		return tradeTransport;
+	}
+
 	public void OnEnable()
 	{
 		switch (modelStatus)
@@ -263,6 +271,7 @@ public class RealmModel
 
 	public void OnCommand(iModelCommand command)
 	{
+//		System.out.println("OnCommand : "+modelStatus);
 		switch (modelStatus)
 		{
 		case MODEL_ENABLED :
@@ -347,6 +356,7 @@ public class RealmModel
 
 	public void OnTrade()
 	{
+		System.out.println("OnTrade : "+modelStatus);
 		switch (modelStatus)
 		{
 		case MODEL_ENABLED :
@@ -387,6 +397,7 @@ public class RealmModel
 	{
 		try
 		{
+//			System.out.println("OnTick : "+modelStatus);
 			// make timer run for trade  every tick 
 			// check transportqueues for fullfill 
 			tradeTransport.runTick();
@@ -395,6 +406,7 @@ public class RealmModel
 			switch (modelStatus)
 			{
 			case MODEL_ENABLED :
+				garbageCounter++;
 				// checkCommandQueue
 				if (commandQueue.isEmpty() == false)
 				{
@@ -407,7 +419,10 @@ public class RealmModel
 				{
 					modelStatus = nextTradeQueue();
 				}
-				else {
+				
+				if (garbageCounter >= garbageCounterLimit)
+				{
+					garbageCounter = 0;
 					messageData.log("Enabled Garbage Collector for TradeOrder");
 					doGarbageOrders();
 				}
@@ -453,7 +468,10 @@ public class RealmModel
 		} catch (Exception e)
 		{
 			messageData.log("[Realms] exception "+ e.getMessage());
+			messageData.log("[Realms] Model Disabled ! ");
 			System.out.println("[Realms] ERROR exception "+ e.getMessage());
+			e.printStackTrace(System.out);
+			System.out.println("[Realms] Model Disabled ! ");
 			modelStatus = ModelStatus.MODEL_DISABLED;
 		}
 		return;
@@ -503,7 +521,7 @@ public class RealmModel
 		}
 		Settlement settle = tradeQueue.get(0);
 
-		settle.getTrader().checkMarket(tradeMarket, tradeTransport, settle);
+		settle.getTrader().checkMarket(tradeMarket, tradeTransport, settle, settlements);
 		tradeTransport.fullfillTarget(settle);
 		tradeTransport.fullfillSender(settle);
 		

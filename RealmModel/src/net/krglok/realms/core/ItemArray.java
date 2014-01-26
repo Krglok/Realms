@@ -34,6 +34,7 @@ public class ItemArray extends ArrayList<Item>
 		return new Item("",0);
 	}
 	
+	@SuppressWarnings("unused")
 	public void putItem(String itemRef, int iValue)
 	{
 		for (int i = 0; i < this.size(); i++)
@@ -47,6 +48,7 @@ public class ItemArray extends ArrayList<Item>
 		addItem( itemRef,  iValue);
 	}
 
+	@SuppressWarnings("unused")
 	public void setItem(String itemRef, int iValue)
 	{
 		for (int i = 0; i < this.size(); i++)

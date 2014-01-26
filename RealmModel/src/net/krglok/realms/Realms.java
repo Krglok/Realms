@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.*;
 import net.krglok.realms.model.RealmModel;
 import net.milkbowl.vault.Vault;
@@ -30,10 +31,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Realms extends JavaPlugin
 {
 	private Logger log = Logger.getLogger("Minecraft"); 
-	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
-	private final CommandModel commandModel  = new CommandModel(this);
-	private final CommandStronghold commandStronghold = new CommandStronghold(this);
-	private final CommandSettle commandSettle = new CommandSettle(this);
+//	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
+//	private final CommandModel commandModel  = new CommandModel(this);
+//	private final CommandStronghold commandStronghold = new CommandStronghold(this);
+//	private final CommandSettle commandSettle = new CommandSettle(this);
 	private final CommandRealms commandRealms = new CommandRealms(this);
 
 	private ConfigData config; // = new ConfigData(this);
@@ -59,6 +60,12 @@ public final class Realms extends JavaPlugin
 	@Override
 	public void onDisable()
 	{
+		// Store Settlements
+        log.info("[Realms] Save Settlements .");
+		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
+		{
+			data.writeSettlement(settle);
+		}
 //		log = Logger.getLogger("Minecraft");
 		log.info("[Realms] is now disabled !");
 	}
@@ -120,11 +127,14 @@ public final class Realms extends JavaPlugin
         
         Date date = new Date();
         long timeUntilDay = (TaxTask.DAY_SECONDS + date.getTime() - System.currentTimeMillis()) / TaxTask.TICKTIME;
-//        TaxTask taxTask = new TaxTask(this);
-//        getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
+        TaxTask taxTask = new TaxTask(this);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
 
         if (isReady)
         {
+        	// Enables automatic production cycles 
+//        	TickTask.setProduction(true);
+        	// Initialize the Model 
         	realmModel.OnEnable();
     		log.info("[Realms] Model is now enabled !");
         } else
@@ -139,9 +149,6 @@ public final class Realms extends JavaPlugin
 	
 
 	/**
-	 * interpreter for all commands, start the detailed command execution in seperate
-	 * methods. Basic help for no SubCommand are handled in command parser.  
-	 * 
 	 *  @param sender is player , Operator or console
 	 *  @param command 
 	 *  @param label , the used alias of the command
@@ -151,22 +158,9 @@ public final class Realms extends JavaPlugin
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
     {
-    	switch (RealmsCommandType.getRealmCommandType(command.getName()))
-    	{
-    	case OWNER :
-    		cmdOwnerNone(sender);
-    		return true;
-    	case SETTLE :
-   			commandSettle.run(sender, args);
-    		return true;
-    	case KINGDOM :
-   			commandKingdom.run(sender, args);
-    		return true;
-    	case REALMS :
-		default:
-   			commandRealms.run(sender, args);
-			return true;
-    	}
+		// hanldes all commands and Subcommands 
+		commandRealms.run(sender, command, args);
+		return true;
     }
 
 
@@ -190,106 +184,27 @@ public final class Realms extends JavaPlugin
     		sender.sendMessage(line);
     	}
     }
-
-    /**
-     * explanation of Model Command
-     * @param sender
-     */
-    private void cmdModelNone(CommandSender sender)
-    {
-    	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+"== "+this.getName()+" Vers.: "+config.getVersion()+" ==============");
-    	msg.add(ChatColor.GREEN+"usage  : "+ChatColor.YELLOW+"[] = required  {} = optional ");
-    	msg.add(ChatColor.GREEN+"command: "+ChatColor.YELLOW+"/model [SubCommand] {parameter}");
-    	msg.add("The command managing the model and model configuration. ");
-    	msg.add("You must be op for using the command.");
-    	msg.add(ChatColor.GREEN+"/model help "+ChatColor.YELLOW+", show help text for command");
-    	for (String line:msg)
-    	{
-    		line = ChatColor.YELLOW+line;
-    		sender.sendMessage(line);
-    	}
-    }
-
-    /**
-     * explanation of owner command
-     * @param sender
-     */
-    private void cmdOwnerNone(CommandSender sender)
-    {
-    	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+"== "+this.getName()+" Vers.: "+config.getVersion()+" ==============");
-    	msg.add(ChatColor.GREEN+"usage  : "+ChatColor.YELLOW+"[] = required  {} = optional ");
-    	msg.add(ChatColor.GREEN+"command: "+ChatColor.YELLOW+"/owner [SubCommand] {parameter}");
-    	msg.add("The command managing the owner in the model. ");
-    	msg.add("You must be op for using the command.");
-    	msg.add(ChatColor.GREEN+"/owner help "+ChatColor.YELLOW+", show help text for command");
-    	for (String line:msg)
-    	{
-    		line = ChatColor.YELLOW+line;
-    		sender.sendMessage(line);
-    	}
-    }
-
-    /**
-     * explanation of settle command
-     * @param sender
-     */
-    private void cmdSettleNone(CommandSender sender)
-    {
-    	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+"== "+this.getName()+" Vers.: "+config.getVersion()+" ==============");
-    	msg.add(ChatColor.GREEN+"usage  : "+ChatColor.YELLOW+"[] = required  {} = optional ");
-    	msg.add(ChatColor.GREEN+"command: "+ChatColor.YELLOW+"/settle [SubCommand] {SettlementID} {parameter}");
-    	msg.add("The command managing the settlements. ");
-    	msg.add("You must be owner of the settlement.");
-    	msg.add("NPC settlements are managed only by ops.");
-    	msg.add(ChatColor.GREEN+"/settle help "+ChatColor.YELLOW+", show help text for command");
-    	for (String line:msg)
-    	{
-    		line = ChatColor.YELLOW+line;
-    		sender.sendMessage(line);
-    	}
-    }
-
-    private void cmdStrongholdNone(CommandSender sender)
-    {
-    	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+"== "+stronghold.getName()+" ==============");
-    	msg.add(ChatColor.GREEN+"usage  : "+ChatColor.YELLOW+"[] = required  {} = optional ");
-    	msg.add(ChatColor.GREEN+"command: "+ChatColor.YELLOW+"/stronghold [SubCommand] {parameter}");
-    	msg.add("The command show data from the HeroStronghold plugin. ");
-    	msg.add(" ");
-    	msg.add(" ");
-    	msg.add(ChatColor.GREEN+"/stronghold help "+ChatColor.YELLOW+", show help text for command");
-    	for (String line:msg)
-    	{
-    		line = ChatColor.YELLOW+line;
-    		sender.sendMessage(line);
-    	}
-    }
-    
     
     public ConfigData getConfigData()
     {
     	return config;
     }
 
-	/**
-	 * @return the commandRealm
-	 */
-	public CommandKingdom getCommandRealm()
-	{
-		return commandKingdom;
-	}
-
-	/**
-	 * @return the commandModel
-	 */
-	public CommandModel getCommandModel()
-	{
-		return commandModel;
-	}
+//	/**
+//	 * @return the commandRealm
+//	 */
+//	public CommandKingdom getCommandRealm()
+//	{
+//		return commandKingdom;
+//	}
+//
+//	/**
+//	 * @return the commandModel
+//	 */
+//	public CommandModel getCommandModel()
+//	{
+//		return commandModel;
+//	}
 
 	/**
 	 * @return the messageData
@@ -333,6 +248,11 @@ public final class Realms extends JavaPlugin
 	public TaxTask getTaxTask()
 	{
 		return taxTask;
+	}
+
+	public CommandRealms getCommandRealms()
+	{
+		return commandRealms;
 	}
 
 }

@@ -1,22 +1,10 @@
 package net.krglok.realms.unittest;
 
 
-import static org.junit.Assert.*;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Queue;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
 

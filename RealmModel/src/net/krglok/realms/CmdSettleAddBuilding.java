@@ -8,9 +8,8 @@ import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-
-import com.sun.media.sound.ModelStandardDirector;
 
 public class CmdSettleAddBuilding extends RealmsCommand
 {
@@ -21,7 +20,7 @@ public class CmdSettleAddBuilding extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.ADD);
 		description = new String[] {
-		    	"/settle ADD [SettleID] [RegionID] ",
+				ChatColor.YELLOW+"/settle ADD [SettleID] [RegionID] ",
 				"Add a region to a Settlement  ",
 				"You must NOT be the Owner of the region ! ",
 				"You must  be the Owner of the Settlement ! ",

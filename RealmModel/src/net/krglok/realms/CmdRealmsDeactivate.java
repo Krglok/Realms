@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class CmdRealmsDeactivate extends RealmsCommand
@@ -13,7 +14,7 @@ public class CmdRealmsDeactivate extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.DEACTIVATE);
 		description = new String[] {
-		    	"/realms DEACTIVATE ",
+				ChatColor.YELLOW+"/realms DEACTIVATE ",
 		    	"Set the RealmsModel to Disable, stop the RealmModel.  ",
 		    	"Only when enabled, the Realm Model is stoped  ",
 		    	"in any other status the RealmModel is busy  ",

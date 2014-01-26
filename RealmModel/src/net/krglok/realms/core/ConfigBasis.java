@@ -16,7 +16,9 @@ public class ConfigBasis implements ConfigInterface
 	public final static long dayNight = 24000 ; // serverTicks 
 	public final static long RealmTick = 20L; 
 	public final static long DelayTick = 20L; 
-	public  static long GameDay = ConfigBasis.dayNight / ConfigBasis.RealmTick;
+	public static long GameDay = 40; //ConfigBasis.dayNight / ConfigBasis.RealmTick;
+	
+	public static double DISTANCE_1_DAY = 1000.0;
 	
 	public static final String LINE = "=============================== ";
 

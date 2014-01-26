@@ -2,36 +2,44 @@ package net.krglok.realms;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.PlanMap;
+import net.minecraft.server.v1_7_R1.BlockSign;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.hamcrest.core.IsInstanceOf;
+import org.bukkit.inventory.ItemStack;
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
 
 public class CmdRealmsTest extends RealmsCommand
 {
 
-	private int sektor;
+	private int page;
 	
-	public CmdRealmsTest()
+	public CmdRealmsTest( )
 	{
-		super (RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
+		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
-				"help for you ",
-		    	"/realms TEST {page}   ",
-		    	" Make a 2D map of Settlement Region  ",
-		    	" Characters are used as Block Identifyer ",
-		    	" the Map is stored under the Settle Name "
+				ChatColor.YELLOW+"/realms TEST {page}   ",
+		    	" Make a analysis of sings in range of 10 blocks  ",
+		    	"  ",
+		    	"  ",
+		    	" "
 			};
 			requiredArgs = 1;
-		
 	}
 
 	@Override
 	public void setPara(int index, String value)
 	{
+		// TODO Auto-generated method stub
 
 	}
 
@@ -41,7 +49,7 @@ public class CmdRealmsTest extends RealmsCommand
 		switch (index)
 		{
 		case 0 :
-				sektor = value;
+				page = value;
 			break;
 		default:
 			break;
@@ -64,11 +72,9 @@ public class CmdRealmsTest extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName() };
+		return new String[] {int.class.getName()  };
 	}
 
-	
-	
 	private byte getBlockIdAt(Location pos)
 	{
 //		Location pos = new Location(plugin.getServer().getWorld(world), posX, posY, posZ);
@@ -86,86 +92,80 @@ public class CmdRealmsTest extends RealmsCommand
 		return  ConfigBasis.getBlockId(b); 
 	}
 	
+	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		String name = "NewHaven";
-		String worldName = "SteamHaven"; 
+		System.out.println("Look for Signs ");
 		String path = plugin.getDataFolder().getAbsolutePath();
 //		path = "D:\\Program Files\\BuckitTest\\plugins\\Realms";
-		SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(name);
-		if (sRegion == null)
+		int radius = 5;
+		int edge = radius * 2 -1;
+		Player player = (Player) sender;
+		Location pos = new Location(player.getLocation().getWorld(), player.getLocation().getX()-radius, player.getLocation().getY(), player.getLocation().getZ()-radius);
+		Location lookAt = new Location(player.getLocation().getWorld(),0.0, player.getLocation().getX(),0.0);
+		for (int i = 0; i < edge; i++)
 		{
-			plugin.getMessageData().errorRegion(sender, this.subCommand());
-			return;
-		}
-		name = name;
-		int radius = 64;
-		PlanMap planMap = new PlanMap(name, radius);
-		byte[][] cMap = planMap.getPlan();
-		Location pos = new Location(sRegion.getLocation().getWorld(), sRegion.getLocation().getX(), sRegion.getLocation().getY(), sRegion.getLocation().getZ());
-//		pos = sRegion.getLocation();
-
-		double posX = pos.getX();
-		double posY = pos.getY();
-		double posZ = pos.getZ();
-		System.out.println("World "+pos.getWorld().getName()+" / "+pos.getX()+":"+pos.getY()+":"+pos.getZ());
-		System.out.println("2D Map of "+sRegion.getName()+"  "+sRegion.getType()+ " Sektor "+sektor);
-		
-		switch (sektor)
-		{
-		case 1: // sektor NordWest
-			posX = pos.getX()-PlanMap.getPlanSize(radius);
-			posY = pos.getY();
-			posZ = pos.getZ()-PlanMap.getPlanSize(radius);
-			break;
-		case 2:	// sektor NordOst
-			posX = pos.getX();
-			posY = pos.getY();
-			posZ = pos.getZ()-PlanMap.getPlanSize(radius);
-			break;
-		case 3:	// sektor suedOst
-			posX = pos.getX();
-			posY = pos.getY()-1;
-			posZ = pos.getZ();
-			break;
-		case 4:	// sektor SudWest
-			posX = pos.getX()-PlanMap.getPlanSize(radius);
-			posY = pos.getY();
-			posZ = pos.getZ();
-			break;
-		default :
-			break;
-		}
-		pos.setY(posY);
-		System.out.println("World "+pos.getWorld().getName()+" / "+posX+":"+posY+":"+posZ);
-
-		for (int i = 0 ; i < PlanMap.getPlanSize(radius); i++)
-		{
-			for (int j = 0; j < PlanMap.getPlanSize(radius) ; j++)
+			for (int j = 0; j < edge ; j++)
 			{
-				pos.setX(posX+j);
-				pos.setZ(posZ+i);
-				cMap[i][j] = getBlockIdAt(pos);
-				if ((i==radius) && (j==radius))
+				lookAt.setX(i+pos.getX());
+				lookAt.setY(pos.getY());
+				lookAt.setZ(j+pos.getZ());
+				Block b = lookAt.getWorld().getBlockAt(lookAt);
+				if (b.getType()!= Material.AIR)
 				{
-					cMap[i][j] = (byte) 255;
+					System.out.println("pos "+(int) lookAt.getX()+":"+(int) lookAt.getY()+b.getType());
 				}
+				switch (b.getType())
+				{
+				case WALL_SIGN:  // sign on the wall
+				case SIGN_POST: // Sign on the ground
+					Sign sBlock =	((Sign) b.getState());
+					String[] signText = sBlock.getLines();
+					if (signText[0].equals("[REQUIRE]"))
+					{
+//						((Sign) b.getState())
+						sBlock.setLine(1, Material.WOOD_AXE+": "+5);
+						sBlock.setLine(2, Material.WHEAT+": "+105);
+						sBlock.update(true);
+					}
+					for (int k = 0; k < signText.length; k++)
+					{
+						System.out.println(sBlock.getLines()[k]);
+					}
+					break;
+				case SIGN :		// Material to build signs
+					System.out.println("Sign ");
+					break;
+				case CHEST:
+					Chest chest = ((Chest) b.getState());
+					System.out.println("Deposit to Warehouse;");
+					if (chest.getInventory().getContents() != null)
+					{
+						ItemStack[] items = chest.getInventory().getContents();
+						for (ItemStack item : items)
+						{
+							System.out.println(item.getType());
+						}
+					}
+					break;
+				default:
+				}
+				
 			}
 		}
-//		System.out.println("World "+pos.getWorld().getName()+" / "+pos.getX()+":"+pos.getZ());
-		for (int i = 0; i < PlanMap.getPlanSize(radius); i++)
-		{
-			System.out.print(ConfigBasis.showPlanValue(cMap[i]));
-		}
-		PlanMap.writePlanData(name, radius, cMap, path, sektor);
-		System.out.println("File "+path+":"+name);
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		return true;
+		if (sender instanceof Player)
+		{
+			return true;
+		}
+		errorMsg.add("Not a console command !");
+		errorMsg.add("The command must send by a Player !");
+		return false;
 	}
 
 }

@@ -2,6 +2,7 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,6 +20,8 @@ public abstract class RealmsCommand implements iRealmsCommand
 	protected String[] description;
 	protected int requiredArgs;
 	protected ArrayList<String> errorMsg;
+	protected boolean isParserError; 
+	protected String helpPage;
 	
 	
 	public RealmsCommand(RealmsCommandType command, RealmsSubCommandType subCommand)
@@ -28,6 +31,21 @@ public abstract class RealmsCommand implements iRealmsCommand
 		this.description = null;
 		this.requiredArgs = 0;
 		this.errorMsg = new ArrayList<String>();
+		this.isParserError = false;
+		this.helpPage = "";
+
+	}
+
+
+	public boolean isParserError()
+	{
+		return isParserError;
+	}
+
+
+	public void setParserError(boolean isParserError)
+	{
+		this.isParserError = isParserError;
 	}
 
 
@@ -202,7 +220,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 			errorMsg.add("You have NOT enough items !");
 			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public boolean hasMoney(Realms plugin, CommandSender sender,  double amount)
@@ -226,5 +244,65 @@ public abstract class RealmsCommand implements iRealmsCommand
 		}
 		return false;
 	}
+	
+	public ArrayList<String> getCommandDescription(RealmsCommand[] cmdList
+			, RealmsCommandType commandType
+			, RealmsSubCommandType subCommandType)
+	{
+		for (iRealmsCommand cmd : cmdList)
+		{
+			if ((cmd.command() == commandType) 
+				&& (cmd.subCommand() == subCommandType)
+				) 
+			{
+				return cmd.getDescriptionString();
+			}
+		}
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add(ChatColor.RED+"Nothig found for "+helpPage );
+		return msg;
+	}
 
+
+	public ArrayList<String> makeHelpPage(RealmsCommand[] cmdList, ArrayList<String> msg, String search )
+	{
+		System.out.println("Word: "+search);
+    	if (search == "")
+    	{
+	    	msg.add(ChatColor.GREEN+"{REALMS]   Help Page");
+			msg.addAll(getDescriptionString());
+			if (this.subCommand() != RealmsSubCommandType.HELP)
+			{
+				for (iRealmsCommand cmd : cmdList)
+				{
+					if ((cmd.subCommand() != RealmsSubCommandType.NONE) 
+						&& (this.command() == cmd.command())
+						)
+					{
+						String line = cmd.getDescription()[0];
+						msg.add(line);
+					}
+				}
+				
+			} else
+			{
+				for (iRealmsCommand cmd : cmdList)
+				{
+					if ((cmd.subCommand() != RealmsSubCommandType.NONE) 
+						&& (this.command() == cmd.command())
+						)
+					{
+						msg.addAll(cmd.getDescriptionString());
+					}
+				}
+			}
+    	} else
+    	{
+    		
+    		RealmsSubCommandType subCommandType = RealmsSubCommandType.getRealmSubCommandType(search);
+			msg.addAll(getCommandDescription(cmdList,  this.command(), subCommandType));
+    	}
+		return msg;
+
+	}
 }

@@ -6,7 +6,7 @@ public class TickTask implements Runnable
     private final Realms plugin;
     private static int counter = 0;
     private static boolean isProduction = false;
-    private static int prodLimit = 40;  // GameDay;
+    private static int prodLimit = 100;  // GameDay;
     private static int taxCounter = 0;
     private static int taxLimit = prodLimit * 10;
 	
@@ -36,6 +36,10 @@ public class TickTask implements Runnable
 		TickTask.prodLimit = value;
 	}
 	
+	public static boolean isProduction()
+	{
+		return TickTask.isProduction;
+	}
 	
 	
 	@Override
@@ -45,6 +49,16 @@ public class TickTask implements Runnable
 		taxCounter++;
 		// starte speichern der Settlement vor onTick
 		plugin.getRealmModel().OnTick();
+//		System.out.println("[Realms] Tick "+counter);
+		if (counter == (prodLimit/2))
+		{
+			if (isProduction)
+			{
+				plugin.getRealmModel().OnTrade();
+				plugin.getLog().info("[Realms] Trader calculation");
+			}
+
+		}
 		if (counter == prodLimit)
 		{
 			counter = 0;
@@ -52,10 +66,15 @@ public class TickTask implements Runnable
 			{
 				plugin.getRealmModel().OnProduction();
 				plugin.getLog().info("[Realms] production calculation");
+//				System.out.println("[Realms] Production");
 //				plugin.getLog().info("Tax counter "+taxCounter);
+			} else
+			{
+				System.out.println("[Realms] Production "+isProduction);
+				
 			}
 			
-		}
+		} 
 		if(taxCounter >= taxLimit)
 		{
 			taxCounter = 0;
@@ -63,6 +82,7 @@ public class TickTask implements Runnable
 			{
 				plugin.getRealmModel().OnTax();
 				plugin.getLog().info("[Realms] Tax calculation");
+				System.out.println("[Realms] Tax");
 			}
 		}
 	}

@@ -41,7 +41,7 @@ public class SuperRegionData
 		this.l = l;
 		this.type = type;
 		this.members = members;
-		this.owners = owners;
+		this.owners = owner;
 		this.power = power;
 		this.taxes = taxes;
 		this.balance = balance;

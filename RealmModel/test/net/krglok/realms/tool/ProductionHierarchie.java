@@ -1,19 +1,13 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 import net.krglok.realms.unittest.RegionConfig;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -41,6 +35,7 @@ public class ProductionHierarchie
     }
 	
 	
+	@SuppressWarnings("unused")
 	private RegionConfig getRegionConfig(String pathName, String sRegionFile)
 	{
         try {

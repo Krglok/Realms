@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.core.ItemPrice;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class CmdRealmsInfoPricelist extends RealmsCommand
@@ -14,8 +15,7 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS,RealmsSubCommandType.PRICELIST);
 		description = new String[] {
-				"help for you ",
-		    	"/realms PRICELIST {page}, show the pricelist  ",
+				ChatColor.YELLOW+"/realms PRICELIST {page}, show the pricelist  ",
 		    	"All items are listed in the central pricelist  ",
 		    	"The list has many pages. ",
 		    	" "

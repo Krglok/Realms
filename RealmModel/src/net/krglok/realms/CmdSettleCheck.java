@@ -23,10 +23,10 @@ public class CmdSettleCheck extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.CHECK);
 		description = new String[] {
-		    	"/settle CHECK [SuperRegionName] [page] ",
-				"Check to create a Settlement from the supereregion <NAME> ",
+				ChatColor.YELLOW+"/settle CHECK [SuperRegionName] [page] ",
+				"Check to create a Settlement from the supereregion ",
 		    	"and show the analysis report ",
-		    	"  ",
+		    	"  "
 		};
 		requiredArgs = 0;
 		this.name = "";

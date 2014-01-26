@@ -6,6 +6,7 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class CmdRealmsProduce extends RealmsCommand
@@ -15,7 +16,7 @@ public class CmdRealmsProduce extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.PRODUCTION);
 		description = new String[] {
-		    	"/realms PRODUCTION ",
+				ChatColor.YELLOW+"/realms PRODUCTION ",
 		    	"Set a production in the command queue  ",
 		    	"Do it only for test case !!  ",
 		    	"Only for Admins and OPs  ",
@@ -58,6 +59,16 @@ public class CmdRealmsProduce extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
+		
+		if (TickTask.isProduction())
+		{
+			TickTask.setProduction(false);
+			msg.add("Production set FALSE ");
+		} else
+		{
+			TickTask.setProduction(true);
+			msg.add("Production set TRUE ");
+		}
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
 		//  || (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED))
 		{

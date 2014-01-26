@@ -1,22 +1,11 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Queue;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 import net.krglok.realms.data.StrongholdTools;
 import net.krglok.realms.unittest.RegionConfig;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
@@ -347,37 +336,45 @@ public class StrongholdConfigTest
 		return false;
 	}
 	
-	private String[] setBasisList()
+
+	private String[] setStandardList()
 	{
 		return new String[] 
         		{"haupthaus",
-				"markt",
-				"taverne",
         		"haus_einfach", 
         		"kornfeld", 
         		"holzfaeller",
+        		"schreiner"
+        		};
+	}
+
+	private String[] setBasisList()
+	{
+		return new String[] 
+        		{
         		"steinbruch",
         		"schaefer",
-        		"schreiner",
-        		"tischler"
+				"prod_waxe",
+        		"prod_whoe", 
+        		"prod_wpaxe", 
+        		"koehler",
+        		"prod_steinziegel",
         		};
 	}
 
 	private String[] setErweitertList()
 	{
 		return new String[] 
-        		{"prod_waxe",
-        		"prod_whoe", 
-        		"prod_wpaxe", 
+        		{
         		"prod_wsword",
         		"prod_wspade",
-        		"prod_steinziegel",
-        		"prod_netherziegel",
         		"bauern_haus",
         		"haus_baecker",
-        		"koehler",
         		"rinderstall",
         		"huehnerstall",
+        		"tischler",
+				"markt",
+				"taverne",
         		"fischer"
         		};
 	}
@@ -389,7 +386,8 @@ public class StrongholdConfigTest
 				"steinmine",
 				"schmelze",
 				"bauernhof",
-				"schweinestall"
+				"schweinestall",
+        		"prod_netherziegel"
         		};
 	}
 	
@@ -414,8 +412,9 @@ public class StrongholdConfigTest
         
         RegionConfig region;
         String[] sList ;
-//        sList = setBasisList();
-        sList = setErweitertList();
+//        sList = setStandardList();
+        sList = setBasisList();
+//        sList = setErweitertList();
 //        sList = setEnhancedList();
         System.out.println("[Stronghold] Building              cost" );
         for (File RegionFile : regionFolder.listFiles()) 

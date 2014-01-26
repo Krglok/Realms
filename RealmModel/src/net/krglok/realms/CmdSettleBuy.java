@@ -1,9 +1,12 @@
 package net.krglok.realms;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 public class CmdSettleBuy extends RealmsCommand
@@ -18,11 +21,9 @@ public class CmdSettleBuy extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BUY);
 		description = new String[] {
-		    	"/settle BUY [ID] [item] [amount] [prive] [days]",
+				ChatColor.YELLOW+"/settle BUY [ID] [item] [amount] [prive] [days]",
 				"Set an buy ordr for te amount of item to the trader ",
 		    	"of Settlement <ID>, the decline after day(s) ",
-		    	" ",
-		    	" ",
 		    	"  "
 		};
 		requiredArgs = 5;
@@ -101,9 +102,13 @@ public class CmdSettleBuy extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
+    	ArrayList<String> msg = new ArrayList<String>();
 		McmdBuyOrder cmd = new McmdBuyOrder(plugin.getRealmModel(), settleID, itemRef, amount, price, delayDays);
 		plugin.getRealmModel().OnCommand(cmd);
- 
+    	msg.add(ChatColor.YELLOW+"Buy Item: "+ChatColor.GREEN+itemRef+":"+amount);
+    	msg.add(" ");
+		plugin.getMessageData().printPage(sender, msg, 1);
+
 	}
 
 	@Override
@@ -116,7 +121,6 @@ public class CmdSettleBuy extends RealmsCommand
 				if (amount < 0)
 				{
 					errorMsg.add("The amount must be positive ");
-					errorMsg.add("better use /settle GET [ID] [item] [amount] ");
 					return false;
 				}
 				

@@ -1,10 +1,14 @@
 package net.krglok.realms;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdDepositeBank;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdSettleBank extends RealmsCommand
 {
@@ -15,7 +19,7 @@ public class CmdSettleBank extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BANK);
 		description = new String[] {
-		    	"/settle BANK [SettleID] [amount] ",
+				ChatColor.YELLOW+"/settle BANK [SettleID] [amount] ",
 				"Set the amount of item into the warehouse ",
 		    	"of Settlement <ID> ",
 		    	"If amount (+) deposit  to bank",
@@ -76,8 +80,17 @@ public class CmdSettleBank extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
+    	ArrayList<String> msg = new ArrayList<String>();
+		Player player = (Player) sender;
+		
+		Realms.economy.withdrawPlayer(player.getName(),  amount);
+		
 		McmdDepositeBank bank = new McmdDepositeBank(plugin.getRealmModel(), settleID, amount, sender.getName());
 		plugin.getRealmModel().OnCommand(bank);
+    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
+    	msg.add(ChatColor.YELLOW+"Bank : "+ChatColor.GREEN+"dposit : "+amount);
+		msg.addAll(getDescriptionString());
+		plugin.getMessageData().printPage(sender, msg, 1);
 	}
 
 	@Override
@@ -87,6 +100,16 @@ public class CmdSettleBank extends RealmsCommand
 		{
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
+				if (isOpOrAdmin(sender) == false)
+				{
+					if (isSettleOwner(plugin, sender, settleID)== false)
+					{
+						errorMsg.add("You are not the owner ! ");
+						errorMsg.add(" ");
+						return false;
+						
+					}
+				}
 				if (sender.isOp())
 				{
 					return true;

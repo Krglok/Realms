@@ -137,7 +137,7 @@ public class Settlement
 		id			= COUNTER;
 		this.settleType = settleType;
 		this.name		= name;
-		position 	= position;
+		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));

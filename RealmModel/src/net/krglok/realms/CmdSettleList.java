@@ -16,7 +16,7 @@ public class CmdSettleList extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.LIST);
 		description = new String[] {
-		    	"/settle LIST [page] ",
+				ChatColor.YELLOW+"/settle LIST [page] ",
 				"List all Settlements ",
 		    	"  ",
 		};

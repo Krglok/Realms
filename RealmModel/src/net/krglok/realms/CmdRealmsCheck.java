@@ -21,8 +21,7 @@ public class CmdRealmsCheck extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.CHECK);
 		description = new String[] {
-				"command not found this will help you ",
-		    	"/realms CHECK [page]",
+				ChatColor.YELLOW+"/realms CHECK [page]",
 		    	"Show region statistik of the world  ",
 		    	"Show superregions of the world  ",
 		    	"Show distance of the superregions  ",
