@@ -1,8 +1,8 @@
 package net.krglok.realms;
 
+import net.krglok.realms.builder.BuildPlanHome;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.data.BuildPlanHome;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -83,7 +83,7 @@ public class CmdSettleTest extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		BuildPlanHome bHome = new BuildPlanHome(4 , -1);
+		BuildPlanHome bHome = new BuildPlanHome();
 		int edge = bHome.getEdge();
 		Player player = (Player) sender;
 		World world = player.getWorld();

@@ -1,9 +1,9 @@
 package net.krglok.realms.tool;
 
 import static org.junit.Assert.assertEquals;
+import net.krglok.realms.builder.BuildPlan;
+import net.krglok.realms.builder.BuildPlanHome;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.data.BuildPlan;
-import net.krglok.realms.data.BuildPlanHome;
 
 import org.bukkit.Material;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class BuildPlanTest
 	@Test
 	public void testBuildPlan()
 	{
-		BuildPlanHome bHome = new BuildPlanHome(4,0);
+		BuildPlanHome bHome = new BuildPlanHome();
 		
 		int expected = 7;
 		int actual = bHome.getEdge();

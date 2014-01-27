@@ -1,4 +1,4 @@
-package net.krglok.realms.data;
+package net.krglok.realms.builder;
 
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
@@ -18,7 +18,7 @@ import org.bukkit.Material;
  */
 public abstract class BuildPlan
 {
-	private BuildingType buildingType;
+	private BuildPlanType buildingType;
 	protected int radius;
 	protected byte[][][] cube;
 	protected boolean isInit;
@@ -26,7 +26,7 @@ public abstract class BuildPlan
 	protected char[][] signText ;
 	protected int offsetY;
 	
-	public BuildPlan(BuildingType buildingType, int radius, int offsetY)
+	public BuildPlan(BuildPlanType buildingType, int radius, int offsetY)
 	{
 		super();
 		this.buildingType = buildingType;
@@ -79,7 +79,7 @@ public abstract class BuildPlan
 		this.isInit = isInit;
 	}
 
-	public BuildingType getBuildingType()
+	public BuildPlanType getBuildingType()
 	{
 		return buildingType;
 	}
@@ -160,21 +160,21 @@ public abstract class BuildPlan
 	}
 	
 	/**
-	 * Set Material on Position of Column
-	 * if position out of bounds nothing will do
-	 * @param column
+	 * Set Material on Position of Row
+	 * if c out of bounds nothing will do
+	 * @param row
 	 * @param mat
-	 * @param position
+	 * @param column
 	 * @return
 	 */
-	public static byte[] setPos(byte[] column, Material mat, int position)
+	public static byte[] setPos(byte[] row, Material mat, int column)
 	{
-		if ((position >= 0) && (position < column.length))
+		if ((column >= 0) && (column < row.length))
 		{
-			column[position] = ConfigBasis.getMaterialId(mat);
+			row[column] = ConfigBasis.getMaterialId(mat);
 		}
 		
-		return column;
+		return row;
 	}
 	
 	public static byte[][] fillColPart(byte[][] level, Material mat, int col, int start, int end)

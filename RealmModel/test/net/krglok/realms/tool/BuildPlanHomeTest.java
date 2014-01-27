@@ -2,8 +2,8 @@ package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 
+import net.krglok.realms.builder.BuildPlanHome;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.data.BuildPlanHome;
 
 import org.bukkit.Material;
 import org.junit.Test;
@@ -14,7 +14,7 @@ public class BuildPlanHomeTest
 	@Test
 	public void testInitCube()
 	{
-		BuildPlanHome bHome = new BuildPlanHome(4,0);
+		BuildPlanHome bHome = new BuildPlanHome();
 		int edge = bHome.getEdge();
 		
 		bHome.setCube(bHome.initCube(edge));

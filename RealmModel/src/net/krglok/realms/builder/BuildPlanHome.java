@@ -1,18 +1,22 @@
-package net.krglok.realms.data;
+package net.krglok.realms.builder;
 
 import net.krglok.realms.core.BuildingType;
 
 import org.bukkit.Material;
 
-
+/**
+ * defines a 
+ * @author oduda
+ *
+ */
 public class BuildPlanHome extends BuildPlan
 {
 
 	
 	
-	public BuildPlanHome( int radius, int offsetY)
+	public BuildPlanHome( )
 	{
-		super(BuildingType.BUILDING_HOME, radius, offsetY);
+		super(BuildPlanType.HOME, 4, -1);
 		setLine(0, "  [HOME]");
 		this.cube = initCube(edge);
 		
@@ -75,9 +79,6 @@ public class BuildPlanHome extends BuildPlan
 //		BuildPlan.setPos(cube[1][1], Material.SIGN, 1);
 		BuildPlan.setPos(cube[2][3], Material.TORCH, 1);
 		BuildPlan.setPos(cube[2][3], Material.TORCH, 5);
-		
-
-
 		
 		return cube;
 	}

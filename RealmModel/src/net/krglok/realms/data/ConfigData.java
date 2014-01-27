@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
@@ -448,5 +449,11 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		this.toolItems = subList;
 	}
 
+	public void initBuildPlanRegion()
+	{
+		HashMap<BuildPlanType,String> bPlanRegions = new HashMap<BuildPlanType,String>();
+		bPlanRegions.put(BuildPlanType.NONE, "");
+		
+	}
 
 }
