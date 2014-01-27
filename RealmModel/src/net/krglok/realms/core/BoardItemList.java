@@ -139,7 +139,6 @@ public class BoardItemList extends HashMap<String,BoardItem>
 	 */
 	public void newPeriod(String name)
 	{
-		BoardItem boardItem;
 		for (BoardItem b : this.values())
 		{
 			b.setPeriodSum(0.0);

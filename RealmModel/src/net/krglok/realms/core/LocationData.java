@@ -1,7 +1,5 @@
 package net.krglok.realms.core;
 
-import org.bukkit.Location;
-import org.bukkit.World;
 
 public class LocationData
 {

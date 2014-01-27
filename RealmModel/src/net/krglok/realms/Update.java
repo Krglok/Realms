@@ -18,7 +18,9 @@ public class Update
 	public static boolean outdated = false;
 	public static byte v = -1;
 
+	@SuppressWarnings("unused")
 	private static String vOnline;
+	@SuppressWarnings("unused")
 	private static String vThis;
 	private static Plugin plugin;
 

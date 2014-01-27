@@ -111,6 +111,7 @@ public class ProductionHierarchie
 //		
 //	}
 
+	@SuppressWarnings("unused")
 	private void showRegionConfig(RegionConfig region)
 	{
         System.out.println("Radius    : " + region.getRawRadius());
@@ -149,7 +150,7 @@ public class ProductionHierarchie
 		int OFFSET2 = OFFSET1 * 2;
 		int OFFSET3 = OFFSET1 * 3;
 		
-		String materials = "";
+//		String materials = "";
         String sRegionFile = "";
         RegionConfig region ;
 //        String[] outLines ;
@@ -241,6 +242,7 @@ public class ProductionHierarchie
 	}
 
 
+	@SuppressWarnings("unused")
 	private void showProductList( 
 			HashMap<String,Integer> product, 
 			String[] sList,
@@ -306,6 +308,7 @@ public class ProductionHierarchie
 		return false;
 	}
 	
+	@SuppressWarnings("unused")
 	private String[] setBasisList()
 	{
 		return new String[] 
@@ -322,6 +325,7 @@ public class ProductionHierarchie
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setErweitertList()
 	{
 		return new String[] 
@@ -341,6 +345,7 @@ public class ProductionHierarchie
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setEnhancedList()
 	{
 		return new String[] 

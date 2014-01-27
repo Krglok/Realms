@@ -16,7 +16,6 @@ import net.krglok.realms.data.ServerInterface;
  */
 public class Settlement
 {
-	private static final int MAX_FOUND_ITEM = 128;
 	private static final double MIN_FOODCONSUM_COUNTER = -5.0;
 	private static final double TAVERNE_UNHAPPY_FACTOR = 2.0;
 	private static final double BASE_TAX_FACTOR = 10;
@@ -466,7 +465,6 @@ public class Settlement
 		{
 			if(settlement.buildingList.addBuilding(building))
 			{
-				int value = settlement.getWarehouse().getItemMax();
 				switch(building.getBuildingType())
 				{
 				case BUILDING_HALL: 
@@ -674,6 +672,7 @@ public class Settlement
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void checkDecay()
 	{
 		int wheat = warehouse.getItemList().getValue("WHEAT");
@@ -839,7 +838,7 @@ public class Settlement
 	public void setHappiness()
 	{
 		double sumDif = 0.0;
-		double resiDif = 0.0;
+//		double resiDif = 0.0;
 		EntertainFactor = calcEntertainment();
 		SettlerFactor = resident.calcResidentHappiness(SettlerFactor); //resident.getHappiness());
 		FoodFactor = consumeFood(); //SettlerFactor);

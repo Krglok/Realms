@@ -1,15 +1,11 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.krglok.realms.CmdRealmsVersion;
-import net.krglok.realms.RealmsCommand;
-import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.LocationData;
@@ -32,6 +28,7 @@ public class RealmLoopTest
 	int loopCount = 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
+	@SuppressWarnings("unused")
 	private Settlement createSettlement()
 	{
 		DataTest testData = new DataTest();
@@ -89,6 +86,7 @@ public class RealmLoopTest
 		return settle;
 	}
 	
+	@SuppressWarnings("unused")
 	private String showBalkenSettler(Settlement settle, boolean isDay)
 	{
 		int rs = settle.getResident().getSettlerCount();
@@ -112,6 +110,7 @@ public class RealmLoopTest
 		return sb+"#" +"     "+ settle.getResident().getSettlerCount();
 	}
 
+	@SuppressWarnings("unused")
 	private void showBuildings(Settlement settle)
 	{
 		System.out.println("== Buildings "+settle.getBuildingList().getBuildingList().size());
@@ -122,6 +121,7 @@ public class RealmLoopTest
 		
 	}
 
+	@SuppressWarnings("unused")
 	private void showWarehouse(Settlement settle)
 	{
 		System.out.println("== Warehouse ["+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax()+"]");
@@ -254,9 +254,9 @@ public class RealmLoopTest
 				config,
 				testData,
 				message);
-		String command = RealmsCommandType.REALMS.name();
-		String subCommand = "version";
-		RealmsCommand realmCommand = new CmdRealmsVersion();
+//		String command = RealmsCommandType.REALMS.name();
+//		String subCommand = "version";
+//		RealmsCommand realmCommand = new CmdRealmsVersion();
 		
 		Boolean expected = true; 
 		Boolean actual = false; 

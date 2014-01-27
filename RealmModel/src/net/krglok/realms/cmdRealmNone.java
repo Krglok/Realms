@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import net.krglok.realms.core.ConfigBasis;
-
 public class CmdRealmNone extends RealmsCommand
 {
 	

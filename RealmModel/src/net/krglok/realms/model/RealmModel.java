@@ -3,13 +3,11 @@ package net.krglok.realms.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.krglok.realms.RealmsCommand;
-import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
+import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.TradeMarket;
-import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
@@ -171,6 +169,7 @@ public class RealmModel
 	 * replace RealmList
 	 * @param realms
 	 */
+	@SuppressWarnings("unused")
 	private void setRealms(KingdomList kingdoms)
 	{
 		this.realms = kingdoms;

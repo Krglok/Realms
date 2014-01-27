@@ -1,6 +1,6 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,8 +11,6 @@ import java.util.Map;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.data.RecipeData;
-import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Material;
@@ -42,7 +40,6 @@ public class ItemPriceListTest
             	DataFile.createNewFile();
             }
             System.out.println(DataFile.exists());
-            HashMap<String,String> values; // = new HashMap<String,String>();
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
@@ -77,7 +74,6 @@ public class ItemPriceListTest
             	DataFile.createNewFile();
             	return items;
             }
-            HashMap<String,String> values; // = new HashMap<String,String>();
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
@@ -208,6 +204,7 @@ public class ItemPriceListTest
 	}
 
 	
+	@SuppressWarnings("unused")
 	private String[] setBasisList()
 	{
 		return new String[] 
@@ -224,6 +221,7 @@ public class ItemPriceListTest
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setErweitertList()
 	{
 		return new String[] 
@@ -243,6 +241,7 @@ public class ItemPriceListTest
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setEnhancedList()
 	{
 		return new String[] 
@@ -361,9 +360,10 @@ public class ItemPriceListTest
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private void showIngredientListing(HashMap<String,Integer> ingredient) 
 	{
-        String sRegionFile = "";
+//        String sRegionFile = "";
 //        String[] outLines ;
 
         // REAGENTS LIST
@@ -376,6 +376,7 @@ public class ItemPriceListTest
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private ItemPriceList setPriceList (ItemPriceList itemPrices, HashMap<String,Integer> items)
 	{
 		for (String itemRef : items.keySet())

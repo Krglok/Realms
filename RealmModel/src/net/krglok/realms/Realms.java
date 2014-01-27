@@ -1,19 +1,18 @@
 package net.krglok.realms;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.*;
+import net.krglok.realms.data.ConfigData;
+import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.data.MessageData;
+import net.krglok.realms.data.ServerData;
 import net.krglok.realms.model.RealmModel;
-import net.milkbowl.vault.Vault;
-import net.milkbowl.vault.VaultEco.VaultAccount;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -164,27 +163,7 @@ public final class Realms extends JavaPlugin
     }
 
 
-    /**
-     * explanation for realm command
-     * @param sender
-     */
-    private void cmdKingdomNone(CommandSender sender)
-    {
-    	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+"== "+this.getName()+" Vers.: "+config.getVersion()+" ==============");
-    	msg.add(ChatColor.GREEN+"usage  : "+ChatColor.YELLOW+"[] = required  {} = optional ");
-    	msg.add(ChatColor.GREEN+"command: "+ChatColor.YELLOW+"/realm [SubCommand] {RealmID} {parameter}");
-    	msg.add("The command managing the realm. ");
-    	msg.add("You must be owner or member of the realm.");
-    	msg.add("Some SubCommands only for ops.");
-    	msg.add(ChatColor.GREEN+"/realm help "+ChatColor.YELLOW+", show help text for command");
-    	for (String line:msg)
-    	{
-    		line = ChatColor.YELLOW+line;
-    		sender.sendMessage(line);
-    	}
-    }
-    
+     
     public ConfigData getConfigData()
     {
     	return config;

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.PlanMap;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.data.StrongholdTools;
 

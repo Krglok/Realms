@@ -1,9 +1,6 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
-import net.krglok.realms.RealmsCommand;
-import net.krglok.realms.RealmsCommandType;
+import static org.junit.Assert.assertEquals;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.data.ConfigTest;
@@ -176,8 +173,8 @@ public class RealmModelTest
 				testData,
 				null);
 		
-		String command = RealmsCommandType.REALMS.name();
-		String subCommand = "version";
+//		String command = RealmsCommandType.REALMS.name();
+//		String subCommand = "version";
 		McmdEnable modelCommand = new McmdEnable(rModel);
 		
 //		rModel.OnEnable();

@@ -359,7 +359,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		ServerTest server = new ServerTest();
+//		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -463,7 +463,7 @@ public class SettlementTest
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		ServerTest server = new ServerTest();
+//		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();

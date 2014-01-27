@@ -5,12 +5,10 @@ public class McmdEnable implements iModelCommand
 
 	private ModelCommandType commandType = ModelCommandType.MODELENABLE;
 	private RealmModel rModel;
-	private boolean value ;
 	
 	public McmdEnable(RealmModel rModel)
 	{
 		this.rModel = rModel;
-		value = false;
 	}
 	
 	@Override

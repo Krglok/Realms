@@ -4,7 +4,6 @@ import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
 public class CmdRealmsGetItem extends RealmsCommand

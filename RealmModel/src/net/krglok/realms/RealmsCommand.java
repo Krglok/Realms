@@ -2,15 +2,14 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.core.SettleType;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.model.ModelStatus;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import net.krglok.realms.core.BuildingType;
-import net.krglok.realms.core.SettleType;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.model.ModelStatus;
 
 
 public abstract class RealmsCommand implements iRealmsCommand

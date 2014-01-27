@@ -1,10 +1,9 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.core.BuildingType;
@@ -50,8 +49,6 @@ public class TestNPCOwner
             	System.out.println("New File");
             	settleFile.createNewFile();
             }
-            HashMap<String,String> values; // = new HashMap<String,String>();
-            
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
         	System.out.println("Load File");
@@ -110,10 +107,10 @@ public class TestNPCOwner
         			Boolean isEnabled = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isEnabled"));
         			boolean isActiv = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isActiv"));
         			String slot1 = config.getString(settleSec+".buildinglist."+ref+".slot1","");
-        			String slot2 = config.getString(settleSec+".buildinglist."+ref+".slot2","");
-        			String slot3 = config.getString(settleSec+".buildinglist."+ref+".slot3","");
-        			String slot4 = config.getString(settleSec+".buildinglist."+ref+".slot4","");
-        			String slot5 = config.getString(settleSec+".buildinglist."+ref+".slot5","");
+//        			String slot2 = config.getString(settleSec+".buildinglist."+ref+".slot2","");
+//        			String slot3 = config.getString(settleSec+".buildinglist."+ref+".slot3","");
+//        			String slot4 = config.getString(settleSec+".buildinglist."+ref+".slot4","");
+//        			String slot5 = config.getString(settleSec+".buildinglist."+ref+".slot5","");
         			// debug messages
         			msg.add("== Building read from File ==="+buildings.size());
         			msg.add("id   = "+buildingId);

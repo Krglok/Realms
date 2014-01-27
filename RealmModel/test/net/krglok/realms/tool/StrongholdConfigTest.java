@@ -337,6 +337,7 @@ public class StrongholdConfigTest
 	}
 	
 
+	@SuppressWarnings("unused")
 	private String[] setStandardList()
 	{
 		return new String[] 
@@ -362,6 +363,7 @@ public class StrongholdConfigTest
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setErweitertList()
 	{
 		return new String[] 
@@ -379,6 +381,7 @@ public class StrongholdConfigTest
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setEnhancedList()
 	{
 		return new String[] 

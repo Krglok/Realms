@@ -1,6 +1,6 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 
@@ -20,7 +20,6 @@ import net.krglok.realms.core.TradeType;
 import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
-import net.krglok.realms.data.ServerTest;
 
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class TraderTest
 	public void testTrader()
 	{
 		Trader trader = new Trader();
-		TradeOrder sellOrder = new TradeOrder(0, TradeType.SELL, "WOOD", 64 , 0.2 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+//		TradeOrder sellOrder = new TradeOrder(0, TradeType.SELL, "WOOD", 64 , 0.2 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
 		TradeOrder buyOrder = new TradeOrder(0, TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
 		
 		trader.getBuyOrders().put(1, buyOrder);
@@ -105,7 +104,7 @@ public class TraderTest
 	@Test
 	public void testcheckSellOrder()
 	{
-		ServerTest server = new ServerTest();
+//		ServerTest server = new ServerTest();
 		Settlement sender = createSettlement();
 		Settlement target = createSettlement();
 		sender.setId(0);
@@ -122,7 +121,7 @@ public class TraderTest
 		target.setPosition(new LocationData("SteamHaven", -1215.6704984377348, 103, -3210.300000011921));
 		
 		TradeOrder sellOrder = new TradeOrder(sender.getId(), TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
-		TradeOrder buyOrder = new TradeOrder(target.getId(), TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+//		TradeOrder buyOrder = new TradeOrder(target.getId(), TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
 		
 		target.getTrader().getBuyOrders().put(1, new TradeOrder(1, TradeType.BUY, "WHEAT", 64 , 0.3 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0));
 		target.getTrader().getBuyOrders().put(2, new TradeOrder(2, TradeType.BUY, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.DECLINE, "",0));

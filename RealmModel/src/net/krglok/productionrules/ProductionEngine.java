@@ -1,14 +1,10 @@
 package net.krglok.productionrules;
 
-import java.util.ArrayList;
-import java.util.Stack;
 
 
 public class ProductionEngine
 {
-    private Stack<ProductionRule> stack;
-    
-	public  void executer(ProductionRule r)
+    public  void executer(ProductionRule r)
 	{
 		if (r.canProduce())
 		{
@@ -16,7 +12,7 @@ public class ProductionEngine
 			//product zurückgeben
 		}else
 		{
-			ArrayList<ProductionRule> mm = r.getMissingIngredients();
+			r.getMissingIngredients();
 			
 			// jede Zutat auf Stack legen
 		}

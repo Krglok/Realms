@@ -1,12 +1,10 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import net.krglok.realms.RealmsCommand;
-import net.krglok.realms.RealmsCommandType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
@@ -24,8 +22,8 @@ import net.krglok.realms.model.McmdCreateSettle;
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.McmdDepositeBank;
 import net.krglok.realms.model.McmdEnable;
-import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.model.McmdSellOrder;
+import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
 

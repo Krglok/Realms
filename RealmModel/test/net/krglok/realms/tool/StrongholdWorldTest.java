@@ -11,11 +11,8 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.StrongholdTools;
-import net.krglok.realms.unittest.RegionConfig;
 
 import org.junit.Test;
-
-import sun.security.action.GetLongAction;
 
 
 public class StrongholdWorldTest
@@ -156,7 +153,6 @@ public class StrongholdWorldTest
         }
         int MaxSettler = 0;
         int WheatField = 0;
-        int StorageCapacity = 0;
 		System.out.println("======================================");
 		System.out.println("Founding Analysis of "+name+"  ");
 		System.out.println("Residents valuation ");
@@ -218,7 +214,6 @@ public class StrongholdWorldTest
 
         }else
         {
-        	int StorageBase = Settlement.defaultItemMax(settleType);
 			System.out.println(ConfigBasis.setStrleft("NO Basic Entertainment available ",20));
 			System.out.println(ConfigBasis.setStrleft("Build some taverne later on.",30));
         	
@@ -232,7 +227,6 @@ public class StrongholdWorldTest
 			System.out.println(ConfigBasis.setStrleft("So you can trade with others  ",45));
         }else
         {
-        	int StorageBase = Settlement.defaultItemMax(settleType);
 			System.out.println(ConfigBasis.setStrleft("NO traders available ",20));
 			System.out.println(ConfigBasis.setStrleft("Build some traders later on.",30));
         }
@@ -292,7 +286,7 @@ public class StrongholdWorldTest
 		LocationData  loc = new LocationData("SteamHaven",-469.51,72,-1236.65);
 		ArrayList<RegionData> rList = new ArrayList<RegionData>();
 		ArrayList<RegionData> tempList = new ArrayList<RegionData>();
-		ArrayList<RegionConfig> rConfigList = new ArrayList<RegionConfig>();
+//		ArrayList<RegionConfig> rConfigList = new ArrayList<RegionConfig>();
 		ArrayList<SuperRegionData> sList = new ArrayList<SuperRegionData>();
 		String worldName = "SteamHaven";
 		rList = StrongholdTools.getRegionData(path);

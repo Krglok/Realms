@@ -133,7 +133,8 @@ public class SettlementData
 			
 		} catch (Exception e)
 		{
-			 String name = "" ;
+			 @SuppressWarnings("unused")
+			String name = "" ;
 			 StackTraceElement[] st = new Throwable().getStackTrace();
 			 if (st.length > 0)
 			 {
@@ -283,7 +284,8 @@ public class SettlementData
             }
 		} catch (Exception e)
 		{
-			 String name = "" ;
+			 @SuppressWarnings("unused")
+			String name = "" ;
 			 StackTraceElement[] st = new Throwable().getStackTrace();
 			 if (st.length > 0)
 			 {

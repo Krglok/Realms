@@ -2,11 +2,8 @@ package net.krglok.realms.tool;
 
 import java.util.ArrayList;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unittest.RegionConfig;
-
-import org.bukkit.Location;
 
 public class RegionData
 {
@@ -156,7 +153,8 @@ public class RegionData
 	 * @param radius
 	 * @return
 	 */
-    public static ArrayList<RegionData> getContainingRegions(LocationData loc, ArrayList<RegionData> rList, double radius) 
+    @SuppressWarnings("unused")
+	public static ArrayList<RegionData> getContainingRegions(LocationData loc, ArrayList<RegionData> rList, double radius) 
     {
         ArrayList<RegionData> tempList = new ArrayList<RegionData>();
         double x = loc.getX();
@@ -204,7 +202,8 @@ public class RegionData
      * @param radius
      * @return
      */
-    public ArrayList<RegionData> getNotOverlapRegions(
+    @SuppressWarnings("unused")
+	public ArrayList<RegionData> getNotOverlapRegions(
     		LocationData loc, 
     		ArrayList<RegionData> rList, 
     		ArrayList<RegionConfig> rConfigList, 
@@ -244,7 +243,8 @@ public class RegionData
      * @param radius
      * @return
      */
-    public ArrayList<RegionData> getOverlapRegions(
+    @SuppressWarnings("unused")
+	public ArrayList<RegionData> getOverlapRegions(
     		LocationData loc, 
     		ArrayList<RegionData> rList, 
     		ArrayList<RegionConfig> rConfigList, 

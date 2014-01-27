@@ -58,18 +58,7 @@ public class SettlePlanTest
 //
 //	}
 	
-	private byte[] getStroreString(String sRow, int radius)
-	{
-		byte[] planRow = new byte[radius];
-		char[] charRow = new char[radius];
-		
-		charRow = sRow.toCharArray();
-		for (int i = 0; i < charRow.length; i++)
-		{
-			planRow[i] = (byte) charRow[i];
-		}
-		return planRow;
-	}
+	
 	
 //	private byte[][] readPlanData(String name)  
 //	{

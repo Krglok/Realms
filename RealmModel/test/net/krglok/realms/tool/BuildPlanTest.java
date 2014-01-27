@@ -1,8 +1,6 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
-
-import net.krglok.realms.core.BuildingType;
+import static org.junit.Assert.assertEquals;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.data.BuildPlan;
 import net.krglok.realms.data.BuildPlanHome;

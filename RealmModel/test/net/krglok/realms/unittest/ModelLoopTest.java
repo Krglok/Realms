@@ -54,18 +54,6 @@ public class ModelLoopTest
 		return rModel;
 	}
 	
-	private MessageTest getMessageData()
-	{
-		return this.message;
-	}
-	
-	private RealmModel getRealmModel()
-	{
-		return this.rModel;
-	}
-	
-
-	
 	/**
 	 * maximal 6 settlement werden verarbeitet !!
 	 */
@@ -226,6 +214,7 @@ public class ModelLoopTest
 	}
 	
 
+	@SuppressWarnings("unused")
 	private void cmdAddHolzfaeller(int sID)
 	{
 		Building newbuilding ;

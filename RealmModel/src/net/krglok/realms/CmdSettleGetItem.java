@@ -2,7 +2,6 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
 

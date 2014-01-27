@@ -1,6 +1,6 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
@@ -78,8 +77,6 @@ public class SettlementBreedTest
             	DataFile.createNewFile();
             	return items;
             }
-            HashMap<String,String> values; // = new HashMap<String,String>();
-            
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
             
@@ -107,7 +104,7 @@ public class SettlementBreedTest
 		{
 			return showBalkenSettler(settle, isDay);
 		}
-		int rs = settle.getResident().getSettlerCount();
+//		int rs = settle.getResident().getSettlerCount();
 		int as = 0;
 		int hs = (int) (settle.getResident().getHappiness()*20);
 		as = 10 + hs;
@@ -323,7 +320,7 @@ public class SettlementBreedTest
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
-        ItemPriceList itemPrices = testPriceList();
+//        ItemPriceList itemPrices = testPriceList();
 		
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
 		regionTypes.put("1","haupthaus");
@@ -395,7 +392,7 @@ public class SettlementBreedTest
 
 		
 		isOutput =   false; //(expected != actual);
-		String reqI = ""; 
+//		String reqI = ""; 
 		System.out.println("==Settlement Breed  : "+settle.getResident().getSettlerMax());
 		BreedingLoop(settle, server, 3080);
 		

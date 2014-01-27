@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class ProductionRule
 {
-	private Object ingredientsStore;
-	
 	public String product;
 	public ArrayList<ProductionRule> ingredients;
 	

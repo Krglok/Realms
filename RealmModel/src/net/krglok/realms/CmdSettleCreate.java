@@ -80,7 +80,7 @@ public class CmdSettleCreate extends RealmsCommand
 		// /settle create [SuperRegion]
 		int page = 1;
 		ArrayList<String> msg = new ArrayList<String>();
-		Player player = (Player) sender;
+//		Player player = (Player) sender;
 		String superRegionName = "";
 		superRegionName = this.name;
 
@@ -165,8 +165,7 @@ public class CmdSettleCreate extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		// TODO Auto-generated method stub
-
+		cmdCreate( plugin,  sender);
 	}
 	
 	private String findSuperRegionAtLocation(Realms plugin, Player player)

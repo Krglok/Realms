@@ -1,13 +1,11 @@
 package net.krglok.realms.unittest;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.data.RecipeData;
 import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
@@ -88,7 +86,6 @@ public class PriceDataTest
 //            	DataFile.createNewFile();
 //            }
             System.out.println(DataFile.exists());
-            HashMap<String,String> values; // = new HashMap<String,String>();
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
@@ -121,8 +118,6 @@ public class PriceDataTest
 //            {
 //            	DataFile.createNewFile();
 //            }
-            HashMap<String,String> values; // = new HashMap<String,String>();
-            
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
             
@@ -148,7 +143,6 @@ public class PriceDataTest
 	{
 		ItemPriceList itemPrices = new ItemPriceList();
 		itemPrices = readPriceData();
-		RecipeData recipe = new RecipeData();
 		
 //		recipe.getRecipe(itemRef);
 		System.out.println("=====================");

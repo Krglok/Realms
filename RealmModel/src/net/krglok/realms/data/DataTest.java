@@ -38,6 +38,7 @@ public class DataTest implements DataInterface
 	private static final String PC_3 = "NPC3";
 	private static final String PC_4 = "NPC4";
 	private static final String PC_5 = "NPC5";
+	@SuppressWarnings("unused")
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 	
 	private OwnerList testOwners ;

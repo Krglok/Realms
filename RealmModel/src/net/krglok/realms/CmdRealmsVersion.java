@@ -2,8 +2,6 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.core.ConfigBasis;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 

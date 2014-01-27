@@ -25,7 +25,7 @@ public class SettlementListTest
 	@Test
 	public void settlementListTest()
 	{
-		SettlementList sList = new SettlementList(5);
+//		SettlementList sList = new SettlementList(5);
 		int expected = 5;
 		int actual = Settlement.getCounter();
 		assertEquals(expected, actual);

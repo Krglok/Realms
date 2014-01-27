@@ -8,6 +8,7 @@ import org.junit.Test;
 
 public class ItemListTest
 {
+	@SuppressWarnings("unused")
 	private Boolean isOutput = false; // set this to false to suppress println
 
 	@Test

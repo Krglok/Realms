@@ -1,32 +1,19 @@
 package net.krglok.realms;
 
-import java.util.Collection;
-import java.util.List;
-
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
-//import net.krglok.realms.core.Position;
 import net.krglok.realms.data.BuildPlanHome;
-import net.minecraft.server.v1_7_R1.BlockBed;
-import net.minecraft.server.v1_7_R1.BlockDoor;
-import net.minecraft.server.v1_7_R1.BlockSign;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.PistonMoveReaction;
-import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.Plugin;
+//import net.krglok.realms.core.Position;
 
 public class CmdSettleTest extends RealmsCommand
 {

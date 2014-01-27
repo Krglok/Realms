@@ -42,7 +42,7 @@ public class PlanMap
 		this.name = name;
 		this.radius = radius;
 		this.plan = plan;
-		this.sektor = sektor;
+		this.setSektor(sektor);
 		if (plan == null)
 		{
 			plan = new byte[PlanMap.getPlanSize(radius)][PlanMap.getPlanSize(radius)];
@@ -123,6 +123,16 @@ public class PlanMap
 
 
 	
+	public int getSektor()
+	{
+		return sektor;
+	}
+
+	public void setSektor(int sektor)
+	{
+		this.sektor = sektor;
+	}
+
 	public static void writePlanData(String name, int radius, byte[][] planMap, String path , int sektor ) 
 	{
 		try

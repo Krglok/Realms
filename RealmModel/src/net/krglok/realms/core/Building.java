@@ -12,7 +12,6 @@ public class Building
 {
 	private static final int SETTLER_COUNT = 4; 
 	private static double SETTLER_TAXE = 1.0;
-	private static double TRADER_TAXE = 5.0;
 	private static double TAVERNE_TAXE = 7.0;
 	
 	private static int COUNTER;
@@ -724,8 +723,6 @@ public class Building
 	 */
 	public Double calcSales(ServerInterface server, String itemRef)
 	{
-//		Double BasePrice = 17.0;
-		Double sum = 0.0;
 		Double price = 1.0;
 //		price = (BasePrice - server.getRecipeFactor(outValue.ItemRef()));
 		price = server.getItemPrice(itemRef);

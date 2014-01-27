@@ -3,14 +3,13 @@ package net.krglok.realms.unittest;
 
 import java.io.File;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
-
 import org.junit.Test;
 
 
 public class StrongholdBuildingTree
 {
 
+	@SuppressWarnings("unused")
 	@Test
 	public void getStrongholdConstructionMaterial()
 	{
@@ -22,7 +21,7 @@ public class StrongholdBuildingTree
             return;
         }
         
-        RegionType[] Region = new RegionType[100];
+//        RegionType[] Region = new RegionType[100];
         System.out.println("[Stronghold] Building cost" );
         for (File RegionFile : regionFolder.listFiles()) 
         {

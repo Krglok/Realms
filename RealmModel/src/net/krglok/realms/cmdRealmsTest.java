@@ -1,28 +1,18 @@
 package net.krglok.realms;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
-import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.PlanMap;
-import net.minecraft.server.v1_7_R1.BlockSign;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.omg.PortableInterceptor.LOCATION_FORWARD;
 
 public class CmdRealmsTest extends RealmsCommand
 {
 
-	private int page;
-	
 	public CmdRealmsTest( )
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
@@ -49,7 +39,6 @@ public class CmdRealmsTest extends RealmsCommand
 		switch (index)
 		{
 		case 0 :
-				page = value;
 			break;
 		default:
 			break;
@@ -75,29 +64,11 @@ public class CmdRealmsTest extends RealmsCommand
 		return new String[] {int.class.getName()  };
 	}
 
-	private byte getBlockIdAt(Location pos)
-	{
-//		Location pos = new Location(plugin.getServer().getWorld(world), posX, posY, posZ);
-		if (pos == null)
-		{
-			System.out.println("Wrong Position");
-		}
-		if (pos.getWorld().getName() == null)
-		{
-			System.out.println("Wrong World");
-		}
-		
-		Block b = pos.getWorld().getBlockAt(pos);
-		
-		return  ConfigBasis.getBlockId(b); 
-	}
-	
-	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		System.out.println("Look for Signs ");
-		String path = plugin.getDataFolder().getAbsolutePath();
+//		String path = plugin.getDataFolder().getAbsolutePath();
 //		path = "D:\\Program Files\\BuckitTest\\plugins\\Realms";
 		int radius = 5;
 		int edge = radius * 2 -1;

@@ -21,8 +21,8 @@ public class NpcManager
 {
 	private static final double MaxSupply = 3.0;
 	private static final double MinSupply = 2.0;
-	private static final double MaxTool = 3.0;
-	private static final double MinTool = 2.0;
+//	private static final double MaxTool = 3.0;
+//	private static final double MinTool = 2.0;
 	
 	private ArrayList<ProductBuilding> productList;
 	private NpcItemList npcVersorgung;
@@ -33,8 +33,8 @@ public class NpcManager
 	public NpcManager(Settlement settlement) 
 	{
 		productList = new ArrayList<ProductBuilding>();
-		npcVersorgung    = new NpcItemList();
-		ruleList = new ArrayList<NpcRule>();
+		setNpcVersorgung(new NpcItemList());
+		setRuleList(new ArrayList<NpcRule>());
 		settle = settlement;
 	}
 
@@ -57,6 +57,46 @@ public class NpcManager
 	}
 
 	
+	public NpcItemList getNpcVersorgung()
+	{
+		return npcVersorgung;
+	}
+
+	public void setNpcVersorgung(NpcItemList npcVersorgung)
+	{
+		this.npcVersorgung = npcVersorgung;
+	}
+
+	public NpcItemList getNpcDefend()
+	{
+		return npcDefend;
+	}
+
+	public void setNpcDefend(NpcItemList npcDefend)
+	{
+		this.npcDefend = npcDefend;
+	}
+
+	public ArrayList<NpcRule> getRuleList()
+	{
+		return ruleList;
+	}
+
+	public void setRuleList(ArrayList<NpcRule> ruleList)
+	{
+		this.ruleList = ruleList;
+	}
+
+	public static double getMaxsupply()
+	{
+		return MaxSupply;
+	}
+
+	public static double getMinsupply()
+	{
+		return MinSupply;
+	}
+
 	public void initSupplyRules()
 	{
 		
@@ -64,8 +104,8 @@ public class NpcManager
 
 	public void doVersorgung()
 	{
-		int MaxCount = (int)(MaxSupply * settle.getResident().getSettlerCount());
-		int MinCount = (int)(MinSupply * settle.getResident().getSettlerCount());
+//		int MaxCount = (int)(MaxSupply * settle.getResident().getSettlerCount());
+//		int MinCount = (int)(MinSupply * settle.getResident().getSettlerCount());
 		// check supply max
 		
 	}

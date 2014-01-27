@@ -323,8 +323,6 @@ public class Resident
 	{
 		// guaranted minimum settler
 		double value = 0.0;
-		double factor =  0.0 ;
-		double overload = settlerMax * happiness / 100;
 		if (settlerCount < 5)
 		{
 			settlerCount = 5;
@@ -388,7 +386,7 @@ public class Resident
 	/**
 	 * calculate deathrate for settlement based on
 	 * - settlerMAx
-	 * - LETHALITY
+	 * - LETHALITY 
 	 * - happiness
 	 * no deathrate above BASE_HAPPINESS
 	 * extreme deathrate for happiness below 0 

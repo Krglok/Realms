@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 
