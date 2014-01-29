@@ -2,8 +2,11 @@ package net.krglok.realms.builder;
 
 import org.bukkit.Material;
 
-import net.krglok.realms.core.BuildingType;
-
+/**
+ * 
+ * @author Windu
+ *
+ */
 public class BuildPlanWheat extends BuildPlan
 {
 

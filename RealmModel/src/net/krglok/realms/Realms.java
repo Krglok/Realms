@@ -3,6 +3,7 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
+import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigData;
@@ -13,6 +14,11 @@ import net.krglok.realms.model.RealmModel;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -132,7 +138,7 @@ public final class Realms extends JavaPlugin
         if (isReady)
         {
         	// Enables automatic production cycles 
-//        	TickTask.setProduction(true);
+        	TickTask.setProduction(true);
         	// Initialize the Model 
         	realmModel.OnEnable();
     		log.info("[Realms] Model is now enabled !");
@@ -162,6 +168,60 @@ public final class Realms extends JavaPlugin
 		return true;
     }
 
+	protected void setBlock(World world, ItemLocation iLoc)
+	{
+		System.out.println(iLoc.itemRef());
+		if (iLoc.itemRef() != Material.AIR)
+		{						
+//			System.out.println(ConfigBasis.getPlanMaterial(bHome.getCube()[h][r][c]) );
+			
+			switch (iLoc.itemRef())
+			{
+			case WOOD_DOOR : 
+				System.out.println("SetDoor !");
+				Block bottom = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+				Block top = bottom.getRelative(BlockFace.UP, 1);
+				Byte data1 = (0x8); //not sure on this syntax...
+				Byte data2 = (0x4); //not sure on this syntax...
+				top.setTypeIdAndData(64, data1, false);
+				bottom.setTypeIdAndData(64, data2, false);
+				break;
+			case WALL_SIGN:
+				world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).setType(iLoc.itemRef());
+				break;
+			case BED_BLOCK:
+				System.out.println("Set Bed !");
+	            BlockState bedFoot = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).getState();
+	            BlockState bedHead = bedFoot.getBlock().getRelative(BlockFace.SOUTH).getState();
+				bedFoot.setType(Material.BED_BLOCK);
+				bedHead.setType(Material.BED_BLOCK);
+				bedFoot.setRawData((byte) 0x0);
+				bedHead.setRawData((byte) 0x8);
+				bedFoot.update(true, false);
+				bedHead.update(true, true);
+				break;
+			default :
+				world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).setType(iLoc.itemRef());
+			}
+		}
+		
+	}
+	
+	
+	public void onBuildRequest()
+	{
+		if (realmModel.getBuildManager().getBuildRequest().isEmpty())
+		{
+			return;
+		} else
+		{
+			ItemLocation iLoc =  realmModel.getBuildManager().getBuildRequest().get(0);
+			World world = getServer().getWorld(iLoc.position().getWorld());
+			setBlock(world, iLoc);
+			realmModel.getBuildManager().getBuildRequest().remove(0);
+		}
+		
+	}
 
      
     public ConfigData getConfigData()
@@ -233,5 +293,8 @@ public final class Realms extends JavaPlugin
 	{
 		return commandRealms;
 	}
+	
+	
+	
 
 }

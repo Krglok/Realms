@@ -14,6 +14,7 @@ import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.manager.BuildManager;
 
 /**
  * the realmModel is the top Class of the realm handling.
@@ -62,6 +63,7 @@ public class RealmModel
 
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
+	private BuildManager buildManager = new BuildManager();
 	
 	private boolean isInit = false;
 	private int garbageCounter;
@@ -401,6 +403,8 @@ public class RealmModel
 			// check transportqueues for fullfill 
 			tradeTransport.runTick();
 			tradeMarket.runTick();
+			// Builder
+			buildManager.run();
 			
 			switch (modelStatus)
 			{
@@ -664,6 +668,14 @@ public class RealmModel
 			System.out.println("[Realms] ERROR doGarbageOrders SellOrder exception "+ e.getMessage());
 			modelStatus = ModelStatus.MODEL_DISABLED;
 		}
+	}
+
+	/**
+	 * @return the buildManager
+	 */
+	public BuildManager getBuildManager()
+	{
+		return buildManager;
 	}
 	
 }

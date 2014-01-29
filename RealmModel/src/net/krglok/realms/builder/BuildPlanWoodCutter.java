@@ -2,8 +2,6 @@ package net.krglok.realms.builder;
 
 import org.bukkit.Material;
 
-import net.krglok.realms.core.BuildingType;
-
 public class BuildPlanWoodCutter extends BuildPlan
 {
 

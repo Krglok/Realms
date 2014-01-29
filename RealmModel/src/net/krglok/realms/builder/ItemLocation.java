@@ -1,22 +1,24 @@
 package net.krglok.realms.builder;
 
+import org.bukkit.Material;
+
 import net.krglok.realms.core.LocationData;
 
 public class ItemLocation
 {
-	private String itemRef;
+	private Material itemRef;
 	private LocationData position;
-	public ItemLocation(String itemRef, LocationData position)
+	public ItemLocation(Material itemRef, LocationData position)
 	{
 		super();
 		this.setItemRef(itemRef);
 		this.setPosition(position);
 	}
-	public String itemRef()
+	public Material itemRef()
 	{
 		return itemRef;
 	}
-	public void setItemRef(String itemRef)
+	public void setItemRef(Material itemRef)
 	{
 		this.itemRef = itemRef;
 	}

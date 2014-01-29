@@ -1,7 +1,5 @@
 package net.krglok.realms.builder;
 
-import net.krglok.realms.core.BuildingType;
-
 import org.bukkit.Material;
 
 /**

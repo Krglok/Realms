@@ -4,6 +4,12 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Settlement;
 
+/**
+ * Add region as Building to the Settlement
+ *  
+ * @author Windu
+ *
+ */
 public class McmdAddBuilding implements iModelCommand
 {
 	private ModelCommandType commandType = ModelCommandType.ADDBUILDING;

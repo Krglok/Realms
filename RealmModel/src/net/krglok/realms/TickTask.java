@@ -9,6 +9,8 @@ public class TickTask implements Runnable
     private static int prodLimit = 100;  // GameDay;
     private static int taxCounter = 0;
     private static int taxLimit = prodLimit * 10;
+    private static int buildMin = prodLimit * 4 / 10;
+    private static int buildMax = prodLimit * 7 / 10;
 	
     public static int getProdCounter()
 	{
@@ -50,6 +52,12 @@ public class TickTask implements Runnable
 		// starte speichern der Settlement vor onTick
 		plugin.getRealmModel().OnTick();
 //		System.out.println("[Realms] Tick "+counter);
+//		if ((counter > buildMin) && (counter < buildMax))
+//		{
+//			System.out.println("BuildRequest");
+			plugin.onBuildRequest();
+//		}
+		
 		if (counter == (prodLimit/2))
 		{
 			if (isProduction)

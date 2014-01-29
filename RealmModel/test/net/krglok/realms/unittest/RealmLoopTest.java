@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
@@ -16,6 +18,7 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.RealmModel;
 
 import org.junit.Test;
@@ -263,7 +266,12 @@ public class RealmLoopTest
 		rModel.OnEnable();
 		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
 
-		int loopMax = (int) ConfigBasis.GameDay * 30;
+		int loopMax = (int) ConfigBasis.GameDay * 2;
+		doLoop(loopMax, rModel);
+		McmdBuilder modelCommand = new McmdBuilder(rModel, 1, BuildPlanType.HOME, new LocationData("SteamHaven", -456, 68, -1287));
+		rModel.OnCommand(modelCommand);
+
+		loopMax = (int) ConfigBasis.GameDay * 10;
 		doLoop(loopMax, rModel);
 		
 		actual =  (rModel.getcommandQueue().size() == 0) & (rModel.getProductionQueue().size() == 0);
@@ -281,10 +289,12 @@ public class RealmLoopTest
 //				showWarehouse(settle);
 				showReqList(settle);
 			}
-			System.out.println(String.class.getName());
-			System.out.println(double.class.getName());
-			System.out.println(int.class.getName());
-			System.out.println(boolean.class.getName());
+			int i = 0;
+			for (ItemLocation iLoc : rModel.getBuildManager().getBuildRequest())
+			{
+				System.out.println(i+" > "+iLoc.itemRef().name()+":"+(int)iLoc.position().getX()+":"+(int)iLoc.position().getY()+":"+ (int)iLoc.position().getZ());
+				i++;
+			}
 		}
 		assertEquals(expected, actual);
 	}
