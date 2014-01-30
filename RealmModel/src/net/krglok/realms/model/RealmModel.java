@@ -63,7 +63,6 @@ public class RealmModel
 
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
-	private BuildManager buildManager = new BuildManager();
 	
 	private boolean isInit = false;
 	private int garbageCounter;
@@ -98,7 +97,7 @@ public class RealmModel
 		this.config = config;
 		this.data   = data;
 		this.messageData = messageData;
-		this.garbageCounter = 0;
+		this.garbageCounter = 3;
 	}
 
 	/**
@@ -277,11 +276,13 @@ public class RealmModel
 		{
 		case MODEL_ENABLED :
 			// store Command in Queue
+			System.out.println("OnCommand : "+modelStatus);
 			modelStatus = addCommandQueue(command);
 			modelStatus = nextCommandQueue();
 			//nextCommandQueue
 			break;
 		case MODEL_DISABLED:
+			System.out.println("OnCommand : "+modelStatus);
 			if (command.command() == ModelCommandType.MODELENABLE)
 			{
 				if (command.canExecute())
@@ -296,11 +297,13 @@ public class RealmModel
 			break;
 		case MODEL_COMMAND :
 			// store command in commandQueue
+			System.out.println("OnCommand : "+modelStatus);
 			modelStatus = addCommandQueue(command);
 			break;
 		default :
 			// nur Comand Queue erweitern ohne status aenderung
 			addCommandQueue(command);
+			System.out.println("OnCommand : "+modelStatus);
 			break;
 		}
 	}
@@ -404,7 +407,7 @@ public class RealmModel
 			tradeTransport.runTick();
 			tradeMarket.runTick();
 			// Builder
-			buildManager.run();
+			buildManagers();
 			
 			switch (modelStatus)
 			{
@@ -480,6 +483,22 @@ public class RealmModel
 		return;
 	}
 
+	/**
+	 * ruft den BuildManager jedes Settlement auf und laesst ihn eine Runde arbeiten
+	 */
+	private void buildManagers()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+//			if (settle.buildManager().getStatus().equalsIgnoreCase("None") == false)
+			{
+				settle.buildManager().run(settle);
+			}
+
+		}
+	}
+	
+	
 	private ModelStatus addCommandQueue(iModelCommand command)
 	{
 		commandQueue.add(command);
@@ -500,6 +519,9 @@ public class RealmModel
 		{
 			command.execute();
 			commandQueue.remove(0);
+		} else
+		{
+			
 		}
 		return ModelStatus.MODEL_ENABLED;
 	}
@@ -670,12 +692,12 @@ public class RealmModel
 		}
 	}
 
-	/**
-	 * @return the buildManager
-	 */
-	public BuildManager getBuildManager()
-	{
-		return buildManager;
-	}
+//	/**
+//	 * @return the buildManager
+//	 */
+//	public BuildManager getBuildManager()
+//	{
+//		return buildManager;
+//	}
 	
 }

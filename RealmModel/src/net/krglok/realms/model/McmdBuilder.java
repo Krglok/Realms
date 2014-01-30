@@ -38,7 +38,7 @@ public class McmdBuilder implements iModelCommand
 	public void execute()
 	{
 //		System.out.println("Builder");
-		rModel.getBuildManager().newBuild(bType, position);
+		rModel.getSettlements().getSettlement(settleId).buildManager().newBuild(bType, position);
 	}
 
 	@Override
@@ -53,6 +53,9 @@ public class McmdBuilder implements iModelCommand
 					return true;
 				}
 			}
+		} else
+		{
+			System.out.println();
 		}
 		return false;
 	}

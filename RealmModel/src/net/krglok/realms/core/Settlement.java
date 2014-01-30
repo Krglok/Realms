@@ -6,6 +6,7 @@ import org.bukkit.Material;
 
 import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.manager.BuildManager;
 
 /**
  * represent the whole settlement and the rules for production, fertility and money
@@ -58,6 +59,10 @@ public class Settlement
 
 	private String world;
 
+	private BuildManager buildManager = new BuildManager();
+;
+
+	
 	/**
 	 * instance empty settlement with
 	 * - sequential ID
@@ -1205,4 +1210,13 @@ public class Settlement
 		//  Kingdom tax are an open item
 		
 	}
+
+	/**
+	 * @return the buildManager
+	 */
+	public BuildManager buildManager()
+	{
+		return buildManager;
+	}
+
 }

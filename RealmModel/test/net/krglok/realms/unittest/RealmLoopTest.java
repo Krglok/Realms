@@ -149,7 +149,7 @@ public class RealmLoopTest
 		ArrayList<String> msg = new ArrayList<>();
 		// Resident Analyse
 		msg.add(" ");
-		msg.add("Sieldungstatus  ========================");
+		msg.add("Sieldungstatus  ================= ["+settle.getId()+"]");
 		msg.add("Einwohner     : "+settle.getResident().getSettlerCount());
 		msg.add("Arbeiter      : "+settle.getTownhall().getWorkerCount());
 		msg.add("freie Siedler : "+(settle.getResident().getSettlerCount()-settle.getTownhall().getWorkerCount()));
@@ -264,11 +264,12 @@ public class RealmLoopTest
 		Boolean expected = true; 
 		Boolean actual = false; 
 		rModel.OnEnable();
-		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
+		int settleId = 1;
+		rModel.getSettlements().getSettlement(settleId).getWarehouse().depositItemValue("LOG", 32);
 
 		int loopMax = (int) ConfigBasis.GameDay * 2;
 		doLoop(loopMax, rModel);
-		McmdBuilder modelCommand = new McmdBuilder(rModel, 1, BuildPlanType.HOME, new LocationData("SteamHaven", -456, 68, -1287));
+		McmdBuilder modelCommand = new McmdBuilder(rModel, settleId, BuildPlanType.HOME, new LocationData("SteamHaven", -456, 68, -1287));
 		rModel.OnCommand(modelCommand);
 
 		loopMax = (int) ConfigBasis.GameDay * 10;
@@ -290,9 +291,15 @@ public class RealmLoopTest
 				showReqList(settle);
 			}
 			int i = 0;
-			for (ItemLocation iLoc : rModel.getBuildManager().getBuildRequest())
+			for (ItemLocation iLoc : rModel.getSettlements().getSettlement(settleId).buildManager().getBuildRequest())
 			{
 				System.out.println(i+" > "+iLoc.itemRef().name()+":"+(int)iLoc.position().getX()+":"+(int)iLoc.position().getY()+":"+ (int)iLoc.position().getZ());
+				i++;
+			}
+			i = 0;
+			for (ItemLocation iLoc : rModel.getSettlements().getSettlement(settleId).buildManager().getCleanRequest())
+			{
+				System.out.println(i+"<< "+iLoc.itemRef().name()+":"+(int)iLoc.position().getX()+":"+(int)iLoc.position().getY()+":"+ (int)iLoc.position().getZ());
 				i++;
 			}
 		}

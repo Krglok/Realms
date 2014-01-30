@@ -14,6 +14,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Settlement;
 
 /**
  * the build manager realize the Controller and Manager of the building process
@@ -50,7 +51,7 @@ public class BuildManager
 		
 	}
 
-	
+//	private Settlement settle;
 	private HashMap<String, BuildPlan> buildPlanList = new HashMap<String, BuildPlan>();
 	private BuildPlan buildPlan;
 	private LocationData buildLocation;
@@ -65,16 +66,26 @@ public class BuildManager
 	private ArrayList<Item> itemRequest;
 	private BuildStatus bStatus = BuildStatus.NONE;
 	char[][] signText = new char[4][15] ;
+	private ArrayList<ItemLocation> cleanRequest;
+	private ArrayList<ItemLocation> resultBlockRequest;
 
 
-	public BuildManager()
+	public BuildManager()//Settlement settle)
 	{
+//		this.settle = settle;
 		this.requiredItems = new ItemList();
 		this.buildStore    = new ItemList();
 		this.buildRequest  = new ArrayList<ItemLocation>();
+		this.cleanRequest  = new ArrayList<ItemLocation>();
+		this.resultBlockRequest = new ArrayList<ItemLocation>();
 		this.itemRequest   = new ArrayList<Item>();
 		bStatus = BuildStatus.NONE;
 		initBuildPlans();
+	}
+	
+	public String getStatus()
+	{
+		return bStatus.name();
 	}
 	
 	private void initBuildPlans()
@@ -95,6 +106,9 @@ public class BuildManager
 		System.out.println("new Build : "+bStatus.name());
 		if (bStatus == BuildStatus.NONE)
 		{
+			h = 0;
+			r = 0;
+			c = -1;  // for iteration start
 			String sPos = "";
 			switch (bType)
 			{
@@ -137,7 +151,7 @@ public class BuildManager
 	/**
 	 * run on TickTask to build one block tick
 	 */
-	public void run()
+	public void run(Settlement settle)
 	{
 //		if (buildPlan == null)
 //		{
@@ -147,7 +161,7 @@ public class BuildManager
 		{
 		case  PREBUILD: 
 //			System.out.println("run : "+bStatus.name());
-			preBuild();
+			preBuild(settle);
 			break;
 		case READY : 
 //			System.out.println("run : "+bStatus.name());
@@ -178,8 +192,9 @@ public class BuildManager
 	
 	/**
 	 * do something before build the Building
+	 * cleanUp Building area
 	 */
-	private void preBuild()
+	private void preBuild(Settlement settle)
 	{
 //		System.out.println("pre : "+bStatus.name());
 		if (buildPlan == null)
@@ -192,10 +207,131 @@ public class BuildManager
 //			System.out.println("No Location"+bStatus.name());
 			return;
 		}
-		h = 0;
-		r = 0;
-		c = -1;  // for iteration start
-		bStatus = BuildStatus.READY;
+		
+		
+		int edge = buildPlan.getRadius() * 2 -1; 
+		if (bStatus == BuildStatus.PREBUILD)
+		{
+			// make block position
+			// generate Location for placing the block
+			// the buildLocation define the center of the plan in x/z plane
+			// the offset define the position of level 0 relative to surface 
+			LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
+			l.setX(l.getX()-buildPlan.getRadius()+1); 
+			l.setY(l.getY()+buildPlan.getOffsetY()); 
+			l.setZ(l.getZ()-buildPlan.getRadius()+1);
+			 
+			// Iterate thru BuildingPlan
+			/// increment column for next step
+//			System.out.println("h:"+h+" r: "+r+" c: "+c);
+			c++;
+
+			if (c < edge)
+			{
+			} else
+			{
+				r++;
+				if (r < edge)
+				{
+//					System.out.println(".");
+					c = 0;
+				} else
+				{
+//					System.out.println("------");
+					h++;
+					r = 0;
+					c = 0;
+				}
+			}
+				
+			if ((h < edge) && (r < edge) && c < edge )
+			{
+					if ((edge+buildPlan.getOffsetY()) >= 0)
+					{
+						l.setX(l.getX()+c); 
+						l.setY(l.getY()+h); 
+						l.setZ(l.getZ()+r);
+						cleanRequest.add(new ItemLocation(Material.AIR ,l));
+						if ((h+buildPlan.getOffsetY()) >= 0)
+						{
+							if (c == 0)
+							{
+								l.setX(l.getX()-1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setX(l.getX()+1);
+							}
+							if (c == 6)
+							{
+								l.setX(l.getX()+1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setX(l.getX()-1);
+							}
+							if (r == 0)
+							{
+								l.setZ(l.getZ()-1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setZ(l.getZ()+1);
+								
+							}
+							if (r == 6)
+							{
+								l.setZ(l.getZ()+1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setZ(l.getZ()+1);
+							}
+							if ((c == 0) && (r == 0))
+							{
+								l.setZ(l.getZ()-1);
+								l.setX(l.getX()-1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setX(l.getX()+1);
+								l.setZ(l.getZ()+1);
+							}
+							if ((c == 0) && (r == 6))
+							{
+								l.setZ(l.getZ()+1);
+								l.setX(l.getX()-1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setX(l.getX()+1);
+								l.setZ(l.getZ()-1);
+							}
+							if ((c == 6) && (r == 0))
+							{
+								l.setZ(l.getZ()-1);
+								l.setX(l.getX()+1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setX(l.getX()+1);
+								l.setZ(l.getZ()-1);
+							}
+							if ((c == 6) && (r == 6))
+							{
+								l.setZ(l.getZ()+1);
+								l.setX(l.getX()+1);
+								cleanRequest.add(new ItemLocation(Material.AIR ,l));
+								l.setX(l.getX()-1);
+								l.setZ(l.getZ()-1);
+							}
+						}
+					}
+			}
+		}
+		if (h >= edge)
+		{
+			h = 0;
+			r = 0;
+			c = -1;  // for iteration start
+			bStatus = BuildStatus.READY;
+			System.out.println("deposit Warehouse");
+			for (ItemLocation iLoc   : resultBlockRequest)
+			{
+				if (iLoc.itemRef() != Material.AIR)
+				{
+					settle.getWarehouse().depositItemValue(iLoc.itemRef().name(), 1);
+				}
+			}
+		} 
+//		System.out.println((""+h+":"+r+":"+c)+" >");
+		
 	}
 	
 	/**
@@ -225,17 +361,17 @@ public class BuildManager
 	 */
 	private void addBuildRequest()
 	{
+		int edge = buildPlan.getRadius() * 2 -1; 
 		if (bStatus == BuildStatus.STARTED)
 		{
 			// make block position
-			int edge = buildPlan.getRadius() * 2 -1; 
 			// generate Location for placing the block
 			// the buildLocation define the center of the plan in x/z plane
 			// the offset define the position of level 0 relative to surface 
 			LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
-			l.setX(l.getX()-edge); 
+			l.setX(l.getX()-buildPlan.getRadius()+1); 
 			l.setY(l.getY()+buildPlan.getOffsetY()); 
-			l.setZ(l.getZ()-edge);
+			l.setZ(l.getZ()-buildPlan.getRadius()+1);
 			 
 			// Iterate thru BuildingPlan
 			/// increment column for next step
@@ -246,10 +382,10 @@ public class BuildManager
 			{
 			} else
 			{
+				r++;
 				if (r < edge)
 				{
 //					System.out.println(".");
-					r++;
 					c = 0;
 				} else
 				{
@@ -271,11 +407,12 @@ public class BuildManager
 					buildRequest.add(new ItemLocation(ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]) ,l));
 				}
 			}
-			if (h >= edge)
-			{
-				bStatus = BuildStatus.DONE;
-			}
 		}
+		if (h >= edge)
+		{
+			bStatus = BuildStatus.POSTBUILD;
+		} 
+//		System.out.println((""+h+":"+r+":"+c)+" >");
 	}
 	
 	private void doPostBuild()
@@ -290,13 +427,14 @@ public class BuildManager
 	 */
 	private void doDone()
 	{
-		System.out.println("Builder : "+bStatus.name());
+		System.out.println("doDone : "+bStatus.name());
 		buildLocation = null;
 		buildPlan = null;
 		h = 0;
 		r = 0;
 		c = 0;
 		bStatus = BuildStatus.NONE;
+		System.out.println("FullFill : "+bStatus.name());
 	}
 	
 	/**
@@ -453,6 +591,24 @@ public class BuildManager
 	{
 		this.signText[index] = signText;
 	}
+
+	/**
+	 * @return the getBlockRequest
+	 */
+	public ArrayList<ItemLocation> resultBlockRequest()
+	{
+		return resultBlockRequest;
+	}
+
+	/**
+	 * @return the cleanRequest
+	 */
+	public ArrayList<ItemLocation> getCleanRequest()
+	{
+		return cleanRequest;
+	}
+
+
 	
 	
 }

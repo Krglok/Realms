@@ -56,6 +56,7 @@ public class TickTask implements Runnable
 //		{
 //			System.out.println("BuildRequest");
 			plugin.onBuildRequest();
+			plugin.onCleanRequest();
 //		}
 		
 		if (counter == (prodLimit/2))

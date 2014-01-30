@@ -1,5 +1,7 @@
 package net.krglok.realms;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.builder.BuildPlanHome;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.LocationData;
@@ -14,13 +16,15 @@ import org.bukkit.entity.Player;
 public class CmdSettleTest extends RealmsCommand
 {
 	LocationData position;
-	
+	String buildName;
+	BuildPlanType bType;
+	int settleId ;
 	
 	public CmdSettleTest( )
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.TEST);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle TEST [x] [Y] [Z] ",
+				ChatColor.YELLOW+"/settle TEST [ID] [x] [Y] [Z] {BUILDING}",
 		    	"Build a new Building HOME  ",
 		    	" Size = 7 x 7 , height Offset -1 ", 
 		    	" X = East/West ",
@@ -28,19 +32,38 @@ public class CmdSettleTest extends RealmsCommand
 		    	" Z = Nortz/South",
 		    	" "
 			};
-			requiredArgs = 3;
+			requiredArgs = 4;
 			position = new LocationData("", 0.0, 0.0, 0.0);
+			buildName = "";
+			bType = BuildPlanType.NONE;
+			settleId = 0;
 	}
 
 	@Override
 	public void setPara(int index, String value)
 	{
-
+		switch (index)
+		{
+		case 4 :
+			buildName = value;
+		break;
+		default:
+			break;
+		}
+	
 	}
 
 	@Override
 	public void setPara(int index, int value)
 	{
+		switch (index)
+		{
+		case 0 :
+			settleId = value;
+		break;
+		default:
+			break;
+		}
 
 	}
 
@@ -55,13 +78,13 @@ public class CmdSettleTest extends RealmsCommand
 	{
 		switch (index)
 		{
-		case 0 :
+		case 1 :
 			position.setX(value);
 			break;
-		case 1 :
+		case 2 :
 			position.setY(value);
 		break;
-		case 2 :
+		case 3 :
 			position.setZ(value);
 		break;
 		default:
@@ -73,27 +96,47 @@ public class CmdSettleTest extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {double.class.getName(), double.class.getName(), double.class.getName() };
+		return new String[] {int.class.getName(), double.class.getName(), double.class.getName(), double.class.getName(), String.class.getName() };
 	}
 
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-//		BuildPlanHome bHome = new BuildPlanHome();
-//		int edge = bHome.getEdge();
+    	ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
 		World world = player.getWorld();
-		// generate Location for create the Building
-//		Location l = new Location(world, , +bHome.getOffsetY(), );
 		LocationData iLoc = new LocationData(world.getName(), position.getX(), position.getY(), position.getZ());
-		McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), 3, BuildPlanType.WHEAT, iLoc);
+		System.out.println("SettleCommand : Builder");
+		McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settleId, bType, iLoc);
 		plugin.getRealmModel().OnCommand(modelCommand);
+    	msg.add("BUILD "+bType.name()+" at "+(int)position.getX()+":"+(int)position.getY()+":"+(int)position.getZ());
+    	msg.add(" ");
+		plugin.getMessageData().printPage(sender, msg, 1);
+		
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		return true;
+		if (plugin.getRealmModel().getSettlements().containsID(settleId) == false)
+		{
+			errorMsg.add("Wrong Settlement ID !");
+			errorMsg.add(getDescription()[0]);
+			return false;
+		}
+		if (buildName == "")
+		{
+			buildName = "WHEAT";
+		}
+		bType = BuildPlanType.getBuildPlanType(buildName);
+		if (bType != BuildPlanType.NONE)
+		{
+			return true;
+		}
+		errorMsg.add("Wrong BuildPlanType !");
+		errorMsg.add("NoName Default = WHEAT ");
+		errorMsg.add(getDescription()[0]);
+		return false;
 	}
 
 }

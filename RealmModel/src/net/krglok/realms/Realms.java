@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigData;
 import net.krglok.realms.data.DataStorage;
@@ -170,9 +171,9 @@ public final class Realms extends JavaPlugin
 
 	protected void setBlock(World world, ItemLocation iLoc)
 	{
-		System.out.println(iLoc.itemRef());
-		if (iLoc.itemRef() != Material.AIR)
-		{						
+//		System.out.println(iLoc.itemRef());
+//		if (iLoc.itemRef() != Material.AIR)
+//		{						
 //			System.out.println(ConfigBasis.getPlanMaterial(bHome.getCube()[h][r][c]) );
 			
 			switch (iLoc.itemRef())
@@ -203,26 +204,82 @@ public final class Realms extends JavaPlugin
 			default :
 				world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).setType(iLoc.itemRef());
 			}
-		}
+//		}
 		
 	}
 	
 	
 	public void onBuildRequest()
 	{
-		if (realmModel.getBuildManager().getBuildRequest().isEmpty())
+		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
 		{
-			return;
-		} else
-		{
-			ItemLocation iLoc =  realmModel.getBuildManager().getBuildRequest().get(0);
-			World world = getServer().getWorld(iLoc.position().getWorld());
-			setBlock(world, iLoc);
-			realmModel.getBuildManager().getBuildRequest().remove(0);
+			if (settle.buildManager().getBuildRequest().size() != 0)
+			{
+				ItemLocation iLoc =  settle.buildManager().getBuildRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				setBlock(world, iLoc);
+				settle.buildManager().getBuildRequest().remove(0);
+			}
 		}
+	}
+
+	/**
+	 * read MaterialData from World position 
+	 * @param world
+	 * @param iLoc
+	 * @return
+	 */
+	protected Material getBlock(World world, ItemLocation iLoc)
+	{
+		Block block ;
+		Material mat ;
+			
+			switch (iLoc.itemRef())
+			{
+			case WOOD_DOOR : 
+				System.out.println("SetDoor !");
+				block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+				block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
+				break;
+//			case WALL_SIGN:
+//				world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).setType(iLoc.itemRef());
+//				break;
+			case BED_BLOCK:
+				System.out.println("Set Bed !");
+	            block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+	            block.getRelative(BlockFace.SOUTH).setType(Material.AIR);
+				break;
+			default :
+				block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+			}
+			mat = block.getType();
+			block.setType(Material.AIR);
+//	    	System.out.println(block.getType().name()+"/"+mat.name());
+		return mat;
 		
 	}
 
+	/**
+	 * read MaterialData from World Position and write into a readRequest
+	 */
+	public void onCleanRequest()
+	{
+		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
+		{
+//			System.out.println(settle.getId()+": cleanRequest "+settle.buildManager().getCleanRequest().size());
+			if (settle.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				settle.buildManager().getCleanRequest().remove(0);
+			}
+		}
+		
+	}
+	
      
     public ConfigData getConfigData()
     {
