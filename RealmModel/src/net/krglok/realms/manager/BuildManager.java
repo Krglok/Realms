@@ -63,7 +63,7 @@ public class BuildManager
 	private int workerNeeded;
 	private int workerInstalled;
 	private ArrayList<ItemLocation> buildRequest;
-	private ArrayList<Item> itemRequest;
+	private ArrayList<Item> materialRequest;
 	private BuildStatus bStatus = BuildStatus.NONE;
 	char[][] signText = new char[4][15] ;
 	private ArrayList<ItemLocation> cleanRequest;
@@ -78,7 +78,7 @@ public class BuildManager
 		this.buildRequest  = new ArrayList<ItemLocation>();
 		this.cleanRequest  = new ArrayList<ItemLocation>();
 		this.resultBlockRequest = new ArrayList<ItemLocation>();
-		this.itemRequest   = new ArrayList<Item>();
+		this.materialRequest   = new ArrayList<Item>();
 		bStatus = BuildStatus.NONE;
 		initBuildPlans();
 	}
@@ -477,7 +477,7 @@ public class BuildManager
 
 	public ArrayList<Item> getItemRequest()
 	{
-		return itemRequest;
+		return materialRequest;
 	}
 	
 	public HashMap<String, BuildPlan> getBuildPlanList()

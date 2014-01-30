@@ -12,7 +12,8 @@ public enum SettleType
 	SETTLE_TOWN (100),
 	SETTLE_CITY (200),
 	SETTLE_CASTLE (250),
-	SETTLE_METRO (300);
+	SETTLE_METRO (300)
+	;
 	
 	private final int value;
 	
