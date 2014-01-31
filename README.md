@@ -1,7 +1,7 @@
 Realms
 ======
 
-Bukkit Plugin for managing Realms and settlements. DO no protections . 
+Bukkit Plugin for managing Realms and settlements. Do NO protections . 
 Based on the ideas of Dominion from Pico52 i created this plugin.
 I want to resolve some design issues in the dominion design
 - no automatic building verification
