@@ -1,5 +1,14 @@
 package net.krglok.realms.core;
 
+/**
+ * <pre>
+ * this are the Sell orders in the trademarket.
+ * the orders have a sourceID, targetId and a runtime.
+ * they decline automatically 
+ * </pre>
+ * @author Windu
+ *
+ */
 public class TradeMarketOrder extends TradeOrder
 {
 

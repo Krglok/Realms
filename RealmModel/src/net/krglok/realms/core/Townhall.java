@@ -1,5 +1,11 @@
 package net.krglok.realms.core;
 
+/**
+ * Control the workers of the settlement
+ * 
+ * @author Windu
+ *
+ */
 public class Townhall
 {
 	private Boolean isEnabled;

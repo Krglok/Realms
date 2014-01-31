@@ -1,9 +1,11 @@
 package net.krglok.realms.core;
 
 /**
+ * <pre>
  * hold the human  resources of a settlement
  * calculate birthrate and deathrate 
  * calculate happines based on settlerCount
+ * </pre>
  * @author windu
  *
  */

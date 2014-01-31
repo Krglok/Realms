@@ -6,12 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * <pre>
  * Verwaltet eine Liste von Buildings
  * der key ist die Building id
  * zusätzlich wird eine liste der buildings vom typ region
  * und eine Liste der buildings von typ superregion 
  * geführt
- * 
+ * </pre>
  * @author Windu
  *
  */

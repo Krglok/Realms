@@ -2,6 +2,11 @@ package net.krglok.realms.core;
 
 import java.util.HashMap;
 
+/**
+ * list of items with prices , used as central pricelist  
+ * @author Windu
+ *
+ */
 public class ItemPriceList extends HashMap<String,ItemPrice>
 {
 

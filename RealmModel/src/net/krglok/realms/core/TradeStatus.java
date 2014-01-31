@@ -1,5 +1,11 @@
 package net.krglok.realms.core;
 
+/**
+ * defines the process steps for trade orders
+ * 
+ * @author Windu
+ *
+ */
 public enum TradeStatus
 {
 

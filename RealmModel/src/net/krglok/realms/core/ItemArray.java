@@ -2,6 +2,11 @@ package net.krglok.realms.core;
 
 import java.util.ArrayList;
 
+/**
+ * list of items, can hold multiple items of the same type
+ * @author Windu
+ *
+ */
 public class ItemArray extends ArrayList<Item>
 {
 

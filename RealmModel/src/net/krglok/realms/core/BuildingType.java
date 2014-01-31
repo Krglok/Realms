@@ -1,9 +1,10 @@
 package net.krglok.realms.core;
 
 /**
+ * <pre>
  * the buildingType are used for production and recipe calculation
  * the append value is a group number
- *    
+ * </pre>
  * @author oduda
  *
  */

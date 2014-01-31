@@ -117,7 +117,6 @@ public class DataStorage implements DataInterface
 	 * Read Settlement from File
 	 * normaly not used !!
 	 * @param id
-	 * @param sender  only for Debug messages
 	 * @return
 	 */
 	public Settlement readSettlement(int id)

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * realize a list of all realms in the model
+ * realize a list of all kingdoms in the model
  * 
  * @author oduda
  *

@@ -2,9 +2,9 @@ package net.krglok.realms.core;
 
 
 /**
+ * All Units in the plugin are of these type
  * 
  * @author oduda
- * All Units in the plugin are of these type
  */
 
 public class Unit 

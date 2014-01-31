@@ -2,6 +2,11 @@ package net.krglok.realms.core;
 
 import java.util.HashMap;
 
+/**
+ * hold multible rows of a statistik, each row is a different item
+ * @author Windu
+ *
+ */
 public class BoardItemList extends HashMap<String,BoardItem>
 {
 

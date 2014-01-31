@@ -1,5 +1,7 @@
 net.krglok.realms
+net.krglok.realms.builder
+net.krglok.realms.colonist
 net.krglok.realms.core
 net.krglok.realms.data
+net.krglok.realms.manager
 net.krglok.realms.model
-net.krglok.realms.settlemanager

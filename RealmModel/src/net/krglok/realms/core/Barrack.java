@@ -1,7 +1,7 @@
 package net.krglok.realms.core;
 
 /**
- * 
+ * not yet implemented
  * @author oduda
  * 
  */

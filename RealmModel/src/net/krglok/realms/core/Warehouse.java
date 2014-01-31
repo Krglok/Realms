@@ -3,11 +3,12 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 
 /**
- * 
- * @author oduda
- *
+ * <pre>
  * make the item storage and the processing for the storage
  * will be used in settlement and regiment
+ * </pre>
+ * @author oduda
+ *
  * 
  */
 public class Warehouse 

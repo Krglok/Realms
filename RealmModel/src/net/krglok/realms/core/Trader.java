@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 /**
+ * <pre>
  * Der Trader ist kein Gebaeude, sondern ein Manager der Handel abwickelt. 
  * Das entsprechnde Gebaeude ist unter buildungs zu finden.
  * Der Trader wickelt die Handelsaktionen ab.
@@ -11,7 +12,7 @@ package net.krglok.realms.core;
  * tradeOrders , sind die Transporte mit den Karawanen
  * buyOrders , sind die Einkaufsaktionen des Settlement
  * sellOrders, sind die Verkaufsaktionen des Settlements
- *
+ * </pre>
  * @author Windu
  *
  */

@@ -5,6 +5,12 @@ import org.bukkit.block.Block;
 
 import net.krglok.realms.data.ConfigInterface;
 
+/**
+ * class for define static values (constants) 
+ * 
+ * @author Windu
+ *
+ */
 public class ConfigBasis implements ConfigInterface
 {
 	protected static final String CONFIG_SETTLEMENT_COUNTER = "settlementCounter";

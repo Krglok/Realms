@@ -1,5 +1,11 @@
 package net.krglok.realms.core;
 
+/**
+ * a row of a statistic
+ * 
+ * @author Windu
+ *
+ */
 public class BoardItem
 {
 	private String name;

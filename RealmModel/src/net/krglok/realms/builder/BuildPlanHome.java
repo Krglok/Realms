@@ -3,7 +3,8 @@ package net.krglok.realms.builder;
 import org.bukkit.Material;
 
 /**
- * defines a 
+ * defines a buildplan for buildType HOME  
+ * 
  * @author oduda
  *
  */

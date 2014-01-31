@@ -1,7 +1,7 @@
 package net.krglok.realms.tool;
 
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.PlanMap;
+import net.krglok.realms.manager.PlanMap;
 
 import org.junit.Test;
 

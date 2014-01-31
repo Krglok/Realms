@@ -1,12 +1,15 @@
 package net.krglok.realms.builder;
 
-import net.krglok.realms.core.PlanMap;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.manager.PlanMap;
 
 /**
- * the settle schema include a standard building schema for a settlement of a specific type
- * - Hamlet Schema
- *  
+ * <pre>
+ * the settle schema include a standard building schema for a settlement of a specific type.
+ * the schema define the realtive position of the buildings in a settlement.
+ * <0,0> is the center , the location of the settlement.
+ * the position is in 2D coordinates because the 3D distance is the same in this distances
+ * </pre>
  * @author oduda
  *
  */

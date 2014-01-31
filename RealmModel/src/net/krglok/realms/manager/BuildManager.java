@@ -189,6 +189,114 @@ public class BuildManager
 		}
 		signText[1] = bStatus.toString().toCharArray(); 
 	}
+
+	private void doCleanStep()
+	{
+		int edge = buildPlan.getRadius() * 2 -1; 
+		// make block position
+		// generate Location for placing the block
+		// the buildLocation define the center of the plan in x/z plane
+		// the offset define the position of level 0 relative to surface 
+		LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
+		l.setX(l.getX()-buildPlan.getRadius()+1); 
+		l.setY(l.getY()+buildPlan.getOffsetY()); 
+		l.setZ(l.getZ()-buildPlan.getRadius()+1);
+		 
+		// Iterate thru BuildingPlan
+		/// increment column for next step
+//		System.out.println("h:"+h+" r: "+r+" c: "+c);
+		c++;
+
+		if (c < edge)
+		{
+		} else
+		{
+			r++;
+			if (r < edge)
+			{
+//				System.out.println(".");
+				c = 0;
+			} else
+			{
+//				System.out.println("------");
+				h++;
+				r = 0;
+				c = 0;
+			}
+		}
+			
+		if ((h < edge) && (r < edge) && c < edge )
+		{
+				if ((edge+buildPlan.getOffsetY()) >= 0)
+				{
+					l.setX(l.getX()+c); 
+					l.setY(l.getY()+h); 
+					l.setZ(l.getZ()+r);
+					cleanRequest.add(new ItemLocation(Material.AIR ,l));
+					if ((h+buildPlan.getOffsetY()) >= 0)
+					{
+						if (c == 0)
+						{
+							l.setX(l.getX()-1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setX(l.getX()+1);
+						}
+						if (c == 6)
+						{
+							l.setX(l.getX()+1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setX(l.getX()-1);
+						}
+						if (r == 0)
+						{
+							l.setZ(l.getZ()-1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setZ(l.getZ()+1);
+							
+						}
+						if (r == 6)
+						{
+							l.setZ(l.getZ()+1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setZ(l.getZ()+1);
+						}
+						if ((c == 0) && (r == 0))
+						{
+							l.setZ(l.getZ()-1);
+							l.setX(l.getX()-1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setX(l.getX()+1);
+							l.setZ(l.getZ()+1);
+						}
+						if ((c == 0) && (r == 6))
+						{
+							l.setZ(l.getZ()+1);
+							l.setX(l.getX()-1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setX(l.getX()+1);
+							l.setZ(l.getZ()-1);
+						}
+						if ((c == 6) && (r == 0))
+						{
+							l.setZ(l.getZ()-1);
+							l.setX(l.getX()+1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setX(l.getX()+1);
+							l.setZ(l.getZ()-1);
+						}
+						if ((c == 6) && (r == 6))
+						{
+							l.setZ(l.getZ()+1);
+							l.setX(l.getX()+1);
+							cleanRequest.add(new ItemLocation(Material.AIR ,l));
+							l.setX(l.getX()-1);
+							l.setZ(l.getZ()-1);
+						}
+					}
+				}
+		}
+		
+	}
 	
 	/**
 	 * do something before build the Building
@@ -209,112 +317,28 @@ public class BuildManager
 		}
 		
 		
-		int edge = buildPlan.getRadius() * 2 -1; 
 		if (bStatus == BuildStatus.PREBUILD)
 		{
-			// make block position
-			// generate Location for placing the block
-			// the buildLocation define the center of the plan in x/z plane
-			// the offset define the position of level 0 relative to surface 
-			LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
-			l.setX(l.getX()-buildPlan.getRadius()+1); 
-			l.setY(l.getY()+buildPlan.getOffsetY()); 
-			l.setZ(l.getZ()-buildPlan.getRadius()+1);
-			 
-			// Iterate thru BuildingPlan
-			/// increment column for next step
-//			System.out.println("h:"+h+" r: "+r+" c: "+c);
-			c++;
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
 
-			if (c < edge)
-			{
-			} else
-			{
-				r++;
-				if (r < edge)
-				{
-//					System.out.println(".");
-					c = 0;
-				} else
-				{
-//					System.out.println("------");
-					h++;
-					r = 0;
-					c = 0;
-				}
-			}
-				
-			if ((h < edge) && (r < edge) && c < edge )
-			{
-					if ((edge+buildPlan.getOffsetY()) >= 0)
-					{
-						l.setX(l.getX()+c); 
-						l.setY(l.getY()+h); 
-						l.setZ(l.getZ()+r);
-						cleanRequest.add(new ItemLocation(Material.AIR ,l));
-						if ((h+buildPlan.getOffsetY()) >= 0)
-						{
-							if (c == 0)
-							{
-								l.setX(l.getX()-1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setX(l.getX()+1);
-							}
-							if (c == 6)
-							{
-								l.setX(l.getX()+1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setX(l.getX()-1);
-							}
-							if (r == 0)
-							{
-								l.setZ(l.getZ()-1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setZ(l.getZ()+1);
-								
-							}
-							if (r == 6)
-							{
-								l.setZ(l.getZ()+1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setZ(l.getZ()+1);
-							}
-							if ((c == 0) && (r == 0))
-							{
-								l.setZ(l.getZ()-1);
-								l.setX(l.getX()-1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setX(l.getX()+1);
-								l.setZ(l.getZ()+1);
-							}
-							if ((c == 0) && (r == 6))
-							{
-								l.setZ(l.getZ()+1);
-								l.setX(l.getX()-1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setX(l.getX()+1);
-								l.setZ(l.getZ()-1);
-							}
-							if ((c == 6) && (r == 0))
-							{
-								l.setZ(l.getZ()-1);
-								l.setX(l.getX()+1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setX(l.getX()+1);
-								l.setZ(l.getZ()-1);
-							}
-							if ((c == 6) && (r == 6))
-							{
-								l.setZ(l.getZ()+1);
-								l.setX(l.getX()+1);
-								cleanRequest.add(new ItemLocation(Material.AIR ,l));
-								l.setX(l.getX()-1);
-								l.setZ(l.getZ()-1);
-							}
-						}
-					}
-			}
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
 		}
+		int edge = buildPlan.getRadius() * 2 -1; 
 		if (h >= edge)
 		{
 			h = 0;
@@ -334,6 +358,7 @@ public class BuildManager
 		
 	}
 	
+	
 	/**
 	 * go to BuildStatus.STARTED if readiness is given
 	 * 
@@ -345,6 +370,61 @@ public class BuildManager
 		// and put them into the warehouse
 		bStatus = BuildStatus.STARTED;
 	}
+
+	
+	/**
+	 * make a single step in build process
+	 * @param l
+	 */
+	private void doAddStep()
+	{
+		int edge = buildPlan.getRadius() * 2 -1; 
+		LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
+		l.setX(l.getX()-buildPlan.getRadius()); 
+		l.setY(l.getY()+buildPlan.getOffsetY()); 
+		l.setZ(l.getZ()-buildPlan.getRadius());
+		// make block position
+		// generate Location for placing the block
+		// the buildLocation define the center of the plan in x/z plane
+		// the offset define the position of level 0 relative to surface 
+		 
+		// Iterate thru BuildingPlan
+		/// increment column for next step
+		
+		c++;
+
+		if (c < edge)
+		{
+		} else
+		{
+			r++;
+			if (r < edge)
+			{
+//				System.out.println(".");
+				c = 0;
+			} else
+			{
+//				System.out.println("------");
+				h++;
+				r = 0;
+				c = 0;
+			}
+		}
+			
+		if ((h < edge) && (r < edge) && c < edge )
+		{
+			if (ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]) != Material.AIR)
+			{						
+//				System.out.print((""+h+":"+r+":"+c)+" > "+ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]) );
+				l.setX(l.getX()+c); 
+				l.setY(l.getY()+h); 
+				l.setZ(l.getZ()+r);
+				buildRequest.add(new ItemLocation(ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]) ,l));
+			}
+		}
+
+	}
+
 	
 	/**
 	 *  get block and location from buildplan
@@ -364,50 +444,25 @@ public class BuildManager
 		int edge = buildPlan.getRadius() * 2 -1; 
 		if (bStatus == BuildStatus.STARTED)
 		{
-			// make block position
-			// generate Location for placing the block
-			// the buildLocation define the center of the plan in x/z plane
-			// the offset define the position of level 0 relative to surface 
-			LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
-			l.setX(l.getX()-buildPlan.getRadius()+1); 
-			l.setY(l.getY()+buildPlan.getOffsetY()); 
-			l.setZ(l.getZ()-buildPlan.getRadius()+1);
-			 
-			// Iterate thru BuildingPlan
-			/// increment column for next step
 //			System.out.println("h:"+h+" r: "+r+" c: "+c);
-			c++;
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
 
-			if (c < edge)
-			{
-			} else
-			{
-				r++;
-				if (r < edge)
-				{
-//					System.out.println(".");
-					c = 0;
-				} else
-				{
-//					System.out.println("------");
-					h++;
-					r = 0;
-					c = 0;
-				}
-			}
-				
-			if ((h < edge) && (r < edge) && c < edge )
-			{
-				if (ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]) != Material.AIR)
-				{						
-//					System.out.print((""+h+":"+r+":"+c)+" > "+ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]) );
-					l.setX(l.getX()+c); 
-					l.setY(l.getY()+h); 
-					l.setZ(l.getZ()+r);
-					buildRequest.add(new ItemLocation(ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]) ,l));
-				}
-			}
-		}
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+			doAddStep();
+}
 		if (h >= edge)
 		{
 			bStatus = BuildStatus.POSTBUILD;

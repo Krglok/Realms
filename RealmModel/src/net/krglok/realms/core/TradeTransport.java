@@ -3,10 +3,11 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 
 /**
+ * <pre>
  * Hier werden zentral die Transporte der Trader abgewickelt.
  * Die Instanz ist zentral angeordnet und wird an die entsprechenden Nutzer uebergeben.
  * Es wird von den Nutzern verändert und verwaltet.
- * 
+ * </pre>
  * @author Windu
  *
  */

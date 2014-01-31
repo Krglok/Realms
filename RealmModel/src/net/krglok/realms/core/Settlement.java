@@ -9,9 +9,15 @@ import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 
 /**
- * represent the whole settlement and the rules for production, fertility and money
- * 
- *    
+ * <pre>
+ * represent the whole settlement the central object
+ * settlement based on the superregion and region of HeroStronghold
+ * incorporate the the rules for production, fertility and money
+ * simulation of residents and workers
+ * make trading and train units for military
+ * the production will be started from an external task, every ingame day 
+ * there are some Managers incorporated to give the settlement the possibility to ruled by a NPC
+ * </pre>
  * @author Windu
  *
  */
@@ -60,7 +66,6 @@ public class Settlement
 	private String world;
 
 	private BuildManager buildManager = new BuildManager();
-;
 
 	
 	/**
@@ -243,6 +248,7 @@ public class Settlement
 	
 	/**
 	 * charge number of items in storage of townhall without any storage buildings
+	 * 
 	 * @param settleType
 	 * @return number of items 
 	 */

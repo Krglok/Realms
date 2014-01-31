@@ -3,6 +3,14 @@ package net.krglok.realms.builder;
 import java.util.ArrayList;
 
 
+/**
+ * <pre>
+ * This are the Types of BuildPlan the player can build
+ * For some be are standard BuildPlan defined
+ * </pre>
+ * @author Windu
+ *
+ */
 public enum BuildPlanType
 {
 	NONE (0),
@@ -35,7 +43,6 @@ public enum BuildPlanType
 	FARM (224),
 	PIGPEN (225),
 	BAUERNHOF (220)
-
 	;
 	
 	private final int value;

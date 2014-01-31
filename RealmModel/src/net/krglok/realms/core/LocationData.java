@@ -1,6 +1,11 @@
 package net.krglok.realms.core;
 
 
+/**
+ * Independent  location definition, seperate the model from minecraft server
+ * @author Windu
+ *
+ */
 public class LocationData
 {
 

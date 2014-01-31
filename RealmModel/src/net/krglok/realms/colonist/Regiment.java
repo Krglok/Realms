@@ -4,6 +4,12 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 
+/**
+ * not yet implemented
+ * 
+ * @author Windu
+ *
+ */
 public class Regiment extends Settlement
 {
 

@@ -1,5 +1,11 @@
 package net.krglok.realms.core;
 
+/**
+ * define the type of trade orders
+ * 
+ * @author Windu
+ *
+ */
 public enum TradeType
 {
 	NONE,

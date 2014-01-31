@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 /**
+ * <pre>
  * Die TraderTransaction ist die Basis fuer das Handelssystem.
  * Es enthaelt das Item, die Menge und den Preis, 
  * sowie einen AblaufStatus und AblaufSteuerung
@@ -8,6 +9,7 @@ package net.krglok.realms.core;
  * 
  * der Parameter world kontrolliert den Multiworld zugriff
  * 
+ * </pre>
  * @author Windu
  *
  */

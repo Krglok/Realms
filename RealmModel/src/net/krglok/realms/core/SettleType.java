@@ -2,6 +2,7 @@ package net.krglok.realms.core;
 
 /**
  * this are the types of settlements build in a hierarchical List of values
+ * 
  * @author oduda
  *
  */

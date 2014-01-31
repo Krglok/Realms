@@ -4,6 +4,14 @@ import org.bukkit.Material;
 
 import net.krglok.realms.core.LocationData;
 
+/**
+ * <pre>
+ * secial ItemType for placing a block at the location
+ * Will be used in the requests of the BuildManager
+ * </pre>
+ * @author Windu
+ *
+ */
 public class ItemLocation
 {
 	private Material itemRef;

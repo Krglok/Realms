@@ -4,7 +4,12 @@ import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ServerInterface;
 
 /**
- * 
+ * <pre>
+ * realize the building of a settlement and hold settlers and make production
+ * the building have different types in the settlement
+ * they include a region from herostronghold for the buildup requirements
+ * and the production recipe
+ * </pre>
  * @author oduda
  *
  */

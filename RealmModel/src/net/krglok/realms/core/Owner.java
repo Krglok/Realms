@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 /**
+ * owner data for the settlement, kingdom 
  * 
  * @author oduda
  * 
@@ -116,7 +117,7 @@ public class Owner
 
 	/**
 	 * Set the owner without change the isNPC flag
-	 * @param owner
+	 * @param playerName
 	 */
 	public void setPlayerName(String playerName)
 	{

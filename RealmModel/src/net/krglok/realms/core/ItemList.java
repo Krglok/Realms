@@ -3,7 +3,7 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 
 /**
- * 
+ * list of items, hold each item type unique
  * @author oduda
  *
  */

@@ -3,7 +3,10 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 
 /**
- * 
+ * <pre>
+ * hold a list of trade orders
+ * will be used from traders in settlement
+ * </pre>
  * @author Windu
  *
  */

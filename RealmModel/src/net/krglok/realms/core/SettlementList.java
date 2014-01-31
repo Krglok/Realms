@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * <pre>
  * realize a list of all settlements in the model
  * Settlements are the basic elements of the model
+ * </pre>
  * @author oduda
  *
  */

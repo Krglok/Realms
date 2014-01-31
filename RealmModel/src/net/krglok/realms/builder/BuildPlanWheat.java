@@ -3,6 +3,7 @@ package net.krglok.realms.builder;
 import org.bukkit.Material;
 
 /**
+ * BuilPlan for a Whaet Building , a field
  * 
  * @author Windu
  *

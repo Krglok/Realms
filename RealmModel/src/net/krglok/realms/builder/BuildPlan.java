@@ -6,12 +6,14 @@ import org.bukkit.Material;
 
 
 /**
+ * <pre>
  * The BuildPlan represent a simple cubic building Instruction
  * with this plan you can buildup a simple Build of a special BuildingType
  * the cube is represented by with 
  * - Level = Row x col
  * - Cube  = Height x level
  * - byte [height] [row] [col] 
+ * </pre>
  * @author oduda
  *
  */

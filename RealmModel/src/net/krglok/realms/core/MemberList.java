@@ -3,6 +3,11 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * list of members in a kingdom
+ * @author Windu
+ *
+ */
 public class MemberList 
 {
 	private Map<String, Owner> memberList;

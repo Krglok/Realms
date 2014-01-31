@@ -145,7 +145,8 @@ public class DataTest implements DataInterface
 	/**
 	 * create a test Home, id and settler are configurable
 	 * @param id
-	 * @param residentHome
+	 * @param settler
+	 * @param regionId
 	 * @return configured building
 	 */
 	public Building createBuildingHome(int id, int settler, int regionId)

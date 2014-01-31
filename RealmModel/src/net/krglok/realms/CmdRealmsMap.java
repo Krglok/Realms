@@ -2,7 +2,7 @@ package net.krglok.realms;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.PlanMap;
+import net.krglok.realms.manager.PlanMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
