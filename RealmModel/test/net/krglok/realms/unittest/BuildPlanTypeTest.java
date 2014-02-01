@@ -34,7 +34,7 @@ public class BuildPlanTypeTest
 	{
 		ArrayList<BuildPlanType> bTypes ;
 		bTypes = BuildPlanType.getBuildPlanOrder();
-		BuildPlanType expected = BuildPlanType.HOME;
+		BuildPlanType expected = BuildPlanType.HALL;
 		BuildPlanType actual   = bTypes.get(2);
 		
 		if (expected != actual)

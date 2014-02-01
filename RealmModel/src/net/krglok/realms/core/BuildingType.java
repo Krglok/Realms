@@ -11,7 +11,7 @@ package net.krglok.realms.core;
 public enum BuildingType
 {
 	BUILDING_NONE (0),
-	BUILDING_HALL (10),
+	BUILDING_HALL (1000),
 	BUILDING_HOME (100),
 	BUILDING_PROD (200),
 	BUILDING_WHEAT (200),

@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.builder.ItemLocation;
+import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
@@ -220,6 +221,32 @@ public final class Realms extends JavaPlugin
 				setBlock(world, iLoc);
 				settle.buildManager().getBuildRequest().remove(0);
 			}
+			if (settle.buildManager().getBuildRequest().size() != 0)
+			{
+				ItemLocation iLoc =  settle.buildManager().getBuildRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				setBlock(world, iLoc);
+				settle.buildManager().getBuildRequest().remove(0);
+			}
+			if (settle.buildManager().getBuildRequest().size() != 0)
+			{
+				ItemLocation iLoc =  settle.buildManager().getBuildRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				setBlock(world, iLoc);
+				settle.buildManager().getBuildRequest().remove(0);
+			}
+		}
+		
+		for (Colony colony : realmModel.getColonys().values())
+		{
+			if (colony.buildManager().getBuildRequest().size() != 0)
+			{
+				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				setBlock(world, iLoc);
+				colony.buildManager().getBuildRequest().remove(0);
+				
+			}
 		}
 	}
 
@@ -236,6 +263,7 @@ public final class Realms extends JavaPlugin
 			
 			switch (iLoc.itemRef())
 			{
+			case BEDROCK: return Material.AIR;
 			case WOOD_DOOR : 
 				System.out.println("SetDoor !");
 				block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
@@ -267,6 +295,24 @@ public final class Realms extends JavaPlugin
 		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
 		{
 //			System.out.println(settle.getId()+": cleanRequest "+settle.buildManager().getCleanRequest().size());
+			if (settle.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				settle.buildManager().getCleanRequest().remove(0);
+			}
+			if (settle.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				settle.buildManager().getCleanRequest().remove(0);
+			}
 			if (settle.buildManager().getCleanRequest().size() != 0)
 			{
 //				System.out.println("cleanRequest");

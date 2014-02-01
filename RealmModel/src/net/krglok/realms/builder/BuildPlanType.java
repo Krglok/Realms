@@ -14,6 +14,12 @@ import java.util.ArrayList;
 public enum BuildPlanType
 {
 	NONE (0),
+	COLONY (1),
+	PILLAR (2),
+	WALL (3),
+	LANE (4),
+	ROAD (5),
+	STEEPLE (6),
 	HALL (11),
 	WAREHOUSE (301),
 	TRADER (401),

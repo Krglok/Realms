@@ -13,23 +13,23 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 //import net.krglok.realms.core.Position;
 
-public class CmdSettleTest extends RealmsCommand
+public class CmdSettleBuild extends RealmsCommand
 {
 	LocationData position;
 	String buildName;
 	BuildPlanType bType;
 	int settleId ;
 	
-	public CmdSettleTest( )
+	public CmdSettleBuild( )
 	{
-		super(RealmsCommandType.SETTLE, RealmsSubCommandType.TEST);
+		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BUILD);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle TEST [ID] [x] [Y] [Z] {BUILDING}",
-		    	"Build a new Building HOME  ",
+				ChatColor.YELLOW+"/settle BUILD [ID] [x] [Y] [Z] {BUILDING}",
+		    	"Build a new Building {BUILDING_TYPE}  ",
 		    	" Size = 7 x 7 , height Offset -1 ", 
 		    	" X = East/West ",
 		    	" Y = Height",
-		    	" Z = Nortz/South",
+		    	" Z = North/South",
 		    	" "
 			};
 			requiredArgs = 4;

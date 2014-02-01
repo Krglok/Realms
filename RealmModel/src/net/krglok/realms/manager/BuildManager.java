@@ -5,16 +5,25 @@ import java.util.HashMap;
 
 import org.bukkit.Material;
 import net.krglok.realms.builder.BuildPlan;
+import net.krglok.realms.builder.BuildPlanColony;
+import net.krglok.realms.builder.BuildPlanHall;
 import net.krglok.realms.builder.BuildPlanHome;
+import net.krglok.realms.builder.BuildPlanLane;
+import net.krglok.realms.builder.BuildPlanPillar;
+import net.krglok.realms.builder.BuildPlanQuarry;
+import net.krglok.realms.builder.BuildPlanRaod;
+import net.krglok.realms.builder.BuildPlanSteeple;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildPlanWheat;
 import net.krglok.realms.builder.BuildPlanWoodCutter;
+import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.Warehouse;
 
 /**
  * the build manager realize the Controller and Manager of the building process
@@ -38,18 +47,18 @@ import net.krglok.realms.core.Settlement;
  */
 public class BuildManager
 {
-	private enum BuildStatus
-	{
-
-		NONE,
-		PREBUILD,
-		READY,
-		STARTED,
-		POSTBUILD,
-		DONE,
-		WAIT;
-		
-	}
+//	public enum BuildStatus
+//	{
+//
+//		NONE,
+//		PREBUILD,
+//		READY,
+//		STARTED,
+//		POSTBUILD,
+//		DONE,
+//		WAIT;
+//		
+//	}
 
 //	private Settlement settle;
 	private HashMap<String, BuildPlan> buildPlanList = new HashMap<String, BuildPlan>();
@@ -83,17 +92,48 @@ public class BuildManager
 		initBuildPlans();
 	}
 	
-	public String getStatus()
+	public BuildStatus getStatus()
 	{
-		return bStatus.name();
+		return bStatus;
 	}
 	
+	/**
+	 * list of defaultBuildPlans
+	 * 
+	 */
 	private void initBuildPlans()
 	{
+		buildPlanList.put(BuildPlanType.COLONY.name(), new BuildPlanColony());
+		buildPlanList.put(BuildPlanType.HALL.name(), new BuildPlanHall());
 		buildPlanList.put(BuildPlanType.HOME.name(), new BuildPlanHome());
 		buildPlanList.put(BuildPlanType.WHEAT.name(), new BuildPlanWheat());
 		buildPlanList.put(BuildPlanType.WOODCUTTER.name(), new BuildPlanWoodCutter());
+		buildPlanList.put(BuildPlanType.QUARRY.name(), new BuildPlanQuarry());
+		buildPlanList.put(BuildPlanType.ROAD.name(), new BuildPlanRaod());
+		buildPlanList.put(BuildPlanType.LANE.name(), new BuildPlanLane());
+		buildPlanList.put(BuildPlanType.PILLAR.name(), new BuildPlanPillar());
+		buildPlanList.put(BuildPlanType.STEEPLE.name(), new BuildPlanSteeple());
 	}
+	
+	public static ItemList makeMaterialList(BuildPlan buildPlan)
+	{
+		ItemList items = new ItemList();
+		for (int h = 0; h < buildPlan.getEdge(); h++)
+		{
+			for (int r = 0; r < buildPlan.getEdge(); r++)
+			{
+				for (int c = 0; c < buildPlan.getEdge(); c++)
+				{
+					Material mat = ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]);
+					items.depositItem(mat.name(), 1);
+				}
+			}
+		}
+		
+		
+		return items;
+	}
+	
 	
 	/**
 	 * Set new Building parameter and start building
@@ -103,46 +143,23 @@ public class BuildManager
 	 */
 	public boolean newBuild(BuildPlanType bType, LocationData centerPos)
 	{
-		System.out.println("new Build : "+bStatus.name());
+		System.out.println("new Build : "+bStatus.name()+":"+bType.name());
 		if (bStatus == BuildStatus.NONE)
 		{
 			h = 0;
 			r = 0;
 			c = -1;  // for iteration start
 			String sPos = "";
-			switch (bType)
+			buildPlan = buildPlanList.get(bType.name());
+			buildLocation = centerPos;
+			signText[2] = bType.name().toCharArray();
+			sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
+			signText[2] = sPos.toCharArray();
+			bStatus = BuildStatus.PREBUILD;
+			if (buildPlan == null)
 			{
-			case HOME :
-				buildPlan = buildPlanList.get(bType.name());
-				buildLocation = centerPos;
-				signText[2] = bType.name().toCharArray();
-				sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
-				signText[2] = sPos.toCharArray();
-				bStatus = BuildStatus.PREBUILD;
-				return true;
-			case WHEAT :
-				buildPlan = buildPlanList.get(bType.name());
-				buildLocation = centerPos;
-				signText[2] = bType.name().toCharArray();
-				sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
-				signText[2] = sPos.toCharArray();
-				bStatus = BuildStatus.PREBUILD;
-				return true;
-			case WOODCUTTER :
-				buildPlan = buildPlanList.get(bType.name());
-				buildLocation = centerPos;
-				signText[2] = bType.name().toCharArray();
-				sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
-				signText[2] = sPos.toCharArray();
-				bStatus = BuildStatus.PREBUILD;
-				return true;
-			default:
-				buildPlan = null;
-				buildLocation = null;
-				signText[2] = bType.name().toCharArray();
-				sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
-				signText[2] = sPos.toCharArray();
 				bStatus = BuildStatus.NONE;
+				System.out.println("Build Cancelled "+bStatus.name()+":"+bType.name());
 			}
 		}
 		return false;
@@ -151,7 +168,7 @@ public class BuildManager
 	/**
 	 * run on TickTask to build one block tick
 	 */
-	public void run(Settlement settle)
+	public void run(Warehouse warehouse)
 	{
 //		if (buildPlan == null)
 //		{
@@ -161,7 +178,7 @@ public class BuildManager
 		{
 		case  PREBUILD: 
 //			System.out.println("run : "+bStatus.name());
-			preBuild(settle);
+			preBuild(warehouse);
 			break;
 		case READY : 
 //			System.out.println("run : "+bStatus.name());
@@ -198,9 +215,9 @@ public class BuildManager
 		// the buildLocation define the center of the plan in x/z plane
 		// the offset define the position of level 0 relative to surface 
 		LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
-		l.setX(l.getX()-buildPlan.getRadius()+1); 
+		l.setX(l.getX()-buildPlan.getRadius()); 
 		l.setY(l.getY()+buildPlan.getOffsetY()); 
-		l.setZ(l.getZ()-buildPlan.getRadius()+1);
+		l.setZ(l.getZ()-buildPlan.getRadius());
 		 
 		// Iterate thru BuildingPlan
 		/// increment column for next step
@@ -227,72 +244,12 @@ public class BuildManager
 			
 		if ((h < edge) && (r < edge) && c < edge )
 		{
-				if ((edge+buildPlan.getOffsetY()) >= 0)
+//				if ((edge+buildPlan.getOffsetY()) >= 0)
 				{
 					l.setX(l.getX()+c); 
 					l.setY(l.getY()+h); 
 					l.setZ(l.getZ()+r);
 					cleanRequest.add(new ItemLocation(Material.AIR ,l));
-					if ((h+buildPlan.getOffsetY()) >= 0)
-					{
-						if (c == 0)
-						{
-							l.setX(l.getX()-1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setX(l.getX()+1);
-						}
-						if (c == 6)
-						{
-							l.setX(l.getX()+1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setX(l.getX()-1);
-						}
-						if (r == 0)
-						{
-							l.setZ(l.getZ()-1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setZ(l.getZ()+1);
-							
-						}
-						if (r == 6)
-						{
-							l.setZ(l.getZ()+1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setZ(l.getZ()+1);
-						}
-						if ((c == 0) && (r == 0))
-						{
-							l.setZ(l.getZ()-1);
-							l.setX(l.getX()-1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setX(l.getX()+1);
-							l.setZ(l.getZ()+1);
-						}
-						if ((c == 0) && (r == 6))
-						{
-							l.setZ(l.getZ()+1);
-							l.setX(l.getX()-1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setX(l.getX()+1);
-							l.setZ(l.getZ()-1);
-						}
-						if ((c == 6) && (r == 0))
-						{
-							l.setZ(l.getZ()-1);
-							l.setX(l.getX()+1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setX(l.getX()+1);
-							l.setZ(l.getZ()-1);
-						}
-						if ((c == 6) && (r == 6))
-						{
-							l.setZ(l.getZ()+1);
-							l.setX(l.getX()+1);
-							cleanRequest.add(new ItemLocation(Material.AIR ,l));
-							l.setX(l.getX()-1);
-							l.setZ(l.getZ()-1);
-						}
-					}
 				}
 		}
 		
@@ -302,7 +259,7 @@ public class BuildManager
 	 * do something before build the Building
 	 * cleanUp Building area
 	 */
-	private void preBuild(Settlement settle)
+	private void preBuild(Warehouse warehouse)
 	{
 //		System.out.println("pre : "+bStatus.name());
 		if (buildPlan == null)
@@ -322,21 +279,6 @@ public class BuildManager
 			doCleanStep();
 			doCleanStep();
 			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
 		}
 		int edge = buildPlan.getRadius() * 2 -1; 
 		if (h >= edge)
@@ -350,7 +292,7 @@ public class BuildManager
 			{
 				if (iLoc.itemRef() != Material.AIR)
 				{
-					settle.getWarehouse().depositItemValue(iLoc.itemRef().name(), 1);
+					warehouse.depositItemValue(iLoc.itemRef().name(), 1);
 				}
 			}
 		} 
@@ -445,20 +387,6 @@ public class BuildManager
 		if (bStatus == BuildStatus.STARTED)
 		{
 //			System.out.println("h:"+h+" r: "+r+" c: "+c);
-			doAddStep();
-			doAddStep();
-			doAddStep();
-			doAddStep();
-			doAddStep();
-			doAddStep();
-			doAddStep();
-			doAddStep();
-
-			doAddStep();
-			doAddStep();
-			doAddStep();
-			doAddStep();
-			doAddStep();
 			doAddStep();
 			doAddStep();
 			doAddStep();

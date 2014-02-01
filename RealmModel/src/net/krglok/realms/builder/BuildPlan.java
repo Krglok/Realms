@@ -197,9 +197,9 @@ public abstract class BuildPlan
 	 * Set Material in vertical line at given Position with length 
 	 * @param cube
 	 * @param mat
+	 * @param level
 	 * @param row
 	 * @param col
-	 * @param level
 	 * @param Heigth
 	 * @return
 	 */

@@ -56,8 +56,10 @@ public class CommandRealms
 			new CmdSettleSetItem(),
 			new CmdSettleGetItem(),
 			new CmdSettleTrader(),
-			new CmdSettleTest(),
-			new CmdRealmsTest()
+			new CmdSettleBuild(),
+			new CmdColonistCreate(),
+			new CmdColonyBuild()
+//			new CmdRealmsTest()
 			
 		};
 		return commandList;

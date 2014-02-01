@@ -83,7 +83,7 @@ public class BuildingTest
 			}
 		}
 		
-		int expected = 32;
+		int expected = 16;
 		int actual 	 = outValues.getItem("WHEAT").value();
 		assertEquals(expected, actual);
 	}
@@ -123,7 +123,7 @@ public class BuildingTest
 		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
 		BuildingType buildingType = BuildingType.BUILDING_PROD;
-		String regionType 	= "kornfeld";
+		String regionType 	= "schreiner";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 
@@ -136,19 +136,19 @@ public class BuildingTest
 		outValues = building.produce(server);
 		
 		
-		isOutput = false;
+		isOutput = true;
 		if (isOutput)
 		{
 			System.out.println("==Matlist == : "+matList.size());
-			for (String itemRef : matList.keySet())
+			for (Item item : matList.values())
 			{
-				System.out.println(itemRef+":"+matList.get(itemRef));
+				System.out.println(item.ItemRef()+":"+item.value());
 			}
 			
 		}
-		HashMap<Integer,ItemList> prodStore = server.getProdStore();
-		int expected = 1;
-		int actual 	 = prodStore.get(18).getValue("WHEAT");
+		
+		int expected = 32;
+		int actual 	 = matList.getValue("LOG");
 		assertEquals(expected, actual);
 	}
 	

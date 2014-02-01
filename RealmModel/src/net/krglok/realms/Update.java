@@ -73,7 +73,6 @@ public class Update
 
 	public static void message(Player player, String msg)
 	{
-		// TODO Auto-generated method stub
 		player.sendMessage(msg);
 	}
 

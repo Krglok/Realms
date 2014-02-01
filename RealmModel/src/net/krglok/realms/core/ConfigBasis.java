@@ -22,7 +22,7 @@ public class ConfigBasis implements ConfigInterface
 	public final static long dayNight = 24000 ; // serverTicks 
 	public final static long RealmTick = 20L; 
 	public final static long DelayTick = 20L; 
-	public static long GameDay = 40; //ConfigBasis.dayNight / ConfigBasis.RealmTick;
+	public static long GameDay = ConfigBasis.dayNight / ConfigBasis.RealmTick; // 40; //
 	
 	public static double DISTANCE_1_DAY = 1000.0;
 	
@@ -60,6 +60,7 @@ public class ConfigBasis implements ConfigInterface
 		case WOOD_STAIRS: return 53;
 		case COBBLESTONE_STAIRS: return 67;
 		case BRICK: return 98;
+		case WHEAT: return 59;
 		case SANDSTONE_STAIRS: return (byte) 128;
 		case CHEST : return (byte) 54;
 		case WORKBENCH : return 58;
@@ -69,6 +70,7 @@ public class ConfigBasis implements ConfigInterface
 		case BED_BLOCK : return 26;
 		case BOOKSHELF : return 47;
 		case TORCH : return 50;
+		case WOOL : return 35;
 		default:
 			return 0;
 		}
@@ -95,7 +97,9 @@ public class ConfigBasis implements ConfigInterface
 		case 18 : return'l';
 		case 24 : return'T';
 		case 31 : return'g';
+		case 35 : return 'O';
 		case 56 : return'd';
+		case 59 : return 'i';
 		case 110 : return'M';
 		case 85 : return'#';
 		case (byte) 254: return'.';
@@ -135,6 +139,7 @@ public class ConfigBasis implements ConfigInterface
 		case 24 : return Material.SANDSTONE;
 		case 31 : return Material.GRASS;
 		case 56 : return Material.DIAMOND_ORE;
+		case 59 : return Material.WHEAT;
 		case 110 : return Material.MYCEL;
 		case 85 : return Material.FENCE;
 		case (byte) 254: return Material.AIR;
@@ -147,6 +152,7 @@ public class ConfigBasis implements ConfigInterface
 		case 26 : return Material.BED_BLOCK;
 		case 47 : return Material.BOOKSHELF;
 		case 50 : return Material.TORCH;
+		case 35 : return Material.WOOL;
 		
 		default :
 			return Material.AIR;

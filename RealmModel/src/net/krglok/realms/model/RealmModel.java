@@ -3,6 +3,8 @@ package net.krglok.realms.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.krglok.realms.colonist.Colony;
+import net.krglok.realms.colonist.ColonyList;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
@@ -63,9 +65,11 @@ public class RealmModel
 
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
+	private ColonyList colonys;				// List of colonys in game
 	
 	private boolean isInit = false;
 	private int garbageCounter;
+	private int colonyCounter = 0;
 	
 	/**
 	 * instances an empty Model , must be initialize external !
@@ -93,6 +97,7 @@ public class RealmModel
 		owners = new OwnerList();
 		realms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
+		colonys     = new ColonyList(colonyCounter);
 		this.server = server;
 		this.config = config;
 		this.data   = data;
@@ -224,6 +229,14 @@ public class RealmModel
 	public TradeTransport getTradeTransport()
 	{
 		return tradeTransport;
+	}
+
+	/**
+	 * @return the colonys
+	 */
+	public ColonyList getColonys()
+	{
+		return colonys;
 	}
 
 	public void OnEnable()
@@ -492,9 +505,15 @@ public class RealmModel
 		{
 //			if (settle.buildManager().getStatus().equalsIgnoreCase("None") == false)
 			{
-				settle.buildManager().run(settle);
+				settle.buildManager().run(settle.getWarehouse());
 			}
 
+		}
+		
+		for (Colony colony : colonys.values())
+		{
+			colony.buildManager().run(colony.getWarehouse());
+			colony.run(colony.getWarehouse());
 		}
 	}
 	

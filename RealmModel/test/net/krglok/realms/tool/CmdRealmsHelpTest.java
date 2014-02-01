@@ -25,7 +25,7 @@ import net.krglok.realms.CmdSettleInfo;
 import net.krglok.realms.CmdSettleList;
 import net.krglok.realms.CmdSettleSell;
 import net.krglok.realms.CmdSettleSetItem;
-import net.krglok.realms.CmdSettleTest;
+import net.krglok.realms.CmdSettleBuild;
 import net.krglok.realms.CmdSettleTrader;
 import net.krglok.realms.CmdSettleWarehouse;
 import net.krglok.realms.RealmsCommand;
@@ -62,7 +62,7 @@ public class CmdRealmsHelpTest
 			new CmdSettleSetItem(),
 			new CmdSettleGetItem(),
 			new CmdSettleTrader(),
-			new CmdSettleTest()
+			new CmdSettleBuild()
 			
 		};
 		return commandList;

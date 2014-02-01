@@ -10,15 +10,15 @@ depend: [HeroStronghold,Vault]
 commands:
     realms:
         description: Basic command only show version and commandlist
-        usage: " /model only for ops to control model setup
+        usage: " /realms only for ops to control model and setup
  /owner only for ops for managing owners 
- /realm player command for realm management
+ /kingdom player command for realm management
  /settle player command for settlement management
+ /colonist player command for control colonists
  "
     model:
         description: only for ops to control model setup 
-        usage: " [] = required  {} = optional 
- /model [subCommand] 
+        usage: "/model [subCommand] 
         "
     owner: 
         description: only for ops for managing owners
@@ -32,9 +32,9 @@ commands:
         description: player command for settlement management
         usage: " /settle [subCommand] [settlementId] 
         "
-    stronghold:
+    colonist:
         description: show data from HeroStronghold
-        usage: /stronghold [subCommand] {parameter}
+        usage: /colonist [subCommand] {parameter}
 permissions:
     realms.admin:
         description: Gives access to admin commands

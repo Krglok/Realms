@@ -6,6 +6,7 @@ public enum RealmsCommandType
 	NONE ,
 	KINGDOM ,
 	SETTLE ,
+	COLONIST,
 	OWNER,
 	REALMS
 	;
