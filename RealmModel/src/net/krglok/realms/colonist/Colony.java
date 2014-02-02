@@ -50,7 +50,8 @@ public class Colony
 		NEXTLIST,		// der Builder baut nach BuildPlan
 		POSTBUILD,		// der Builder schliesst den Auftrag ab
 		DONE,			// der Builder beendet den Auftrag.
-		WAIT			// der Builder wartet auf Material
+		WAIT,			// der Builder wartet auf Material
+		WAITBUILD		// wartet auf den BuildManager
 		;
 	}
 
@@ -71,6 +72,7 @@ public class Colony
 	private int buildPosIndex;
 	private Boolean isEnabled;
 	private Boolean isActive;
+	private ColonyStatus nextStatus;
 	
 	private BuildPlanType center = BuildPlanType.COLONY;
 	
@@ -81,6 +83,7 @@ public class Colony
 	public Colony (String name, LocationData position, String owner)
 	{
 		this.cStatus = ColonyStatus.NONE;
+		this.nextStatus = ColonyStatus.NONE;
 		this.name = name;
 		this.position = position;
 		this.owner = owner;
@@ -133,7 +136,7 @@ public class Colony
 		colony.getWarehouse().depositItemValue(Material.WORKBENCH.name(), 6);
 		colony.getWarehouse().depositItemValue(Material.DIRT.name(), 100);
 		colony.getWarehouse().depositItemValue(Material.WATER.name(), 10);
-		colony.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),400);
+		colony.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),500);
 		colony.getWarehouse().depositItemValue(Material.WOOD_DOOR.name(), 8);
 		colony.getWarehouse().depositItemValue(Material.BEDROCK.name(), 1);
 		colony.getWarehouse().depositItemValue(Material.CHEST.name(), 40);
@@ -153,7 +156,8 @@ public class Colony
 	}
 
 	/**
-	 * 
+	 * startUp buildProcess
+	 * set the World for the relative BuildPosition
 	 * @param name
 	 */
 	public void startUpBuild(String name)
@@ -161,6 +165,12 @@ public class Colony
 		this.name = name;
 		cStatus = ColonyStatus.PREBUILD;
 		System.out.println("Start Colony Build");
+		// set the World for the relative BuildPosition
+		for (BuildPosition aPos : settleSchema.getbPositions())
+		{
+		  aPos.getPosition().setWorld(this.position.getWorld());
+		}
+
 	}
 	
 	/**
@@ -189,6 +199,8 @@ public class Colony
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
 				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				nextStatus = ColonyStatus.READY;
+				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
 			}
 			break;
@@ -198,6 +210,8 @@ public class Colony
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
 				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				nextStatus = ColonyStatus.READY;
+				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
 			}
 			break;
@@ -207,6 +221,8 @@ public class Colony
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
 				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				nextStatus = ColonyStatus.READY;
+				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
 			}
 			break;
@@ -216,6 +232,8 @@ public class Colony
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
 				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				nextStatus = ColonyStatus.READY;
+				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
 			}
 			break;
@@ -232,14 +250,17 @@ public class Colony
 	 */
 	public void run (Warehouse warehouse)
 	{
+		LocationData newPos;
+
 		switch (cStatus)
 		{
 		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
 			if (buildManager.getStatus() == BuildStatus.NONE)
 			{
-				System.out.println("Build Center ");
+				System.out.println("Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 				buildManager.newBuild(BuildPlanType.COLONY, this.position);
-				this.cStatus = ColonyStatus.DONE;
+				nextStatus = ColonyStatus.READY;
+				this.cStatus = ColonyStatus.WAITBUILD;
 			}
 			break;
 		case READY :		// der Builder bereitet das Materiallager vor
@@ -254,23 +275,32 @@ public class Colony
 		case STARTLIST: 	// der Builder baut nach BuildPlan
 			System.out.println("Build List Start ");
 			actualBuildPos = settleSchema.getbPositions().get(0);
-			buildPosIndex=1;
+			buildPosIndex=0;
+			this.cStatus = ColonyStatus.BUILDLIST;
 			break;
 		case BUILDLIST: 	// der Builder baut nach BuildPlan
 			if (buildManager.getStatus() == BuildStatus.NONE)
 			{
-				System.out.println("Build List "+actualBuildPos.getbType());
-				buildManager.newBuild(actualBuildPos.getbType(), actualBuildPos.getPosition());
-				this.cStatus = ColonyStatus.NEXTLIST;
+				actualBuildPos.getPosition().setWorld(this.position.getWorld());
+				newPos = new LocationData(position.getWorld(), 
+						position.getX()+actualBuildPos.getPosition().getX(), 
+						position.getY()+actualBuildPos.getPosition().getY(), 
+						position.getZ()+actualBuildPos.getPosition().getZ()
+						);
+				System.out.println("Build List "+actualBuildPos.getbType()+":"+buildPosIndex);
+				buildManager.newBuild(actualBuildPos.getbType(),newPos);
+				nextStatus = ColonyStatus.NEXTLIST;
+				this.cStatus = ColonyStatus.WAITBUILD;
 			}
 			break;
 		case NEXTLIST:		// der Builder baut nach BuildPlan
 			if (buildManager.getStatus() == BuildStatus.NONE)
 			{
+				buildPosIndex++;
 				if (buildPosIndex < settleSchema.getbPositions().size())
 				{
 					System.out.println("Build List Next ");
-					buildPosIndex++;
+					actualBuildPos = settleSchema.getbPositions().get(buildPosIndex);
 					this.cStatus = ColonyStatus.BUILDLIST;
 				} else
 				{
@@ -287,6 +317,14 @@ public class Colony
 			break;
 		case WAIT:			// der Builder wartet auf Material
 			this.cStatus = ColonyStatus.NONE;
+			break;
+		case WAITBUILD:
+			if (buildManager.getStatus() == BuildStatus.NONE)
+			{
+				System.out.println("WaitBuild ENDE ");
+				cStatus = nextStatus;
+				nextStatus = ColonyStatus.NONE;
+			}
 			break;
 		default :
 		}

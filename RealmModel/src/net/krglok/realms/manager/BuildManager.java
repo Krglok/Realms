@@ -143,7 +143,7 @@ public class BuildManager
 	 */
 	public boolean newBuild(BuildPlanType bType, LocationData centerPos)
 	{
-		System.out.println("new Build : "+bStatus.name()+":"+bType.name());
+		System.out.println("new Build : "+":"+bType.name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
 		if (bStatus == BuildStatus.NONE)
 		{
 			h = 0;
@@ -209,15 +209,21 @@ public class BuildManager
 
 	private void doCleanStep()
 	{
-		int edge = buildPlan.getRadius() * 2 -1; 
+		int radius = buildPlan.getRadius(); 
+		int edge =  radius * 2 -1;
+		if (h+buildPlan.getOffsetY() >= 0 )
+		{
+			radius = radius + 1;
+			edge =  radius * 2 -1;
+		}
 		// make block position
 		// generate Location for placing the block
 		// the buildLocation define the center of the plan in x/z plane
 		// the offset define the position of level 0 relative to surface 
 		LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
-		l.setX(l.getX()-buildPlan.getRadius()); 
+		l.setX(l.getX()-radius); 
 		l.setY(l.getY()+buildPlan.getOffsetY()); 
-		l.setZ(l.getZ()-buildPlan.getRadius());
+		l.setZ(l.getZ()-radius);
 		 
 		// Iterate thru BuildingPlan
 		/// increment column for next step
@@ -269,18 +275,22 @@ public class BuildManager
 		}
 		if (buildLocation.getWorld() == "")
 		{
-//			System.out.println("No Location"+bStatus.name());
+			System.out.println("BuildManager No World "+bStatus.name());
 			return;
 		}
 		
 		
 		if (bStatus == BuildStatus.PREBUILD)
 		{
+//			System.out.println("BuildManager Clean "+h);
+			doCleanStep();
+			doCleanStep();
 			doCleanStep();
 			doCleanStep();
 			doCleanStep();
 		}
-		int edge = buildPlan.getRadius() * 2 -1; 
+		// ein level oberhalb mit abraeumen
+		int edge = (buildPlan.getRadius()+1) * 2 -1; 
 		if (h >= edge)
 		{
 			h = 0;

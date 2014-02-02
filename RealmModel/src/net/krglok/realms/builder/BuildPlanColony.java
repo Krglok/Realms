@@ -18,6 +18,7 @@ public class BuildPlanColony extends BuildPlan
 	{
 //		byte[][][] cube = new byte[edge][edge][edge];
 		//Center of Settlement/Colony
+		BuildPlan.fillLevel(cube[0], Material.COBBLESTONE);
 		BuildPlan.setPos(cube[0][3], Material.BEDROCK, 3);
 		//NordWand aus Holz
 		BuildPlan.fillRowPart(cube[1][0], Material.WOOL, 1, 2);
@@ -57,7 +58,12 @@ public class BuildPlanColony extends BuildPlan
 		BuildPlan.fillRowPart(cube[1][5], Material.CHEST, 1, 2);
 		BuildPlan.fillRowPart(cube[1][5], Material.CHEST, 4, 5);
 //		BuildPlan.setPos(cube[1][1], Material.SIGN, 1);
-		BuildPlan.setPos(cube[2][3], Material.TORCH, 1);
+		BuildPlan.setPos(cube[3][2], Material.TORCH, 1);
+		BuildPlan.setPos(cube[3][4], Material.TORCH, 1);
+		BuildPlan.setPos(cube[1][0], Material.TORCH, 0);
+		BuildPlan.setPos(cube[1][0], Material.TORCH, 6);
+		BuildPlan.setPos(cube[1][6], Material.TORCH, 0);
+		BuildPlan.setPos(cube[1][6], Material.TORCH, 6);
 		return cube;
 	}
 

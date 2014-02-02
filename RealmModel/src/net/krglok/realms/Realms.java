@@ -241,6 +241,23 @@ public final class Realms extends JavaPlugin
 		{
 			if (colony.buildManager().getBuildRequest().size() != 0)
 			{
+//				System.out.println("Coloy Build request");
+				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				setBlock(world, iLoc);
+				colony.buildManager().getBuildRequest().remove(0);
+				
+			}
+			if (colony.buildManager().getBuildRequest().size() != 0)
+			{
+				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				setBlock(world, iLoc);
+				colony.buildManager().getBuildRequest().remove(0);
+				
+			}
+			if (colony.buildManager().getBuildRequest().size() != 0)
+			{
 				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(0);
 				World world = getServer().getWorld(iLoc.position().getWorld());
 				setBlock(world, iLoc);
@@ -322,8 +339,76 @@ public final class Realms extends JavaPlugin
 				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
 				settle.buildManager().getCleanRequest().remove(0);
 			}
+			if (settle.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				settle.buildManager().getCleanRequest().remove(0);
+			}
+			if (settle.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				settle.buildManager().getCleanRequest().remove(0);
+			}
 		}
-		
+
+		for (Colony colony : realmModel.getColonys().values())
+		{
+//			System.out.println(settle.getId()+": cleanRequest "+settle.buildManager().getCleanRequest().size());
+			if (colony.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("Colony Clean request");
+				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				colony.buildManager().getCleanRequest().remove(0);
+			}
+			if (colony.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				colony.buildManager().getCleanRequest().remove(0);
+			}
+			if (colony.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				colony.buildManager().getCleanRequest().remove(0);
+			}
+			if (colony.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				colony.buildManager().getCleanRequest().remove(0);
+			}
+			if (colony.buildManager().getCleanRequest().size() != 0)
+			{
+//				System.out.println("cleanRequest");
+				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc);
+				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				colony.buildManager().getCleanRequest().remove(0);
+			}
+		}
+
 	}
 	
      

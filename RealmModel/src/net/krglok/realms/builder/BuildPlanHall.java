@@ -16,6 +16,7 @@ public class BuildPlanHall extends BuildPlan
 	public byte[][][] initCube(int edge)
 	{
 		byte[][][] cube = new byte[edge][edge][edge];
+		BuildPlan.fillLevel(cube[0], Material.DIRT);
 		BuildPlan.fillLevel(cube[1], Material.COBBLESTONE);
 		//Nordwand
 		BuildPlan.fillRowPart(cube[2][0], Material.WOOD, 2, 10);
@@ -62,7 +63,7 @@ public class BuildPlanHall extends BuildPlan
 		BuildPlan.fillRowPart(cube[9][7], Material.STONE, 5, 7);
 		BuildPlan.fillRowPart(cube[9][6], Material.STONE, 5, 7);
 		BuildPlan.fillRowPart(cube[9][5], Material.STONE, 5, 7);
-		BuildPlan.fillRowPart(cube[9][4], Material.STONE, 5, 7);
+		BuildPlan.fillRowPart(cube[9][4], Material.STONE, 1, 11);
 		BuildPlan.fillRowPart(cube[9][3], Material.STONE, 1, 11);
 		
 		//Eckpfeiler
@@ -83,6 +84,8 @@ public class BuildPlanHall extends BuildPlan
 		BuildPlan.fillColPart(cube[3], Material.WOOD, 11, 1, 5);
 		BuildPlan.fillColPart(cube[4], Material.WOOD, 1, 1, 5);
 		BuildPlan.fillColPart(cube[4], Material.WOOD, 11, 1, 5);
+		BuildPlan.fillColPart(cube[5], Material.WOOD, 1, 1, 5);
+		BuildPlan.fillColPart(cube[5], Material.WOOD, 11, 1, 5);
 		BuildPlan.fillColPart(cube[6], Material.WOOD, 1, 1, 5);
 		BuildPlan.fillColPart(cube[6], Material.WOOD, 11, 1, 5);
 		BuildPlan.fillColPart(cube[7], Material.WOOD, 1, 1, 5);
@@ -109,23 +112,23 @@ public class BuildPlanHall extends BuildPlan
 		BuildPlan.setPos(cube[2][12], Material.WOOD_DOOR, 6);
 		BuildPlan.setPos(cube[2][6],  Material.WOOD_DOOR, 3);
 		BuildPlan.setPos(cube[3][11], Material.WALL_SIGN, 5);
-		BuildPlan.fillRowPart(cube[3][1], Material.CHEST, 3, 4);
-		BuildPlan.fillRowPart(cube[3][1], Material.CHEST, 6, 7);
-		BuildPlan.fillRowPart(cube[3][1], Material.CHEST, 9,10);
-		BuildPlan.fillRowPart(cube[5][1], Material.CHEST, 3, 4);
-		BuildPlan.fillRowPart(cube[5][1], Material.CHEST, 6, 7);
-		BuildPlan.fillRowPart(cube[5][1], Material.CHEST, 9,10);
-		BuildPlan.fillRowPart(cube[3][5], Material.CHEST, 5, 6);
-		BuildPlan.fillRowPart(cube[3][5], Material.CHEST, 8, 9);
-		BuildPlan.fillRowPart(cube[5][5], Material.CHEST, 5, 6);
-		BuildPlan.fillRowPart(cube[5][5], Material.CHEST, 8, 9);
+		BuildPlan.fillRowPart(cube[2][1], Material.CHEST, 3, 4);
+		BuildPlan.fillRowPart(cube[2][1], Material.CHEST, 6, 7);
+		BuildPlan.fillRowPart(cube[2][1], Material.CHEST, 9,10);
+		BuildPlan.fillRowPart(cube[4][1], Material.CHEST, 3, 4);
+		BuildPlan.fillRowPart(cube[4][1], Material.CHEST, 6, 7);
+		BuildPlan.fillRowPart(cube[4][1], Material.CHEST, 9,10);
+		BuildPlan.fillRowPart(cube[2][5], Material.CHEST, 5, 6);
+		BuildPlan.fillRowPart(cube[2][5], Material.CHEST, 8, 9);
+		BuildPlan.fillRowPart(cube[4][5], Material.CHEST, 5, 6);
+		BuildPlan.fillRowPart(cube[4][5], Material.CHEST, 8, 9);
 //		BuildPlan.setPos(cube[1][1], Material.SIGN, 1);
 		BuildPlan.setPos(cube[4][11], Material.TORCH, 2);
 		BuildPlan.setPos(cube[3][11], Material.BOOKSHELF, 2);
 		BuildPlan.setPos(cube[2][11], Material.BOOKSHELF, 2);
 		BuildPlan.setPos(cube[4][11], Material.TORCH, 10);
-		BuildPlan.setPos(cube[3][11], Material.BOOKSHELF, 11);
-		BuildPlan.setPos(cube[2][11], Material.BOOKSHELF, 11);
+		BuildPlan.setPos(cube[3][11], Material.BOOKSHELF, 10);
+		BuildPlan.setPos(cube[2][11], Material.BOOKSHELF, 10);
 		
 		return cube;
 	}

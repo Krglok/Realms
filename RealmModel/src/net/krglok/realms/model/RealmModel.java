@@ -421,7 +421,7 @@ public class RealmModel
 			tradeMarket.runTick();
 			// Builder
 			buildManagers();
-			
+			colonyRun();
 			switch (modelStatus)
 			{
 			case MODEL_ENABLED :
@@ -512,7 +512,16 @@ public class RealmModel
 		
 		for (Colony colony : colonys.values())
 		{
+//			System.out.println("Colony Buildmanager");
 			colony.buildManager().run(colony.getWarehouse());
+		}
+	}
+	
+	private void colonyRun()
+	{
+		for (Colony colony : colonys.values())
+		{
+//			System.out.println("Colony ");
 			colony.run(colony.getWarehouse());
 		}
 	}

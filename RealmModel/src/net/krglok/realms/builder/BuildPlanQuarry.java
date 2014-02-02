@@ -8,7 +8,9 @@ public class BuildPlanQuarry extends BuildPlan
 	public BuildPlanQuarry( )
 	{
 		super(BuildPlanType.QUARRY, 4, -1);
-	}
+		setLine(0, "  [QUARRY]");
+		this.cube = initCube(edge);
+}
 
 	@Override
 	public byte[][][] initCube(int edge)

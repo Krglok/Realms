@@ -5,6 +5,7 @@ import net.krglok.realms.model.McmdColonistCreate;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdColonistCreate extends RealmsCommand
 {
@@ -88,6 +89,9 @@ public class CmdColonistCreate extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
+		Player player = (Player) sender;
+		String world = player.getLocation().getWorld().getName();
+		position.setWorld(world); 
 		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, position, owner));
 	}
 
@@ -96,7 +100,15 @@ public class CmdColonistCreate extends RealmsCommand
 	{
 		if (sender.isOp())
 		{
-			return true;
+			if (sender instanceof Player)
+			{
+				return true;
+			}
+			errorMsg.add("The World can NOT be set correct !");
+			errorMsg.add("The command can NOT be send from console");
+		} else
+		{
+			errorMsg.add("You are not a OP");
 		}
 		return false;
 	}

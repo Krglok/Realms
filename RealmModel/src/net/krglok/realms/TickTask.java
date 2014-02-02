@@ -1,12 +1,14 @@
 package net.krglok.realms;
 
+import net.krglok.realms.core.ConfigBasis;
+
 public class TickTask implements Runnable
 {
     //private final transient Server server;
     private final Realms plugin;
     private static int counter = 0;
     private static boolean isProduction = false;
-    private static int prodLimit = 100;  // GameDay;
+    private static int prodLimit = (int) ConfigBasis.dayNight;
     private static int taxCounter = 0;
     private static int taxLimit = prodLimit * 10;
     private static int buildMin = prodLimit * 4 / 10;
