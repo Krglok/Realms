@@ -51,4 +51,17 @@ public enum BuildingType
 		
 		return BuildingType.BUILDING_NONE;
 	}
+	
+	public static BuildingType getBuildingType(int ref)
+	{
+		for (BuildingType buildingType : BuildingType.values())
+		{
+			if (buildingType.getValue() == ref)
+			{
+				return buildingType;
+			}
+		}
+		
+		return BuildingType.BUILDING_NONE;
+	}
 }

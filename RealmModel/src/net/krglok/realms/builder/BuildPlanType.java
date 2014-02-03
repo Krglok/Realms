@@ -25,6 +25,8 @@ public enum BuildPlanType
 	TRADER (401),
 	TAVERNE(601),
 	HOME (100),
+	HOUSE (110),
+	MANSION (120),
 	WHEAT(202),
 	WOODCUTTER (203),
 	QUARRY (204),
@@ -58,7 +60,7 @@ public enum BuildPlanType
 		this.value = value;
 	}
 	
-	int getValue()
+	public int getValue()
 	{
 		return value;
 	}

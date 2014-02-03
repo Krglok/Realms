@@ -505,7 +505,7 @@ public class RealmModel
 		{
 //			if (settle.buildManager().getStatus().equalsIgnoreCase("None") == false)
 			{
-				settle.buildManager().run(settle.getWarehouse());
+				settle.buildManager().run(this, settle.getWarehouse(),settle);
 			}
 
 		}
@@ -513,7 +513,7 @@ public class RealmModel
 		for (Colony colony : colonys.values())
 		{
 //			System.out.println("Colony Buildmanager");
-			colony.buildManager().run(colony.getWarehouse());
+			colony.buildManager().run(this, colony.getWarehouse(),null);
 		}
 	}
 	

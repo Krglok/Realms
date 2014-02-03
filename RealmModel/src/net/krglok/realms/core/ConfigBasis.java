@@ -3,6 +3,7 @@ package net.krglok.realms.core;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
 
 /**
@@ -269,6 +270,27 @@ public class ConfigBasis implements ConfigInterface
 			}
 		}
 		return String.valueOf(out);
+	}
+
+	@Override
+	public BuildingType superRegionToBuildingType(String superRegionTypeName)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRegionType(BuildingType bType)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRegionType(BuildPlanType bType)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

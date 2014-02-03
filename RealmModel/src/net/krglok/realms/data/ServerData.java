@@ -108,6 +108,18 @@ public class ServerData implements ServerInterface
 	}
 
 	@Override
+	public ItemList getRegionReagents(String regionType)
+	{
+		ItemList rList = new ItemList();
+		for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getReagents())
+		{
+			rList.addItem(item.getData().getItemType().name(), item.getAmount());
+		}
+		return rList;
+	}
+	
+	
+	@Override
 	public ItemList getRegionOutput(String regionType)
 	{
 		ItemList rList = new ItemList();
@@ -236,6 +248,7 @@ public class ServerData implements ServerInterface
 		items = getRegionUpkeep(hsRegionType);
 		return items;
 	}
+
 
 	@Override
 	public boolean checkRegionEnabled(int regionId)

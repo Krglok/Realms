@@ -27,6 +27,8 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	// SuperRegionTypeSettlementType
 	private HashMap<String,String> superSettleTypes;
 
+	private HashMap<String, String> buildPlanRegions;
+	
 	private ItemList toolItems;
 	private ItemList weaponItems;
 	private ItemList armorItems;
@@ -42,6 +44,8 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		regionBuildingTypes = new HashMap<String, String>();
 		superBuildingTypes = new HashMap<String, String>();
 		superSettleTypes = new HashMap<String, String>();
+		buildPlanRegions  = new HashMap<String, String>();
+		
 		setRealmCounter(0);
 		setSettlementCounter(0);
 		
@@ -68,6 +72,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		
 		initRegionBuilding();
 		initSuperSettleTypes();
+		initBuildPlanRegion();
 		initTool();
 		initArmor();
 		initWeapon();
@@ -124,7 +129,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private void initRegionBuilding()
 	{
 		regionBuildingTypes.put("haus_einfach",BuildingType.BUILDING_HOME.name());
-		regionBuildingTypes.put("haus_gross", BuildingType.BUILDING_HOME.name());
+//		regionBuildingTypes.put("haus_gross", BuildingType.BUILDING_HOME.name());
 		regionBuildingTypes.put("haupthaus", BuildingType.BUILDING_HALL.name());
 		regionBuildingTypes.put("haus_stadt", BuildingType.BUILDING_HOME.name());
 		regionBuildingTypes.put("haus_hof",BuildingType.BUILDING_PROD.name());
@@ -197,6 +202,39 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		return regionBuildingTypes;
 	}
 
+	@Override
+	public String getRegionType(BuildingType bType)
+	{
+		for (String key : regionBuildingTypes.keySet())
+		{
+			if (regionBuildingTypes.get(key).equalsIgnoreCase(bType.name()))
+			{
+				return key;
+			}
+		}
+		
+		return "";
+	}
+	
+	public HashMap<String, String> getBuildPlanRegions()
+	{
+		return buildPlanRegions;
+	}
+
+	@Override
+	public String getRegionType(BuildPlanType bType)
+	{
+		for (String key : buildPlanRegions.keySet())
+		{
+			if (buildPlanRegions.get(key).equalsIgnoreCase(bType.name()))
+			{
+				return key;
+			}
+		}
+		
+		return "";
+	}
+	
 	/**
 	 * set the list to strongholdTypes
 	 * 
@@ -226,6 +264,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	 * @param regionTypeName
 	 * @return Buildingtyp or BUILDING_NONE
 	 */
+	@Override
 	public BuildingType regionToBuildingType(String regionTypeName)
 	{
 		String name = regionBuildingTypes.get(regionTypeName);
@@ -451,8 +490,23 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 
 	public void initBuildPlanRegion()
 	{
-		HashMap<BuildPlanType,String> bPlanRegions = new HashMap<BuildPlanType,String>();
-		bPlanRegions.put(BuildPlanType.NONE, "");
+//		 = new HashMap<BuildPlanType,String>();
+		buildPlanRegions.put("",BuildPlanType.NONE.name());
+		buildPlanRegions.put("haus_einfach",BuildPlanType.HOME.name());
+		buildPlanRegions.put("haus_gross", BuildPlanType.HOUSE.name());
+		buildPlanRegions.put("haupthaus", BuildPlanType.HALL.name());
+		buildPlanRegions.put("haus_stadt", BuildPlanType.HOUSE.name());
+		buildPlanRegions.put("haus_hof",BuildPlanType.FARMHOUSE.name());
+		buildPlanRegions.put("rathaus", BuildPlanType.HALL.name());
+		buildPlanRegions.put("taverne", BuildPlanType.TAVERNE.name());
+		buildPlanRegions.put("markt", BuildPlanType.WAREHOUSE.name());
+		buildPlanRegions.put("kornfeld", BuildPlanType.WHEAT.name());
+		buildPlanRegions.put("holzfaeller",BuildPlanType.WOODCUTTER.name());
+		buildPlanRegions.put("koehler", BuildPlanType.CHARBURNER.name());
+		buildPlanRegions.put("steinbruch", BuildPlanType.QUARRY.name());
+		buildPlanRegions.put("schaefer", BuildPlanType.SHEPHERD.name());
+		buildPlanRegions.put("bauern_haus",BuildPlanType.FARM.name());
+		buildPlanRegions.put("haus_baecker",BuildPlanType.BAKERY.name());
 		
 	}
 

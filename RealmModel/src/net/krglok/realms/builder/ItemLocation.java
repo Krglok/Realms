@@ -16,6 +16,7 @@ public class ItemLocation
 {
 	private Material itemRef;
 	private LocationData position;
+	
 	public ItemLocation(Material itemRef, LocationData position)
 	{
 		super();

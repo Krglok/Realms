@@ -2,6 +2,7 @@ package net.krglok.realms.data;
 
 import java.util.HashMap;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
@@ -412,6 +413,20 @@ public class ConfigTest implements ConfigInterface
 		subList.addItem("WOOD_SPADE",0);
 
 		this.toolItems = subList;
+	}
+
+	@Override
+	public String getRegionType(BuildingType bType)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRegionType(BuildPlanType bType)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

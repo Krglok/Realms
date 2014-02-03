@@ -1,11 +1,14 @@
 package net.krglok.realms;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
+import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigData;
@@ -16,13 +19,16 @@ import net.krglok.realms.model.RealmModel;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -170,7 +176,45 @@ public final class Realms extends JavaPlugin
 		commandRealms.run(sender, command, args);
 		return true;
     }
+	
+	/**
+	 * Fill chest at position with items in itemList
+	 * if the block not a chest, nothing will done
+	 * @param world
+	 * @param iLoc
+	 */
+	public void setChest(World world, ItemListLocation iLoc)
+	{
+		Block b = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+		if (b.getType() == Material.CHEST)
+		{
+			 Chest chest = (Chest) b.getState();
+			 for (Item item : iLoc.getItemList())
+			 {
+				 chest.getInventory().addItem(new ItemStack(Material.getMaterial(item.ItemRef()), item.value()));
+			 }
+			 System.out.println("Set Chest at : "+
+					 (int)iLoc.position().getX()+":"+
+					 (int)iLoc.position().getY()+":"+
+					 (int)iLoc.position().getZ()
+					 );
+		} else
+		{
+			System.out.println(b.getType().name()+ " Not a chest at "+
+					 (int)iLoc.position().getX()+":"+
+					 (int)iLoc.position().getY()+":"+
+					 (int)iLoc.position().getZ()
+					);
+		}
+		
+	}
 
+	/**
+	 * setzt einen Block in die Welt an die Position iLoc
+	 * !!! verwendet teilweise alte Methoden fuer Bloecke !!!!
+	 * @param world
+	 * @param iLoc
+	 */
 	protected void setBlock(World world, ItemLocation iLoc)
 	{
 //		System.out.println(iLoc.itemRef());
@@ -219,7 +263,11 @@ public final class Realms extends JavaPlugin
 		
 	}
 	
-	
+	/**
+	 * arbeitet die buildRequests ab
+	 * je ein Request pro Settlement und Tick
+	 * je ein Request pro Colony und Tick
+	 */
 	public void onBuildRequest()
 	{
 		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
@@ -244,6 +292,35 @@ public final class Realms extends JavaPlugin
 				World world = getServer().getWorld(iLoc.position().getWorld());
 				setBlock(world, iLoc);
 				settle.buildManager().getBuildRequest().remove(0);
+			}
+			if (settle.buildManager().getRegionRequest().size() != 0)
+			{
+				World world = getServer().getWorld(settle.buildManager().getRegionRequest().get(0).getPosition().getWorld());
+				Location currentLocation = new Location (
+						world,
+						settle.buildManager().getRegionRequest().get(0).getPosition().getX(),
+						settle.buildManager().getRegionRequest().get(0).getPosition().getY(),
+						settle.buildManager().getRegionRequest().get(0).getPosition().getZ()
+						);
+				String arg1 = settle.buildManager().getRegionRequest().get(0).getRegionType();
+				ArrayList<String> arg2= new ArrayList<String>();
+				arg2.add(settle.buildManager().getRegionRequest().get(0).getOwner());
+				stronghold.getRegionManager().addRegion(currentLocation, arg1, arg2);
+				settle.buildManager().getRegionRequest().remove(0);
+	            Block currentBlock = currentLocation.getBlock();
+	            currentBlock.setType(Material.CHEST);
+				 System.out.println("create Chest at : "+
+						 (int)currentLocation.getX()+":"+
+						 (int)currentLocation.getY()+":"+
+						 (int)currentLocation.getZ()
+						 );
+			}
+			if (settle.buildManager().getChestSetRequest().size() != 0)
+			{
+				System.out.println("do Chest Set");
+				World world = getServer().getWorld(settle.buildManager().getChestSetRequest().get(0).position().getWorld());
+				setChest(world, settle.buildManager().getChestSetRequest().get(0));
+				settle.buildManager().getChestSetRequest().remove(0);
 			}
 		}
 		

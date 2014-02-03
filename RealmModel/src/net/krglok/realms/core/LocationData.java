@@ -137,10 +137,11 @@ public class LocationData
 				
 			} catch (Exception e)
 			{
-		    	return new LocationData(locationString, 0.0, 0.0, 0.0); 
+		    	return new LocationData("", 0.0, 0.0, 0.0); 
 			}
         }
-    	return new LocationData(locationString, 0.0, 0.0, 0.0); 
+    	return new LocationData("", 0.0, 0.0, 0.0); 
     }
+    
 }
 

@@ -700,4 +700,11 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public ItemList getRegionReagents(String regionType)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

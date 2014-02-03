@@ -17,14 +17,19 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildPlanWheat;
 import net.krglok.realms.builder.BuildPlanWoodCutter;
 import net.krglok.realms.builder.BuildStatus;
+import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.builder.RegionLocation;
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
+import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.unittest.RegionConfig;
 
 /**
  * the build manager realize the Controller and Manager of the building process
@@ -61,7 +66,6 @@ public class BuildManager
 //		
 //	}
 
-//	private Settlement settle;
 	private HashMap<String, BuildPlan> buildPlanList = new HashMap<String, BuildPlan>();
 	private BuildPlan buildPlan;
 	private LocationData buildLocation;
@@ -79,11 +83,11 @@ public class BuildManager
 	private ArrayList<ItemLocation> cleanRequest;
 	private ArrayList<ItemLocation> resultBlockRequest;
 	private ArrayList<RegionLocation> regionRequest;
+	private ArrayList<ItemListLocation> chestSetRequest;
 
 
-	public BuildManager()//Settlement settle)
+	public BuildManager()
 	{
-//		this.settle = settle;
 		this.requiredItems = new ItemList();
 		this.buildStore    = new ItemList();
 		this.buildRequest  = new ArrayList<ItemLocation>();
@@ -91,6 +95,7 @@ public class BuildManager
 		this.resultBlockRequest = new ArrayList<ItemLocation>();
 		this.materialRequest   = new ArrayList<Item>();
 		this.regionRequest = new ArrayList<RegionLocation>();
+		this.chestSetRequest = new ArrayList<ItemListLocation>();
 		bStatus = BuildStatus.NONE;
 		initBuildPlans();
 	}
@@ -170,8 +175,12 @@ public class BuildManager
 	
 	/**
 	 * run on TickTask to build one block tick
+	 * if owner is not a Settlement set null to parameter !!! 
+	 * @param rModel
+	 * @param warehouse
+	 * @param settle
 	 */
-	public void run(Warehouse warehouse)
+	public void run(RealmModel rModel, Warehouse warehouse, Settlement settle)
 	{
 //		if (buildPlan == null)
 //		{
@@ -193,11 +202,11 @@ public class BuildManager
 			break;
 		case POSTBUILD : 
 //			System.out.println("run : "+bStatus.name());
-			doPostBuild();
+			doPostBuild(rModel);
 			break;
 		case DONE : 
 //			System.out.println("run : "+bStatus.name());
-			doDone();
+			doDone(rModel, settle);
 			break;
 		case WAIT : 
 //			System.out.println("run : "+bStatus.name());
@@ -396,53 +405,90 @@ public class BuildManager
 	 */
 	private void addBuildRequest()
 	{
-		int edge = buildPlan.getRadius() * 2 -1; 
-		if (bStatus == BuildStatus.STARTED)
+		if (cleanRequest.isEmpty())
 		{
-//			System.out.println("h:"+h+" r: "+r+" c: "+c);
-			doAddStep();
-			doAddStep();
-			doAddStep();
-}
-		if (h >= edge)
+			int edge = buildPlan.getRadius() * 2 -1; 
+			if (bStatus == BuildStatus.STARTED)
+			{
+	//			System.out.println("h:"+h+" r: "+r+" c: "+c);
+				doAddStep();
+				doAddStep();
+				doAddStep();
+	}
+			if (h >= edge)
+			{
+				bStatus = BuildStatus.POSTBUILD;
+			}
+		} else
 		{
-			bStatus = BuildStatus.POSTBUILD;
-		} 
+			System.out.println("Wait on Clean ready");
+		}
 //		System.out.println((""+h+":"+r+":"+c)+" >");
 	}
 	
-	private void doPostBuild()
+	private void doPostBuild(RealmModel rModel)
 	{
 		System.out.println(bStatus.name());
 		// aufraeumen !!!
-		if (buildPlan.getBuildingType() == BuildPlanType.WHEAT)
+		// region erzeugen 
+		if (buildRequest.isEmpty() )
 		{
-			String regionType = "kornfeld";
-			LocationData position = new LocationData(
-					buildLocation.getWorld(), 
-					buildLocation.getX(), 
-					buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius(), 
-					buildLocation.getZ()
-					);
-			String owner = "";
-			regionRequest.add(new RegionLocation(regionType, position, owner));
+			String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
+			if (regionType != "")
+			{
+				LocationData position = new LocationData(
+						buildLocation.getWorld(), 
+						buildLocation.getX()-1, 
+						buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
+						buildLocation.getZ()-1
+						);
+				String owner = "";
+				regionRequest.add(new RegionLocation(regionType, position, owner));
+			}
+			bStatus = BuildStatus.DONE;
+		}  else
+		{
+			System.out.println("Wait on Build ready");
 		}
-		bStatus = BuildStatus.DONE;
 	}
 	
 	/**
 	 * go to BuildStatus.NONE
 	 */
-	private void doDone()
+	private void doDone(RealmModel rModel, Settlement settle)
 	{
-		System.out.println("doDone : "+bStatus.name());
-		buildLocation = null;
-		buildPlan = null;
-		h = 0;
-		r = 0;
-		c = 0;
-		bStatus = BuildStatus.NONE;
-		System.out.println("FullFill : "+bStatus.name());
+		String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
+		if (regionRequest.isEmpty())
+		{
+			LocationData position = new LocationData(
+					buildLocation.getWorld(), 
+					buildLocation.getX()-1, 
+					buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
+					buildLocation.getZ()-1
+					);
+			ItemList reagents = rModel.getServer().getRegionReagents(regionType);
+			chestSetRequest.add(new ItemListLocation(reagents, position));
+			int typeId = (buildPlan.getBuildingType().getValue()/100)*100;
+			
+			if (settle != null)
+			{
+				Building building = new Building(BuildingType.getBuildingType(typeId), regionType, true);
+				settle.getBuildingList().addBuilding(building);
+			}
+			
+			System.out.println("doDone added : "+BuildingType.getBuildingType(typeId));
+			buildLocation = null;
+			buildPlan = null;
+			h = 0;
+			r = 0;
+			c = 0;
+			bStatus = BuildStatus.NONE;
+			System.out.println("FullFill : "+bStatus.name());
+		} else
+		{
+			System.out.println("Wait on Chest filled");
+			
+		}
 	}
 	
 	/**
@@ -616,6 +662,15 @@ public class BuildManager
 		return cleanRequest;
 	}
 
+	public ArrayList<RegionLocation> getRegionRequest()
+	{
+		return regionRequest;
+	}
+
+	public ArrayList<ItemListLocation> getChestSetRequest()
+	{
+		return chestSetRequest;
+	}
 
 	
 	

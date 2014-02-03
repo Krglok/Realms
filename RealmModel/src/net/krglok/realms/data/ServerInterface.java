@@ -50,6 +50,8 @@ public interface ServerInterface
 	public double getSuperRegionbank(String superRegionName);
 	
 	public ItemList getRegionOutput(String regionType);
+	
+	public ItemList getRegionReagents(String regionType);
 
 	public ItemList getRegionUpkeep(String regionType);
 
