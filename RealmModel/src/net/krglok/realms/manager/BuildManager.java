@@ -18,6 +18,7 @@ import net.krglok.realms.builder.BuildPlanWheat;
 import net.krglok.realms.builder.BuildPlanWoodCutter;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemLocation;
+import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -77,6 +78,7 @@ public class BuildManager
 	char[][] signText = new char[4][15] ;
 	private ArrayList<ItemLocation> cleanRequest;
 	private ArrayList<ItemLocation> resultBlockRequest;
+	private ArrayList<RegionLocation> regionRequest;
 
 
 	public BuildManager()//Settlement settle)
@@ -88,6 +90,7 @@ public class BuildManager
 		this.cleanRequest  = new ArrayList<ItemLocation>();
 		this.resultBlockRequest = new ArrayList<ItemLocation>();
 		this.materialRequest   = new ArrayList<Item>();
+		this.regionRequest = new ArrayList<RegionLocation>();
 		bStatus = BuildStatus.NONE;
 		initBuildPlans();
 	}
@@ -412,6 +415,18 @@ public class BuildManager
 	{
 		System.out.println(bStatus.name());
 		// aufraeumen !!!
+		if (buildPlan.getBuildingType() == BuildPlanType.WHEAT)
+		{
+			String regionType = "kornfeld";
+			LocationData position = new LocationData(
+					buildLocation.getWorld(), 
+					buildLocation.getX(), 
+					buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius(), 
+					buildLocation.getZ()
+					);
+			String owner = "";
+			regionRequest.add(new RegionLocation(regionType, position, owner));
+		}
 		bStatus = BuildStatus.DONE;
 	}
 	

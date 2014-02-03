@@ -29,12 +29,12 @@ public class BuildPlanWheat extends BuildPlan
 		BuildPlan.fillColPart(cube[0], Material.LOG, 6, 1, 5);
 		BuildPlan.setPos(cube[1][0], Material.SIGN_POST, 3);
 		// Feld dirt
-		BuildPlan.fillRowPart(cube[0][1], Material.DIRT, 1, 5);
-		BuildPlan.fillRowPart(cube[0][2], Material.DIRT, 1, 5);
-		BuildPlan.fillRowPart(cube[0][3], Material.DIRT, 1, 2);
-		BuildPlan.fillRowPart(cube[0][3], Material.DIRT, 4, 5);
-		BuildPlan.fillRowPart(cube[0][4], Material.DIRT, 1, 5);
-		BuildPlan.fillRowPart(cube[0][5], Material.DIRT, 1, 5);
+		BuildPlan.fillRowPart(cube[0][1], Material.SOIL, 1, 5);
+		BuildPlan.fillRowPart(cube[0][2], Material.SOIL, 1, 5);
+		BuildPlan.fillRowPart(cube[0][3], Material.SOIL, 1, 2);
+		BuildPlan.fillRowPart(cube[0][3], Material.SOIL, 4, 5);
+		BuildPlan.fillRowPart(cube[0][4], Material.SOIL, 1, 5);
+		BuildPlan.fillRowPart(cube[0][5], Material.SOIL, 1, 5);
 		// Water in Center
 		BuildPlan.setPos(cube[0][3], Material.WATER, 3);
 		BuildPlan.fillRowPart(cube[1][1], Material.WHEAT, 1, 5);

@@ -23,6 +23,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -187,6 +188,15 @@ public final class Realms extends JavaPlugin
 				Byte data2 = (0x4); //not sure on this syntax...
 				top.setTypeIdAndData(64, data1, false);
 				bottom.setTypeIdAndData(64, data2, false);
+				break;
+			case SEEDS:
+			case WHEAT:
+//				System.out.println("Wheat/Seeds");
+				Block b = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+//				BlockState ground = b.getRelative(BlockFace.DOWN).getState();
+//				ground.setTypeId((byte) 60);
+				b.setType(Material.CROPS);
+				
 				break;
 			case WALL_SIGN:
 				world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).setType(iLoc.itemRef());

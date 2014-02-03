@@ -71,6 +71,8 @@ public class ConfigBasis implements ConfigInterface
 		case BOOKSHELF : return 47;
 		case TORCH : return 50;
 		case WOOL : return 35;
+		case SEEDS : return 59;
+		case SOIL : return 60;
 		default:
 			return 0;
 		}
@@ -100,6 +102,7 @@ public class ConfigBasis implements ConfigInterface
 		case 35 : return 'O';
 		case 56 : return'd';
 		case 59 : return 'i';
+		case 60 : return 's';
 		case 110 : return'M';
 		case 85 : return'#';
 		case (byte) 254: return'.';
@@ -146,6 +149,7 @@ public class ConfigBasis implements ConfigInterface
 		case (byte) 255: return Material.AIR;
 		case 54 : return Material.CHEST;
 		case 58 : return Material.WORKBENCH;
+		case 60 : return Material.SOIL;
 		case 64 : return Material.WOOD_DOOR;
 		case 63 : return Material.SIGN;
 		case 68 : return Material.WALL_SIGN;
@@ -153,6 +157,7 @@ public class ConfigBasis implements ConfigInterface
 		case 47 : return Material.BOOKSHELF;
 		case 50 : return Material.TORCH;
 		case 35 : return Material.WOOL;
+		
 		
 		default :
 			return Material.AIR;
