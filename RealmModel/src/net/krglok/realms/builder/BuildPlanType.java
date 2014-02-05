@@ -21,9 +21,7 @@ public enum BuildPlanType
 	ROAD (5),
 	STEEPLE (6),
 	HALL (11),
-	WAREHOUSE (301),
-	TRADER (401),
-	TAVERNE(601),
+	WAREHOUSE (12),
 	HOME (100),
 	HOUSE (110),
 	MANSION (120),
@@ -39,7 +37,6 @@ public enum BuildPlanType
 	HOESHOP (211),
 	KNIFESHOP (212),
 	SPADESHOP (213),
-	FARMHOUSE (215),
 	BAKERY (216),
 	CHARBURNER (217),
 	COWSHED (218),
@@ -50,7 +47,10 @@ public enum BuildPlanType
 	WORKSHOP (223),
 	FARM (224),
 	PIGPEN (225),
-	BAUERNHOF (220)
+	FARMHOUSE (310),
+	BAUERNHOF (320),
+	TRADER (401),
+	TAVERNE(601)
 	;
 	
 	private final int value;
