@@ -468,12 +468,16 @@ public class BuildManager
 					);
 			ItemList reagents = rModel.getServer().getRegionReagents(regionType);
 			chestSetRequest.add(new ItemListLocation(reagents, position));
+			
 			int typeId = (buildPlan.getBuildingType().getValue()/100)*100;
 			
 			if (settle != null)
 			{
 				Building building = new Building(BuildingType.getBuildingType(typeId), regionType, true);
-				settle.getBuildingList().addBuilding(building);
+				if (settle.getBuildingList().addBuilding(building))
+				{
+					System.out.println("Building added : "+BuildingType.getBuildingType(typeId)+":"+building.getId());
+				}
 			}
 			
 			System.out.println("doDone added : "+BuildingType.getBuildingType(typeId));

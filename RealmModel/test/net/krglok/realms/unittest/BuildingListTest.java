@@ -130,5 +130,27 @@ public class BuildingListTest
 		}
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void testCheckId()
+	{
+		Building.initCounter(0);
+		BuildingList bList = new BuildingList();
+		Building building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		for (int i = 0; i < 10; i++)
+		{
+			bList.getBuildingList().put(String.valueOf(i),building);
+		}
+		
+		int expected = 10;
+		int actual = bList.checkId(5);
+//		if (b != null)
+//		{
+//			actual = b.getId();
+//		}
+		assertEquals(expected, actual);
+	}
 	
 }
+
+

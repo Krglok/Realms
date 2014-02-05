@@ -61,6 +61,16 @@ public class BuildingList
 		this.superRegionList.clear();
 	}
 	
+	public int checkId(int ref)
+	{
+		while (buildingList.containsKey(String.valueOf(ref)))
+		{
+			ref++;
+		}
+		Building.initCounter(ref);
+		return Building.getCounter();
+	}
+	
 	/**
 	 * 
 	 * @return  true if no building in the list
@@ -75,7 +85,6 @@ public class BuildingList
 	 * !!! Normally used by the automatic. USE instead settlement.addBuilding()
 	 * store the building in the List
 	 * if building = null then a default building with buildingType = None 
-	 * id build by buildingList.size()+10000;
 	 * @param building
 	 * @return true if building successful build
 	 */
@@ -84,7 +93,9 @@ public class BuildingList
 		Boolean isBuild = false;
 		if (building != null)
 		{
-			buildingList.put(String.valueOf(building.getId()),building);
+			int newId = checkId(building.getId());
+			building.setId(newId);
+			buildingList.put(String.valueOf(newId),building);
 			if (building.isRegion())
 			{
 				regionList.add(building.getId());

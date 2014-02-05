@@ -345,7 +345,7 @@ public class StrongholdConfigTest
         		"haus_einfach", 
         		"kornfeld", 
         		"holzfaeller",
-        		"schreiner"
+        		"steinbruch",
         		};
 	}
 
@@ -353,13 +353,11 @@ public class StrongholdConfigTest
 	{
 		return new String[] 
         		{
-        		"steinbruch",
+        		"bauern_haus",
         		"schaefer",
-				"prod_waxe",
-        		"prod_whoe", 
-        		"prod_wpaxe", 
-        		"koehler",
-        		"prod_steinziegel",
+        		"schreiner",
+        		"tischler",
+        		"haus_baecker"
         		};
 	}
 
@@ -368,15 +366,15 @@ public class StrongholdConfigTest
 	{
 		return new String[] 
         		{
+        		"ziegelei",
+        		"koehler",
+				"prod_waxe",
+        		"prod_whoe", 
+        		"prod_wpaxe", 
         		"prod_wsword",
         		"prod_wspade",
-        		"bauern_haus",
-        		"haus_baecker",
         		"rinderstall",
         		"huehnerstall",
-        		"tischler",
-				"markt",
-				"taverne",
         		"fischer"
         		};
 	}
@@ -390,7 +388,9 @@ public class StrongholdConfigTest
 				"schmelze",
 				"bauernhof",
 				"schweinestall",
-        		"prod_netherziegel"
+        		"prod_netherziegel",
+				"markt",
+				"taverne"
         		};
 	}
 	
@@ -416,9 +416,9 @@ public class StrongholdConfigTest
         RegionConfig region;
         String[] sList ;
 //        sList = setStandardList();
-        sList = setBasisList();
+//        sList = setBasisList();
 //        sList = setErweitertList();
-//        sList = setEnhancedList();
+        sList = setEnhancedList();
         System.out.println("[Stronghold] Building              cost" );
         for (File RegionFile : regionFolder.listFiles()) 
         {
