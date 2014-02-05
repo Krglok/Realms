@@ -1,5 +1,7 @@
 package net.krglok.realms;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.model.McmdColonistCreate;
 
@@ -89,10 +91,13 @@ public class CmdColonistCreate extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
+		ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
 		String world = player.getLocation().getWorld().getName();
 		position.setWorld(world); 
 		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, position, owner));
+		msg.add("[Realm] Colony created at "+(int)position.getX()+":"+(int)position.getY()+":"+(int)position.getZ());
+		plugin.getMessageData().printPage(sender, msg, 1);
 	}
 
 	@Override

@@ -111,9 +111,12 @@ public class ServerData implements ServerInterface
 	public ItemList getRegionReagents(String regionType)
 	{
 		ItemList rList = new ItemList();
-		for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getReagents())
+		if ( plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
 		{
-			rList.addItem(item.getData().getItemType().name(), item.getAmount());
+			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getReagents())
+			{
+				rList.addItem(item.getData().getItemType().name(), item.getAmount());
+			}
 		}
 		return rList;
 	}
