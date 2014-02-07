@@ -8,19 +8,17 @@ effects:
 radius: 4
 requirements:
 - WOODEN_DOOR.1
-- BED_BLOCK.2
-- WORKBENCH.1
+- BED_BLOCK.5
 - CHEST.1
 - WALL_SIGN.1
 - COBBLESTONE.61
 reagents:
 - GOLD_NUGGET.1
-- IRON_INGOT.8
-- BREAD.4
+- BREAD.5
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 1000.0
+money-requirement: 500.0
 upkeep-money-output: -5.0
 housing: 5
 power-drain: 0.0
