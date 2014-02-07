@@ -6,9 +6,9 @@ public class TickTask implements Runnable
 {
     //private final transient Server server;
     private final Realms plugin;
-    private static int counter = 0;
+    private static long counter = 0;
     private static boolean isProduction = false;
-    private static int prodLimit = (int) ConfigBasis.dayNight;
+    private static int prodLimit = (int) ConfigBasis.GameDay;
     private static int taxCounter = 0;
     private static int taxLimit = prodLimit * 10;
     private static int buildMin = prodLimit * 4 / 10;
@@ -25,17 +25,22 @@ public class TickTask implements Runnable
 		counter = 0;
 	}
     
-	public static void setProduction(boolean value)
+	public static void setIsProduction(boolean value)
 	{
 		TickTask.isProduction = value;
 	}
 	
-	public static int getCounter()
+	public static long getCounter()
 	{
 		return counter;
 	}
 	
-	public static void setProdCounter(int value)
+	public static void setCounter(long l)
+	{
+		counter = l;
+	}
+	
+	public static void setProdLimit(int value)
 	{
 		TickTask.prodLimit = value;
 	}

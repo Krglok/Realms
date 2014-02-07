@@ -24,7 +24,7 @@ public class CmdSettleAddBuilding extends RealmsCommand
 				"Add a region to a Settlement  ",
 				"You must NOT be the Owner of the region ! ",
 				"You must  be the Owner of the Settlement ! ",
-				"The region must be exist",
+				"The region must exist",
 		    	"  ",
 		};
 		this.regionId = 0;
@@ -71,7 +71,7 @@ public class CmdSettleAddBuilding extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return null;
+		return new String[] {int.class.getName(), int.class.getName() };
 	}
 
 	

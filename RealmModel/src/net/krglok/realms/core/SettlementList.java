@@ -64,6 +64,16 @@ public class SettlementList
 		}
 	}
 	
+//	public int checkId(int ref)
+//	{
+//		while (settlementList.containsKey(ref))
+//		{
+//			ref++;
+//		}
+//		Settlement.initCounter(ref);
+//		return Settlement.getCounter();
+//	}
+
 	/**
 	 * add settlement to the list
 	 * set capital for owner if necessary
@@ -71,6 +81,7 @@ public class SettlementList
 	 */
 	public void addSettlement(Settlement settlement)
 	{
+//		settlement.setId(checkId(settlement.getId()));
 		settlementList.put(settlement.getId(),settlement);
 		settlement.initSettlement();
 		setOwner(settlement.getId(), settlement.getOwner());

@@ -443,7 +443,7 @@ public class BuildManager
 						buildLocation.getZ()-1
 						);
 				String owner = "";
-				regionRequest.add(new RegionLocation(regionType, position, owner));
+				regionRequest.add(new RegionLocation(regionType, position, owner,""));
 			}
 			bStatus = BuildStatus.DONE;
 		}  else

@@ -95,9 +95,16 @@ public class CmdColonistCreate extends RealmsCommand
 		Player player = (Player) sender;
 		String world = player.getLocation().getWorld().getName();
 		position.setWorld(world); 
-		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, position, owner));
-		msg.add("[Realm] Colony created at "+(int)position.getX()+":"+(int)position.getY()+":"+(int)position.getZ());
+		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
+		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, center, owner));
+		msg.add("[Realm] Colony created at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
+		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
+		position.setX(0);
+		position.setY(0);
+		position.setZ(0);
+		name = "";
+		owner = "";
 	}
 
 	@Override

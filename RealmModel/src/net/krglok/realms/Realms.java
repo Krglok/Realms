@@ -1,6 +1,9 @@
 package net.krglok.realms;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
@@ -136,10 +139,11 @@ public final class Realms extends JavaPlugin
         realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData);
         
         //Setup repeating sync task for calculating model
+        long actualTime = this.getServer().getWorlds().get(0).getTime();
         tick = new TickTask(this);
+        TickTask.setCounter(actualTime/ConfigBasis.RealmTick);
         // parameter plugin, Runnable , DealyTick to start, Tick to run
         getServer().getScheduler().scheduleSyncRepeatingTask(this, tick, ConfigBasis.DelayTick, ConfigBasis.RealmTick);
-        
         Date date = new Date();
         long timeUntilDay = (TaxTask.DAY_SECONDS + date.getTime() - System.currentTimeMillis()) / TaxTask.TICKTIME;
         TaxTask taxTask = new TaxTask(this);
@@ -148,7 +152,7 @@ public final class Realms extends JavaPlugin
         if (isReady)
         {
         	// Enables automatic production cycles 
-        	TickTask.setProduction(true);
+        	TickTask.setIsProduction(true);
         	// Initialize the Model 
         	realmModel.OnEnable();
     		log.info("[Realms] Model is now enabled !");
@@ -263,7 +267,37 @@ public final class Realms extends JavaPlugin
 //		}
 		
 	}
-	
+
+	private void doSuperRequest(World world, RegionLocation rLoc )
+	{
+		Location currentLocation = new Location (
+				world,
+				rLoc.getPosition().getX(),
+				rLoc.getPosition().getY(),
+				rLoc.getPosition().getZ()
+				);
+		String arg2 = rLoc.getRegionType();
+		String arg0 = rLoc.getName();
+		ArrayList<String> arg3= new ArrayList<String>();
+		arg3.add(rLoc.getOwner());
+		Map<String,List<String>> arg4= new HashMap<String,List<String>>();
+//public boolean addSuperRegion(String name, Location loc, String type, List<String> owners, Map<String, List<String>> members, int power, double balance) {
+		int arg5 = 10;
+		double arg6 = 10000.0;
+		if (stronghold.getRegionManager().addSuperRegion(arg0, currentLocation, arg2, arg3, arg4,arg5 , arg6))
+		{
+			System.out.println("create SuperRegion"+arg0+" at : "+
+				 (int)currentLocation.getX()+":"+
+				 (int)currentLocation.getY()+":"+
+				 (int)currentLocation.getZ()
+				 );
+			
+		} else
+		{
+			System.out.println("Error on Create SuperRegion "+arg0);
+		}
+	}
+
 	/**
 	 * create a HeroStronghold Region at position
 	 * No checks will be done
@@ -296,41 +330,22 @@ public final class Realms extends JavaPlugin
 	
 	/**
 	 * arbeitet die buildRequests ab
-	 * je ein Request pro Settlement und Tick
-	 * je ein Request pro Colony und Tick
+	 * ALLE  Request pro Settlement und Tick werden erledigt
+	 * ALLE Request pro Colony und Tick werden erledigt.
+	 * Dadurch bestimmt der RequestSender wieviel bearbeitet wird pro tick!!
 	 */
 	public void onBuildRequest()
 	{
 		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
 		{
-			if (settle.buildManager().getBuildRequest().size() != 0)
+			for (int i=0 ; i < settle.buildManager().getBuildRequest().size(); i++)
 			{
-				ItemLocation iLoc =  settle.buildManager().getBuildRequest().get(0);
+				ItemLocation iLoc =  settle.buildManager().getBuildRequest().get(i);
 				World world = getServer().getWorld(iLoc.position().getWorld());
 				setBlock(world, iLoc);
-				settle.buildManager().getBuildRequest().remove(0);
+//				settle.buildManager().getBuildRequest().remove(0);
 			}
-			if (settle.buildManager().getBuildRequest().size() != 0)
-			{
-				ItemLocation iLoc =  settle.buildManager().getBuildRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				setBlock(world, iLoc);
-				settle.buildManager().getBuildRequest().remove(0);
-			}
-			if (settle.buildManager().getBuildRequest().size() != 0)
-			{
-				ItemLocation iLoc =  settle.buildManager().getBuildRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				setBlock(world, iLoc);
-				settle.buildManager().getBuildRequest().remove(0);
-			}
-			if (settle.buildManager().getRegionRequest().size() != 0)
-			{
-				World world = getServer().getWorld(settle.buildManager().getRegionRequest().get(0).getPosition().getWorld());
-				RegionLocation rLoc = settle.buildManager().getRegionRequest().get(0);
-				doRegionRequest( world, rLoc );
-				settle.buildManager().getRegionRequest().remove(0);
-			}
+			settle.buildManager().getBuildRequest().clear();
 			if (settle.buildManager().getChestSetRequest().size() != 0)
 			{
 				System.out.println("do Chest Set");
@@ -342,31 +357,16 @@ public final class Realms extends JavaPlugin
 		
 		for (Colony colony : realmModel.getColonys().values())
 		{
-			if (colony.buildManager().getBuildRequest().size() != 0)
+			for (int i=0; i<colony.buildManager().getBuildRequest().size(); i++)
 			{
 //				System.out.println("Colony Build request");
-				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(0);
+				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(i);
 				World world = getServer().getWorld(iLoc.position().getWorld());
 				setBlock(world, iLoc);
-				colony.buildManager().getBuildRequest().remove(0);
-				
+//				colony.buildManager().getBuildRequest().remove(0);
 			}
-			if (colony.buildManager().getBuildRequest().size() != 0)
-			{
-				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				setBlock(world, iLoc);
-				colony.buildManager().getBuildRequest().remove(0);
-				
-			}
-			if (colony.buildManager().getBuildRequest().size() != 0)
-			{
-				ItemLocation iLoc =  colony.buildManager().getBuildRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				setBlock(world, iLoc);
-				colony.buildManager().getBuildRequest().remove(0);
-				
-			}
+			colony.buildManager().getBuildRequest().clear();
+			
 			// Abarbeiten der Region Request zum erstellen von Herostronghold Regions
 			if (colony.buildManager().getRegionRequest().size() != 0)
 			{
@@ -375,7 +375,15 @@ public final class Realms extends JavaPlugin
 				doRegionRequest( world, rLoc );
 				colony.buildManager().getRegionRequest().remove(0);
 			}
+			if (colony.getSuperRequest() != null)
+			{
+//				System.out.println("SuperRequest");
+				World world = getServer().getWorld(colony.getSuperRequest().getPosition().getWorld());
+				doSuperRequest(world, colony.getSuperRequest() );
+				colony.setSuperRequest(null);
+			}
 		}
+
 	}
 
 	/**

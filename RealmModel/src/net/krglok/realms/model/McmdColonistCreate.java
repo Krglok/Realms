@@ -38,7 +38,7 @@ public class McmdColonistCreate implements iModelCommand
 	@Override
 	public void execute()
 	{
-		rModel.getColonys().addColony(new Colony(colonyName, centerPos, owner));
+		rModel.getColonys().addColony(Colony.newColony(colonyName, centerPos, owner));
 	}
 
 	@Override

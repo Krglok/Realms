@@ -3,6 +3,9 @@ package net.krglok.realms.colonist;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.Settlement;
+
 public class ColonyList extends HashMap<Integer, Colony>
 {
 	private static final long serialVersionUID = -6403462913762486430L;
@@ -11,13 +14,22 @@ public class ColonyList extends HashMap<Integer, Colony>
 	public ColonyList(int initCounter)
 	{
 		super();
-		Colony.setCOUNTER(initCounter);
+		Colony.initCOUNTER(initCounter);
 	}
 	
+	public int checkId(int ref)
+	{
+		while (this.containsKey(ref))
+		{
+			ref++;
+		}
+		Colony.initCOUNTER(ref);
+		return Colony.getCOUNTER();
+	}
 
 	public void addColony(Colony colony)
 	{
-		Colony.setCOUNTER(Colony.getCOUNTER()+1);
+		colony.setId(checkId(colony.getId()));
 		put(colony.getId(), colony);
 	}
 

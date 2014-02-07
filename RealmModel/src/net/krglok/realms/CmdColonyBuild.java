@@ -1,5 +1,7 @@
 package net.krglok.realms;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.model.McmdColonyBuild;
 
@@ -65,7 +67,11 @@ public class CmdColonyBuild extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
+		ArrayList<String> msg = new ArrayList<String>();
 		plugin.getRealmModel().OnCommand(new McmdColonyBuild(plugin.getRealmModel(), colonyId));
+    	msg.add("Start Colony Build for "+colonyId);
+    	msg.add(" ");
+    	plugin.getMessageData().printPage(sender, msg, 1);
 	}
 
 	@Override

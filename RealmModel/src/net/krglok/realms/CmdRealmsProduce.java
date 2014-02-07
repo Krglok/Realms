@@ -62,11 +62,11 @@ public class CmdRealmsProduce extends RealmsCommand
 		
 		if (TickTask.isProduction())
 		{
-			TickTask.setProduction(false);
+			TickTask.setIsProduction(false);
 			msg.add("Production set FALSE ");
 		} else
 		{
-			TickTask.setProduction(true);
+			TickTask.setIsProduction(true);
 			msg.add("Production set TRUE ");
 		}
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 

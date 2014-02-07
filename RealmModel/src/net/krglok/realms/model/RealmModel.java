@@ -522,7 +522,7 @@ public class RealmModel
 		for (Colony colony : colonys.values())
 		{
 //			System.out.println("Colony ");
-			colony.run(colony.getWarehouse());
+			colony.run(this,colony.getWarehouse());
 		}
 	}
 	

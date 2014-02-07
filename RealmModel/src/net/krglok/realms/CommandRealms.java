@@ -60,6 +60,7 @@ public class CommandRealms
 			new CmdColonistCreate(),
 			new CmdColonyBuild(),
 			new CmdSettleAddBuilding(),
+			new CmdColonistList(),
 			new CmdColonyHelp()
 //			new CmdRealmsTest()
 			

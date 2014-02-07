@@ -121,22 +121,29 @@ public class CmdSettleCheck extends RealmsCommand
 	    	String sName = StrongholdTools.setStrleft(region.getType(), 20);
     		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getID()+" : "+" Owner: "+region.getOwners());
 		}
-		msg.add("== Region List");
+		msg.add("== Superregion List");
 		String sName = "";
-		for (Region region : plugin.stronghold.getRegionManager().getRegions().values())
+		for (SuperRegion region : plugin.stronghold.getRegionManager().getSortedSuperRegions())
 		{
-			LocationData loc = new LocationData(
-					region.getLocation().getWorld().getName(),
-					region.getLocation().getX(), 
-					region.getLocation().getY(),
-					region.getLocation().getZ());
-			
-			double d =  Math.round(position.distance(loc));
-			
-			if (d > 70)
+			if (region.getLocation().getWorld() != null)
 			{
-				sName = StrongholdTools.setStrleft(region.getType(), 15);
-	    		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getID()+"  at : "+d);
+				LocationData loc = new LocationData(
+						"", //region.getLocation().getWorld().getName(),
+						region.getLocation().getX(), 
+						region.getLocation().getY(),
+						region.getLocation().getZ());
+				
+				double d =  Math.round(position.distance(loc));
+				
+				if (d > 70)
+				{
+					sName = region.getType() ; //StrongholdTools.setStrleft(, 15);
+					if (SettleType.getSettleType(plugin.getConfigData().getSuperSettleTypes().get(sName)) != SettleType.SETTLE_NONE ) //plugin.getConfigData().getSuperSettleTypes().get(sName).equalsIgnoreCase(SettleType.SETTLE_NONE.name()))
+					{
+						sName = StrongholdTools.setStrleft(sName, 15);
+			    		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getName()+"  at : "+d);
+					}
+				}
 			}
 		}
 		plugin.getMessageData().printPage(sender, msg, page);

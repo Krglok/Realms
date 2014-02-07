@@ -2,21 +2,27 @@ package net.krglok.realms.colonist;
 
 import org.bukkit.Material;
 
+import net.krglok.realms.CmdSettleCreate;
 import net.krglok.realms.builder.BuildPlanColony;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildPosition;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemLocation;
+import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.builder.SettleSchema;
 import net.krglok.realms.core.Bank;
 import net.krglok.realms.core.BoardItemList;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.MessageText;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.model.McmdCreateSettle;
+import net.krglok.realms.model.RealmModel;
 
 
 /**
@@ -48,8 +54,10 @@ public class Colony
 		STARTLIST, 		// der Builder baut nach BuildPlan
 		BUILDLIST, 		// der Builder baut nach BuildPlan
 		NEXTLIST,		// der Builder baut nach BuildPlan
-		POSTBUILD,		// der Builder schliesst den Auftrag ab
+		POSTBUILD,		// der Builder erstellt die Superregion
+		NEWSETTLE, 		// erstellt das neue Settlement, schliesst den Auftrag ab
 		DONE,			// der Builder beendet den Auftrag.
+		FULFILL,		// Auftrag vollstaendig erledigt
 		WAIT,			// der Builder wartet auf Material
 		WAITBUILD		// wartet auf den BuildManager
 		;
@@ -78,10 +86,15 @@ public class Colony
 	
 	private BuildManager buildManager = new BuildManager();
 	
+	private RegionLocation newSuperRegion;
+	private RegionLocation superRequest;
+	
 	private int markUpStep;
 	
 	public Colony (String name, LocationData position, String owner)
 	{
+		COUNTER++;
+		id = COUNTER;
 		this.cStatus = ColonyStatus.NONE;
 		this.nextStatus = ColonyStatus.NONE;
 		this.name = name;
@@ -97,35 +110,20 @@ public class Colony
 		this.settleSchema = SettleSchema.initDefaultHamlet();
 		this.markUpStep = 0;
 		this.buildPosIndex = 0;
+		this.newSuperRegion = new RegionLocation("Siedlung", position, owner, name);
+		this.superRequest = null;
 		
 	}
 
 	/**
-	 * Bauterial for ALL 
-		BED_BLOCK:4
-		WOOL:103
-		LOG:231
-		WHEAT:48
-		TORCH:11
-		STONE:331
-		WORKBENCH:5
-		DIRT:97
-		WATER:2
-		WALL_SIGN:7
-		COBBLESTONE:365
-		WOOD_DOOR:7
-		BEDROCK:1
-		CHEST:33
-		BOOKSHELF:4
-		WOOD:476
-
+	 * creaze a new Colony with preset Wareouse
+	 * 
 	 * @param name
 	 * @param position
 	 * @param owner
 	 */
-	public static void newColony(String name, LocationData position, String owner)
+	public static Colony newColony(String name, LocationData position, String owner)
 	{
-		COUNTER++;
 		Colony colony = new Colony ( name,  position,  owner);
 		colony.getWarehouse().depositItemValue(Material.BED_BLOCK.name(), 5);
 		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
@@ -142,6 +140,7 @@ public class Colony
 		colony.getWarehouse().depositItemValue(Material.CHEST.name(), 40);
 		colony.getWarehouse().depositItemValue(Material.BOOKSHELF.name(), 4);
 		colony.getWarehouse().depositItemValue(Material.WOOD.name(), 500);
+		return colony;
 		
 	}
 	
@@ -162,15 +161,20 @@ public class Colony
 	 */
 	public void startUpBuild(String name)
 	{
-		this.name = name;
-		cStatus = ColonyStatus.PREBUILD;
-		System.out.println("Start Colony Build");
-		// set the World for the relative BuildPosition
-		for (BuildPosition aPos : settleSchema.getbPositions())
+		if (cStatus == ColonyStatus.NONE)
 		{
-		  aPos.getPosition().setWorld(this.position.getWorld());
+			this.name = name;
+			cStatus = ColonyStatus.PREBUILD;
+			System.out.println("Start Colony Build "+id);
+			// set the World for the relative BuildPosition
+			for (BuildPosition aPos : settleSchema.getbPositions())
+			{
+			  aPos.getPosition().setWorld(this.position.getWorld());
+			}
+		} else
+		{
+			System.out.println("Colonist Command Build , disabled, Colonist is already working !!! ");
 		}
-
 	}
 	
 	/**
@@ -245,10 +249,15 @@ public class Colony
 		}
 	}
 	
+	private void doPostBuild(RealmModel rModel)
+	{
+		superRequest = newSuperRegion;
+	}
+	
 	/**
 	 * 
 	 */
-	public void run (Warehouse warehouse)
+	public void run (RealmModel rModel, Warehouse warehouse)
 	{
 		LocationData newPos;
 
@@ -257,7 +266,7 @@ public class Colony
 		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
 			if (buildManager.getStatus() == BuildStatus.NONE)
 			{
-				System.out.println("Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+				System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 				buildManager.newBuild(BuildPlanType.COLONY, this.position);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
@@ -273,7 +282,7 @@ public class Colony
 			}
 			break;
 		case STARTLIST: 	// der Builder baut nach BuildPlan
-			System.out.println("Build List Start ");
+			System.out.println(id+" Build List Start ");
 			actualBuildPos = settleSchema.getbPositions().get(0);
 			buildPosIndex=0;
 			this.cStatus = ColonyStatus.BUILDLIST;
@@ -287,7 +296,7 @@ public class Colony
 						position.getY()+actualBuildPos.getPosition().getY(), 
 						position.getZ()+actualBuildPos.getPosition().getZ()
 						);
-				System.out.println("Build List "+actualBuildPos.getbType()+":"+buildPosIndex);
+				System.out.println(id+" Build List "+actualBuildPos.getbType()+":"+buildPosIndex);
 				buildManager.newBuild(actualBuildPos.getbType(),newPos);
 				nextStatus = ColonyStatus.NEXTLIST;
 				this.cStatus = ColonyStatus.WAITBUILD;
@@ -299,7 +308,7 @@ public class Colony
 				buildPosIndex++;
 				if (buildPosIndex < settleSchema.getbPositions().size())
 				{
-					System.out.println("Build List Next ");
+					System.out.println(id+" Build List Next ");
 					actualBuildPos = settleSchema.getbPositions().get(buildPosIndex);
 					this.cStatus = ColonyStatus.BUILDLIST;
 				} else
@@ -309,11 +318,31 @@ public class Colony
 			}
 			break;
 		case POSTBUILD:		// der Builder schliesst den Auftrag ab
-			this.cStatus = ColonyStatus.DONE;
+			//Setzt den request zum create der SuperRegion
+			doPostBuild(rModel);
+			this.cStatus = ColonyStatus.NEWSETTLE;
+			break;
+		case NEWSETTLE:
+			if (superRequest == null)
+			{
+				McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.SETTLE_HAMLET);
+				rModel.OnCommand(msCreate);
+			}
 			break;
 		case DONE:			// der Builder beendet den Auftrag.
-			System.out.println("Build DONE ");
-			this.cStatus = ColonyStatus.NONE;
+			Settlement settle = rModel.getSettlements().findName(name);
+			if (settle != null)
+			{
+				for (Item item : warehouse.getItemList().values())
+				{
+					settle.getWarehouse().depositItemValue(item.ItemRef(), item.value());
+				}
+				System.out.println("Build FULLFILL ");
+				this.cStatus = ColonyStatus.FULFILL;
+			} else
+			{
+				System.out.println("Wait for Create Settlement");
+			}
 			break;
 		case WAIT:			// der Builder wartet auf Material
 			this.cStatus = ColonyStatus.NONE;
@@ -341,7 +370,7 @@ public class Colony
 	/**
 	 * @param cOUNTER the cOUNTER to set
 	 */
-	public static void setCOUNTER(int cOUNTER)
+	public static void initCOUNTER(int cOUNTER)
 	{
 		COUNTER = cOUNTER;
 	}
@@ -425,6 +454,21 @@ public class Colony
 	public BuildManager buildManager()
 	{
 		return buildManager;
+	}
+
+	public String getStatus()
+	{
+		return cStatus.name();
+	}
+
+	public RegionLocation getSuperRequest()
+	{
+		return superRequest;
+	}
+
+	public void setSuperRequest(RegionLocation superRequest)
+	{
+		this.superRequest = superRequest;
 	}
 	
 }
