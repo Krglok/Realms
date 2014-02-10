@@ -18,8 +18,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 
 	public static final int FAKTOR_0 = 0;
 	public static final int FAKTOR_M = -25;
-	public static final int FAKTOR_MM = -50;
-	public static final int FAKTOR_MMM = -75;
+	public static final int FAKTOR_MM = -75;
+	public static final int FAKTOR_MMM = -100;
 	public static final int FAKTOR_P = 25;
 	public static final int FAKTOR_PP = 50;
 	public static final int FAKTOR_PPP = 75;
@@ -464,7 +464,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case COBBLESTONE: return FAKTOR_M;
 		case LOG: return FAKTOR_M;
 		case WOOL : return FAKTOR_PP;
-		case GOLD_NUGGET: return FAKTOR_MM;
+		case GOLD_NUGGET: return FAKTOR_MMM;
 		case LEATHER : return FAKTOR_P;
 		case RAW_BEEF : return FAKTOR_P;
 		case PORK : return FAKTOR_P;
@@ -555,7 +555,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case COBBLESTONE: return FAKTOR_MM;
 		case LOG: return FAKTOR_M;
 		case WOOL : return FAKTOR_0;
-		case GOLD_NUGGET: return FAKTOR_MM;
+		case GOLD_NUGGET: return FAKTOR_MMM;
 		case LEATHER : return FAKTOR_0;
 		case RAW_BEEF : return FAKTOR_0;
 		case PORK : return FAKTOR_0;
@@ -586,7 +586,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case COBBLESTONE: return FAKTOR_MM;
 		case LOG: return FAKTOR_MM;
 		case WOOL : return FAKTOR_M;
-		case GOLD_NUGGET: return FAKTOR_MM;
+		case GOLD_NUGGET: return FAKTOR_MMM;
 		case LEATHER : return FAKTOR_M;
 		case RAW_BEEF : return FAKTOR_M;
 		case PORK : return FAKTOR_M;
@@ -617,7 +617,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case COBBLESTONE: return FAKTOR_0;
 		case LOG: return FAKTOR_PPP;
 		case WOOL : return FAKTOR_M;
-		case GOLD_NUGGET: return FAKTOR_M;
+		case GOLD_NUGGET: return FAKTOR_MM;
 		case LEATHER : return FAKTOR_0;
 		case RAW_BEEF : return FAKTOR_0;
 		case PORK : return FAKTOR_0;
@@ -650,7 +650,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case COBBLESTONE: return FAKTOR_M;
 		case LOG: return FAKTOR_M;
 		case WOOL : return FAKTOR_P;
-		case GOLD_NUGGET: return FAKTOR_P;
+		case GOLD_NUGGET: return FAKTOR_M;
 		case LEATHER : return FAKTOR_M;
 		case RAW_BEEF : return FAKTOR_M;
 		case PORK : return FAKTOR_M;
@@ -666,6 +666,37 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case EMERALD_ORE : return FAKTOR_0;
 		case REDSTONE_ORE : return FAKTOR_M;
 		case LAPIS_ORE : return FAKTOR_0;
+		case GOLD_ORE : return FAKTOR_0;
+		default :
+			return  FAKTOR_0;
+		}
+	}
+
+	private int extremeFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_MMM;
+		case SEEDS : return FAKTOR_MMM;
+		case COBBLESTONE: return FAKTOR_PP;
+		case LOG: return FAKTOR_MM;
+		case WOOL : return FAKTOR_MM;
+		case GOLD_NUGGET: return FAKTOR_PP;
+		case LEATHER : return FAKTOR_MM;
+		case RAW_BEEF : return FAKTOR_MM;
+		case PORK : return FAKTOR_MM;
+		case RAW_CHICKEN : return FAKTOR_M;
+		case FEATHER : return FAKTOR_M;
+		case RAW_FISH : return FAKTOR_MMM;
+		case EMERALD : return FAKTOR_PP;
+		case RED_MUSHROOM : return FAKTOR_0; 
+		case BROWN_MUSHROOM : return FAKTOR_0; 
+		case IRON_ORE : return FAKTOR_PP;
+		case COAL_ORE : return FAKTOR_PP;
+		case DIAMOND_ORE : return FAKTOR_P;
+		case EMERALD_ORE : return FAKTOR_P;
+		case REDSTONE_ORE : return FAKTOR_P;
+		case LAPIS_ORE : return FAKTOR_P;
 		case GOLD_ORE : return FAKTOR_0;
 		default :
 			return  FAKTOR_0;
@@ -698,7 +729,11 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		}
 		if (biome.name().contains("DESERT"))
 		{
-			factor = factor + forestFactor(mat);
+			factor = factor + desertFactor(mat);
+		}
+		if (biome.name().contains("EXTREME"))
+		{
+			factor = factor + extremeFactor(mat);
 		}
 		return factor;
 	}

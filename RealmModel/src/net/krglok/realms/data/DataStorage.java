@@ -94,7 +94,7 @@ public class DataStorage implements DataInterface
 	 * initialize the SettlementList
 	 * must be done after initOwners and initRealms
 	 */
-	public boolean initSettlements(ArrayList<String> settleInit)
+	private boolean initSettlements(ArrayList<String> settleInit)
 	{
 		for (String settleId : settleInit)
 		{

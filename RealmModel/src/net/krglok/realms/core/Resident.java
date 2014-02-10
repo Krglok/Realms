@@ -280,15 +280,21 @@ public class Resident
 		}
 		if ((settlerMax  - settlerCount) > 0 )
 		{
-			if (happiness < 5.0)
+			if (happiness < 5.0) // < 5.0
 			{
-				dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 20.0 );
+				if (value < 2.5)
+				{
+					dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 20.0 );
+				}
 			}
 		} else
 		{
-			if (happiness > -5.0)
+			if (happiness > -5.0)  // > -5.0
 			{
-				dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 6.0 );
+				if (value > -2.5)
+				{
+					dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 6.0 );
+				}
 			}
 		}
 		value = value + dif;

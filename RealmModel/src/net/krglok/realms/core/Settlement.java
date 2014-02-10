@@ -313,7 +313,7 @@ public class Settlement
 		calcItemMax( buildingList,  warehouse,  settleType);
 		setSettlerMax();
 		setWorkerNeeded();
-	}
+}
 	
 	/**
 	 * actual number of the settlement
@@ -488,9 +488,51 @@ public class Settlement
 		return value;
 	}
 	
-	private void initTreasureList()
+	public void initTreasureList()
 	{
 		treasureList.clear();
+		treasureList.add(new Item(Material.WOOD.name(),1));
+		treasureList.add(new Item(Material.STICK.name(),1));
+		treasureList.add(new Item(Material.IRON_ORE.name(),1));
+		treasureList.add(new Item(Material.IRON_INGOT.name(),1));
+		treasureList.add(new Item(Material.LOG.name(),1));
+		treasureList.add(new Item(Material.SEEDS.name(),1));
+		treasureList.add(new Item(Material.DIRT.name(),1));
+		treasureList.add(new Item(Material.CARROT.name(),1));
+		treasureList.add(new Item(Material.BREAD.name(),1));
+		treasureList.add(new Item(Material.WATER.name(),1));
+		treasureList.add(new Item(Material.WOOL.name(),1));
+		treasureList.add(new Item(Material.EMERALD.name(),1));
+		treasureList.add(new Item(Material.SAND.name(),1));
+		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
+		treasureList.add(new Item(Material.WOOD.name(),1));
+		treasureList.add(new Item(Material.STICK.name(),1));
+		treasureList.add(new Item(Material.IRON_ORE.name(),1));
+		treasureList.add(new Item(Material.IRON_INGOT.name(),1));
+		treasureList.add(new Item(Material.LOG.name(),1));
+		treasureList.add(new Item(Material.SEEDS.name(),1));
+		treasureList.add(new Item(Material.DIRT.name(),1));
+		treasureList.add(new Item(Material.CARROT.name(),1));
+		treasureList.add(new Item(Material.BREAD.name(),1));
+		treasureList.add(new Item(Material.WATER.name(),1));
+		treasureList.add(new Item(Material.WOOL.name(),1));
+		treasureList.add(new Item(Material.EMERALD.name(),1));
+		treasureList.add(new Item(Material.SAND.name(),1));
+		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
+		treasureList.add(new Item(Material.WOOD.name(),1));
+		treasureList.add(new Item(Material.STICK.name(),1));
+		treasureList.add(new Item(Material.IRON_ORE.name(),1));
+		treasureList.add(new Item(Material.IRON_INGOT.name(),1));
+		treasureList.add(new Item(Material.LOG.name(),1));
+		treasureList.add(new Item(Material.SEEDS.name(),1));
+		treasureList.add(new Item(Material.DIRT.name(),1));
+		treasureList.add(new Item(Material.CARROT.name(),1));
+		treasureList.add(new Item(Material.BREAD.name(),1));
+		treasureList.add(new Item(Material.WATER.name(),1));
+		treasureList.add(new Item(Material.WOOL.name(),1));
+		treasureList.add(new Item(Material.EMERALD.name(),1));
+		treasureList.add(new Item(Material.SAND.name(),1));
+		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
 		treasureList.add(new Item(Material.WOOD.name(),1));
 		treasureList.add(new Item(Material.STICK.name(),1));
 		treasureList.add(new Item(Material.IRON_ORE.name(),1));
@@ -781,10 +823,31 @@ public class Settlement
 				treasureList.add(new Item(mat.name(), 1));
 			}
 		}
+		if (matFactor < 0)
+		{
+			int anz = matFactor / -25;
+			for(int i=0; i < anz; i++)
+			{
+				int index = -1;
+				for (int j=0; j < treasureList.size(); j++)
+				{
+					if (treasureList.get(j).ItemRef()== mat.name())
+					{
+						index = j;
+					}
+				}
+				if (index > -1)
+				{
+					Item item = treasureList.get(index);
+					treasureList.remove(item);
+				}
+				
+			}
+		}
 		
 	}
 	
-	private void expandTreasureList(Biome biome, ServerInterface server)
+	public void expandTreasureList(Biome biome, ServerInterface server)
 	{
 		addTreasure2List(server, biome, Material.WHEAT);
 		addTreasure2List(server, biome, Material.SEEDS);
@@ -813,30 +876,31 @@ public class Settlement
 	
 	private String getFoundItem()
 	{
-		int Dice = 20;
+		int Dice = treasureList.size()-1;
 		int wuerfel = (int) (Math.random()*Dice+1);
-		switch (wuerfel)
-		{
-		case 1 : return Material.WOOD.name();
-		case 2 : return Material.STICK.name();
-		case 3 : return Material.IRON_ORE.name();
-		case 4 : return Material.IRON_INGOT.name();
-		case 5 : return Material.LOG.name();
-		case 6 : return Material.SEEDS.name();
-		case 7 : return Material.WOOD.name();
-		case 8 : return Material.DIRT.name();
-		case 9 : return Material.SEEDS.name();
-		case 10 : return Material.CARROT.name();
-		case 11 : return Material.BREAD.name();
-		case 12 : return Material.WATER.name();
-		case 13 : return Material.WOOL.name();
-		case 14 : return Material.EMERALD.name();
-		case 15 : return Material.DIRT.name();
-		case 16 : return Material.SAND.name();
-		case 20 : return Material.GOLD_NUGGET.name();
-		default :
-			return Material.AIR.name();
-		}
+		return treasureList.get(wuerfel).ItemRef();
+//		switch (wuerfel)
+//		{
+//		case 1 : return Material.WOOD.name();
+//		case 2 : return Material.STICK.name();
+//		case 3 : return Material.IRON_ORE.name();
+//		case 4 : return Material.IRON_INGOT.name();
+//		case 5 : return Material.LOG.name();
+//		case 6 : return Material.SEEDS.name();
+//		case 7 : return Material.WOOD.name();
+//		case 8 : return Material.DIRT.name();
+//		case 9 : return Material.SEEDS.name();
+//		case 10 : return Material.CARROT.name();
+//		case 11 : return Material.BREAD.name();
+//		case 12 : return Material.WATER.name();
+//		case 13 : return Material.WOOL.name();
+//		case 14 : return Material.EMERALD.name();
+//		case 15 : return Material.DIRT.name();
+//		case 16 : return Material.SAND.name();
+//		case 20 : return Material.GOLD_NUGGET.name();
+//		default :
+//			return Material.AIR.name();
+//		}
 	}
 	
 	private void checkFoundItems(ServerInterface server)
@@ -1187,11 +1251,11 @@ public class Settlement
 		double account = 0.0; 
 		ItemArray products;
 		ItemList ingredients;
-		initTreasureList();
-		expandTreasureList(biome, server);
 		requiredProduction.clear();
 		productionOverview.resetLastAll();
 		setStoreCapacity();
+		initTreasureList();
+		expandTreasureList(getBiome(), server);
 //		checkDecay();
 		checkFoundItems(server);
 		for (Building building : buildingList.getBuildingList().values())

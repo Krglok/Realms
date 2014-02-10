@@ -313,6 +313,8 @@ public class SettlementTest
 				regionBuildings,
 				Biome.PLAINS
 				);
+		settle.initTreasureList();
+		settle.expandTreasureList(settle.getBiome(), server);
 
 		int startWith = 30;
 		settle.getResident().setSettlerCount(startWith);
