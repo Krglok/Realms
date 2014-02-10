@@ -1093,6 +1093,22 @@ public class Settlement
 		int required = resident.getSettlerCount();
 		String foodItem = "";
 		int amount = 0;
+		// Fish consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = Material.COOKED_FISH.name();
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount);
+			}
+		}
 		// Bread consume before wheat consum
 		// if not enough bread then the rest will try to consum wheat
 		foodItem = "BREAD";
