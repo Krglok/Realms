@@ -3,7 +3,6 @@ package net.krglok.realms.data;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
 
@@ -110,37 +109,37 @@ public class ConfigTest implements ConfigInterface
 	 */
 	public void initRegionBuilding()
 	{
-		regionBuildingTypes.put("haus_einfach",BuildingType.BUILDING_HOME.name());
-		regionBuildingTypes.put("haus_gross", BuildingType.BUILDING_HOME.name());
-		regionBuildingTypes.put("haupthaus", BuildingType.BUILDING_HALL.name());
-		regionBuildingTypes.put("haus_stadt", BuildingType.BUILDING_HOME.name());
-		regionBuildingTypes.put("rathaus", BuildingType.BUILDING_HALL.name());
-		regionBuildingTypes.put("taverne", BuildingType.BUILDING_ENTERTAIN.name());
-		regionBuildingTypes.put("markt", BuildingType.BUILDING_WAREHOUSE.name());
-		regionBuildingTypes.put("kornfeld", BuildingType.BUILDING_WHEAT.name());
-		regionBuildingTypes.put("holzfaeller",BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("schreiner",BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("tischler",BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("koehler", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("prod_waxe", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("prod_whoe", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("prod_wpaxe", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("prod_wsword", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("prod_stick", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("prod_stick", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("steinbruch", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("schweinemast",BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("rindermast",BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("schaefer", BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("tower", BuildingType.BUILDING_MILITARY.name());
-		regionBuildingTypes.put("waffenkammer",BuildingType.BUILDING_MILITARY.name());
-		regionBuildingTypes.put("stadtwache",BuildingType.BUILDING_MILITARY.name());
-		regionBuildingTypes.put("bauern_haus",BuildingType.BUILDING_BAUERNHOF.name());
-		regionBuildingTypes.put("werkstatt_haus",BuildingType.BUILDING_WERKSTATT.name());
-		regionBuildingTypes.put("schmelze",BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("koehler",BuildingType.BUILDING_PROD.name());
-		regionBuildingTypes.put("haus_baecker",BuildingType.BUILDING_BAECKER.name());
-		regionBuildingTypes.put("haendler",BuildingType.BUILDING_TRADER.name());
+		regionBuildingTypes.put("haus_einfach",BuildPlanType.HOME.name());
+//		regionBuildingTypes.put("haus_gross", BuildPlanType.HOUSE.name());
+		regionBuildingTypes.put("haupthaus", BuildPlanType.HALL.name());
+		regionBuildingTypes.put("haus_stadt", BuildPlanType.HOUSE.name());
+		regionBuildingTypes.put("haus_hof",BuildPlanType.FARMHOUSE.name());
+		regionBuildingTypes.put("taverne", BuildPlanType.TAVERNE.name());
+		regionBuildingTypes.put("markt", BuildPlanType.WAREHOUSE.name());
+		regionBuildingTypes.put("kornfeld", BuildPlanType.WHEAT.name());
+		regionBuildingTypes.put("holzfaeller",BuildPlanType.WOODCUTTER.name());
+		regionBuildingTypes.put("koehler", BuildPlanType.CHARBURNER.name());
+		regionBuildingTypes.put("schreiner", BuildPlanType.CARPENTER.name());
+		regionBuildingTypes.put("tischler",BuildPlanType.CABINETMAKER.name());
+		regionBuildingTypes.put("steinbruch", BuildPlanType.QUARRY.name());
+		regionBuildingTypes.put("schweinestall",BuildPlanType.PIGPEN.name());
+		regionBuildingTypes.put("rinderstall",BuildPlanType.COWSHED.name());
+		regionBuildingTypes.put("schaefer", BuildPlanType.SHEPHERD.name());
+		regionBuildingTypes.put("bauern_haus",BuildPlanType.FARM.name());
+		regionBuildingTypes.put("werkstatt_haus",BuildPlanType.WORKSHOP.name());
+		regionBuildingTypes.put("schmelze",BuildPlanType.SMELTER.name());
+		regionBuildingTypes.put("haus_baecker",BuildPlanType.BAKERY.name());
+		regionBuildingTypes.put("shop_axe",BuildPlanType.AXESHOP.name());
+		regionBuildingTypes.put("shop_hoe",BuildPlanType.HOESHOP.name());
+		regionBuildingTypes.put("shop_pickaxe",BuildPlanType.PICKAXESHOP.name());
+		regionBuildingTypes.put("shop_knife",BuildPlanType.KNIFESHOP.name());
+		regionBuildingTypes.put("shop_spade",BuildPlanType.SPADESHOP.name());
+		regionBuildingTypes.put("steinmine",BuildPlanType.STONEMINE.name());
+		regionBuildingTypes.put("tower", BuildPlanType.TOWER.name());
+		regionBuildingTypes.put("watchtower",BuildPlanType.WATCHTOWER.name());
+		regionBuildingTypes.put("stadtwache",BuildPlanType.GUARDHOUSE.name());
+		regionBuildingTypes.put("smith",BuildPlanType.BLACKSMITH.name());
+		regionBuildingTypes.put("tanner",BuildPlanType.TANNARY.name());
 		
 	}
 
@@ -222,17 +221,17 @@ public class ConfigTest implements ConfigInterface
 		regionBuildingTypes = regionBuildings;
 	}
 
-	/**
-	 * Wandelt einen superRegionTyp in einen BuildingTyp
-	 * 
-	 * @param superRegionTypeName
-	 * @return Buildingtyp or BUILDING_NONE
-	 */
-	public BuildingType superRegionToBuildingType(String superRegionTypeName)
-	{
-		String name = superBuildingTypes.get(superRegionTypeName);
-		return BuildingType.getBuildingType(name);
-	}
+//	/**
+//	 * Wandelt einen superRegionTyp in einen BuildingTyp
+//	 * 
+//	 * @param superRegionTypeName
+//	 * @return Buildingtyp or BUILDING_NONE
+//	 */
+//	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)
+//	{
+//		String name = superBuildingTypes.get(superRegionTypeName);
+//		return BuildPlanType.getBuildPlanType(name);
+//	}
 
 	/**
 	 * Wandelt einen RegionTyp in einen BuildingTyp
@@ -240,11 +239,11 @@ public class ConfigTest implements ConfigInterface
 	 * @param regionTypeName
 	 * @return Buildingtyp or BUILDING_NONE
 	 */
-	public BuildingType regionToBuildingType(String regionTypeName)
+	public BuildPlanType regionToBuildingType(String regionTypeName)
 	{
 		String name = regionBuildingTypes.get(regionTypeName);
 
-		return BuildingType.getBuildingType(name);
+		return BuildPlanType.getBuildPlanType(name); 
 	}
 
 	/**
@@ -269,7 +268,7 @@ public class ConfigTest implements ConfigInterface
 	public HashMap<String, String> makeRegionBuildingTypes(HashMap<String, String> regions)
 	{
 		HashMap<String, String> regionBuildings = new HashMap<String, String>();
-		BuildingType bType;
+		BuildPlanType bType;
 		String regionType;
 		for (String regionName :regions.keySet())
 		{
@@ -309,7 +308,7 @@ public class ConfigTest implements ConfigInterface
 	public HashMap<String, String> makeSuperRegionBuildingTypes(HashMap<String, String> superRegions)
 	{
 		HashMap<String, String> regionBuildings = new HashMap<String, String>();
-		BuildingType bType;
+		BuildPlanType bType;
 		String regionType;
 		for (String regionName :superRegions.keySet())
 		{
@@ -415,15 +414,16 @@ public class ConfigTest implements ConfigInterface
 		this.toolItems = subList;
 	}
 
+
 	@Override
-	public String getRegionType(BuildingType bType)
+	public String getRegionType(BuildPlanType bType)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String getRegionType(BuildPlanType bType)
+	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)
 	{
 		// TODO Auto-generated method stub
 		return null;

@@ -11,7 +11,6 @@ requirements:
 - WOODEN_DOOR.1
 - WORKBENCH.1
 - CHEST.2
-- FURNACE.1
 - WALL_SIGN.1
 - STONE.81
 - COBBLESTONE.81
@@ -19,13 +18,20 @@ reagents:
 - GOLD_NUGGET.2
 upkeep:
 - BREAD.1
-- STICK.5
-- COBBLESTONE.10
+- LEATHER.24
 upkeep-chance: 0.001
 output:
-- STONE_SWORD.5
+- LEATHER_BOOTS.1
+- LEATHER_CHESTPLATE1
+- LEATHER_HELMET.1
+- LEATHER_LEGGINGS.1
 money-requirement: 2000.0
 upkeep-money-output: 0.0
+housing: 0
+power-drain: 0.0
+group: production
+biome: [] 
+description: Produce millitary Equipment
 super-regions:
 - Mine
 - Lager

@@ -11,6 +11,23 @@ import java.util.ArrayList;
  * @author Windu
  *
  */
+
+//BUILDING_HALL (1000),
+//BUILDING_HOME (100),
+//BUILDING_PROD (200),
+//BUILDING_WHEAT (200),
+//BUILDING_BAUERNHOF (200),
+//BUILDING_BAECKER (200),
+//BUILDING_WERKSTATT (200),
+//BUILDING_WAREHOUSE (300),
+//BUILDING_TRADER (400),
+//BUILDING_MILITARY (500),
+//BUILDING_ENTERTAIN (600),
+//BUILDING_EDUCATION (700),
+//BUILDING_RELIGION (800),
+//BUILDING_KEEP (900),
+//BUILDING_GOVERNMENT (1000)
+
 public enum BuildPlanType
 {
 	NONE (0),
@@ -47,10 +64,24 @@ public enum BuildPlanType
 	WORKSHOP (223),
 	FARM (224),
 	PIGPEN (225),
-	FARMHOUSE (310),
-	BAUERNHOF (320),
+	FARMHOUSE (226),
+	BLACKSMITH (301),
+	TANNARY (302),
+	BOWMAKER (310),
+	FLETCHER (311),
+	HORSEBARN (320),
+	WEAPONSMIH (330),
+	ARMOURER (331),
+	CHAINMAKER (340),
 	TRADER (401),
-	TAVERNE(601)
+	GUARDHOUSE (501),
+	WATCHTOWER (502),
+	DEFENSETOWER(503),
+	BARRACK (510),
+	TOWER (520),
+	HEADQUARTER(550),
+	TAVERNE(601),
+	KEEP (901)
 	;
 	
 	private final int value;
@@ -122,4 +153,13 @@ public enum BuildPlanType
 		return buildPlanTypes;
 	}
 	
+	public static int getBuildGroup(BuildPlanType buildPlanType)
+	{
+		int group = buildPlanType.getValue();
+		if (group == 0) return 0;
+		if (group < 10)  return 1;
+		if (group  < 100) return 10;
+		
+		return group / 100;
+	}
 }

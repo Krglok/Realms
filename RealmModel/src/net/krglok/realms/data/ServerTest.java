@@ -11,9 +11,19 @@ import net.krglok.realms.tool.SuperRegionData;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 public class ServerTest  implements ServerInterface // extends ServerData
 {
+
+	public static final int FAKTOR_0 = 0;
+	public static final int FAKTOR_M = -25;
+	public static final int FAKTOR_MM = -50;
+	public static final int FAKTOR_MMM = -75;
+	public static final int FAKTOR_P = 25;
+	public static final int FAKTOR_PP = 50;
+	public static final int FAKTOR_PPP = 75;
+	
 	ArrayList<String> playerNameList;
 	ArrayList<String> offPlayerNameList;
 	
@@ -221,7 +231,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 			switch (regionType)
 			{
 			case "kornfeld":
-				rList.putItem("WHEAT", 16);
+				rList.putItem("WHEAT", 24);
 				break;
 			case "schreiner":
 				rList.putItem("WOOD", 68);
@@ -261,7 +271,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 				rList.putItem("COAL", 32);
 				break;
 			case "haus_baecker":
-				rList.putItem("BREAD", 8);
+				rList.putItem("BREAD", 21);
 				break;
 			case "schmelze":
 				rList.putItem("IRON_INGOT", 32);
@@ -373,7 +383,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 			rList.putItem("WOOD_HOE", 1);
 			break;
 		case "haus_baecker":
-			rList.putItem("WHEAT", 24);
+			rList.putItem("WHEAT", 63);
 			break;
 		case "schmelze":
 			rList.putItem("BREAD", 1);
@@ -445,19 +455,272 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		return prodStore;
 	}
 
-	@Override
-	public int getRecipeFactor(String itemRef)
+	private int plainFactor(Material mat)
 	{
-		if (recipeData.getWeaponRecipe(itemRef).size() > 0)
+		switch (mat)
 		{
-			return 1;
+		case WHEAT : return FAKTOR_PP;
+		case SEEDS : return FAKTOR_PP;
+		case COBBLESTONE: return FAKTOR_M;
+		case LOG: return FAKTOR_M;
+		case WOOL : return FAKTOR_PP;
+		case GOLD_NUGGET: return FAKTOR_MM;
+		case LEATHER : return FAKTOR_P;
+		case RAW_BEEF : return FAKTOR_P;
+		case PORK : return FAKTOR_P;
+		case RAW_CHICKEN : return FAKTOR_P;
+		case FEATHER : return FAKTOR_P;
+		case RAW_FISH : return FAKTOR_MM;
+		case EMERALD : return FAKTOR_MM;
+		case IRON_ORE : return FAKTOR_MM;
+		case COAL_ORE : return FAKTOR_MM;
+		case DIAMOND_ORE : return FAKTOR_MM;
+		case EMERALD_ORE : return FAKTOR_MM;
+		case REDSTONE_ORE : return FAKTOR_MM;
+		case LAPIS_ORE : return FAKTOR_MM;
+		case GOLD_ORE : return FAKTOR_MM;
+		default :
+			return  FAKTOR_0;
 		}
-		if (recipeData.getToolRecipe(itemRef).size() > 0)
+	}
+
+	private int mountainFactor(Material mat)
+	{
+		switch (mat)
 		{
-			return 16;
+		case WHEAT : return FAKTOR_MM;
+		case SEEDS : return FAKTOR_MM;
+		case COBBLESTONE: return FAKTOR_PP;
+		case LOG: return FAKTOR_MM;
+		case WOOL : return FAKTOR_PP;
+		case GOLD_NUGGET: return FAKTOR_MM;
+		case LEATHER : return FAKTOR_P;
+		case RAW_BEEF : return FAKTOR_P;
+		case PORK : return FAKTOR_P;
+		case RAW_CHICKEN : return FAKTOR_P;
+		case FEATHER : return FAKTOR_P;
+		case RAW_FISH : return FAKTOR_MM;
+		case EMERALD : return FAKTOR_MM;
+		case RED_MUSHROOM : return FAKTOR_0; 
+		case BROWN_MUSHROOM : return FAKTOR_0; 
+		case IRON_ORE : return FAKTOR_P;
+		case COAL_ORE : return FAKTOR_P;
+		case DIAMOND_ORE : return FAKTOR_P;
+		case EMERALD_ORE : return FAKTOR_P;
+		case REDSTONE_ORE : return FAKTOR_P;
+		case GOLD_ORE : return FAKTOR_P;
+		case LAPIS_ORE : return FAKTOR_P;
+		default :
+			return  FAKTOR_0;
 		}
+	}
+
+	private int hillFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_M;
+		case SEEDS : return FAKTOR_M;
+		case COBBLESTONE: return FAKTOR_P;
+		case LOG: return FAKTOR_M;
+		case WOOL : return FAKTOR_0;
+		case GOLD_NUGGET: return FAKTOR_0;
+		case LEATHER : return FAKTOR_0;
+		case RAW_BEEF : return FAKTOR_0;
+		case PORK : return FAKTOR_0;
+		case RAW_CHICKEN : return FAKTOR_0;
+		case FEATHER : return FAKTOR_0;
+		case RAW_FISH : return FAKTOR_MM;
+		case EMERALD : return FAKTOR_0;
+		case RED_MUSHROOM : return FAKTOR_P; 
+		case BROWN_MUSHROOM : return FAKTOR_P; 
+		case IRON_ORE : return FAKTOR_P;
+		case COAL_ORE : return FAKTOR_P;
+		case DIAMOND_ORE : return FAKTOR_P;
+		case EMERALD_ORE : return FAKTOR_P;
+		case REDSTONE_ORE : return FAKTOR_P;
+		case GOLD_ORE : return FAKTOR_P;
+		case LAPIS_ORE : return FAKTOR_P;
+		default :
+			return  FAKTOR_0;
+		}
+	}
+	
+	private int swampFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_0;
+		case SEEDS : return FAKTOR_0;
+		case COBBLESTONE: return FAKTOR_MM;
+		case LOG: return FAKTOR_M;
+		case WOOL : return FAKTOR_0;
+		case GOLD_NUGGET: return FAKTOR_MM;
+		case LEATHER : return FAKTOR_0;
+		case RAW_BEEF : return FAKTOR_0;
+		case PORK : return FAKTOR_0;
+		case RAW_CHICKEN : return FAKTOR_0;
+		case FEATHER : return FAKTOR_0;
+		case RAW_FISH : return FAKTOR_0;
+		case EMERALD : return FAKTOR_MM;
+		case RED_MUSHROOM : return FAKTOR_PP; 
+		case BROWN_MUSHROOM : return FAKTOR_PP; 
+		case IRON_ORE : return FAKTOR_MM;
+		case COAL_ORE : return FAKTOR_MM;
+		case DIAMOND_ORE : return FAKTOR_MM;
+		case EMERALD_ORE : return FAKTOR_MM;
+		case REDSTONE_ORE : return FAKTOR_MM;
+		case GOLD_ORE : return FAKTOR_MM;
+		case LAPIS_ORE : return FAKTOR_MM;
+		default :
+			return  FAKTOR_0;
+		}
+	}
+
+	private int oceanFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_0;
+		case SEEDS : return FAKTOR_0;
+		case COBBLESTONE: return FAKTOR_MM;
+		case LOG: return FAKTOR_MM;
+		case WOOL : return FAKTOR_M;
+		case GOLD_NUGGET: return FAKTOR_MM;
+		case LEATHER : return FAKTOR_M;
+		case RAW_BEEF : return FAKTOR_M;
+		case PORK : return FAKTOR_M;
+		case RAW_CHICKEN : return FAKTOR_M;
+		case FEATHER : return FAKTOR_M;
+		case RAW_FISH : return FAKTOR_PPP;
+		case EMERALD : return FAKTOR_MM;
+		case RED_MUSHROOM : return FAKTOR_MM; 
+		case BROWN_MUSHROOM : return FAKTOR_MM; 
+		case IRON_ORE : return FAKTOR_MMM;
+		case COAL_ORE : return FAKTOR_MMM;
+		case DIAMOND_ORE : return FAKTOR_MMM;
+		case EMERALD_ORE : return FAKTOR_MMM;
+		case LAPIS_ORE : return FAKTOR_0;
+		case REDSTONE_ORE : return FAKTOR_MMM;
+		case GOLD_ORE : return FAKTOR_MMM;
+		default :
+			return  FAKTOR_0;
+		}
+	}
+	
+	private int forestFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_0;
+		case SEEDS : return FAKTOR_0;
+		case COBBLESTONE: return FAKTOR_0;
+		case LOG: return FAKTOR_PPP;
+		case WOOL : return FAKTOR_M;
+		case GOLD_NUGGET: return FAKTOR_M;
+		case LEATHER : return FAKTOR_0;
+		case RAW_BEEF : return FAKTOR_0;
+		case PORK : return FAKTOR_0;
+		case RAW_CHICKEN : return FAKTOR_0;
+		case FEATHER : return FAKTOR_0;
+		case RAW_FISH : return FAKTOR_MM;
+		case EMERALD : return FAKTOR_M;
+		case RED_MUSHROOM : return FAKTOR_P; 
+		case BROWN_MUSHROOM : return FAKTOR_P; 
+		case IRON_ORE : return FAKTOR_0;
+		case COAL_ORE : return FAKTOR_0;
+		case DIAMOND_ORE : return FAKTOR_0;
+		case EMERALD_ORE : return FAKTOR_0;
+		case REDSTONE_ORE : return FAKTOR_0;
+		case LAPIS_ORE : return FAKTOR_0;
+		case GOLD_ORE : return FAKTOR_0;
+		default :
+			return  FAKTOR_0;
+		}
+	}
+	
+	
+
+	private int desertFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_M;
+		case SEEDS : return FAKTOR_M;
+		case COBBLESTONE: return FAKTOR_M;
+		case LOG: return FAKTOR_M;
+		case WOOL : return FAKTOR_P;
+		case GOLD_NUGGET: return FAKTOR_P;
+		case LEATHER : return FAKTOR_M;
+		case RAW_BEEF : return FAKTOR_M;
+		case PORK : return FAKTOR_M;
+		case RAW_CHICKEN : return FAKTOR_P;
+		case FEATHER : return FAKTOR_P;
+		case RAW_FISH : return FAKTOR_M;
+		case EMERALD : return FAKTOR_P;
+		case RED_MUSHROOM : return FAKTOR_MM; 
+		case BROWN_MUSHROOM : return FAKTOR_MM; 
+		case IRON_ORE : return FAKTOR_M;
+		case COAL_ORE : return FAKTOR_M;
+		case DIAMOND_ORE : return FAKTOR_0;
+		case EMERALD_ORE : return FAKTOR_0;
+		case REDSTONE_ORE : return FAKTOR_M;
+		case LAPIS_ORE : return FAKTOR_0;
+		case GOLD_ORE : return FAKTOR_0;
+		default :
+			return  FAKTOR_0;
+		}
+	}
+	
+	@Override
+	public int getBioneFactor(Biome biome, Material mat)
+	{
+		int factor = 0;
+		if (biome.name().contains("PLAIN"))
+		{
+			factor = factor + plainFactor(mat);
+		}
+		if (biome.name().contains("SWAMP"))
+		{
+			factor = factor + swampFactor(mat);
+		}
+		if (biome.name().contains("MOUNTAIN"))
+		{
+			factor = factor + mountainFactor(mat);
+		}
+		if (biome.name().contains("OCEAN"))
+		{
+			factor = factor + oceanFactor(mat);
+		}
+		if (biome.name().contains("FOREST"))
+		{
+			factor = factor + forestFactor(mat);
+		}
+		if (biome.name().contains("DESERT"))
+		{
+			factor = factor + forestFactor(mat);
+		}
+		return factor;
+	}
+
+	
+	@Override
+	public double getRecipeFactor(String itemRef, Biome biome)
+	{
+
+		double prodFactor = (100.0 + (double) getBioneFactor(biome, Material.getMaterial(itemRef)))/100.0 ;
+		return prodFactor;
 		
-		return 8;
+//		if (recipeData.getWeaponRecipe(itemRef).size() > 0)
+//		{
+//			return 1;
+//		}
+//		if (recipeData.getToolRecipe(itemRef).size() > 0)
+//		{
+//			return 16;
+//		}
+//		
+//		return 8;
 	}
 	
 	@Override

@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
@@ -184,7 +184,7 @@ public class ModelLoopTest
 		
 		for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
 		{
-			if (building.getBuildingType() != BuildingType.BUILDING_HOME)
+			if (building.getBuildingType() != BuildPlanType.HOME)
 			{
 				System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
 			}
@@ -219,7 +219,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
+		newbuilding =  new Building(BuildPlanType.WOODCUTTER, hsRegion, "holzfaeller", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -230,7 +230,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_waxe", true);
+		newbuilding =  new Building(BuildPlanType.AXESHOP, hsRegion, "prod_waxe", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -241,7 +241,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_PROD, hsRegion, "prod_whoe", true);
+		newbuilding =  new Building(BuildPlanType.HOESHOP, hsRegion, "prod_whoe", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -252,7 +252,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schreiner", true);
+		newbuilding =  new Building(BuildPlanType.CARPENTER, hsRegion, "schreiner", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -263,7 +263,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_PROD, hsRegion, "kornfeld", true);
+		newbuilding =  new Building(BuildPlanType.WHEAT, hsRegion, "kornfeld", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -274,7 +274,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_BAUERNHOF, hsRegion, "bauern_haus", true);
+		newbuilding =  new Building(BuildPlanType.FARMHOUSE, hsRegion, "bauern_haus", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -285,7 +285,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_BAECKER, hsRegion, "haus_baecker", true);
+		newbuilding =  new Building(BuildPlanType.BAKERY, hsRegion, "haus_baecker", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -296,7 +296,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_HOME, hsRegion, "haus_einfach", true);
+		newbuilding =  new Building(BuildPlanType.HOME, hsRegion, "haus_einfach", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -307,7 +307,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schaefer", true);
+		newbuilding =  new Building(BuildPlanType.SHEPHERD, hsRegion, "schaefer", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);

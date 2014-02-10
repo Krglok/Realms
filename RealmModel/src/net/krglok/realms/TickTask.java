@@ -57,6 +57,11 @@ public class TickTask implements Runnable
 		counter++;
 		taxCounter++;
 		// starte speichern der Settlement vor onTick
+		if (counter > prodLimit)
+		{
+			counter = 0;
+		}
+		
 		plugin.getRealmModel().OnTick();
 //		System.out.println("[Realms] Tick "+counter);
 //		if ((counter > buildMin) && (counter < buildMax))

@@ -3,6 +3,8 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.block.Biome;
+
 /**
  * <pre>
  * realize a list of all settlements in the model
@@ -254,14 +256,15 @@ public class SettlementList
 			HashMap<String,String> superRegionTypes, 
 			HashMap<String,String> regionTypes, 
 			HashMap<String,String> regionBuildings, 
-			String owner)
+			String owner,
+			Biome biome)
 	{
 		SettlementList settleList = new SettlementList(0);
 		SettleType settleType = getSuperRegionSettleType(superRegionTypes);
 		if (settleType != SettleType.SETTLE_NONE)
 		{
 			String settleName = getSettleName(superRegionTypes); 
-			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, owner, regionTypes, regionBuildings);
+			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, owner, regionTypes, regionBuildings,biome);
 			settleList.addSettlement(settlement);
 		}
 		return settleList;

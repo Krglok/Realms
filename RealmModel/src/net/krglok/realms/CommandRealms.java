@@ -61,7 +61,8 @@ public class CommandRealms
 			new CmdColonyBuild(),
 			new CmdSettleAddBuilding(),
 			new CmdColonistList(),
-			new CmdColonyHelp()
+			new CmdColonyHelp(),
+			new CmdColonyWarehouse()
 //			new CmdRealmsTest()
 			
 		};

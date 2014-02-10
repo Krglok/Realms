@@ -3,6 +3,8 @@ package net.krglok.realms.tool;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.manager.PlanMap;
 
+import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.junit.Test;
 
 public class SettlePlanTest
@@ -290,5 +292,6 @@ public class SettlePlanTest
 			}
 		}
 	}
+
 
 }

@@ -1,5 +1,8 @@
 package net.krglok.realms.core;
 
+import org.bukkit.block.Biome;
+
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ServerInterface;
 
@@ -23,7 +26,7 @@ public class Building
 
 
 	private int id;
-	private BuildingType buildingType;
+	private BuildPlanType buildingType;
 	private int settler;
 	private int workerNeeded;
 	private int workerInstalled;
@@ -37,13 +40,15 @@ public class Building
 	private Double sales;
 	private boolean isSlot;
 	private int storeCapacity;
+	private LocationData position;
+	private Biome biome;
 	
 	
 	public Building()
 	{
 		COUNTER++;
 		id			= COUNTER;
-		this.buildingType = BuildingType.BUILDING_NONE;
+		this.buildingType = BuildPlanType.NONE;
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		workerInstalled = 0;
@@ -57,9 +62,11 @@ public class Building
 		setSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
+		position = new LocationData("", 0.0, 0.0, 0.0);
+		biome = null;
 	}
 	
-	public Building(BuildingType buildingType, String regionType, boolean isRegion)
+	public Building(BuildPlanType buildingType, String regionType, boolean isRegion)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -76,10 +83,12 @@ public class Building
 		slots = new ItemArray();
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
+		position = new LocationData("", 0.0, 0.0, 0.0);
+		biome = null;
 	}
 
 
-	public Building(BuildingType buildingType,	int hsRegion, String hsRegionType, Boolean isRegion)
+	public Building(BuildPlanType buildingType,	int hsRegion, String hsRegionType, Boolean isRegion, LocationData position)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -97,9 +106,11 @@ public class Building
 		setSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
+		this.position = position; //new LocationData("", 0.0, 0.0, 0.0);
+		biome = null;
 	}
 	
-	public Building(int id, BuildingType buildingType, int settler,
+	public Building(int id, BuildPlanType buildingType, int settler,
 			int workerNeeded, int workerInstalled, Boolean isRegion,
 			int hsRegion, String hsRegionType, String hsSuperRegion, 
 			Boolean isEnabled)
@@ -120,13 +131,16 @@ public class Building
 		setSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
+		position = new LocationData("", 0.0, 0.0, 0.0);
+		biome = null;
 	}
 	
-	public Building(int id, BuildingType buildingType, int settler,
+	public Building(int id, BuildPlanType buildingType, int settler,
 			int workerNeeded, int workerInstalled, Boolean isRegion,
 			int hsRegion, String hsRegionType, String hsSuperRegion, 
 			Boolean isEnabled, String slot1, String slot2, String slot3, 
-			String slot4, String slot5,Double sales)
+			String slot4, String slot5,Double sales,
+			LocationData position)
 	{
 		super();
 		this.id = id;
@@ -170,41 +184,72 @@ public class Building
 			setSlot(true);
 		}
 		this.sales = sales;
+		this.position = position;
+		biome = null;
 
 	}
 
 	
-	private void setWorkerDefault(BuildingType buildingType)
+	private void setWorkerDefault(BuildPlanType buildingType)
 	{
 		switch(buildingType)
 		{
-		case BUILDING_NONE : setWorkerNeeded(0);
+		case NONE : setWorkerNeeded(0);
 		break;
-		case BUILDING_HALL : setWorkerNeeded(0);
+		case HALL : setWorkerNeeded(0);
 		break;
-		case BUILDING_HOME : setWorkerNeeded(0);
+		case HOME : setWorkerNeeded(0);
 		break;
-		case BUILDING_PROD : setWorkerNeeded(1);
+		case WHEAT : setWorkerNeeded(1);
 		break;
-		case BUILDING_WHEAT : setWorkerNeeded(1);
+		case WOODCUTTER : setWorkerNeeded(1);
 		break;
-		case BUILDING_BAUERNHOF : setWorkerNeeded(5);
+		case QUARRY : setWorkerNeeded(1);
 		break;
-		case BUILDING_WERKSTATT : setWorkerNeeded(5);
+		case CARPENTER : setWorkerNeeded(2);
 		break;
-		case BUILDING_MILITARY : setWorkerNeeded(5);
+		case CABINETMAKER : setWorkerNeeded(2);
 		break;
-		case BUILDING_WAREHOUSE : setWorkerNeeded(0);
+		case AXESHOP : setWorkerNeeded(1);
 		break;
-		case BUILDING_TRADER : setWorkerNeeded(5);
+		case BAKERY : setWorkerNeeded(1);
 		break;
-		case BUILDING_GOVERNMENT : setWorkerNeeded(1);
+		case FARMHOUSE : setWorkerNeeded(2);
 		break;
-		case BUILDING_ENTERTAIN : setWorkerNeeded(2);
+		case FARM : setWorkerNeeded(5);
 		break;
-		case BUILDING_EDUCATION : setWorkerNeeded(2);
+		case BRICKWORK : setWorkerNeeded(2);
 		break;
-		case BUILDING_KEEP : setWorkerNeeded(0);
+		case CHARBURNER : setWorkerNeeded(1);
+		break;
+		case CHICKENHOUSE : setWorkerNeeded(1);
+		break;
+		case COWSHED : setWorkerNeeded(1);
+		break;
+		case FISHERHOOD : setWorkerNeeded(1);
+		break;
+		case HOESHOP : setWorkerNeeded(1);
+		break;
+		case KNIFESHOP : setWorkerNeeded(1);
+		break;
+		case PICKAXESHOP : setWorkerNeeded(1);
+		break;
+		case PIGPEN : setWorkerNeeded(1);
+		break;
+		case SHEPHERD : setWorkerNeeded(1);
+		break;
+		case SMELTER : setWorkerNeeded(3);
+		break;
+		case SPADESHOP : setWorkerNeeded(1);
+		break;
+		case STONEMINE : setWorkerNeeded(3);
+		break;
+		case TAVERNE : setWorkerNeeded(2);
+		break;
+		case WORKSHOP : setWorkerNeeded(5);
+		break;
+		case TRADER : setWorkerNeeded(5);
+		break;
 		default :
 			setWorkerNeeded(0);
 			break;
@@ -232,14 +277,23 @@ public class Building
 	}
 	
 	
-	public static int getDefaultSettler(BuildingType buildingType)
+	public static int getDefaultSettler(BuildPlanType buildingType)
 	{
 		switch(buildingType)
 		{
-		case BUILDING_NONE : return 0;
-		case BUILDING_HOME : return SETTLER_COUNT;
-		case BUILDING_BAUERNHOF : return (2 * SETTLER_COUNT);
-		case BUILDING_WERKSTATT : return(2 * SETTLER_COUNT);
+		case NONE : return 0;
+		case HOME : return SETTLER_COUNT;
+		case HOUSE : return (2 * SETTLER_COUNT);
+		case MANSION : return (3 * SETTLER_COUNT);
+		case FARMHOUSE : return (2 * SETTLER_COUNT);
+		case FARM : return(4 * SETTLER_COUNT);
+		case COLONY : return 0;
+		case LANE : return 0;
+		case ROAD : return 0;
+		case STEEPLE : return 0;
+		case TAVERNE : return 0;
+		case WALL : return 0;
+		case PILLAR : return 0;
 		default :
 			return 0;
 		}
@@ -251,7 +305,7 @@ public class Building
 	 * Set the default amont of residents for building by type
 	 * @param buildingType
 	 */
-	private void setSettlerDefault(BuildingType buildingType)
+	private void setSettlerDefault(BuildPlanType buildingType)
 	{
 		setSettler(getDefaultSettler(buildingType));
 	}
@@ -264,18 +318,15 @@ public class Building
 	 * @param bType
 	 * @return
 	 */
-	public static int getStoreCapacity(BuildingType bType)
+	public static int getStoreCapacity(BuildPlanType bType)
 	{
 		switch(bType)
 		{
-		case BUILDING_BAECKER : return 320;
-		case BUILDING_BAUERNHOF:return 128;
-		case BUILDING_WHEAT: return 64;
-		case BUILDING_PROD:  return 64;
-		case BUILDING_WERKSTATT: return 320;
-		case BUILDING_MILITARY: return 32;
-		case BUILDING_TRADER: return 1728;
-		default:  return 0; 
+		case BAKERY : return 320;
+		case FARMHOUSE:return 128;
+		case WORKSHOP: return 320;
+		case TRADER: return 1728;
+		default:  return 64; 
 		}
 	}
 
@@ -339,7 +390,11 @@ public class Building
 	{
 		switch(buildingType)
 		{
-		case BUILDING_HOME : return true;
+		case HOME : return true;
+		case HOUSE : return true;
+		case MANSION : return true;
+		case FARMHOUSE : return true;
+		case FARM : return true;
 		default :
 			return false;
 		}
@@ -349,7 +404,7 @@ public class Building
 	 * the buildingType define the function of the building
 	 * @return the BuildingType
 	 */
-	public BuildingType getBuildingType()
+	public BuildPlanType getBuildingType()
 	{
 		return buildingType;
 	}
@@ -360,9 +415,9 @@ public class Building
 	 * @param buildingType
 	 * @return true if type is changed
 	 */
-	public Boolean setBuildingType(BuildingType buildingType)
+	public Boolean setBuildingType(BuildPlanType buildingType)
 	{
-		if (this.buildingType == BuildingType.BUILDING_NONE)
+		if (this.buildingType == BuildPlanType.NONE)
 		{
 			this.buildingType = buildingType;
 			return true;
@@ -617,8 +672,8 @@ public class Building
 
 	public static Building createRegionBuilding(String typeName, int regionId, String regionType, boolean isRegion)
 	{
-		BuildingType buildingType = BuildingType.getBuildingType(typeName);
-		if (buildingType != BuildingType.BUILDING_NONE)
+		BuildPlanType buildingType = BuildPlanType.getBuildPlanType(typeName);
+		if (buildingType != BuildPlanType.NONE)
 		{
 			Building building = new Building(buildingType, regionType, isRegion);
 			building.setHsRegion(regionId);
@@ -647,14 +702,14 @@ public class Building
 		ItemList recipeList = new ItemList();
 		ItemArray items = new ItemArray();
 		int iValue = 0;
-		int prodFactor = 1;
+		double prodFactor = 1;
 		if (slots.isEmpty() == false)
 		{
 			for (Item item : slots)
 			{
-				prodFactor = server.getRecipeFactor(item.ItemRef());
+				prodFactor = server.getRecipeFactor(item.ItemRef(), biome);
 				recipeList = server.getRecipe(item.ItemRef());
-				iValue = recipeList.getValue(item.ItemRef())*prodFactor;
+				iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
 				items.addItem(item.ItemRef(), iValue);
 			}
 		} else
@@ -669,7 +724,7 @@ public class Building
 		ItemList recipeList = new ItemList();
 		ItemArray items = new ItemArray();
 		int iValue = 0;
-		int prodFactor = 1;
+		double prodFactor = 1.0;
 		if (this.isSlot())
 		{
 			for (Item item : slots)
@@ -677,9 +732,9 @@ public class Building
 				if (item.ItemRef().equals("") == false)
 				{
 //					System.out.println("RecipeFood "+item.ItemRef());
-					prodFactor = server.getRecipeFactor(item.ItemRef());
+					prodFactor = server.getRecipeFactor(item.ItemRef(),biome);
 					recipeList = server.getFoodRecipe(item.ItemRef());
-					iValue = recipeList.getValue(item.ItemRef())*prodFactor;
+					iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
 					items.addItem(item.ItemRef(), iValue);
 					this.isSlot = true;
 				}
@@ -693,8 +748,8 @@ public class Building
 			{
 				for (Item item : items)
 				{
-					prodFactor = server.getRecipeFactor(item.ItemRef());
-					iValue = item.value() *prodFactor;
+					prodFactor = server.getRecipeFactor(item.ItemRef(),biome);
+					iValue = (int) ((double)item.value() *prodFactor);
 					items.setItem(item.ItemRef(), iValue);
 //					System.out.println("baeckerProd: "+item.ItemRef()+":"+item.value());
 				}
@@ -753,22 +808,23 @@ public class Building
 		ItemArray outValues = new ItemArray();
 		switch(buildingType)
 		{
-		case BUILDING_WHEAT : 
+		case WHEAT : 
 			outValues = buildingProd(server,hsRegionType);
 			break;
-		case BUILDING_PROD : 
+		case FARM :
 			outValues = buildingProd(server,hsRegionType);
 			break;
-		case BUILDING_BAUERNHOF :
-			outValues = buildingProd(server,hsRegionType);
-			break;
-		case BUILDING_WERKSTATT :
+		case WORKSHOP :
 			outValues = werkstattProd(server,hsRegionType);
 			break;
-		case BUILDING_BAECKER :
+		case BAKERY :
 			outValues = baeckerProd(server,hsRegionType);
 			break;
 		default :
+			if (BuildPlanType.getBuildGroup(buildingType) == 200)
+			{
+				outValues = buildingProd(server,hsRegionType);
+			}
 			break;
 		}
 
@@ -799,19 +855,51 @@ public class Building
 		double value = 0;
 		switch(buildingType)
 		{
-		case BUILDING_ENTERTAIN :
+		case TAVERNE :
 			value = TAVERNE_TAXE;
 			break;
-		case BUILDING_BAUERNHOF :
+		case FARM :
 			value = SETTLER_TAXE * workerInstalled; 
 			break;
-		case BUILDING_WERKSTATT :
+		case WORKSHOP :
 			value = SETTLER_TAXE * workerInstalled; 
 			break;
 		default :
 			break;
 		}
 		return value;
+	}
+
+	/**
+	 * @return the position
+	 */
+	public LocationData getPosition()
+	{
+		return position;
+	}
+
+	/**
+	 * @param position the position to set
+	 */
+	public void setPosition(LocationData position)
+	{
+		this.position = position;
+	}
+
+	/**
+	 * @return the biome
+	 */
+	public Biome getBiome()
+	{
+		return biome;
+	}
+
+	/**
+	 * @param biome the biome to set
+	 */
+	public void setBiome(Biome biome)
+	{
+		this.biome = biome;
 	}
 
 	

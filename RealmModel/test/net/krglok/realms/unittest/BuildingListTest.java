@@ -2,10 +2,9 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
-import net.krglok.realms.core.BuildingType;
-
 import org.junit.Test;
 
 public class BuildingListTest
@@ -41,7 +40,7 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		bList.addBuilding(building);
 		int expected = 1;
 		int actual = bList.getRegionArray().length;
@@ -51,25 +50,13 @@ public class BuildingListTest
 
 
 	@Test
-	public void testGetSuperRegionList()
-	{
-		Building.initCounter(0);
-		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildingType.BUILDING_GOVERNMENT,"irgendwas",false);
-		bList.addBuilding(building);
-		int expected = 1;
-		int actual = bList.getSuperRegionArray().length;
-		assertEquals(expected, actual);
-	}
-
-	@Test
 	public void testInitRegionList()
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildingType.BUILDING_GOVERNMENT,"irgendwas",false);
+		Building building = new Building(BuildPlanType.BAKERY,"irgendwas",false);
 		bList.addBuilding(building);
-		building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		bList.addBuilding(building);
 		bList.initRegionLists();
 		int expected = 1;
@@ -82,9 +69,9 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildingType.BUILDING_HOME,"irgendwas",false);
+		Building building = new Building(BuildPlanType.BAKERY,"irgendwas",false);
 		bList.addBuilding(building);
-		building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		bList.addBuilding(building);
 		bList.initRegionLists();
 		int expected = 1;
@@ -97,8 +84,8 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
-		building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		bList.addBuilding(building);
 		Building b = bList.getBuilding(2);
 		int expected = 2;
@@ -115,9 +102,9 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		bList.addBuilding(building);
-		building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		bList.addBuilding(building);
 //		Integer a = bList.getRegionList().size();
 		int index = bList.getRegionArray()[0];
@@ -136,7 +123,7 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildingType.BUILDING_HOME,"haus_einfach",true);
+		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		for (int i = 0; i < 10; i++)
 		{
 			bList.getBuildingList().put(String.valueOf(i),building);

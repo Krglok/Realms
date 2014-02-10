@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.krglok.realms.builder.BuildPlanType;
+
 /**
  * <pre>
  * Verwaltet eine Liste von Buildings
@@ -103,7 +105,7 @@ public class BuildingList
 			{
 				superRegionList.add(building.getId());
 			}
-			if (building.getBuildingType() == BuildingType.BUILDING_HALL)
+			if (building.getBuildingType() == BuildPlanType.HALL)
 			{
 				isHall = true;
 			}
@@ -194,7 +196,7 @@ public class BuildingList
 	{
 		for (Building building : buildingList.values())
 		{
-			if (building.getBuildingType() == BuildingType.BUILDING_HALL)
+			if (building.getBuildingType() == BuildPlanType.HALL)
 			{
 				isHall = true;
 			}

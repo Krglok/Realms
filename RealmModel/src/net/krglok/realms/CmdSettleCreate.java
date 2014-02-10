@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -14,6 +14,7 @@ import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -113,13 +114,14 @@ public class CmdSettleCreate extends RealmsCommand
     			owner = new Owner(playerName, isNPC);
     		}
 		}
+		Biome biome = sRegion.getLocation().getWorld().getBlockAt(sRegion.getLocation()).getBiome();
 		LocationData position = new LocationData(
 				sRegion.getLocation().getWorld().getName(),
 				sRegion.getLocation().getX(), 
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 		msg.add(" Owner: "+playerName);
-		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName);
+		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName,biome);
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 
 		msg.add("");
@@ -129,8 +131,18 @@ public class CmdSettleCreate extends RealmsCommand
     		
 			int hsRegion = region.getID();
 			String hsRegionType = region.getType();
-    		BuildingType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
-			Building building = new Building(buildingType, hsRegion, hsRegionType, true);
+			BuildPlanType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
+			Building building = new Building(
+					buildingType, 
+					hsRegion, 
+					hsRegionType, 
+					true,
+					new LocationData(
+					sRegion.getLocation().getWorld().getName(),
+					sRegion.getLocation().getX(), 
+					sRegion.getLocation().getY(),
+					sRegion.getLocation().getZ())
+					);
 			Settlement.addBuilding(building, settlement);
 		}
 		// make not dynamic initialization
@@ -157,7 +169,7 @@ public class CmdSettleCreate extends RealmsCommand
 		msg.add("Settlers: "+settlement.getResident().getSettlerCount());
 		msg.add("Building: "+settlement.getBuildingList().size());
 		msg.add("Bank    : "+settlement.getBank().getKonto());
-		msg.add("");
+		msg.add("Biome   : "+biome);
 		plugin.getMessageData().printPage(sender, msg, page);
 		return true;
 	}

@@ -2,6 +2,8 @@ package net.krglok.realms.core;
 
 import java.util.HashMap;
 
+import net.krglok.realms.builder.BuildPlanType;
+
 /**
  * <pre>
  * make the item storage and the processing for the storage
@@ -17,7 +19,7 @@ public class Warehouse
 	private int itemMax;
 	private int itemCount;
 	private ItemList itemList;
-	private HashMap<BuildingType,Integer> typeCapacity;
+	private HashMap<BuildPlanType,Integer> typeCapacity;
 	
 	public Warehouse(int itemMax)
 	{
@@ -25,10 +27,10 @@ public class Warehouse
 		this.itemMax	  = itemMax;
 		itemCount = 0;
 		itemList  = new ItemList();
-		typeCapacity = new HashMap<BuildingType,Integer>();
+		typeCapacity = new HashMap<BuildPlanType,Integer>();
 	}
 
-	public void setTypeCapacity(BuildingType bType, int value)
+	public void setTypeCapacity(BuildPlanType bType, int value)
 	{
 		if (typeCapacity.containsKey(bType))
 		{
@@ -39,7 +41,7 @@ public class Warehouse
 		}
 	}
 	
-	public int getTypeCapacity(BuildingType bType)
+	public int getTypeCapacity(BuildPlanType bType)
 	{
 		if (typeCapacity.containsKey(bType))
 		{
@@ -48,12 +50,12 @@ public class Warehouse
 		return 0;
 	}
 	
-	public HashMap<BuildingType,Integer> getTypeCapacityList()
+	public HashMap<BuildPlanType,Integer> getTypeCapacityList()
 	{
 		return typeCapacity;
 	}
 	
-	public void setTypeCapacityList(HashMap<BuildingType,Integer> capacityList)
+	public void setTypeCapacityList(HashMap<BuildPlanType,Integer> capacityList)
 	{
 		this.typeCapacity = capacityList;
 	}

@@ -2,11 +2,13 @@ package net.krglok.realms.data;
 
 import java.util.HashMap;
 
+import org.bukkit.block.Biome;
+
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Bank;
 import net.krglok.realms.core.Barrack;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.MemberLevel;
@@ -132,7 +134,10 @@ public class DataTest implements DataInterface
 				buildingList, 
 				townhall, 
 				bank,
-				resident,"");
+				resident,
+				"",
+				Biome.PLAINS
+				);
 		
 		for (Building b : testBuildings.getBuildingList().values())
 		{
@@ -153,7 +158,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_HOME, 
+						BuildPlanType.HOME, 
 						settler, 
 						0, 
 						0, 
@@ -176,7 +181,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_WHEAT, 
+						BuildPlanType.WHEAT, 
 						0,
 						workerNeeded,
 						0, 
@@ -193,7 +198,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_PROD, 
+						BuildPlanType.WOODCUTTER, 
 						0,
 						workerNeeded,
 						0, 
@@ -217,7 +222,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_HALL, 
+						BuildPlanType.HALL, 
 						settler,
 						0,
 						0, 
@@ -234,7 +239,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_ENTERTAIN, 
+						BuildPlanType.TAVERNE, 
 						0,
 						workerNeeded,
 						0, 
@@ -258,7 +263,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_MILITARY, 
+						BuildPlanType.GUARDHOUSE, 
 						unitSpace,
 						0,
 						0, 
@@ -282,7 +287,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_WAREHOUSE, 
+						BuildPlanType.WAREHOUSE, 
 						0,
 						workerNeeded,
 						0, 
@@ -299,7 +304,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_BAUERNHOF, 
+						BuildPlanType.FARMHOUSE, 
 						settler,
 						workerNeeded,
 						0, 
@@ -317,7 +322,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_WERKSTATT, 
+						BuildPlanType.WORKSHOP, 
 						settler,
 						workerNeeded,
 						0, 
@@ -331,7 +336,8 @@ public class DataTest implements DataInterface
 						slot3,
 						slot4,
 						slot5,
-						0.0
+						0.0,
+						new LocationData("SteamHaven", 0.0, 0.0, 0.0)
 						);
 		
 	}
@@ -341,7 +347,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_BAECKER, 
+						BuildPlanType.BAKERY, 
 						settler,
 						workerNeeded,
 						0, 
@@ -355,7 +361,8 @@ public class DataTest implements DataInterface
 						slot3,
 						slot4,
 						slot5,
-						0.0
+						0.0,
+						new LocationData("SteamHaven", 0.0, 0.0, 0.0)
 						);
 		
 	}
@@ -372,7 +379,7 @@ public class DataTest implements DataInterface
 	{
 		return  new	Building(
 						id, 
-						BuildingType.BUILDING_TRADER, 
+						BuildPlanType.TRADER, 
 						settler,
 						workerNeeded,
 						0, 

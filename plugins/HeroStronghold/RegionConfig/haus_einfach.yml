@@ -21,3 +21,8 @@ upkeep-chance: 0.001
 output: []
 money-requirement: 1000.0
 upkeep-money-output: 1.0
+housing: 4
+power-drain: 0.0
+group: home
+biome: [] 
+description: Hold Settler

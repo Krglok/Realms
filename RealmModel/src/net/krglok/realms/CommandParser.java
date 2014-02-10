@@ -1,6 +1,6 @@
 package net.krglok.realms;
 
-import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.SettleType;
 
 public class CommandParser
@@ -128,7 +128,7 @@ public class CommandParser
 //						cmd.addErrorMsg("SetPara "+i+":"+paraTypes[i]);
 					
 				}
-				if (BuildingType.class.getName() == paraTypes[i])
+				if (BuildPlanType.class.getName() == paraTypes[i])
 				{
 					cmd.setParserError(true);		
 					cmd.addErrorMsg(cmd.getDescription()[0]);

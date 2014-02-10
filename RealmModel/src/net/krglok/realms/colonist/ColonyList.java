@@ -1,10 +1,6 @@
 package net.krglok.realms.colonist;
 
 import java.util.HashMap;
-import java.util.Map;
-
-import net.krglok.realms.core.Building;
-import net.krglok.realms.core.Settlement;
 
 public class ColonyList extends HashMap<Integer, Colony>
 {

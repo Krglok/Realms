@@ -7,14 +7,16 @@ public class McmdColonyBuild implements iModelCommand
 	private ModelCommandType commandType = ModelCommandType.BUILDCOLONY;
 	private RealmModel rModel;
 	private int colonyId;
+	private boolean isCleanUp;
 	
 	
 	
-	public McmdColonyBuild(RealmModel rModel, int colonyId)
+	public McmdColonyBuild(RealmModel rModel, int colonyId, boolean isCleanUp)
 	{
 		super();
 		this.rModel = rModel;
 		this.colonyId = colonyId;
+		this.isCleanUp = isCleanUp;
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class McmdColonyBuild implements iModelCommand
 		{
 			if (colony.getId() == this.colonyId)
 			{
-				colony.startUpBuild(colony.getName());
+				colony.startUpBuild(colony.getName(),isCleanUp);
 			}
 		}
 	}

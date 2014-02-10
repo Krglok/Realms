@@ -20,7 +20,8 @@ public class ConfigBasis implements ConfigInterface
 	protected static final String CONFIG_PLUGIN_NAME = "plugin_name";
 	protected static final String PLUGIN_NAME = "Realms";
 	protected static String PLUGIN_VER = "0.1.0";
-	public final static long dayNight = 24000 ; // serverTicks 
+
+	public final static long dayNight = 2400; //0 ; // serverTicks 
 	public final static long RealmTick = 20L; 
 	public final static long DelayTick = 20L; 
 	public static long GameDay = ConfigBasis.dayNight / ConfigBasis.RealmTick; // 40; //
@@ -214,7 +215,7 @@ public class ConfigBasis implements ConfigInterface
 		return null;
 	}
 	@Override
-	public BuildingType regionToBuildingType(String regionTypeName)
+	public BuildPlanType regionToBuildingType(String regionTypeName)
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -273,14 +274,7 @@ public class ConfigBasis implements ConfigInterface
 	}
 
 	@Override
-	public BuildingType superRegionToBuildingType(String superRegionTypeName)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getRegionType(BuildingType bType)
+	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -292,5 +286,6 @@ public class ConfigBasis implements ConfigInterface
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }

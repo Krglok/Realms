@@ -1,9 +1,11 @@
 package net.krglok.realms.model;
 
+import org.bukkit.block.Biome;
+
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -16,13 +18,15 @@ public class McmdCreateSettle implements iModelCommand
 	private String playerName;
 	private SettleType settleType;
 	private String superRegionName;
+	private Biome biome;
 	
-	public McmdCreateSettle(RealmModel rModel, String superRegionName, String playerName, SettleType settleType)
+	public McmdCreateSettle(RealmModel rModel, String superRegionName, String playerName, SettleType settleType, Biome biome)
 	{
 		this.rModel = rModel;
 		this.superRegionName = superRegionName;
 		this.playerName = playerName;
 		this.settleType = settleType;
+		this.biome = biome;
 	}
 	
 	@Override
@@ -75,15 +79,25 @@ public class McmdCreateSettle implements iModelCommand
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 
-		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName);
+		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName, biome);
 		rModel.getSettlements().addSettlement(settlement);
 //		System.out.println(superRegionName+" : "+settlement.getId());
 		for (Region region : rModel.getServer().getRegionInSuperRegion(superRegionName))
 		{
 			int hsRegion = region.getID();
 			String hsRegionType = region.getType();
-    		BuildingType buildingType = rModel.getConfig().regionToBuildingType(hsRegionType);
-			Building building = new Building(buildingType, hsRegion, hsRegionType, true);
+    		BuildPlanType buildingType = rModel.getConfig().regionToBuildingType(hsRegionType);
+			Building building = new Building(
+					buildingType, 
+					hsRegion, 
+					hsRegionType, 
+					true,
+					new LocationData(
+							region.getLocation().getWorld().getName(),
+							region.getLocation().getX(), 
+							region.getLocation().getY(),
+							region.getLocation().getZ())
+					);
 			Settlement.addBuilding(building, settlement);
 		}
 		// make not dynamic initialization

@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
-import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -96,7 +96,7 @@ public class TestNPCOwner
                 	System.out.println("Part 5 "+ref);
 
             		int buildingId = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".id"));
-            		BuildingType bType = BuildingType.getBuildingType(config.getString(settleSec+".buildinglist."+ref+".buildingType"));
+            		BuildPlanType bType = BuildPlanType.getBuildPlanType(config.getString(settleSec+".buildinglist."+ref+".buildingType"));
             		int settler = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".settler"));
             		int workerNeeded = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerNeeded"));
             		int workerInstalled = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerInstalled"));

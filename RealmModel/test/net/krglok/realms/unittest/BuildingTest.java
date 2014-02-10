@@ -2,10 +2,8 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.ItemList;
@@ -22,7 +20,7 @@ public class BuildingTest
 	public void testBuildingBuildingTypeStringBoolean()
 	{
 		Building.initCounter(0);
-		BuildingType buildingType = BuildingType.BUILDING_HOME;
+		BuildPlanType buildingType = BuildPlanType.HOME;
 		String regionType 	= "haus_einfach";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
@@ -36,7 +34,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingBuildingDefaultSettler()
 	{
-		BuildingType buildingType = BuildingType.BUILDING_HOME;
+		BuildPlanType buildingType = BuildPlanType.HOME;
 		String regionType 	= "haus_einfach";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
@@ -50,7 +48,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingBuildingDefaultWorker()
 	{
-		BuildingType buildingType = BuildingType.BUILDING_PROD;
+		BuildPlanType buildingType = BuildPlanType.HOME;
 		String regionType 	= "kornfeld";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
@@ -66,7 +64,7 @@ public class BuildingTest
 	{
 		ServerTest server = new ServerTest();
 		ItemArray outValues = new ItemArray(); 
-		BuildingType buildingType = BuildingType.BUILDING_PROD;
+		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "kornfeld";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
@@ -93,7 +91,7 @@ public class BuildingTest
 	{
 		ServerTest server = new ServerTest();
 		ItemArray outValues = new ItemArray(); 
-		BuildingType buildingType = BuildingType.BUILDING_PROD;
+		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "kornfeld";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
@@ -122,7 +120,7 @@ public class BuildingTest
 		ServerTest server = new ServerTest();
 		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
-		BuildingType buildingType = BuildingType.BUILDING_PROD;
+		BuildPlanType buildingType = BuildPlanType.CARPENTER;
 		String regionType 	= "schreiner";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);

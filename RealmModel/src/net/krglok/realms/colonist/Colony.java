@@ -1,6 +1,9 @@
 package net.krglok.realms.colonist;
 
+import java.util.ArrayList;
+
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 import net.krglok.realms.CmdSettleCreate;
 import net.krglok.realms.builder.BuildPlanColony;
@@ -20,9 +23,11 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.MessageText;
+import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.McmdCreateSettle;
 import net.krglok.realms.model.RealmModel;
+import net.minecraft.server.v1_7_R1.BiomeRiver;
 
 
 /**
@@ -49,13 +54,17 @@ public class Colony
 	private enum ColonyStatus
 	{
 		NONE,
+		STARTUP,		// Der Bauauftrag startet
+		PREPARE,		// Vorbereitung des Bauplatzes
 		PREBUILD,		// der Bauauftrag startet und bereitet die Baustelle vor
+		MARKUP,			// der Bauplatz wird markiert
 		READY,			// der Builder bereitet das Materiallager vor 
 		STARTLIST, 		// der Builder baut nach BuildPlan
 		BUILDLIST, 		// der Builder baut nach BuildPlan
 		NEXTLIST,		// der Builder baut nach BuildPlan
 		POSTBUILD,		// der Builder erstellt die Superregion
 		NEWSETTLE, 		// erstellt das neue Settlement, schliesst den Auftrag ab
+		REINFORCE,		// entfernt die Colony
 		DONE,			// der Builder beendet den Auftrag.
 		FULFILL,		// Auftrag vollstaendig erledigt
 		WAIT,			// der Builder wartet auf Material
@@ -91,6 +100,16 @@ public class Colony
 	
 	private int markUpStep;
 	
+	private boolean isPrepared ;
+	private int prepareLevel;
+	private int prepareRow;
+	private int prepareCol;
+	private int prepareRadius;
+	private int prepareOffset;
+	
+	private Biome biome;
+	private ArrayList<BiomeLocation> biomeRequest;
+	
 	public Colony (String name, LocationData position, String owner)
 	{
 		COUNTER++;
@@ -112,6 +131,13 @@ public class Colony
 		this.buildPosIndex = 0;
 		this.newSuperRegion = new RegionLocation("Siedlung", position, owner, name);
 		this.superRequest = null;
+		this.isPrepared = false;
+		this.prepareLevel = 41;
+		this.prepareRow = 0;
+		this.prepareCol = 0;
+		this.prepareRadius= 21;
+		this.prepareOffset= 0;
+		this.biome = null;
 		
 	}
 
@@ -159,18 +185,26 @@ public class Colony
 	 * set the World for the relative BuildPosition
 	 * @param name
 	 */
-	public void startUpBuild(String name)
+	public void startUpBuild(String name, boolean isCleanUp)
 	{
 		if (cStatus == ColonyStatus.NONE)
 		{
 			this.name = name;
-			cStatus = ColonyStatus.PREBUILD;
-			System.out.println("Start Colony Build "+id);
+			if (isCleanUp)
+			{
+				System.out.println("Start Colony Clean "+id);
+				cStatus = ColonyStatus.STARTUP;
+			} else
+			{
+				cStatus = ColonyStatus.PREBUILD;
+				System.out.println("Start Colony Build "+id);
+			}
 			// set the World for the relative BuildPosition
 			for (BuildPosition aPos : settleSchema.getbPositions())
 			{
 			  aPos.getPosition().setWorld(this.position.getWorld());
 			}
+			biomeRequest.add(new BiomeLocation(null, position));
 		} else
 		{
 			System.out.println("Colonist Command Build , disabled, Colonist is already working !!! ");
@@ -254,6 +288,48 @@ public class Colony
 		superRequest = newSuperRegion;
 	}
 	
+	private void doPrepareArea()
+	{
+		int radius = prepareRadius; 
+		int edge =  radius * 2 -1;
+		// erzeuge CleanRequest 
+		if (this.prepareLevel < radius)
+		{
+			for (int i = 0; i < edge; i++)
+			{
+
+				if (this.prepareCol < edge)
+				{
+					LocationData l = new LocationData(position.getWorld(), position.getX(), position.getY(),position.getZ());
+					l.setX(l.getX()-radius); 
+					l.setY(l.getY()); 
+					l.setZ(l.getZ()-radius);
+
+					l.setX(l.getX()+prepareCol); 
+					l.setY(l.getY()+prepareLevel); 
+					l.setZ(l.getZ()+prepareRow);
+					buildManager.getCleanRequest().add(new ItemLocation(Material.AIR ,l));
+					
+				}
+				this.prepareCol++;
+			}
+			if (this.prepareCol > edge)
+			{
+				this.prepareRow++;
+				this.prepareCol = 0;
+			}
+			if (this.prepareRow > edge)
+			{
+				this.prepareLevel++;
+				System.out.println(id+"CleanUp  Next Level "+this.prepareLevel);
+				this.prepareRow = 0;
+			}
+		} else
+		{
+			this.prepareLevel++;
+		}
+	}
+	
 	/**
 	 * 
 	 */
@@ -263,18 +339,60 @@ public class Colony
 
 		switch (cStatus)
 		{
-		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
+		case STARTUP:
 			if (buildManager.getStatus() == BuildStatus.NONE)
 			{
-				System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-				buildManager.newBuild(BuildPlanType.COLONY, this.position);
-				nextStatus = ColonyStatus.READY;
-				this.cStatus = ColonyStatus.WAITBUILD;
+				//initialisieren PrePare Modus zum freiräumen des Bauplatzes
+				this.isPrepared = false;
+				this.prepareLevel = prepareOffset;
+				this.prepareRow = 0;
+				this.prepareCol = 0;
+				this.cStatus = ColonyStatus.PREPARE;
+				System.out.println(id+" Prepare  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+
+			} else
+			{
+				System.out.println("Colonist Build canceled");
 			}
+			break;
+		case PREPARE:
+			doPrepareArea();
+			
+			if ((prepareLevel > prepareRadius) && (buildManager.getCleanRequest().isEmpty()))
+			{
+				isPrepared = true;
+			}
+			if (isPrepared)
+			{
+				this.cStatus = ColonyStatus.NONE;
+
+				System.out.println("Colonist set Warehouse");
+				for (ItemLocation iLoc   : buildManager.resultBlockRequest())
+				{
+					if (iLoc.itemRef() != Material.AIR)
+					{
+						warehouse.depositItemValue(iLoc.itemRef().name(), 1);
+					}
+				}
+				System.out.println("Colonist Prepare  ended normally");
+			}
+			break;
+		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
+			System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+			buildManager.newBuild(BuildPlanType.COLONY, this.position);
+			nextStatus = ColonyStatus.READY;
+			this.cStatus = ColonyStatus.WAITBUILD;
 			break;
 		case READY :		// der Builder bereitet das Materiallager vor
 			if (markUpStep < 5)
 			{
+				if (biomeRequest.get(0).getBiome() == null)
+				{
+					biome = Biome.SKY;
+				} else
+				{
+					biome = biomeRequest.get(0).getBiome(); 
+				}
 				markUpSettleSchema();
 			} else
 			{
@@ -325,8 +443,27 @@ public class Colony
 		case NEWSETTLE:
 			if (superRequest == null)
 			{
-				McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.SETTLE_HAMLET);
+				McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.SETTLE_HAMLET,biome);
 				rModel.OnCommand(msCreate);
+				this.cStatus = ColonyStatus.REINFORCE;
+				this.isPrepared = false;
+				this.prepareLevel = prepareOffset;
+				this.prepareRow = 0;
+				this.prepareCol = 0;
+				this.prepareRadius = 4;
+				System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+			}
+			break;
+		case REINFORCE:
+			doPrepareArea();
+			if ((prepareLevel > prepareRadius) && (buildManager.getCleanRequest().isEmpty()))
+			{
+				isPrepared = true;
+			}
+			if (isPrepared)
+			{
+				this.cStatus = ColonyStatus.DONE;
+				System.out.println("Colonist Reinforce ended normally");
 			}
 			break;
 		case DONE:			// der Builder beendet den Auftrag.
@@ -469,6 +606,11 @@ public class Colony
 	public void setSuperRequest(RegionLocation superRequest)
 	{
 		this.superRequest = superRequest;
+	}
+
+	public ArrayList<BiomeLocation> getBiomeRequest()
+	{
+		return biomeRequest;
 	}
 	
 }

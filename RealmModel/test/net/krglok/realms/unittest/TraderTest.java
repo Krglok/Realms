@@ -21,6 +21,7 @@ import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 
+import org.bukkit.block.Biome;
 import org.junit.Test;
 
 public class TraderTest
@@ -84,7 +85,15 @@ public class TraderTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(pos, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(
+				pos, 
+				settleType, 
+				settleName, 
+				ownerList.getOwner("NPC0").getPlayerName(),
+				regionTypes, 
+				regionBuildings,
+				Biome.PLAINS
+				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
 		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*2 );

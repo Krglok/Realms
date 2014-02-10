@@ -13,6 +13,7 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
 
+import org.bukkit.block.Biome;
 import org.junit.Test;
 
 public class SettlementListTest
@@ -77,7 +78,7 @@ public class SettlementListTest
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
 		
-		sList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		sList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS);
 		
 		int expected = 1;
 		int actual = sList.count();
@@ -107,13 +108,13 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS);
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS);
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS);
 		sList.addSettlements(newList);
 
 		int expected = 3;
@@ -160,13 +161,13 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS);
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS);
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName());
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS);
 		sList.addSettlements(newList);
 
 		int expected = 3;

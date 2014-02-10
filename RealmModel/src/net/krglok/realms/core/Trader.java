@@ -109,7 +109,7 @@ public class Trader
 
 	public boolean isFreeSellOrder()
 	{
-		return (this.orderMax >= orderCount);
+		return (5 >= orderCount);
 	}
 	
 	public boolean isFreeBuyOrder()

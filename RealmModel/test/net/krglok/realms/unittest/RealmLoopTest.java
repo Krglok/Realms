@@ -21,6 +21,7 @@ import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.RealmModel;
 
+import org.bukkit.block.Biome;
 import org.junit.Test;
 
 public class RealmLoopTest
@@ -72,7 +73,15 @@ public class RealmLoopTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(pos, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(
+				pos, 
+				settleType, 
+				settleName, 
+				ownerList.getOwner("NPC0").getPlayerName(),
+				regionTypes, 
+				regionBuildings,
+				Biome.PLAINS
+				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
 		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*2 );

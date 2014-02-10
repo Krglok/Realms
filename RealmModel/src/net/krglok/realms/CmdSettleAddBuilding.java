@@ -3,8 +3,9 @@ package net.krglok.realms;
 import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 
@@ -100,8 +101,17 @@ public class CmdSettleAddBuilding extends RealmsCommand
 			return;
 		}
 		String hsRegionType = region.getType();
-		BuildingType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
-		Building building = new Building(buildingType, this.regionId, hsRegionType, true);
+		BuildPlanType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
+		Building building = new Building(
+				buildingType, 
+				this.regionId, 
+				hsRegionType, 
+				true,
+				new LocationData(
+						region.getLocation().getWorld().getName(),
+						region.getLocation().getX(), 
+						region.getLocation().getY(),
+						region.getLocation().getZ()));
 		if (Settlement.addBuilding(building, settle))
 		{
 			msg.add("Settlement ["+settle.getId()+"]  "+settle.getName());

@@ -19,6 +19,9 @@ import net.krglok.realms.data.ConfigData;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerData;
+import net.krglok.realms.manager.BiomeLocation;
+import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.model.RealmModel;
 import net.milkbowl.vault.economy.Economy;
 
@@ -26,13 +29,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -190,7 +197,7 @@ public final class Realms extends JavaPlugin
 	 */
 	public void setChest(World world, ItemListLocation iLoc)
 	{
-		Block b = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+		Block b = world.getBlockAt((int)iLoc.position().getX()+1, (int)iLoc.position().getY(),(int) iLoc.position().getZ()+1);
 		if (b.getType() == Material.CHEST)
 		{
 			 Chest chest = (Chest) b.getState();
@@ -346,12 +353,25 @@ public final class Realms extends JavaPlugin
 //				settle.buildManager().getBuildRequest().remove(0);
 			}
 			settle.buildManager().getBuildRequest().clear();
+			
+			if (settle.buildManager().getRegionRequest().size() != 0)
+			{
+				World world = getServer().getWorld(settle.buildManager().getRegionRequest().get(0).getPosition().getWorld());
+				RegionLocation rLoc = settle.buildManager().getRegionRequest().get(0);
+				doRegionRequest( world, rLoc );
+				settle.buildManager().getRegionRequest().remove(0);
+			}
+
 			if (settle.buildManager().getChestSetRequest().size() != 0)
 			{
 				System.out.println("do Chest Set");
 				World world = getServer().getWorld(settle.buildManager().getChestSetRequest().get(0).position().getWorld());
 				setChest(world, settle.buildManager().getChestSetRequest().get(0));
 				settle.buildManager().getChestSetRequest().remove(0);
+			}
+			if (settle.getMapManager().getBiomeRequest().size() > 0)
+			{
+				getBiome (settle.getMapManager().getBiomeRequest().get(0));
 			}
 		}
 		
@@ -375,6 +395,15 @@ public final class Realms extends JavaPlugin
 				doRegionRequest( world, rLoc );
 				colony.buildManager().getRegionRequest().remove(0);
 			}
+			//Abarbeiten der SetChestRequest zum configurieren der Region
+			if (colony.buildManager().getChestSetRequest().size() != 0)
+			{
+				System.out.println("do Chest Set");
+				World world = getServer().getWorld(colony.buildManager().getChestSetRequest().get(0).position().getWorld());
+				setChest(world, colony.buildManager().getChestSetRequest().get(0));
+				colony.buildManager().getChestSetRequest().remove(0);
+			}
+			// Abarbeiten der SuperRegionRequest zum create der Superregions
 			if (colony.getSuperRequest() != null)
 			{
 //				System.out.println("SuperRequest");
@@ -382,47 +411,303 @@ public final class Realms extends JavaPlugin
 				doSuperRequest(world, colony.getSuperRequest() );
 				colony.setSuperRequest(null);
 			}
+			if (colony.getBiomeRequest().size() > 0)
+			{
+				getBiome (colony.getBiomeRequest().get(0));
+			}
 		}
 
+		
+	}
+	
+	
+	/**
+	 * schreibt das Ergebnis in den Request !!!
+	 * @param iLoc
+	 */
+	private void getBiome (BiomeLocation iLoc)
+	{
+		World world = getServer().getWorld(iLoc.position().getWorld());
+		Block block ;
+		Biome biome ;
+		block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+		biome = block.getBiome();
+		iLoc.setBiome(biome);
+	}
+	
+
+	private void getFluid(Block block,  BuildManager buildManager, Material mat, Material resulMat)
+	{
+		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.NORTH, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.NORTH_EAST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.NORTH_WEST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH_EAST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH_WEST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.EAST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		
 	}
 
+	private void getTorchBlock(Block block,  BuildManager buildManager, Material mat, Material resulMat)
+	{
+		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.NORTH, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.EAST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+	}
+
+	private void getWallBlock(Block block,  BuildManager buildManager, Material mat, Material resulMat)
+	{
+		if (block.getRelative(BlockFace.NORTH, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.EAST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
+		{
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+	}
+	
+	private boolean checkPortalBlock(Block block,  BuildManager buildManager, Material mat)
+	{
+		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.DOWN, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.NORTH, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.NORTH_EAST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.NORTH_WEST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.SOUTH, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.SOUTH_EAST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.SOUTH_WEST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.EAST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.EAST_NORTH_EAST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.EAST_SOUTH_EAST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.WEST_NORTH_WEST, 1).getType() == mat)
+		{
+			return true;
+		}
+		if (block.getRelative(BlockFace.WEST_SOUTH_WEST, 1).getType() == mat)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	/**
+	 * <pre>
 	 * read MaterialData from World position 
+	 * check for special materials and portals
 	 * @param world
 	 * @param iLoc
 	 * @return
+	 * </pre>
 	 */
-	protected Material getBlock(World world, ItemLocation iLoc)
+	protected Material getBlock(World world, ItemLocation iLoc, BuildManager buildManager)
 	{
 		Block block ;
 		Material mat ;
-			
-			switch (iLoc.itemRef())
+		block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+		// prüfen ob ein Portal betroffen ist
+		if (block.getType() == Material.OBSIDIAN)
+		{
+			// Portale werden nicht automatisch abgebaut !!
+			if (checkPortalBlock(block,  buildManager, Material.PORTAL))
 			{
-			case BEDROCK: return Material.AIR;
-			case WOOD_DOOR : 
-				System.out.println("SetDoor !");
-				block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
-				block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
-				break;
-//			case WALL_SIGN:
-//				world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).setType(iLoc.itemRef());
-//				break;
-			case BED_BLOCK:
-				System.out.println("Set Bed !");
-	            block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
-	            block.getRelative(BlockFace.SOUTH).setType(Material.AIR);
-				break;
-			default :
-				block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+				return Material.AIR;
 			}
-			mat = block.getType();
-			block.setType(Material.AIR);
+		}
+		// lava suchen 
+		getFluid(block,  buildManager, Material.LAVA, Material.LAVA_BUCKET);
+		// wasser suchen 
+		getFluid(block,  buildManager, Material.WATER, Material.WATER_BUCKET);
+		// Gravel suchen 
+		getFluid(block,  buildManager, Material.GRAVEL, Material.GRAVEL);
+		// Sand suchen 
+		getFluid(block,  buildManager, Material.SAND, Material.SAND);
+		// Torch suchen
+		getTorchBlock( block, buildManager, Material .TORCH, Material.TORCH);
+		//Wallsign suchen
+		getWallBlock(block, buildManager, Material.WALL_SIGN, Material.WALL_SIGN);
+		// leietern suchen
+		getWallBlock(block, buildManager, Material.LADDER, Material.LADDER);
+    		
+		switch (block.getType())
+		{
+		case BEDROCK: return Material.AIR;
+		case PORTAL : return Material.AIR;
+		case WOOD_DOOR : 
+			System.out.println("GetDoor !");
+			block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+			block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
+			break;
+		case CHEST :
+			Chest chest = (Chest) block.getState();
+			System.out.println("Clean up : Chest found with "+chest.getInventory().getSize());
+			for (int i=0; i < chest.getInventory().getSize(); i++)
+			{
+				ItemStack item = chest.getInventory().getItem(i);
+				if (item != null)
+				{
+					if (item.getType() != Material.AIR)
+					{
+						buildManager.resultBlockRequest().add(new ItemLocation(item.getType(), new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+					}
+				}
+			}
+			break;
+		case BED_BLOCK:
+			System.out.println("Get Bed !");
+            block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+            block.getRelative(BlockFace.SOUTH).setType(Material.AIR);
+			break;
+		default :
+			block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+		}
+		mat = block.getType();
+		block.setType(Material.AIR);
 //	    	System.out.println(block.getType().name()+"/"+mat.name());
 		return mat;
 		
 	}
 
+	private boolean checkEntityinRange(Entity entity, Location position, EntityType eType, double range)
+	{
+		if (entity.getType() == eType)
+		{
+			if (entity.getLocation().distanceSquared(position) < 71)
+			{
+				
+			}
+		}
+		
+		return false;
+	}
+	
+	private void getEntityAnimal(Location position)
+	{
+		for (Entity entity : position.getWorld().getEntities())
+		{
+			if (checkEntityinRange(entity, position, EntityType.CHICKEN, 71.0))
+			{
+//				entity.remove();
+			}
+			if (checkEntityinRange(entity, position, EntityType.COW, 71.0))
+			{
+				
+			}
+			if (checkEntityinRange(entity, position, EntityType.PIG, 71.0))
+			{
+				
+			}
+			if (checkEntityinRange(entity, position, EntityType.HORSE, 71.0))
+			{
+				
+			}
+			if (checkEntityinRange(entity, position, EntityType.SHEEP, 71.0))
+			{
+				
+			}
+		}
+	}
+
+	
+	private void getEntityItem(Location position)
+	{
+		for (Entity entity : position.getWorld().getEntities())
+		{
+//			entity.
+		}
+	}
+	
 	/**
 	 * read MaterialData from World Position and write into a readRequest
 	 */
@@ -431,100 +716,33 @@ public final class Realms extends JavaPlugin
 		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
 		{
 //			System.out.println(settle.getId()+": cleanRequest "+settle.buildManager().getCleanRequest().size());
-			if (settle.buildManager().getCleanRequest().size() != 0)
+			for (int i=0; i < settle.buildManager().getCleanRequest().size(); i++)
 			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
+//				System.out.println("Colony Clean request");
+				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(i);
 				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
+				Material mat = getBlock(world, iLoc,settle.buildManager());
 				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				settle.buildManager().getCleanRequest().remove(0);
 			}
-			if (settle.buildManager().getCleanRequest().size() != 0)
-			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				settle.buildManager().getCleanRequest().remove(0);
-			}
-			if (settle.buildManager().getCleanRequest().size() != 0)
-			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				settle.buildManager().getCleanRequest().remove(0);
-			}
-			if (settle.buildManager().getCleanRequest().size() != 0)
-			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				settle.buildManager().getCleanRequest().remove(0);
-			}
-			if (settle.buildManager().getCleanRequest().size() != 0)
-			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				settle.buildManager().getCleanRequest().remove(0);
-			}
+			settle.buildManager().getCleanRequest().clear();
 		}
 
 		for (Colony colony : realmModel.getColonys().values())
 		{
 //			System.out.println(settle.getId()+": cleanRequest "+settle.buildManager().getCleanRequest().size());
-			if (colony.buildManager().getCleanRequest().size() != 0)
+			for (int i=0; i < colony.buildManager().getCleanRequest().size(); i++)
 			{
 //				System.out.println("Colony Clean request");
-				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
+				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(i);
 				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
+				Material mat = getBlock(world, iLoc,colony.buildManager());
 				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				colony.buildManager().getCleanRequest().remove(0);
 			}
-			if (colony.buildManager().getCleanRequest().size() != 0)
+			colony.buildManager().getCleanRequest().clear();
+			if (colony.getBiomeRequest().size() > 0)
 			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				colony.buildManager().getCleanRequest().remove(0);
-			}
-			if (colony.buildManager().getCleanRequest().size() != 0)
-			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				colony.buildManager().getCleanRequest().remove(0);
-			}
-			if (colony.buildManager().getCleanRequest().size() != 0)
-			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				colony.buildManager().getCleanRequest().remove(0);
-			}
-			if (colony.buildManager().getCleanRequest().size() != 0)
-			{
-//				System.out.println("cleanRequest");
-				ItemLocation iLoc =  colony.buildManager().getCleanRequest().get(0);
-				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc);
-				colony.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
-				colony.buildManager().getCleanRequest().remove(0);
+				getBiome (colony.getBiomeRequest().get(0));
+				colony.getBiomeRequest().remove(0);
 			}
 		}
 

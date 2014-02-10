@@ -3,8 +3,8 @@ package net.krglok.realms.tool;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
@@ -159,7 +159,7 @@ public class StrongholdWorldTest
         String key = "haus_einfach";
         if (buildingStat.get(key) != null)
         {
-        	MaxSettler = buildingStat.get(key)* Building.getDefaultSettler(BuildingType.BUILDING_HOME);
+        	MaxSettler = buildingStat.get(key)* Building.getDefaultSettler(BuildPlanType.HOME);
         	
 			System.out.println(ConfigBasis.setStrleft("Max  Places:",20)+MaxSettler);
 			System.out.println(ConfigBasis.setStrleft("Start with:",20)+(MaxSettler/2));

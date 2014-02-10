@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 
 public class MessageData implements MessageInterface
 {
-	private static final int LINE_LENGTH = 54;
+	private static final int LINE_LENGTH = 64;
 	private Logger log;
 	
 	public MessageData(Logger logger)
@@ -36,7 +36,7 @@ public class MessageData implements MessageInterface
 	 * a page has normally 18 lines inclusively header
 	 * prepare pages before
 	 * @param player
-	 * @param msg
+	 * @param msgw
 	 */
 	public void sendPage(CommandSender sender, ArrayList<String> page)
 	{

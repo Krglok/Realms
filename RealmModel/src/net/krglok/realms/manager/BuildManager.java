@@ -21,7 +21,6 @@ import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -469,18 +468,16 @@ public class BuildManager
 			ItemList reagents = rModel.getServer().getRegionReagents(regionType);
 			chestSetRequest.add(new ItemListLocation(reagents, position));
 			
-			int typeId = (buildPlan.getBuildingType().getValue()/100)*100;
-			
 			if (settle != null)
 			{
-				Building building = new Building(BuildingType.getBuildingType(typeId), regionType, true);
+				Building building = new Building(buildPlan.getBuildingType(), regionType, true);
 				if (settle.getBuildingList().addBuilding(building))
 				{
-					System.out.println("Building added : "+BuildingType.getBuildingType(typeId)+":"+building.getId());
+					System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
 				}
 			}
 			
-			System.out.println("doDone added : "+BuildingType.getBuildingType(typeId));
+			System.out.println("doDone added : "+buildPlan.getBuildingType());
 			buildLocation = null;
 			buildPlan = null;
 			h = 0;

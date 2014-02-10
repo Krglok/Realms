@@ -2,11 +2,14 @@ friendly-classes: []
 enemy-classes: []
 effects:
 - periodicupkeep.1
-radius: 2
+radius: 5
 requirements:
+- WOODEN_DOOR.1
+- WALL_SIGN.1
+- COBBLESTONE.49
 - LOG.6
 - WOOD.9
-- FURNACE.1
+- FURNACE.2
 - CHEST.1
 reagents:
 - GOLD_NUGGET.1
@@ -20,11 +23,8 @@ output:
 money-requirement: 1000.0
 upkeep-money-output: 0.0
 super-regions:
-- siedlung
-- gutshof
-- dorf
-- stadt
-- lager
-- hauptlager
-- werkstatt
-- mine
+- Siedlung
+- Gutshof
+- Dorf
+- Stadt
+- Mine

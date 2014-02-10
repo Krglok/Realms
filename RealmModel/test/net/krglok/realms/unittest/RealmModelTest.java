@@ -1,8 +1,8 @@
 package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
@@ -250,7 +250,7 @@ public class RealmModelTest
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
 			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
 			{
-				if (building.getBuildingType() != BuildingType.BUILDING_HOME)
+				if (building.getBuildingType() != BuildPlanType.HOME)
 				{
 					System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
 				}
@@ -313,7 +313,7 @@ public class RealmModelTest
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
 			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
 			{
-				if (building.getBuildingType() != BuildingType.BUILDING_HOME)
+				if (building.getBuildingType() != BuildPlanType.HOME)
 				{
 					System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
 				}

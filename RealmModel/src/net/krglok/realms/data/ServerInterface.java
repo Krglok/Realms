@@ -3,6 +3,9 @@ package net.krglok.realms.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Material;
+import org.bukkit.block.Biome;
+
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ItemList;
@@ -63,7 +66,9 @@ public interface ServerInterface
 
 	public ItemList getRecipe(String itemRef);
 	
-	public int getRecipeFactor(String itemRef);
+	public int getBioneFactor(Biome biome, Material mat);
+
+	public double getRecipeFactor(String itemRef, Biome biome);
 
 	public ItemList getFoodRecipe(String itemRef);
 

@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -25,6 +25,7 @@ import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.McmdSellOrder;
 import net.krglok.realms.model.RealmModel;
 
+import org.bukkit.block.Biome;
 import org.junit.Test;
 
 public class ModelCmdTest 
@@ -38,7 +39,7 @@ public class ModelCmdTest
 		System.out.println("Building List : "+settle.getBuildingList().size());
 		for (Building building :settle.getBuildingList().getBuildingList().values())
 		{
-			if (building.getBuildingType() != BuildingType.BUILDING_HOME)
+			if (building.getBuildingType() != BuildPlanType.HOME)
 			{
 				System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
 			}
@@ -220,7 +221,7 @@ public class ModelCmdTest
 		rModel.OnCommand(sellOrder);
 		someLoops(5, rModel);
 		
-		McmdCreateSettle createSettle = new McmdCreateSettle(rModel, "BlaBla", "NPC1", SettleType.SETTLE_HAMLET);
+		McmdCreateSettle createSettle = new McmdCreateSettle(rModel, "BlaBla", "NPC1", SettleType.SETTLE_HAMLET,Biome.PLAINS);
 		rModel.OnCommand(createSettle);
 		someLoops(5, rModel);
 		

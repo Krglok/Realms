@@ -10,6 +10,8 @@ import net.krglok.realms.data.StrongholdTools;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -115,7 +117,9 @@ public class CmdSettleCheck extends RealmsCommand
 				sRegion.getLocation().getX(), 
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
+		Biome biome = sRegion.getLocation().getWorld().getBiome((int)sRegion.getLocation().getX(), (int)sRegion.getLocation().getZ());
 		msg.add(sRegion.getType()+" : "+ChatColor.YELLOW+sRegion.getName()+" : "+" Owner: "+sRegion.getOwners());
+		msg.add(sRegion.getType()+" Biome "+ChatColor.YELLOW+biome);
 		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
 		{
 	    	String sName = StrongholdTools.setStrleft(region.getType(), 20);

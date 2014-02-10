@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
+import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
@@ -14,6 +15,7 @@ import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.junit.Test;
 
 public class SettlementBaeckerTest
@@ -37,7 +39,7 @@ public class SettlementBaeckerTest
 		regionTypes.put("2","haus_einfach");
 		regionTypes.put("6","haus_einfach");
 		regionTypes.put("7","haus_einfach");
-//		regionTypes.put("16","kornfeld");
+		regionTypes.put("16","kornfeld");
 		regionTypes.put("9","markt");
 //		regionTypes.put("31","bauern_haus");
 		regionTypes.put("51","haus_baecker");
@@ -48,7 +50,15 @@ public class SettlementBaeckerTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(pos, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(
+				pos, 
+				settleType, 
+				settleName, 
+				ownerList.getOwner("NPC0").getPlayerName(),
+				regionTypes, 
+				regionBuildings,
+				Biome.FOREST
+				);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
 		{
@@ -95,6 +105,11 @@ public class SettlementBaeckerTest
 			for (String itemRef : settle.getWarehouse().getItemList().keySet())
 			{
 				System.out.println(itemRef+":"+settle.getWarehouse().getItemList().getValue(itemRef));
+			}
+			System.out.println("=Production Overview =");
+			for (BoardItem bItem : settle.getProductionOverview().values())
+			{
+				System.out.println(bItem.getName()+":"+bItem.getLastValue());
 			}
 		}
 		

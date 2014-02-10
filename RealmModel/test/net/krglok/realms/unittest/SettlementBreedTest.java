@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
@@ -20,6 +20,7 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
 
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
@@ -368,7 +369,15 @@ public class SettlementBreedTest
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(pos, settleType, settleName, ownerList.getOwner("NPC0").getPlayerName(),regionTypes, regionBuildings);
+		Settlement settle = Settlement.createSettlement(
+				pos, 
+				settleType, 
+				settleName, 
+				ownerList.getOwner("NPC0").getPlayerName(),
+				regionTypes, 
+				regionBuildings,
+				Biome.PLAINS
+				);
 
 //		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 52);
 //		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 120);
@@ -648,7 +657,7 @@ public class SettlementBreedTest
 //		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
 //		Settlement.addBuilding(building, settle);
 //		hsRegion++;
-		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "schreiner", true);
+		building =  new Building(BuildPlanType.CARPENTER, hsRegion, "schreiner", true,null);
 		Settlement.addBuilding(building, settle);
 //		hsRegion++;
 //		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
@@ -771,7 +780,7 @@ public class SettlementBreedTest
 		{
 			System.out.println("== Building Capacity List");
 			int usedCapacity = 0;
-			for (BuildingType bType : settle.getWarehouse().getTypeCapacityList().keySet())
+			for (BuildPlanType bType : settle.getWarehouse().getTypeCapacityList().keySet())
 			{
 				System.out.println("- "+bType.name()+" : "+settle.getWarehouse().getTypeCapacity(bType));
 				usedCapacity = usedCapacity + settle.getWarehouse().getTypeCapacity(bType);

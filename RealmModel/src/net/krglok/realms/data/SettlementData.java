@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
@@ -63,6 +64,7 @@ public class SettlementData
 	            config.set(MemorySection.createPath(settleSec, "id"), settle.getId());
 	            config.set(MemorySection.createPath(settleSec, "settleType"), settle.getSettleType().name());
 	            config.set(MemorySection.createPath(settleSec, "position"), LocationData.toString(settle.getPosition()));
+	            config.set(MemorySection.createPath(settleSec, "biome"), settle.getBiome().name());
 	            config.set(MemorySection.createPath(settleSec, "name"), settle.getName());
 	            config.set(MemorySection.createPath(settleSec, "owner"), settle.getOwner());
 	            config.set(MemorySection.createPath(settleSec, "isCapital"), settle.getIsCapital());
@@ -104,6 +106,7 @@ public class SettlementData
 	            	values.put("hsSuperRegion", building.getHsSuperRegion());
 	            	values.put("isEnabled", building.isEnabled().toString());
 	            	values.put("isActiv", building.isActive().toString());
+	            	values.put("position", LocationData.toString(building.getPosition()));
 	            	for (int i = 0; i < building.getSlot1().size(); i++)
 					{
 	            		values.put("slot"+i, building.getSlot1().get(i).ItemRef());
@@ -161,6 +164,9 @@ public class SettlementData
             	settle.setId(config.getInt(settleSec+".id"));
             	settle.setSettleType(SettleType.valueOf(config.getString(settleSec+".settleType")));
             	settle.setPosition(LocationData.toLocation(config.getString(settleSec+".position")));
+            	settle.setBiome(Biome.valueOf(config.getString(settleSec+".biome","SKY")));
+
+            	//Biome.valueOf(settle.getBiome()));
             	settle.setName(config.getString(settleSec+".name"));
             	settle.setOwner(null);
             	settle.setIsCapital(config.getBoolean(settleSec+".isCapital"));
@@ -186,7 +192,7 @@ public class SettlementData
             	{
 //                    System.out.println(ref);
             		int buildingId = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".id","0"));
-            		BuildingType buildingType = BuildingType.getBuildingType(config.getString(settleSec+".buildinglist."+ref+".buildingType","None"));
+            		BuildPlanType buildingType = BuildPlanType.getBuildPlanType(config.getString(settleSec+".buildinglist."+ref+".buildingType","None"));
             		int settler = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".settler","0"));
             		int workerNeeded = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerNeeded","0"));
             		int workerInstalled = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".workerInstalled","0"));
@@ -206,7 +212,7 @@ public class SettlementData
         			slot3 = config.getString(settleSec+".buildinglist."+ref+".slot3","");
         			slot4 = config.getString(settleSec+".buildinglist."+ref+".slot4","");
         			slot5 = config.getString(settleSec+".buildinglist."+ref+".slot5","");
-        			
+        			LocationData position = LocationData.toLocation(config.getString(settleSec+".position"));
         			Double sale = Double.valueOf(config.getString(settleSec+".buildinglist."+ref+".sale","0.0"));
         			
 //        			System.out.println(buildingId+" : "+buildingType);
@@ -228,7 +234,9 @@ public class SettlementData
         							slot3, 
         							slot4, 
         							slot5,
-        							sale), 
+        							sale,
+        							position
+        							), 
         					settle
         					);
             	}

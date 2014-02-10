@@ -1,12 +1,16 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.manager.MapManager;
 
 /**
  * <pre>
@@ -64,9 +68,12 @@ public class Settlement
 	private double SettlerFactor = 0.0;
 
 	private String world;
+	private Biome biome;
 
-	private BuildManager buildManager = new BuildManager();
-
+	private BuildManager buildManager;
+	private MapManager mapManager;
+	
+	private ArrayList<Item> treasureList;
 	
 	/**
 	 * instance empty settlement with
@@ -95,8 +102,12 @@ public class Settlement
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
 		world = "";
+		setBiome(Biome.SKY);
 		trader = new Trader();
-	}
+		buildManager = new BuildManager();
+		mapManager  = new MapManager(settleType,70);
+		treasureList =  new ArrayList<Item>();
+}
 
 	/**
 	 * instances settlement with
@@ -129,6 +140,10 @@ public class Settlement
 		taxOverview = new BoardItemList();
 		world = "";
 		trader = new Trader();
+		setBiome(Biome.SKY);
+		buildManager = new BuildManager();
+		mapManager  = new MapManager(settleType,70);
+		treasureList =  new ArrayList<Item>();
 }
 
 	/**
@@ -140,7 +155,7 @@ public class Settlement
 	 * @param settleType
 	 * @param name
 	 */
-	public Settlement(String owner, LocationData position, SettleType settleType, String name)
+	public Settlement(String owner, LocationData position, SettleType settleType, String name, Biome biome)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -163,8 +178,12 @@ public class Settlement
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
 		world = "";
+		this.biome = biome;
 		trader = new Trader();
-	}
+		buildManager = new BuildManager();
+		mapManager  = new MapManager(settleType,70);
+		treasureList =  new ArrayList<Item>();
+}
 	
 	
 	/**
@@ -188,7 +207,7 @@ public class Settlement
 			LocationData position, String owner,
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
-			Resident resident, String world)
+			Resident resident, String world, Biome biome)
 	{
 		this.id = id;
 		this.settleType = settleType;
@@ -209,8 +228,12 @@ public class Settlement
 		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
 		this.world = world;
+		this.setBiome(biome);
 		trader = new Trader();
-	}
+		buildManager = new BuildManager();
+		mapManager  = new MapManager(settleType,70);
+		treasureList =  new ArrayList<Item>();
+}
 
 	/**
 	 * Klassenmethode zum auslesen des Instanzen counter
@@ -408,10 +431,10 @@ public class Settlement
 	{
 		switch(building.getBuildingType())
 		{
-		case BUILDING_WAREHOUSE : return   MessageText.WAREHOUSE_CHEST_FACTOR * MessageText.CHEST_STORE;
-		case BUILDING_TRADER    : return   MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
-		case BUILDING_WERKSTATT : return   0; //WerkstattChestFactor * Chest_Store;
-		case BUILDING_BAUERNHOF : return   0; //BauernhofChestFactor * Chest_Store;
+		case WAREHOUSE : return   MessageText.WAREHOUSE_CHEST_FACTOR * MessageText.CHEST_STORE;
+		case TRADER    : return   MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
+		case WORKSHOP : return   0; //WerkstattChestFactor * Chest_Store;
+		case FARM : return   0; //BauernhofChestFactor * Chest_Store;
 		default :
 			return 0 ;
 			
@@ -429,7 +452,7 @@ public class Settlement
 	{
 		switch(building.getBuildingType())
 		{
-			case BUILDING_TRADER    : return MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
+			case TRADER    : return MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
 			default :
 				return 0 ;
 		}
@@ -448,13 +471,13 @@ public class Settlement
 			{
 				switch (b.getBuildingType()) 
 				{
-					case BUILDING_WAREHOUSE :
+					case WAREHOUSE :
 						value = value + getWarehouseItemMax(b);
 						break;
-					case BUILDING_TRADER :
+					case TRADER :
 						value = value + getTraderItemMax(b);
 						break;
-					case BUILDING_HALL :
+					case HALL :
 						value = value + defaultItemMax(settleType);
 						break;
 					default :
@@ -464,6 +487,27 @@ public class Settlement
 		}
 		return value;
 	}
+	
+	private void initTreasureList()
+	{
+		treasureList.clear();
+		treasureList.add(new Item(Material.WOOD.name(),1));
+		treasureList.add(new Item(Material.STICK.name(),1));
+		treasureList.add(new Item(Material.IRON_ORE.name(),1));
+		treasureList.add(new Item(Material.IRON_INGOT.name(),1));
+		treasureList.add(new Item(Material.LOG.name(),1));
+		treasureList.add(new Item(Material.SEEDS.name(),1));
+		treasureList.add(new Item(Material.DIRT.name(),1));
+		treasureList.add(new Item(Material.CARROT.name(),1));
+		treasureList.add(new Item(Material.BREAD.name(),1));
+		treasureList.add(new Item(Material.WATER.name(),1));
+		treasureList.add(new Item(Material.WOOL.name(),1));
+		treasureList.add(new Item(Material.EMERALD.name(),1));
+		treasureList.add(new Item(Material.SAND.name(),1));
+		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
+	}
+	
+	
 	/**
 	 * Add building to buildingList and recalculate settlement parameter
 	 * @param building
@@ -478,20 +522,26 @@ public class Settlement
 			{
 				switch(building.getBuildingType())
 				{
-				case BUILDING_HALL: 
+				case HALL: 
 					settlement.townhall.setIsEnabled(true);
 					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
 					break;
-				case BUILDING_WAREHOUSE :
+				case WAREHOUSE :
 					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
 					break;
-				case BUILDING_TRADER :
+				case TRADER :
 					settlement.trader.setActive(true);
 					settlement.trader.setEnabled(true);
 					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
 					settlement.trader.setOrderMax(settlement.trader.getOrderMax()+5);
 					break;
-				case BUILDING_MILITARY :
+				case GUARDHOUSE :
+				case WATCHTOWER :
+				case DEFENSETOWER :
+				case BARRACK :
+				case TOWER :
+				case HEADQUARTER :
+				case KEEP :
 					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
 					break;
 				default :
@@ -617,11 +667,12 @@ public class Settlement
 	public static Settlement createSettlement(LocationData position, SettleType 
 											settleType, String settleName, String owner, 
 											HashMap<String,String> regionTypes, 
-											HashMap<String,String> regionBuildings)
+											HashMap<String,String> regionBuildings,
+											Biome biome)
 	{
 		if (settleType != SettleType.SETTLE_NONE)
 		{
-			Settlement settlement = new Settlement(owner,position, settleType, settleName);
+			Settlement settlement = new Settlement(owner,position, settleType, settleName,biome);
 //			BuildingList buildingList = new BuildingList();
 			int regionId = 0;
 			String BuildingTypeName = "";
@@ -647,14 +698,14 @@ public class Settlement
 
 	
 
-	public boolean checkStock(int prodFactor, ItemList items)
+	public boolean checkStock(double prodFactor, ItemList items)
 	{
 		int iValue = 0;
 		// Check amount in warehouse
 		boolean isStock = true;
 		for (String itemRef : items.keySet())
 		{
-			iValue = items.getValue(itemRef)*prodFactor;
+			iValue = (int) (items.getValue(itemRef)*prodFactor);
 			if (this.warehouse.getItemList().getValue(itemRef) < iValue)
 			{
 				isStock = false;
@@ -672,12 +723,12 @@ public class Settlement
 		return isStock;
 	}
 	
-	public void consumStock(int prodFactor, ItemList items)
+	public void consumStock(double prodFactor, ItemList items)
 	{
 		int iValue = 0;
 		for (Item item : items.values())
 		{
-			iValue = item.value() *prodFactor;
+			iValue = (int)((double) item.value() *prodFactor);
 			this.getWarehouse().withdrawItemValue(item.ItemRef(), iValue);
 //			System.out.println("Withdraw-"+item.ItemRef()+":"+iValue+":"+prodFactor);
 		}
@@ -699,7 +750,7 @@ public class Settlement
 	public int getUsedBuildingCapacity()
 	{
 		int usedCapacity = 0;
-		for (BuildingType bType : warehouse.getTypeCapacityList().keySet())
+		for (BuildPlanType bType : warehouse.getTypeCapacityList().keySet())
 		{
 			usedCapacity = usedCapacity + warehouse.getTypeCapacity(bType);
 		}
@@ -717,6 +768,48 @@ public class Settlement
 			return warehouse.getItemMax() - warehouse.getItemCount() - 512;
 		}
 	}
+
+	private void addTreasure2List(ServerInterface server, Biome biome, Material mat)
+	{
+		int matFactor  = 0;
+		matFactor = server.getBioneFactor( biome, mat);
+		if (matFactor > 0)
+		{
+			int anz = matFactor / 25;
+			for(int i=0; i < anz; i++)
+			{
+				treasureList.add(new Item(mat.name(), 1));
+			}
+		}
+		
+	}
+	
+	private void expandTreasureList(Biome biome, ServerInterface server)
+	{
+		addTreasure2List(server, biome, Material.WHEAT);
+		addTreasure2List(server, biome, Material.SEEDS);
+		addTreasure2List(server, biome, Material.COBBLESTONE);
+		addTreasure2List(server, biome, Material.LOG);
+		addTreasure2List(server, biome, Material.WOOL);
+		addTreasure2List(server, biome, Material.GOLD_NUGGET);
+		addTreasure2List(server, biome, Material.LEATHER);
+		addTreasure2List(server, biome, Material.RAW_BEEF );
+		addTreasure2List(server, biome, Material.PORK );
+		addTreasure2List(server, biome, Material.RAW_CHICKEN );
+		addTreasure2List(server, biome, Material.FEATHER );
+		addTreasure2List(server, biome, Material.RAW_FISH );
+		addTreasure2List(server, biome, Material.EMERALD );
+		addTreasure2List(server, biome, Material.RED_MUSHROOM ); 
+		addTreasure2List(server, biome, Material.BROWN_MUSHROOM ); 
+		addTreasure2List(server, biome, Material.IRON_ORE );
+		addTreasure2List(server, biome, Material.COAL_ORE );
+		addTreasure2List(server, biome, Material.DIAMOND_ORE );
+		addTreasure2List(server, biome, Material.EMERALD_ORE );
+		addTreasure2List(server, biome, Material.REDSTONE_ORE );
+		addTreasure2List(server, biome, Material.LAPIS_ORE );
+		addTreasure2List(server, biome, Material.GOLD_ORE );
+	}
+
 	
 	private String getFoundItem()
 	{
@@ -737,8 +830,8 @@ public class Settlement
 		case 11 : return Material.BREAD.name();
 		case 12 : return Material.WATER.name();
 		case 13 : return Material.WOOL.name();
-		case 14 : return Material.WOOL.name();
-		case 15 : return Material.SAND.name();
+		case 14 : return Material.EMERALD.name();
+		case 15 : return Material.DIRT.name();
 		case 16 : return Material.SAND.name();
 		case 20 : return Material.GOLD_NUGGET.name();
 		default :
@@ -746,14 +839,14 @@ public class Settlement
 		}
 	}
 	
-	private void checkFoundItems()
+	private void checkFoundItems(ServerInterface server)
 	{
 		if (getFoundCapacity() < resident.getSettlerCount()-townhall.getWorkerCount())
 		{
 			return;
 		}
 		int notWorker = resident.getSettlerCount()-townhall.getWorkerCount();
-		int Dice = 20;
+		int Dice = 100;
 		int wuerfel = 0;
 		String foundItem = "";
 		for (int i = 0; i < notWorker; i++)
@@ -823,7 +916,7 @@ public class Settlement
 		{
 			if (building.isEnabled())
 			{
-				if (building.getBuildingType() == BuildingType.BUILDING_ENTERTAIN)
+				if (building.getBuildingType() == BuildPlanType.TAVERNE)
 				{
 					tavernCount++;
 				}
@@ -1087,47 +1180,42 @@ public class Settlement
 	 */
 	public void doProduce(ServerInterface server)
 	{
-		int prodFactor = 1;
+		double prodFactor = 1;
 		int iValue = 0;
 		double sale = 0.0;
 		double cost = 0.0;
 		double account = 0.0; 
 		ItemArray products;
 		ItemList ingredients;
+		initTreasureList();
+		expandTreasureList(biome, server);
 		requiredProduction.clear();
 		productionOverview.resetLastAll();
 		setStoreCapacity();
 //		checkDecay();
-		checkFoundItems();
+		checkFoundItems(server);
 		for (Building building : buildingList.getBuildingList().values())
 		{
+			// setze defaultBiome auf Settlement Biome 
+			if (building.getBiome() == null)
+			{
+				building.setBiome(biome);
+			}
 			if (building.isEnabled())
 			{
 				sale = 0.0;
 				products = building.produce(server);
 				for (Item item : products)
 				{
+					
 					switch(building.getBuildingType())
 					{
-					case BUILDING_WHEAT :
-						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-						prodFactor = 1;
-						break;
-					case BUILDING_PROD :
-						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-						prodFactor = 1;
-						break;
-					case BUILDING_BAUERNHOF:
-//						ingredients = server.getRecipe(item.ItemRef());
-						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-						prodFactor = server.getRecipeFactor(item.ItemRef());
-						break;
-					case BUILDING_WERKSTATT:
+					case WORKSHOP:
 						ingredients = server.getRecipe(item.ItemRef());
 						ingredients.remove(item.ItemRef());
-						prodFactor = server.getRecipeFactor(item.ItemRef());
+						prodFactor = server.getRecipeFactor(item.ItemRef(),this.biome);
 						break;
-					case BUILDING_BAECKER:
+					case BAKERY:
 						if (building.isSlot())
 						{
 //							System.out.println("SLOT "+item.ItemRef());
@@ -1137,9 +1225,9 @@ public class Settlement
 						{
 							ingredients = server.getRegionUpkeep(building.getHsRegionType());
 						}
-						prodFactor = server.getRecipeFactor(item.ItemRef());
+						prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
 						break;
-					case BUILDING_ENTERTAIN:
+					case TAVERNE:
 						if (resident.getHappiness() > Resident.getBaseHappines())
 						{
 							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness();
@@ -1157,20 +1245,21 @@ public class Settlement
 						building.setSales(sale);	
 						ingredients = new ItemList();
 						break;
-					case BUILDING_GOVERNMENT:
-						// the can consum money by collect negativ values
-						// the minimum is the tax_rate for Settlers
-						ingredients = new ItemList();
-						break;
 					default :
+						if (BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
+						{
+							ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
+							prodFactor = 1;
+						}
 						ingredients = new ItemList();
-						prodFactor = 1;
+						prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
 						break;
 					}
 					
 					if (checkStock(prodFactor, ingredients))
 					{
-						iValue = item.value();
+//						iValue = item.value();
+						iValue = (int)((double) item.value() *prodFactor);
 						// berechne Umsatz der Produktion
 						sale = building.calcSales(server,item.ItemRef());
 						// berechne Kosten der Produktion
@@ -1223,6 +1312,46 @@ public class Settlement
 	public BuildManager buildManager()
 	{
 		return buildManager;
+	}
+
+	/**
+	 * @return the biome
+	 */
+	public Biome getBiome()
+	{
+		return biome;
+	}
+
+	/**
+	 * @param biome the biome to set
+	 */
+	public void setBiome(Biome biome)
+	{
+		this.biome = biome;
+	}
+
+	/**
+	 * @return the mapManager
+	 */
+	public MapManager getMapManager()
+	{
+		return mapManager;
+	}
+
+	/**
+	 * @return the treasureList
+	 */
+	public ArrayList<Item> getTreasureList()
+	{
+		return treasureList;
+	}
+
+	/**
+	 * @param treasureList the treasureList to set
+	 */
+	public void setTreasureList(ArrayList<Item> treasureList)
+	{
+		this.treasureList = treasureList;
 	}
 
 }

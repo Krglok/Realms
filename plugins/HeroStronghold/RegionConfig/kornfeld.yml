@@ -6,12 +6,11 @@ radius: 4
 requirements:
 - LOG.10
 - DIRT.10
-- WATER.1
 reagents:
 - GOLD_NUGGET.1
 upkeep: []
 upkeep-chance: 0.001
 output:
-- WHEAT.32
+- WHEAT.24
 money-requirement: 500.0
 upkeep-money-output: -1.0

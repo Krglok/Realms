@@ -1,9 +1,6 @@
 package net.krglok.realms.data;
 
-import java.util.HashMap;
-
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.BuildingType;
 import net.krglok.realms.core.ItemList;
 
 public interface ConfigInterface
@@ -21,13 +18,11 @@ public interface ConfigInterface
 
 	public ItemList getArmorItems();
 	
-	public BuildingType superRegionToBuildingType(String superRegionTypeName);
+	public BuildPlanType superRegionToBuildingType(String superRegionTypeName);
 	
-	public String getRegionType(BuildingType bType);
-
 	public String getRegionType(BuildPlanType bType);
 
-	public BuildingType regionToBuildingType(String regionTypeName);
+	public BuildPlanType regionToBuildingType(String regionTypeName);
 
 
 }

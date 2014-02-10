@@ -8,6 +8,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
 public class CmdColonistList extends RealmsCommand
@@ -76,10 +77,16 @@ public class CmdColonistList extends RealmsCommand
 		    {
 	    		msg.add(colony.getId()
 	    				+" : "+ChatColor.YELLOW+colony.getName()
+	    				+" in "+colony.getPosition().getWorld()
 	    				+" : "+ChatColor.GOLD+colony.getPosition().getX()
 	    				+" : "+ChatColor.GOLD+colony.getPosition().getY()
 	    				+" : "+ChatColor.GOLD+colony.getPosition().getZ()
-	    				+" in "+colony.getPosition().getWorld());
+	    				+" ["+colony.getStatus()+"]"
+	    				);
+//	    		Material.LEATHER_BOOTS;
+//	    		Material.LEATHER_CHESTPLATE;
+//	    		Material.LEATHER_HELMET;
+//	    		Material.LEATHER_LEGGINGS
 		    }
 	    } else
 	    {
