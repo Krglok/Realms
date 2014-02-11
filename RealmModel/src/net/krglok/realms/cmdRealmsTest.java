@@ -12,18 +12,20 @@ import org.bukkit.inventory.ItemStack;
 
 public class CmdRealmsTest extends RealmsCommand
 {
-
+	private int page; 
+	
 	public CmdRealmsTest( )
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
-				ChatColor.YELLOW+"/realms TEST {page}   ",
-		    	" Make a analysis of sings in range of 10 blocks  ",
+				ChatColor.YELLOW+"/realms TEST [page]   ",
+		    	" set a Text to SIGN you look at  ",
 		    	"  ",
 		    	"  ",
 		    	" "
 			};
 			requiredArgs = 1;
+			page = 0;
 	}
 
 	@Override
@@ -39,6 +41,7 @@ public class CmdRealmsTest extends RealmsCommand
 		switch (index)
 		{
 		case 0 :
+			page = value;
 			break;
 		default:
 			break;
@@ -74,26 +77,19 @@ public class CmdRealmsTest extends RealmsCommand
 		int edge = radius * 2 -1;
 		Player player = (Player) sender;
 		Location pos = new Location(player.getLocation().getWorld(), player.getLocation().getX()-radius, player.getLocation().getY(), player.getLocation().getZ()-radius);
-		Location lookAt = new Location(player.getLocation().getWorld(),0.0, player.getLocation().getX(),0.0);
-		for (int i = 0; i < edge; i++)
-		{
-			for (int j = 0; j < edge ; j++)
-			{
-				lookAt.setX(i+pos.getX());
-				lookAt.setY(pos.getY());
-				lookAt.setZ(j+pos.getZ());
-				Block b = lookAt.getWorld().getBlockAt(lookAt);
-				if (b.getType()!= Material.AIR)
+		Block lookAt =  player.getTargetBlock(null, 6);   
+				//new Location(player.getLocation().getWorld(),0.0, player.getLocation().getX(),0.0);
+		
+				if (lookAt.getType()!= Material.AIR)
 				{
-					System.out.println("pos "+(int) lookAt.getX()+":"+(int) lookAt.getY()+b.getType());
+					System.out.println("pos "+(int) lookAt.getX()+":"+(int) lookAt.getY()+"."+lookAt.getType());
 				}
-				switch (b.getType())
+				switch (lookAt.getType())
 				{
 				case WALL_SIGN:  // sign on the wall
-				case SIGN_POST: // Sign on the ground
-					Sign sBlock =	((Sign) b.getState());
+					Sign sBlock =	((Sign) lookAt.getState());
 					String[] signText = sBlock.getLines();
-					if (signText[0].equals("[REQUIRE]"))
+					if (signText[0].equals("[REQUIRE"+page+"]"))
 					{
 //						((Sign) b.getState())
 						sBlock.setLine(1, Material.WOOD_AXE+": "+5);
@@ -105,26 +101,10 @@ public class CmdRealmsTest extends RealmsCommand
 						System.out.println(sBlock.getLines()[k]);
 					}
 					break;
-				case SIGN :		// Material to build signs
-					System.out.println("Sign ");
-					break;
-				case CHEST:
-					Chest chest = ((Chest) b.getState());
-					System.out.println("Deposit to Warehouse;");
-					if (chest.getInventory().getContents() != null)
-					{
-						ItemStack[] items = chest.getInventory().getContents();
-						for (ItemStack item : items)
-						{
-							System.out.println(item.getType());
-						}
-					}
-					break;
+					
 				default:
 				}
 				
-			}
-		}
 	}
 
 	@Override

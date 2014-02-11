@@ -11,6 +11,6 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output:
-- WHEAT.24
+- WHEAT.16
 money-requirement: 500.0
 upkeep-money-output: -1.0

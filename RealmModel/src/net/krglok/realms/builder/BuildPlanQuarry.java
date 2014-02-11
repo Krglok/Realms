@@ -41,7 +41,7 @@ public class BuildPlanQuarry extends BuildPlan
 		BuildPlan.setPos(cube[1][4], Material.LOG, 1);
 		BuildPlan.setPos(cube[1][4], Material.CHEST, 5);
 		BuildPlan.setPos(cube[1][5], Material.CHEST, 5);
-		BuildPlan.setPos(cube[1][4], Material.WALL_SIGN, 3);
+		BuildPlan.setPos(cube[2][4], Material.WALL_SIGN, 3);
 		return cube;
 	}
 

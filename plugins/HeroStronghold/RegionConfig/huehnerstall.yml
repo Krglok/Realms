@@ -22,3 +22,11 @@ output:
 - FEATHER.4
 money-requirement: 500.0
 upkeep-money-output: -2.0
+super-regions:
+- Mine
+- Lager
+- Hauptlager
+- Werkstatt
+- Siedlung
+- Dorf
+- Stadt

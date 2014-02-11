@@ -16,10 +16,5 @@ output:
 - SUGAR_CANE.42
 money-requirement: 500.0
 upkeep-money-output: 0.0
-super-regions:
-- Bauernhof
-- Grossbauer
-- Gutshof
-- Dorf
-- Lager
-- Hauptlager
+biome:
+- DESERT

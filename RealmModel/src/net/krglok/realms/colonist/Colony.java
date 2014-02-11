@@ -138,6 +138,7 @@ public class Colony
 		this.prepareRadius= 21;
 		this.prepareOffset= 0;
 		this.biome = null;
+		this.biomeRequest = new ArrayList<BiomeLocation>();
 		
 	}
 
@@ -364,7 +365,7 @@ public class Colony
 			}
 			if (isPrepared)
 			{
-				this.cStatus = ColonyStatus.NONE;
+				this.cStatus = ColonyStatus.PREBUILD;
 
 				System.out.println("Colonist set Warehouse");
 				for (ItemLocation iLoc   : buildManager.resultBlockRequest())
@@ -386,12 +387,15 @@ public class Colony
 		case READY :		// der Builder bereitet das Materiallager vor
 			if (markUpStep < 5)
 			{
-				if (biomeRequest.get(0).getBiome() == null)
+				if (biomeRequest.isEmpty() == false)
 				{
-					biome = Biome.SKY;
-				} else
-				{
-					biome = biomeRequest.get(0).getBiome(); 
+					if (biomeRequest.get(0).getBiome() == null)
+					{
+						biome = Biome.SKY;
+					} else
+					{
+						biome = biomeRequest.get(0).getBiome(); 
+					}
 				}
 				markUpSettleSchema();
 			} else
@@ -450,7 +454,7 @@ public class Colony
 				this.prepareLevel = prepareOffset;
 				this.prepareRow = 0;
 				this.prepareCol = 0;
-				this.prepareRadius = 4;
+				this.prepareRadius = 5;
 				System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 			}
 			break;

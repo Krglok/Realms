@@ -299,6 +299,8 @@ public class BuildManager
 			doCleanStep();
 			doCleanStep();
 			doCleanStep();
+			doCleanStep();
+			doCleanStep();
 		}
 		// ein level oberhalb mit abraeumen
 		int edge = (buildPlan.getRadius()+1) * 2 -1; 
@@ -413,6 +415,10 @@ public class BuildManager
 				doAddStep();
 				doAddStep();
 				doAddStep();
+				doAddStep();
+				doAddStep();
+				doAddStep();
+				doAddStep();
 	}
 			if (h >= edge)
 			{
@@ -461,9 +467,9 @@ public class BuildManager
 		{
 			LocationData position = new LocationData(
 					buildLocation.getWorld(), 
-					buildLocation.getX()-1, 
+					buildLocation.getX()-2, 
 					buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
-					buildLocation.getZ()-1
+					buildLocation.getZ()-2
 					);
 			ItemList reagents = rModel.getServer().getRegionReagents(regionType);
 			chestSetRequest.add(new ItemListLocation(reagents, position));

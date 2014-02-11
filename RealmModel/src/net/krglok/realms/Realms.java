@@ -34,6 +34,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
+import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -255,7 +257,16 @@ public final class Realms extends JavaPlugin
 				
 				break;
 			case WALL_SIGN:
-				world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).setType(iLoc.itemRef());
+				
+				Block bs = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+				if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
+				{
+					bs.setType(iLoc.itemRef());
+				}
+				if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+				{
+					bs.setType(Material.SIGN);
+				}
 				break;
 			case BED_BLOCK:
 				System.out.println("Set Bed !");
@@ -440,38 +451,47 @@ public final class Realms extends JavaPlugin
 	{
 		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.NORTH, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.NORTH, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.NORTH_EAST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.NORTH_EAST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.NORTH_WEST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.NORTH_WEST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.SOUTH, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.SOUTH, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.SOUTH_EAST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.SOUTH_EAST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.SOUTH_WEST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.SOUTH_WEST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.EAST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.EAST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.WEST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		
@@ -481,22 +501,27 @@ public final class Realms extends JavaPlugin
 	{
 		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.NORTH, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.NORTH, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.SOUTH, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.SOUTH, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.EAST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.EAST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.WEST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 	}
@@ -505,18 +530,22 @@ public final class Realms extends JavaPlugin
 	{
 		if (block.getRelative(BlockFace.NORTH, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.NORTH, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.SOUTH, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.SOUTH, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.EAST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.EAST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
 		{
+			block.getRelative(BlockFace.WEST, 1).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 	}
@@ -631,16 +660,39 @@ public final class Realms extends JavaPlugin
 			break;
 		case CHEST :
 			Chest chest = (Chest) block.getState();
-			System.out.println("Clean up : Chest found with "+chest.getInventory().getSize());
-			for (int i=0; i < chest.getInventory().getSize(); i++)
+			if(chest instanceof Chest )
 			{
-				ItemStack item = chest.getInventory().getItem(i);
-				if (item != null)
+				System.out.println("Clean up : Chest found with "+chest.getInventory().getSize());
+				for (int i=0; i < chest.getInventory().getSize(); i++)
 				{
-					if (item.getType() != Material.AIR)
+					ItemStack item = chest.getInventory().getItem(i);
+					if (item != null)
 					{
-						buildManager.resultBlockRequest().add(new ItemLocation(item.getType(), new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+						if (item.getType() != Material.AIR)
+						{
+							buildManager.resultBlockRequest().add(new ItemLocation(item.getType(), new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+						}
 					}
+				}
+				chest.getInventory().clear();
+			} else
+			{				
+				DoubleChest dChest = (DoubleChest) block.getState();
+				if (dChest instanceof DoubleChest)
+				{
+					System.out.println("Clean up : DoublChest found with "+dChest.getInventory().getSize());
+					for (int i=0; i < dChest.getInventory().getSize(); i++)
+					{
+						ItemStack item = dChest.getInventory().getItem(i);
+						if (item != null)
+						{
+							if (item.getType() != Material.AIR)
+							{
+								buildManager.resultBlockRequest().add(new ItemLocation(item.getType(), new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+							}
+						}
+					}
+					chest.getInventory().clear();
 				}
 			}
 			break;

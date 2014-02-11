@@ -6,7 +6,6 @@ radius: 4
 requirements:
 - LOG.10
 - DIRT.10
-- WATER.1
 reagents:
 - GOLD_NUGGET.1
 upkeep: []
@@ -15,9 +14,3 @@ output:
 - MELON.14
 money-requirement: 1000.0
 upkeep-money-output: -1.0
-super-regions:
-- Bauernhof
-- Grossbauer
-- Gutshof
-- Lager
-- Hauptlager

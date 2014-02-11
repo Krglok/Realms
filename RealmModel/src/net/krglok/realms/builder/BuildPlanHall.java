@@ -122,6 +122,13 @@ public class BuildPlanHall extends BuildPlan
 		BuildPlan.fillRowPart(cube[2][5], Material.CHEST, 8, 9);
 		BuildPlan.fillRowPart(cube[4][5], Material.CHEST, 5, 6);
 		BuildPlan.fillRowPart(cube[4][5], Material.CHEST, 8, 9);
+		BuildPlan.setPos(cube[4][1], Material.TORCH, 2);
+		BuildPlan.setPos(cube[4][1], Material.TORCH, 5);
+		BuildPlan.setPos(cube[4][1], Material.TORCH, 8);
+		BuildPlan.setPos(cube[4][5], Material.TORCH, 2);
+		BuildPlan.setPos(cube[4][5], Material.TORCH, 10);
+		BuildPlan.setPos(cube[6][7], Material.TORCH, 4);
+		BuildPlan.setPos(cube[6][7], Material.TORCH, 8);
 //		BuildPlan.setPos(cube[1][1], Material.SIGN, 1);
 		BuildPlan.setPos(cube[4][11], Material.TORCH, 2);
 		BuildPlan.setPos(cube[3][11], Material.BOOKSHELF, 2);
@@ -129,7 +136,11 @@ public class BuildPlanHall extends BuildPlan
 		BuildPlan.setPos(cube[4][11], Material.TORCH, 10);
 		BuildPlan.setPos(cube[3][11], Material.BOOKSHELF, 10);
 		BuildPlan.setPos(cube[2][11], Material.BOOKSHELF, 10);
-		
+		//Schilder wand
+		BuildPlan.fillRowPart(cube[2][7], Material.WALL_SIGN, 4, 10);
+		BuildPlan.fillRowPart(cube[3][7], Material.WALL_SIGN, 4, 10);
+		BuildPlan.fillRowPart(cube[4][7], Material.WALL_SIGN, 4, 10);
+
 		return cube;
 	}
 

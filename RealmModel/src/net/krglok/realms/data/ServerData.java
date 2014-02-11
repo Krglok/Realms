@@ -483,6 +483,10 @@ public class ServerData implements ServerInterface
 	public int getBioneFactor(Biome biome, Material mat)
 	{
 		int factor = 0;
+		if (biome == null)
+		{
+			return factor;
+		}
 		if (biome.name().contains("PLAIN"))
 		{
 			factor = factor + plainFactor(mat);
