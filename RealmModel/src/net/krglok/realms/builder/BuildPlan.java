@@ -1,5 +1,7 @@
 package net.krglok.realms.builder;
 
+import java.io.Serializable;
+
 import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.Material;
@@ -17,7 +19,7 @@ import org.bukkit.Material;
  * @author oduda
  *
  */
-public abstract class BuildPlan
+public abstract class BuildPlan implements Serializable
 {
 	private BuildPlanType buildingType;
 	protected int radius;

@@ -21,7 +21,7 @@ public class CmdSettleSell extends RealmsCommand
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.SELL);
 		description = new String[] {
 				ChatColor.YELLOW+"/settle SELL [ID] [item] [amount] [prive] [days]",
-				"Set an buy ordr for te amount of item to the trader ",
+				"Set an buy order for te amount of item to the trader ",
 		    	"of Settlement <ID>, the decline after day(s) ",
 		    	"  "
 		};
@@ -114,6 +114,20 @@ public class CmdSettleSell extends RealmsCommand
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
 //		System.out.println("CanSell"+plugin.getRealmModel().getModelStatus());
+		if (plugin.getRealmModel().getSettlements().containsID(settleID))
+		{
+			if (isOpOrAdmin(sender) == false)
+			{
+				if (isSettleOwner(plugin, sender, settleID)== false)
+				{
+					errorMsg.add("You are not the owner ! ");
+					errorMsg.add(" ");
+					return false;
+					
+				}
+			}
+		}
+		
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
@@ -121,10 +135,15 @@ public class CmdSettleSell extends RealmsCommand
 				if (amount < 0)
 				{
 					errorMsg.add("The amount must be positive ");
-					errorMsg.add("better use /settle GET [ID] [item] [amount] ");
+					errorMsg.add(" ");
 					return false;
 				}
-				
+				if (plugin.getRealmModel().getSettlements().getSettlement(settleID).getWarehouse().getItemList().getValue(itemRef) < amount)
+				{
+					errorMsg.add("NOT enough items in the warehouse");
+					errorMsg.add(" ");
+					return false;
+				}
 //				if (hasItem(sender, itemRef, amount) == false)
 //				{
 //					errorMsg.add("Item  not found !!!");

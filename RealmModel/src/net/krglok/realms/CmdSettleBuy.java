@@ -113,6 +113,20 @@ public class CmdSettleBuy extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
+		if (plugin.getRealmModel().getSettlements().containsID(settleID))
+		{
+			if (isOpOrAdmin(sender) == false)
+			{
+				if (isSettleOwner(plugin, sender, settleID)== false)
+				{
+					errorMsg.add("You are not the owner ! ");
+					errorMsg.add(" ");
+					return false;
+					
+				}
+			}
+		}
+		
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
@@ -123,11 +137,6 @@ public class CmdSettleBuy extends RealmsCommand
 					return false;
 				}
 				
-//				if (hasItem(sender, itemRef, amount) == false)
-//				{
-//					errorMsg.add("Item  not found !!!");
-//					return false;
-//				}
 				return true;
 			}
 			errorMsg.add("Settlement not found !!!");

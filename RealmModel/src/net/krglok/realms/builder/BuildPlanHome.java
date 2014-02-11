@@ -1,5 +1,7 @@
 package net.krglok.realms.builder;
 
+import java.io.Serializable;
+
 import org.bukkit.Material;
 
 /**
@@ -8,7 +10,7 @@ import org.bukkit.Material;
  * @author oduda
  *
  */
-public class BuildPlanHome extends BuildPlan
+public class BuildPlanHome extends BuildPlan implements Serializable
 {
 
 	

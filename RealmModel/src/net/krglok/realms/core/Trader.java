@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  * Der Trader ist kein Gebaeude, sondern ein Manager der Handel abwickelt. 
@@ -17,8 +19,12 @@ package net.krglok.realms.core;
  *
  */
 
-public class Trader
+public class Trader  
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1502593484415028676L;
 	private int caravanMax;
 	private int caravanCount;
 	private int buildingId;
@@ -37,7 +43,7 @@ public class Trader
 		buildingId = 0;
 		isEnabled = false;
 		isActive  = false;
-		orderMax = 1;
+		orderMax = 20;
 		buyOrders = new TradeOrderList();
 //		sellOrders = new TradeOrderList();
 		

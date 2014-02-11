@@ -85,6 +85,7 @@ public class CmdSettleWarehouse extends RealmsCommand
 		    }
 	    }
 		plugin.getMessageData().printPage(sender, msg, page);
+		page = 1;
 	}
 
 	@Override

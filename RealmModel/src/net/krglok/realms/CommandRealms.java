@@ -57,6 +57,7 @@ public class CommandRealms
 			new CmdSettleGetItem(),
 			new CmdSettleTrader(),
 			new CmdSettleBuild(),
+			new CmdSettleProduction(),
 			new CmdColonistCreate(),
 			new CmdColonyBuild(),
 			new CmdSettleAddBuilding(),

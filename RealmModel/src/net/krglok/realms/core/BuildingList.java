@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +19,12 @@ import net.krglok.realms.builder.BuildPlanType;
  * @author Windu
  *
  */
-public class BuildingList
+public class BuildingList  
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 259384614415396799L;
 	private Map<String,Building> buildingList;
 	private ArrayList<Integer> regionList; 
 	private ArrayList<Integer> superRegionList; 

@@ -59,7 +59,7 @@ public class CmdSettleList extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return null;
+		return new String[] {int.class.getName() };
 	}
 
 	@Override

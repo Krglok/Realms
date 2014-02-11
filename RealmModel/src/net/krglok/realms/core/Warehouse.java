@@ -1,5 +1,6 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanType;
@@ -13,8 +14,12 @@ import net.krglok.realms.builder.BuildPlanType;
  *
  * 
  */
-public class Warehouse 
+public class Warehouse  
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5203174911445774008L;
 	private Boolean isEnabled;
 	private int itemMax;
 	private int itemCount;

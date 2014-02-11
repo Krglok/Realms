@@ -1,15 +1,21 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
+
 
 /**
  * Independent  location definition, seperate the model from minecraft server
  * @author Windu
  *
  */
-public class LocationData
+public class LocationData  implements Serializable
 {
 
-    private String world;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5829724671027753674L;
+	private String world;
     private double posX;
     private double posY;
     private double posZ;

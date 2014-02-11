@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
+
 import net.krglok.realms.model.LogList;
 
 /**
@@ -8,8 +10,12 @@ import net.krglok.realms.model.LogList;
  * the bank hold the money of a settlement
  * there is an transaction protocol
  */
-public class Bank
+public class Bank  implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4885560720493966878L;
 	private static final String KONTO_TOO_LOW = "konto too low ";
 	private static final String WITHDRAW = "Withdraw ";
 	private static final String DEPOSIT = "Deposit ";

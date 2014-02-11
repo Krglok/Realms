@@ -1,7 +1,8 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanType;
@@ -13,7 +14,6 @@ import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
-//import net.krglok.realms.core.Position;
 import net.krglok.realms.core.Resident;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -25,7 +25,10 @@ import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
+import org.json.simple.JSONObject;
 import org.junit.Test;
+//import net.krglok.realms.core.Position;
 
 public class SettlementTest
 {
@@ -1174,7 +1177,16 @@ public class SettlementTest
 				
 			}
 		}
+		System.out.println("SERIALIZE===============================================");
+		Gson gson = new Gson();
+		String jsonData = gson.toJson(settle);
 		
+		System.out.println(jsonData);
+		
+//		Settlement newSettle = new Settlement(); 
+//		newSettle =  gson.fromJson(jsonData, Settlement.class);
+//		System.out.println("DERIALIZE===============================================");
+//		System.out.println(newSettle.getId()+":"+newSettle.getName());
 		assertEquals(expected, actual);
 
 	}

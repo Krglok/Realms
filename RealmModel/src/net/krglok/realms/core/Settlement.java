@@ -1,5 +1,6 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,8 +26,12 @@ import net.krglok.realms.manager.MapManager;
  * @author Windu
  *
  */
-public class Settlement
+public class Settlement //implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7534071936212709937L;
 	private static final double MIN_FOODCONSUM_COUNTER = -5.0;
 	private static final double TAVERNE_UNHAPPY_FACTOR = 2.0;
 	private static final double BASE_TAX_FACTOR = 10;
@@ -43,7 +48,7 @@ public class Settlement
 	private String name;
 	private String owner;
 	private Boolean isCapital;
-	private Barrack barrack ;
+//	private Barrack barrack ;
 	private Warehouse warehouse ;
 	private BuildingList buildingList;
 	private Townhall townhall;
@@ -88,7 +93,7 @@ public class Settlement
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
-		barrack		= new Barrack(defaultUnitMax(settleType));
+//		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -125,7 +130,7 @@ public class Settlement
 		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
-		barrack		= new Barrack(defaultUnitMax(settleType));
+//		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -164,7 +169,7 @@ public class Settlement
 		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
-		barrack		= new Barrack(defaultUnitMax(settleType));
+//		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -214,7 +219,7 @@ public class Settlement
 		this.name = name;
 		this.owner = owner;
 		this.isCapital = isCapital;
-		this.barrack = barrack;
+//		this.barrack = barrack;
 		this.warehouse = warehouse;
 		this.buildingList = buildingList;
 		this.townhall = townhall;
@@ -376,12 +381,12 @@ public class Settlement
 
 	public Barrack getBarrack()
 	{
-		return barrack;
+		return null; //barrack;
 	}
 
 	public void setBarrack(Barrack barrack)
 	{
-		this.barrack = barrack;
+//		this.barrack = barrack;
 	}
 
 	public Warehouse getWarehouse()
@@ -584,7 +589,7 @@ public class Settlement
 				case TOWER :
 				case HEADQUARTER :
 				case KEEP :
-					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
+//					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
 					break;
 				default :
 					break;
@@ -811,6 +816,7 @@ public class Settlement
 		}
 	}
 
+	
 	private void addTreasure2List(ServerInterface server, Biome biome, Material mat)
 	{
 		int matFactor  = 0;

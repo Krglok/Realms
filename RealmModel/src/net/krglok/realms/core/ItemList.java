@@ -1,5 +1,6 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -7,7 +8,7 @@ import java.util.HashMap;
  * @author oduda
  *
  */
-public class ItemList  extends  HashMap<String, Item>
+public class ItemList  extends  HashMap<String, Item>  
 {
 /**
 	 * 

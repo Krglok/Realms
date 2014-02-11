@@ -1,5 +1,6 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -7,7 +8,7 @@ import java.util.HashMap;
  * @author Windu
  *
  */
-public class BoardItemList extends HashMap<String,BoardItem>
+public class BoardItemList extends HashMap<String,BoardItem>  
 {
 
 	private static final long serialVersionUID = 1L;

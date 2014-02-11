@@ -7,6 +7,7 @@ public enum RealmsSubCommandType
 	ADD ,
 	BANK,
 	BUILDING,
+	BUILDINGLIST,
 	BUILD,
 	BUY,
 	CREATE ,

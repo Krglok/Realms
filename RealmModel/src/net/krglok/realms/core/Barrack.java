@@ -1,12 +1,18 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
+
 /**
  * not yet implemented
  * @author oduda
  * 
  */
-public class Barrack
+public class Barrack 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3574102060452319954L;
 	private Boolean isEnabled;
 	private int unitMax;
 	private UnitList unitList;

@@ -127,13 +127,15 @@ public class TraderTest
 		setteList.addSettlement(sender);
 		setteList.addSettlement(target);
 		sender.setPosition(new LocationData("SteamHaven", -469.51819223615206, 72, -1236.6592548015324));
-		target.setPosition(new LocationData("SteamHaven", -1215.6704984377348, 103, -3210.300000011921));
+		target.setPosition(new LocationData("SteamHaven", -121.6704984377348, 103, -1320.300000011921));
+		sender.getWarehouse().depositItemValue("WOOD", 1000);
+		
 		
 		TradeOrder sellOrder = new TradeOrder(sender.getId(), TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
 //		TradeOrder buyOrder = new TradeOrder(target.getId(), TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
 		
-		target.getTrader().getBuyOrders().put(1, new TradeOrder(1, TradeType.BUY, "WHEAT", 64 , 0.3 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0));
-		target.getTrader().getBuyOrders().put(2, new TradeOrder(2, TradeType.BUY, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.DECLINE, "",0));
+//		target.getTrader().getBuyOrders().put(1, new TradeOrder(1, TradeType.BUY, "WHEAT", 64 , 0.3 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0));
+//		target.getTrader().getBuyOrders().put(2, new TradeOrder(2, TradeType.BUY, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.DECLINE, "",0));
 		target.getTrader().getBuyOrders().put(3, new TradeOrder(3, TradeType.BUY, "WOOD", 64 , 0.5 , ConfigBasis.GameDay, 0L, TradeStatus.STARTED, "",0));
 
 //		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 52);
@@ -151,7 +153,7 @@ public class TraderTest
 //		System.out.println((settlements.getSettlement(tmo.getSettleID()).getPosition());
 		sender.getTrader().makeSellOrder(tm, sender, sellOrder);
 
-		TradeStatus expected = TradeStatus.FULFILL;
+		TradeStatus expected = TradeStatus.NONE;
 		TradeStatus actual = TradeStatus.NONE;
 		
 		
@@ -159,6 +161,7 @@ public class TraderTest
 
 		for (int i = 0; i < 1205; i++)
 		{
+//			System.out.println("Tick");
 			tpo.runTick();
 			tm.runTick();
 			tpo.fullfillSender(sender);

@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
+
 /**
  * <pre>
  * hold the human  resources of a settlement
@@ -9,8 +11,12 @@ package net.krglok.realms.core;
  * @author windu
  *
  */
-public class Resident
+public class Resident  
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1454415012035643630L;
 	private static final double FertilityCounter_Limit = 50.0;
 	private static double FERTILITY = 3.0;   //  % satz 
 	private static double  LETHALITY= 1.0;   //  % satz

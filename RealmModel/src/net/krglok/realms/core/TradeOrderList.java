@@ -13,9 +13,13 @@ import java.util.HashMap;
 public class TradeOrderList extends HashMap<Integer,TradeOrder>
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4902227609327886827L;
+	
 	private int lastNumber;
 	
-	private static final long serialVersionUID = 1L;
 
 	public TradeOrderList()
 	{

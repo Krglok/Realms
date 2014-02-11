@@ -151,6 +151,7 @@ public class TradeOrder extends ItemPrice
 	
 	public void runTick()
 	{
+		System.out.println("Trade:"+ this.tradeType+":"+this.status+":"+this.tickCount+":"+this.maxTicks);
 		if (status == TradeStatus.STARTED)
 		{
 			this.tickCount++;

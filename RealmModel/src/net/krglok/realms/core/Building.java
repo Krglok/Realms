@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import java.io.Serializable;
+
 import org.bukkit.block.Biome;
 
 import net.krglok.realms.builder.BuildPlanType;
@@ -16,8 +18,12 @@ import net.krglok.realms.data.ServerInterface;
  * @author oduda
  *
  */
-public class Building
+public class Building  implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -347474537928992879L;
 	private static final int SETTLER_COUNT = 4; 
 	private static double SETTLER_TAXE = 1.0;
 	private static double TAVERNE_TAXE = 7.0;

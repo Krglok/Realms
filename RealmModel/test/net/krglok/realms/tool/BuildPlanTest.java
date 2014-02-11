@@ -1,11 +1,18 @@
 package net.krglok.realms.tool;
 
 import static org.junit.Assert.assertEquals;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+
 import net.krglok.realms.builder.BuildPlan;
 import net.krglok.realms.builder.BuildPlanHome;
 import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.junit.Test;
 
 public class BuildPlanTest
@@ -133,4 +140,38 @@ public class BuildPlanTest
 		assertEquals(expected, actual);
 	}
 
+//	@Test
+//	public void testSerialize()
+//	{
+//		
+//		OutputStream fos = null;
+//		
+//		try
+//		{
+//			String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+//			String filename = path+"\\BuildPlanHom.ser";
+//		fos = new FileOutputStream( filename );
+//		  ObjectOutputStream o = new ObjectOutputStream( fos );
+//		  o.writeObject( "Today" );
+//		  o.writeObject( new BuildPlanHome());
+//		}
+//		catch ( IOException e ) { System.err.println( e ); }
+//		finally { try { fos.close(); } catch ( Exception e ) { e.printStackTrace(); } }
+//	}
+	
+	@Test
+	public void testSerializeJson()
+	{
+		
+		Gson gson = new Gson();
+		String jsonData = gson.toJson(new BuildPlanHome());
+		System.out.println(jsonData);
+		
+		BuildPlanHome newHome = new BuildPlanHome(); 
+		newHome =  gson.fromJson(jsonData, BuildPlanHome.class);
+		System.out.println("DERIALIZE===============================================");
+		System.out.println(newHome.getBuildingType()+":"+newHome.getRadius());
+		
+	}
+	
 }
