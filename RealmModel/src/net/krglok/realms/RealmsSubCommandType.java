@@ -29,6 +29,7 @@ public enum RealmsSubCommandType
 	SETITEM,
 	SELL,
 	SETTLEMENT,
+	SIGN,
 	TAX,
 	TEST ,
 	TRADER,

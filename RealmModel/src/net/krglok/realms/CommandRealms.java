@@ -43,6 +43,7 @@ public class CommandRealms
 			new CmdRealmsSetItem(),
 			new CmdRealmsGetItem(),
 			new CmdRealmsMap(),
+			new CmdRealmsSign(),
 			new CmdRealmNone(),
 			new CmdSettleCheck(),
 			new CmdSettleCreate(),

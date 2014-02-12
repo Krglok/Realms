@@ -1,14 +1,38 @@
 package net.krglok.realms;
 
+import java.awt.image.BufferedImage;
+import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ItemPrice;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.MapMeta;
+import org.bukkit.map.MapCanvas;
+import org.bukkit.map.MapRenderer;
+import org.bukkit.map.MapView;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.Plugin;
+
+import com.avaje.ebean.validation.Length;
 
 public class CmdRealmsTest extends RealmsCommand
 {
@@ -19,7 +43,7 @@ public class CmdRealmsTest extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms TEST [page]   ",
-		    	" set a Text to SIGN you look at  ",
+		    	" give the player a Map in Inventory  ",
 		    	"  ",
 		    	"  ",
 		    	" "
@@ -70,40 +94,21 @@ public class CmdRealmsTest extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		System.out.println("Look for Signs ");
-//		String path = plugin.getDataFolder().getAbsolutePath();
-//		path = "D:\\Program Files\\BuckitTest\\plugins\\Realms";
-		int radius = 5;
-		int edge = radius * 2 -1;
+    	ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
-		Location pos = new Location(player.getLocation().getWorld(), player.getLocation().getX()-radius, player.getLocation().getY(), player.getLocation().getZ()-radius);
-		Block lookAt =  player.getTargetBlock(null, 6);   
-				//new Location(player.getLocation().getWorld(),0.0, player.getLocation().getX(),0.0);
+		PlayerInventory inventory = player.getInventory();
+		ItemStack bMap = new ItemStack(Material.MAP);
 		
-				if (lookAt.getType()!= Material.AIR)
-				{
-					System.out.println("pos "+(int) lookAt.getX()+":"+(int) lookAt.getY()+"."+lookAt.getType());
-				}
-				switch (lookAt.getType())
-				{
-				case WALL_SIGN:  // sign on the wall
-					Sign sBlock =	((Sign) lookAt.getState());
-					String[] signText = sBlock.getLines();
-					if (signText[0].equals("[REQUIRE"+page+"]"))
-					{
-//						((Sign) b.getState())
-						sBlock.setLine(1, Material.WOOD_AXE+": "+5);
-						sBlock.setLine(2, Material.WHEAT+": "+105);
-						sBlock.update(true);
-					}
-					for (int k = 0; k < signText.length; k++)
-					{
-						System.out.println(sBlock.getLines()[k]);
-					}
-					break;
-					
-				default:
-				}
+//		MapView map = plugin.getServer().createMap(player.getLocation().getWorld());
+//		
+//		MapRenderer mRender =  map.getRenderers().get(0);
+		
+		
+		
+		final MapMeta mm = (MapMeta) bMap.getItemMeta();
+		mm.setDisplayName("RealmsMap");
+		bMap.setItemMeta(mm);
+		inventory.addItem(bMap);
 				
 	}
 

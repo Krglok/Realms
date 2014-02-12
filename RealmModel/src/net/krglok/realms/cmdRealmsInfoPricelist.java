@@ -2,10 +2,16 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPrice;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BookMeta;
 
 public class CmdRealmsInfoPricelist extends RealmsCommand
 {
@@ -74,7 +80,57 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 		{
 			msg.add("== ");
 		}
+		Player player = (Player) sender;
+		PlayerInventory inventory = player.getInventory();
+		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+
+		final BookMeta bm = (BookMeta) book.getItemMeta();
+		msg.add(ConfigBasis.setStrleft("Trade  Pricelist ", 19));
+		msg.add(ConfigBasis.setStrleft("of the Settlements ", 19));
+		for (ItemPrice item : plugin.getData().getPriceList().values())
+		{
+			String sLine = "";
+			sLine = ConfigBasis.setStrleft(item.ItemRef()+"________",9)+":§a "+item.getFormatedBasePrice()+"§0 ";
+				
+//			if (sLine.length() > 19)
+//			{
+//				int dif = sLine.length() - 19;
+//				sLine = item.ItemRef();
+//				sLine = sLine.substring(0, sLine.length()-dif);
+//				sLine = ConfigBasis.setStrleft(""+sLine+":§a"+item.getFormatedBasePrice()+"§0 ", 19);
+//			}
+			msg.add(sLine);
+			
+		}
+		
 		plugin.getMessageData().printPage(sender, msg, page);
+		msg.clear();
+		if (sender instanceof Player)
+		{
+			String sPage = "";
+			int line = 0;
+			int bookPage = 0;
+			for (int i=0; i < msg.size(); i++)
+			{
+				line++;
+				sPage = sPage+msg.get(i);
+				if ((line > 12) && (bookPage < 50))
+				{
+					bm.addPage(sPage);
+					sPage = "";
+					line = 0;
+					bookPage++;
+				}
+			}
+			if ((sPage != "") && (bookPage < 50))
+			{
+				bm.addPage(sPage);
+			}
+			bm.setAuthor("Realm Admin");
+			bm.setTitle("The Pricelist");
+			book.setItemMeta(bm);
+			inventory.addItem(book);
+		}
 		
 	}
 
