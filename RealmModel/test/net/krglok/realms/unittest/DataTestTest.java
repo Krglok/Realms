@@ -2,12 +2,25 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.util.Map;
+
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
+
+import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
 /**
@@ -19,6 +32,40 @@ public class DataTestTest
 {
 	private Boolean isOutput = false; // set this to false to suppress println
 
+	private ItemPriceList readPriceData() 
+	{
+        String base = "BASEPRICE";
+        ItemPriceList items = new ItemPriceList();
+		try
+		{
+			//\\Program Files\\BuckitTest\\plugins\\Realms
+            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms", "baseprice.yml");
+            if (!DataFile.exists()) 
+            {
+            	DataFile.createNewFile();
+            	return items;
+            }
+            FileConfiguration config = new YamlConfiguration();
+            config.load(DataFile);
+            
+            if (config.isConfigurationSection(base))
+            {
+            	
+    			Map<String,Object> buildings = config.getConfigurationSection(base).getValues(false);
+            	for (String ref : buildings.keySet())
+            	{
+            		Double price = config.getDouble(base+"."+ref,0.0);
+            		ItemPrice item = new ItemPrice(ref, price);
+            		items.add(item);
+            	}
+            }
+		} catch (Exception e)
+		{
+		}
+		return items;
+	}
+	
+	
 	@Test
 	public void testInitOwnerList()
 	{
@@ -162,6 +209,93 @@ public class DataTestTest
 			
 			System.out.println(i);
 		}
+	}
+	@Test
+	public void testInitSettleList()
+	{
+		DataTest data = new DataTest();
+		SettlementList settleList = new SettlementList(0);
+		settleList.addSettlement(data.readSettlement(1));
+		settleList.addSettlement(data.readSettlement(2));
+		settleList.addSettlement(data.readSettlement(3));
+		settleList.addSettlement(data.readSettlement(4));
+		ItemPriceList priceList = readPriceData(); 
+		
+		int expected = 6; 
+		int actual = settleList.getSettlements().size();
+
+		
+		if (expected != actual)
+		{	
+			System.out.println("===SettleList Test ====");
+			for (Settlement settle : settleList.getSettlements().values())
+			{
+				System.out.println(settle.getId()+":"+settle.getName());
+			}
+			ItemList items = new ItemList();
+			for (Settlement settle : settleList.getSettlements().values())
+			{
+				for (Item item : settle.getWarehouse().getItemList().values())
+				{
+					items.put(item.ItemRef(), item);
+				}
+			}
+			String header = "|";
+//			header = header + item.ItemRef()+"|";
+			System.out.println("===SettleList Warehouse ===["+items.size()+"]");
+			for (Item item : items.values())
+			{
+				System.out.println(ConfigBasis.setStrleft(item.ItemRef(), 15)
+						+":"+ConfigBasis.setStrright(String.valueOf(item.value()),5)
+						+":"+ConfigBasis.setStrright(String.valueOf(priceList.getBasePrice(item.ItemRef())), 6)
+						); 
+			}
+			for (Settlement settle : settleList.getSettlements().values())
+			{
+				System.out.println(settle.getName()+"== HighPrice ==["+items.size()+"]");
+				for (Item item : settle.getWarehouse().getItemList().values())
+				{
+					if (priceList.getBasePrice(item.ItemRef()) >= 10.0)
+						System.out.println(ConfigBasis.setStrleft(item.ItemRef(), 15)
+								+":"+ConfigBasis.setStrright(String.valueOf(item.value()),5)
+								+":"+ConfigBasis.setStrright(String.valueOf(priceList.getBasePrice(item.ItemRef())), 6)
+								); 
+				}
+			}
+			for (Settlement settle : settleList.getSettlements().values())
+			{
+				System.out.println(settle.getName()+"== HighValue ==["+items.size()+"]");
+				for (Item item : settle.getWarehouse().getItemList().values())
+				{
+					if ((item.value() >= 30) && (item.ItemRef() != Material.WHEAT.name()))
+					{
+						System.out.println(ConfigBasis.setStrleft(item.ItemRef(), 15)
+								+":"+ConfigBasis.setStrright(String.valueOf(item.value()),5)
+								+":"+ConfigBasis.setStrright(String.valueOf(priceList.getBasePrice(item.ItemRef())), 6)
+								);
+					}
+				}
+			}
+			for (Settlement settle : settleList.getSettlements().values())
+			{
+				double sum = 0.0;
+				for (Item item : settle.getWarehouse().getItemList().values())
+				{
+					sum = sum + (item.value() * priceList.getBasePrice(item.ItemRef()));
+				}
+				sum = ConfigBasis.format2(sum);
+				System.out.println(settle.getName()+" Warenwert = "+ConfigBasis.setStrright(String.valueOf(sum), 12)+"");
+			}
+			for (Settlement settle : settleList.getSettlements().values())
+			{
+				double sum = 0.0;
+				sum = (settle.getResident().getSettlerCount() * 10.0);
+				sum = ConfigBasis.format2(sum);
+				System.out.println(settle.getName()+" Siedlerwert = "+ConfigBasis.setStrright(String.valueOf(sum), 12)+"");
+			}
+			
+		}
+		assertEquals(expected, actual);
 	}
 	
 }

@@ -29,14 +29,15 @@ import net.krglok.realms.core.Settlement;
 public class SettlementData
 {
 
-	private Realms plugin;
-	
+//	private Realms plugin;
+	private File dataFolder; 
 //	private ItemList requiredProduction;
 //
 	
-	public SettlementData(Realms plugin)
+	public SettlementData(File dataFolder)		//Realms plugin)
 	{
-		this.plugin = plugin;
+//		this.plugin = plugin;
+		this.dataFolder = dataFolder;
 	}
 
 	private String getSettleKey(int id)
@@ -48,7 +49,7 @@ public class SettlementData
 	{
 		try
 		{
-	            File settleFile = new File(plugin.getDataFolder(), "settlement.yml");
+	            File settleFile = new File(dataFolder, "settlement.yml");
 //	            if (!settleFile.exists()) 
 //	            {
 //	            	settleFile.createNewFile();
@@ -154,7 +155,7 @@ public class SettlementData
         String settleSec = getSettleKey(id);
 		try
 		{
-            File settleFile = new File(plugin.getDataFolder(), "settlement.yml");
+            File settleFile = new File( dataFolder, "settlement.yml");
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
@@ -261,7 +262,9 @@ public class SettlementData
 			 {
 				 name = st[0].getClassName()+":"+st[0].getMethodName();
 			 }
- 			plugin.getMessageData().errorFileIO(name, e);
+			 System.out.println(name);
+			 System.out.println(e.getMessage());
+// 			plugin.getMessageData().errorFileIO(name, e);
 		}
 		return settle;
 	}
@@ -272,7 +275,7 @@ public class SettlementData
 		ArrayList<String> msg = new ArrayList<String>();
 		try
 		{
-            File settleFile = new File(plugin.getDataFolder(), "settlement.yml");
+            File settleFile = new File(dataFolder, "settlement.yml");
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
@@ -287,19 +290,22 @@ public class SettlementData
             	for (String ref : settles.keySet())
             	{
             		msg.add(ref);
-            		plugin.getMessageData().log(ref);
+            		System.out.println(ref);
+//            		plugin.getMessageData().log(ref);
             	}
             }
 		} catch (Exception e)
 		{
 			 @SuppressWarnings("unused")
-			String name = "" ;
+  			 String name = "" ;
 			 StackTraceElement[] st = new Throwable().getStackTrace();
 			 if (st.length > 0)
 			 {
 				 name = st[0].getClassName()+":"+st[0].getMethodName();
 			 }
-		}
+			 System.out.println(name);
+			 System.out.println(e.getMessage());
+	}
 		return msg;
 	}
 	

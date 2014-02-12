@@ -246,6 +246,12 @@ public class ConfigBasis implements ConfigInterface
 		return String.valueOf(out);
 	}
 
+	public static double format2(double value)
+	{
+		int value100 = (int)(value * 100);
+		return ((double)value100/100.0);
+	}
+
 	public static String setStrright(String in, int len)
 	{
 		char[] out = new char[len];

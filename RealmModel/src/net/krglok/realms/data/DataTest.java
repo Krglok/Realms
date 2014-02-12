@@ -1,5 +1,6 @@
 package net.krglok.realms.data;
 
+import java.io.File;
 import java.util.HashMap;
 
 import org.bukkit.block.Biome;
@@ -47,9 +48,14 @@ public class DataTest implements DataInterface
 	private KingdomList testRealms ;
 	private SettlementList testSettlements;
 	private BuildingList testBuildings; 
+
+	private SettlementData settleData;
 	
 	public DataTest()
 	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+		File dataFolder = new File(path);
+		settleData = new SettlementData(dataFolder);
 		initTestData();
 	}
 
@@ -594,6 +600,10 @@ public class DataTest implements DataInterface
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	public Settlement readSettlement(int id)
+	{
+		return settleData.readSettledata(id);
 	}
 	
 }

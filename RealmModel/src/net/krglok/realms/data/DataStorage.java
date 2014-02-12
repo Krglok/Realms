@@ -43,7 +43,7 @@ public class DataStorage implements DataInterface
 	public DataStorage(Realms plugin)
 	{
 		this.plugin = plugin;
-		settleData = new SettlementData(plugin);
+		settleData = new SettlementData(plugin.getDataFolder());
 		owners = new OwnerList();
 		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
