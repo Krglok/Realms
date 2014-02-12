@@ -102,8 +102,10 @@ public class CmdSettleBuy extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
+		itemRef.toUpperCase();
 		McmdBuyOrder cmd = new McmdBuyOrder(plugin.getRealmModel(), settleID, itemRef, amount, price, delayDays);
 		plugin.getRealmModel().OnCommand(cmd);
+		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
     	msg.add(ChatColor.YELLOW+"Buy Item: "+ChatColor.GREEN+itemRef+":"+amount);
     	msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);

@@ -86,9 +86,9 @@ public class CmdSettleBank extends RealmsCommand
 		
 		McmdDepositeBank bank = new McmdDepositeBank(plugin.getRealmModel(), settleID, amount, sender.getName());
 		plugin.getRealmModel().OnCommand(bank);
-    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
-    	msg.add(ChatColor.YELLOW+"Bank : "+ChatColor.GREEN+"dposit : "+amount);
-		msg.addAll(getDescriptionString());
+		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
+    	msg.add(ChatColor.YELLOW+"Bank  "+ChatColor.GREEN+"deposit : "+amount);
+    	msg.add("");
 		plugin.getMessageData().printPage(sender, msg, 1);
 	}
 

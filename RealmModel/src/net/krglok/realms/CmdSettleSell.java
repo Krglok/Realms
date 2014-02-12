@@ -104,7 +104,8 @@ public class CmdSettleSell extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
 		McmdSellOrder cmd = new McmdSellOrder(plugin.getRealmModel(), settleID, itemRef, amount, price, delayDays);
 		plugin.getRealmModel().OnCommand(cmd);
-    	msg.add(ChatColor.YELLOW+"Sell Item: "+ChatColor.GREEN+itemRef+":"+amount);
+		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
+		msg.add(ChatColor.YELLOW+"Sell Item: "+ChatColor.GREEN+itemRef+":"+amount);
     	msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
 
@@ -138,6 +139,7 @@ public class CmdSettleSell extends RealmsCommand
 					errorMsg.add(" ");
 					return false;
 				}
+				itemRef.toUpperCase();
 				if (plugin.getRealmModel().getSettlements().getSettlement(settleID).getWarehouse().getItemList().getValue(itemRef) < amount)
 				{
 					errorMsg.add("NOT enough items in the warehouse");

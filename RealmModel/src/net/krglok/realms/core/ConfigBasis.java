@@ -265,9 +265,16 @@ public class ConfigBasis implements ConfigInterface
 		{
 			char[] zw  = in.toCharArray();
 			int zwl = zw.length;
-			for (int i = 0; i < out.length; i++)
+			if (zw.length <= out.length)
 			{
-				out[len-i] = zw[zwl-i]; 
+				for (int i = 0; i < out.length; i++)
+				{
+					out[len-i] = zw[zwl-i]; 
+				}
+			} else
+			{
+				out[0] = '?';
+				out[1] = '?';
 			}
 		}
 		return String.valueOf(out);

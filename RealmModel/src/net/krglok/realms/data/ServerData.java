@@ -135,9 +135,12 @@ public class ServerData implements ServerInterface
 	public ItemList getRegionOutput(String regionType)
 	{
 		ItemList rList = new ItemList();
-		for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getOutput())
+		if (plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
 		{
-			rList.addItem(item.getData().getItemType().name(), item.getAmount());
+			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getOutput())
+			{
+				rList.addItem(item.getData().getItemType().name(), item.getAmount());
+			}
 		}
 		return rList;
 	}
@@ -146,9 +149,12 @@ public class ServerData implements ServerInterface
 	public ItemList getRegionUpkeep(String regionType)
 	{
 		ItemList rList = new ItemList();
-		for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getUpkeep())
+		if (plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
 		{
-			rList.addItem(item.getData().getItemType().name(), item.getAmount());
+			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getUpkeep())
+			{
+				rList.addItem(item.getData().getItemType().name(), item.getAmount());
+			}
 		}
 		return rList;
 	}

@@ -72,14 +72,16 @@ public class CmdSettleProduction extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add("Item           | Last  | Month | Year [ ]");
+		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
+				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
+		msg.add("Item            | Last  | Month | Year [ ]");
 		for (BoardItem bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().values())
 		{
-			String name = ConfigBasis.setStrleft(bItem.getName(), 15);
-			String last = ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()), 5);
-			String cycle = ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()), 5);
-			String period = ConfigBasis.setStrright(String.valueOf(bItem.getPeriodSum()), 5);
-			msg.add(name +"|"+last+" | "+cycle+" | "+period);
+			String name = ConfigBasis.setStrleft(bItem.getName(), 14);
+			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getLastValue()), 5);
+			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getCycleSum()), 5);
+			String period = ConfigBasis.setStrright(String.valueOf((int)bItem.getPeriodSum()), 5);
+			msg.add(name +"| "+last+" | "+cycle+" | "+period);
 		}
 		msg.add("");
 		plugin.getMessageData().printPage(sender, msg, page);
@@ -97,6 +99,7 @@ public class CmdSettleProduction extends RealmsCommand
 				errorMsg.add("The ID is wrong or not a number ?");
 				return false;
 			}
+			return true;
 		}
 		errorMsg.add("[Realm Model] NOT enabled or too busy");
 		errorMsg.add("Try later again");

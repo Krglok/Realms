@@ -45,7 +45,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 	{
 		for (TradeMarketOrder to : this.values())
 		{
-			System.out.println("Trans:"+ to.getTradeType()+":"+to.getStatus()+":"+to.getTickCount()+":"+to.getMaxTicks());
+//			System.out.println("Trans:"+ to.getTradeType()+":"+to.getStatus()+":"+to.gtetTickCount()+":"+to.getMaxTicks());
 			to.runTick();
 		}
 	}

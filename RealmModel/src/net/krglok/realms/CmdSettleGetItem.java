@@ -94,7 +94,9 @@ public class CmdSettleGetItem extends RealmsCommand
 		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
 		plugin.getRealmModel().OnCommand(cmd);
 		
+		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
     	msg.add(ChatColor.YELLOW+"Get Item: "+ChatColor.GREEN+itemRef+":"+amount);
+    	msg.add("");
 		plugin.getMessageData().printPage(sender, msg, 1);
 
 	}
@@ -116,6 +118,7 @@ public class CmdSettleGetItem extends RealmsCommand
 						
 					}
 				}
+				itemRef.toUpperCase();
 				if (plugin.getRealmModel().getSettlements().getSettlement(settleID).getWarehouse().getItemList().getValue(itemRef) < amount  )
 				{
 					errorMsg.add("Not enough items in warehouse ");

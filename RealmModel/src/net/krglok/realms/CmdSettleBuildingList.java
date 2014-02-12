@@ -75,6 +75,8 @@ public class CmdSettleBuildingList extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
+		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
+				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
 		msg.add("Item           |Region    |Beds|Product");
 		for (Building bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildingList().values())
 		{
@@ -107,6 +109,7 @@ public class CmdSettleBuildingList extends RealmsCommand
 				errorMsg.add("The ID is wrong or not a number ?");
 				return false;
 			}
+			return true;
 		}
 		errorMsg.add("[Realm Model] NOT enabled or too busy");
 		errorMsg.add("Try later again");

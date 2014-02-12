@@ -127,37 +127,42 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	 */
 	private void initRegionBuilding()
 	{
-		regionBuildingTypes.put("haus_einfach",BuildPlanType.HOME.name());
 //		regionBuildingTypes.put("haus_gross", BuildPlanType.HOUSE.name());
+		regionBuildingTypes.put("bauern_hof",BuildPlanType.FARM.name());
+		regionBuildingTypes.put("bauern_haus",BuildPlanType.FARMHOUSE.name());
+		regionBuildingTypes.put("colony", BuildPlanType.COLONY.name());
+		regionBuildingTypes.put("fischer", BuildPlanType.FISHERHOOD.name());
 		regionBuildingTypes.put("haupthaus", BuildPlanType.HALL.name());
+		regionBuildingTypes.put("haus_baecker",BuildPlanType.BAKERY.name());
+		regionBuildingTypes.put("haus_einfach",BuildPlanType.HOME.name());
 		regionBuildingTypes.put("haus_stadt", BuildPlanType.HOUSE.name());
-		regionBuildingTypes.put("haus_hof",BuildPlanType.FARMHOUSE.name());
-		regionBuildingTypes.put("taverne", BuildPlanType.TAVERNE.name());
-		regionBuildingTypes.put("markt", BuildPlanType.WAREHOUSE.name());
-		regionBuildingTypes.put("kornfeld", BuildPlanType.WHEAT.name());
 		regionBuildingTypes.put("holzfaeller",BuildPlanType.WOODCUTTER.name());
+		regionBuildingTypes.put("huehnerstall",BuildPlanType.CHICKENHOUSE.name());
 		regionBuildingTypes.put("koehler", BuildPlanType.CHARBURNER.name());
-		regionBuildingTypes.put("schreiner", BuildPlanType.CARPENTER.name());
-		regionBuildingTypes.put("tischler",BuildPlanType.CABINETMAKER.name());
-		regionBuildingTypes.put("steinbruch", BuildPlanType.QUARRY.name());
-		regionBuildingTypes.put("schweinestall",BuildPlanType.PIGPEN.name());
+		regionBuildingTypes.put("kornfeld", BuildPlanType.WHEAT.name());
+		regionBuildingTypes.put("markt", BuildPlanType.WAREHOUSE.name());
+		regionBuildingTypes.put("rathaus", BuildPlanType.HALL.name());
 		regionBuildingTypes.put("rinderstall",BuildPlanType.COWSHED.name());
 		regionBuildingTypes.put("schaefer", BuildPlanType.SHEPHERD.name());
-		regionBuildingTypes.put("bauern_haus",BuildPlanType.FARM.name());
-		regionBuildingTypes.put("werkstatt_haus",BuildPlanType.WORKSHOP.name());
 		regionBuildingTypes.put("schmelze",BuildPlanType.SMELTER.name());
-		regionBuildingTypes.put("haus_baecker",BuildPlanType.BAKERY.name());
-		regionBuildingTypes.put("shop_axe",BuildPlanType.AXESHOP.name());
-		regionBuildingTypes.put("shop_hoe",BuildPlanType.HOESHOP.name());
-		regionBuildingTypes.put("shop_pickaxe",BuildPlanType.PICKAXESHOP.name());
-		regionBuildingTypes.put("shop_knife",BuildPlanType.KNIFESHOP.name());
-		regionBuildingTypes.put("shop_spade",BuildPlanType.SPADESHOP.name());
+		regionBuildingTypes.put("schreiner", BuildPlanType.CARPENTER.name());
+		regionBuildingTypes.put("schweinestall",BuildPlanType.PIGPEN.name());
+		regionBuildingTypes.put("shop_waxe",BuildPlanType.AXESHOP.name());
+		regionBuildingTypes.put("shop_whoe",BuildPlanType.HOESHOP.name());
+		regionBuildingTypes.put("shop_wpaxe",BuildPlanType.PICKAXESHOP.name());
+		regionBuildingTypes.put("shop_wspade",BuildPlanType.SPADESHOP.name());
+		regionBuildingTypes.put("shop_wsword",BuildPlanType.KNIFESHOP.name());
+		regionBuildingTypes.put("smith",BuildPlanType.BLACKSMITH.name());
+		regionBuildingTypes.put("stadtwache",BuildPlanType.GUARDHOUSE.name());
+		regionBuildingTypes.put("steinbruch", BuildPlanType.QUARRY.name());
 		regionBuildingTypes.put("steinmine",BuildPlanType.STONEMINE.name());
+		regionBuildingTypes.put("tanner",BuildPlanType.TANNARY.name());
+		regionBuildingTypes.put("taverne", BuildPlanType.TAVERNE.name());
+		regionBuildingTypes.put("tischler",BuildPlanType.CABINETMAKER.name());
 		regionBuildingTypes.put("tower", BuildPlanType.TOWER.name());
 		regionBuildingTypes.put("watchtower",BuildPlanType.WATCHTOWER.name());
-		regionBuildingTypes.put("stadtwache",BuildPlanType.GUARDHOUSE.name());
-		regionBuildingTypes.put("smith",BuildPlanType.BLACKSMITH.name());
-		regionBuildingTypes.put("tanner",BuildPlanType.TANNARY.name());
+		regionBuildingTypes.put("werkstatt",BuildPlanType.WORKSHOP.name());
+		regionBuildingTypes.put("ziegelei",BuildPlanType.BRICKWORK.name());
 		
 	}
 

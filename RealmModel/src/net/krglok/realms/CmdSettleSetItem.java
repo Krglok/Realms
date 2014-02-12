@@ -88,12 +88,15 @@ public class CmdSettleSetItem extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
 		// remove item / amount from player inventory
 		Player player = (Player) sender;
+		itemRef.toUpperCase();
 		ItemStack item = new ItemStack(Material.getMaterial(itemRef), amount);
 		player.getInventory().remove(item);
 		// set itemRef / amount in warehopuse
 		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
 		plugin.getRealmModel().OnCommand(cmd);
+		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
     	msg.add(ChatColor.YELLOW+"Set Item: "+ChatColor.GREEN+itemRef+":"+amount);
+    	msg.add("");
 //		msg.addAll(getDescriptionString());
 		plugin.getMessageData().printPage(sender, msg, 1);
 
@@ -112,7 +115,7 @@ public class CmdSettleSetItem extends RealmsCommand
 					errorMsg.add("better use /settle GET [ID] [item] [amount] ");
 					return false;
 				}
-				
+				itemRef.toUpperCase();
 				if (hasItem(sender, itemRef, amount) == false)
 				{
 					errorMsg.add("Item  not found !!!");

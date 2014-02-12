@@ -14,7 +14,7 @@ requirements:
 - STONE.50
 - WALL_SIGN.1
 reagents:
-- GOLD_NUGGET.5
+- GOLD_NUGGET.3
 upkeep:
 - BREAD.5
 - WOOD_PICKAXE.1
@@ -27,12 +27,3 @@ output:
 - COAL.2
 money-requirement: 5000.0
 upkeep-money-output: -5.0
-super-regions:
-- Mine
-- Siedlung
-- Dorf
-- Gutshof
-- Bauernhof
-- Lager
-- Hauptlager
-- Werkstatt
