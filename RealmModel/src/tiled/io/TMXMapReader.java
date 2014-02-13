@@ -68,6 +68,7 @@ public class TMXMapReader
     private TreeMap<Integer, TileSet> tilesetPerFirstGid;
     public final TMXMapReaderSettings settings = new TMXMapReaderSettings();
     private final HashMap<String, TileSet> cachedTilesets = new HashMap<String, TileSet>();
+    public byte[][] idList = new byte[7][7];
 
     public static final class TMXMapReaderSettings {
         public boolean reuseCachedTilesets = false;
@@ -204,6 +205,29 @@ public class TMXMapReader
         return o;
     }
 
+    private byte[] readID(Node t, String baseDir) throws IOException
+    {
+//        Image img = null;
+        byte[] imageData = null;
+
+        NodeList nl = t.getChildNodes();
+
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node node = nl.item(i);
+            if ("data".equals(node.getNodeName())) {
+                Node cdata = node.getFirstChild();
+                if (cdata != null) {
+                    String sdata = cdata.getNodeValue();
+                    char[] charArray = sdata.trim().toCharArray();
+                    imageData = Base64.decode(charArray);
+                }
+                break;
+            }
+        }
+
+        return imageData;
+    }
+    
     private Image unmarshalImage(Node t, String baseDir) throws IOException
     {
         Image img = null;
@@ -503,6 +527,7 @@ public class TMXMapReader
 
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
+//            idList[i] = readID(child, baseDir);
             if ("image".equalsIgnoreCase(child.getNodeName())) {
                 int id = getAttribute(child, "id", -1);
                 Image img = unmarshalImage(child, baseDir);

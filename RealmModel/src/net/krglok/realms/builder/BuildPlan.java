@@ -19,7 +19,7 @@ import org.bukkit.Material;
  * @author oduda
  *
  */
-public abstract class BuildPlan implements Serializable
+public abstract class BuildPlan 
 {
 	private BuildPlanType buildingType;
 	protected int radius;
@@ -34,7 +34,7 @@ public abstract class BuildPlan implements Serializable
 		super();
 		this.buildingType = buildingType;
 		this.radius = (int) Math.sqrt((double)(radius*radius));
-		this.edge  = (radius > 0) ?  2 * radius -1 : 2;
+		setEdge();
 		this.cube = new byte[edge][edge][edge];
 		this.cube = clearCube(this.cube);
 		this.setSignText(new char[4][15]);
@@ -92,9 +92,20 @@ public abstract class BuildPlan implements Serializable
 		return radius;
 	}
 
+	public void setRadius(int value)
+	{
+		this.radius = value;
+		setEdge();
+	}
+	
 	public int getEdge()
 	{
 		return edge;
+	}
+	
+	public void setEdge()
+	{
+		this.edge = (radius > 1) ?  2 * radius -1 : 3;
 	}
 	
 	public int getOffsetY()
