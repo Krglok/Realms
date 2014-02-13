@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import net.krglok.realms.builder.BuildPlan;
 import net.krglok.realms.builder.BuildPlanHome;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.Material;
@@ -159,19 +160,29 @@ public class BuildPlanTest
 //		finally { try { fos.close(); } catch ( Exception e ) { e.printStackTrace(); } }
 //	}
 	
+//	@Test
+//	public void testSerializeJson()
+//	{
+//		
+//		Gson gson = new Gson();
+//		String jsonData = gson.toJson(new BuildPlanHome());
+//		System.out.println(jsonData);
+//		
+//		BuildPlanHome newHome = new BuildPlanHome(); 
+//		newHome =  gson.fromJson(jsonData, BuildPlanHome.class);
+//		System.out.println("DERIALIZE===============================================");
+//		System.out.println(newHome.getBuildingType()+":"+newHome.getRadius());
+//		
+//	}
 	@Test
-	public void testSerializeJson()
+	public void testBuildPlanList()
 	{
-		
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(new BuildPlanHome());
-		System.out.println(jsonData);
-		
-		BuildPlanHome newHome = new BuildPlanHome(); 
-		newHome =  gson.fromJson(jsonData, BuildPlanHome.class);
-		System.out.println("DERIALIZE===============================================");
-		System.out.println(newHome.getBuildingType()+":"+newHome.getRadius());
-		
+
+		System.out.println("List of BuildPlanTypes ====================");
+		for (BuildPlanType bType : BuildPlanType.values())
+		{
+			System.out.println(bType.getValue()+":"+bType.name());
+			
+		}
 	}
-	
 }
