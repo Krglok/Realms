@@ -148,25 +148,25 @@ public class BuildManager
 	 * @param centerPos
 	 * @return
 	 */
-	public boolean newBuild(BuildPlanType bType, LocationData centerPos)
+	public boolean newBuild(BuildPlan bType, LocationData centerPos)
 	{
-		System.out.println("new Build : "+":"+bType.name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
+		System.out.println("new Build : "+":"+bType.getBuildingType().name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
 		if (bStatus == BuildStatus.NONE)
 		{
 			h = 0;
 			r = 0;
 			c = -1;  // for iteration start
 			String sPos = "";
-			buildPlan = buildPlanList.get(bType.name());
-			buildLocation = centerPos;
-			signText[2] = bType.name().toCharArray();
+			this.buildPlan = buildPlanList.get(bType.getBuildingType().name());
+			this.buildLocation = centerPos;
+			signText[2] = bType.getBuildingType().name().toCharArray();
 			sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
 			signText[2] = sPos.toCharArray();
 			bStatus = BuildStatus.PREBUILD;
 			if (buildPlan == null)
 			{
 				bStatus = BuildStatus.NONE;
-				System.out.println("Build Cancelled "+bStatus.name()+":"+bType.name());
+				System.out.println("Build Cancelled "+bStatus.name()+":"+bType.getBuildingType().name());
 			}
 		}
 		return false;
