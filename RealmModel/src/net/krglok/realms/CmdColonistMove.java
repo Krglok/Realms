@@ -3,8 +3,10 @@ package net.krglok.realms;
 import java.util.ArrayList;
 
 import net.krglok.realms.builder.ItemLocation;
+import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.model.McmdColonistCreate;
+import net.krglok.realms.model.McmdColonyBuild;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,39 +14,39 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdColonistCreate extends RealmsCommand
+public class CmdColonistMove extends RealmsCommand
 {
-	private String name;
+	private int colonyId;
 	LocationData position;
-	private String owner;
 
-	public CmdColonistCreate( )
+	public CmdColonistMove( )
 	{
-		super(RealmsCommandType.COLONIST, RealmsSubCommandType.CREATE);
+		super(RealmsCommandType.COLONIST, RealmsSubCommandType.MOVE);
 		description = new String[] {
-				ChatColor.YELLOW+"/colonist CREATE [Name] [X] [Y] [Z] ",
-				"Create a Colonist with <Name> ",
-				"The colonist is not linked to a settlement",
-		    	"BuildUp a Hamlet with [Name], you are the owner ",
-		    	"  "
+				ChatColor.YELLOW+"/colonist MOVE [ID] [X] [Y] [Z] ",
+				"Move a Colonist with <ID> to the position ",
+		    	"positioning a sign at the position ",
+		    	" You cannot change the World !!! "
 		};
 		requiredArgs = 4;
 		position = new LocationData("", 0.0, 0.0, 0.0);
-		this.name = "";
-		this.owner = "";
+		this.colonyId = 0;
 	}
 
 	@Override
 	public void setPara(int index, String value)
 	{
+
+	}
+
+	@Override
+	public void setPara(int index, int value)
+	{
 		switch (index)
 		{
 		case 0 :
-				name = value;
+				colonyId = value;
 			break;
-		case 4 :
-			owner = value;
-		break;
 		default:
 			break;
 		}
@@ -52,16 +54,8 @@ public class CmdColonistCreate extends RealmsCommand
 	}
 
 	@Override
-	public void setPara(int index, int value)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setPara(int index, boolean value)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
@@ -88,7 +82,7 @@ public class CmdColonistCreate extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {String.class.getName(), double.class.getName(), double.class.getName(), double.class.getName(), String.class.getName() };
+		return new String[] {int.class.getName(),  double.class.getName(), double.class.getName(), double.class.getName() };
 	}
 
 	@Override
@@ -96,13 +90,16 @@ public class CmdColonistCreate extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
-		String world = player.getLocation().getWorld().getName();
-		position.setWorld(world); 
-		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
-		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, center, owner));
 		World worldMap = player.getLocation().getWorld();
+		Colony colony = plugin.getRealmModel().getColonys().get(colonyId);
+		LocationData center = colony.getPosition();
+		plugin.setBlock(worldMap, new ItemLocation(Material.AIR,center));
+
+		center.setX(position.getX());
+		center.setY(position.getY());
+		center.setZ(position.getZ());
 		
-		String[] signText = new String[] {"COLONIST", name, owner, "[NEW]" };
+		String[] signText = new String[] {"COLONIST", colony.getName(), colony.getOwner(), "[MOVED]" };
 		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
 		msg.add("[Realm] Colony created at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
 		msg.add(" ");
@@ -110,25 +107,40 @@ public class CmdColonistCreate extends RealmsCommand
 		position.setX(0);
 		position.setY(0);
 		position.setZ(0);
-		name = "";
-		owner = "";
+		colonyId = 0;
+		msg.add("The Colony moved "+colonyId);
+    	msg.add("Set new Sign  ");
+    	plugin.getMessageData().printPage(sender, msg, 1);
+
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
+		if ((sender instanceof Player) == false)
+		{
+			errorMsg.add("The World can NOT be set correct !");
+			errorMsg.add("The command can NOT be send from console");
+			return false;
+		}
+		Colony colony = plugin.getRealmModel().getColonys().get(colonyId);
+		if (colony == null)
+		{
+			errorMsg.add("Colony ID not found !");
+			errorMsg.add(" ");
+			return false;
+		}
 		if (sender.isOp())
 		{
-			if (sender instanceof Player)
+			return true;
+		} else
+		{
+			if (sender.getName().equalsIgnoreCase(colony.getOwner()))
 			{
 				return true;
 			}
-			errorMsg.add("The World can NOT be set correct !");
-			errorMsg.add("The command can NOT be send from console");
-		} else
-		{
-			errorMsg.add("You are not a OP");
 		}
+		errorMsg.add("You are not the Owner");
 		return false;
 	}
 

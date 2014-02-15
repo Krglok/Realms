@@ -67,7 +67,7 @@ public class CmdSettleList extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		SettlementList  rList = plugin.getRealmModel().getSettlements();
-	    if (rList != null)
+	    if (rList.count() > 0)
 	    {
 			msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
 		    for (Settlement settle : rList.getSettlements().values())

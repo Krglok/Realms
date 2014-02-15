@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="13" height="13" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="offset" value="-2"/>
+ </properties>
  <tileset firstgid="1" name="MC Realms" tilewidth="16" tileheight="16">
   <image source="mc_tileset.png" width="384" height="512"/>
  </tileset>

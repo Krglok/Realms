@@ -19,7 +19,7 @@ public class ConfigBasis implements ConfigInterface
 	protected static final String CONFIG_PLUGIN_VER = "plugin_ver";
 	protected static final String CONFIG_PLUGIN_NAME = "plugin_name";
 	protected static final String PLUGIN_NAME = "Realms";
-	protected static String PLUGIN_VER = "0.1.0";
+	protected static String PLUGIN_VER = "0.2.0";
 
 	public final static long dayNight = 2400; //0 ; // serverTicks 
 	public final static long RealmTick = 20L; 

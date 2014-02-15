@@ -770,8 +770,9 @@ public class DataTest implements DataInterface
      * @param path
      * @return
      */
-	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet, String path)
+	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet)
 	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms\\buildplan";
 		BuildPlanMap buildPlan = new BuildPlanMap(bType,radius , offSet);
 		TMXMapReader mapReader = new TMXMapReader();
 		String filename =  path+"\\"+bType.name()+".tmx";

@@ -185,9 +185,16 @@ public class BuildPlanHomeTest
 		try
 		{
 			tmxMap =  mapReader.readMap(filename);
-			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth());
+			String sOffSet = tmxMap.getProperties().getProperty("offset");
+			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth()+":"+sOffSet);
+			if (sOffSet != null)
+			{
+				offSet = Integer.valueOf(tmxMap.getProperties().getProperty("offset"));
+			}
+//			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth());
 			radius = (tmxMap.getWidth()+1) / 2; 
 			buildPlan.setRadius(radius);
+			buildPlan.setOffsetY(offSet);
 			byte [][][] newCube = buildPlan.initCube(tmxMap.getWidth());
 			int level = 0;
 	 		for (MapLayer layer :tmxMap.getLayers())
@@ -236,10 +243,10 @@ public class BuildPlanHomeTest
 //		BuildPlanQuarry bHome = new BuildPlanQuarry();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms\\buildplan";
 
-		bHome = readTMXBuildPlan(BuildPlanType.STEEPLE, 7, -3, path);
+		bHome = readTMXBuildPlan(BuildPlanType.HALL, 7, -1, path);
 
 		byte expected = ConfigBasis.getMaterialId(Material.LOG);
-		byte actual = bHome.getCube()[3][1][1];
+		byte actual = bHome.getCube()[1][1][1];
 		if (expected != actual)
 		{
 			System.out.println("=====================================");

@@ -223,6 +223,45 @@ public final class Realms extends JavaPlugin
 		
 	}
 
+	protected void setSign(World world, ItemLocation iLoc, String[] signText )
+	{
+	  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
+	  {
+		
+		  Block bs = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+		  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
+		  {
+			  if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
+			  {
+				  bs.setType(iLoc.itemRef());
+			  } else
+			  {
+				  if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+				  {
+					  bs.setType(Material.SIGN_POST);
+				  }
+			  }
+		  }
+		  if ((iLoc.itemRef() == Material.SIGN_POST))
+		  {
+			  bs.setType(Material.SIGN_POST);
+		  }
+			Sign sBlock =	((Sign) bs.getState());
+//			String[] signText = sBlock.getLines();
+			for (int i=0; i < 4; i++)
+			{
+				String text = signText[i];
+				text = text.replaceAll("[_]", " ");
+				sBlock.setLine(i, text);
+				sBlock.update(true);
+				for (int k = 0; k < signText.length; k++)
+				{
+					System.out.println(sBlock.getLines()[k]);
+				}
+			}		  
+	  }		
+	}
+	
 	/**
 	 * setzt einen Block in die Welt an die Position iLoc
 	 * !!! verwendet teilweise alte Methoden fuer Bloecke !!!!
@@ -262,10 +301,12 @@ public final class Realms extends JavaPlugin
 				if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
 				{
 					bs.setType(iLoc.itemRef());
-				}
-				if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+				} else
 				{
-					bs.setType(Material.SIGN);
+					if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+					{
+						bs.setType(Material.SIGN_POST);
+					}
 				}
 				break;
 			case BED_BLOCK:
@@ -793,8 +834,8 @@ public final class Realms extends JavaPlugin
 			colony.buildManager().getCleanRequest().clear();
 			if (colony.getBiomeRequest().size() > 0)
 			{
-				getBiome (colony.getBiomeRequest().get(0));
-				colony.getBiomeRequest().remove(0);
+				getBiome(colony.getBiomeRequest().get(0));
+//				System.out.println("Biome request "+colony.getBiomeRequest().get(0).getBiome());
 			}
 		}
 

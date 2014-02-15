@@ -36,7 +36,7 @@ public interface DataInterface
 	
 	public void writeSettlement(Settlement settle);
 
-	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet, String path);
+	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet);
 
 
 }

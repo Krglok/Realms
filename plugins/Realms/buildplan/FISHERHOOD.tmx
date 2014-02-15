@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="7" height="7" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="offset" value="-2"/>
+ </properties>
  <tileset firstgid="1" source="MC Realms.tsx"/>
- <layer name="Ebene 0" width="7" height="7">
+ <layer name="Ebene 0" width="7" height="7" visible="0">
   <data>
    <tile gid="95"/>
    <tile gid="95"/>
@@ -107,7 +110,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="Ebene 2" width="7" height="7">
+ <layer name="Ebene 2" width="7" height="7" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -160,7 +163,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 3" width="7" height="7">
+ <layer name="Ebene 3" width="7" height="7" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -213,7 +216,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 4" width="7" height="7">
+ <layer name="Ebene 4" width="7" height="7" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -266,7 +269,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 5" width="7" height="7">
+ <layer name="Ebene 5" width="7" height="7" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -319,7 +322,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 6" width="7" height="7">
+ <layer name="Ebene 6" width="7" height="7" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>

@@ -21,6 +21,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.PistonMoveReaction;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -96,19 +97,21 @@ public class CmdRealmsTest extends RealmsCommand
 	{
     	ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
-		PlayerInventory inventory = player.getInventory();
-		ItemStack bMap = new ItemStack(Material.MAP);
-		
+//		PlayerInventory inventory = player.getInventory();
+//		ItemStack bMap = new ItemStack(Material.MAP);
+		Location lookPos = player.getTargetBlock(null, 6).getLocation();
+		Block lookAt =  player.getTargetBlock(null, 6);   
+		player.getWorld().spawnCreature(lookPos, CreatureType.VILLAGER);
 //		MapView map = plugin.getServer().createMap(player.getLocation().getWorld());
 //		
 //		MapRenderer mRender =  map.getRenderers().get(0);
 		
 		
 		
-		final MapMeta mm = (MapMeta) bMap.getItemMeta();
-		mm.setDisplayName("RealmsMap");
-		bMap.setItemMeta(mm);
-		inventory.addItem(bMap);
+//		final MapMeta mm = (MapMeta) bMap.getItemMeta();
+//		mm.setDisplayName("RealmsMap");
+//		bMap.setItemMeta(mm);
+//		inventory.addItem(bMap);
 				
 	}
 

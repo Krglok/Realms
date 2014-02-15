@@ -65,7 +65,7 @@ public class BuildManager
 //		
 //	}
 
-	private HashMap<String, BuildPlan> buildPlanList = new HashMap<String, BuildPlan>();
+//	private HashMap<String, BuildPlan> buildPlanList = new HashMap<String, BuildPlan>();
 	private BuildPlan buildPlan;
 	private LocationData buildLocation;
 	private int h;
@@ -110,16 +110,16 @@ public class BuildManager
 	 */
 	private void initBuildPlans()
 	{
-		buildPlanList.put(BuildPlanType.COLONY.name(), new BuildPlanColony());
-		buildPlanList.put(BuildPlanType.HALL.name(), new BuildPlanHall());
-		buildPlanList.put(BuildPlanType.HOME.name(), new BuildPlanHome());
-		buildPlanList.put(BuildPlanType.WHEAT.name(), new BuildPlanWheat());
-		buildPlanList.put(BuildPlanType.WOODCUTTER.name(), new BuildPlanWoodCutter());
-		buildPlanList.put(BuildPlanType.QUARRY.name(), new BuildPlanQuarry());
-		buildPlanList.put(BuildPlanType.ROAD.name(), new BuildPlanRaod());
-		buildPlanList.put(BuildPlanType.LANE.name(), new BuildPlanLane());
-		buildPlanList.put(BuildPlanType.PILLAR.name(), new BuildPlanPillar());
-		buildPlanList.put(BuildPlanType.STEEPLE.name(), new BuildPlanSteeple());
+//		buildPlanList.put(BuildPlanType.COLONY.name(), new BuildPlanColony());
+//		buildPlanList.put(BuildPlanType.HALL.name(), new BuildPlanHall());
+//		buildPlanList.put(BuildPlanType.HOME.name(), new BuildPlanHome());
+//		buildPlanList.put(BuildPlanType.WHEAT.name(), new BuildPlanWheat());
+//		buildPlanList.put(BuildPlanType.WOODCUTTER.name(), new BuildPlanWoodCutter());
+//		buildPlanList.put(BuildPlanType.QUARRY.name(), new BuildPlanQuarry());
+//		buildPlanList.put(BuildPlanType.ROAD.name(), new BuildPlanRaod());
+//		buildPlanList.put(BuildPlanType.LANE.name(), new BuildPlanLane());
+//		buildPlanList.put(BuildPlanType.PILLAR.name(), new BuildPlanPillar());
+//		buildPlanList.put(BuildPlanType.STEEPLE.name(), new BuildPlanSteeple());
 	}
 	
 	public static ItemList makeMaterialList(BuildPlan buildPlan)
@@ -157,7 +157,7 @@ public class BuildManager
 			r = 0;
 			c = -1;  // for iteration start
 			String sPos = "";
-			this.buildPlan = buildPlanList.get(bType.getBuildingType().name());
+			this.buildPlan = bType;
 			this.buildLocation = centerPos;
 			signText[2] = bType.getBuildingType().name().toCharArray();
 			sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
@@ -543,12 +543,12 @@ public class BuildManager
 	
 	public HashMap<String, BuildPlan> getBuildPlanList()
 	{
-		return buildPlanList;
+		return null;
 	}
 
 	public void setBuildPlanList(HashMap<String, BuildPlan> buildPlanList)
 	{
-		this.buildPlanList = buildPlanList;
+//		this.buildPlanList = buildPlanList;
 	}
 
 	public BuildPlan getActualBuild()

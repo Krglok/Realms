@@ -7,6 +7,7 @@ import org.bukkit.block.Biome;
 
 import net.krglok.realms.CmdSettleCreate;
 import net.krglok.realms.builder.BuildPlanColony;
+import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildPosition;
 import net.krglok.realms.builder.BuildStatus;
@@ -92,7 +93,7 @@ public class Colony
 	private ColonyStatus nextStatus;
 	
 	private BuildPlanType center = BuildPlanType.COLONY;
-	
+	private BuildPlanMap buildPlan ;
 	private BuildManager buildManager = new BuildManager();
 	
 	private RegionLocation newSuperRegion;
@@ -151,6 +152,7 @@ public class Colony
 	 */
 	public static Colony newColony(String name, LocationData position, String owner)
 	{
+		
 		Colony colony = new Colony ( name,  position,  owner);
 		colony.getWarehouse().depositItemValue(Material.BED_BLOCK.name(), 5);
 		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
@@ -226,7 +228,7 @@ public class Colony
 	/**
 	 * 
 	 */
-	private void markUpSettleSchema()
+	private void markUpSettleSchema(RealmModel rModel)
 	{
 		LocationData corner ;
 		System.out.println("MarkUp Builder "+buildManager.getStatus()+":"+markUpStep);
@@ -237,7 +239,8 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
-				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.PILLAR, 4, 0);
+				buildManager.newBuild(buildPlan, corner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -248,7 +251,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
-				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				buildManager.newBuild(buildPlan, corner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -259,7 +262,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
-				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				buildManager.newBuild(buildPlan, corner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -270,7 +273,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
-				buildManager.newBuild(BuildPlanType.PILLAR, corner);
+				buildManager.newBuild(buildPlan, corner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -380,7 +383,8 @@ public class Colony
 			break;
 		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
 			System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-			buildManager.newBuild(BuildPlanType.COLONY, this.position);
+			buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
+			buildManager.newBuild(buildPlan, this.position);
 			nextStatus = ColonyStatus.READY;
 			this.cStatus = ColonyStatus.WAITBUILD;
 			break;
@@ -395,9 +399,10 @@ public class Colony
 					} else
 					{
 						biome = biomeRequest.get(0).getBiome(); 
+						biomeRequest.remove(0);
 					}
 				}
-				markUpSettleSchema();
+				markUpSettleSchema(rModel);
 			} else
 			{
 				this.cStatus = ColonyStatus.STARTLIST;
@@ -419,7 +424,8 @@ public class Colony
 						position.getZ()+actualBuildPos.getPosition().getZ()
 						);
 				System.out.println(id+" Build List "+actualBuildPos.getbType()+":"+buildPosIndex);
-				buildManager.newBuild(actualBuildPos.getbType(),newPos);
+				buildPlan = rModel.getData().readTMXBuildPlan(actualBuildPos.getbType(), 4, -1);
+				buildManager.newBuild(buildPlan,newPos);
 				nextStatus = ColonyStatus.NEXTLIST;
 				this.cStatus = ColonyStatus.WAITBUILD;
 			}
@@ -447,14 +453,17 @@ public class Colony
 		case NEWSETTLE:
 			if (superRequest == null)
 			{
+				System.out.println(id+" Create Settlement  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 				McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.SETTLE_HAMLET,biome);
 				rModel.OnCommand(msCreate);
+				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
 				this.cStatus = ColonyStatus.REINFORCE;
 				this.isPrepared = false;
+				prepareOffset = 0; //buildPlan.getOffsetY();
 				this.prepareLevel = prepareOffset;
 				this.prepareRow = 0;
 				this.prepareCol = 0;
-				this.prepareRadius = 5;
+				this.prepareRadius = 4;
 				System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 			}
 			break;

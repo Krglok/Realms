@@ -156,6 +156,7 @@ public class CmdSettleInfo extends RealmsCommand
 			if (settle != null)
 			{
 				msg.add("Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName());
+				msg.add("Biome: "+settle.getBiome()+"  Enable:"+settle.isEnabled()+" Activ: "+settle.isActive());
 				msg.add("Beds       : "+ChatColor.YELLOW+settle.getResident().getSettlerMax());
 				msg.add("Settlers  : "+ChatColor.GOLD+settle.getResident().getSettlerCount());
 				msg.add("Workers  : "+ChatColor.GOLD+settle.getTownhall().getWorkerCount());

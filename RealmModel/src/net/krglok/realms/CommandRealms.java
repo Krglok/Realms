@@ -66,6 +66,7 @@ public class CommandRealms
 			new CmdColonistList(),
 			new CmdColonyHelp(),
 			new CmdColonyWarehouse(),
+			new CmdColonistMove(),
 			new CmdRealmsTest()
 			
 		};

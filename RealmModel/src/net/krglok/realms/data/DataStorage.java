@@ -331,8 +331,9 @@ public class DataStorage implements DataInterface
      * @param path
      * @return
      */
-	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet, String path)
+	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet)
 	{
+		String path = plugin.getDataFolder().getPath()+"\\buildplan";
 		BuildPlanMap buildPlan = new BuildPlanMap(bType,radius , offSet);
 		TMXMapReader mapReader = new TMXMapReader();
 		String filename =  path+"\\"+bType.name()+".tmx";
@@ -340,9 +341,15 @@ public class DataStorage implements DataInterface
 		try
 		{
 			tmxMap =  mapReader.readMap(filename);
-			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth());
+			String sOffSet = tmxMap.getProperties().getProperty("offset");
+			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth()+":"+sOffSet);
+			if (sOffSet != null)
+			{
+				offSet = Integer.valueOf(sOffSet);
+			}
 			radius = (tmxMap.getWidth()+1) / 2; 
 			buildPlan.setRadius(radius);
+			buildPlan.setOffsetY(offSet);
 			byte [][][] newCube = buildPlan.initCube(tmxMap.getWidth());
 			int level = 0;
 	 		for (MapLayer layer :tmxMap.getLayers())
@@ -353,7 +360,6 @@ public class DataStorage implements DataInterface
 				TileLayer tl = (TileLayer) layer;
 	            for (int y = 0; y < layer.getHeight(); y++) 
 	            {
-					System.out.print("|");
 	                for (int x = 0; x < layer.getWidth(); x++) 
 	                {
 	                    Tile tile = tl.getTileAt(x + bounds.x, y + bounds.y);
@@ -363,11 +369,8 @@ public class DataStorage implements DataInterface
 	                    {
 	                        gid = getGid(tile);
 	                    }
-	                    System.out.print(gid+"|");
 	                    newCube[level][y][x] = ConfigBasis.getMaterialId(tmxToMaterial(gid));
-	//                    System.out.println("tile"+"gid: "+ gid);
 	                }
-	                System.out.println("");
 	            }
 	            level++;
 				

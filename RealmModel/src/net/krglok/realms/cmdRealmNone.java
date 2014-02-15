@@ -14,11 +14,11 @@ public class CmdRealmNone extends RealmsCommand
 		super(RealmsCommandType.REALMS ,  RealmsSubCommandType.NONE);
 		description = new String[] {
 				ChatColor.RED+"command not found , use one of the following ",
-				ChatColor.YELLOW+"/realms  HELP [page] {String} ",
-				ChatColor.GREEN+"/realms  only for ops to control plugin & model",
-				ChatColor.GREEN+"/owner only for ops for managing owners",
-				ChatColor.GREEN+"/kingdom  player command for kingdom management",
-				ChatColor.GREEN+"/settle,  player command for settlements management",
+//				ChatColor.YELLOW+"/realms [HELP] [page] {String} ",
+				ChatColor.GREEN+"/realms [HELP] only for ops to control plugin & model",
+				ChatColor.GREEN+"/owner [HELP] only for ops to managing owners",
+				ChatColor.GREEN+"/kingdom [HELP]  player command for kingdom management",
+				ChatColor.GREEN+"/settle [HELP] player command for settlement management",
 		    	" "
 		};
 		requiredArgs = 0;

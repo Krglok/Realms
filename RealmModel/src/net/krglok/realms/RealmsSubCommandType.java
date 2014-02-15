@@ -21,6 +21,7 @@ public enum RealmsSubCommandType
 	INFO ,
 	LIST ,
 	MAP,
+	MOVE,
 	PRICE,
 	PRICELIST,
 	PRODUCTION ,

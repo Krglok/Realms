@@ -117,7 +117,7 @@ public class McmdCreateSettle implements iModelCommand
 		settlement.getWarehouse().depositItemValue("COBBLESTONE",settlement.getResident().getSettlerMax());
 		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
 		settlement.getBank().depositKonto((double) (settlement.getResident().getSettlerCount()*10) , "CREATE");
-
+		System.out.println("Write Settlement to Storage"+settlement.getName()+" Activ:"+settlement.isActive()+" Enable:"+settlement.isEnabled());
 		rModel.getData().writeSettlement(settlement);
 	}
 

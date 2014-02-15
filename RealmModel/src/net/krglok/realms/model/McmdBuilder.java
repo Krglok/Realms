@@ -1,5 +1,6 @@
 package net.krglok.realms.model;
 
+import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.LocationData;
 
@@ -38,7 +39,8 @@ public class McmdBuilder implements iModelCommand
 	public void execute()
 	{
 //		System.out.println("Builder");
-		rModel.getSettlements().getSettlement(settleId).buildManager().newBuild(bType, position);
+		BuildPlanMap buildPlan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
+		rModel.getSettlements().getSettlement(settleId).buildManager().newBuild(buildPlan, position);
 	}
 
 	@Override
