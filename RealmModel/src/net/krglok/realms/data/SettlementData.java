@@ -38,6 +38,7 @@ public class SettlementData
 	{
 //		this.plugin = plugin;
 		this.dataFolder = dataFolder;
+		System.out.println("SettlementData: "+dataFolder.getName());
 	}
 
 	private String getSettleKey(int id)
@@ -49,6 +50,7 @@ public class SettlementData
 	{
 		try
 		{
+    			System.out.println("Write SettlementData: "+dataFolder.getName());
 	            File settleFile = new File(dataFolder, "settlement.yml");
 //	            if (!settleFile.exists()) 
 //	            {
@@ -276,6 +278,12 @@ public class SettlementData
 		try
 		{
             File settleFile = new File(dataFolder, "settlement.yml");
+            if (!settleFile.exists()) 
+            {
+            	settleFile.createNewFile();
+    			System.out.println("NEW SettlementData: "+dataFolder.getName());
+            }
+            
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
