@@ -8,6 +8,7 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.unittest.BuildingTest;
 
 /**
  * read Data from YML file 
@@ -235,15 +236,17 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	@Override
 	public String getRegionType(BuildPlanType bType)
 	{
-		for (String key : buildPlanRegions.keySet())
-		{
-			if (buildPlanRegions.get(key).equalsIgnoreCase(bType.name()))
-			{
-				return key;
-			}
-		}
+		return bType.name();
 		
-		return "";
+//		for (String key : buildPlanRegions.keySet())
+//		{
+//			if (buildPlanRegions.get(key).equalsIgnoreCase(bType.name()))
+//			{
+//				return key;
+//			}
+//		}
+//		
+//		return "";
 	}
 	
 	/**
@@ -278,6 +281,10 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	@Override
 	public BuildPlanType regionToBuildingType(String regionTypeName)
 	{
+		if (BuildPlanType.getBuildPlanType(regionTypeName) != BuildPlanType.NONE)
+		{
+			BuildPlanType.getBuildPlanType(regionTypeName);
+		}
 		String name = regionBuildingTypes.get(regionTypeName);
 
 		return BuildPlanType.getBuildPlanType(name);
@@ -312,6 +319,10 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 			regionType = regions.get(regionName);
 			bType = regionToBuildingType(regionType);
 			regionBuildings.put(regionName, bType.name());
+		}
+		for (BuildPlanType buType : BuildPlanType.values())
+		{
+			regionBuildings.put(buType.name(), buType.name());
 		}
 		return regionBuildings;
 	}

@@ -43,12 +43,13 @@ public class ConfigBasis implements ConfigInterface
 		case GRASS : return 2;
 		case DIRT  : return 3;
 		case COBBLESTONE : return 4;
+		case WOOD  : return 5;
+		case SAPLING : return 6;
 		case BEDROCK : return 7;
 		case WATER: return 8;
 		case OBSIDIAN : return 49;
 		case ICE : return 79;
 		case MYCEL : return 110;
-		case WOOD  : return 5;
 		case LAVA  : return 10;
 		case GRAVEL: return 13;
 		case LOG : return 17;
@@ -75,6 +76,17 @@ public class ConfigBasis implements ConfigInterface
 		case WOOL : return 35;
 		case SEEDS : return 59;
 		case SOIL : return 60;
+		case NETHER_WARTS : return 115;
+		case SOUL_SAND : return 88;
+		case NETHERRACK : return 87;
+		case NETHER_BRICK: return 112;
+		case NETHER_BRICK_STAIRS : return  114;
+		case WOOD_STEP : return 126;
+		case STEP : return 44;
+		case MELON_BLOCK : return 103;
+		case QUARTZ_ORE : return (byte) 153 ;
+		case QUARTZ_BLOCK : return (byte) 155 ;
+		
 		default:
 			return 0;
 		}
@@ -90,6 +102,7 @@ public class ConfigBasis implements ConfigInterface
 		case 3 : return'D';
 		case 4 : return'C';
 		case 5 : return 'W';
+		case 6 : return 'i';
 		case 7 : return'B';
 		case 8 : return'w';
 		case 12 : return's';
@@ -132,6 +145,7 @@ public class ConfigBasis implements ConfigInterface
 		case 3 : return Material.DIRT;
 		case 4 : return Material.COBBLESTONE;
 		case 5 : return Material.WOOD;
+		case 6 : return Material.SAPLING;
 		case 7: return Material.BEDROCK;
 		case 8 : return Material.WATER;
 		case 12 : return Material.SAND;
@@ -159,7 +173,16 @@ public class ConfigBasis implements ConfigInterface
 		case 47 : return Material.BOOKSHELF;
 		case 50 : return Material.TORCH;
 		case 35 : return Material.WOOL;
-		
+		case 115 : return Material.NETHER_WARTS ;
+		case 88 : return Material.SOUL_SAND;
+		case 87 : return Material.NETHERRACK ;
+		case 112 :return Material.NETHER_BRICK;
+		case 114 : return Material.NETHER_BRICK_STAIRS ;
+		case 126 : return Material.WOOD_STEP ;
+		case 44 : return Material.STEP ;
+		case 103 : return Material.MELON_BLOCK;
+		case (byte) 153 : return Material.QUARTZ_ORE;
+		case (byte) 155 : return Material.QUARTZ_BLOCK;
 		
 		default :
 			return Material.AIR;

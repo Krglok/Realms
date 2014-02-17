@@ -44,6 +44,7 @@ public class CommandRealms
 			new CmdRealmsGetItem(),
 			new CmdRealmsMap(),
 			new CmdRealmsSign(),
+			new CmdRealmsBuildingList(),
 			new CmdRealmNone(),
 			new CmdSettleCheck(),
 			new CmdSettleCreate(),

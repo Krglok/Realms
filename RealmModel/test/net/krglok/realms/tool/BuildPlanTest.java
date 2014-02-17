@@ -2,10 +2,12 @@ package net.krglok.realms.tool;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import net.krglok.realms.builder.BuildPlan;
 import net.krglok.realms.builder.BuildPlanHome;
@@ -174,15 +176,47 @@ public class BuildPlanTest
 //		System.out.println(newHome.getBuildingType()+":"+newHome.getRadius());
 //		
 //	}
+	
+	
+	private ArrayList<String> showTMXList()
+	{
+		ArrayList<String> tmxList = new ArrayList<String>();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+        File regionFolder = new File(path, "buildplan");
+        if (!regionFolder.exists()) {
+        	System.out.println("Folder not found !");
+            return tmxList;
+        }
+
+        for (File TMXFile : regionFolder.listFiles()) 
+        {
+        	String sRegionFile = TMXFile.getName();
+        	if (sRegionFile.contains("tmx"))
+        	{
+	        	sRegionFile = sRegionFile.replace(".tmx", "");
+	        	tmxList.add(sRegionFile);
+        	}
+//        	System.out.println(sRegionFile);
+        }
+        return tmxList;
+	}
 	@Test
 	public void testBuildPlanList()
 	{
-
+		ArrayList<String> tmxList = showTMXList();
 		System.out.println("List of BuildPlanTypes ====================");
 		for (BuildPlanType bType : BuildPlanType.values())
 		{
-			System.out.println(bType.getValue()+":"+bType.name());
-			
+			System.out.print(bType.getValue()+":"+bType.name());
+			if (tmxList.contains(bType.name()))
+			{
+				System.out.print(": "+tmxList.get(tmxList.indexOf(bType.name())));
+			}
+			System.out.println("");
 		}
+//		for (String tmx : tmxList)
+//		{
+//			System.out.println(tmx);
+//		}
 	}
 }

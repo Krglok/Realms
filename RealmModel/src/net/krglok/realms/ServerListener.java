@@ -21,6 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -66,6 +67,13 @@ public class ServerListener implements Listener
 		return; // no OP => OUT
 	}
 	
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onInventoryClose(InventoryCloseEvent event)
+    {
+    	Location pos = event.getPlayer().getLocation();
+    	
+    	event.getInventory();
+    }
     
     
     @EventHandler(priority = EventPriority.NORMAL)

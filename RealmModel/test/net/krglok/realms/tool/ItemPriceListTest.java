@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -506,12 +507,19 @@ public class ItemPriceListTest
 		
 		System.out.println("== Material List == ["+Material.values().length+"]");
 		int col = 0;
-//		Material.MUSHROOM_SOUP
+		ArrayList<String> list = new ArrayList<String>();
 		for (Material mat : Material.values())
 		{
-			System.out.print(ConfigBasis.setStrleft(mat.name(),22));
+			list.add(mat.name());
+		}
+		Collections.sort(list);
+//		Material.MUSHROOM_SOUP
+		for (String name : list)
+		{
+			Material mat = Material.getMaterial(name);
+			System.out.print(ConfigBasis.setStrright(String.valueOf(mat.getId()),4)+":"+ConfigBasis.setStrleft(mat.name(),22));
 			col++;
-			if (col > 3)
+			if (col > 2)
 			{
 				col = 0;
 				System.out.println("");
