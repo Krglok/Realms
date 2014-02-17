@@ -135,7 +135,7 @@ public class SettlementList
 
 	public boolean containsID(int settleID)
 	{
-		if (getSettlement(settleID) != null)
+		if (settlementList.containsKey(settleID))
 		{
 			return true;
 		}

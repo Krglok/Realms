@@ -298,9 +298,6 @@ public class BuildManager
 			doCleanStep();
 			doCleanStep();
 			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
 		}
 		// ein level oberhalb mit abraeumen
 		int edge = (buildPlan.getRadius()+1) * 2 -1; 

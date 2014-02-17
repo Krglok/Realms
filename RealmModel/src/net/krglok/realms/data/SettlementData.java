@@ -50,7 +50,7 @@ public class SettlementData
 	{
 		try
 		{
-    			System.out.println("Write SettlementData: "+dataFolder.getName());
+//    			System.out.println("Write SettlementData: "+dataFolder.getName());
 	            File settleFile = new File(dataFolder, "settlement.yml");
 //	            if (!settleFile.exists()) 
 //	            {

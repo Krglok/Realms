@@ -35,7 +35,10 @@ public class McmdDepositWarehouse implements iModelCommand
 	public void execute()
 	{
 		Settlement settle = rModel.getSettlements().getSettlement(settleId);
-		settle.getWarehouse().depositItemValue(itemRef, amount);
+		if (settle.getWarehouse().depositItemValue(itemRef, amount) == false)
+		{
+			
+		}
 	}
 
 	@Override
