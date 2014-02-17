@@ -1,26 +1,31 @@
 friendly-classes: []
 enemy-classes: []
 effects:
-- periodicfarm.3
 - periodicupkeep.1
 - denyblockbuild.1
 - denyblockbreak.1
 - denyplayerinteract.1
 - denyfriendlyfire.1
-radius: 7
+radius: 4
 requirements:
-- FENCE.16
-- FENCE_GATE.2
-- GRASS.16
-- CHEST.2
+- FENCE.24
+- GRASS.49
 reagents:
 - GOLD_NUGGET.1
-- IRON_INGOT.8
-- BREAD.4
+- WOOD_SWORD.1
 upkeep:
-- WHEAT.10
+- SEEDS.5
 upkeep-chance: 0.001
 output:
-- WOOL.1
-money-requirement: 3200.0
+- RAW_CHICKEN.2
+- FEATHER.4
+money-requirement: 500.0
 upkeep-money-output: -2.0
+super-regions:
+- Mine
+- Lager
+- Hauptlager
+- Werkstatt
+- Siedlung
+- Dorf
+- Stadt

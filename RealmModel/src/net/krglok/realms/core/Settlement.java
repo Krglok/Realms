@@ -1023,7 +1023,7 @@ public class Settlement //implements Serializable
 	}
 	
 	
-	private double checkConsume(String foodItem , int amount, int required)
+	private double checkConsume(String foodItem , int amount, int required, double happyFactor)
 	{
 		double factor = 0.0; 
 		if (required > amount)
@@ -1061,7 +1061,7 @@ public class Settlement //implements Serializable
 					factor = -0.1;
 				} else
 				{
-					factor = 0.0;
+					factor = happyFactor;
 				}
 			} else
 			{
@@ -1069,15 +1069,15 @@ public class Settlement //implements Serializable
 				{
 					if (resident.getSettlerMax() > resident.getSettlerCount())
 					{
-						factor = 0.1;
+						factor = happyFactor;
 					} else
 					{
-						factor = 0.0;
+						factor = happyFactor/2;
 					}
 					
 				} else
 				{
-					factor = 0.0;
+					factor = happyFactor;
 				}
 				foodConsumCounter = 0;
 			}
@@ -1107,12 +1107,12 @@ public class Settlement //implements Serializable
 		{
 			if (amount > required)
 			{
-				factor = factor + checkConsume(foodItem, amount, required);
+				factor = factor + checkConsume(foodItem, amount, required, 0.3);
 				
 			} else
 			{
 				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount);
+				factor = factor + checkConsume(foodItem, amount, amount, 0.3);
 			}
 		}
 		// Bread consume before wheat consum
@@ -1123,23 +1123,71 @@ public class Settlement //implements Serializable
 		{
 			if (amount > required)
 			{
-				factor = factor + checkConsume(foodItem, amount, required);
+				factor = factor + checkConsume(foodItem, amount, required, 0.5);
 				
 			} else
 			{
 				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount);
+				factor = factor + checkConsume(foodItem, amount, amount, 0.5);
+			}
+		}
+		// Bread consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "MUSHROOM_SOUP";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required,0.3);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount,0.3);
+			}
+		}
+		// Bread consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "RED_MUSHROOM";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required, 0.0);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
+			}
+		}
+		// Bread consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "BROWN_MUSHROOM";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required, 0.0);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
 			}
 		}
 		foodItem = "WHEAT";
 		amount = warehouse.getItemList().getValue(foodItem);
 		if (amount > required)
 		{
-			factor = factor + checkConsume(foodItem, amount, required);
+			factor = factor + checkConsume(foodItem, amount, required,0.0);
 			
 		} else
 		{
-			factor = factor + checkConsume(foodItem, amount, required);
+			factor = factor + checkConsume(foodItem, amount, required, 0.0);
 		}
 //		
 		return factor;

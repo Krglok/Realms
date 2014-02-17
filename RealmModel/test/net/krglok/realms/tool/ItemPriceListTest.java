@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
@@ -502,6 +503,21 @@ public class ItemPriceListTest
 			System.out.println(itemPrice.ItemRef()+" : "+itemPrice.getBasePrice()  );
 		}
 		writePriceData(itemPrices) ;
+		
+		System.out.println("== Material List == ["+Material.values().length+"]");
+		int col = 0;
+//		Material.MUSHROOM_SOUP
+		for (Material mat : Material.values())
+		{
+			System.out.print(ConfigBasis.setStrleft(mat.name(),22));
+			col++;
+			if (col > 3)
+			{
+				col = 0;
+				System.out.println("");
+			}
+		}
+		
 		fail("Not yet implemented");
 	}
 

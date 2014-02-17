@@ -86,6 +86,7 @@ public class Colony
 	private ItemList requiredItems;
 	private int settler;
 	private SettleSchema settleSchema;
+	private SettleSchema netherSchema;
 	private BuildPosition actualBuildPos;
 	private int buildPosIndex;
 	private Boolean isEnabled;
@@ -128,6 +129,7 @@ public class Colony
 		this.buildManager = new BuildManager();
 		this.settler = 5;
 		this.settleSchema = SettleSchema.initDefaultHamlet();
+		this.netherSchema = SettleSchema.initHellHamlet();
 		this.markUpStep = 0;
 		this.buildPosIndex = 0;
 		this.newSuperRegion = new RegionLocation("Siedlung", position, owner, name);
@@ -169,6 +171,8 @@ public class Colony
 		colony.getWarehouse().depositItemValue(Material.CHEST.name(), 40);
 		colony.getWarehouse().depositItemValue(Material.BOOKSHELF.name(), 4);
 		colony.getWarehouse().depositItemValue(Material.WOOD.name(), 500);
+		colony.getWarehouse().depositItemValue(Material.RED_MUSHROOM.name(), 50);
+		colony.getWarehouse().depositItemValue(Material.BROWN_MUSHROOM.name(), 50);
 		return colony;
 		
 	}
@@ -405,6 +409,10 @@ public class Colony
 				markUpSettleSchema(rModel);
 			} else
 			{
+				if (biome == Biome.HELL)
+				{
+					settleSchema = netherSchema;
+				}
 				this.cStatus = ColonyStatus.STARTLIST;
 			}
 			break;

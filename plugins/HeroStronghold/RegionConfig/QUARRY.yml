@@ -8,25 +8,15 @@ effects:
 - denyfriendlyfire.1
 radius: 4
 requirements:
-- LOG.6
-- GRASS.9
-- WOOD.9
+- CHEST.1
+- LOG.10
+- STONE.49
+- WALL_SIGN.1
 reagents:
 - GOLD_NUGGET.1
-- WOOD_SWORD.1
-upkeep:
-- WHEAT.10
+upkeep: []
 upkeep-chance: 0.001
 output:
-- RAW_BEEF.2
-- LEATHER.1
+- COBBLESTONE.8
 money-requirement: 500.0
-upkeep-money-output: -2.0
-super-regions:
-- Mine
-- Lager
-- Hauptlager
-- Werkstatt
-- Siedlung
-- Dorf
-- Stadt
+upkeep-money-output: 0.0

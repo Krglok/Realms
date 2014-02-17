@@ -484,6 +484,27 @@ public class ServerData implements ServerInterface
 			return  FAKTOR_0;
 		}
 	}
+
+	private int hellFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_MMM;
+		case SEEDS : return FAKTOR_MMM;
+		case LOG: return FAKTOR_MMM;
+		case WOOL : return FAKTOR_MMM;
+		case GOLD_NUGGET: return FAKTOR_PP;
+		case LEATHER : return FAKTOR_MMM;
+		case RAW_BEEF : return FAKTOR_MMM;
+		case PORK : return FAKTOR_MMM;
+		case RAW_CHICKEN : return FAKTOR_MMM;
+		case FEATHER : return FAKTOR_MMM;
+		case RED_MUSHROOM : return FAKTOR_PPP; 
+		case BROWN_MUSHROOM : return FAKTOR_PPP; 
+		default :
+			return  FAKTOR_0;
+		}
+	}
 	
 	@Override
 	public int getBioneFactor(Biome biome, Material mat)
@@ -520,6 +541,10 @@ public class ServerData implements ServerInterface
 		if (biome.name().contains("EXTREME"))
 		{
 			factor = factor + extremeFactor(mat);
+		}
+		if (biome.name().contains("HELL"))
+		{
+			factor = factor + hellFactor(mat);
 		}
 		return factor;
 	}

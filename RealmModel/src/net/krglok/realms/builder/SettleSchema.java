@@ -32,7 +32,7 @@ public class SettleSchema
 	
 	/**
 	 * 
-	 * @return
+	 * @return  list BuildPlans with position for Hamlet
 	 */
 	public static SettleSchema initDefaultHamlet()
 	{
@@ -48,6 +48,28 @@ public class SettleSchema
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("",  7.0, 0.0, 16.0)));
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.WOODCUTTER, new LocationData("", -16.0, 0.0, 16.0)));
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.QUARRY, new LocationData("",  16.0, 0.0, 16.0)));
+		
+		return schema;
+	}
+
+	/**
+	 * 
+	 * @return  list BuildPlans with position for Hamlet
+	 */
+	public static SettleSchema initHellHamlet()
+	{
+		SettleSchema schema = new SettleSchema(SettleType.SETTLE_HAMLET, 40);
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.HALL, new LocationData("", -10.0, 0.0, -10.0)));
+		
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("", -7.0, 0.0, 7.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("", -16.0, 0.0, 7.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("",  7.0, 0.0, 7.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("",  16.0, 0.0, 7.0)));
+	
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.MUSHROOM, new LocationData("", -7.0, 0.0, 16.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.MUSHROOM, new LocationData("",  7.0, 0.0, 16.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.DUSTCUTTER, new LocationData("", -16.0, 0.0, 16.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.NETHERQUARRY, new LocationData("",  16.0, 0.0, 16.0)));
 		
 		return schema;
 	}

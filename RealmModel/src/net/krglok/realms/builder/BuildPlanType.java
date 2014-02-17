@@ -2,6 +2,8 @@ package net.krglok.realms.builder;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
+
 
 /**
  * <pre>
@@ -65,6 +67,10 @@ public enum BuildPlanType
 	FARM (224),
 	PIGPEN (225),
 	FARMHOUSE (226),
+	DUSTCUTTER (227),
+	NETHERQUARRY (228),
+	MUSHROOM (229),
+	KITCHEN (230),
 	BLACKSMITH (301),
 	TANNARY (302),
 	BOWMAKER (310),
@@ -159,7 +165,6 @@ public enum BuildPlanType
 		if (group == 0) return 0;
 		if (group < 10)  return 1;
 		if (group  < 100) return 10;
-		
 		return group / 100;
 	}
 }

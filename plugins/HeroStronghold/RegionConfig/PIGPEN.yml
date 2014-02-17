@@ -6,22 +6,18 @@ effects:
 - denyblockbreak.1
 - denyplayerinteract.1
 - denyfriendlyfire.1
-radius: 3
+radius: 4
 requirements:
-- FURNACE.1
-- WORKBENCH.1
-- CHEST.1
-- LOG.10
+- FENCE.24
+- GRASS.49
 reagents:
 - GOLD_NUGGET.1
-- WOOD_SPADE.1
 upkeep:
-- BREAD.1
-- LOG.34
+- CARROT.2
 upkeep-chance: 0.001
 output:
-- COAL.32
-money-requirement: 1000.0
+- PORK.2
+money-requirement: 500.0
 upkeep-money-output: -2.0
 super-regions:
 - Mine
