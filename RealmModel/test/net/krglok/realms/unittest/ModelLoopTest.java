@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
@@ -182,18 +184,24 @@ public class ModelLoopTest
 			System.out.println("Settlement : "+settle.getId()+" : "+settle.getName());
 		}
 		
-		for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
+		System.out.println("Building List : "+rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().size());
+		for (BuildPlanType building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().keySet())
 		{
-			if (building.getBuildingType() != BuildPlanType.HOME)
-			{
-				System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
-			}
+				System.out.println(ConfigBasis.setStrleft(building.name(),15)+":"+rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().get(building));
 		}
+		System.out.println(" ");
 		System.out.println("Warehouse : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax());
 		for (String itemRef : rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().keySet())
 		{
 			System.out.println(itemRef+" : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().getValue(itemRef));
 		}
+		System.out.println(" ");
+		System.out.println("Warehouse Capacity: "+rModel.getSettlements().getSettlement(1).getWarehouse().getUsedCapacity()+"/"+(rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax()/64));
+		for (Item item : rModel.getSettlements().getSettlement(1).getWarehouse().getTypeCapacityList().values())
+		{
+			System.out.println(item.ItemRef()+" Slot: "+item.value());
+		}
+
 		makeSettleAnalysis(rModel.getSettlements().getSettlement(1), days);
 
 	}

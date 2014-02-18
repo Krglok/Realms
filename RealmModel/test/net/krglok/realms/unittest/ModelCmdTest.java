@@ -34,20 +34,19 @@ public class ModelCmdTest
 	private Boolean isOutput = false; // set this to false to suppress println
 	int steps = 0;
 
+	
 	private String getReqList(Settlement settle)
 	{
-		System.out.println("Building List : "+settle.getBuildingList().size());
-		for (Building building :settle.getBuildingList().getBuildingList().values())
+		System.out.println("Building List : "+settle.getBuildingList().getBuildTypeList().size());
+		for (BuildPlanType building :settle.getBuildingList().getBuildTypeList().keySet())
 		{
-			if (building.getBuildingType() != BuildPlanType.HOME)
-			{
-				System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
-			}
+				System.out.println(ConfigBasis.setStrleft(building.name(),15)+":"+settle.getBuildingList().getBuildTypeList().get(building));
 		}
+		System.out.println(" ");
 		System.out.println("Warehouse : "+settle.getWarehouse().getItemMax());
 		for (String itemRef : settle.getWarehouse().getItemList().keySet())
 		{
-			System.out.println(itemRef+" : "+settle.getWarehouse().getItemList().getValue(itemRef));
+			System.out.println(ConfigBasis.setStrleft(itemRef,15)+" : "+settle.getWarehouse().getItemList().getValue(itemRef));
 		}
 		System.out.println("Market Buy Orders");
 		for (TradeOrder tmo : settle.getTrader().getBuyOrders().values())
@@ -209,25 +208,15 @@ public class ModelCmdTest
 		rModel.OnCommand(deposit);
 		someLoops(5, rModel);
 		
-		McmdAddBuilding addBuilding = new McmdAddBuilding(rModel, 1, 38);
-		rModel.OnCommand(addBuilding);
-		someLoops(5, rModel);
 		
-		addBuilding = new McmdAddBuilding(rModel, 1, 5);  //trader
-		rModel.OnCommand(addBuilding);
+		McmdCreateSettle createSettle = new McmdCreateSettle(rModel, "Erebor", "NPC1", SettleType.SETTLE_HAMLET,Biome.PLAINS);
+		rModel.OnCommand(createSettle);
 		someLoops(5, rModel);
 		
 		McmdSellOrder sellOrder = new McmdSellOrder(rModel, 1, "WOOL", 5, 1.0 , 2);
 		rModel.OnCommand(sellOrder);
 		someLoops(5, rModel);
 		
-		McmdCreateSettle createSettle = new McmdCreateSettle(rModel, "BlaBla", "NPC1", SettleType.SETTLE_HAMLET,Biome.PLAINS);
-		rModel.OnCommand(createSettle);
-		someLoops(5, rModel);
-		
-		addBuilding = new McmdAddBuilding(rModel, 2, 5);
-		rModel.OnCommand(addBuilding);
-		someLoops(25, rModel);
 
 		McmdBuyOrder buyOrder = new McmdBuyOrder(rModel, 2, "WOOD_AXE", 5, 1.0, 2);
 		rModel.OnCommand(buyOrder);

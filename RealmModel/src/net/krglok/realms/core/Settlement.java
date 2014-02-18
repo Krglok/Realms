@@ -223,6 +223,7 @@ public class Settlement //implements Serializable
 		this.name = name;
 		this.owner = owner;
 		this.isCapital = isCapital;
+		this.position = position;
 //		this.barrack = barrack;
 		this.warehouse = warehouse;
 		this.buildingList = buildingList;
@@ -1234,7 +1235,7 @@ public class Settlement //implements Serializable
 		for (Item item : products)
 		{
 			itemRef = item.ItemRef();
-			if ((warehouse.getItemList().getValue(itemRef)/64) > warehouse.getTypeCapacityList().get(itemRef))
+			if ((warehouse.getItemList().getValue(itemRef)/64) > warehouse.getTypeCapacityList().getValue(itemRef))
 			{
 				System.out.println(getId()+" :CheckStore "+itemRef+":"+warehouse.getItemList().getValue(itemRef)+":"+warehouse.getTypeCapacityList().get(itemRef));
 				isResult = false;
@@ -1425,7 +1426,7 @@ public class Settlement //implements Serializable
 								building.addSales(account); //-cost);
 							}
 							consumStock(prodFactor, ingredients);
-							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
+//							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
 							warehouse.depositItemValue(item.ItemRef(),iValue);
 							productionOverview.addCycleValue(item.ItemRef(), iValue);
 						}
@@ -1434,7 +1435,7 @@ public class Settlement //implements Serializable
 				}
 			} else
 			{
-				System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
+//				System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
 			}
 		}
 		productionOverview.addCycle();

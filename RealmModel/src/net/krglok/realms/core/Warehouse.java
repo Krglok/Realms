@@ -24,7 +24,7 @@ public class Warehouse
 	private int itemMax;
 	private int itemCount;
 	private ItemList itemList;
-	private HashMap<String,Integer> typeCapacity;
+	private ItemList typeCapacity;
 	
 	public Warehouse(int itemMax)
 	{
@@ -32,17 +32,19 @@ public class Warehouse
 		this.itemMax	  = itemMax;
 		itemCount = 0;
 		itemList  = new ItemList();
-		typeCapacity = new HashMap<String,Integer>();
+		typeCapacity = new ItemList();
+		typeCapacity.addItem(new Item("TRADER",27));
 	}
 
 	public void setTypeCapacity(String itemRef, int value)
 	{
 		if (typeCapacity.containsKey(itemRef))
 		{
-			typeCapacity.put(itemRef,typeCapacity.get(itemRef)+value);
+			Item item = typeCapacity.getItem(itemRef);
+			item.setValue(item.value()+ value);
 		}else
 		{
-			typeCapacity.put(itemRef,value);
+			typeCapacity.put(itemRef, new Item(itemRef, value));
 		}
 	}
 	
@@ -51,7 +53,7 @@ public class Warehouse
 		int value = 0;
 		for (String key :  typeCapacity.keySet())
 		{
-			value = value + typeCapacity.get(key);
+			value = value + typeCapacity.getValue(key);
 		}
 		return value;
 	}
@@ -59,16 +61,15 @@ public class Warehouse
 	public void setStoreCapacity()
 	{
 		getTypeCapacityList().clear();
+		typeCapacity.addItem(new Item("TRADER",27));
 		for (Item item : itemList.values())
 		{
-//			int value = (item.value() / 64) + 1;
-//			System.out.println("Value : "+value);
 			setTypeCapacity(item.ItemRef(),((item.value() / 64) + 1));			
 		}
 	}
 
 	
-	public HashMap<String,Integer> getTypeCapacityList()
+	public ItemList getTypeCapacityList()
 	{
 		return typeCapacity;
 	}

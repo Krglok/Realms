@@ -35,14 +35,14 @@ public class SettlementBaeckerTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("7","HOME");
+		regionTypes.put("16","WHEAT");
+		regionTypes.put("9","WAREHOUSE");
 //		regionTypes.put("31","bauern_haus");
-		regionTypes.put("51","haus_baecker");
+		regionTypes.put("51","BAKERY");
 //		regionTypes.put("52","haus_baecker");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
@@ -84,13 +84,10 @@ public class SettlementBaeckerTest
 		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 256);
 		
 		settle.doProduce(server);
-//		settle.produce(server);
-//		settle.produce(server);
-//		settle.produce(server);
-//		settle.produce(server);
-//		settle.produce(server);
+//		settle.doProduce(server);
+//		settle.doProduce(server);
 		
-		int expected = 64;
+		int expected = 21;
 		int actual = settle.getWarehouse().getItemList().getValue(Material.BREAD.name()); 
 		isOutput = (expected !=  actual);
 		if (isOutput)
@@ -98,7 +95,7 @@ public class SettlementBaeckerTest
 			System.out.println("==Settlement Baecker =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
-				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
+				System.out.println(building.getBuildingType().name()+"  id:"+building.getHsRegion());
 			}
 			
 			System.out.println("=Warehouse ="+settle.getWarehouse().getItemMax()+":"+settle.getWarehouse().getItemCount());

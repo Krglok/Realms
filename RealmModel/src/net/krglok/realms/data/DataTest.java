@@ -122,7 +122,7 @@ public class DataTest implements DataInterface
 	 */
 	private void initSettlementList ()
 	{
-		LocationData position = new LocationData("",0.0,0.0,0.0);
+		LocationData position = new LocationData("SteamHaven",1000.0,64.0,1000.0);
 		testSettlements = new SettlementList(1);
 		testSettlements.addSettlement(createSettlement(1, position));
 	}

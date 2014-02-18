@@ -361,17 +361,17 @@ public class Resident
 			// Happiness einfluss auf fertilty 
 			fertilityBase = fertilityBase  + calcHappyFactor(FERTILITY);
 			
-//			if (fertilityBase > 50.0)
-//			{
-//				// normale fertility rate based on populatio
-//				fertilityBase = fertilityBase -50.0;
-//				value = (settlerCount) * FERTILITY / 100;
-//				// minimum birthrate = 1 
-//				if (value < 1.0)
-//				{
-//					value = value +1.0;
-//				}
-//			}
+			if (fertilityBase > 50.0)
+			{
+				// normale fertility rate based on populatio
+				fertilityBase = fertilityBase -50.0;
+				value = (settlerCount) * FERTILITY / 100;
+				// minimum birthrate = 1 
+				if (value < 1.0)
+				{
+					value = value +1.0;
+				}
+			}
 			if (fertilityCounter >= FertilityCounter_Limit)
 			{
 				value = value + 1.0;

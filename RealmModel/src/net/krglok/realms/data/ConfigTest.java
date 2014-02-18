@@ -241,9 +241,14 @@ public class ConfigTest implements ConfigInterface
 	 */
 	public BuildPlanType regionToBuildingType(String regionTypeName)
 	{
-		String name = regionBuildingTypes.get(regionTypeName);
-
-		return BuildPlanType.getBuildPlanType(name); 
+		if (BuildPlanType.getBuildPlanType(regionTypeName) == BuildPlanType.NONE)
+		{
+			String name = regionBuildingTypes.get(regionTypeName);
+			return BuildPlanType.getBuildPlanType(name);
+		} else
+		{
+			return BuildPlanType.getBuildPlanType(regionTypeName);
+		}
 	}
 
 	/**

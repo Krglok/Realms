@@ -218,7 +218,6 @@ public class SettlementBreedTest
 				{
 					System.out.println(
 							ConfigBasis.setStrright(String.valueOf(month),3)+sb
-//							+"/ F:"+settle.getFoodFactor()
 //							+"/S:"+settle.getSettlerFactor()
 //							+"/E:"+settle.getEntertainFactor()
 							+"/D:"+settle.getResident().getDeathrate()
@@ -226,10 +225,11 @@ public class SettlementBreedTest
 //							+"/Wo:"+settle.getTownhall().getWorkerCount()
 //							+"/Wn:"+settle.getTownhall().getWorkerNeeded()
 //							+"/M:"+(int)settle.getBank().getKonto()
-							+"/W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
+//							+"/W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
 							+"/R:"+settle.getRequiredProduction().size()+getReqList(settle)
-							+"/ F:"+format2(settle.getFoodFactor())
+							+"/F:"+format2(settle.getFoodFactor())
 							+"/S:"+format2(settle.getSettlerFactor())
+							+"/f:"+settle.getResident().getFertilityCounter()
 							);
 				} else
 				{
@@ -245,11 +245,12 @@ public class SettlementBreedTest
 	//							+"/Wo:"+settle.getTownhall().getWorkerCount()
 	//							+"/Wn:"+settle.getTownhall().getWorkerNeeded()
 	//							+"/M:"+(int)settle.getBank().getKonto()
-								+"/G:"+settle.getWarehouse().getItemList().getValue("GOLD_NUGGET")
-								+"/W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
+//								+"/G:"+settle.getWarehouse().getItemList().getValue("GOLD_NUGGET")
+//								+"/W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
 								+"/R:"+settle.getRequiredProduction().size()+getReqList(settle)
-								+"/ F:"+format2(settle.getFoodFactor())
+								+"/F:"+format2(settle.getFoodFactor())
 								+"/S:"+format2(settle.getSettlerFactor())
+								+"/f:"+settle.getResident().getFertilityCounter()
 								);
 					}
 				}
@@ -264,7 +265,7 @@ public class SettlementBreedTest
 		// Resident Analyse
 		msg.add(" ");
 		msg.add("Sieldungstatus  ========="+settle.getBiome());
-		msg.add("Age           : "+settle.getAge()+" Jahre " + (settle.getAge()/30/12));
+		msg.add("Age           : "+settle.getAge()+"Tage " + (settle.getAge()/30/12)+" Jahre ");
 		msg.add("Einwohner     : "+settle.getResident().getSettlerCount());
 		msg.add("Arbeiter      : "+settle.getTownhall().getWorkerCount());
 		msg.add("freie Siedler : "+(settle.getResident().getSettlerCount()-settle.getTownhall().getWorkerCount()));
@@ -364,7 +365,7 @@ public class SettlementBreedTest
 		for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
 		{
 			System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getTypeCapacityList().get(bItem)) ,7)+ " | ");
+			System.out.print(settle.getWarehouse().getTypeCapacityList().get(bItem).value()+ " | ");
 			System.out.print("");
 			System.out.println("");
 			
@@ -395,10 +396,10 @@ public class SettlementBreedTest
 		regionTypes.put("5","HOME");
 //		regionTypes.put("62","taverne");
 		regionTypes.put("65","WHEAT");
-		regionTypes.put("66","WHEAT");
+//		regionTypes.put("66","WHEAT");
 //		regionTypes.put("69","markt");
 		regionTypes.put("69","WOODCUTTER");
-		regionTypes.put("68","CARPENTER");
+//		regionTypes.put("68","CARPENTER");
 //		regionTypes.put("31","bauern_haus");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -457,9 +458,7 @@ public class SettlementBreedTest
 		System.out.println(month+"======New Houses "+settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("WOOD_HOE",500);
 
-		BreedingLoop(settle, server, 110, priceList);
-
-
+		BreedingLoop(settle, server, 1110, priceList);
 
 		hsRegion++;
 		building =  new Building(BuildPlanType.CARPENTER, hsRegion, "CARPENTER", true,null);

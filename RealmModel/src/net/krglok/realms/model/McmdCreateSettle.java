@@ -70,7 +70,7 @@ public class McmdCreateSettle implements iModelCommand
 		SuperRegion sRegion =  rModel.getServer().getSuperRegion(superRegionName);
 		if (sRegion == null)
 		{
-			position = new LocationData("", 0.0, 0.0, 0.0);
+			position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
 			return;
 		}
 		position = new LocationData(
