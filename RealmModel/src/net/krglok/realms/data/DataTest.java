@@ -182,7 +182,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId,
-						"haus_einfach",
+						"HOME",
 						"", 
 						true
 						);
@@ -205,7 +205,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"kornfeld",
+						"WHEAT",
 						"", 
 						true
 						);
@@ -222,7 +222,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"holzfaeller",
+						"WOODCUTTER",
 						"", 
 						true
 						);
@@ -246,7 +246,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"haupthaus",
+						"HALL",
 						"", 
 						true
 						);
@@ -263,7 +263,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"taverne",
+						"TAVERNE",
 						"", 
 						true
 						);
@@ -287,7 +287,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"stadtwache",
+						"GUARDHOUSE",
 						"", 
 						true
 						);
@@ -311,7 +311,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"markt",
+						"WAREHOUSE",
 						"", 
 						true
 						);
@@ -328,7 +328,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"bauern_haus",
+						"FARMHOUSE",
 						"", 
 						true
 						);
@@ -346,7 +346,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"werkstatt_haus",
+						"WORKSHOP",
 						"", 
 						true,
 						slot1,
@@ -371,7 +371,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"haus_baecker",
+						"BAKERY",
 						"", 
 						true,
 						slot1,
@@ -403,7 +403,7 @@ public class DataTest implements DataInterface
 						0, 
 						true, 
 						regionId, 
-						"handelshaus",
+						"TRADER",
 						"", 
 						true
 						);
@@ -546,12 +546,12 @@ public class DataTest implements DataInterface
 	public HashMap<String,String> defaultRegionList()
 	{
 		HashMap<String,String> regionTypes = new HashMap<String,String>();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("7","HOME");
+		regionTypes.put("16","WHEAT");
+		regionTypes.put("9","WAREHOUSE");
 				
 		//this.strongholdAPI.getRegionAtPotion(pos, testData);
 		return regionTypes;
@@ -560,7 +560,7 @@ public class DataTest implements DataInterface
 	public HashMap<String,String> defaultSuperregionList()
 	{
 		HashMap<String,String> regionTypes = new HashMap<String,String>();
-		regionTypes.put("NewHaven","Siedlung");
+		regionTypes.put("NewHaven","HAMLET");
 				
 		//this.strongholdAPI.getRegionAtPotion(pos, testData);
 		return regionTypes;

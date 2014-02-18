@@ -1,8 +1,6 @@
 package net.krglok.realms.core;
 
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,16 +24,15 @@ public class BuildingList
 	 */
 	private static final long serialVersionUID = 259384614415396799L;
 	private Map<String,Building> buildingList;
-	private ArrayList<Integer> regionList; 
-	private ArrayList<Integer> superRegionList; 
-	
+//	private ArrayList<Integer> regionList; 
+//	private ArrayList<Integer> superRegionList; 
+	private HashMap<BuildPlanType,Integer> buildTypeList;
 	private boolean isHall;
 	
 	public BuildingList()
 	{
 		buildingList = new HashMap<String,Building>();
-		regionList = new ArrayList<Integer>();
-		superRegionList = new ArrayList<Integer>();
+		buildTypeList = new HashMap<BuildPlanType,Integer>();
 	}
 
 	/**
@@ -64,8 +61,8 @@ public class BuildingList
 	public void clearBuildingList()
 	{
 		this.buildingList.clear();
-		this.regionList.clear();
-		this.superRegionList.clear();
+//		this.regionList.clear();
+//		this.superRegionList.clear();
 	}
 	
 	public int checkId(int ref)
@@ -103,38 +100,37 @@ public class BuildingList
 			int newId = checkId(building.getId());
 			building.setId(newId);
 			buildingList.put(String.valueOf(newId),building);
-			if (building.isRegion())
-			{
-				regionList.add(building.getId());
-			}else
-			{
-				superRegionList.add(building.getId());
-			}
 			if (building.getBuildingType() == BuildPlanType.HALL)
 			{
 				isHall = true;
 			}
 			isBuild = true;
+			addBuildTypeList(building.getBuildingType());
 		}
 		return isBuild;
+	}
+	
+	private void addBuildTypeList(BuildPlanType bType)
+	{
+		if (buildTypeList.containsKey(bType))
+		{
+			buildTypeList.put(bType,buildTypeList.get(bType)+1);
+		} else
+		{
+			buildTypeList.put(bType,1);
+		}
+		
 	}
 
 	/**
 	 * initialize regionList and superRegionList
 	 */
-	public void initRegionLists()
+	public void initBuildPlanList()
 	{
-		this.regionList.clear();
-		this.superRegionList.clear();
+		this.buildTypeList.clear();
 		for (Building building  : buildingList.values())
 		{
-			if (building.isRegion())
-			{
-				regionList.add(building.getId());
-			}else
-			{
-				superRegionList.add(building.getId());
-			}
+			addBuildTypeList(building.getBuildingType());
 		}
 	}
 
@@ -142,19 +138,19 @@ public class BuildingList
 	 * 
 	 * @return  list of Building_id as array of integer
 	 */
-	public Integer[] getRegionArray()
-	{
-		return regionList.toArray(new Integer[regionList.size()]);
-	}
+//	public Integer[] getRegionArray()
+//	{
+//		return regionList.toArray(new Integer[regionList.size()]);
+//	}
 
 	/**
 	 * 
 	 * @return  list of Building_id as array of integer
 	 */
-	public Integer[] getSuperRegionArray()
-	{
-		return superRegionList.toArray(new Integer[superRegionList.size()]);
-	}
+//	public Integer[] getSuperRegionArray()
+//	{
+//		return superRegionList.toArray(new Integer[superRegionList.size()]);
+//	}
 
 	/**
 	 * 
@@ -175,13 +171,6 @@ public class BuildingList
 		Building b = buildingList.get(String.valueOf(id)); 
 		return b;
 		
-	}
-
-	public static BuildingList createRegionBuildings(HashMap<String,String> regionTypes, BuildingList buildings)
-	{
-		
-		
-		return buildings;
 	}
 
 	/**
@@ -208,4 +197,10 @@ public class BuildingList
 		}
 		this.isHall = isHall;
 	}
+
+	public HashMap<BuildPlanType,Integer> getBuildTypeList()
+	{
+		return buildTypeList;
+	}
+
 }

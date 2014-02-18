@@ -24,7 +24,7 @@ public class Warehouse
 	private int itemMax;
 	private int itemCount;
 	private ItemList itemList;
-	private HashMap<BuildPlanType,Integer> typeCapacity;
+	private HashMap<String,Integer> typeCapacity;
 	
 	public Warehouse(int itemMax)
 	{
@@ -32,38 +32,47 @@ public class Warehouse
 		this.itemMax	  = itemMax;
 		itemCount = 0;
 		itemList  = new ItemList();
-		typeCapacity = new HashMap<BuildPlanType,Integer>();
+		typeCapacity = new HashMap<String,Integer>();
 	}
 
-	public void setTypeCapacity(BuildPlanType bType, int value)
+	public void setTypeCapacity(String itemRef, int value)
 	{
-		if (typeCapacity.containsKey(bType))
+		if (typeCapacity.containsKey(itemRef))
 		{
-			typeCapacity.put(bType,typeCapacity.get(bType)+value);
+			typeCapacity.put(itemRef,typeCapacity.get(itemRef)+value);
 		}else
 		{
-			typeCapacity.put(bType,value);
+			typeCapacity.put(itemRef,value);
 		}
 	}
 	
-	public int getTypeCapacity(BuildPlanType bType)
+	public int getUsedCapacity()
 	{
-		if (typeCapacity.containsKey(bType))
+		int value = 0;
+		for (String key :  typeCapacity.keySet())
 		{
-			return typeCapacity.get(bType);
+			value = value + typeCapacity.get(key);
 		}
-		return 0;
+		return value;
 	}
 	
-	public HashMap<BuildPlanType,Integer> getTypeCapacityList()
+	public void setStoreCapacity()
+	{
+		getTypeCapacityList().clear();
+		for (Item item : itemList.values())
+		{
+//			int value = (item.value() / 64) + 1;
+//			System.out.println("Value : "+value);
+			setTypeCapacity(item.ItemRef(),((item.value() / 64) + 1));			
+		}
+	}
+
+	
+	public HashMap<String,Integer> getTypeCapacityList()
 	{
 		return typeCapacity;
 	}
 	
-	public void setTypeCapacityList(HashMap<BuildPlanType,Integer> capacityList)
-	{
-		this.typeCapacity = capacityList;
-	}
 	
 	/**
 	 * 

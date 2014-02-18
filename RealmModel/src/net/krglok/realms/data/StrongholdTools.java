@@ -139,7 +139,7 @@ public class StrongholdTools
                 return regionConfig;
             } catch (Exception e) {
                 System.out.println("[Realms] failed to load RegionConfig " + sRegionFile);
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         return null;
 	}
@@ -213,7 +213,7 @@ public class StrongholdTools
             } catch (Exception e) 
             {
                 System.out.println("[Realms] failed to load data from " + regionFile.getName());
-                System.out.println(e.getStackTrace());
+//                System.out.println(e.getStackTrace());
             }
         }
 		return rList;

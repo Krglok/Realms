@@ -1,18 +1,26 @@
 effects:
 - denyblockbuildnoreagent
-- denyexplosionnoreagent
 - denyblockbreaknoreagent
-- denybucketusenoreagent
+- denyfriendlyfirenoreagent
 - denyfirenoreagent
-- denypvpnoreagent
-radius: 80
+- denyliquidnoreagent
+- denyexplosionnoreagent
+radius: 70
 requirements:
-- breadmarket.1
-- tannery.1
-- shack.4
-money-requirement: 7500.0
-max-power: 999999
-daily-power-increase: 999999
-population: 8
-children:
-- village
+- haupthaus.1
+- markt.1
+- taverne.1
+- haus_einfach.3
+- bauern_haus.3
+central-structure: haupthaus
+money-requirement: 200000.0
+money-output-daily: -10.0
+max-power: 1500
+daily-power-increase: 50
+charter: 2
+child-super-regions: 
+- Bauernhof
+- Werkstatt
+- Soeldnergilde
+- Claim
+exp: 5000

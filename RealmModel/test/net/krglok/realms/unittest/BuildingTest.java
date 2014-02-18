@@ -21,7 +21,7 @@ public class BuildingTest
 	{
 		Building.initCounter(0);
 		BuildPlanType buildingType = BuildPlanType.HOME;
-		String regionType 	= "haus_einfach";
+		String regionType 	= "HOME";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 		
@@ -35,7 +35,7 @@ public class BuildingTest
 	public void testBuildingBuildingDefaultSettler()
 	{
 		BuildPlanType buildingType = BuildPlanType.HOME;
-		String regionType 	= "haus_einfach";
+		String regionType 	= "HOME";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 		
@@ -49,7 +49,7 @@ public class BuildingTest
 	public void testBuildingBuildingDefaultWorker()
 	{
 		BuildPlanType buildingType = BuildPlanType.HOME;
-		String regionType 	= "kornfeld";
+		String regionType 	= "WHEAT";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 		
@@ -65,7 +65,7 @@ public class BuildingTest
 		ServerTest server = new ServerTest();
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.FISHERHOOD;
-		String regionType 	= "fischer";
+		String regionType 	= "FISHERHOOD";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 
@@ -92,7 +92,7 @@ public class BuildingTest
 		ServerTest server = new ServerTest();
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.WHEAT;
-		String regionType 	= "kornfeld";
+		String regionType 	= "WHEAT";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 
@@ -121,7 +121,7 @@ public class BuildingTest
 		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.CARPENTER;
-		String regionType 	= "schreiner";
+		String regionType 	= "CARPENTER";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 
@@ -157,7 +157,7 @@ public class BuildingTest
 		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.CARPENTER;
-		String hsRegionType 	= "schreiner";
+		String hsRegionType 	= "CARPENTER";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, hsRegionType, isRegion);
 

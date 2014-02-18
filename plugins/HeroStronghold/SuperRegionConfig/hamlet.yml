@@ -1,12 +1,32 @@
 effects:
 - denyblockbuildnoreagent
-- denyexplosionnoreagent
 - denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denypvpnoreagent
 - denybucketusenoreagent
 - denyfirenoreagent
-- denyfriendlyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+- denyblockbuild
+- denyblockbreak
+- denypvp
+- denybucketuse
+- denyfire
 - denyliquid
-radius: 30
-money-requirement: 2500.0
-max-power: 999999
-daily-power-increase: 999999
+- denyexplosion
+radius: 40
+requirements:
+- haupthaus.1
+- haus_einfach.3
+money-requirement: 50000.0
+money-output-daily: -10.0
+max-power: 100.0
+daily-power-increase: 10
+charter: 0
+child-regions:
+- Mine
+- Werkstatt
+- Bauernhof
+- Soeldnergilde
+- Claim
+exp: 500

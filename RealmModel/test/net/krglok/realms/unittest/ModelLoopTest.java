@@ -219,7 +219,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.WOODCUTTER, hsRegion, "holzfaeller", true,null);
+		newbuilding =  new Building(BuildPlanType.WOODCUTTER, hsRegion, "WOODCUTTER", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -230,7 +230,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.AXESHOP, hsRegion, "prod_waxe", true,null);
+		newbuilding =  new Building(BuildPlanType.AXESHOP, hsRegion, "AXESHOP", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -241,7 +241,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.HOESHOP, hsRegion, "prod_whoe", true,null);
+		newbuilding =  new Building(BuildPlanType.HOESHOP, hsRegion, "HOESHOP", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -252,7 +252,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.CARPENTER, hsRegion, "schreiner", true,null);
+		newbuilding =  new Building(BuildPlanType.CARPENTER, hsRegion, "CARPENTER", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -263,7 +263,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.WHEAT, hsRegion, "kornfeld", true,null);
+		newbuilding =  new Building(BuildPlanType.WHEAT, hsRegion, "WHEAT", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -274,7 +274,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.FARMHOUSE, hsRegion, "bauern_haus", true,null);
+		newbuilding =  new Building(BuildPlanType.FARMHOUSE, hsRegion, "FARMHOUSE", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -285,7 +285,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.BAKERY, hsRegion, "haus_baecker", true,null);
+		newbuilding =  new Building(BuildPlanType.BAKERY, hsRegion, "BAKERY", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -296,7 +296,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.HOME, hsRegion, "haus_einfach", true,null);
+		newbuilding =  new Building(BuildPlanType.HOME, hsRegion, "HOME", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);
@@ -307,7 +307,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.SHEPHERD, hsRegion, "schaefer", true,null);
+		newbuilding =  new Building(BuildPlanType.SHEPHERD, hsRegion, "SHEPHERD", true,null);
 		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
 		{
 			System.out.println("Settlemen not found id = "+sID);

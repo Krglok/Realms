@@ -7,7 +7,7 @@ effects:
 - denyliquid
 - denyexplosion
 - denymobspawn
-radius: 110
+radius: 100
 requirements:
 - haus_einfach.5
 - rathaus.1

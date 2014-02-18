@@ -8,10 +8,12 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.tool.SuperRegionData;
+import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.inventory.ItemStack;
 
 public class ServerTest  implements ServerInterface // extends ServerData
 {
@@ -159,32 +161,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 			if (sr.getName().equalsIgnoreCase(superRegionName))
 			{
 				return null;
-//						new SuperRegion(
-//						name, 
-//						l, 
-//						type, 
-//						owner, 
-//						members, 
-//						power, 
-//						taxes, 
-//						balance, 
-//						taxRevenue
-//						);
 			}
 		}
-//		rList.put("admin_tower", "Admin");
-//		rList.put("Aether_Spawn", "AdminSec");
-//		rList.put("Borum", "Stadt");
-//		rList.put("claim1", "Claim");
-//		rList.put("Clan_Moorhalle", "Claim");
-//		rList.put("Bauernhof1", "Bauernhof");
-//		rList.put("Bauernhof2", "Bauernhof");
-//		rList.put("Bauernhof3", "Bauernhof");
-//		rList.put("Werkstatt1", "Werkstatt");
-//		rList.put("Werkstatt2", "Werkstatt");
-//		rList.put("Werkstatt3", "Werkstatt");
-//		rList.put("", "");
-//		rList.put("", "");
 		
 		return null;
 	}
@@ -192,132 +170,48 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public int getSuperRegionPower(String superRegionName)
 	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+        ArrayList<SuperRegionData> sRegionList = StrongholdTools.getSuperRegionData(path);
 
-		switch (superRegionName)
-		{
-		case "admin_tower": return 99999999;
-		case "Aether_Spawn": return 99999999;
-		case "New Haven": return 10000;
-		case "claim1": return 100;
-		case "Clan_Moorhalle":  return 100;
-		case "Dujar": return 1500;
-		default :
-			return 0;
-		}
+        for( SuperRegionData sRegion : sRegionList)
+        {
+        	if (sRegion.getName().equals(superRegionName))
+        	{
+        		return sRegion.getMaxPower();
+        	}
+        }
+        return 0;
 	}
 
 	@Override
 	public double getSuperRegionbank(String superRegionName)
 	{
-		switch (superRegionName)
-		{
-		case "admin_tower": return 99999999;
-		case "Aether_Spawn": return 99999999;
-		case "New Haven": return 10000;
-		case "claim1": return 100;
-		case "Clan_Moorhalle":  return 100;
-		case "Dujar": return 1500;
-		default :
-			return 0;
-		}
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+        ArrayList<SuperRegionData> sRegionList = StrongholdTools.getSuperRegionData(path);
+
+        for( SuperRegionData sRegion : sRegionList)
+        {
+        	if (sRegion.getName().equals(superRegionName))
+        	{
+        		return sRegion.getBalance();
+        	}
+        }
+        return 0.0;
 	}
 
 	@Override
 	public ItemList getRegionOutput(String regionType)
 	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+        String sRegionFile = regionType + ".yml";
+		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
+		
 		ItemList rList = new ItemList();
-		if (regionType != null)
+		if (region != null)
 		{
-			switch (regionType)
+			for (ItemStack itemStack :region.getOutput())
 			{
-			case "kornfeld":
-				rList.putItem("WHEAT", 24);
-				break;
-			case "schreiner":
-				rList.putItem("WOOD", 68);
-				rList.putItem("STICK", 60);
-				break;
-			case "steinbruch":
-				rList.putItem("COBBLESTONE", 30);
-				break;
-			case "schaefer":
-				rList.putItem("WOOL", 1);
-				break;
-			case "holzfaeller":
-				rList.putItem("LOG", 32);
-				break;
-			case "tischler":
-				rList.putItem("TORCH", 16);
-				break;
-			case "prod_waxe":
-				rList.putItem("WOOD_AXE", 20);
-				break;
-			case "prod_whoe":
-				rList.putItem("WOOD_HOE", 20);
-				break;
-			case "prod_wpaxe":
-				rList.putItem("WOOD_PICKAXE", 20);
-				break;
-			case "prod_wsword":
-				rList.putItem("WOOD_SWORD", 20);
-				break;
-			case "bauern_haus":
-				rList.putItem("WHEAT", 32);
-				break;
-			case "werkstatt_haus":
-				rList.putItem("STICK", 1);
-				break;
-			case "koehler":
-				rList.putItem("COAL", 32);
-				break;
-			case "haus_baecker":
-				rList.putItem("BREAD", 21);
-				break;
-			case "schmelze":
-				rList.putItem("IRON_INGOT", 32);
-				break;
-			case "prod_isword":
-				rList.putItem(Material.IRON_SWORD.name(), 1);
-				break;
-			case "prod_ihelmet":
-				rList.putItem(Material.IRON_HELMET.name(), 1);
-				break;
-			case "prod_ichest":
-				rList.putItem(Material.IRON_CHESTPLATE.name(), 1);
-				break;
-			case "prod_ihose":
-				rList.putItem(Material.IRON_LEGGINGS.name(), 1);
-				break;
-			case "prod_ishoe": 
-				rList.putItem(Material.IRON_BOOTS.name(), 1);
-				break;
-			case "huehnerstall": 
-				rList.putItem(Material.FEATHER.name(), 1);
-				rList.putItem(Material.RAW_CHICKEN.name(), 1);
-				break;
-			case "rinderstall": 
-				rList.putItem(Material.RAW_BEEF.name(), 2);
-				rList.putItem(Material.LEATHER.name(), 1);
-				break;
-			case "steinmine": 
-				rList.putItem(Material.IRON_ORE.name(), 1);
-				rList.putItem(Material.COBBLESTONE.name(), 16);
-				rList.putItem(Material.GRAVEL.name(), 8);
-				rList.putItem(Material.FLINT.name(), 3);
-				break;
-			case "stone" :
-				rList.putItem(Material.STONE.name(), 6);
-//				rList.put(Material.COBBLESTONE.name(), 6);
-//				rList.put(Material.COAL.name(), 1);
-				break;
-			case "bibliothek":
-				rList.putItem("PAPER", 1);
-				break;
-			case "heiler_haus":
-				rList.putItem("", 0);
-				break;
-			default:
-				break;
+				rList.addItem(itemStack.getType().name(), itemStack.getAmount());
 			}
 		}
 		return rList;
@@ -326,110 +220,19 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public ItemList getRegionUpkeep(String regionType)
 	{
-		ItemList rList = new ItemList();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+        String sRegionFile = regionType + ".yml";
+		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
 		
-		switch (regionType)
+		ItemList rList = new ItemList();
+		if (region != null)
 		{
-		case "schreiner":
-//			rList.putItem("WHEAT", 1);
-			rList.putItem("LOG", 32);
-			break;
-		case "holzfaeller":
-//			rList.putItem("WHEAT", 2);
-			rList.putItem("WOOD_AXE", 1);
-			break;
-		case "tischler":
-			rList.putItem("LOG", 8);
-			break;
-		case "steinbruch":
-			rList.putItem("WHEAT", 2);
-			rList.putItem("WOOD_PICKAXE", 30);
-			break;
-		case "schaefer":
-			rList.putItem("WHEAT", 1);
-			break;
-		case "koehler":
-			rList.putItem("WHEAT", 1);
-			rList.putItem("LOG", 32);
-			break;
-		case "prod_waxe":
-//			rList.putItem("BREAD", 1);
-			rList.putItem("WHEAT", 2);
-			rList.putItem("STICK", 40);
-			rList.putItem("WOOD", 60);
-			break;
-		case "prod_whoe":
-//			rList.putItem("BREAD", 1);
-			rList.putItem("WHEAT", 1);
-			rList.putItem("STICK", 40);
-			rList.putItem("WOOD", 5);
-			break;
-		case "prod_wpaxe":
-//			rList.putItem("BREAD", 1);
-			rList.putItem("WHEAT", 1);
-			rList.putItem("STICK", 40);
-			rList.putItem("WOOD", 5);
-			break;
-		case "prod_wsword":
-//			rList.putItem("BREAD", 1);
-			rList.putItem("WHEAT", 1);
-			rList.putItem("STICK", 20);
-			rList.putItem("WOOD", 5);
-			break;
-		case "werkstatt_haus":
-			rList.putItem("BREAD", 5);
-			break;
-		case "bauern_haus":
-			rList.putItem("WOOD_HOE", 1);
-			break;
-		case "haus_baecker":
-			rList.putItem("WHEAT", 63);
-			break;
-		case "schmelze":
-			rList.putItem("BREAD", 1);
-			rList.putItem("IRON_ORE", 32);
-			rList.putItem("COAL", 5);
-			break;
-		case "prod_isword":
-			rList.putItem("BREAD", 1);
-			rList.putItem("IRON_INGOT", 2);
-			rList.putItem("STICK", 1);
-			break;
-		case "prod_ihelmet":
-			rList.putItem("BREAD", 1);
-			rList.putItem("IRON_INGOT", 5);
-			break;
-		case "prod_ichest":
-			rList.putItem("BREAD", 1);
-			rList.putItem("IRON_INGOT", 8);
-			break;
-		case "prod_ihose":
-			rList.putItem("BREAD", 1);
-			rList.putItem("IRON_INGOT", 7);
-			break;
-		case "prod_ishoe":
-			rList.putItem("BREAD", 1);
-			rList.putItem("IRON_INGOT", 4);
-			break;
-		case "huehnerstall": 
-			rList.putItem(Material.SEEDS.name(), 1);
-			break;
-		case "rinderstall": 
-			rList.putItem(Material.WHEAT.name(), 2);
-			break;
-		case "haus_trader":
-			rList.putItem("WHEAT", 1);
-			break;
-		case "stone" :
-//			rList.put(Material.STONE.name(), 6);
-			rList.putItem(Material.COBBLESTONE.name(), 6);
-			rList.putItem(Material.COAL.name(), 1);
-			break;
-		case "heiler_haus":
-			break;
-		default:
-			break;
+			for (ItemStack itemStack :region.getUpkeep())
+			{
+				rList.addItem(itemStack.getType().name(), itemStack.getAmount());
+			}
 		}
+		
 		
 		return rList;
 	}
@@ -437,16 +240,15 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public double getRegionUpkeepMoney(String regionType)
 	{
-		switch (regionType)
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+        String sRegionFile = regionType + ".yml";
+		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
+		
+		if (region != null)
 		{
-		case "taverne": return 7;
-		case "markt": return 5;
-		case "haus_einfach": return 1;
-		case "haus_gross": return 2;
-		case "haus_stadt":  return 4;
-		default :
-			return 0;
+			return region.getMoneyOutput();
 		}
+		return 0.0;
 	}
 
 	

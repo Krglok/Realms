@@ -1,19 +1,32 @@
 effects:
-- denyblockbuildnoreagent
-- denyexplosionnoreagent
-- denyblockbreaknoreagent
-- denybucketusenoreagent
-- denyfirenoreagent
-- denydamagenoreagent
-radius: 120
+- denymobspawnnoreagent
+- denyblockbuild
+- denyblockbreak
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+- denymobspawn
+radius: 100
 requirements:
-- breadmarket.1
-- tannery.1
-- ironworks.1
-- shack.8
-money-requirement: 10000.0
-max-power: 999999
-daily-power-increase: 999999
-population: 16
-children:
-- town
+- HOUSE.5
+- TOWNHALL.1
+- markt.1
+- taverne.1
+- stadtwache.1
+central-structure: rathaus
+money-requirement: 470000.0
+money-output-daily: -15.0
+max-power: 10000
+daily-power-increase: 150
+charter: 4
+child-regions:
+- siedlung
+- dorf
+- ward
+- burg
+- werkstatt
+- soeldnergilde
+- claim
+- stadtviertel
+exp: 10000

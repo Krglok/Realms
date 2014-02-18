@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
@@ -178,7 +179,8 @@ public class SettlementBreedTest
 	private void BreedingLoop(
 			Settlement settle,
 			ServerTest server,
-			int MaxLoop
+			int MaxLoop, 
+			ItemPriceList priceList
 			)
 	{
 		for (int i = 0; i < MaxLoop; i++)
@@ -204,6 +206,10 @@ public class SettlementBreedTest
 				isMonth = true;
 				month++;
 			} 
+			if ((settle.getAge() % 360) == 0)
+			{
+				makeSettleAnalysis(settle, month, priceList);
+			}
 			
 			sb = ConfigBasis.setStrleft(showBalkenHappy(settle, isMonth,showSettler),17);
 			if (isOutput)
@@ -257,7 +263,8 @@ public class SettlementBreedTest
 		ArrayList<String> msg = new ArrayList<>();
 		// Resident Analyse
 		msg.add(" ");
-		msg.add("Sieldungstatus  ==================== "+settle.getBiome());
+		msg.add("Sieldungstatus  ========="+settle.getBiome());
+		msg.add("Age           : "+settle.getAge()+" Jahre " + (settle.getAge()/30/12));
 		msg.add("Einwohner     : "+settle.getResident().getSettlerCount());
 		msg.add("Arbeiter      : "+settle.getTownhall().getWorkerCount());
 		msg.add("freie Siedler : "+(settle.getResident().getSettlerCount()-settle.getTownhall().getWorkerCount()));
@@ -336,6 +343,32 @@ public class SettlementBreedTest
 		{
 			System.out.println(s);
 		}
+		
+		System.out.println("==ProductionOverview ==");
+		System.out.print("Item            "+" : "+"   Last"+" | "+"  Monat"+" | "+"   Jahr"+"  Store");
+		System.out.println("");
+		for (BoardItem bItem : settle.getProductionOverview().values())
+		{
+			System.out.print(ConfigBasis.setStrleft(bItem.getName(),16)+" : ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getPeriodSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(bItem.getName()) ) ,7)+ " | ");
+			System.out.print("");
+			System.out.println("");
+			
+		}
+		System.out.println("==Store Capacity ==");
+		System.out.print("Item            "+" : "+"Stack");
+		System.out.println("");
+		for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
+		{
+			System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getTypeCapacityList().get(bItem)) ,7)+ " | ");
+			System.out.print("");
+			System.out.println("");
+			
+		}
 	}
 	
 	
@@ -355,36 +388,34 @@ public class SettlementBreedTest
 //        ItemPriceList itemPrices = testPriceList();
 		
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("3","haus_einfach");
-		regionTypes.put("4","haus_einfach");
-		regionTypes.put("5","haus_einfach");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
 //		regionTypes.put("62","taverne");
-		regionTypes.put("65","kornfeld");
-		regionTypes.put("66","kornfeld");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("66","WHEAT");
 //		regionTypes.put("69","markt");
-		regionTypes.put("69","holzfaeller");
-		regionTypes.put("68","schreiner");
+		regionTypes.put("69","WOODCUTTER");
+		regionTypes.put("68","CARPENTER");
 //		regionTypes.put("31","bauern_haus");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.SETTLE_HAMLET;
 		String settleName = "New Haven";
 		
-		Settlement settle = Settlement.createSettlement(
+		Settlement settle =  
+				Settlement.createSettlement(
 				pos, 
 				settleType, 
 				settleName, 
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.SWAMPLAND_MOUNTAINS
+				Biome.PLAINS
 				);
 
-//		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 52);
-//		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 120);
-//		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 120);
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
 		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*2 );
 		settle.getWarehouse().depositItemValue("WOOD_HOE",settle.getResident().getSettlerMax());
@@ -399,13 +430,14 @@ public class SettlementBreedTest
 		settle.setSettlerMax();
 		settle.initTreasureList();
 		settle.expandTreasureList(settle.getBiome(), server);
+		settle.getWarehouse().setStoreCapacity();
 
 		isOutput =   true; //(expected != actual);
 //		String reqI = ""; 
 		System.out.println("==Settlement Breed  : "+settle.getResident().getSettlerMax());
-		BreedingLoop(settle, server, 3080);
+		BreedingLoop(settle, server, 10, priceList);
 		
-//		makeSettleAnalysis(settle, month, priceList);
+		makeSettleAnalysis(settle, month, priceList);
 		
 
 		int hsRegion = 28;
@@ -416,7 +448,7 @@ public class SettlementBreedTest
 
 //		settle.getResident().setSettlerCount(90);
 		settle.setSettlerMax();
-		BreedingLoop(settle, server, 510);
+		BreedingLoop(settle, server, 510, priceList);
 
 //		makeSettleAnalysis(settle, month, priceList);
 
@@ -425,42 +457,32 @@ public class SettlementBreedTest
 		System.out.println(month+"======New Houses "+settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("WOOD_HOE",500);
 
-		BreedingLoop(settle, server, 110);
+		BreedingLoop(settle, server, 110, priceList);
 
-//		makeSettleAnalysis(settle, month, priceList);
 
 
 		hsRegion++;
-		building =  new Building(BuildPlanType.CARPENTER, hsRegion, "schreiner", true,null);
+		building =  new Building(BuildPlanType.CARPENTER, hsRegion, "CARPENTER", true,null);
 		Settlement.addBuilding(building, settle);
-//		hsRegion++;
-//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "holzfaeller", true);
-//		Settlement.addBuilding(building, settle);
-//		hsRegion++;
-//		building =  new Building(BuildingType.BUILDING_PROD, hsRegion, "tischler", true);
-//		Settlement.addBuilding(building, settle);
-//		hsRegion++;
-//		building =  new Building(BuildingType.BUILDING_WHEAT, hsRegion, "kornfeld", true);
-//		Settlement.addBuilding(building, settle);
 
 		settle.setSettlerMax();
 		System.out.println(month+"======New Production "+settle.getResident().getSettlerMax());
 
 		isOutput =   false; //(expected != actual);
-		BreedingLoop(settle, server, 1310);
+		BreedingLoop(settle, server, 1310, priceList);
 //		makeSettleAnalysis(settle, month, priceList);
 
 		
 		settle.getResident().setSettlerCount(150);
 		settle.setSettlerMax();
 		System.out.println(month+"====Now only 50 Settler in Settlement / Homes : "+settle.getResident().getSettlerMax());
-		BreedingLoop(settle, server, 510);
+		BreedingLoop(settle, server, 510, priceList);
 //		makeSettleAnalysis(settle, month, priceList);
 		
 		settle.setSettlerMax();
 		System.out.println(month+"==Last Run   "+settle.getResident().getSettlerMax());
 		isOutput =   false; //(expected != actual);
-		BreedingLoop(settle, server, 1310);
+		BreedingLoop(settle, server, 1310, priceList);
 
 		boolean isBuildingList = false;
 		if (isBuildingList)
@@ -484,12 +506,7 @@ public class SettlementBreedTest
 		if (isCapacityList)
 		{
 			System.out.println("== Building Capacity List");
-			int usedCapacity = 0;
-			for (BuildPlanType bType : settle.getWarehouse().getTypeCapacityList().keySet())
-			{
-				System.out.println("- "+bType.name()+" : "+settle.getWarehouse().getTypeCapacity(bType));
-				usedCapacity = usedCapacity + settle.getWarehouse().getTypeCapacity(bType);
-			}
+			int usedCapacity = settle.getWarehouse().getUsedCapacity();
 			System.out.println("== Building Capacity used ["+usedCapacity+"/"+settle.getWarehouse().getItemMax()+"]");
 		}
 		

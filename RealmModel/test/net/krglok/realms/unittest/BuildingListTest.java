@@ -35,49 +35,49 @@ public class BuildingListTest
 	}
 
 
-	@Test
-	public void testGetRegionList()
-	{
-		Building.initCounter(0);
-		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
-		bList.addBuilding(building);
-		int expected = 1;
-		int actual = bList.getRegionArray().length;
-//		actual = bList.getSuperRegionList().size();
-		assertEquals(expected, actual);
-	}
+//	@Test
+//	public void testGetRegionList()
+//	{
+//		Building.initCounter(0);
+//		BuildingList bList = new BuildingList();
+//		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+//		bList.addBuilding(building);
+//		int expected = 1;
+////		int actual = bList.getRegionArray().length;
+////		actual = bList.getSuperRegionList().size();
+//		assertEquals(expected, actual);
+//	}
 
 
-	@Test
-	public void testInitRegionList()
-	{
-		Building.initCounter(0);
-		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildPlanType.BAKERY,"irgendwas",false);
-		bList.addBuilding(building);
-		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
-		bList.addBuilding(building);
-		bList.initRegionLists();
-		int expected = 1;
-		int actual = bList.getRegionArray().length;
-		assertEquals(expected, actual);
-	}
+//	@Test
+//	public void testInitRegionList()
+//	{
+//		Building.initCounter(0);
+//		BuildingList bList = new BuildingList();
+//		Building building = new Building(BuildPlanType.BAKERY,"irgendwas",false);
+//		bList.addBuilding(building);
+//		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+//		bList.addBuilding(building);
+//		bList.initRegionLists();
+//		int expected = 1;
+////		int actual = bList.getRegionArray().length;
+//		assertEquals(expected, actual);
+//	}
 	
-	@Test
-	public void testInitSuperRegionList()
-	{
-		Building.initCounter(0);
-		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildPlanType.BAKERY,"irgendwas",false);
-		bList.addBuilding(building);
-		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
-		bList.addBuilding(building);
-		bList.initRegionLists();
-		int expected = 1;
-		int actual = bList.getSuperRegionArray().length;
-		assertEquals(expected, actual);
-	}
+//	@Test
+//	public void testInitSuperRegionList()
+//	{
+//		Building.initCounter(0);
+//		BuildingList bList = new BuildingList();
+//		Building building = new Building(BuildPlanType.BAKERY,"irgendwas",false);
+//		bList.addBuilding(building);
+//		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+//		bList.addBuilding(building);
+//		bList.initRegionLists();
+//		int expected = 1;
+//		int actual = bList.getSuperRegionArray().length;
+//		assertEquals(expected, actual);
+//	}
 
 	@Test
 	public void testGetBuilding()
@@ -106,14 +106,15 @@ public class BuildingListTest
 		bList.addBuilding(building);
 		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		bList.addBuilding(building);
-//		Integer a = bList.getRegionList().size();
-		int index = bList.getRegionArray()[0];
-		Building b = bList.getBuilding(index);
-		int expected = 1;
-		int actual = 0;
-		if (b != null)
+		int expected = 2;
+		int actual = bList.getBuildTypeList().get(BuildPlanType.HOME);
+		if (expected != actual)
 		{
-			actual = b.getId();
+			System.out.println("== Test BuildTypeList ==");
+			for (BuildPlanType key : bList.getBuildTypeList().keySet())
+			{
+				System.out.println(key+":"+bList.getBuildTypeList().get(key));
+			}
 		}
 		assertEquals(expected, actual);
 	}

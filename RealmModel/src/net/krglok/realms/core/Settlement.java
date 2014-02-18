@@ -288,8 +288,8 @@ public class Settlement //implements Serializable
 	{
 		switch (settleType)
 		{
-		case SETTLE_HAMLET : return 4 * MessageText.CHEST_STORE;
-		case SETTLE_TOWN   : return 4 * MessageText.CHEST_STORE;
+		case SETTLE_HAMLET : return 10 * MessageText.CHEST_STORE;
+		case SETTLE_TOWN   : return 10 * MessageText.CHEST_STORE;
 		case SETTLE_CITY   : return 4 * MessageText.CHEST_STORE;
 		case SETTLE_METRO  : return 4 * MessageText.CHEST_STORE;
 		case SETTLE_CASTLE : return 4 * MessageText.CHEST_STORE;
@@ -748,7 +748,13 @@ public class Settlement //implements Serializable
 	}
 
 	
-
+	/**
+	 * check amount in warehouse for take items
+	 * if not set requiredItemList
+	 * @param prodFactor
+	 * @param items
+	 * @return
+	 */
 	public boolean checkStock(double prodFactor, ItemList items)
 	{
 		int iValue = 0;
@@ -768,12 +774,16 @@ public class Settlement //implements Serializable
 					requiredProduction.depositItem(itemRef, iValue);
 //					requiredProduction.addItem(itemRef, iValue);
 				}
-
 			}
 		}
 		return isStock;
 	}
 	
+	/**
+	 * consum items from warehouse
+	 * @param prodFactor
+	 * @param items
+	 */
 	public void consumStock(double prodFactor, ItemList items)
 	{
 		int iValue = 0;
@@ -800,12 +810,7 @@ public class Settlement //implements Serializable
 	
 	public int getUsedBuildingCapacity()
 	{
-		int usedCapacity = 0;
-		for (BuildPlanType bType : warehouse.getTypeCapacityList().keySet())
-		{
-			usedCapacity = usedCapacity + warehouse.getTypeCapacity(bType);
-		}
-		return usedCapacity;
+		return warehouse.getUsedCapacity();
 	}
 	
 	private int getFoundCapacity()
@@ -1213,13 +1218,12 @@ public class Settlement //implements Serializable
 		townhall.setWorkerNeeded(workerSum);
 	}
 
+	/**
+	 * calculate the actual stack size for the warehouse items
+	 */
 	private void setStoreCapacity()
 	{
-		warehouse.getTypeCapacityList().clear();
-		for (Building building : buildingList.getBuildingList().values())
-		{
-			warehouse.setTypeCapacity(building.getBuildingType(), building.getStoreCapacity());
-		}
+		warehouse.setStoreCapacity();			
 	}
 	
 	private boolean checkStoreCapacity(ServerInterface server, Building building)
@@ -1230,9 +1234,9 @@ public class Settlement //implements Serializable
 		for (Item item : products)
 		{
 			itemRef = item.ItemRef();
-			if (warehouse.getItemList().getValue(itemRef) > warehouse.getTypeCapacity(building.getBuildingType()))
+			if ((warehouse.getItemList().getValue(itemRef)/64) > warehouse.getTypeCapacityList().get(itemRef))
 			{
-				System.out.println(getId()+" :CheckStore "+itemRef+":"+warehouse.getItemList().getValue(itemRef)+":"+warehouse.getTypeCapacity(building.getBuildingType()));
+				System.out.println(getId()+" :CheckStore "+itemRef+":"+warehouse.getItemList().getValue(itemRef)+":"+warehouse.getTypeCapacityList().get(itemRef));
 				isResult = false;
 			}
 		}
@@ -1396,7 +1400,7 @@ public class Settlement //implements Serializable
 							{
 								ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
 								prodFactor = 1;
-								System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+ingredients.size());
+//								System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+ingredients.size());
 							}
 							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
 							break;
@@ -1421,7 +1425,7 @@ public class Settlement //implements Serializable
 								building.addSales(account); //-cost);
 							}
 							consumStock(prodFactor, ingredients);
-	//						System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
+							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
 							warehouse.depositItemValue(item.ItemRef(),iValue);
 							productionOverview.addCycleValue(item.ItemRef(), iValue);
 						}
@@ -1430,7 +1434,7 @@ public class Settlement //implements Serializable
 				}
 			} else
 			{
-				System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+building.isEnabled());
+				System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
 			}
 		}
 		productionOverview.addCycle();
