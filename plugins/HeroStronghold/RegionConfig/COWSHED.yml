@@ -17,7 +17,7 @@ upkeep:
 - WHEAT.10
 upkeep-chance: 0.001
 output:
-- RAW_BEEF.2
+- COOKED_BEEF.2
 - LEATHER.1
 money-requirement: 500.0
 upkeep-money-output: -2.0
