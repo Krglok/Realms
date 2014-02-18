@@ -214,7 +214,8 @@ public class Trader
 		
 		if (distance > ConfigBasis.DISTANCE_1_DAY )
 		{
-			return (long) (distance / ConfigBasis.DISTANCE_1_DAY * ConfigBasis.GameDay);
+			long way = (long) (distance / ConfigBasis.DISTANCE_1_DAY * ConfigBasis.GameDay);
+			return way; 
 		}
 		return ConfigBasis.GameDay;
 	}
@@ -240,6 +241,11 @@ public class Trader
 			amount = foundOrder.value();
 			cost = amount * tmo.getBasePrice();
 			tmo.setValue(tmo.value() - amount);
+			long travelTime = getTransportDelay(distance);
+			if (tmo.getWorld().equalsIgnoreCase(settle.getPosition().getWorld()) == false)
+			{
+				travelTime = travelTime + (10 * ConfigBasis.GameDay);
+			}
 			if (settle.getBank().getKonto() >= cost)
 			{
 				if (caravanCount < caravanMax)
@@ -251,7 +257,7 @@ public class Trader
 							foundOrder.ItemRef(), 		// Ware
 							amount,						// gepkaufte Menge 
 							tmo.getBasePrice(),  		// Kaufpreis
-							getTransportDelay(distance), // Laufzeit des Transports
+							travelTime, // Laufzeit des Transports
 							0, 							// abgelaufene Transportzeit
 							TradeStatus.STARTED, 		// automatischer Start des Transport
 							tmo.getWorld(),				// ZielWelt

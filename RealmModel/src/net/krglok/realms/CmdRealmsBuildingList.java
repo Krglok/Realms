@@ -13,7 +13,7 @@ public class CmdRealmsBuildingList extends RealmsCommand
 
 	public CmdRealmsBuildingList()
 	{
-		super(RealmsCommandType.REALMS, RealmsSubCommandType.HELP);
+		super(RealmsCommandType.REALMS, RealmsSubCommandType.BUILDINGLIST);
 		description = new String[] {
 			ChatColor.YELLOW+"/realms BUILDINGLIST [page] {WORD} ",
 			"Show a list of BuildPlans for the BuildManager ",
@@ -77,7 +77,7 @@ public class CmdRealmsBuildingList extends RealmsCommand
 		String path = plugin.getDataFolder().getName();
         File regionFolder = new File(path, "buildplan");
         if (!regionFolder.exists()) {
-        	System.out.println("BuildPlan Folder not found !");
+        	System.out.println("BuildPlan Folder not found !"+path);
             return tmxList;
         }
 
@@ -89,7 +89,7 @@ public class CmdRealmsBuildingList extends RealmsCommand
 	        	sRegionFile = sRegionFile.replace(".tmx", "");
 	        	tmxList.add(sRegionFile);
         	}
-//        	System.out.println(sRegionFile);
+        	System.out.println(sRegionFile);
         }
         return tmxList;
 	}

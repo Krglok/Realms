@@ -355,7 +355,7 @@ public class DataStorage implements DataInterface
 	 		for (MapLayer layer :tmxMap.getLayers())
 			{
 	 			
-				System.out.println(layer.getName()+":"+level+":"+layer.getHeight()+":"+layer.getWidth());
+//				System.out.println(layer.getName()+":"+level+":"+layer.getHeight()+":"+layer.getWidth());
 		        Rectangle bounds = layer.getBounds();
 				TileLayer tl = (TileLayer) layer;
 	            for (int y = 0; y < layer.getHeight(); y++) 

@@ -232,7 +232,7 @@ public class BuildManager
 		// the buildLocation define the center of the plan in x/z plane
 		// the offset define the position of level 0 relative to surface 
 		LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
-		l.setX(l.getX()-radius); 
+		l.setX(l.getX()-radius+1); 
 		l.setY(l.getY()+buildPlan.getOffsetY()); 
 		l.setZ(l.getZ()-radius);
 		 
@@ -342,7 +342,7 @@ public class BuildManager
 	{
 		int edge = buildPlan.getRadius() * 2 -1; 
 		LocationData l = new LocationData(buildLocation.getWorld(), buildLocation.getX(), buildLocation.getY(),buildLocation.getZ());
-		l.setX(l.getX()-buildPlan.getRadius()); 
+		l.setX(l.getX()-buildPlan.getRadius()+1); 
 		l.setY(l.getY()+buildPlan.getOffsetY()); 
 		l.setZ(l.getZ()-buildPlan.getRadius());
 		// make block position
@@ -440,7 +440,7 @@ public class BuildManager
 			{
 				LocationData position = new LocationData(
 						buildLocation.getWorld(), 
-						buildLocation.getX()-1, 
+						buildLocation.getX(), 
 						buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
 						buildLocation.getZ()-1
 						);
@@ -464,9 +464,9 @@ public class BuildManager
 		{
 			LocationData position = new LocationData(
 					buildLocation.getWorld(), 
-					buildLocation.getX()-2, 
+					buildLocation.getX(), 
 					buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
-					buildLocation.getZ()-2
+					buildLocation.getZ()
 					);
 			ItemList reagents = rModel.getServer().getRegionReagents(regionType);
 			chestSetRequest.add(new ItemListLocation(reagents, position));

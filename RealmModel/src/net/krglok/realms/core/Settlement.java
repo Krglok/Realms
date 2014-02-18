@@ -74,7 +74,7 @@ public class Settlement //implements Serializable
 
 	private String world;
 	private Biome biome;
-
+	private long age;
 	private BuildManager buildManager;
 	private MapManager mapManager;
 	
@@ -88,6 +88,7 @@ public class Settlement //implements Serializable
 	{
 		COUNTER++;
 		id			= COUNTER;
+		age         = 0;
 		settleType 	= SettleType.SETTLE_NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
@@ -125,6 +126,7 @@ public class Settlement //implements Serializable
 	{
 		COUNTER++;
 		id			= COUNTER;
+		age         = 0;
 		settleType 	= SettleType.SETTLE_NONE;
 		name		= NEW_SETTLEMENT;
 		this.position 	= position;
@@ -163,6 +165,7 @@ public class Settlement //implements Serializable
 	public Settlement(String owner, LocationData position, SettleType settleType, String name, Biome biome)
 	{
 		COUNTER++;
+		age         = 0;
 		id			= COUNTER;
 		this.settleType = settleType;
 		this.name		= name;
@@ -212,9 +215,10 @@ public class Settlement //implements Serializable
 			LocationData position, String owner,
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
-			Resident resident, String world, Biome biome)
+			Resident resident, String world, Biome biome, long age)
 	{
 		this.id = id;
+		this.age        = age;
 		this.settleType = settleType;
 		this.name = name;
 		this.owner = owner;
@@ -1228,6 +1232,7 @@ public class Settlement //implements Serializable
 			itemRef = item.ItemRef();
 			if (warehouse.getItemList().getValue(itemRef) > warehouse.getTypeCapacity(building.getBuildingType()))
 			{
+				System.out.println(getId()+" :CheckStore "+itemRef+":"+warehouse.getItemList().getValue(itemRef)+":"+warehouse.getTypeCapacity(building.getBuildingType()));
 				isResult = false;
 			}
 		}
@@ -1310,10 +1315,13 @@ public class Settlement //implements Serializable
 	
 	/**
 	 * get production get from producer buildings in the settlement
+	 * each Building will separate calculate 
 	 * @param server
 	 */
 	public void doProduce(ServerInterface server)
 	{
+		// increment age of the Setlement in production cycles
+		age++;
 		double prodFactor = 1;
 		int iValue = 0;
 		double sale = 0.0;
@@ -1337,84 +1345,92 @@ public class Settlement //implements Serializable
 			}
 			if (building.isEnabled())
 			{
-				sale = 0.0;
-				products = building.produce(server);
-				for (Item item : products)
+				if (BuildPlanType.getBuildGroup(building.getBuildingType())== 2)
 				{
-					
-					switch(building.getBuildingType())
+					sale = 0.0;
+					products = building.produce(server);
+					for (Item item : products)
 					{
-					case WORKSHOP:
-						ingredients = server.getRecipe(item.ItemRef());
-						ingredients.remove(item.ItemRef());
-						prodFactor = server.getRecipeFactor(item.ItemRef(),this.biome);
-						break;
-					case BAKERY:
-						if (building.isSlot())
+						
+						switch(building.getBuildingType())
 						{
-//							System.out.println("SLOT "+item.ItemRef());
+						case WORKSHOP:
 							ingredients = server.getRecipe(item.ItemRef());
 							ingredients.remove(item.ItemRef());
-						} else
-						{
-							ingredients = server.getRegionUpkeep(building.getHsRegionType());
-						}
-						prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
-						break;
-					case TAVERNE:
-						if (resident.getHappiness() > Resident.getBaseHappines())
-						{
-							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness();
-						} else
-						{
-							if (resident.getHappiness() > 0.0)
+							prodFactor = server.getRecipeFactor(item.ItemRef(),this.biome);
+							break;
+						case BAKERY:
+							if (building.isSlot())
 							{
-								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness()*TAVERNE_UNHAPPY_FACTOR;
+	//							System.out.println("SLOT "+item.ItemRef());
+								ingredients = server.getRecipe(item.ItemRef());
+								ingredients.remove(item.ItemRef());
+							} else
+							{
+								ingredients = server.getRegionUpkeep(building.getHsRegionType());
 							}
+							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
+							break;
+						case TAVERNE:
+							if (resident.getHappiness() > Resident.getBaseHappines())
+							{
+								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness();
+							} else
+							{
+								if (resident.getHappiness() > 0.0)
+								{
+									sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness()*TAVERNE_UNHAPPY_FACTOR;
+								}
+							}
+							if (resident.getDeathrate() > 0)
+							{
+								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * TAVERNE_UNHAPPY_FACTOR;
+							}
+							building.setSales(sale);	
+							ingredients = new ItemList();
+							break;
+						default :
+	//						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
+							ingredients = new ItemList();
+							if (BuildPlanType.getBuildGroup(building.getBuildingType())== 2)
+							{
+								ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
+								prodFactor = 1;
+								System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+ingredients.size());
+							}
+							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
+							break;
 						}
-						if (resident.getDeathrate() > 0)
+						
+						if (checkStock(prodFactor, ingredients))
 						{
-							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * TAVERNE_UNHAPPY_FACTOR;
+	//						iValue = item.value();
+							iValue = (int)((double) item.value() *prodFactor);
+							// berechne Umsatz der Produktion
+							sale = building.calcSales(server,item.ItemRef());
+							// berechne Kosten der Produktion
+							cost = server.getRecipePrice(item.ItemRef(), ingredients);
+							if ((sale - cost) > 0.0)
+							{
+							// setze Ertrag auf Building .. der Ertrag wird versteuert !!
+								account = (sale-cost) * (double) iValue;
+								building.addSales(account); //-cost);
+							} else
+							{
+								account =  1.0 * (double) iValue;
+								building.addSales(account); //-cost);
+							}
+							consumStock(prodFactor, ingredients);
+	//						System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
+							warehouse.depositItemValue(item.ItemRef(),iValue);
+							productionOverview.addCycleValue(item.ItemRef(), iValue);
 						}
-						building.setSales(sale);	
-						ingredients = new ItemList();
-						break;
-					default :
-						if (BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
-						{
-							ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-							prodFactor = 1;
-						}
-						ingredients = new ItemList();
-						prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
-						break;
 					}
-					
-					if (checkStock(prodFactor, ingredients))
-					{
-//						iValue = item.value();
-						iValue = (int)((double) item.value() *prodFactor);
-						// berechne Umsatz der Produktion
-						sale = building.calcSales(server,item.ItemRef());
-						// berechne Kosten der Produktion
-						cost = server.getRecipePrice(item.ItemRef(), ingredients);
-						if ((sale - cost) > 0.0)
-						{
-						// setze Ertrag auf Building .. der Ertrag wird versteuert !!
-							account = (sale-cost) * (double) iValue;
-							building.addSales(account); //-cost);
-						} else
-						{
-							account =  1.0 * (double) iValue;
-							building.addSales(account); //-cost);
-						}
-						consumStock(prodFactor, ingredients);
-//						System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
-						warehouse.depositItemValue(item.ItemRef(),iValue);
-						productionOverview.addCycleValue(item.ItemRef(), iValue);
-					}
+					building.addSales(sale);
 				}
-				building.addSales(sale);
+			} else
+			{
+				System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+building.isEnabled());
 			}
 		}
 		productionOverview.addCycle();
@@ -1486,6 +1502,16 @@ public class Settlement //implements Serializable
 	public void setTreasureList(ArrayList<Item> treasureList)
 	{
 		this.treasureList = treasureList;
+	}
+
+	public long getAge()
+	{
+		return age;
+	}
+
+	public void setAge(long value)
+	{
+		this.age = value;
 	}
 
 }

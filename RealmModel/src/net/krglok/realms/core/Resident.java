@@ -17,7 +17,7 @@ public class Resident
 	 * 
 	 */
 	private static final long serialVersionUID = 1454415012035643630L;
-	private static final double FertilityCounter_Limit = 50.0;
+	private static final double FertilityCounter_Limit = 100.0;
 	private static double FERTILITY = 3.0;   //  % satz 
 	private static double  LETHALITY= 1.0;   //  % satz
 	private static final double BASE_HAPPINES = 0.5;   
@@ -349,7 +349,7 @@ public class Resident
 		} else
 		{
 			// basis Counter zählt in 30 runden bis 100
-			fertilityBase = fertilityBase + (100 / 30.0);
+			fertilityBase = fertilityBase + 3.0;
 			// Freier Platzfaktor in %
 			if ((settlerMax > settlerCount))
 			{
@@ -361,17 +361,17 @@ public class Resident
 			// Happiness einfluss auf fertilty 
 			fertilityBase = fertilityBase  + calcHappyFactor(FERTILITY);
 			
-			if (fertilityBase > 50.0)
-			{
-				// normale fertility rate based on populatio
-				fertilityBase = fertilityBase -50.0;
-				value = (settlerCount) * FERTILITY / 100;
-				// minimum birthrate = 1 
-				if (value < 1.0)
-				{
-					value = value +1.0;
-				}
-			}
+//			if (fertilityBase > 50.0)
+//			{
+//				// normale fertility rate based on populatio
+//				fertilityBase = fertilityBase -50.0;
+//				value = (settlerCount) * FERTILITY / 100;
+//				// minimum birthrate = 1 
+//				if (value < 1.0)
+//				{
+//					value = value +1.0;
+//				}
+//			}
 			if (fertilityCounter >= FertilityCounter_Limit)
 			{
 				value = value + 1.0;

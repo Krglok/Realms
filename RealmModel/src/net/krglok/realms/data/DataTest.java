@@ -153,7 +153,8 @@ public class DataTest implements DataInterface
 				bank,
 				resident,
 				"",
-				Biome.PLAINS
+				Biome.PLAINS,
+				0
 				);
 		
 		for (Building b : testBuildings.getBuildingList().values())

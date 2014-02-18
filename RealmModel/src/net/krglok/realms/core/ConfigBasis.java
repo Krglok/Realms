@@ -86,6 +86,8 @@ public class ConfigBasis implements ConfigInterface
 		case MELON_BLOCK : return 103;
 		case QUARTZ_ORE : return (byte) 153 ;
 		case QUARTZ_BLOCK : return (byte) 155 ;
+		case RED_MUSHROOM : return 40;
+		case BROWN_MUSHROOM : return 39;
 		
 		default:
 			return 0;
@@ -156,33 +158,35 @@ public class ConfigBasis implements ConfigInterface
 		case 17 : return Material.LOG;
 		case 18 : return Material.LEAVES;
 		case 24 : return Material.SANDSTONE;
+		case 26 : return Material.BED_BLOCK;
 		case 31 : return Material.GRASS;
+		case 35 : return Material.WOOL;
+		case 39 : return Material.BROWN_MUSHROOM;
+		case 40 : return Material.RED_MUSHROOM;
+		case 44 : return Material.STEP ;
 		case 56 : return Material.DIAMOND_ORE;
 		case 59 : return Material.WHEAT;
-		case 110 : return Material.MYCEL;
 		case 85 : return Material.FENCE;
-		case (byte) 254: return Material.AIR;
-		case (byte) 255: return Material.AIR;
 		case 54 : return Material.CHEST;
 		case 58 : return Material.WORKBENCH;
 		case 60 : return Material.SOIL;
 		case 64 : return Material.WOOD_DOOR;
 		case 63 : return Material.SIGN;
 		case 68 : return Material.WALL_SIGN;
-		case 26 : return Material.BED_BLOCK;
 		case 47 : return Material.BOOKSHELF;
 		case 50 : return Material.TORCH;
-		case 35 : return Material.WOOL;
-		case 115 : return Material.NETHER_WARTS ;
 		case 88 : return Material.SOUL_SAND;
 		case 87 : return Material.NETHERRACK ;
+		case 110 : return Material.MYCEL;
 		case 112 :return Material.NETHER_BRICK;
 		case 114 : return Material.NETHER_BRICK_STAIRS ;
+		case 115 : return Material.NETHER_WARTS ;
 		case 126 : return Material.WOOD_STEP ;
-		case 44 : return Material.STEP ;
 		case 103 : return Material.MELON_BLOCK;
 		case (byte) 153 : return Material.QUARTZ_ORE;
 		case (byte) 155 : return Material.QUARTZ_BLOCK;
+		case (byte) 254: return Material.AIR;
+		case (byte) 255: return Material.AIR;
 		
 		default :
 			return Material.AIR;

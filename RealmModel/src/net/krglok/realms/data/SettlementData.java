@@ -68,6 +68,7 @@ public class SettlementData
 	            config.set(MemorySection.createPath(settleSec, "settleType"), settle.getSettleType().name());
 	            config.set(MemorySection.createPath(settleSec, "position"), LocationData.toString(settle.getPosition()));
 	            config.set(MemorySection.createPath(settleSec, "biome"), settle.getBiome().name());
+	            config.set(MemorySection.createPath(settleSec, "age"), settle.getAge());
 	            config.set(MemorySection.createPath(settleSec, "name"), settle.getName());
 	            config.set(MemorySection.createPath(settleSec, "owner"), settle.getOwner());
 	            config.set(MemorySection.createPath(settleSec, "isCapital"), settle.getIsCapital());
@@ -168,6 +169,7 @@ public class SettlementData
             	settle.setSettleType(SettleType.valueOf(config.getString(settleSec+".settleType")));
             	settle.setPosition(LocationData.toLocation(config.getString(settleSec+".position")));
             	settle.setBiome(Biome.valueOf(config.getString(settleSec+".biome","SKY")));
+            	settle.setAge(config.getLong(settleSec+".age",0));
 
             	//Biome.valueOf(settle.getBiome()));
             	settle.setName(config.getString(settleSec+".name"));

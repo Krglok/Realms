@@ -74,13 +74,13 @@ public class CmdSettleProduction extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add("Item            | Last  | Month | Year [ ]");
+		msg.add("Item            | Last  | Month | Store ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().getPeriodCount()+"]");
 		for (BoardItem bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().values())
 		{
 			String name = ConfigBasis.setStrleft(bItem.getName(), 14);
 			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getLastValue()), 5);
 			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getCycleSum()), 5);
-			String period = ConfigBasis.setStrright(String.valueOf((int)bItem.getPeriodSum()), 5);
+			String period = ConfigBasis.setStrright(String.valueOf((int)  plugin.getRealmModel().getSettlements().getSettlement(settleId).getWarehouse().getItemList().getValue(bItem.getName())), 5);
 			msg.add(name +"| "+last+" | "+cycle+" | "+period);
 		}
 		msg.add("");

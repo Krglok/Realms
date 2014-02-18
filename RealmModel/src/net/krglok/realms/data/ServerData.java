@@ -126,6 +126,7 @@ public class ServerData implements ServerInterface
 			{
 				rList.addItem(item.getData().getItemType().name(), item.getAmount());
 			}
+			System.out.println(regionType+":"+rList.size());
 		}
 		return rList;
 	}
@@ -141,6 +142,7 @@ public class ServerData implements ServerInterface
 			{
 				rList.addItem(item.getData().getItemType().name(), item.getAmount());
 			}
+			System.out.println("Out: "+regionType+":"+rList.size());
 		}
 		return rList;
 	}
@@ -155,6 +157,7 @@ public class ServerData implements ServerInterface
 			{
 				rList.addItem(item.getData().getItemType().name(), item.getAmount());
 			}
+			System.out.println("Up : "+regionType+":"+rList.size());
 		}
 		return rList;
 	}

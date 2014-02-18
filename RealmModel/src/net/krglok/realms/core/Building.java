@@ -328,9 +328,13 @@ public class Building  implements Serializable
 	{
 		switch(bType)
 		{
-		case BAKERY : return 320;
-		case FARMHOUSE:return 128;
-		case WORKSHOP: return 320;
+		case WHEAT  : return 128;
+		case MUSHROOM : return 128;
+		case KITCHEN : return 256;
+		case BAKERY : return 256;
+		case FARMHOUSE:return 256;
+		case FARM : return 256;
+		case WORKSHOP: return 128;
 		case TRADER: return 1728;
 		default:  return 64; 
 		}

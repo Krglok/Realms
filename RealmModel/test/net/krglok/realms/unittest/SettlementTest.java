@@ -88,7 +88,7 @@ public class SettlementTest
 				id, settletype, name, position,  
 				owner.getPlayerName(), isCapital, barrack, warehouse,
 				buildingList, townhall, bank,
-				resident,"",Biome.PLAINS);
+				resident,"",Biome.PLAINS,0);
 		int expected =  99;
 		int actual = settlement.getId();
 		assertEquals(expected, actual);
