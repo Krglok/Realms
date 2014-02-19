@@ -1,4 +1,4 @@
-package net.krglok.realms.unittest;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.assertEquals;
 

@@ -430,10 +430,11 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case SAND : return FAKTOR_PPP;
 		case WHEAT : return FAKTOR_M;
 		case SEEDS : return FAKTOR_M;
-		case COBBLESTONE: return FAKTOR_M;
-		case LOG: return FAKTOR_M;
+		case COBBLESTONE: return FAKTOR_MM;
+		case LOG: return FAKTOR_MM;
 		case WOOL : return FAKTOR_P;
 		case GOLD_NUGGET: return FAKTOR_M;
 		case LEATHER : return FAKTOR_M;
@@ -450,10 +451,10 @@ public class ServerData implements ServerInterface
 		case DIAMOND_ORE : return FAKTOR_0;
 		case EMERALD_ORE : return FAKTOR_0;
 		case REDSTONE_ORE : return FAKTOR_M;
-		case LAPIS_ORE : return FAKTOR_0;
-		case GOLD_ORE : return FAKTOR_0;
+		case LAPIS_ORE : return FAKTOR_M;
+		case GOLD_ORE : return FAKTOR_M;
 		default :
-			return  FAKTOR_0;
+			return  FAKTOR_MM;
 		}
 	}
 

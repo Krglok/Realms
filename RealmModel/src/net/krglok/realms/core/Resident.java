@@ -17,7 +17,7 @@ public class Resident
 	 * 
 	 */
 	private static final long serialVersionUID = 1454415012035643630L;
-	private static final double FertilityCounter_Limit = 100.0;
+	private static final double FertilityCounter_Limit = 75.0;
 	private static double FERTILITY = 3.0;   //  % satz 
 	private static double  LETHALITY= 1.0;   //  % satz
 	private static final double BASE_HAPPINES = 0.5;   
@@ -26,7 +26,6 @@ public class Resident
 	private int settlerBirthrate;
 	private int settlerDeathrate;
 	private double fertilityCounter ;
-	private double fertilityBase ;
 	private double deathCounter = 0.0;
 	
 	private int settlerCount;
@@ -290,7 +289,7 @@ public class Resident
 			{
 				if (value < 2.5)
 				{
-					dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 20.0 );
+					dif = ((double)((settlerMax  - settlerCount) / (double)settlerMax) / 10.0 );
 				}
 			}
 		} else
@@ -348,30 +347,6 @@ public class Resident
 			value  = 0;
 		} else
 		{
-			// basis Counter zählt in 30 runden bis 100
-			fertilityBase = fertilityBase + 3.0;
-			// Freier Platzfaktor in %
-			if ((settlerMax > settlerCount))
-			{
-				fertilityBase = fertilityBase + (settlerMax-settlerCount)/settlerMax ;
-	//		} else
-	//		{
-	//			fertilityBase = fertilityBase +(happiness / 10.0) ;
-			}
-			// Happiness einfluss auf fertilty 
-			fertilityBase = fertilityBase  + calcHappyFactor(FERTILITY);
-			
-			if (fertilityBase > 50.0)
-			{
-				// normale fertility rate based on populatio
-				fertilityBase = fertilityBase -50.0;
-				value = (settlerCount) * FERTILITY / 100;
-				// minimum birthrate = 1 
-				if (value < 1.0)
-				{
-					value = value +1.0;
-				}
-			}
 			if (fertilityCounter >= FertilityCounter_Limit)
 			{
 				value = value + 1.0;
@@ -380,15 +355,16 @@ public class Resident
 			{
 				if ((settlerMax-settlerCount) > 0)
 				{
-					if (happiness > 1.0)
+					if (happiness > BASE_HAPPINES)
 					{
-						fertilityCounter = fertilityCounter + ((settlerMax-settlerCount)/settlerMax *2.0) ;
+						fertilityCounter = fertilityCounter +(FERTILITY) + (FERTILITY/100 * (settlerCount/2))  ;
 					} else
 					{
-						fertilityCounter = fertilityCounter + (settlerMax-settlerCount)/settlerMax;
+						fertilityCounter = fertilityCounter + (FERTILITY/3) + (FERTILITY/2 /100 * (settlerCount/2)) ;
 					}
 				} else
 				{
+					fertilityCounter = fertilityCounter + (FERTILITY/3) + (FERTILITY/2 /100 * (settlerCount/2)); 
 					
 				}
 			}
@@ -426,19 +402,19 @@ public class Resident
 			{
 				factor = value / 2;
 				value = value + factor;
-				deathCounter = deathCounter + LETHALITY; // - happiness;
+				deathCounter = deathCounter +  9.0;  //(double)(settlerCount) *LETHALITY; // - happiness;
 			} else
 			{
 //				value = value / 2;
 			}
 		}
-		if (deathCounter > 100.0)
+		if (deathCounter >= 100.0)
 		{
 			value = value + 1;
-			deathCounter = deathCounter -100.0;
+			deathCounter = 0.0; //deathCounter -100.0;
 		} else
 		{
-			deathCounter = deathCounter + 10;
+			deathCounter = deathCounter + 0.3;
 		}
 		// deatrate !! not  > =
 		settlerDeathrate = (int) value;

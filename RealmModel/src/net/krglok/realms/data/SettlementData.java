@@ -38,7 +38,7 @@ public class SettlementData
 	{
 //		this.plugin = plugin;
 		this.dataFolder = dataFolder;
-		System.out.println("SettlementData: "+dataFolder.getName());
+//		System.out.println("SettlementData: "+dataFolder.getName());
 	}
 
 	private String getSettleKey(int id)

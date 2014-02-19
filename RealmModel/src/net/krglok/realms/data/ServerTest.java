@@ -441,16 +441,15 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		}
 	}
 	
-	
-
 	private int desertFactor(Material mat)
 	{
 		switch (mat)
 		{
+		case SAND : return FAKTOR_PPP;
 		case WHEAT : return FAKTOR_M;
 		case SEEDS : return FAKTOR_M;
-		case COBBLESTONE: return FAKTOR_M;
-		case LOG: return FAKTOR_M;
+		case COBBLESTONE: return FAKTOR_MM;
+		case LOG: return FAKTOR_MM;
 		case WOOL : return FAKTOR_P;
 		case GOLD_NUGGET: return FAKTOR_M;
 		case LEATHER : return FAKTOR_M;
@@ -467,10 +466,10 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case DIAMOND_ORE : return FAKTOR_0;
 		case EMERALD_ORE : return FAKTOR_0;
 		case REDSTONE_ORE : return FAKTOR_M;
-		case LAPIS_ORE : return FAKTOR_0;
-		case GOLD_ORE : return FAKTOR_0;
+		case LAPIS_ORE : return FAKTOR_M;
+		case GOLD_ORE : return FAKTOR_M;
 		default :
-			return  FAKTOR_0;
+			return  FAKTOR_MM;
 		}
 	}
 
@@ -504,11 +503,36 @@ public class ServerTest  implements ServerInterface // extends ServerData
 			return  FAKTOR_0;
 		}
 	}
+
+	private int hellFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WHEAT : return FAKTOR_MMM;
+		case SEEDS : return FAKTOR_MMM;
+		case LOG: return FAKTOR_MMM;
+		case WOOL : return FAKTOR_MMM;
+		case GOLD_NUGGET: return FAKTOR_PP;
+		case LEATHER : return FAKTOR_MMM;
+		case RAW_BEEF : return FAKTOR_MMM;
+		case PORK : return FAKTOR_MMM;
+		case RAW_CHICKEN : return FAKTOR_MMM;
+		case FEATHER : return FAKTOR_MMM;
+		case RED_MUSHROOM : return FAKTOR_PPP; 
+		case BROWN_MUSHROOM : return FAKTOR_PPP; 
+		default :
+			return  FAKTOR_0;
+		}
+	}
 	
 	@Override
 	public int getBioneFactor(Biome biome, Material mat)
 	{
 		int factor = 0;
+		if (biome == null)
+		{
+			return factor;
+		}
 		if (biome.name().contains("PLAIN"))
 		{
 			factor = factor + plainFactor(mat);
@@ -536,6 +560,10 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		if (biome.name().contains("EXTREME"))
 		{
 			factor = factor + extremeFactor(mat);
+		}
+		if (biome.name().contains("HELL"))
+		{
+			factor = factor + hellFactor(mat);
 		}
 		return factor;
 	}

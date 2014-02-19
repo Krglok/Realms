@@ -1,4 +1,4 @@
-package net.krglok.realms.unittest;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.assertEquals;
 
@@ -194,7 +194,7 @@ public class SettlementBreedTest
 			settle.doProduce(server);
 			if (dayCounter == 30)
 			{
-				settle.getTaxe(server);
+				settle.doCalcTax();
 				dayCounter = 0;
 			}
 			
@@ -208,7 +208,7 @@ public class SettlementBreedTest
 			} 
 			if ((settle.getAge() % 360) == 0)
 			{
-				makeSettleAnalysis(settle, month, priceList);
+//				makeSettleAnalysis(settle, month, priceList);
 			}
 			
 			sb = ConfigBasis.setStrleft(showBalkenHappy(settle, isMonth,showSettler),17);
@@ -264,8 +264,8 @@ public class SettlementBreedTest
 		ArrayList<String> msg = new ArrayList<>();
 		// Resident Analyse
 		msg.add(" ");
-		msg.add("Sieldungstatus  ========="+settle.getBiome());
-		msg.add("Age           : "+settle.getAge()+"Tage " + (settle.getAge()/30/12)+" Jahre ");
+		msg.add("Sieldungstatus  ========= "+settle.getBiome());
+		msg.add("Age           : "+settle.getAge()+" Tage  ca. " + (settle.getAge()/30/12)+" Jahre ");
 		msg.add("Einwohner     : "+settle.getResident().getSettlerCount());
 		msg.add("Arbeiter      : "+settle.getTownhall().getWorkerCount());
 		msg.add("freie Siedler : "+(settle.getResident().getSettlerCount()-settle.getTownhall().getWorkerCount()));
@@ -359,17 +359,6 @@ public class SettlementBreedTest
 			System.out.println("");
 			
 		}
-		System.out.println("==Store Capacity ==");
-		System.out.print("Item            "+" : "+"Stack");
-		System.out.println("");
-		for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
-		{
-			System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
-			System.out.print(settle.getWarehouse().getTypeCapacityList().get(bItem).value()+ " | ");
-			System.out.print("");
-			System.out.println("");
-			
-		}
 	}
 	
 	
@@ -438,7 +427,7 @@ public class SettlementBreedTest
 		System.out.println("==Settlement Breed  : "+settle.getResident().getSettlerMax());
 		BreedingLoop(settle, server, 10, priceList);
 		
-		makeSettleAnalysis(settle, month, priceList);
+//		makeSettleAnalysis(settle, month, priceList);
 		
 
 		int hsRegion = 28;
@@ -461,78 +450,65 @@ public class SettlementBreedTest
 		BreedingLoop(settle, server, 1110, priceList);
 
 		hsRegion++;
-		building =  new Building(BuildPlanType.CARPENTER, hsRegion, "CARPENTER", true,null);
+		building =  new Building(BuildPlanType.WHEAT, hsRegion, "WHEAT", true,null);
 		Settlement.addBuilding(building, settle);
 
 		settle.setSettlerMax();
 		System.out.println(month+"======New Production "+settle.getResident().getSettlerMax());
 
-		isOutput =   false; //(expected != actual);
+		isOutput =   true; //(expected != actual);
 		BreedingLoop(settle, server, 1310, priceList);
 //		makeSettleAnalysis(settle, month, priceList);
 
 		
 		settle.getResident().setSettlerCount(150);
+		System.out.println(month+"====Now only 50 Settler in Settlement / Homes : "+settle.getResident().getSettlerCount());
 		settle.setSettlerMax();
-		System.out.println(month+"====Now only 50 Settler in Settlement / Homes : "+settle.getResident().getSettlerMax());
-		BreedingLoop(settle, server, 510, priceList);
+		BreedingLoop(settle, server, 1510, priceList);
 //		makeSettleAnalysis(settle, month, priceList);
 		
 		settle.setSettlerMax();
 		System.out.println(month+"==Last Run   "+settle.getResident().getSettlerMax());
-		isOutput =   false; //(expected != actual);
+		isOutput =   true; //(expected != actual);
 		BreedingLoop(settle, server, 1310, priceList);
 
-		boolean isBuildingList = false;
-		if (isBuildingList)
-		{
-			System.out.println("== Buildings "+settle.getBuildingList().getBuildingList().size());
-			for (Building buildg : settle.getBuildingList().getBuildingList().values())
-			{
-				System.out.println("- "+buildg.getHsRegion()+" : "+buildg.getHsRegionType()+" :W "+buildg.getWorkerInstalled()+" :E "+buildg.isEnabled());
-			}
-		}
-		boolean isWarehouseList = false;
-		if (isWarehouseList)
-		{
-			System.out.println("== Warehouse ["+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax()+"]");
-			for (Item item : settle.getWarehouse().getItemList().values())
-			{
-				System.out.println("- "+item.ItemRef()+" : "+item.value());
-			}
-		}
-		boolean isCapacityList = false;
-		if (isCapacityList)
-		{
-			System.out.println("== Building Capacity List");
-			int usedCapacity = settle.getWarehouse().getUsedCapacity();
-			System.out.println("== Building Capacity used ["+usedCapacity+"/"+settle.getWarehouse().getItemMax()+"]");
-		}
 		
 		System.out.println(" ");
 		System.out.println("== Laufzeit "+month*30+" Tage ");
 		makeSettleAnalysis(settle, month, priceList);
 		int expected = 138;
 		int actual = settle.getResident().getSettlerCount(); 
-		isOutput = (expected != actual);
+		isOutput = false; // (expected != actual);
 		if (isOutput)
 		{
 			System.out.println(" ");
+			System.out.println("==Store Capacity ==");
+			System.out.print("Item            "+" : "+"Stack");
+			System.out.println("");
+			for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
+			{
+				System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
+				System.out.print(settle.getWarehouse().getTypeCapacityList().get(bItem).value()+ " | ");
+				System.out.print("");
+				System.out.println("");
+				
+			}
 			System.out.println(" ");
-			System.out.println("==Settler Breed : "+settle.getResident().getSettlerCount());
+//			System.out.println("==Settler Breed : "+settle.getResident().getSettlerCount());
 			System.out.println("Warehouse");
 			double price = 0.0;
 			double balance = 0.0;
 			for (Item item : settle.getWarehouse().getItemList().values())
 			{
-				price = Math.round(priceList.getBasePrice(item.ItemRef()));
+//				price = Math.round(priceList.getBasePrice(item.ItemRef()));
+				price = priceList.getBasePrice(item.ItemRef());
 				System.out.println(
 						ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
-						ConfigBasis.setStrright(String.valueOf(item.value()),3)+" = "+
-						(item.value()*price));
+						ConfigBasis.setStrright(String.valueOf(item.value()),7)+" = "+
+						Math.round((item.value()*price)));
 				balance = balance + (item.value()*price);
 			}
-			System.out.println("Item balance = "+balance);
+			System.out.println("Item balance = "+Math.round(balance));
 			System.out.println("=============================");
 			System.out.println("Treasure balance = "+settle.getBiome());
 			
@@ -543,12 +519,39 @@ public class SettlementBreedTest
 			}
 			for (Item item : items.values())
 			{
-				price = Math.round(priceList.getBasePrice(item.ItemRef()));
+				
+//				price = Math.round(priceList.getBasePrice(item.ItemRef()));
+				price = priceList.getBasePrice(item.ItemRef());
 				System.out.println(
 						ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
 						item.value()
 						);
 				balance = balance + (item.value()*price);
+			}
+			boolean isBuildingList = false;
+			if (isBuildingList)
+			{
+				System.out.println("== Buildings "+settle.getBuildingList().getBuildingList().size());
+				for (Building buildg : settle.getBuildingList().getBuildingList().values())
+				{
+					System.out.println("- "+buildg.getHsRegion()+" : "+buildg.getHsRegionType()+" :W "+buildg.getWorkerInstalled()+" :E "+buildg.isEnabled());
+				}
+			}
+			boolean isWarehouseList = false;
+			if (isWarehouseList)
+			{
+				System.out.println("== Warehouse ["+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax()+"]");
+				for (Item item : settle.getWarehouse().getItemList().values())
+				{
+					System.out.println("- "+item.ItemRef()+" : "+item.value());
+				}
+			}
+			boolean isCapacityList = false;
+			if (isCapacityList)
+			{
+				System.out.println("== Building Capacity List");
+				int usedCapacity = settle.getWarehouse().getUsedCapacity();
+				System.out.println("== Building Capacity used ["+usedCapacity+"/"+settle.getWarehouse().getItemMax()+"]");
 			}
 			
 		}

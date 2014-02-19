@@ -1064,7 +1064,7 @@ public class Settlement //implements Serializable
 			{
 				foodConsumCounter = foodConsumCounter + ((double)resident.getSettlerCount() / 20.0);
 			}
-			if (foodConsumCounter < 1)
+			if (foodConsumCounter < 0.0)
 			{
 				if (resident.getHappiness() > MIN_FOODCONSUM_COUNTER)
 				{
@@ -1235,9 +1235,17 @@ public class Settlement //implements Serializable
 		for (Item item : products)
 		{
 			itemRef = item.ItemRef();
-			if ((warehouse.getItemList().getValue(itemRef)/64) > warehouse.getTypeCapacityList().getValue(itemRef))
+			// check MaxStorage
+			if ((warehouse.getItemList().getValue(itemRef)/64) < building.getStoreCapacity())
 			{
-				System.out.println(getId()+" :CheckStore "+itemRef+":"+warehouse.getItemList().getValue(itemRef)+":"+warehouse.getTypeCapacityList().get(itemRef));
+				//check 
+				if ((warehouse.getItemList().getValue(itemRef)/64) > warehouse.getTypeCapacityList().getValue(itemRef))
+				{
+					isResult = false;
+				}
+			} else
+			{
+//				System.out.println(getId()+" :CheckStore "+itemRef+":"+warehouse.getItemList().getValue(itemRef)+":"+warehouse.getTypeCapacityList().get(itemRef));
 				isResult = false;
 			}
 		}
