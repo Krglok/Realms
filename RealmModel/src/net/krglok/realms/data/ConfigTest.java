@@ -2,6 +2,8 @@ package net.krglok.realms.data;
 
 import java.util.HashMap;
 
+import org.bukkit.Material;
+
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
@@ -21,6 +23,11 @@ public class ConfigTest implements ConfigInterface
 	private ItemList toolItems;
 	private ItemList weaponItems;
 	private ItemList armorItems;
+	private ItemList buildItems;
+	private ItemList materialItems;
+	private ItemList oreItems;
+	private ItemList valuableItems;
+	private ItemList rawItems;
 	
 	
 	int realmCounter ;
@@ -415,11 +422,136 @@ public class ConfigTest implements ConfigInterface
 		subList.addItem("WOOD_HOE",0);
 		subList.addItem("WOOD_PICKAXE",0);
 		subList.addItem("WOOD_SPADE",0);
+		subList.addItem(Material.WOOD_SWORD.name(),0);
 
 		this.toolItems = subList;
 	}
 
+	public void initBuildMaterial()
+	{
+		ItemList subList = new ItemList();
 
+		subList.addItem(Material.COBBLESTONE.name(),0);
+		subList.addItem(Material.LOG.name(),0);
+		subList.addItem(Material.WOOD.name(),0);
+		subList.addItem(Material.STONE.name(),0);
+		subList.addItem(Material.FENCE.name(),0);
+		subList.addItem(Material.FENCE_GATE.name(),0);
+		subList.addItem(Material.STONE.name(),0);
+		subList.addItem(Material.BRICK.name(),0);
+		subList.addItem(Material.NETHER_BRICK.name(),0);
+		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
+		subList.addItem(Material.WOOD_DOOR.name(),0);
+		subList.addItem(Material.CHEST.name(),0);
+		subList.addItem(Material.WORKBENCH.name(),0);
+		subList.addItem(Material.FURNACE.name(),0);
+		subList.addItem(Material.BED_BLOCK.name(),0);
+		subList.addItem(Material.BED.name(),0);
+		subList.addItem(Material.TORCH.name(),0);
+		subList.addItem(Material.WOOL.name(),0);
+		subList.addItem(Material.ANVIL.name(),0);
+		subList.addItem(Material.BOOKSHELF.name(),0);
+		subList.addItem(Material.WOOD_STEP.name(),0);
+		subList.addItem(Material.STEP.name(),0);
+		subList.addItem(Material.WALL_SIGN.name(),0);
+		subList.addItem(Material.SIGN.name(),0);
+		subList.addItem(Material.SIGN_POST.name(),0);
+		subList.addItem(Material.DIRT.name(),0);
+		subList.addItem(Material.GRASS.name(),0);
+		subList.addItem(Material.WATER.name(),0);
+		subList.addItem(Material.NETHERRACK.name(),0);
+		subList.addItem(Material.WHEAT.name(),0);
+		subList.addItem(Material.RED_MUSHROOM.name(),0);
+		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
+//		subList.addItem(Material..name(),0);
+		
+		this.buildItems = subList;
+	}
+
+	public void initMaterial()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.COAL.name(),0);
+		subList.addItem(Material.WOOD.name(),0);
+		subList.addItem(Material.STICK.name(),0);
+		subList.addItem(Material.WOOL.name(),0);
+		subList.addItem(Material.COBBLESTONE.name(),0);
+		subList.addItem(Material.LOG.name(),0);
+		subList.addItem(Material.SEEDS.name(),0);
+		subList.addItem(Material.NETHERRACK.name(),0);
+//		subList.addItem(Material..name(),0);
+		
+		this.materialItems = subList;
+	}
+
+	public void initOre()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.COAL_ORE.name(),0);
+		subList.addItem(Material.IRON_ORE.name(),0);
+		subList.addItem(Material.GOLD_ORE.name(),0);
+		subList.addItem(Material.DIAMOND_ORE.name(),0);
+		subList.addItem(Material.REDSTONE_ORE.name(),0);
+		subList.addItem(Material.EMERALD_ORE.name(),0);
+		subList.addItem(Material.LAPIS_ORE.name(),0);
+		subList.addItem(Material.QUARTZ_ORE.name(),0);
+//		subList.addItem(Material..name(),0);
+			
+		this.oreItems = subList;
+	}
+	
+	public void initValuables()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.GOLD_NUGGET.name(),0);
+		subList.addItem(Material.EMERALD.name(),0);
+		subList.addItem(Material.DIAMOND.name(),0);
+		subList.addItem(Material.GOLD_INGOT.name(),0);
+		subList.addItem(Material.IRON_INGOT.name(),0);
+//		subList.addItem(Material..name(),0);
+			
+		this.valuableItems = subList;
+	}
+	
+	public void initRawMaterial()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.DIRT.name(),0);
+		subList.addItem(Material.STONE.name(),0);
+		subList.addItem(Material.GRASS.name(),0);
+		subList.addItem(Material.NETHERRACK.name(),0);
+		subList.addItem(Material.LOG.name(),0);
+		subList.addItem(Material.GRAVEL.name(),0);
+		subList.addItem(Material.WATER.name(),0);
+		subList.addItem(Material.WOOL.name(),0);
+		subList.addItem(Material.CLAY.name(),0);
+		subList.addItem(Material.SAND.name(),0);
+		subList.addItem(Material.LAVA.name(),0);
+		subList.addItem(Material.LEAVES.name(),0);
+		subList.addItem(Material.LEAVES_2.name(),0);
+		subList.addItem(Material.SANDSTONE.name(),0);
+		subList.addItem(Material.SNOW.name(),0);
+		subList.addItem(Material.ICE.name(),0);
+		subList.addItem(Material.CACTUS.name(),0);
+		subList.addItem(Material.SUGAR_CANE.name(),0);
+		subList.addItem(Material.PUMPKIN.name(),0);
+		subList.addItem(Material.SEEDS.name(),0);
+		subList.addItem(Material.MELON.name(),0);
+		subList.addItem(Material.VINE.name(),0);
+		subList.addItem(Material.MYCEL.name(),0);
+		subList.addItem(Material.HUGE_MUSHROOM_1.name(),0);
+		subList.addItem(Material.HUGE_MUSHROOM_2.name(),0);
+		subList.addItem(Material.MOSSY_COBBLESTONE.name(),0);
+		subList.addItem(Material.SAPLING.name(),0);
+//		subList.addItem(Material..name(),0);
+			
+		this.rawItems = subList;
+	}
+	
 	@Override
 	public String getRegionType(BuildPlanType bType)
 	{

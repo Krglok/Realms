@@ -165,4 +165,20 @@ public class Warehouse
 		return false;
 	}
 	
+	public ItemList findItemsInWarehouse(ItemList searchList)
+	{
+		ItemList resultList = new ItemList();
+		for (Item search : searchList.values())
+		{
+			for (Item item :  this.getItemList().values())
+			{
+				if (item.ItemRef().equalsIgnoreCase(search.ItemRef()))
+				{
+					resultList.addItem(new Item(item.ItemRef(), item.value()) );
+				}
+			}
+		}
+		
+		return resultList;
+	}
 }

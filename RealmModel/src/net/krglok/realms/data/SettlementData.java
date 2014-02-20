@@ -300,7 +300,7 @@ public class SettlementData
             	for (String ref : settles.keySet())
             	{
             		msg.add(ref);
-            		System.out.println(ref);
+//            		System.out.println("SettleId: "+ref);
 //            		plugin.getMessageData().log(ref);
             	}
             }

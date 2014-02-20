@@ -341,23 +341,34 @@ public class StrongholdConfigTest
 	private String[] setStandardList()
 	{
 		return new String[] 
-        		{"haupthaus",
-        		"haus_einfach", 
-        		"kornfeld", 
-        		"holzfaeller",
-        		"steinbruch",
+        		{"HALL",
+        		"HOME", 
+        		"WHEAT",
+        		"WOODCUTTER",
+        		"QUARRY",
         		};
 	}
 
+	private String[] setNetherList()
+	{
+		return new String[] 
+        		{"HALL",
+        		"HOME", 
+        		"MUSHROOM",
+        		"KITCHEN",
+        		"NETHERQUARRY"
+        		};
+	}
+	
 	private String[] setBasisList()
 	{
 		return new String[] 
         		{
-        		"bauern_haus",
-        		"schaefer",
-        		"schreiner",
-        		"tischler",
-        		"haus_baecker"
+        		"FARMHOUSE",
+        		"SHEPHERD",
+        		"CARPENTER",
+        		"CABINETMAKER",
+        		"BAKERY"
         		};
 	}
 
@@ -366,16 +377,16 @@ public class StrongholdConfigTest
 	{
 		return new String[] 
         		{
-        		"ziegelei",
-        		"koehler",
-				"prod_waxe",
-        		"prod_whoe", 
-        		"prod_wpaxe", 
-        		"prod_wsword",
-        		"prod_wspade",
-        		"rinderstall",
-        		"huehnerstall",
-        		"fischer"
+        		"BRICKWORK",
+        		"CHARBURNER",
+				"AXESHOP",
+        		"HOESHOP", 
+        		"PICKAXESHOP", 
+        		"KNIFESHOP",
+        		"SPADESHOP",
+        		"COWSHED",
+        		"CHICKENHOUSE",
+        		"FISHERHOOD"
         		};
 	}
 
@@ -383,14 +394,14 @@ public class StrongholdConfigTest
 	private String[] setEnhancedList()
 	{
 		return new String[] 
-        		{"werkstatt",
-				"steinmine",
-				"schmelze",
-				"bauernhof",
-				"schweinestall",
-        		"prod_netherziegel",
-				"markt",
-				"taverne"
+        		{"WORKSHOP",
+				"STONEMINE",
+				"SMELTER",
+				"FARM",
+				"PIGPEN",
+        		"NETHER_BRICKWORK",
+				"WARHOUSE",
+				"TAVERNE"
         		};
 	}
 	
@@ -416,6 +427,7 @@ public class StrongholdConfigTest
         RegionConfig region;
         String[] sList ;
 //        sList = setStandardList();
+//        sList = setNetherList();
 //        sList = setBasisList();
 //        sList = setErweitertList();
         sList = setEnhancedList();

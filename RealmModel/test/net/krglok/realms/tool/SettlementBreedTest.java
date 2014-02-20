@@ -22,6 +22,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.data.SettlementData;
 
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -211,7 +212,7 @@ public class SettlementBreedTest
 //				makeSettleAnalysis(settle, month, priceList);
 			}
 			
-			sb = ConfigBasis.setStrleft(showBalkenHappy(settle, isMonth,showSettler),17);
+			sb = ConfigBasis.setStrleft(showBalkenHappy(settle, isMonth,showSettler),27);
 			if (isOutput)
 			{
 				if (isMonth)
@@ -371,52 +372,55 @@ public class SettlementBreedTest
 		ServerTest server = new ServerTest();
 		
 		ItemPriceList priceList = readPriceData(); 
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+        File DataFile = new File(path, "Realms");
+		SettlementData sData = new SettlementData(DataFile);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
 //        ItemPriceList itemPrices = testPriceList();
 		
-		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
-		regionTypes.put("1","HALL");
-		regionTypes.put("2","HOME");
-		regionTypes.put("3","HOME");
-		regionTypes.put("4","HOME");
-		regionTypes.put("5","HOME");
-//		regionTypes.put("62","taverne");
-		regionTypes.put("65","WHEAT");
-//		regionTypes.put("66","WHEAT");
-//		regionTypes.put("69","markt");
-		regionTypes.put("69","WOODCUTTER");
-//		regionTypes.put("68","CARPENTER");
-//		regionTypes.put("31","bauern_haus");
-		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
-
-		SettleType settleType = SettleType.SETTLE_HAMLET;
-		String settleName = "New Haven";
+//		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
+//		regionTypes.put("1","HALL");
+//		regionTypes.put("2","HOME");
+//		regionTypes.put("3","HOME");
+//		regionTypes.put("4","HOME");
+//		regionTypes.put("5","HOME");
+////		regionTypes.put("62","taverne");
+//		regionTypes.put("65","WHEAT");
+////		regionTypes.put("66","WHEAT");
+////		regionTypes.put("69","markt");
+//		regionTypes.put("69","WOODCUTTER");
+////		regionTypes.put("68","CARPENTER");
+////		regionTypes.put("31","bauern_haus");
+//		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
+//
+//		SettleType settleType = SettleType.SETTLE_HAMLET;
+//		String settleName = "New Haven";
 		
-		Settlement settle =  
-				Settlement.createSettlement(
-				pos, 
-				settleType, 
-				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
-				regionTypes, 
-				regionBuildings,
-				Biome.PLAINS
-				);
+		Settlement settle =  sData.readSettledata(4);
+//				Settlement.createSettlement(
+//				pos, 
+//				settleType, 
+//				settleName, 
+//				ownerList.getOwner("NPC0").getPlayerName(),
+//				regionTypes, 
+//				regionBuildings,
+//				Biome.PLAINS
+//				);
 
-		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
-		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*2 );
-		settle.getWarehouse().depositItemValue("WOOD_HOE",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue("WOOD_AXE",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue("WOOD_PICKAXE",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue("LOG",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue("WOOD",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue("STICK",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue("COBBLESTONE",settle.getResident().getSettlerMax());
-		
-		settle.getResident().setSettlerCount(5);
+//		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
+//		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*2 );
+//		settle.getWarehouse().depositItemValue("WOOD_HOE",settle.getResident().getSettlerMax());
+//		settle.getWarehouse().depositItemValue("WOOD_AXE",settle.getResident().getSettlerMax());
+//		settle.getWarehouse().depositItemValue("WOOD_PICKAXE",settle.getResident().getSettlerMax());
+//		settle.getWarehouse().depositItemValue("LOG",settle.getResident().getSettlerMax());
+//		settle.getWarehouse().depositItemValue("WOOD",settle.getResident().getSettlerMax());
+//		settle.getWarehouse().depositItemValue("STICK",settle.getResident().getSettlerMax());
+//		settle.getWarehouse().depositItemValue("COBBLESTONE",settle.getResident().getSettlerMax());
+//		
+//		settle.getResident().setSettlerCount(5);
 		settle.setSettlerMax();
 		settle.initTreasureList();
 		settle.expandTreasureList(settle.getBiome(), server);

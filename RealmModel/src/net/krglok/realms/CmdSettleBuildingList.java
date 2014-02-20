@@ -2,6 +2,7 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
@@ -77,20 +78,13 @@ public class CmdSettleBuildingList extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add("Item           |Region    |Beds|Product");
-		for (Building bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildingList().values())
+		msg.add("Item           |Region    |");
+		for (BuildPlanType bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().keySet())
 		{
-			String name = ConfigBasis.setStrleft(bItem.getBuildingType().name(), 15);
-			String region = ConfigBasis.setStrleft(bItem.getHsRegionType(), 10);
-			String settler = ConfigBasis.setStrright(String.valueOf(bItem.getSettler()), 2);
-			String slots = ConfigBasis.setStrright(String.valueOf(bItem.getSlot1().size()), 5);
-			ItemList output = plugin.getServerData().getRegionOutput(region);
+			String name = ConfigBasis.setStrleft(bItem.name(), 15);
+			String settler = ConfigBasis.setStrright(String.valueOf(plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().get(bItem)), 3);
 			String product = "";
-			for (String item : output.keySet())
-			{
-				product = product + item + "|";
-			}
-			msg.add(name +"|"+region+"| "+settler+" |"+product);
+			msg.add(name +"|"+settler+" |");
 		}
 		msg.add("");
 		plugin.getMessageData().printPage(sender, msg, page);

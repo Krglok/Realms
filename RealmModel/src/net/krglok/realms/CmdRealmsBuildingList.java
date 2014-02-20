@@ -74,7 +74,7 @@ public class CmdRealmsBuildingList extends RealmsCommand
 	private ArrayList<String> getTMXList(Realms plugin)
 	{
 		ArrayList<String> tmxList = new ArrayList<String>();
-		String path = plugin.getDataFolder().getName();
+		String path = plugin.getDataFolder().getAbsolutePath();
         File regionFolder = new File(path, "buildplan");
         if (!regionFolder.exists()) {
         	System.out.println("BuildPlan Folder not found !"+path);
@@ -89,7 +89,7 @@ public class CmdRealmsBuildingList extends RealmsCommand
 	        	sRegionFile = sRegionFile.replace(".tmx", "");
 	        	tmxList.add(sRegionFile);
         	}
-        	System.out.println(sRegionFile);
+//        	System.out.println(sRegionFile);
         }
         return tmxList;
 	}

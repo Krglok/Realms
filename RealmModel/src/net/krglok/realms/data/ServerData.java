@@ -142,7 +142,7 @@ public class ServerData implements ServerInterface
 			{
 				rList.addItem(item.getData().getItemType().name(), item.getAmount());
 			}
-			System.out.println("Out: "+regionType+":"+rList.size());
+//			System.out.println("Out: "+regionType+":"+rList.size());
 		}
 		return rList;
 	}
@@ -157,7 +157,7 @@ public class ServerData implements ServerInterface
 			{
 				rList.addItem(item.getData().getItemType().name(), item.getAmount());
 			}
-			System.out.println("Up : "+regionType+":"+rList.size());
+//			System.out.println("Up : "+regionType+":"+rList.size());
 		}
 		return rList;
 	}
@@ -493,20 +493,23 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
-		case WHEAT : return FAKTOR_MMM;
-		case SEEDS : return FAKTOR_MMM;
-		case LOG: return FAKTOR_MMM;
-		case WOOL : return FAKTOR_MMM;
+		case WHEAT : return FAKTOR_MM;
+		case SEEDS : return FAKTOR_MM;
+		case WOOL : return FAKTOR_MM;
 		case GOLD_NUGGET: return FAKTOR_PP;
-		case LEATHER : return FAKTOR_MMM;
-		case RAW_BEEF : return FAKTOR_MMM;
-		case PORK : return FAKTOR_MMM;
-		case RAW_CHICKEN : return FAKTOR_MMM;
-		case FEATHER : return FAKTOR_MMM;
+		case LEATHER : return FAKTOR_MM;
+		case RAW_BEEF : return FAKTOR_MM;
+		case PORK : return FAKTOR_MM;
+		case RAW_CHICKEN : return FAKTOR_MM;
+		case FEATHER : return FAKTOR_MM;
 		case RED_MUSHROOM : return FAKTOR_PPP; 
-		case BROWN_MUSHROOM : return FAKTOR_PPP; 
+		case BROWN_MUSHROOM : return FAKTOR_PPP;
+		case LAVA : return FAKTOR_MMM;
+		case NETHERRACK : return FAKTOR_MM;
+		case SOUL_SAND : return FAKTOR_MM;
+		
 		default :
-			return  FAKTOR_0;
+			return  FAKTOR_MMM;
 		}
 	}
 	
