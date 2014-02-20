@@ -27,6 +27,8 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
+import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.RegionConfig;
 
@@ -96,7 +98,6 @@ public class BuildManager
 		this.regionRequest = new ArrayList<RegionLocation>();
 		this.chestSetRequest = new ArrayList<ItemListLocation>();
 		bStatus = BuildStatus.NONE;
-		initBuildPlans();
 	}
 	
 	public BuildStatus getStatus()
@@ -104,23 +105,6 @@ public class BuildManager
 		return bStatus;
 	}
 	
-	/**
-	 * list of defaultBuildPlans
-	 * 
-	 */
-	private void initBuildPlans()
-	{
-//		buildPlanList.put(BuildPlanType.COLONY.name(), new BuildPlanColony());
-//		buildPlanList.put(BuildPlanType.HALL.name(), new BuildPlanHall());
-//		buildPlanList.put(BuildPlanType.HOME.name(), new BuildPlanHome());
-//		buildPlanList.put(BuildPlanType.WHEAT.name(), new BuildPlanWheat());
-//		buildPlanList.put(BuildPlanType.WOODCUTTER.name(), new BuildPlanWoodCutter());
-//		buildPlanList.put(BuildPlanType.QUARRY.name(), new BuildPlanQuarry());
-//		buildPlanList.put(BuildPlanType.ROAD.name(), new BuildPlanRaod());
-//		buildPlanList.put(BuildPlanType.LANE.name(), new BuildPlanLane());
-//		buildPlanList.put(BuildPlanType.PILLAR.name(), new BuildPlanPillar());
-//		buildPlanList.put(BuildPlanType.STEEPLE.name(), new BuildPlanSteeple());
-	}
 	
 	public static ItemList makeMaterialList(BuildPlan buildPlan)
 	{

@@ -2,6 +2,7 @@ package net.krglok.realms.data;
 
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
@@ -37,6 +38,12 @@ public interface DataInterface
 	public void writeSettlement(Settlement settle);
 
 	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet);
+	
+	public ItemPriceList getPriceList();
+
+
+	void addPrice(String itemRef, Double price);
+
 
 
 }

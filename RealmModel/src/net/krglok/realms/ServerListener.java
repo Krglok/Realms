@@ -207,7 +207,7 @@ public class ServerListener implements Listener
 					if (book.getItemMeta().getDisplayName().equalsIgnoreCase("[WHEAT]"))
 					{
 						BuildPlanType bType = BuildPlanType.WHEAT;
-						McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settle.getId(), bType, iLoc);
+						McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settle.getId(), bType, iLoc,player);
 						plugin.getRealmModel().OnCommand(modelCommand);
 				    	msg.add("BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
 				    	msg.add(" ");

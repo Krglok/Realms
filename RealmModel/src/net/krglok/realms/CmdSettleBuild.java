@@ -107,7 +107,7 @@ public class CmdSettleBuild extends RealmsCommand
 		World world = player.getWorld();
 		LocationData iLoc = new LocationData(world.getName(), position.getX(), position.getY(), position.getZ());
 		System.out.println("SettleCommand : Builder");
-		McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settleId, bType, iLoc);
+		McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settleId, bType, iLoc,player);
 		plugin.getRealmModel().OnCommand(modelCommand);
     	msg.add("BUILD "+bType.name()+" at "+(int)position.getX()+":"+(int)position.getY()+":"+(int)position.getZ());
     	msg.add(" ");

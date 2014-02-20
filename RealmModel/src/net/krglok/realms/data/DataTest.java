@@ -3,9 +3,14 @@ package net.krglok.realms.data;
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.HashMap;
+//import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import tiled.core.Map;
 import tiled.core.MapLayer;
@@ -22,6 +27,8 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.MemberList;
@@ -61,6 +68,7 @@ public class DataTest implements DataInterface
 	private BuildingList testBuildings; 
 
 	private SettlementData settleData;
+    private ItemPriceList priceList ;
 	
 	public DataTest()
 	{
@@ -68,6 +76,7 @@ public class DataTest implements DataInterface
 		File dataFolder = new File(path);
 		settleData = new SettlementData(dataFolder);
 		initTestData();
+		priceList = new ItemPriceList();
 	}
 
 	public void initTestData()
@@ -819,6 +828,71 @@ public class DataTest implements DataInterface
 			e.printStackTrace();
 		}
 		return buildPlan;
+	}
+
+	@Override
+	public ItemPriceList getPriceList()
+	{
+        String base = "BASEPRICE";
+		try
+		{
+			//\\Program Files\\BuckitTest\\plugins\\Realms
+            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms", "baseprice.yml");
+//            if (!DataFile.exists()) 
+//            {
+//            	DataFile.createNewFile();
+//            }
+            FileConfiguration config = new YamlConfiguration();
+            config.load(DataFile);
+            
+            if (config.isConfigurationSection(base))
+            {
+            	
+    			HashMap<String,Object> buildings = (HashMap<String, Object>) config.getConfigurationSection(base).getValues(false);
+            	for (String ref : buildings.keySet())
+            	{
+            		Double price = config.getDouble(base+"."+ref,0.0);
+            		ItemPrice item = new ItemPrice(ref, price);
+            		priceList.add(item);
+            	}
+            }
+		} catch (Exception e)
+		{
+		}
+		return priceList;
+	}
+
+	@Override
+	public void addPrice(String itemRef, Double price)
+	{
+		try
+		{
+		
+			priceList.add(itemRef, price);
+	
+			File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms", "baseprice.yml");
+	//      if (!DataFile.exists()) 
+	//      {
+	//      	//DataFile.createNewFile();
+	//      }
+	      
+			FileConfiguration config = new YamlConfiguration();
+			config.load(DataFile);
+			  
+			String base = "BASEPRICE";
+			ConfigurationSection settleSec = config.createSection(base);
+			for (ItemPrice item : priceList.values())
+			{
+				config.set(MemorySection.createPath(settleSec, item.ItemRef()),item.getBasePrice());
+			}
+	  		config.save(DataFile);
+			
+		} catch (Exception e)
+		{
+			System.out.println("writePriclist");
+			System.out.println(e.getStackTrace());
+		}
+	
 	}
 
 }

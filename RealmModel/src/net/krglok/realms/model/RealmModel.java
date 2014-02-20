@@ -50,7 +50,7 @@ public class RealmModel
 	private ServerInterface server;
 	private ConfigInterface config;
 	private DataInterface data;
-	private MessageInterface messageData;
+	public MessageInterface messageData;
 	
 	private OwnerList owners;
 	private KingdomList realms;
@@ -420,7 +420,7 @@ public class RealmModel
 			tradeTransport.runTick();
 			tradeMarket.runTick();
 			// Builder
-			buildManagers();
+			buildManagersRun();
 			colonyRun();
 			switch (modelStatus)
 			{
@@ -499,7 +499,7 @@ public class RealmModel
 	/**
 	 * ruft den BuildManager jedes Settlement auf und laesst ihn eine Runde arbeiten
 	 */
-	private void buildManagers()
+	private void buildManagersRun()
 	{
 		for (Settlement settle : settlements.getSettlements().values())
 		{
@@ -574,9 +574,6 @@ public class RealmModel
 		}
 		Settlement settle = tradeQueue.get(0);
 
-		settle.getTrader().checkMarket(tradeMarket, tradeTransport, settle, settlements);
-		tradeTransport.fullfillTarget(settle);
-		tradeTransport.fullfillSender(settle);
 		
 		tradeQueue.remove(0);
 		messageData.log("remove 0");

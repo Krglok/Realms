@@ -278,7 +278,7 @@ public class RealmLoopTest
 
 		int loopMax = (int) ConfigBasis.GameDay * 2;
 		doLoop(loopMax, rModel);
-		McmdBuilder modelCommand = new McmdBuilder(rModel, settleId, BuildPlanType.HOME, new LocationData("SteamHaven", -456, 68, -1287));
+		McmdBuilder modelCommand = new McmdBuilder(rModel, settleId, BuildPlanType.HOME, new LocationData("SteamHaven", -456, 68, -1287), null);
 		rModel.OnCommand(modelCommand);
 
 		loopMax = (int) ConfigBasis.GameDay * 10;

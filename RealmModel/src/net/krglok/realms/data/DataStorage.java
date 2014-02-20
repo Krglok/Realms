@@ -159,11 +159,13 @@ public class DataStorage implements DataInterface
 		return owners;
 	}
 
+	@Override
 	public ItemPriceList getPriceList()
 	{
 		return priceList;
 	}
 
+	@Override
 	public void addPrice(String itemRef, Double price)
 	{
 		priceList.add(itemRef, price);

@@ -10,6 +10,7 @@ import net.krglok.realms.core.TradeType;
 public class McmdBuyOrder implements iModelCommand
 {
 	
+
 	private ModelCommandType commandType = ModelCommandType.BUYITEM;
 	private RealmModel rModel;
 	private int settleId;
@@ -38,6 +39,31 @@ public class McmdBuyOrder implements iModelCommand
 		return commandType;
 	}
 
+	public int getSettleId()
+	{
+		return settleId;
+	}
+
+	public String getItemRef()
+	{
+		return itemRef;
+	}
+
+	public int getAmount()
+	{
+		return amount;
+	}
+
+	public double getPrice()
+	{
+		return price;
+	}
+
+	public int getDelayDays()
+	{
+		return delayDays;
+	}
+	
 	@Override
 	public String[] getParaTypes()
 	{
