@@ -6,16 +6,23 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
+import net.krglok.realms.builder.BuildPlanMap;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.builder.BuildPosition;
+import net.krglok.realms.builder.SettleSchema;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.SettlementData;
+import net.krglok.realms.manager.BuildManager;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -186,10 +193,78 @@ public class SettlementDataTest
 		
 	}
 	
+	private ArrayList<BuildPlanType> findUnavailableBuilding(Settlement settle, SettleSchema needed)
+	{
+		ArrayList<BuildPlanType> notFound = new ArrayList<BuildPlanType>();
+		for (BuildPosition bPos : needed.getbPositions())
+		{
+			boolean isFound = false;
+			for (BuildPlanType bType : settle.getBuildingList().getBuildTypeList().keySet())
+			{
+				if (bType == bPos.getbType())
+				{
+					isFound = true;
+				}
+			}
+			if (isFound == false)
+			{
+				notFound.add(bPos.getbType());
+			}
+		}
+		
+		return notFound;
+	}
+	
+	private BuildPlanType checkNeededBuilding(Settlement settle)
+	{
+		BuildPlanType newType = BuildPlanType.NONE;
+		
+		ArrayList<BuildPlanType> notFound = findUnavailableBuilding(settle, SettleSchema.initDefaultHamlet());
+		if (notFound.isEmpty())
+		{
+			notFound = findUnavailableBuilding(settle, SettleSchema.initBasicHamlet());
+		}
+		if (notFound.size() > 0)
+		{
+			newType = notFound.get(0);
+		} else
+		{
+			newType = BuildPlanType.NONE;
+		}
+		return newType;
+	}
+	
+	private ItemList checkRequiredInWarehouse(Settlement settle, ItemList required)
+	{
+		ItemList notFound = new ItemList();
+		ItemList foundList = settle.getWarehouse().findItemsInWarehouse(required);
+		for (Item item : required.values())
+		{
+			for (Item found : foundList.values())
+			{
+				boolean isFound = false;
+				if (item.ItemRef().equals(found.ItemRef()))
+				{
+					if (item.value() <= found.value())
+					{
+						isFound = true;
+					}
+				}
+				if (isFound == false)
+				{
+					notFound.addItem(item);
+				}
+			}
+		}
+		return notFound;
+	}
+	
 	@Test
 	public void testReadSettledata()
 	{
+		final double MIN_MONEY_FACTOR = 50.0; 
 		ConfigTest config = new ConfigTest();
+		DataTest data     = new DataTest();
 		ItemPriceList priceList = readPriceData();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
         File DataFile = new File(path, "Realms");
@@ -233,16 +308,17 @@ public class SettlementDataTest
 		System.out.print(" |"+"Beds");
 		System.out.print("|"+" Bank ");
 		System.out.print(" |"+" Money");
-		System.out.print(" | "+"   Gold");
-		System.out.print(" | "+"Emerald");
+		System.out.print(" | "+" Factor");
 		System.out.println(" ");
+		
 		for (Settlement settle : settleList.getSettlements().values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
 			System.out.print(" | "+ConfigBasis.setStrleft(String.valueOf(settle.getResident().getSettlerMax()),2));
 			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf((int)settle.getBank().getKonto()),5));
-			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf(settle.getResident().getSettlerMax()*50),5));
+			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf((int)(settle.getResident().getSettlerMax()*MIN_MONEY_FACTOR)),5));
+			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf(MIN_MONEY_FACTOR),5));
 			System.out.println(" ");
 		}
 		
@@ -308,6 +384,53 @@ public class SettlementDataTest
 		for (Settlement settle : settleList.getSettlements().values())
 		{
 			sellValuePrice(settle, priceList);
+		}
+
+//		System.out.println("  ");
+//		System.out.println("Needed Buildings / Resources");
+//		for (Settlement settle : settleList.getSettlements().values())
+//		{
+//			System.out.print(settle.getId());
+//			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
+//			System.out.println(" ");
+//			BuildPlanType neededBuilding = checkNeededBuilding(settle);
+//			System.out.print("   |"+"Building needed ");
+//			System.out.print("   |"+neededBuilding);
+//			
+//			System.out.println(" ");
+//			BuildPlanMap buildPlan = data.readTMXBuildPlan(neededBuilding, 4, -1);
+//			
+//			ItemList required = BuildManager.makeMaterialList(buildPlan);
+//			System.out.print("   |"+"Items needed ");
+//			System.out.println(" ");
+//			for (Item item : required.values())
+//			{
+//				System.out.print("    |"+item.ItemRef());
+//				System.out.print(" : "+item.value());
+//				System.out.println(" ");
+//				
+//			}
+//		}
+
+		System.out.println("  ");
+		System.out.println("Buy Request ");
+		for (Settlement settle : settleList.getSettlements().values())
+		{
+			System.out.print(settle.getId());
+			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
+			System.out.println(" ");
+
+			BuildPlanType neededBuilding = checkNeededBuilding(settle);
+			BuildPlanMap buildPlan = data.readTMXBuildPlan(neededBuilding, 4, -1);
+			ItemList buyRequest = checkRequiredInWarehouse(settle, BuildManager.makeMaterialList(buildPlan));
+			System.out.print("  |"+"Buy order ");
+			System.out.println(" ");
+			for (Item item : buyRequest.values())
+			{
+				System.out.print("    |"+item.ItemRef());
+				System.out.print(" : "+item.value());
+				System.out.println(" ");
+			}
 		}
 		
 	}

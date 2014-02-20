@@ -151,7 +151,13 @@ public class Warehouse
 		return false;
 	}
 	
-	
+	/**
+	 * decrement item amount with value in warehouse
+	 * if item not found false return
+	 * @param itemRef
+	 * @param value
+	 * @return true if value are withdrawn from amount
+	 */
 	public Boolean withdrawItemValue(String itemRef, int value)
 	{
 		int actual = itemList.getValue(itemRef);
@@ -165,6 +171,12 @@ public class Warehouse
 		return false;
 	}
 	
+	/**
+	 * search for ItemList in warehouse 
+	 * dont check for amount
+	 * @param searchList
+	 * @return  found Items in Warehouse with amount
+	 */
 	public ItemList findItemsInWarehouse(ItemList searchList)
 	{
 		ItemList resultList = new ItemList();

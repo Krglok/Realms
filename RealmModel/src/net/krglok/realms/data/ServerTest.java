@@ -168,6 +168,21 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	}
 
 	@Override
+	public int getSuperRegionRadius(String superRegionType)
+	{
+		switch (superRegionType)
+		{
+		case "HAMLET" : return 40;
+		case "TOWN" : return 70;
+		case "CITY" : return 100;
+		
+		default : return 0;
+		}
+		
+	}
+	
+	
+	@Override
 	public int getSuperRegionPower(String superRegionName)
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";

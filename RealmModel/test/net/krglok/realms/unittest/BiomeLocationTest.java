@@ -1,4 +1,4 @@
-package net.krglok.realms.manager;
+package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 

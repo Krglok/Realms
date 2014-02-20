@@ -781,7 +781,7 @@ public class DataTest implements DataInterface
 		try
 		{
 			tmxMap =  mapReader.readMap(filename);
-			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth());
+//			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth());
 			radius = (tmxMap.getWidth()+1) / 2; 
 			buildPlan.setRadius(radius);
 			byte [][][] newCube = buildPlan.initCube(tmxMap.getWidth());
@@ -789,12 +789,12 @@ public class DataTest implements DataInterface
 	 		for (MapLayer layer :tmxMap.getLayers())
 			{
 	 			
-				System.out.println(layer.getName()+":"+level+":"+layer.getHeight()+":"+layer.getWidth());
+//				System.out.println(layer.getName()+":"+level+":"+layer.getHeight()+":"+layer.getWidth());
 		        Rectangle bounds = layer.getBounds();
 				TileLayer tl = (TileLayer) layer;
 	            for (int y = 0; y < layer.getHeight(); y++) 
 	            {
-					System.out.print("|");
+//					System.out.print("|");
 	                for (int x = 0; x < layer.getWidth(); x++) 
 	                {
 	                    Tile tile = tl.getTileAt(x + bounds.x, y + bounds.y);
@@ -804,11 +804,11 @@ public class DataTest implements DataInterface
 	                    {
 	                        gid = getGid(tile);
 	                    }
-	                    System.out.print(gid+"|");
+//	                    System.out.print(gid+"|");
 	                    newCube[level][y][x] = ConfigBasis.getMaterialId(tmxToMaterial(gid));
 	//                    System.out.println("tile"+"gid: "+ gid);
 	                }
-	                System.out.println("");
+//	                System.out.println("");
 	            }
 	            level++;
 				

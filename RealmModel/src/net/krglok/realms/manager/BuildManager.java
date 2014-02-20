@@ -132,7 +132,10 @@ public class BuildManager
 				for (int c = 0; c < buildPlan.getEdge(); c++)
 				{
 					Material mat = ConfigBasis.getPlanMaterial(buildPlan.getCube()[h][r][c]);
-					items.depositItem(mat.name(), 1);
+					if (mat != Material.AIR)
+					{
+						items.depositItem(mat.name(), 1);
+					}
 				}
 			}
 		}

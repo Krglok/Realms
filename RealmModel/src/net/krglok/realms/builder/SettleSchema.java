@@ -16,6 +16,8 @@ import net.krglok.realms.manager.PlanMap;
  */
 public class SettleSchema
 {
+	final static int MIN_DISTANCE = 2;
+	
 	private SettleType settleType;
 	private PlanMap settlePlan;
 	private int radius;
@@ -44,13 +46,31 @@ public class SettleSchema
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("",  7.0, 0.0, 7.0)));
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("",  16.0, 0.0, 7.0)));
 	
-		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("", -7.0, 0.0, 16.0)));
-		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("",  7.0, 0.0, 16.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT,      new LocationData("", -7.0, 0.0, 16.0)));
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.WOODCUTTER, new LocationData("", -16.0, 0.0, 16.0)));
-		schema.getbPositions().add(new BuildPosition(BuildPlanType.QUARRY, new LocationData("",  16.0, 0.0, 16.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT,      new LocationData("",  7.0, 0.0, 16.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.QUARRY,     new LocationData("",  16.0, 0.0, 16.0)));
 		
 		return schema;
 	}
+	
+	public static SettleSchema initBasicHamlet()
+	{
+		SettleSchema schema = new SettleSchema(SettleType.SETTLE_HAMLET, 40);
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.SHEPHERD,     new LocationData("", 16.0, 0.0, 16.0)));
+		
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.CARPENTER,    new LocationData("", -25.0, 0.0, 7.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.CABINETMAKER, new LocationData("", -25.0, 0.0, 16.0)));
+		return schema;
+	}
+	
+	public static int getRange(int r1, int r2)
+	{
+		int range = 0;
+		range = r1 + r2 -1 + MIN_DISTANCE;
+		return range;
+	}
+	
 
 	/**
 	 * 
@@ -73,7 +93,7 @@ public class SettleSchema
 		
 		return schema;
 	}
-	
+
 	public SettleType getSettleType()
 	{
 		return settleType;

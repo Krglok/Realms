@@ -90,6 +90,19 @@ public class ServerData implements ServerInterface
 	}
 
 	@Override
+	public int getSuperRegionRadius(String superRegionName)
+	{
+		Integer radius = plugin.stronghold.getRegionManager().getSuperRegionType(superRegionName).getRadius();
+		if (radius != null)
+		{ 
+			return radius;
+		} else
+		{
+			return 0;
+		}
+	}
+	
+	@Override
 	public int getSuperRegionPower(String superRegionName)
 	{
 		
@@ -683,4 +696,5 @@ public class ServerData implements ServerInterface
 	{
 		return plugin.stronghold.getRegionManager().getRegionByID(id).getType();
 	}
+
 }
