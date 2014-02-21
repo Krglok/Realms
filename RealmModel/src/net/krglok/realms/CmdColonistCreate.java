@@ -12,6 +12,11 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * 
+ * @author oduda
+ *
+ */
 public class CmdColonistCreate extends RealmsCommand
 {
 	private String name;

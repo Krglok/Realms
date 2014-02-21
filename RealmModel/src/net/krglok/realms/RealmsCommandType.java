@@ -1,5 +1,13 @@
 package net.krglok.realms;
 
+/**
+ * <pre>
+ * Enum for the reistered commands
+ * this are keywords for the command interpreter
+ * 
+ * @author oduda
+ *</pre>
+ */
 public enum RealmsCommandType 
 {
 

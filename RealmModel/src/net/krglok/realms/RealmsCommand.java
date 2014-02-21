@@ -11,7 +11,18 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
+/**
+ * <pre>
+ * base class for idividual command executed in the plugin.
+ * the command is specified by 
+ * - RealmsCommandType, this is the registered commandname
+ * - RealmsSubCommandType, this is the 1th parameter
+ * the first parameter is always the subcommand
+ * 
+ * @author oduda
+ *
+ *</pre>
+ */
 public abstract class RealmsCommand implements iRealmsCommand
 {
 	private RealmsCommandType command;

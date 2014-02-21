@@ -1,5 +1,12 @@
 package net.krglok.realms;
 
+/**
+ * <pre>
+ * Enum for the possible subCommands of the plugin
+ * this are keywords for the command interpreter
+ * @author oduda
+ *</pre>
+ */
 public enum RealmsSubCommandType 
 {
 	NONE ,

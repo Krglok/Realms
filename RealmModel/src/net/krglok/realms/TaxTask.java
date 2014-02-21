@@ -2,7 +2,13 @@ package net.krglok.realms;
 
 import net.krglok.realms.core.ConfigBasis;
 
-
+/**
+ * <pre>
+ * realize a day based task (realDay)
+ * 
+ * @author oduda
+ *</pre>
+ */
 public class TaxTask implements Runnable
 {
     private final Realms plugin;

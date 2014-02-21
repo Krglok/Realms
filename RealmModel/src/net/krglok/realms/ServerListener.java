@@ -28,6 +28,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+/**
+ * <pre>
+ * This is the implementation of the EventHandlers 
+ * the Event will catched , selected 
+ * and transfered to the special command Handler
+ * 
+ * @author oduda
+ *
+ *</pre>
+ */
 public class ServerListener implements Listener
 {
 	private Realms plugin;

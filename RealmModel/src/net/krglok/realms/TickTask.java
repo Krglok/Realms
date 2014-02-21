@@ -2,6 +2,14 @@ package net.krglok.realms;
 
 import net.krglok.realms.core.ConfigBasis;
 
+/**
+ * <pre>
+ * realize the livecycle of the RealmModel
+ * normally the tick is 1 second
+ * 
+ * @author oduda
+ *</pre>
+ */
 public class TickTask implements Runnable
 {
     //private final transient Server server;

@@ -6,8 +6,9 @@ import net.krglok.realms.manager.PlanMap;
 
 /**
  * <pre>
- * the settle schema include a standard building schema for a settlement of a specific type.
- * the schema define the realtive position of the buildings in a settlement.
+ * the settle schema include a standard configuration schema for buildings in a settlement of a specific type.
+ * the schema define the relative position of the buildings in a settlement.
+ * the buildings describe as BuildPlanType
  * <0,0> is the center , the location of the settlement.
  * the positions are relative to center
  * </pre>

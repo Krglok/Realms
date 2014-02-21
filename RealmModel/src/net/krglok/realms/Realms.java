@@ -49,11 +49,16 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
+ * <pre>
  * Container for the plugin. Handle the Events.
  * create Task for Tick Handling of the RealmModel. 
+ * check interface to HeroStronghold
+ * check interface to Vault
+ * realize onEnable and make initialization
+ * realize onDisable and make storage of settlements
  * 
  * @author Windu
- *
+ *</pre>
  */
 public final class Realms extends JavaPlugin
 {

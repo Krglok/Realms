@@ -4,6 +4,19 @@ import java.util.ArrayList;
 
 import org.bukkit.command.CommandSender;
 
+/**
+ * <pre>
+ * Interface for the internal commands 
+ * the command are hanled by the command interpreter
+ * - getRequiredArgs , give the number of necessary parameters to the interpreter
+ * - setPara(X),  for each used datatype is methode installed
+ * - getParaTypes , give the datatype info of the parameter by position to the interpreter
+ * - canExecute , give true or or false and can individually setup
+ * - execute , realize the command individually
+ * 
+ * @author oduda
+ *</pre>
+ */
 public interface iRealmsCommand
 {
 
