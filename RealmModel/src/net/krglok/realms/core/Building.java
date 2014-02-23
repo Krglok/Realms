@@ -785,21 +785,20 @@ public class Building  implements Serializable
 //	}
 
 	/**
-	 * berechnet den gesamten Umsatz des produzierten Items
+	 * berechnet den gesamten Verkaufpreis eines Items
+	 * ! the interest are calculated in the settlement !
 	 * @param server
 	 * @param outValue the produced Item
 	 * @return amount * price
 	 */
-	public Double calcSales(ServerInterface server, String itemRef)
+	public Double calcSales(ServerInterface server, Item item)
 	{
 		Double price = 1.0;
-//		price = (BasePrice - server.getRecipeFactor(outValue.ItemRef()));
-		price = server.getItemPrice(itemRef);
+		price = server.getItemPrice(item.ItemRef());
 		if (price == 0.0)
 		{
 			price = 1.0;
 		}
-//		sum = sum + (outValue.value()*price);
 //		System.out.println("calcSale"+sum+"/"+price);
 		return price;
 	}

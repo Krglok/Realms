@@ -58,6 +58,13 @@ public class Warehouse
 		return value;
 	}
 	
+	public int getFreeCapacity()
+	{
+		int used = getUsedCapacity();
+		int max  = itemMax / 64;
+		return max - used;
+	}
+	
 	public void setStoreCapacity()
 	{
 		getTypeCapacityList().clear();
@@ -141,13 +148,15 @@ public class Warehouse
 	 */
 	public Boolean depositItemValue(String itemRef, int value)
 	{
-		if (itemMax >= (itemCount+value))
+		if (getFreeCapacity() > (value/64))
 		{
-			itemList.depositItem(itemRef, value);
-			itemCount = itemCount + value;
-			return true;
+			if (itemMax >= (itemCount+value))
+			{
+				itemList.depositItem(itemRef, value);
+				itemCount = itemCount + value;
+				return true;
+			}
 		}
-		
 		return false;
 	}
 	

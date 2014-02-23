@@ -28,7 +28,7 @@ public class Bank  implements Serializable
 	{
 		setIsEnabled(false);
 		konto = Double.valueOf(0.0);
-		transactionList = null;
+		transactionList = new LogList();
 	}
 	
 	public Bank(LogList logList)
@@ -66,12 +66,12 @@ public class Bank  implements Serializable
 	 * This is a administrator function 
 	 * @param value
 	 */
-	public void addKonto(Double value)
+	public void addKonto(Double value, String text)
 	{
 		konto = konto + value;
 		if (transactionList != null)
 		{
-			transactionList.addlog(ADD_KONTO+String.valueOf(value), "Admin");
+			transactionList.addlog(ADD_KONTO+String.valueOf(value), "Admin:"+text);
 		}
 	}
 	

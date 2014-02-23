@@ -289,17 +289,26 @@ public class RealmModelTest
 		McmdEnable modelCommand = new McmdEnable(rModel);
 		
 		Boolean expected = true; 
-		Boolean actual = false; 
-		rModel.OnEnable();
-		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
+		Boolean actual = false;
+		int i = 0;
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+//		rModel.OnEnable();
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 
 		rModel.OnProduction();
-		if (rModel.getProductionQueue().size() > 0)
-		{
-			rModel.OnCommand(modelCommand);
-			rModel.OnTick();
-			rModel.OnTick();
-		}
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+		rModel.OnCommand(modelCommand);
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+		rModel.OnTick();
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+		rModel.OnTick();
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+		rModel.OnTick();
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+		rModel.OnTick();
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+		rModel.OnTick();
+//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 		
 		actual =  (rModel.getcommandQueue().size() == 0) & (rModel.getProductionQueue().size() == 0);
 
@@ -307,7 +316,7 @@ public class RealmModelTest
 		if (isOutput)
 		{
 			System.out.println(rModel.getModelName()+":"+rModel.getProductionQueue().size());
-			System.out.println("OnTick ");
+			System.out.println("Test OnTick ");
 			System.out.println("CommandQueue : "+rModel.getcommandQueue().size());
 			System.out.println("ProdQueue    : "+rModel.getProductionQueue().size());
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());

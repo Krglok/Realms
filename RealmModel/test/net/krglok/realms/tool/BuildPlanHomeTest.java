@@ -1,24 +1,21 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.Rectangle;
 
-import net.krglok.realms.builder.BuildPlan;
-import net.krglok.realms.builder.BuildPlanColony;
-import net.krglok.realms.builder.BuildPlanHall;
-import net.krglok.realms.builder.BuildPlanHome;
 import net.krglok.realms.builder.BuildPlanMap;
-import net.krglok.realms.builder.BuildPlanQuarry;
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.builder.BuildPlanWheat;
-import net.krglok.realms.builder.BuildPlanWoodCutter;
 import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.Material;
 import org.junit.Test;
 
-import tiled.core.*;
+import tiled.core.Map;
+import tiled.core.MapLayer;
+import tiled.core.Tile;
+import tiled.core.TileLayer;
+import tiled.core.TileSet;
 import tiled.io.TMXMapReader;
 
 public class BuildPlanHomeTest

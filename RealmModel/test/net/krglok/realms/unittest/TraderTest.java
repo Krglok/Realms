@@ -27,6 +27,7 @@ import org.junit.Test;
 public class TraderTest
 {
 
+	private Boolean isOutput = false; // set this to false to suppress println
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
 	@Test
@@ -144,13 +145,16 @@ public class TraderTest
 		
 		TradeTransport tpo = new TradeTransport();
 		TradeMarket tm = new TradeMarket();
-		System.out.println("Sender  : "+sender.getId());
-		System.out.println("Target  : "+target.getId());
-		System.out.println("Sender Bank : "+sender.getBank().getKonto());
-		System.out.println("Target Bank : "+target.getBank().getKonto());
-		System.out.println("Distance    : "+ (int)sender.getPosition().distance(setteList.getSettlement(1).getPosition()));
-		System.out.println("Delay(ticks): "+ target.getTrader().getTransportDelay(sender.getPosition().distance((setteList.getSettlement(1).getPosition()))));
-//		System.out.println((settlements.getSettlement(tmo.getSettleID()).getPosition());
+		if (isOutput)
+		{
+			System.out.println("Sender  : "+sender.getId());
+			System.out.println("Target  : "+target.getId());
+			System.out.println("Sender Bank : "+sender.getBank().getKonto());
+			System.out.println("Target Bank : "+target.getBank().getKonto());
+			System.out.println("Distance    : "+ (int)sender.getPosition().distance(setteList.getSettlement(1).getPosition()));
+			System.out.println("Delay(ticks): "+ target.getTrader().getTransportDelay(sender.getPosition().distance((setteList.getSettlement(1).getPosition()))));
+	//		System.out.println((settlements.getSettlement(tmo.getSettleID()).getPosition());
+		}
 		sender.getTrader().makeSellOrder(tm, sender, sellOrder);
 
 		TradeStatus expected = TradeStatus.NONE;

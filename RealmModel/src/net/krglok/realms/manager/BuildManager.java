@@ -3,19 +3,7 @@ package net.krglok.realms.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.Material;
 import net.krglok.realms.builder.BuildPlan;
-import net.krglok.realms.builder.BuildPlanColony;
-import net.krglok.realms.builder.BuildPlanHall;
-import net.krglok.realms.builder.BuildPlanHome;
-import net.krglok.realms.builder.BuildPlanLane;
-import net.krglok.realms.builder.BuildPlanPillar;
-import net.krglok.realms.builder.BuildPlanQuarry;
-import net.krglok.realms.builder.BuildPlanRaod;
-import net.krglok.realms.builder.BuildPlanSteeple;
-import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.builder.BuildPlanWheat;
-import net.krglok.realms.builder.BuildPlanWoodCutter;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
@@ -27,10 +15,9 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.data.DataInterface;
-import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.model.RealmModel;
-import net.krglok.realms.unittest.RegionConfig;
+
+import org.bukkit.Material;
 
 /**
  * the build manager realize the Controller and Manager of the building process
@@ -137,7 +124,7 @@ public class BuildManager
 	 */
 	public boolean newBuild(BuildPlan bType, LocationData centerPos)
 	{
-		System.out.println("new Build : "+":"+bType.getBuildingType().name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
+//		System.out.println("new Build : "+":"+bType.getBuildingType().name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
 		if (bStatus == BuildStatus.NONE)
 		{
 			h = 0;
@@ -294,7 +281,7 @@ public class BuildManager
 			r = 0;
 			c = -1;  // for iteration start
 			bStatus = BuildStatus.READY;
-			System.out.println("deposit Warehouse");
+//			System.out.println("BuildManager deposit Warehouse");
 			for (ItemLocation iLoc   : resultBlockRequest)
 			{
 				if (iLoc.itemRef() != Material.AIR)
@@ -417,7 +404,7 @@ public class BuildManager
 	
 	private void doPostBuild(RealmModel rModel)
 	{
-		System.out.println(bStatus.name());
+//		System.out.println(bStatus.name());
 		// aufraeumen !!!
 		// region erzeugen 
 		if (buildRequest.isEmpty() )
@@ -463,18 +450,18 @@ public class BuildManager
 				Building building = new Building(buildPlan.getBuildingType(), regionType, true);
 				if (settle.getBuildingList().addBuilding(building))
 				{
-					System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
+//					System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
 				}
 			}
 			
-			System.out.println("doDone added : "+buildPlan.getBuildingType());
-			buildLocation = null;
+//			System.out.println("doDone added : "+buildPlan.getBuildingType());
+//			buildLocation = null;
 			buildPlan = null;
 			h = 0;
 			r = 0;
 			c = 0;
 			bStatus = BuildStatus.NONE;
-			System.out.println("FullFill : "+bStatus.name());
+//			System.out.println("FullFill : "+bStatus.name());
 		} else
 		{
 			System.out.println("Wait on Chest filled");

@@ -289,11 +289,11 @@ public class Settlement //implements Serializable
 	{
 		switch (settleType)
 		{
-		case SETTLE_HAMLET : return 10 * MessageText.CHEST_STORE;
-		case SETTLE_TOWN   : return 10 * MessageText.CHEST_STORE;
-		case SETTLE_CITY   : return 4 * MessageText.CHEST_STORE;
-		case SETTLE_METRO  : return 4 * MessageText.CHEST_STORE;
-		case SETTLE_CASTLE : return 4 * MessageText.CHEST_STORE;
+		case SETTLE_HAMLET : return 10 * ConfigBasis.CHEST_STORE;
+		case SETTLE_TOWN   : return 10 * ConfigBasis.CHEST_STORE;
+		case SETTLE_CITY   : return 4 * ConfigBasis.CHEST_STORE;
+		case SETTLE_METRO  : return 4 * ConfigBasis.CHEST_STORE;
+		case SETTLE_CASTLE : return 4 * ConfigBasis.CHEST_STORE;
 		default :
 			return 0;
 		}
@@ -308,11 +308,11 @@ public class Settlement //implements Serializable
 	{
 		switch (settleType)
 		{
-		case SETTLE_HAMLET : return 1 * MessageText.Haupthaus_Settler;
-		case SETTLE_TOWN   : return 1 * MessageText.Haupthaus_Settler;
-		case SETTLE_CITY   : return 2 * MessageText.Haupthaus_Settler;
-		case SETTLE_METRO  : return 4 * MessageText.Haupthaus_Settler;
-		case SETTLE_CASTLE : return 4 * MessageText.Haupthaus_Settler;
+		case SETTLE_HAMLET : return 1 * ConfigBasis.HALL_Settler;
+		case SETTLE_TOWN   : return 1 * ConfigBasis.HALL_Settler*2;
+		case SETTLE_CITY   : return 2 * ConfigBasis.HALL_Settler*3;
+		case SETTLE_METRO  : return 4 * ConfigBasis.HALL_Settler*4;
+		case SETTLE_CASTLE : return 4 * ConfigBasis.HALL_Settler;
 		default :
 			return 0;
 		}
@@ -441,8 +441,8 @@ public class Settlement //implements Serializable
 	{
 		switch(building.getBuildingType())
 		{
-		case WAREHOUSE : return   MessageText.WAREHOUSE_CHEST_FACTOR * MessageText.CHEST_STORE;
-		case TRADER    : return   MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
+		case WAREHOUSE : return   ConfigBasis.WAREHOUSE_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
+		case TRADER    : return   ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
 		case WORKSHOP : return   0; //WerkstattChestFactor * Chest_Store;
 		case FARM : return   0; //BauernhofChestFactor * Chest_Store;
 		default :
@@ -462,7 +462,7 @@ public class Settlement //implements Serializable
 	{
 		switch(building.getBuildingType())
 		{
-			case TRADER    : return MessageText.TRADER_CHEST_FACTOR * MessageText.CHEST_STORE;
+			case TRADER    : return ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
 			default :
 				return 0 ;
 		}
@@ -959,12 +959,12 @@ public class Settlement //implements Serializable
 		{
 			if (building.isEnabled())
 			{
-				taxSum = taxSum + building.getTaxe(server, building.getId());
+				taxSum = taxSum + building.getTaxe(server, this.resident.getSettlerCount());
 			}
 		}
-		taxSum = taxSum + townhall.getWorkerCount() * MessageText.SETTLER_TAXE;
+		taxSum = taxSum + townhall.getWorkerCount() * ConfigBasis.SETTLER_TAXE;
 //		taxSum = resident.getSettlerCount() * SETTLER_TAXE;
-		bank.addKonto(taxSum);
+		bank.addKonto(taxSum,"TAX");
 	}
 	
 	/**
@@ -989,7 +989,7 @@ public class Settlement //implements Serializable
 	 */
 	private double calcEntertainment()
 	{
-		int tavernNeeded = (resident.getSettlerCount() / MessageText.ENTERTAIN_SETTLERS);
+		int tavernNeeded = (resident.getSettlerCount() / ConfigBasis.ENTERTAIN_SETTLERS);
 		int tavernCount = 0;
 		double factor = 0.0;
 		for (Building building : buildingList.getBuildingList().values())
@@ -1028,7 +1028,7 @@ public class Settlement //implements Serializable
 		FoodFactor = consumeFood(); //SettlerFactor);
 		sumDif = EntertainFactor + SettlerFactor + FoodFactor;
 		resident.setHappiness(sumDif);
-		resident.settlerCount();
+		resident.settlerCalculation();
 
 	}
 	
@@ -1262,7 +1262,7 @@ public class Settlement //implements Serializable
 		int workerCount = 0;
 		for (Building building : buildingList.getBuildingList().values())
 		{
-			if ((building.isEnabled()) &&(building.getHsRegionType().equalsIgnoreCase("kornfeld")))
+			if ((building.isEnabled()) &&(building.getBuildingType() == BuildPlanType.WHEAT))
 			{
 				if (workerSum >= workerCount + building.getWorkerNeeded())
 				{
@@ -1276,7 +1276,7 @@ public class Settlement //implements Serializable
 		}
 		for (Building building : buildingList.getBuildingList().values())
 		{
-			if ((building.isEnabled()) &&(!building.getHsRegionType().equalsIgnoreCase("kornfeld")))
+			if ((building.isEnabled()) &&((building.getBuildingType() != BuildPlanType.WHEAT)))
 			{
 				if (workerSum >= workerCount + building.getWorkerNeeded())
 				{
@@ -1297,20 +1297,24 @@ public class Settlement //implements Serializable
 	{
 		for (Building building : buildingList.getBuildingList().values())
 		{
-			if (building.isActive())
-			{
-				// Pruefe ob StorageCapacitaet des Types ausgelastet ist
-				if (checkStoreCapacity(server, building))
+			if (building.getHsRegionType() != null)
+			{	
+				if (building.isActive())
 				{
-					building.setIsEnabled(true);
-				} else
-				{
-					building.setIsEnabled(false);
+					// Pruefe ob StorageCapacitaet des Types ausgelastet ist
+					if (checkStoreCapacity(server, building))
+					{
+						building.setIsEnabled(true);
+					} else
+					{
+						building.setIsEnabled(false);
+					}
+					// pruefe ob Stronghold region enabled sind
+					server.checkRegionEnabled(building.getHsRegion());
 				}
-				// pruefe ob Stronghold region enabled sind
-				server.checkRegionEnabled(building.getHsRegion());
 			} else
 			{
+				System.out.println("BuildRegionType null :"+building.getId()+":"+building.getBuildingType());
 				building.setIsEnabled(false);
 			}
 		}
@@ -1371,6 +1375,7 @@ public class Settlement //implements Serializable
 							ingredients = server.getRecipe(item.ItemRef());
 							ingredients.remove(item.ItemRef());
 							prodFactor = server.getRecipeFactor(item.ItemRef(),this.biome);
+//							System.out.println("WS " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							break;
 						case BAKERY:
 							if (building.isSlot())
@@ -1419,14 +1424,14 @@ public class Settlement //implements Serializable
 						{
 	//						iValue = item.value();
 							iValue = (int)((double) item.value() *prodFactor);
-							// berechne Umsatz der Produktion
-							sale = building.calcSales(server,item.ItemRef());
-							// berechne Kosten der Produktion
+							// berechne Verkaufpreis der Produktion
+							sale = building.calcSales(server,item);
+							// berechne die MaterialKosten der Produktion
 							cost = server.getRecipePrice(item.ItemRef(), ingredients);
 							if ((sale - cost) > 0.0)
 							{
 							// setze Ertrag auf Building .. der Ertrag wird versteuert !!
-								account = (sale-cost) * (double) iValue;
+								account = (sale-cost) * (double) iValue / 2;
 								building.addSales(account); //-cost);
 							} else
 							{

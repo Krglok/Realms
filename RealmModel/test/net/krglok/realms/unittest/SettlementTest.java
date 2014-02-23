@@ -11,6 +11,7 @@ import net.krglok.realms.core.Barrack;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
@@ -22,6 +23,7 @@ import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.model.LogList;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -126,6 +128,8 @@ public class SettlementTest
 		//isOutput = true;
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementCreate");
 			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
@@ -146,12 +150,13 @@ public class SettlementTest
 
 
 		HashMap<String,String> regionTypes = new HashMap<String,String>();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("66","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.SETTLE_HAMLET;
@@ -167,13 +172,15 @@ public class SettlementTest
 				Biome.PLAINS
 				);
 
-		int expected = 22464;
+		int expected = 32832;
 		int actual = settle.getWarehouse().getItemMax(); 
 
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
-			System.out.println("==Settlement Storage =="+settle.getBuildingList().size());
+			System.out.println(" ");
+			System.out.println("testSettlementItemMax");
+			System.out.println("==Building List =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion());
@@ -196,12 +203,13 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("66","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.SETTLE_HAMLET;
@@ -222,15 +230,17 @@ public class SettlementTest
 		
 		settle.doProduce(server);
 		
-		int expected = 32;
+		int expected = 48; // weil Biome Plains
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementProduce");
 			System.out.println("==Settlement Produce =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
-				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
+				System.out.println(building.getHsRegion()+":"+building.getBuildingType().name());
 			}
 			
 			System.out.println("=Warehouse ="+settle.getWarehouse().getItemMax()+":"+settle.getWarehouse().getItemCount());
@@ -258,48 +268,34 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("10","haus_einfach");
-		regionTypes.put("11","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("20","haus_einfach");
-		regionTypes.put("21","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("30","haus_einfach");
-		regionTypes.put("31","haus_einfach");
-		regionTypes.put("32","haus_einfach");
-		regionTypes.put("26","haus_einfach");
-		regionTypes.put("27","haus_einfach");
-		regionTypes.put("40","haus_einfach");
-		regionTypes.put("41","haus_einfach");
-		regionTypes.put("42","haus_einfach");
-		regionTypes.put("46","haus_einfach");
-		regionTypes.put("47","haus_einfach");
-		regionTypes.put("50","haus_einfach");
-		regionTypes.put("51","haus_einfach");
-		regionTypes.put("52","haus_einfach");
-		regionTypes.put("56","haus_einfach");
-		regionTypes.put("57","haus_einfach");
-		regionTypes.put("60","markt");
-//		regionTypes.put("63","taverne");
-//		regionTypes.put("64","taverne");
-//		regionTypes.put("65","taverne");
-//		regionTypes.put("66","kornfeld");
-//		regionTypes.put("67","kornfeld");
-//		regionTypes.put("68","kornfeld");
-//		regionTypes.put("69","kornfeld");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("7","HOME");
+		regionTypes.put("8","HOME");
+		regionTypes.put("9","HOME");
+		regionTypes.put("10","HOME");
+		regionTypes.put("11","HOME");
+		regionTypes.put("12","HOME");
+		regionTypes.put("13","HOME");
+		regionTypes.put("14","HOME");
+		regionTypes.put("15","HOME");
+		regionTypes.put("16","HOME");
+		regionTypes.put("17","HOME");
+		regionTypes.put("18","HOME");
+		regionTypes.put("19","HOME");
+		regionTypes.put("20","HOME");
+		regionTypes.put("60","TAVERNE");
+//		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
 		
 		int id = 80;
 		for (int i = 0; i < 0; i++)
 		{
-			regionTypes.put(String.valueOf(id+i),"haus_einfach");
+			regionTypes.put(String.valueOf(id+i),"HOME");
 		}
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
@@ -327,11 +323,11 @@ public class SettlementTest
 //		settle.getResident().settlerCount();
 //		settle.getResident().settlerCount();
 
-		isOutput =  true; //(expected != actual);
+		isOutput =  false; //(expected != actual);
 		int dayCount = 0;
 		if (isOutput)
 		{
-		  System.out.println("==Settlement Worker Supply : "+settle.getResident().getSettlerMax());
+		  System.out.println("==testSettlementSettlerWorkerSupply : "+settle.getResident().getSettlerMax());
 		}
 		for (int i = 0; i < 51; i++)
 		{
@@ -372,18 +368,29 @@ public class SettlementTest
 						sb = sb + " ";
 					}
 				}
-				sb = sb+"#" +"     "+ settle.getResident().getHappiness();
-				System.out.println(rs+sb+"WHEAT:"+settle.getWarehouse().getItemList().getValue("WHEAT")+"BREAD:"+settle.getWarehouse().getItemList().getValue("BREAD"));
+				if (isOutput)
+				{
+					sb = sb+"#"+"    | "+rs+"|"+ ConfigBasis.format2(settle.getResident().getHappiness())
+							+ "|"+ ConfigBasis.format2(settle.getFoodFactor())
+							+ "|"+ ConfigBasis.format2(settle.getSettlerFactor())
+							+ "|"+ ConfigBasis.format2(settle.getEntertainFactor())
+							;
+					System.out.println(
+							ConfigBasis.setStrright(String.valueOf(i),4)
+							+sb
+							+"|WHEAT:"+settle.getWarehouse().getItemList().getValue("WHEAT")+"BREAD:"+settle.getWarehouse().getItemList().getValue("BREAD"));
+				}
 			}
 			
 		}
 		
-		int expected = 12;
+		int expected = 25;
 		int actual = settle.getResident().getSettlerCount(); 
 		isOutput = (expected != actual);
 		if (isOutput)
 		{
-			
+			System.out.println(" ");
+			System.out.println("==testSettlementSettlerWorkerSupply : "+settle.getResident().getSettlerMax());
 			System.out.println("==Settler Supply Max : "+settle.getResident().getSettlerMax());
 			System.out.println("=StartWith      : "+startWith);
 			System.out.println("=Expectedt      : "+expected);
@@ -394,7 +401,7 @@ public class SettlementTest
 	}
 
 	@Test
-	public void testSettlementSettlerNeeded()
+	public void testSettlementWorkerNeeded()
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
@@ -404,49 +411,36 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("10","haus_einfach");
-		regionTypes.put("11","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("20","haus_einfach");
-		regionTypes.put("21","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("30","haus_einfach");
-		regionTypes.put("31","haus_einfach");
-		regionTypes.put("32","haus_einfach");
-		regionTypes.put("26","haus_einfach");
-		regionTypes.put("27","haus_einfach");
-		regionTypes.put("40","haus_einfach");
-		regionTypes.put("41","haus_einfach");
-		regionTypes.put("42","haus_einfach");
-		regionTypes.put("46","haus_einfach");
-		regionTypes.put("47","haus_einfach");
-		regionTypes.put("50","haus_einfach");
-		regionTypes.put("51","haus_einfach");
-		regionTypes.put("52","haus_einfach");
-		regionTypes.put("56","haus_einfach");
-		regionTypes.put("57","haus_einfach");
-		regionTypes.put("60","markt");
-		regionTypes.put("63","taverne");
-//		regionTypes.put("64","taverne");
-//		regionTypes.put("65","taverne");
-		regionTypes.put("66","kornfeld");
-		regionTypes.put("67","kornfeld");
-		regionTypes.put("68","kornfeld");
-//		regionTypes.put("69","kornfeld");
-		regionTypes.put("70","holzfaeller");
-		regionTypes.put("71","koehler");
-		regionTypes.put("72","steinbruch");
-		regionTypes.put("73","rindermast");
-		regionTypes.put("74","schweinenast");
-		regionTypes.put("75","schaefer");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("7","HOME");
+		regionTypes.put("8","HOME");
+		regionTypes.put("9","HOME");
+		regionTypes.put("10","HOME");
+		regionTypes.put("11","HOME");
+		regionTypes.put("12","HOME");
+		regionTypes.put("13","HOME");
+		regionTypes.put("14","HOME");
+		regionTypes.put("15","HOME");
+		regionTypes.put("16","HOME");
+		regionTypes.put("17","HOME");
+		regionTypes.put("18","HOME");
+		regionTypes.put("19","HOME");
+		regionTypes.put("20","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("66","WHEAT");
+		regionTypes.put("67","WHEAT");
+		regionTypes.put("68","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("70","WOODCUTTER");
+		regionTypes.put("71","CHARBURNER");
+		regionTypes.put("72","QUARRY");
+		regionTypes.put("75","SHEPHERD");
 		
 //		int id = 80;
 //		for (int i = 0; i < 0; i++)
@@ -472,34 +466,30 @@ public class SettlementTest
 		settle.getResident().setSettlerCount(50);
 		settle.setSettlerMax();
 		settle.setWorkerNeeded();
-
-
-		isOutput = true; //true; //(expected != actual);
-		if (isOutput)
-		{
-		  System.out.println("==Settlement Needed Settler : "+settle.getTownhall().getWorkerNeeded());
-		}
-		for (Building building : settle.getBuildingList().getBuildingList().values())
-		{
-			
-			if (isOutput)
-			{
-				if (building.getBuildingType() != BuildPlanType.HOME)
-				{
-					System.out.println(
-					building.getHsRegionType()+" : "+building.getWorkerNeeded()+" : "+building.getWorkerInstalled()
-					);
-				}
-			}
-		}
 		
-		int expected = 15;
+		int expected = 10;
 		int actual = settle.getTownhall().getWorkerNeeded(); 
 		isOutput = (expected != actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementWorkerNeeded");
 			System.out.println("==Settlement Settler : "+settle.getResident().getSettlerCount());
 			System.out.println("=WorkerNeeded : "+settle.getTownhall().getWorkerNeeded());
+			System.out.println("==Settlement Needed Settler : "+settle.getTownhall().getWorkerNeeded());
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				
+				if (isOutput)
+				{
+					if (building.getBuildingType() != BuildPlanType.HOME)
+					{
+						System.out.println(
+						building.getHsRegionType()+" : "+building.getWorkerNeeded()+" : "+building.getWorkerInstalled()
+						);
+					}
+				}
+			}
 		}
 		
 		assertEquals(expected, actual);
@@ -516,56 +506,42 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("10","haus_einfach");
-		regionTypes.put("11","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("20","haus_einfach");
-		regionTypes.put("21","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("30","haus_einfach");
-		regionTypes.put("31","haus_einfach");
-		regionTypes.put("32","haus_einfach");
-		regionTypes.put("26","haus_einfach");
-		regionTypes.put("27","haus_einfach");
-		regionTypes.put("40","haus_einfach");
-		regionTypes.put("41","haus_einfach");
-		regionTypes.put("42","haus_einfach");
-		regionTypes.put("46","haus_einfach");
-		regionTypes.put("47","haus_einfach");
-		regionTypes.put("50","haus_einfach");
-		regionTypes.put("51","haus_einfach");
-		regionTypes.put("52","haus_einfach");
-		regionTypes.put("56","haus_einfach");
-		regionTypes.put("57","haus_einfach");
-		regionTypes.put("60","markt");
-		regionTypes.put("61", "bibliothek");
-		regionTypes.put("63","taverne");
-//		regionTypes.put("64","taverne");
-//		regionTypes.put("65","taverne");
-		regionTypes.put("66","kornfeld");
-		regionTypes.put("67","kornfeld");
-		regionTypes.put("68","kornfeld");
-//		regionTypes.put("69","kornfeld");
-		regionTypes.put("70","holzfaeller");
-		regionTypes.put("71","koehler");
-		regionTypes.put("72","steinbruch");
-		regionTypes.put("73","rindermast");
-		regionTypes.put("74","schweinenast");
-		regionTypes.put("75","schaefer");
-		regionTypes.put("81", "bauern_haus");
-		regionTypes.put("82", "bauern_haus");
-		regionTypes.put("83", "bauern_haus");
-		regionTypes.put("91", "werkstatt_haus");
-		regionTypes.put("92", "werkstatt_haus");
-		regionTypes.put("93", "werkstatt_haus");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("7","HOME");
+		regionTypes.put("8","HOME");
+		regionTypes.put("9","HOME");
+		regionTypes.put("10","HOME");
+		regionTypes.put("11","HOME");
+		regionTypes.put("12","HOME");
+		regionTypes.put("13","HOME");
+		regionTypes.put("14","HOME");
+		regionTypes.put("15","HOME");
+		regionTypes.put("16","HOME");
+		regionTypes.put("17","HOME");
+		regionTypes.put("18","HOME");
+		regionTypes.put("19","HOME");
+		regionTypes.put("20","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("66","WHEAT");
+		regionTypes.put("67","WHEAT");
+		regionTypes.put("68","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("70","WOODCUTTER");
+		regionTypes.put("71","CHARBURNER");
+		regionTypes.put("72","QUARRY");
+		regionTypes.put("75","SHEPHERD");
+		regionTypes.put("81", "FARMHOUSE");
+		regionTypes.put("82", "FARMHOUSE");
+		regionTypes.put("83", "FARMHOUSE");
+		regionTypes.put("91", "WORKSHOP");
+		regionTypes.put("92", "WORKSHOP");
+		regionTypes.put("93", "WORKSHOP");
 		
 //		int id = 80;
 //		for (int i = 0; i < 0; i++)
@@ -593,33 +569,28 @@ public class SettlementTest
 		settle.setWorkerNeeded();
 		int freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 
-		isOutput =  false; //true; //(expected != actual);
-		if (isOutput)
-		{
-		  System.out.println("==Settlement Settler : "+settle.getResident().getSettlerCount());
-		}
-		for (Building building : settle.getBuildingList().getBuildingList().values())
-		{
-			
-			if (isOutput)
-			{
-				if (building.getBuildingType() != BuildPlanType.HOME)
-				{
-					System.out.println(
-					building.getHsRegionType()+" : "+building.getWorkerNeeded()+" : "+building.getWorkerInstalled()
-					);
-				}
-			}
-		}
 		
-		int expected = 45;
+		int expected = 31;
 		int actual = settle.getTownhall().getWorkerNeeded(); 
 		isOutput = (expected != actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementSettlerWorked");
 			System.out.println("==Settlement WorkerNeeded : "+settle.getResident().getSettlerCount());
 			System.out.println("=WorkerNeeded : "+settle.getTownhall().getWorkerNeeded());
 			System.out.println("=Settler free : "+freeSettler);
+			System.out.println("==Settlement Settler : "+settle.getResident().getSettlerCount());
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+			
+				if (building.getBuildingType() != BuildPlanType.HOME)
+				{
+					System.out.println(ConfigBasis.setStrleft(building.getHsRegionType(), 15)
+					+" : "+building.getWorkerNeeded()+" : "+building.getWorkerInstalled()
+					);
+				}
+			}
 		}
 		
 		assertEquals(expected, actual);
@@ -636,16 +607,16 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("8","haus_einfach");
-		regionTypes.put("9","haus_einfach");
-		regionTypes.put("10","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
-		regionTypes.put("9","markt");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.SETTLE_HAMLET;
@@ -660,7 +631,8 @@ public class SettlementTest
 				regionBuildings,
 				Biome.PLAINS
 				);
-
+		double value = settle.getBank().getKonto() * -1.0;
+		settle.getBank().addKonto(value, "Reset");
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		int freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
@@ -675,16 +647,34 @@ public class SettlementTest
 		settle.setHappiness();
 		settle.getTaxe(server);
 		
-		Integer expected = 12;
-		Integer actual = (int) (settle.getBank().getKonto()*1); 
+		Integer expected = 20;
+		Integer actual = (int) (settle.getBank().getKonto()); 
 		isOutput = (expected != actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementTax ");
 			System.out.println("==Settlement Tax Settler : "+settle.getTownhall().getWorkerCount());
 			System.out.println("=Settlers     : "+settle.getResident().getSettlerCount());
 			System.out.println("=WorkerNeeded : "+settle.getTownhall().getWorkerNeeded());
 			System.out.println("=Settler free : "+freeSettler);
 			System.out.println("=Settlement Konto : "+settle.getBank().getKonto());
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+			
+				if (building.getBuildingType() != BuildPlanType.HOME)
+				{
+					System.out.println(ConfigBasis.setStrleft(building.getHsRegionType(), 15)
+					+" : "+building.getWorkerNeeded()+" : "+building.getTaxe(server, settle.setWorkerToBuilding(settle.getResident().getSettlerCount()))
+					);
+				}
+			}
+			System.out.println("=Bank Transaction : "+settle.getBank().getTransactionList().size());
+			for (String log :settle.getBank().getTransactionList().getLogList())
+			{
+				System.out.println(log);
+			}
+			
 		}
 		
 		assertEquals(expected, actual);
@@ -702,13 +692,16 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
-		regionTypes.put("31","bauern_haus");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("60","TAVERNE");
+//		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("31","FARMHOUSE");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -730,11 +723,13 @@ public class SettlementTest
 		
 		settle.doProduce(server);
 		
-		int expected = 160;
+		int expected = 96;	// wegen Biome PLAINS 
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementBauernhof");
 			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
@@ -763,15 +758,18 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
-		regionTypes.put("31","bauern_haus");
-		regionTypes.put("41","werkstatt_haus");
-		regionTypes.put("42","werkstatt_haus");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("31","FARMHOUSE");
+		regionTypes.put("41","WORKSHOP");
+		regionTypes.put("42","WORKSHOP");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -820,11 +818,13 @@ public class SettlementTest
 //		settle.produce(server);
 //		settle.produce(server);
 		
-		int expected = 32;
+		int expected = 2;
 		int actual = settle.getWarehouse().getItemList().getValue(Material.FENCE.name()); 
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementWerkstatt");
 			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
@@ -854,16 +854,17 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-//		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
-//		regionTypes.put("31","bauern_haus");
-//		regionTypes.put("51","haus_baecker");
-//		regionTypes.put("52","haus_baecker");
-		regionTypes.put("61","schmelze");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("31","FARMHOUSE");
+		regionTypes.put("61","SMELTER");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -918,6 +919,8 @@ public class SettlementTest
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testSettlementSchmelze");
 			System.out.println("==Settlement Schmelze =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
@@ -946,18 +949,21 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
-		regionTypes.put("31","bauern_haus");
-		regionTypes.put("51","haus_baecker");
-		regionTypes.put("52","haus_baecker");
-		regionTypes.put("61","schmelze");
-		regionTypes.put("41","werkstatt_haus");
-		regionTypes.put("42","werkstatt_haus");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("31","FARMHOUSE");
+		regionTypes.put("41","WORKSHOP");
+		regionTypes.put("42","WORKSHOP");
+		regionTypes.put("51","BAKERY");
+		regionTypes.put("52","BAKERY");
+		regionTypes.put("61","SMELTER");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -1042,6 +1048,8 @@ public class SettlementTest
 		isOutput = (expected !=  actual);
 		if (isOutput)
 		{
+			System.out.println(" ");
+			System.out.println("testBuildingEnabled");
 			System.out.println("==Settlement Active =="+settle.getBuildingList().size());
 			for (Building building : settle.getBuildingList().getBuildingList().values())
 			{
@@ -1074,18 +1082,21 @@ public class SettlementTest
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("16","kornfeld");
-		regionTypes.put("9","markt");
-		regionTypes.put("31","bauern_haus");
-		regionTypes.put("51","haus_baecker");
-		regionTypes.put("52","haus_baecker");
-		regionTypes.put("61","schmelze");
-		regionTypes.put("41","werkstatt_haus");
-		regionTypes.put("42","werkstatt_haus");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("31","FARMHOUSE");
+		regionTypes.put("41","WORKSHOP");
+		regionTypes.put("42","WORKSHOP");
+		regionTypes.put("51","BAKERY");
+		regionTypes.put("52","BAKERY");
+		regionTypes.put("61","SMELTER");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -1177,16 +1188,6 @@ public class SettlementTest
 				
 			}
 		}
-		System.out.println("SERIALIZE===============================================");
-		Gson gson = new Gson();
-		String jsonData = gson.toJson(settle);
-		
-		System.out.println(jsonData);
-		
-//		Settlement newSettle = new Settlement(); 
-//		newSettle =  gson.fromJson(jsonData, Settlement.class);
-//		System.out.println("DERIALIZE===============================================");
-//		System.out.println(newSettle.getId()+":"+newSettle.getName());
 		assertEquals(expected, actual);
 
 	}

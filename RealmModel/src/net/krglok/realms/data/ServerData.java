@@ -133,6 +133,11 @@ public class ServerData implements ServerInterface
 	public ItemList getRegionReagents(String regionType)
 	{
 		ItemList rList = new ItemList();
+		if (regionType == null)
+		{
+			return rList;
+		}
+
 		if ( plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
 		{
 			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getReagents())
@@ -149,13 +154,17 @@ public class ServerData implements ServerInterface
 	public ItemList getRegionOutput(String regionType)
 	{
 		ItemList rList = new ItemList();
+		if (regionType == null)
+		{
+			return rList;
+		}
 		if (plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
 		{
 			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getOutput())
 			{
 				rList.addItem(item.getData().getItemType().name(), item.getAmount());
 			}
-//			System.out.println("Out: "+regionType+":"+rList.size());
+	//			System.out.println("Out: "+regionType+":"+rList.size());
 		}
 		return rList;
 	}
@@ -164,6 +173,10 @@ public class ServerData implements ServerInterface
 	public ItemList getRegionUpkeep(String regionType)
 	{
 		ItemList rList = new ItemList();
+		if (regionType == null)
+		{
+			return rList;
+		}
 		if (plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
 		{
 			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getUpkeep())
@@ -178,6 +191,11 @@ public class ServerData implements ServerInterface
 	@Override
 	public double getRegionUpkeepMoney(String regionType)
 	{
+		if (regionType == null)
+		{
+			return 0.0;
+		}
+
 		Double money = plugin.stronghold.getRegionManager().getRegionType(regionType).getMoneyOutput();
 		if (money != null)
 		{ 
@@ -595,7 +613,12 @@ public class ServerData implements ServerInterface
 	@Override
 	public ItemList getRecipeProd(String itemRef, String hsRegionType)
 	{
+
 		ItemList items = new ItemList();
+		if (hsRegionType == null)
+		{
+			return items;
+		}
 		items = getRegionUpkeep(hsRegionType);
 		return items;
 	}

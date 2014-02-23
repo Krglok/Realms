@@ -14,4 +14,10 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>MyIcons</name>
+			<value>file:/D:/GIT/OwnPlugins/Realms/icons</value>
+		</variable>
+	</variableList>
 </projectDescription>

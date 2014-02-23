@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.tool.SuperRegionData;
@@ -850,7 +851,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public ItemList getRegionReagents(String regionType)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ItemList items = new ItemList();
+		items.addItem(new Item("GOLD_NUGGET",1 ));
+		return items;
 	}
 }

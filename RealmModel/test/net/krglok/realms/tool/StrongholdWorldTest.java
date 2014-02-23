@@ -193,7 +193,7 @@ public class StrongholdWorldTest
         if (buildingStat.get(key) != null)
         {
         	int StorageBase = Settlement.defaultItemMax(settleType);
-        	int StorageExpand = MessageText.WAREHOUSE_CHEST_FACTOR * MessageText.CHEST_STORE * buildingStat.get(key);
+        	int StorageExpand = ConfigBasis.WAREHOUSE_CHEST_FACTOR * ConfigBasis.CHEST_STORE * buildingStat.get(key);
 			System.out.println(ConfigBasis.setStrleft("Base Storage      :",20)+(StorageBase));
 			System.out.println(ConfigBasis.setStrleft("Storage expansion :",20)+buildingStat.get(key)+"/"+StorageExpand);
 			System.out.println(ConfigBasis.setStrleft("Storage Capacity  :",20)+(StorageExpand+StorageBase));

@@ -17,14 +17,26 @@ import org.junit.runners.Suite.SuiteClasses;
 	UnitListTest.class, 
 	BankTest.class,
 	BuildingListTest.class,
-	ItemListTest.class,
-	TownhallTest.class,
-	
+	BuildingTest.class,
+	BuildManagerTest.class,
+	BuildPlanTypeTest.class,
 	DataTestTest.class,
+	ItemListTest.class,
+	LocationDataTest.class,
+	OwnerListTest.class,
+	PositionTest.class,
+	PriceDataTest.class,
+	RealmListTest.class,
+	RealmLoopTest.class,
+	RealmModelTest.class,
+	RealmTest.class,
+	ResidentTest.class,
+	TownhallTest.class,
+	TraderTest.class,
 
 	SettlementTest.class,
-	SettlementListTest.class
-	
+	SettlementListTest.class,
+	WarehouseTest.class
 	})
 public class AllTests
 {

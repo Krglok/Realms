@@ -1,16 +1,8 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
 import net.krglok.realms.builder.BuildPlan;
-import net.krglok.realms.builder.BuildPlanColony;
-import net.krglok.realms.builder.BuildPlanHall;
-import net.krglok.realms.builder.BuildPlanHome;
 import net.krglok.realms.builder.BuildPlanMap;
-import net.krglok.realms.builder.BuildPlanQuarry;
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.builder.BuildPlanWheat;
-import net.krglok.realms.builder.BuildPlanWoodCutter;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
@@ -55,28 +47,23 @@ public class BuildManagerTest
 	@Test
 	public void testMakeMaterialList()
 	{
+		DataTest data = new DataTest();
 		BuildManager bManager = new BuildManager();
 		ItemList gesamtList = new ItemList();
 		
-		BuildPlan bPlan = new BuildPlanColony();
+		BuildPlan bPlan =  data.readTMXBuildPlan(BuildPlanType.HALL, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanHall();
+		bPlan =  data.readTMXBuildPlan(BuildPlanType.HOME, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanHome();
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanHome();
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanHome();
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanHome();
+		bPlan =  data.readTMXBuildPlan(BuildPlanType.WHEAT, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanWheat();
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanWheat();
+		bPlan =  data.readTMXBuildPlan(BuildPlanType.WOODCUTTER, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanWoodCutter();
-		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan = new BuildPlanQuarry();
+		bPlan =  data.readTMXBuildPlan(BuildPlanType.QUARRY, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
 		
 		System.out.println("Bauterial for ALL ");

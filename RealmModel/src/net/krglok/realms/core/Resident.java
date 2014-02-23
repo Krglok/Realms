@@ -400,9 +400,9 @@ public class Resident
 		{
 			if (happiness < 0)
 			{
-				factor = value / 2;
+				factor = value;  // 
 				value = value + factor;
-				deathCounter = deathCounter +  9.0;  //(double)(settlerCount) *LETHALITY; // - happiness;
+				deathCounter = deathCounter +  19.0;  //(double)(settlerCount) *LETHALITY; // - happiness;
 			} else
 			{
 //				value = value / 2;
@@ -423,7 +423,7 @@ public class Resident
 	/**
 	 * calulate settlerCount for the settlement
 	 */
-	public void settlerCount()
+	public void settlerCalculation()
 	{
 		setBirthrate();
 		setDeathrate();

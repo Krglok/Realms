@@ -23,14 +23,6 @@ public class SettlementListTest
 	
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 	
-	@Test
-	public void settlementListTest()
-	{
-//		SettlementList sList = new SettlementList(5);
-		int expected = 5;
-		int actual = Settlement.getCounter();
-		assertEquals(expected, actual);
-	}
 
 	@Test
 	public void SetOwnerCapitalTest()

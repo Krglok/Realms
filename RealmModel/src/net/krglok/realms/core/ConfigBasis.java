@@ -28,6 +28,18 @@ public class ConfigBasis implements ConfigInterface
 	
 	public static double DISTANCE_1_DAY = 1000.0;
 	
+	public static double SETTLER_TAXE = 1.0;	/// Tax in money for every Settler , haedTax
+	public static double TRADER_TAXE  = 5.0;	/// Tax for Trader 
+	public static double TAVERNE_TAXE = 7.0;	/// Tax for Taverne will modified by settlerCount
+
+	public static final int ENTERTAIN_SETTLERS = 50;	/// how many settlers happy thru Entertain
+
+	public static final int WAREHOUSE_CHEST_FACTOR = 9;
+	public static final int TRADER_CHEST_FACTOR = 5;
+	public static final int CHEST_STORE = 1728;
+	
+	public static final int HALL_Settler = 5; 
+	
 	public static final String LINE = "=============================== ";
 
 	public static byte getBlockId(Block block)

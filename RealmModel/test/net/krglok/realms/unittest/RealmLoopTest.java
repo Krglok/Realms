@@ -32,42 +32,42 @@ public class RealmLoopTest
 	int loopCount = 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
+	
 	@SuppressWarnings("unused")
 	private Settlement createSettlement()
 	{
 		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
-		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
-		regionTypes.put("1","haupthaus");
-		regionTypes.put("2","haus_einfach");
-		regionTypes.put("3","haus_einfach");
-		regionTypes.put("4","haus_einfach");
-		regionTypes.put("5","haus_einfach");
-		regionTypes.put("6","haus_einfach");
-		regionTypes.put("7","haus_einfach");
-		regionTypes.put("8","haus_einfach");
-		regionTypes.put("9","haus_einfach");
-		regionTypes.put("10","haus_einfach");
-		regionTypes.put("11","haus_einfach");
-		regionTypes.put("12","haus_einfach");
-		regionTypes.put("13","haus_einfach");
-		regionTypes.put("14","haus_einfach");
-		regionTypes.put("15","haus_einfach");
-		regionTypes.put("16","haus_einfach");
-		regionTypes.put("17","haus_einfach");
-		regionTypes.put("18","haus_einfach");
-		regionTypes.put("19","haus_einfach");
-		regionTypes.put("20","haus_einfach");
-		regionTypes.put("60","taverne");
-		regionTypes.put("65","kornfeld");
-		regionTypes.put("66","kornfeld");
-		regionTypes.put("67","kornfeld");
-		regionTypes.put("68","kornfeld");
-		regionTypes.put("69","markt");
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("7","HOME");
+		regionTypes.put("8","HOME");
+		regionTypes.put("9","HOME");
+		regionTypes.put("10","HOME");
+		regionTypes.put("11","HOME");
+		regionTypes.put("12","HOME");
+		regionTypes.put("13","HOME");
+		regionTypes.put("14","HOME");
+		regionTypes.put("15","HOME");
+		regionTypes.put("16","HOME");
+		regionTypes.put("17","HOME");
+		regionTypes.put("18","HOME");
+		regionTypes.put("19","HOME");
+		regionTypes.put("20","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("66","WHEAT");
+		regionTypes.put("67","WHEAT");
+		regionTypes.put("68","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.SETTLE_HAMLET;
@@ -230,18 +230,57 @@ public class RealmLoopTest
 		}
 	}
 	
+	private void doCleanRequest(RealmModel rModel)
+	{
+		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		{
+			settle.buildManager().getCleanRequest().clear();
+		}
+	}
+	
+	private void doBuildRequest(RealmModel rModel)
+	{
+		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		{
+			settle.buildManager().getBuildRequest().clear();
+		}
+	}
+
+	private void doRegionRequest(RealmModel rModel)
+	{
+		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		{
+			settle.buildManager().getRegionRequest().clear();
+		}
+	}
+
+	private void doChestRequest(RealmModel rModel)
+	{
+		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		{
+			settle.buildManager().getChestSetRequest().clear();
+		}
+	}
+	
 	private void doLoop(int loopMax, RealmModel rModel)
 	{
+		loopMax = loopMax - 2;
 		int dayCount = (int) ConfigBasis.GameDay;
 		for (int i = 0; i < loopMax; i++)
 		{
+//			System.out.println("Tick");
 			loopCount++;
 			rModel.OnTick();
 			if ((loopCount % dayCount) == 0)
 			{
+//				System.out.println("Day");
 				rModel.OnProduction();
 				rModel.OnTrade();
 			} 
+			doCleanRequest(rModel);
+			doBuildRequest(rModel);
+			doRegionRequest(rModel);
+			doChestRequest(rModel);
 		}
 	}
 	
@@ -281,12 +320,14 @@ public class RealmLoopTest
 		McmdBuilder modelCommand = new McmdBuilder(rModel, settleId, BuildPlanType.HOME, new LocationData("SteamHaven", -456, 68, -1287), null);
 		rModel.OnCommand(modelCommand);
 
-		loopMax = (int) ConfigBasis.GameDay * 10;
+		loopMax = (int) ConfigBasis.GameDay * 2;
+		doLoop(loopMax, rModel);
+		loopMax = (int) ConfigBasis.GameDay * 2;
 		doLoop(loopMax, rModel);
 		
 		actual =  (rModel.getcommandQueue().size() == 0) & (rModel.getProductionQueue().size() == 0);
 
-		if (isOutput)
+		if (expected != actual)
 		{
 			days = (int) (loopCount / ConfigBasis.GameDay);
 			int month = days / 30;
@@ -311,6 +352,8 @@ public class RealmLoopTest
 				System.out.println(i+"<< "+iLoc.itemRef().name()+":"+(int)iLoc.position().getX()+":"+(int)iLoc.position().getY()+":"+ (int)iLoc.position().getZ());
 				i++;
 			}
+			System.out.println("Command    Queue "+rModel.getcommandQueue().size());
+			System.out.println("Production Queue "+rModel.getProductionQueue().size());
 		}
 		assertEquals(expected, actual);
 	}

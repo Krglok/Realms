@@ -305,8 +305,8 @@ public class ConfigTest implements ConfigInterface
 		for (String regionName :superRegions.keySet())
 		{
 			regionType = superRegions.get(regionName);
-			bType = superRegionToSettleType(regionType);
-			regionBuildings.put(regionName, bType.name());
+//			bType = superRegionToSettleType(regionType);
+			regionBuildings.put(regionName, regionType);
 		}
 		return regionBuildings;
 	}
@@ -555,15 +555,13 @@ public class ConfigTest implements ConfigInterface
 	@Override
 	public String getRegionType(BuildPlanType bType)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return bType.name();
 	}
 
 	@Override
 	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return BuildPlanType.getBuildPlanType(superRegionTypeName);
 	}
 
 }

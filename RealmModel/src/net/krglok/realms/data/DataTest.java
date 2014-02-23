@@ -569,7 +569,7 @@ public class DataTest implements DataInterface
 	public HashMap<String,String> defaultSuperregionList()
 	{
 		HashMap<String,String> regionTypes = new HashMap<String,String>();
-		regionTypes.put("NewHaven","HAMLET");
+		regionTypes.put("NewHaven",SettleType.SETTLE_HAMLET.name());
 				
 		//this.strongholdAPI.getRegionAtPotion(pos, testData);
 		return regionTypes;

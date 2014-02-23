@@ -2,11 +2,6 @@ package net.krglok.realms.colonist;
 
 import java.util.ArrayList;
 
-import org.bukkit.Material;
-import org.bukkit.block.Biome;
-
-import net.krglok.realms.CmdSettleCreate;
-import net.krglok.realms.builder.BuildPlanColony;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildPosition;
@@ -15,7 +10,6 @@ import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.builder.SettleSchema;
 import net.krglok.realms.core.Bank;
-import net.krglok.realms.core.BoardItemList;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -28,7 +22,9 @@ import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.McmdCreateSettle;
 import net.krglok.realms.model.RealmModel;
-import net.minecraft.server.v1_7_R1.BiomeRiver;
+
+import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 
 /**
@@ -184,7 +180,7 @@ public class Colony
 	 */
 	private int defaultItemMax()
 	{
-		return 20 * MessageText.CHEST_STORE;
+		return 20 * ConfigBasis.CHEST_STORE;
 	}
 
 	/**

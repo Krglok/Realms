@@ -16,18 +16,6 @@ public class MessageText
 	
 	public static final ChatColor FIRST_LINE_COLOUR = ChatColor.GREEN;
 	
-	public static double SETTLER_TAXE = 1.0;
-	public static double TRADER_TAXE = 5.0;
-	public static double TAVERNE_TAXE = 7.0;
-
-	public static final int ENTERTAIN_SETTLERS = 50;
-
-	public static final int WAREHOUSE_CHEST_FACTOR = 9;
-	public static final int TRADER_CHEST_FACTOR = 5;
-	public static final int CHEST_STORE = 1728;
-	
-	public static final int Haupthaus_Settler = 5; 
-
 	public static int pageLines = 17;
 
 	public static boolean isLogAll = false;

@@ -48,7 +48,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingBuildingDefaultWorker()
 	{
-		BuildPlanType buildingType = BuildPlanType.HOME;
+		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "WHEAT";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
@@ -64,8 +64,8 @@ public class BuildingTest
 	{
 		ServerTest server = new ServerTest();
 		ItemArray outValues = new ItemArray(); 
-		BuildPlanType buildingType = BuildPlanType.FISHERHOOD;
-		String regionType 	= "FISHERHOOD";
+		BuildPlanType buildingType = BuildPlanType.WHEAT;
+		String regionType 	= "WHEAT";
 		boolean isRegion 	= true;
 		Building building = new Building(buildingType, regionType, isRegion);
 
@@ -97,17 +97,22 @@ public class BuildingTest
 		Building building = new Building(buildingType, regionType, isRegion);
 
 		outValues = building.produce(server);
-		
-		Double expected = 30.0;
+		double sale = 0.0;
+		for (Item item : outValues)
+		{
+			sale = building.calcSales(server,item)*item.value();
+		}
+		building.setSales(sale);
+		Double expected = 4.8;
 		Double actual 	 = building.getSales();
 		isOutput = (expected != actual);
 		if (isOutput)
 		{
-			System.out.println("==Produce == : "+outValues.size());
+			System.out.println("==testBuildingTax == : "+outValues.size());
 			for (Item item : outValues)
 			{
 				System.out.println(item.ItemRef()+":"+item.value());
-				System.out.println(item.ItemRef()+":"+building.calcSales(server, item.ItemRef()));
+				System.out.println(item.ItemRef()+":"+building.calcSales(server, item));
 			}
 		}
 		

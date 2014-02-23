@@ -190,7 +190,7 @@ public class DataTestTest
 	{
 		ConfigTest data = new ConfigTest();
 		ItemList iList = data.getToolItems();
-		int expected = 24;
+		int expected = 25;
 		int actual = iList.size();
 		assertEquals(expected, actual);
 
@@ -221,7 +221,7 @@ public class DataTestTest
 		settleList.addSettlement(data.readSettlement(4));
 		ItemPriceList priceList = readPriceData(); 
 		
-		int expected = 6; 
+		int expected = 4; 
 		int actual = settleList.getSettlements().size();
 
 		

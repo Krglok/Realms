@@ -289,7 +289,7 @@ public class RealmModel
 		{
 		case MODEL_ENABLED :
 			// store Command in Queue
-			System.out.println("OnCommand : "+modelStatus);
+//			System.out.println("OnCommand : "+modelStatus);
 			modelStatus = addCommandQueue(command);
 			modelStatus = nextCommandQueue();
 			//nextCommandQueue
@@ -306,6 +306,7 @@ public class RealmModel
 						modelStatus = ModelStatus.MODEL_ENABLED;
 					}
 				}
+				System.out.println("OnCommand : "+modelStatus);
 			}
 			break;
 		case MODEL_COMMAND :
@@ -316,7 +317,7 @@ public class RealmModel
 		default :
 			// nur Comand Queue erweitern ohne status aenderung
 			addCommandQueue(command);
-			System.out.println("OnCommand : "+modelStatus);
+//			System.out.println("OnCommand : "+modelStatus);
 			break;
 		}
 	}
@@ -373,7 +374,7 @@ public class RealmModel
 
 	public void OnTrade()
 	{
-		System.out.println("OnTrade : "+modelStatus);
+//		System.out.println("OnTrade : "+modelStatus);
 		switch (modelStatus)
 		{
 		case MODEL_ENABLED :
@@ -449,7 +450,8 @@ public class RealmModel
 				break;
 			case MODEL_PRODUCTION :
 				// nextProduction
-				messageData.log("production Next Produktion");
+//				System.out.println("Next Produktion");
+				messageData.log("Next Produktion");
 				modelStatus = nextProductionQueue();
 				// endProduction
 				break;
@@ -588,6 +590,7 @@ public class RealmModel
 	
 	private ModelStatus initProductionQueue()
 	{
+//		System.out.println("Init Production");
 		for (Settlement settle : settlements.getSettlements().values())
 		{
 			if (settle.isEnabled())
@@ -621,6 +624,7 @@ public class RealmModel
 		data.writeSettlement(settle);
 //		storeQueue.put(settle.getId(), settle.getId());
 		productionQueue.remove(0);
+//		System.out.println("remove 0");
 		messageData.log("remove 0");
 //		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
 		if (productionQueue.isEmpty())

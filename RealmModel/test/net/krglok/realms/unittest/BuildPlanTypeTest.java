@@ -35,11 +35,11 @@ public class BuildPlanTypeTest
 		ArrayList<BuildPlanType> bTypes ;
 		bTypes = BuildPlanType.getBuildPlanOrder();
 		BuildPlanType expected = BuildPlanType.HALL;
-		BuildPlanType actual   = bTypes.get(2);
+		BuildPlanType actual   = bTypes.get(7);
 		
 		if (expected != actual)
 		{
-			System.out.println("BuildPlanType unsorted");
+			System.out.println("testGetBuildPlanOrder");
 			for (BuildPlanType bType : bTypes)
 			{
 				System.out.println(":"+bType);
@@ -53,12 +53,12 @@ public class BuildPlanTypeTest
 	{
 		ArrayList<BuildPlanType> bTypes ;
 		bTypes = BuildPlanType.getBuildPlanGroup(200);
-		BuildPlanType expected = BuildPlanType.PIGPEN;
+		BuildPlanType expected = BuildPlanType.KITCHEN;
 		BuildPlanType actual   = bTypes.get(bTypes.size()-1);
 		
 		if (expected != actual)
 		{
-			System.out.println("BuildPlanType unsorted");
+			System.out.println("testGetBuildPlanGroup");
 			for (BuildPlanType bType : bTypes)
 			{
 				System.out.println(":"+bType);

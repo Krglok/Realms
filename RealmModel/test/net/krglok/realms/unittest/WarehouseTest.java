@@ -27,8 +27,9 @@ public class WarehouseTest
 	{
 		ConfigTest data = new ConfigTest();
 		ItemList iList = data.getToolItems();
-		Warehouse warehouse = new Warehouse(1000);
+		Warehouse warehouse = new Warehouse(10000);
 		warehouse.setItemList(iList);
+		warehouse.setStoreCapacity();
 
 		String lastRef = "";
 		int i = 0;
@@ -42,6 +43,18 @@ public class WarehouseTest
 		}
 		Boolean expected = true;
 		Boolean actual = warehouse.depositItemValue(lastRef, i);
+		if (expected != actual)
+		{
+			System.out.println(" ");
+			System.out.println("testCheckItemMax "+warehouse.getFreeCapacity()+"/"+warehouse.getItemMax()/64);
+			for (Item item : iList.values())
+			{
+				System.out.println(ConfigBasis.setStrleft(item.ItemRef(),16)
+						+":"+warehouse.getItemList().getValue(item.ItemRef())
+						+":"+warehouse.getTypeCapacityList().get(item.ItemRef()).value()*64);
+			}
+			
+		}
 		assertEquals(expected, actual);
 	}
 
@@ -52,6 +65,7 @@ public class WarehouseTest
 		ItemList iList = data.getToolItems();
 		Warehouse warehouse = new Warehouse(200);
 		warehouse.setItemList(iList);
+		warehouse.setStoreCapacity();
 
 		String lastRef = "";
 		int i = 0;
@@ -65,6 +79,18 @@ public class WarehouseTest
 		}
 		Boolean expected = false;
 		Boolean actual = warehouse.depositItemValue(lastRef, i);
+		if (expected != actual)
+		{
+			System.out.println(" ");
+			System.out.println("testCheckItemMaxNot "+warehouse.getFreeCapacity()+"/"+warehouse.getItemMax()/64);
+			for (Item item : iList.values())
+			{
+				System.out.println(ConfigBasis.setStrleft(item.ItemRef(),16)
+						+":"+warehouse.getItemList().getValue(item.ItemRef())
+						+":"+warehouse.getTypeCapacityList().get(item.ItemRef()).value()*64);
+			}
+			
+		}
 		assertEquals(expected, actual);
 	}
 
@@ -75,9 +101,10 @@ public class WarehouseTest
 		ItemList iList = data.getToolItems();
 		Warehouse warehouse = new Warehouse(17260);
 		warehouse.setItemList(iList);
+		warehouse.setStoreCapacity();
 
 		String lastRef = "";
-		int i = 0;
+		int i = 160;
 		int value = 0;
 		for (String itemRef : iList.keySet())
 		{
@@ -86,15 +113,17 @@ public class WarehouseTest
 			warehouse.depositItemValue(itemRef, value);
 			lastRef = itemRef;
 		}
-		warehouse.setStoreCapacity();
-		Boolean expected = false;
+		Boolean expected = true;
 		Boolean actual = warehouse.depositItemValue(lastRef, i);
 		if (expected != actual)
 		{
-			System.out.println("== CheckCapacity ================ ");
+			System.out.println(" ");
+			System.out.println("testCheckCapacity "+warehouse.getFreeCapacity()+"/"+warehouse.getItemMax()/64);
 			for (Item item : iList.values())
 			{
-				System.out.println(ConfigBasis.setStrleft(item.ItemRef(),16)+":"+warehouse.getItemList().getValue(item.ItemRef())+":"+warehouse.getTypeCapacityList().get(item.ItemRef()));
+				System.out.println(ConfigBasis.setStrleft(item.ItemRef(),16)
+						+":"+warehouse.getItemList().getValue(item.ItemRef())
+						+":"+warehouse.getTypeCapacityList().get(item.ItemRef()).value()*64);
 			}
 			
 		}

@@ -176,7 +176,7 @@ public class SettlementData
             	settle.setOwner(null);
             	settle.setIsCapital(config.getBoolean(settleSec+".isCapital"));
             	settle.setIsActive(config.getBoolean(settleSec+".isActive"));
-            	settle.getBank().addKonto(config.getDouble(settleSec+".bank",0.0));
+            	settle.getBank().addKonto(config.getDouble(settleSec+".bank",0.0),"SettleRead");
             	
             	// die werte werden als String gelesen, da verschiedene Datentypen im array sind
             	settle.getTownhall().setIsEnabled(Boolean.valueOf(config.getString(settleSec+".townhall"+".isEnable")));

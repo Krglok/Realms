@@ -3,19 +3,14 @@ package net.krglok.realms.tool;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import net.krglok.realms.builder.BuildPlan;
-import net.krglok.realms.builder.BuildPlanHome;
+import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
 import org.junit.Test;
 
 public class BuildPlanTest
@@ -24,7 +19,7 @@ public class BuildPlanTest
 	@Test
 	public void testBuildPlan()
 	{
-		BuildPlanHome bHome = new BuildPlanHome();
+		BuildPlanMap bHome = new BuildPlanMap(BuildPlanType.NONE, 4, 0);
 		
 		int expected = 7;
 		int actual = bHome.getEdge();
