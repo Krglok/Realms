@@ -421,7 +421,7 @@ public class RealmModel
 			tradeTransport.runTick();
 			tradeMarket.runTick();
 			// Builder
-			buildManagersRun();
+			managersRun();
 			colonyRun();
 			switch (modelStatus)
 			{
@@ -528,6 +528,20 @@ public class RealmModel
 		}
 	}
 	
+	/**
+	 * Arbeitet fuer jedes Settlement die Manager ab
+	 */
+	private void managersRun()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+			settle.settleManager().run(this, settle);
+			settle.buildManager().run(this, settle.getWarehouse(),settle);
+			settle.tradeManager().run(this, settle);
+
+		}
+		
+	}
 	
 	private ModelStatus addCommandQueue(iModelCommand command)
 	{
@@ -547,8 +561,19 @@ public class RealmModel
 		iModelCommand command = commandQueue.get(0);
 		if (command.canExecute())
 		{
-			command.execute();
-			commandQueue.remove(0);
+			switch (command.command())
+			{
+			case NONE :
+				break;
+			case MODELENABLE :
+			case MODELDISABLE:
+			case CREATECOLONY:
+			case BUILDCOLONY:
+				command.execute();
+				commandQueue.remove(command);
+				break;
+			}
+//			commandQueue.remove(command);
 		} else
 		{
 			

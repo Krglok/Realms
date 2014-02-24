@@ -214,11 +214,13 @@ public class DataTestTest
 	public void testInitSettleList()
 	{
 		DataTest data = new DataTest();
+        ItemPriceList itemPrices = data.getPriceList();
+
 		SettlementList settleList = new SettlementList(0);
-		settleList.addSettlement(data.readSettlement(1));
-		settleList.addSettlement(data.readSettlement(2));
-		settleList.addSettlement(data.readSettlement(3));
-		settleList.addSettlement(data.readSettlement(4));
+		settleList.addSettlement(data.readSettlement(1,itemPrices));
+		settleList.addSettlement(data.readSettlement(2,itemPrices));
+		settleList.addSettlement(data.readSettlement(3,itemPrices));
+		settleList.addSettlement(data.readSettlement(4,itemPrices));
 		ItemPriceList priceList = readPriceData(); 
 		
 		int expected = 4; 

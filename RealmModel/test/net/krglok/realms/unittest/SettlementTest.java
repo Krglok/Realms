@@ -12,6 +12,7 @@ import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
@@ -85,12 +86,16 @@ public class SettlementTest
 		Townhall townhall 	= new Townhall();
 		Bank bank 			= new Bank();
 		Resident resident	= new Resident();
-		
+	    ItemPriceList priceList = new ItemPriceList();
+;
+
 		Settlement settlement = new Settlement(
 				id, settletype, name, position,  
 				owner.getPlayerName(), isCapital, barrack, warehouse,
 				buildingList, townhall, bank,
-				resident,"",Biome.PLAINS,0);
+				resident,"",Biome.PLAINS,0,
+				priceList
+				);
 		int expected =  99;
 		int actual = settlement.getId();
 		assertEquals(expected, actual);

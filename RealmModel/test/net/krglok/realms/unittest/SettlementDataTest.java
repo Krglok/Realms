@@ -275,7 +275,7 @@ public class SettlementDataTest
 		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName)));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList()));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");

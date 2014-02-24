@@ -2,6 +2,7 @@ package net.krglok.realms.data;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 //import java.util.Map;
 
@@ -76,15 +77,16 @@ public class DataTest implements DataInterface
 		File dataFolder = new File(path);
 		settleData = new SettlementData(dataFolder);
 		initTestData();
-		priceList = new ItemPriceList();
 	}
 
 	public void initTestData()
 	{
+		this.priceList = getPriceList();
 		initOwnerList();
 		initRealmList();
 		initBuildingList();
-		initSettlementList ();
+//		initSettlementList ();  // read predefined Settlement
+		initSettleDate();		// read Settlements from Datafile
 		
 	}
 	
@@ -135,11 +137,30 @@ public class DataTest implements DataInterface
 		testSettlements = new SettlementList(1);
 		testSettlements.addSettlement(createSettlement(1, position));
 	}
+	
+	public void initSettleDate()
+	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+        File DataFile = new File(path, "Realms");
+        SettlementList settlements = new SettlementList(1);
+		SettlementData sData = new SettlementData(DataFile);
+		
+//		System.out.println("==Read Settlement from File ==");
+		ArrayList<String> sList = sData.readSettleList();
+		settlements.getSettlements().clear();
+		for (String sName : sList)
+		{
+			settlements.addSettlement(sData.readSettledata(Integer.valueOf(sName),this.getPriceList()));
+		}
+		this.testSettlements= settlements; 
+		
+	}
 
 	private Settlement createSettlement(int id, LocationData position)
 	{
 		
 //		Position position = position; //new Position(0.0, 0.0, 0.0);
+		this.priceList = getPriceList();
 		Owner owner = testOwners.getOwner(NPC_0);
 		Barrack barrack = new Barrack(5);
 		Warehouse warehouse = new Warehouse(6912);
@@ -163,7 +184,8 @@ public class DataTest implements DataInterface
 				resident,
 				"",
 				Biome.PLAINS,
-				0
+				0,
+				priceList
 				);
 		
 		for (Building b : testBuildings.getBuildingList().values())
@@ -622,9 +644,9 @@ public class DataTest implements DataInterface
 		// TODO Auto-generated method stub
 		
 	}
-	public Settlement readSettlement(int id)
+	public Settlement readSettlement(int id, ItemPriceList priceList)
 	{
-		return settleData.readSettledata(id);
+		return settleData.readSettledata(id, priceList);
 	}
 	
 	/**
@@ -834,7 +856,8 @@ public class DataTest implements DataInterface
 	public ItemPriceList getPriceList()
 	{
         String base = "BASEPRICE";
-		try
+        ItemPriceList items = new ItemPriceList();
+        try
 		{
 			//\\Program Files\\BuckitTest\\plugins\\Realms
             File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms", "baseprice.yml");
@@ -847,14 +870,14 @@ public class DataTest implements DataInterface
             
             if (config.isConfigurationSection(base))
             {
-            	
-    			HashMap<String,Object> buildings = (HashMap<String, Object>) config.getConfigurationSection(base).getValues(false);
+            	java.util.Map<String,Object> buildings = config.getConfigurationSection(base).getValues(false);
             	for (String ref : buildings.keySet())
             	{
             		Double price = config.getDouble(base+"."+ref,0.0);
             		ItemPrice item = new ItemPrice(ref, price);
-            		priceList.add(item);
+            		items.add(item);
             	}
+            	priceList = items;
             }
 		} catch (Exception e)
 		{

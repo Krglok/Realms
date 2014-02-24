@@ -379,7 +379,7 @@ public class SettlementBreedTest
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
-//        ItemPriceList itemPrices = testPriceList();
+        ItemPriceList itemPrices = testData.getPriceList();
 		
 //		HashMap<String,String> regionTypes = new HashMap<String,String>(); // testData.defaultRegionList();
 //		regionTypes.put("1","HALL");
@@ -399,7 +399,7 @@ public class SettlementBreedTest
 //		SettleType settleType = SettleType.SETTLE_HAMLET;
 //		String settleName = "New Haven";
 		
-		Settlement settle =  sData.readSettledata(4);
+		Settlement settle =  sData.readSettledata(4, itemPrices);
 //				Settlement.createSettlement(
 //				pos, 
 //				settleType, 

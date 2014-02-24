@@ -12,6 +12,8 @@ import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
+import net.krglok.realms.manager.SettleManager;
+import net.krglok.realms.manager.TradeManager;
 
 /**
  * <pre>
@@ -77,6 +79,8 @@ public class Settlement //implements Serializable
 	private long age;
 	private BuildManager buildManager;
 	private MapManager mapManager;
+	private TradeManager tradeManager;
+	private SettleManager settleManager;
 	
 	private ArrayList<Item> treasureList;
 	
@@ -112,9 +116,44 @@ public class Settlement //implements Serializable
 		trader = new Trader();
 		buildManager = new BuildManager();
 		mapManager  = new MapManager(settleType,70);
+		tradeManager = new TradeManager ();
+		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
-}
+	}
 
+	public Settlement(ItemPriceList priceList)
+	{
+		COUNTER++;
+		id			= COUNTER;
+		age         = 0;
+		settleType 	= SettleType.SETTLE_NONE;
+		position 	= new LocationData("", 0.0, 0.0, 0.0);
+		name		= NEW_SETTLEMENT;
+		owner 		= "";
+		isCapital	= false;
+//		barrack		= new Barrack(defaultUnitMax(settleType));
+		warehouse	= new Warehouse(defaultItemMax(settleType));
+		buildingList= new BuildingList();
+		townhall	= new Townhall();
+		bank		= new Bank();
+		resident	= new Resident();
+		isEnabled   = true;
+		isActive    = true;
+		foodConsumCounter = 0.0;
+		requiredProduction = new ItemList();
+		setBuildingTax(BASE_TAX_FACTOR);
+		productionOverview = new BoardItemList();
+		taxOverview = new BoardItemList();
+		world = "";
+		setBiome(Biome.SKY);
+		trader = new Trader();
+		buildManager = new BuildManager();
+		mapManager  = new MapManager(settleType,70);
+		tradeManager = new TradeManager (priceList);
+		settleManager = new SettleManager ();
+		treasureList =  new ArrayList<Item>();
+	}
+	
 	/**
 	 * instances settlement with
 	 * - with sequential ID
@@ -150,6 +189,8 @@ public class Settlement //implements Serializable
 		setBiome(Biome.SKY);
 		buildManager = new BuildManager();
 		mapManager  = new MapManager(settleType,70);
+		tradeManager = new TradeManager ();
+		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
 }
 
@@ -190,6 +231,8 @@ public class Settlement //implements Serializable
 		trader = new Trader();
 		buildManager = new BuildManager();
 		mapManager  = new MapManager(settleType,70);
+		tradeManager = new TradeManager ();
+		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
 }
 	
@@ -215,7 +258,8 @@ public class Settlement //implements Serializable
 			LocationData position, String owner,
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
-			Resident resident, String world, Biome biome, long age)
+			Resident resident, String world, Biome biome, long age,
+			ItemPriceList priceList)
 	{
 		this.id = id;
 		this.age        = age;
@@ -242,6 +286,8 @@ public class Settlement //implements Serializable
 		trader = new Trader();
 		buildManager = new BuildManager();
 		mapManager  = new MapManager(settleType,70);
+		tradeManager = new TradeManager (priceList);
+		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
 }
 
@@ -1481,6 +1527,17 @@ public class Settlement //implements Serializable
 	{
 		return buildManager;
 	}
+
+	public TradeManager tradeManager()
+	{
+		return tradeManager;
+	}
+
+	public SettleManager settleManager()
+	{
+		return settleManager;
+	}
+
 
 	/**
 	 * @return the biome

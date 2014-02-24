@@ -28,6 +28,7 @@ public class ConfigTest implements ConfigInterface
 	private ItemList oreItems;
 	private ItemList valuableItems;
 	private ItemList rawItems;
+	private ItemList foodItems;
 	
 	
 	int realmCounter ;
@@ -551,6 +552,21 @@ public class ConfigTest implements ConfigInterface
 			
 		this.rawItems = subList;
 	}
+
+	public void initFoodMaterial()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.WHEAT.name(),0);
+		subList.addItem(Material.BREAD.name(),0);
+		subList.addItem(Material.RED_MUSHROOM.name(),0);
+		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
+		subList.addItem(Material.MUSHROOM_SOUP.name(),0);
+//		subList.addItem(Material..name(),0);
+
+		this.foodItems = subList;
+	}
+	
 	
 	@Override
 	public String getRegionType(BuildPlanType bType)

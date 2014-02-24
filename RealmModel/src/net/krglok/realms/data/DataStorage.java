@@ -112,7 +112,7 @@ public class DataStorage implements DataInterface
 		for (String settleId : settleInit)
 		{
 			plugin.getMessageData().log("SettleRead: "+settleId );
-			settlements.addSettlement(readSettlement(Integer.valueOf(settleId)));
+			settlements.addSettlement(readSettlement(Integer.valueOf(settleId),this.priceList));
 		}
 		return true;
 	}
@@ -132,9 +132,9 @@ public class DataStorage implements DataInterface
 	 * @param id
 	 * @return
 	 */
-	public Settlement readSettlement(int id)
+	private Settlement readSettlement(int id, ItemPriceList priceList)
 	{
-		return settleData.readSettledata(id);
+		return settleData.readSettledata(id, priceList);
 	}
 	
 //	private Settlement initSettlement()

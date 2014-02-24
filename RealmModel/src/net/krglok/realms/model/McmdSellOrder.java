@@ -35,6 +35,37 @@ public class McmdSellOrder implements iModelCommand
 	{
 		return commandType;
 	}
+	
+
+	public int getSettleId()
+	{
+		return settleId;
+	}
+
+	public String getItemRef()
+	{
+		return itemRef;
+	}
+
+	public int getAmount()
+	{
+		return amount;
+	}
+
+	public void setAmount(int value)
+	{
+		this.amount = value;
+	}
+	
+	public double getPrice()
+	{
+		return price;
+	}
+
+	public int getDelayDays()
+	{
+		return delayDays;
+	}
 
 	@Override
 	public String[] getParaTypes()
@@ -48,7 +79,7 @@ public class McmdSellOrder implements iModelCommand
 		Settlement settle = rModel.getSettlements().getSettlement(settleId);
 		rModel.getTradeMarket();
 		//SellOrder(rModel, settleId, itemRef, amount, delayDays);
-		int id = TradeMarket.getLastNumber()+1;
+		int id = TradeMarket.nextLastNumber();
 		if (delayDays < 1)
 		{
 			delayDays = 1;

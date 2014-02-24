@@ -15,6 +15,7 @@ import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -152,9 +153,9 @@ public class SettlementData
 
 	}
 	
-	public Settlement readSettledata(int id) 
+	public Settlement readSettledata(int id, ItemPriceList priceList) 
 	{
-		Settlement settle = new Settlement();
+		Settlement settle = new Settlement(priceList);
         String settleSec = getSettleKey(id);
 		try
 		{
