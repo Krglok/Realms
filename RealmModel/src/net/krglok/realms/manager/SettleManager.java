@@ -2,6 +2,8 @@ package net.krglok.realms.manager;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
+
 import net.krglok.realms.admin.AdminModus;
 import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildStatus;
@@ -243,24 +245,52 @@ public class SettleManager
 
 	private int getMinStorage(RealmModel rModel, Settlement settle, String itemRef)
 	{
-		if (rModel.getConfig().getToolItems().containsKey(itemRef))
-		{
-			return 64 ;
-		}
-		if (rModel.getConfig().getWeaponItems().containsKey(itemRef))
-		{
-			return 32 ;
-		}
-		if (rModel.getConfig().getArmorItems().containsKey(itemRef))
-		{
-			return 32 ;
-		}
-		if (rModel.getConfig().getFoodItems().containsKey(itemRef))
-		{
-			return settle.getResident().getSettlerMax() * 16 ;
-		}
+		int matFactor = rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef));
 		
-		return 0;
+		if (matFactor >= 0)
+		{
+			if (rModel.getConfig().getToolItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100);
+			}
+			if (rModel.getConfig().getWeaponItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100);
+			}
+			if (rModel.getConfig().getArmorItems().containsKey(itemRef))
+			{
+				return 64- (64 * matFactor / 100); 
+			}
+			if (rModel.getConfig().getFoodItems().containsKey(itemRef))
+			{
+				return settle.getResident().getSettlerMax() * 16 ;
+			}
+			if (rModel.getConfig().getValuables().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100);
+			}
+			if (rModel.getConfig().getBuildMaterialItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100);
+			}
+			if (rModel.getConfig().getOreItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100);
+			}
+			if (rModel.getConfig().getMaterialItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100);
+			}
+			if (rModel.getConfig().getRawItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100);
+			}
+			
+			return 8;
+		} else
+		{
+			return 9999;
+		}
 	}
 	
 	private ItemList getOverStock (RealmModel rModel, Settlement settle)

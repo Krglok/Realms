@@ -214,6 +214,11 @@ public class TradeManager
 		int sellAmount = sellOrder.getAmount();
 		int amount = settle.getWarehouse().getItemList().getValue(sellOrder.getItemRef());
 		double sellPrice = priceList.getBasePrice(sellOrder.getItemRef());
+		if (rModel.getConfig().getValuables().containsKey(sellOrder.getItemRef()))
+		{
+			sellPrice = sellPrice * 1.25;
+		}
+
 //		sellOrder.setBasePrice(sellPrice);
 		if (sellAmount > amount)
 		{
@@ -232,7 +237,7 @@ public class TradeManager
 
 		int id = rModel.getTradeMarket().nextLastNumber();
 //		System.out.println("Market id : "+id);
-		TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, 0.0, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
+		TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, sellPrice, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
 		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, order);
 		sellOrder.setTarget(sellOrder.getTarget()+sellAmount);
 		if ((amount-sellAmount) > 0)

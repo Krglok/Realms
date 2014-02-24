@@ -1,4 +1,4 @@
-package net.krglok.realms.unittest;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
@@ -27,6 +28,7 @@ import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.McmdSellOrder;
 import net.krglok.realms.model.RealmModel;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.junit.Test;
 
@@ -84,6 +86,33 @@ public class SettleManagerTest
 			System.out.print("|"+ConfigBasis.setStrleft(order.ItemRef(),12)+"");
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.value()),5));
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getBasePrice()),6));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getMaxTicks()),6));
+			System.out.println("|");
+		}
+
+	}
+	
+	private void showStock(RealmModel rModel, Settlement settle)
+	{
+		ArrayList<String> idList = new ArrayList<String>();
+		for (Item item : settle.getWarehouse().getItemList().values())
+		{
+			idList.add(item.ItemRef());
+		}
+		Collections.sort(idList);
+		for (String id : idList)
+		{
+			Item item = settle.getWarehouse().getItemList().get(id);
+			System.out.print("|"+ConfigBasis.setStrleft(item.ItemRef(),12)+"");
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(item.value()),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(item.ItemRef()))),5));
+			System.out.print("|"+ConfigBasis.setStrright(
+					String.valueOf(
+							64 - 
+							(64 * rModel.getServer().getBioneFactor
+									( settle.getBiome(), Material.getMaterial
+											(item.ItemRef())
+											)/ 100)),5));
 			System.out.println("|");
 		}
 
@@ -146,12 +175,12 @@ public class SettleManagerTest
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
-		rModel.OnCommand(sellCommand);
+//		rModel.OnCommand(sellCommand);
 //		rModel.OnCommand(buyCommand);
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
-		rModel.OnCommand(sellNext);
+//		rModel.OnCommand(sellNext);
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
@@ -165,7 +194,35 @@ public class SettleManagerTest
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
 
+		
 		System.out.println("");
 		System.out.println("testSettleMgrModel");
 		System.out.println("Settlement     : "+settle.getId()+" : "+settle.getName());
@@ -184,6 +241,9 @@ public class SettleManagerTest
 		}
 		System.out.println("Market SellOrders :"+rModel.getTradeMarket().size());
 		showMarket(rModel);
+		System.out.println("Settlement     : "+settle.getId()+" : "+settle.getName());
+		System.out.println("Warehouse :"+settle.getWarehouse().getItemList().size());
+		showStock(rModel, settle);
 		System.out.println("");
 		
 	}
