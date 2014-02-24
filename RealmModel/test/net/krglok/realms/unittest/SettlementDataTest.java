@@ -192,6 +192,7 @@ public class SettlementDataTest
 		System.out.println(" ");
 		
 	}
+
 	
 	private ArrayList<BuildPlanType> findUnavailableBuilding(Settlement settle, SettleSchema needed)
 	{

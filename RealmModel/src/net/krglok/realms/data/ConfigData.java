@@ -2,6 +2,7 @@ package net.krglok.realms.data;
 
 import java.util.HashMap;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
@@ -32,6 +33,12 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private ItemList toolItems;
 	private ItemList weaponItems;
 	private ItemList armorItems;
+	private ItemList buildItems;
+	private ItemList materialItems;
+	private ItemList oreItems;
+	private ItemList valuableItems;
+	private ItemList rawItems;
+	private ItemList foodItems;
 	
 	private int realmCounter ;
 	private int settlementCounter ;
@@ -73,9 +80,15 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		initRegionBuilding();
 		initSuperSettleTypes();
 		initBuildPlanRegion();
-		initTool();
-		initArmor();
-		initWeapon();
+		armorItems = ConfigBasis.initArmor();
+		weaponItems = ConfigBasis.initWeapon();
+		toolItems = ConfigBasis.initTool();
+		buildItems  = ConfigBasis.initBuildMaterial();
+		materialItems = ConfigBasis.initMaterial();
+		oreItems = ConfigBasis.initOre();
+		valuableItems = ConfigBasis.initValuables();
+		rawItems = ConfigBasis.initRawMaterial();
+		foodItems  = ConfigBasis.initFoodMaterial();
 		
 		return true;
 	}
@@ -110,6 +123,42 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		return armorItems;
 	}
 
+	@Override
+	public ItemList getBuildMaterialItems()
+	{
+		return buildItems;
+	}
+	
+	@Override
+	public ItemList getMaterialItems()
+	{
+		return materialItems;
+	}
+	
+	@Override
+	public ItemList getOreItems()
+	{
+		return oreItems;
+	}
+	
+	@Override
+	public ItemList getValuables()
+	{
+		return valuableItems;
+	}
+	
+	@Override
+	public ItemList getRawItems()
+	{
+		return rawItems;
+	}
+	
+	@Override
+	public ItemList getFoodItems()
+	{
+		return foodItems;
+	}
+	
 	/**
 	 * erzeugt eine List von superRegiontypen mit SettlementTypen
 	 */
@@ -399,117 +448,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		this.realmCounter = realmCounter;
 	}
 
-	/**
-	 * 
-	 * @return default weapon items
-	 */
-	public void initWeapon()
-	{
-		ItemList subList = new ItemList();
-
-		subList.addItem("BOW",0);
-		subList.addItem("DIAMOND_SWORD",0);
-		subList.addItem("GOLD_SWORD",0);
-		subList.addItem("IRON_SWORD",0);
-		subList.addItem("STONE_SWORD",0);
-		subList.addItem("WOOD_SWORD",0);
-		
-		this.weaponItems = subList;
-	}
-	
-	/**
-	 * @return the buildingCounter
-	 */
-	public int getBuildingCounter()
-	{
-		return buildingCounter;
-	}
-
-	/**
-	 * @param buildingCounter the buildingCounter to set
-	 */
-	public void setBuildingCounter(int buildingCounter)
-	{
-		this.buildingCounter = buildingCounter;
-	}
-		
-	/**
-	 * 
-	 * @return default armor items
-	 */
-	public void initArmor()
-	{
-		ItemList subList = new ItemList();
-		
-		subList.addItem("LEATHER_BOOTS",0);
-		subList.addItem("LEATHER_CHESTPLATE",0);
-		subList.addItem("LEATHER_HELMET",0);
-		subList.addItem("LEATHER_LEGGINGS",0);
-
-		subList.addItem("DIAMOND_BOOTS",0);
-		subList.addItem("DIAMOND_CHESTPLATE",0);
-		subList.addItem("DIAMOND_HELMET",0);
-		subList.addItem("DIAMOND_LEGGINGS",0);
-		
-		subList.addItem("GOLD_BOOTS",0);
-		subList.addItem("GOLD_CHESTPLATE",0);
-		subList.addItem("GOLD_HELMET",0);
-		subList.addItem("GOLD_LEGGINGS",0);
-		
-		subList.addItem("IRON_BOOTS",0);
-		subList.addItem("IRON_CHESTPLATE",0);
-		subList.addItem("IRON_HELMET",0);
-		subList.addItem("IRON_LEGGINGS",0);
-
-		subList.addItem("CHAINMAIL_BOOTS",0);
-		subList.addItem("CHAINMAIL_CHESTPLATE",0);
-		subList.addItem("CHAINMAIL_HELMET",0);
-		subList.addItem("CHAINMAIL_LEGGINGS",0);
-		
-		this.armorItems = subList;
-	}
-	
-	/**
-	 * 
-	 * @return default tool items
-	 */
-	public void  initTool()
-	{
-		ItemList subList = new ItemList();
-
-		subList.addItem("FISHING_ROD",0);
-		subList.addItem("FLINT_AND_STEEL",0);
-		subList.addItem("SHEARS",0);
-		subList.addItem("ARROW",0);
-		
-		subList.addItem("DIAMOND_AXE",0);
-		subList.addItem("DIAMOND_HOE",0);
-		subList.addItem("DIAMOND_PICKAXE",0);
-		subList.addItem("DIAMOND_SPADE",0);
-
-		subList.addItem("GOLD_AXE",0);
-		subList.addItem("GOLD_HOE",0);
-		subList.addItem("GOLD_PICKAXE",0);
-		subList.addItem("GOLD_SPADE",0);
-
-		subList.addItem("IRON_AXE",0);
-		subList.addItem("IRON_HOE",0);
-		subList.addItem("IRON_PICKAXE",0);
-		subList.addItem("IRON_SPADE",0);
-
-		subList.addItem("STONE_AXE",0);
-		subList.addItem("STONE_HOE",0);
-		subList.addItem("STONE_PICKAXE",0);
-		subList.addItem("STONE_SPADE",0);
-
-		subList.addItem("WOOD_AXE",0);
-		subList.addItem("WOOD_HOE",0);
-		subList.addItem("WOOD_PICKAXE",0);
-		subList.addItem("WOOD_SPADE",0);
-
-		this.toolItems = subList;
-	}
-
 	public void initBuildPlanRegion()
 	{
 //		 = new HashMap<BuildPlanType,String>();
@@ -531,5 +469,23 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		buildPlanRegions.put("haus_baecker",BuildPlanType.BAKERY.name());
 		
 	}
+
+	
+	/**
+	 * @return the buildingCounter
+	 */
+	public int getBuildingCounter()
+	{
+		return buildingCounter;
+	}
+
+	/**
+	 * @param buildingCounter the buildingCounter to set
+	 */
+	public void setBuildingCounter(int buildingCounter)
+	{
+		this.buildingCounter = buildingCounter;
+	}
+		
 
 }

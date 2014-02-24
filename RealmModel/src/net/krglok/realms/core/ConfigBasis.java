@@ -325,6 +325,242 @@ public class ConfigBasis implements ConfigInterface
 		return String.valueOf(out);
 	}
 
+	/**
+	 * 
+	 * @return default weapon items
+	 */
+	public static ItemList initWeapon()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem("BOW",0);
+		subList.addItem("DIAMOND_SWORD",0);
+		subList.addItem("GOLD_SWORD",0);
+		subList.addItem("IRON_SWORD",0);
+		subList.addItem("STONE_SWORD",0);
+		subList.addItem("WOOD_SWORD",0);
+		
+		return subList;
+	}
+
+	/**
+	 * 
+	 * @return default armor items
+	 */
+	public static ItemList initArmor()
+	{
+		ItemList subList = new ItemList();
+		
+		subList.addItem("LEATHER_BOOTS",0);
+		subList.addItem("LEATHER_CHESTPLATE",0);
+		subList.addItem("LEATHER_HELMET",0);
+		subList.addItem("LEATHER_LEGGINGS",0);
+
+		subList.addItem("DIAMOND_BOOTS",0);
+		subList.addItem("DIAMOND_CHESTPLATE",0);
+		subList.addItem("DIAMOND_HELMET",0);
+		subList.addItem("DIAMOND_LEGGINGS",0);
+		
+		subList.addItem("GOLD_BOOTS",0);
+		subList.addItem("GOLD_CHESTPLATE",0);
+		subList.addItem("GOLD_HELMET",0);
+		subList.addItem("GOLD_LEGGINGS",0);
+		
+		subList.addItem("IRON_BOOTS",0);
+		subList.addItem("IRON_CHESTPLATE",0);
+		subList.addItem("IRON_HELMET",0);
+		subList.addItem("IRON_LEGGINGS",0);
+
+		subList.addItem("CHAINMAIL_BOOTS",0);
+		subList.addItem("CHAINMAIL_CHESTPLATE",0);
+		subList.addItem("CHAINMAIL_HELMET",0);
+		subList.addItem("CHAINMAIL_LEGGINGS",0);
+		
+		return subList;
+	}
+	
+	/**
+	 * 
+	 * @return default tool items
+	 */
+	public static ItemList  initTool()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem("FISHING_ROD",0);
+		subList.addItem("FLINT_AND_STEEL",0);
+		subList.addItem("SHEARS",0);
+		subList.addItem("ARROW",0);
+		
+		subList.addItem("DIAMOND_AXE",0);
+		subList.addItem("DIAMOND_HOE",0);
+		subList.addItem("DIAMOND_PICKAXE",0);
+		subList.addItem("DIAMOND_SPADE",0);
+
+		subList.addItem("GOLD_AXE",0);
+		subList.addItem("GOLD_HOE",0);
+		subList.addItem("GOLD_PICKAXE",0);
+		subList.addItem("GOLD_SPADE",0);
+
+		subList.addItem("IRON_AXE",0);
+		subList.addItem("IRON_HOE",0);
+		subList.addItem("IRON_PICKAXE",0);
+		subList.addItem("IRON_SPADE",0);
+
+		subList.addItem("STONE_AXE",0);
+		subList.addItem("STONE_HOE",0);
+		subList.addItem("STONE_PICKAXE",0);
+		subList.addItem("STONE_SPADE",0);
+
+		subList.addItem("WOOD_AXE",0);
+		subList.addItem("WOOD_HOE",0);
+		subList.addItem("WOOD_PICKAXE",0);
+		subList.addItem("WOOD_SPADE",0);
+
+		return subList;
+	}
+
+	
+	
+	public static ItemList initBuildMaterial()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.COBBLESTONE.name(),0);
+		subList.addItem(Material.LOG.name(),0);
+		subList.addItem(Material.WOOD.name(),0);
+		subList.addItem(Material.STONE.name(),0);
+		subList.addItem(Material.FENCE.name(),0);
+		subList.addItem(Material.FENCE_GATE.name(),0);
+		subList.addItem(Material.STONE.name(),0);
+		subList.addItem(Material.BRICK.name(),0);
+		subList.addItem(Material.NETHER_BRICK.name(),0);
+		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
+		subList.addItem(Material.WOOD_DOOR.name(),0);
+		subList.addItem(Material.CHEST.name(),0);
+		subList.addItem(Material.WORKBENCH.name(),0);
+		subList.addItem(Material.FURNACE.name(),0);
+		subList.addItem(Material.BED_BLOCK.name(),0);
+		subList.addItem(Material.BED.name(),0);
+		subList.addItem(Material.TORCH.name(),0);
+		subList.addItem(Material.WOOL.name(),0);
+		subList.addItem(Material.ANVIL.name(),0);
+		subList.addItem(Material.BOOKSHELF.name(),0);
+		subList.addItem(Material.WOOD_STEP.name(),0);
+		subList.addItem(Material.STEP.name(),0);
+		subList.addItem(Material.WALL_SIGN.name(),0);
+		subList.addItem(Material.SIGN.name(),0);
+		subList.addItem(Material.SIGN_POST.name(),0);
+		subList.addItem(Material.DIRT.name(),0);
+		subList.addItem(Material.GRASS.name(),0);
+		subList.addItem(Material.WATER.name(),0);
+		subList.addItem(Material.NETHERRACK.name(),0);
+		subList.addItem(Material.WHEAT.name(),0);
+		subList.addItem(Material.RED_MUSHROOM.name(),0);
+		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
+//		subList.addItem(Material..name(),0);
+		
+		return subList;
+	}
+
+	public static ItemList initMaterial()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.COAL.name(),0);
+		subList.addItem(Material.WOOD.name(),0);
+		subList.addItem(Material.STICK.name(),0);
+		subList.addItem(Material.WOOL.name(),0);
+		subList.addItem(Material.COBBLESTONE.name(),0);
+		subList.addItem(Material.LOG.name(),0);
+		subList.addItem(Material.SEEDS.name(),0);
+		subList.addItem(Material.NETHERRACK.name(),0);
+//		subList.addItem(Material..name(),0);
+		
+		return subList;
+	}
+
+	public static ItemList initOre()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.COAL_ORE.name(),0);
+		subList.addItem(Material.IRON_ORE.name(),0);
+		subList.addItem(Material.GOLD_ORE.name(),0);
+		subList.addItem(Material.DIAMOND_ORE.name(),0);
+		subList.addItem(Material.REDSTONE_ORE.name(),0);
+		subList.addItem(Material.EMERALD_ORE.name(),0);
+		subList.addItem(Material.LAPIS_ORE.name(),0);
+		subList.addItem(Material.QUARTZ_ORE.name(),0);
+//		subList.addItem(Material..name(),0);
+			
+		return subList;
+	}
+	
+	public static ItemList initValuables()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.GOLD_NUGGET.name(),0);
+		subList.addItem(Material.EMERALD.name(),0);
+		subList.addItem(Material.DIAMOND.name(),0);
+		subList.addItem(Material.GOLD_INGOT.name(),0);
+		subList.addItem(Material.IRON_INGOT.name(),0);
+//		subList.addItem(Material..name(),0);
+			
+		return subList;
+	}
+	
+	public static ItemList initRawMaterial()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.DIRT.name(),0);
+		subList.addItem(Material.STONE.name(),0);
+		subList.addItem(Material.GRASS.name(),0);
+		subList.addItem(Material.NETHERRACK.name(),0);
+		subList.addItem(Material.LOG.name(),0);
+		subList.addItem(Material.GRAVEL.name(),0);
+		subList.addItem(Material.WATER.name(),0);
+		subList.addItem(Material.WOOL.name(),0);
+		subList.addItem(Material.CLAY.name(),0);
+		subList.addItem(Material.SAND.name(),0);
+		subList.addItem(Material.LAVA.name(),0);
+		subList.addItem(Material.LEAVES.name(),0);
+		subList.addItem(Material.LEAVES_2.name(),0);
+		subList.addItem(Material.SANDSTONE.name(),0);
+		subList.addItem(Material.SNOW.name(),0);
+		subList.addItem(Material.ICE.name(),0);
+		subList.addItem(Material.CACTUS.name(),0);
+		subList.addItem(Material.SUGAR_CANE.name(),0);
+		subList.addItem(Material.PUMPKIN.name(),0);
+		subList.addItem(Material.SEEDS.name(),0);
+		subList.addItem(Material.MELON.name(),0);
+		subList.addItem(Material.VINE.name(),0);
+		subList.addItem(Material.MYCEL.name(),0);
+		subList.addItem(Material.HUGE_MUSHROOM_1.name(),0);
+		subList.addItem(Material.HUGE_MUSHROOM_2.name(),0);
+		subList.addItem(Material.MOSSY_COBBLESTONE.name(),0);
+		subList.addItem(Material.SAPLING.name(),0);
+//		subList.addItem(Material..name(),0);
+			
+		return subList;
+	}
+
+	public static ItemList initFoodMaterial()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.WHEAT.name(),0);
+		subList.addItem(Material.BREAD.name(),0);
+		subList.addItem(Material.RED_MUSHROOM.name(),0);
+		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
+		subList.addItem(Material.MUSHROOM_SOUP.name(),0);
+//		subList.addItem(Material..name(),0);
+
+		return subList;
+	}
+	
 	@Override
 	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)
 	{
@@ -339,5 +575,48 @@ public class ConfigBasis implements ConfigInterface
 		return null;
 	}
 
+	@Override
+	public ItemList getBuildMaterialItems()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemList getMaterialItems()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemList getOreItems()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemList getValuables()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemList getRawItems()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemList getFoodItems()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 }

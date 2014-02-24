@@ -2,8 +2,14 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
@@ -64,14 +70,20 @@ public class SettleManagerTest
 	
 	private void showMarket(RealmModel rModel)
 	{
-		
+		ArrayList<Integer> idList = new ArrayList<Integer>();
 		for (TradeMarketOrder order :rModel.getTradeMarket().values())
 		{
-			System.out.print(""+order.getId());
-			System.out.print("|"+order.getSettleID());
-			System.out.print("|"+order.ItemRef()+"");
-			System.out.print("|"+order.value());
-			System.out.print("|"+order.getBasePrice());
+			idList.add(order.getId());
+		}
+		Collections.sort(idList);
+		for (Integer id : idList)
+		{
+			TradeMarketOrder order = rModel.getTradeMarket().get(id);
+			System.out.print(""+ConfigBasis.setStrright(String.valueOf(order.getId()),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getSettleID()),2));
+			System.out.print("|"+ConfigBasis.setStrleft(order.ItemRef(),12)+"");
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.value()),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getBasePrice()),6));
 			System.out.println("|");
 		}
 
@@ -113,6 +125,12 @@ public class SettleManagerTest
 		price = data.getPriceList().getBasePrice(itemRef);
 		delayDays = 10;
 		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
+
+		itemRef = "WOOL";
+		value = 500;
+		price = data.getPriceList().getBasePrice(itemRef);
+		delayDays = 10;
+		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
 		
 		String name = "NewColonist";
 		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
@@ -133,6 +151,7 @@ public class SettleManagerTest
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
+		rModel.OnCommand(sellNext);
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
@@ -140,21 +159,30 @@ public class SettleManagerTest
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
 
 		System.out.println("");
 		System.out.println("testSettleMgrModel");
 		System.out.println("Settlement     : "+settle.getId()+" : "+settle.getName());
-		System.out.println("Bank    : "+settle.getBank().getKonto()+"/"+expected);
-		System.out.println("Builder :"+settle.buildManager().getActualBuild().getBuildingType());
-		System.out.println("BuyList :"+settle.settleManager().getCmdBuy().size());
-		System.out.println("SellList:"+settle.settleManager().getCmdSell().size());
-		System.out.println("Market  OrderList:");
-		System.out.print("|"+settle.tradeManager().getSellOrder().getItemRef());
-		System.out.print("|"+settle.tradeManager().getSellOrder().getAmount());
-		System.out.print("|"+settle.tradeManager().getSellOrder().getPrice());
-		System.out.println("|");
-		System.out.println("ModelCmd:"+rModel.getcommandQueue().size());
-		System.out.println("Market  :"+rModel.getTradeMarket().size());
+		System.out.println("Bank       : "+settle.getBank().getKonto()+"/"+expected);
+		System.out.println("Builder    :"+settle.buildManager().getActualBuild().getBuildingType());
+		System.out.println("MgrBuyList :"+settle.settleManager().getCmdBuy().size());
+		System.out.println("MgrSellList:"+settle.settleManager().getCmdSell().size());
+		System.out.println("ModelCmd   :"+rModel.getcommandQueue().size());
+		System.out.println("TradeMgr SellOrder:");
+		if (settle.tradeManager().getSellOrder() != null)
+		{
+			System.out.print("|"+settle.tradeManager().getSellOrder().getItemRef());
+			System.out.print("|"+settle.tradeManager().getSellOrder().getAmount());
+			System.out.print("|"+settle.tradeManager().getSellOrder().getPrice());
+			System.out.println("|");
+		}
+		System.out.println("Market SellOrders :"+rModel.getTradeMarket().size());
 		showMarket(rModel);
 		System.out.println("");
 		

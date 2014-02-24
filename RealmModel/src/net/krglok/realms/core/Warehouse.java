@@ -1,9 +1,5 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
-import java.util.HashMap;
-
-import net.krglok.realms.builder.BuildPlanType;
 
 /**
  * <pre>

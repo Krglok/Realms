@@ -4,6 +4,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarket;
+import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeType;
@@ -175,13 +176,34 @@ public class TradeManager
 		
 		if (sellOrder != null)
 		{
+//			System.out.println("SellOrder amount "+sellOrder.getAmount());
 			if (sellOrder.getAmount() > 0 )
 			{
 				int restAmount = sellValuePrice(rModel, settle, sellOrder);
+//				System.out.println("SellOrder rest "+restAmount);
 				if (restAmount <= 0)
 				{
 					sellOrder.setAmount(0);
 				}
+			}
+		}
+		for (TradeOrder order : settle.getTrader().getBuyOrders().values())
+		{
+			if (order.getStatus() == TradeStatus.NONE)
+			{
+//				settle.getTrader().getBuyOrders().remove(order);
+			}
+		}
+
+		for (TradeMarketOrder mOrder : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
+		{
+			if (mOrder.isDecline())
+			{
+//				sellOrder.setAmount(sellOrder.getAmount()-mOrder.value());
+			}
+			if (mOrder.getStatus() == TradeStatus.FULFILL)
+			{
+				sellOrder.setReached(sellOrder.getReached()+mOrder.value());
 			}
 		}
 	}
@@ -207,14 +229,15 @@ public class TradeManager
 			sellAmount = (int) (MAX_VALUE / sellPrice);
 		}
 		sellOrder.setAmount(sellOrder.getAmount()-sellAmount);
-		int id = TradeMarket.nextLastNumber();
 
+		int id = rModel.getTradeMarket().nextLastNumber();
+//		System.out.println("Market id : "+id);
 		TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, 0.0, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
-		
 		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, order);
+		sellOrder.setTarget(sellOrder.getTarget()+sellAmount);
 		if ((amount-sellAmount) > 0)
 		{
-			return (sellOrder.getAmount() - sellAmount);
+			return sellOrder.getAmount();
 		} else
 		{
 			return 0;

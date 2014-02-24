@@ -17,7 +17,7 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 	 * 
 	 */
 	private static final long serialVersionUID = 5194184061229844880L;
-	private static int lastNumber;
+	private  int lastNumber;
 
 
 	public TradeMarket()
@@ -26,20 +26,20 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		lastNumber = 0;
 	}
 
-	public static int getLastNumber()
+	public  int getLastNumber()
 	{
-		return TradeMarket.lastNumber;
+		return lastNumber;
 	}
 
-	public static int nextLastNumber()
+	public  int nextLastNumber()
 	{
 		lastNumber++;
 		return lastNumber;
 	}
 
-	public static void setLastNumber(int lastNumber)
+	public  void setLastNumber(int lastNumber)
 	{
-		TradeMarket.lastNumber = lastNumber;
+		this.lastNumber = lastNumber;
 	}
 
 	
@@ -103,8 +103,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 				{
 					if (checkPrice(sellOrder, buyOrder))
 					{
-						TradeMarket.lastNumber++;
-						subList.put(TradeMarket.lastNumber++,sellOrder);
+						this.lastNumber++;
+						subList.put(this.lastNumber++,sellOrder);
 					}
 				}
 			}
@@ -144,8 +144,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (tmo.getSettleID() == settleId)
 			{
-				TradeMarket.lastNumber++;
-				subList.put(TradeMarket.lastNumber++,tmo);
+				this.lastNumber++;
+				subList.put(this.lastNumber++,tmo);
 			}
 		}
 		
@@ -159,8 +159,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (tmo.getWorld().equalsIgnoreCase(world))
 			{
-				TradeMarket.lastNumber++;
-				subList.put(TradeMarket.lastNumber++,tmo);
+				this.lastNumber++;
+				subList.put(this.lastNumber++,tmo);
 			}
 		}
 		
@@ -174,8 +174,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (!tmo.getWorld().equalsIgnoreCase(world))
 			{
-				TradeMarket.lastNumber++;
-				subList.put(TradeMarket.lastNumber++,tmo);
+				this.lastNumber++;
+				subList.put(this.lastNumber++,tmo);
 			}
 		}
 		

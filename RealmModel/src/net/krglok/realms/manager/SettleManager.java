@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import net.krglok.realms.admin.AdminModus;
 import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildStatus;
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.model.CommandQueue;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.McmdBuyOrder;
@@ -57,12 +60,13 @@ public class SettleManager
 		//check for money
 		
 		// check for overstocking
-		
+		checkOverStockSell( rModel,  settle);
 		// check for overpopulation
 		
 		// check for optional actions
 		buildOrder(settle);
-		sellOrder(settle);
+		checkSellOrder(rModel, settle);
+		sellOrder(rModel,settle);
 		
 	}
 	
@@ -153,14 +157,27 @@ public class SettleManager
 	}
 
 	
-	private void sellOrder(Settlement settle)
+	private void sellOrder(RealmModel rModel,Settlement settle)
 	{
 		if (settle.tradeManager().isSellActiv() == false)
 		{
 			if (cmdSell.isEmpty() == false)
 			{
 				McmdSellOrder sellOrder = cmdSell.get(0);
-				settle.tradeManager().newSellOrder(sellOrder);
+				switch (sellOrder.getTradeStatus())
+				{
+				case READY :
+					settle.tradeManager().newSellOrder(sellOrder);
+					sellOrder.setTradeStatus(TradeStatus.STARTED);
+					break;
+				case STARTED :
+					break;
+				case FULFILL:
+				case DECLINE:
+					cmdSell.remove(sellOrder);
+					break;
+				default :
+				}
 			}
 		}
 	}
@@ -195,7 +212,7 @@ public class SettleManager
 		return cmdSell;
 	}
 	
-	private void checkSellOrder(Settlement settle)
+	private void checkSellOrder(RealmModel rModel, Settlement settle)
 	{
 		if (settle.tradeManager().isSellActiv() == false)
 		{
@@ -203,13 +220,84 @@ public class SettleManager
 			{
 				McmdSellOrder sellOrder = cmdSell.get(0);
 				int sellAmount = sellOrder.getAmount();
-				int StoreAmount = settle.getWarehouse().getItemList().getValue(sellOrder.getItemRef());
-				
-				if ()
-				int MinAmount = settle.getWarehouse().ge
+				int storeAmount = settle.getWarehouse().getItemList().getValue(sellOrder.getItemRef());
+				int minAmount = getMinStorage(rModel, settle, sellOrder.getItemRef());
+				if (storeAmount > minAmount)
+				{
+					if ((storeAmount-minAmount) < sellAmount)
+					{
+						sellOrder.setAmount((storeAmount-minAmount));
+					}
+					
+				} else
+				{
+					sellOrder.setAmount(0);
+					/// bei DECLINE wird der nächste Auftrag bearbeitet
+					/// bei WAIT wird nicjt der nächste genommen
+					sellOrder.setTradeStatus(TradeStatus.DECLINE);
+				}
 			}
 		}
 	}
 
+
+	private int getMinStorage(RealmModel rModel, Settlement settle, String itemRef)
+	{
+		if (rModel.getConfig().getToolItems().containsKey(itemRef))
+		{
+			return 64 ;
+		}
+		if (rModel.getConfig().getWeaponItems().containsKey(itemRef))
+		{
+			return 32 ;
+		}
+		if (rModel.getConfig().getArmorItems().containsKey(itemRef))
+		{
+			return 32 ;
+		}
+		if (rModel.getConfig().getFoodItems().containsKey(itemRef))
+		{
+			return settle.getResident().getSettlerMax() * 16 ;
+		}
+		
+		return 0;
+	}
+	
+	private ItemList getOverStock (RealmModel rModel, Settlement settle)
+	{
+		ItemList items = new ItemList();
+		
+		for (Item store : settle.getWarehouse().getItemList().values())
+		{
+			int min = getMinStorage(rModel, settle, store.ItemRef());
+			if (store.value() > min)
+			{
+				items.addItem(new Item(store.ItemRef(),store.value() - min));
+			}
+		}
+		
+		return items;
+	}
+	
+	/**
+	 * Erstellt SellOrder fuer Ueberbestand
+	 * @param rModel
+	 * @param settle
+	 */
+	private void checkOverStockSell(RealmModel rModel, Settlement settle)
+	{
+		if (settle.tradeManager().isSellActiv() == false)
+		{
+			ItemList sellItems = getOverStock(rModel, settle);
+			
+			for (Item sellItem : sellItems.values())
+			{
+				McmdSellOrder sellOrder = new McmdSellOrder(rModel, settle.getId(), sellItem.ItemRef(), sellItem.value(), 0.0, 10);
+				settle.tradeManager().newSellOrder(sellOrder );
+				return;
+		
+			}
+		}
+	}
 	
 }

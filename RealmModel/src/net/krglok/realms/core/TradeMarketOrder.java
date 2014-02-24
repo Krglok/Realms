@@ -12,7 +12,7 @@ package net.krglok.realms.core;
 public class TradeMarketOrder extends TradeOrder
 {
 
-	private int settleID;
+	private Integer settleID;
 	
 	public TradeMarketOrder()
 	{
