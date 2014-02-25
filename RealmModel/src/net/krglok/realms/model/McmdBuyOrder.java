@@ -76,7 +76,8 @@ public class McmdBuyOrder implements iModelCommand
 		Settlement settle = rModel.getSettlements().getSettlement(settleId);
 		;
 		//SellOrder(rModel, settleId, itemRef, amount, delayDays);
-		int id = rModel.getTradeMarket().getLastNumber()+1;
+//		int id = rModel.getTradeMarket().getLastNumber()+1;
+		int id = rModel.getTradeMarket().nextLastNumber();
 		if (delayDays < 1)
 		{
 			delayDays = 1;

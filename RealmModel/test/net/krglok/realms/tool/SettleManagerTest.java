@@ -9,12 +9,15 @@ import java.util.List;
 
 import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
+import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
@@ -69,6 +72,107 @@ public class SettleManagerTest
 		
 	}
 	
+
+	private void makeSettleAnalysis(Settlement settle, int moth, ItemPriceList priceList)
+	{
+		ArrayList<String> msg = new ArrayList<>();
+		// Resident Analyse
+		msg.add(" ");
+		msg.add("Sieldungstatus  ========= "+settle.getBiome());
+		msg.add("Age           : "+settle.getAge()+" Tage  ca. " + (settle.getAge()/30/12)+" Jahre ");
+		msg.add("Einwohner     : "+settle.getResident().getSettlerCount());
+		msg.add("Arbeiter      : "+settle.getTownhall().getWorkerCount());
+		msg.add("freie Siedler : "+(settle.getResident().getSettlerCount()-settle.getTownhall().getWorkerCount()));
+		msg.add("Betten        : "+settle.getResident().getSettlerMax());
+		msg.add("Bankkonto     : "+(int) settle.getBank().getKonto());
+		msg.add("Anzahl Gebäude: "+(int) settle.getBuildingList().size());
+		msg.add("Items im Lager: "+(int) settle.getWarehouse().getItemCount());
+		msg.add("fehlende Items: "+(int) settle.getRequiredProduction().size());
+		msg.add("!  ");
+		msg.add("Bevölkerungsanalyse  ");
+		if (settle.getResident().getSettlerCount() > settle.getResident().getSettlerMax())
+		{
+			msg.add("!  Sie haben Überbevölkerung in der Siedlung. Dies macht die Siedler unglücklich auf lange Sicht!");
+		}
+		if (settle.getResident().getHappiness() < 0)
+		{
+			msg.add("!  Ihre Siedler sind unglücklich. ");
+		}
+		if (settle.getFoodFactor() < 0.0)
+		{
+			msg.add("!  Ihre Siedler leiden Hunger. Das ist wohl der Grund warum sie unglücklich sind!");
+		}
+		if (settle.getSettlerFactor() < 0.0)
+		{
+			msg.add("!  Ihre Siedler haben keinen Wohnraum. Das ist wohl der Grund warum sie unglücklich sind!");
+		}
+		if (settle.getEntertainFactor() < 0.9)
+		{
+			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhltung macht sie glücklicher!");
+		}
+		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
+		{
+			msg.add("!  Ihre Siedler sind verhungert. Sie haben als Verwalter versagt!");
+			msg.add("!  Es würde mich nicht wundern, wenn eine Revolte ausbricht!!");
+		}
+
+		msg.add("  ");
+		msg.add("Wirtschaftsanalyse  ");
+		msg.add("!  Ihre Siedler haben "+(int)(settle.getBank().getKonto())+" Thaler erarbeitet.  Herzlichen Glückwunsch.");
+
+		double price = 0.0;
+		double balance = 0.0;
+		for (Item item : settle.getWarehouse().getItemList().values())
+		{
+			price = Math.round(priceList.getBasePrice(item.ItemRef()));
+			balance = balance + (item.value()*price);
+		}
+		msg.add("!  Das Warenlager hat einen Wert von:  "+balance);
+		
+		if (settle.getTownhall().getWorkerCount() < settle.getTownhall().getWorkerNeeded())
+		{
+			msg.add("!  Es fehlen Arbeiter. Deshalb produzieren einige Gebäude nichts!");
+		}
+		if (settle.getResident().getSettlerCount() < settle.getTownhall().getWorkerNeeded())
+		{
+			msg.add("!  Es fehlen Siedler. Deshalb produzieren einige Gebäude nichts!");
+		}
+		if (settle.getResident().getSettlerCount() > settle.getTownhall().getWorkerNeeded())
+		{
+			msg.add("!  Sie haben "+(settle.getResident().getSettlerCount() -settle.getTownhall().getWorkerNeeded())+" Siedler ohne Arbeit. Sie könnten neue Arbeitsgebäude bauen !");
+		}
+
+		if (settle.getRequiredProduction().size() > 0)
+		{
+			msg.add("!  Es fehlen "+settle.getRequiredProduction().size()+" verschiedene Rohstoffe zur Produktion.");
+		}
+		
+		if ((settle.getWarehouse().getItemMax()-settle.getWarehouse().getItemCount()) < 512)
+		{
+			msg.add("!  Die Lagerkapazität ist knapp !  Freie Kapazitäte nur "+(settle.getWarehouse().getItemMax()-settle.getWarehouse().getItemCount()));
+		}
+		
+		msg.add("!  ");
+		for (String s : msg)
+		{
+			System.out.println(s);
+		}
+		
+		System.out.println("==ProductionOverview ==");
+		System.out.print("Item            "+" : "+"   Last"+" | "+"  Monat"+" | "+"   Jahr"+"  Store");
+		System.out.println("");
+		for (BoardItem bItem : settle.getProductionOverview().values())
+		{
+			System.out.print(ConfigBasis.setStrleft(bItem.getName(),16)+" : ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getPeriodSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(bItem.getName()) ) ,7)+ " | ");
+			System.out.print("");
+			System.out.println("");
+			
+		}
+	}
 	
 	private void showMarket(RealmModel rModel)
 	{
@@ -86,7 +190,34 @@ public class SettleManagerTest
 			System.out.print("|"+ConfigBasis.setStrleft(order.ItemRef(),12)+"");
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.value()),5));
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getBasePrice()),6));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getTickCount()),6));
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getMaxTicks()),6));
+			System.out.print("|"+ConfigBasis.setStrleft(order.getStatus().name(),12)+"");
+			System.out.println("|");
+		}
+
+	}
+
+	private void showTransport(RealmModel rModel)
+	{
+		ArrayList<Integer> idList = new ArrayList<Integer>();
+		for (TradeMarketOrder order :rModel.getTradeTransport().values())
+		{
+			idList.add(order.getId());
+		}
+		Collections.sort(idList);
+		for (Integer id : idList)
+		{
+			TradeMarketOrder order = rModel.getTradeTransport().get(id);
+			System.out.print(""+ConfigBasis.setStrright(String.valueOf(order.getId()),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getSettleID()),2));
+			System.out.print(">>"+ConfigBasis.setStrright(String.valueOf(order.getTargetId()),2));
+			System.out.print("|"+ConfigBasis.setStrleft(order.ItemRef(),12)+"");
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.value()),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getBasePrice()),6));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getTickCount()),6));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getMaxTicks()),6));
+			System.out.print("|"+ConfigBasis.setStrleft(order.getStatus().name(),12)+"");
 			System.out.println("|");
 		}
 
@@ -118,6 +249,26 @@ public class SettleManagerTest
 
 	}
 	
+	private void showBuyList(Settlement settle)
+	{
+//		ArrayList<String> idList = new ArrayList<String>();
+//		for (Item item : settle.getTrader().getBuyOrders())
+//		{
+//			idList.add(item.ItemRef());
+//		}
+//		Collections.sort(idList);
+		for (TradeOrder order :  settle.getTrader().getBuyOrders().values())
+		{
+			System.out.print("|"+ConfigBasis.setStrleft(String.valueOf(order.getId()),3)+"");
+			System.out.print("|"+ConfigBasis.setStrleft(order.ItemRef(),12)+"");
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.value()),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getBasePrice()),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getTickCount()),5));
+			System.out.print("|"+ConfigBasis.setStrleft(order.getStatus().name(),12)+"");
+			System.out.println("|");
+		}
+
+	}
 	
 	@Test
 	public void testSettleMgrModel()
@@ -130,7 +281,7 @@ public class SettleManagerTest
 		RealmModel rModel = new RealmModel(0, 0, server, config, data, msg);
     	rModel.OnEnable();
 
-		int settleId = 1;
+		int settleId = 3;
 
 		Settlement settle = rModel.getSettlements().getSettlement(settleId);
 		double expected = settle.getBank().getKonto();
@@ -170,6 +321,7 @@ public class SettleManagerTest
 		rModel.OnCommand(bankCommand);
 		rModel.OnTick();
 		rModel.OnTick();
+		rModel.OnProduction();
 		rModel.OnTick();
 		rModel.OnCommand(builderCommand);
 		rModel.OnTick();
@@ -177,6 +329,7 @@ public class SettleManagerTest
 		rModel.OnTick();
 //		rModel.OnCommand(sellCommand);
 //		rModel.OnCommand(buyCommand);
+		rModel.OnProduction();
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
@@ -188,39 +341,11 @@ public class SettleManagerTest
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
+		for (int i = 0; i < 1450; i++)
+		{
+			rModel.OnTick();
+			
+		}
 
 		
 		System.out.println("");
@@ -241,7 +366,17 @@ public class SettleManagerTest
 		}
 		System.out.println("Market SellOrders :"+rModel.getTradeMarket().size());
 		showMarket(rModel);
-		System.out.println("Settlement     : "+settle.getId()+" : "+settle.getName());
+		System.out.println("Market Transports :"+rModel.getTradeTransport().size());
+		showTransport(rModel);
+		for (Settlement settl : rModel.getSettlements().getSettlements().values())
+		{			
+			System.out.println("");
+			System.out.println("Settlement     : "+settl.getId()+" : "+settl.getName());
+			System.out.println("Caravans  :"+settl.getTrader().getCaravanCount());
+			System.out.println("BuyOrders :"+settl.getTrader().getBuyOrders().size());
+			showBuyList(settl);
+		}
+		makeSettleAnalysis( settle, 50, rModel.getData().getPriceList());
 		System.out.println("Warehouse :"+settle.getWarehouse().getItemList().size());
 		showStock(rModel, settle);
 		System.out.println("");

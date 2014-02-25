@@ -103,8 +103,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 				{
 					if (checkPrice(sellOrder, buyOrder))
 					{
-						this.lastNumber++;
-						subList.put(this.lastNumber++,sellOrder);
+//						this.lastNumber++;
+						subList.put(sellOrder.getId(),sellOrder);
 					}
 				}
 			}
@@ -131,7 +131,11 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 	
 	public TradeMarketOrder addOrder(TradeMarketOrder tmo)
 	{
-		lastNumber++;
+		if (tmo.getId() < 1) 
+		{
+			lastNumber++;
+			tmo.setId(lastNumber);
+		}
 		tmo.setId(lastNumber);
 		this.put(lastNumber, tmo);
 		return tmo;
@@ -144,8 +148,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (tmo.getSettleID() == settleId)
 			{
-				this.lastNumber++;
-				subList.put(this.lastNumber++,tmo);
+//				this.lastNumber++;
+				subList.put(tmo.getId(),tmo);
 			}
 		}
 		
@@ -159,8 +163,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (tmo.getWorld().equalsIgnoreCase(world))
 			{
-				this.lastNumber++;
-				subList.put(this.lastNumber++,tmo);
+//				this.lastNumber++;
+				subList.put(tmo.getId(),tmo);
 			}
 		}
 		
@@ -174,8 +178,8 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (!tmo.getWorld().equalsIgnoreCase(world))
 			{
-				this.lastNumber++;
-				subList.put(this.lastNumber++,tmo);
+//				this.lastNumber++;
+				subList.put(tmo.getId(),tmo);
 			}
 		}
 		

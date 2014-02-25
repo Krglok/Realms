@@ -10,7 +10,9 @@ import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.core.TradeStatus;
+import net.krglok.realms.core.TradeType;
 import net.krglok.realms.model.CommandQueue;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.McmdBuyOrder;
@@ -58,9 +60,9 @@ public class SettleManager
 	{
 		getModelCommands(rModel, settle);
 		// check for hunger
-		
+		checkHunger ( rModel,  settle);
 		//check for money
-		
+		checkMoneyLevel( rModel,  settle);
 		// check for overstocking
 		checkOverStockSell( rModel,  settle);
 		// check for overpopulation
@@ -329,5 +331,22 @@ public class SettleManager
 			}
 		}
 	}
+	
+	private void checkHunger (RealmModel rModel, Settlement settle)
+	{
+		if (settle.getFoodFactor() < 0)
+		{
+			if (settle.tradeManager().isBuyActiv() == false)
+			{
+				settle.tradeManager().newBuyOrder(settle, Material.WHEAT.name(), 100);
+			}
+		}
+	}
+	
+	private void checkMoneyLevel( RealmModel rModel, Settlement settle)
+	{
+		
+	}
+	
 	
 }

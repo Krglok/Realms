@@ -173,7 +173,7 @@ public class TradeManager
 		// check for Transport to fulfill
 		rModel.getTradeTransport().fullfillTarget(settle);
 		rModel.getTradeTransport().fullfillSender(settle);
-		
+		// work on Sell Command
 		if (sellOrder != null)
 		{
 //			System.out.println("SellOrder amount "+sellOrder.getAmount());
@@ -187,11 +187,32 @@ public class TradeManager
 				}
 			}
 		}
+		// work on Buy Command
+		if (buyOrder != null)
+		{
+			if (checkBuyValid(rModel, settle))
+			{
+				if (buyOrder.value() > 0)
+				{
+					isBuyActiv = true;
+					buyValuePrice(rModel, settle, buyOrder);
+				} else
+				{
+					isBuyActiv = false;
+				}
+			} else
+			{
+				isBuyActiv = false;
+			}
+		}
+		
+		// Clean order Queues
 		for (TradeOrder order : settle.getTrader().getBuyOrders().values())
 		{
 			if (order.getStatus() == TradeStatus.NONE)
 			{
-//				settle.getTrader().getBuyOrders().remove(order);
+				settle.getTrader().getBuyOrders().remove(order);
+//				System.out.println("Buy Remove "+order.getId()+":"+settle.getName());
 			}
 		}
 
@@ -204,6 +225,15 @@ public class TradeManager
 			if (mOrder.getStatus() == TradeStatus.FULFILL)
 			{
 				sellOrder.setReached(sellOrder.getReached()+mOrder.value());
+			}
+		}
+		
+		for (TradeMarketOrder mOrder : rModel.getTradeTransport().values())
+		{
+			if (mOrder.getStatus() == TradeStatus.NONE)
+			{
+				rModel.getTradeTransport().remove(mOrder);
+//				System.out.println("Transport Remove "+mOrder.getId()+":"+settle.getName());
 			}
 		}
 	}
@@ -250,4 +280,46 @@ public class TradeManager
 	}
 	
 	
+	private void buyValuePrice(RealmModel rModel, Settlement settle, TradeOrder buyOrder)
+	{
+		double buyPrice = priceList.getBasePrice(buyOrder.ItemRef());
+		int buyAmount = buyOrder.value();
+		if (buyAmount > MAX_AMOUNT)
+		{
+			buyAmount = MAX_AMOUNT;
+		} 
+		if(Math.round(buyAmount * buyPrice) > MAX_VALUE)
+		{
+			buyAmount = (int) (MAX_VALUE / buyPrice);
+		}
+		buyOrder.setBasePrice(buyPrice);
+		if (buyOrder.value() > buyAmount)
+		{
+			buyOrder.setValue(buyOrder.value() - buyAmount);
+		} else
+		{
+			buyOrder.setValue(0);
+		}
+		TradeOrder order = new TradeOrder(-1, TradeType.BUY, buyOrder.ItemRef(), buyAmount, buyPrice, BUY_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
+		settle.getTrader().makeBuyOrder(order);
+	}
+	
+	/**
+	 * check if already equal buyOrder in progress
+	 * @param rModel
+	 * @param settle
+	 * @return true if itemRef in Trader buyOrdr list
+	 */
+	private boolean checkBuyValid(RealmModel rModel, Settlement settle)
+	{
+		for (TradeOrder order : settle.getTrader().getBuyOrders().values())
+		{
+			if (order.ItemRef().equalsIgnoreCase(buyOrder.ItemRef()))
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }

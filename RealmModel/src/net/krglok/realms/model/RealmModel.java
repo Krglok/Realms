@@ -10,6 +10,8 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.TradeMarket;
+import net.krglok.realms.core.TradeMarketOrder;
+import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
@@ -701,20 +703,21 @@ public class RealmModel
 		// Buyorders of Settlement do Garbage
 		try
 		{
-			for (Settlement settle : settlements.getSettlements().values())
+			Integer[] keyArray = new Integer[tradeTransport.size()];
+			int index = 0;
+			for (TradeOrder order : tradeTransport.values())
 			{
-				for (int i = 0; i < settle.getTrader().getBuyOrders().size()-1; i++)
+				if (order.getStatus() == TradeStatus.NONE)
 				{
-					Integer[] keyArray = new Integer[settle.getTrader().getBuyOrders().size()];
-					keyArray = settle.getTrader().getBuyOrders().keySet().toArray(keyArray);
-					for (Integer id : keyArray)
-					{
-						if (settle.getTrader().getBuyOrders().get(id).getStatus() == TradeStatus.NONE)
-						{
-							settle.getTrader().getBuyOrders().remove(id);
-						}
-					}
+					keyArray[index] = order.getId();
+					index++;
 				}
+					
+				
+			}
+			for (Integer id : keyArray)
+			{
+				tradeTransport.remove(id);
 			}
 		} catch (Exception e)
 		{
@@ -729,13 +732,27 @@ public class RealmModel
 			if ((tradeMarket != null) && (tradeMarket.size() > 0))
 			{				
 				Integer[] keyArray = new Integer[tradeMarket.size()];
-				keyArray = tradeMarket.keySet().toArray(keyArray);
+				int index = 0;
+				for (TradeMarketOrder order : tradeMarket.values())
+				{
+					if(order.getStatus() == TradeStatus.DECLINE)
+					{
+						keyArray[index] = order.getId();
+						index ++;
+					} else
+					{
+						if (order.value() <= 0)
+						{
+							keyArray[index] = order.getId();
+							index++;
+						}
+					}
+					
+				}
+				
 				for (Integer id : keyArray)
 				{
-					if(tradeMarket.get(id).getStatus() == TradeStatus.NONE)
-					{
-						tradeMarket.remove(id);
-					}
+					tradeMarket.remove(id);
 				}
 			}
 		} catch (Exception e)

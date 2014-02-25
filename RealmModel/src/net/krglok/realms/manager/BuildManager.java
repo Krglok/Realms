@@ -397,7 +397,7 @@ public class BuildManager
 			}
 		} else
 		{
-			System.out.println("Wait on Clean ready");
+//			System.out.println("Wait on Clean ready");
 		}
 //		System.out.println((""+h+":"+r+":"+c)+" >");
 	}
