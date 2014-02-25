@@ -6,10 +6,13 @@ import org.bukkit.Material;
 
 import net.krglok.realms.admin.AdminModus;
 import net.krglok.realms.admin.AdminStatus;
+import net.krglok.realms.builder.BuildPlanMap;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeType;
@@ -40,7 +43,9 @@ public class SettleManager
 	private ArrayList<McmdBuilder> cmdBuilder;
 	private ArrayList<McmdBuyOrder> cmdBuy;
 	private ArrayList<McmdSellOrder> cmdSell;
-	
+	private ItemList buyList;
+	private ItemList dontSell;
+	private int checkCounter = 0;
 	
 	public SettleManager()
 	{
@@ -49,6 +54,8 @@ public class SettleManager
 		this.cmdSell = new ArrayList<McmdSellOrder>();
 		this.adminMode = AdminModus.PLAYER;
 		this.status    = AdminStatus.NONE;
+		this.buyList = new ItemList();
+		this.dontSell = new ItemList();
 	}
 	
 	public void newCommand()
@@ -68,10 +75,24 @@ public class SettleManager
 		// check for overpopulation
 		
 		// check for optional actions
-		buildOrder(settle);
+		if (checkCounter <= 0)
+		{
+			if (checkBuildMaterials(rModel, settle))
+			{
+				buildOrder(settle);
+				checkCounter = 0;
+			} else
+			{	
+				buyBuildMaterials(rModel, settle);
+				checkCounter = 25;
+			}
+		} else
+		{
+			checkCounter--;
+		}
 		checkSellOrder(rModel, settle);
 		sellOrder(rModel,settle);
-		
+		buyOrder( rModel, settle);
 	}
 	
 	private void getModelCommands(RealmModel rModel, Settlement settle)
@@ -186,6 +207,22 @@ public class SettleManager
 		}
 	}
 	
+	
+	private void buyOrder(RealmModel rModel,Settlement settle)
+	{
+		if (settle.tradeManager().isBuyActiv() == false)
+		{
+			if (cmdBuy.isEmpty() == false)
+			{
+				McmdBuyOrder buyOrder = cmdBuy.get(0);
+				settle.tradeManager().newBuyOrder(settle, buyOrder.getItemRef(), buyOrder.getAmount());
+				cmdBuy.remove(0);
+			}
+		}
+		
+	}
+	
+	
 	public AdminModus getAdminMode()
 	{
 		return adminMode;
@@ -248,20 +285,25 @@ public class SettleManager
 	private int getMinStorage(RealmModel rModel, Settlement settle, String itemRef)
 	{
 		int matFactor = rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef));
+		int sellLimit = 0;
+		if (dontSell.containsKey(itemRef))
+		{
+			sellLimit = dontSell.getValue(itemRef);
+		}
 		
 		if (matFactor >= 0)
 		{
 			if (rModel.getConfig().getToolItems().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100);
+				return 64 - (64 * matFactor / 100) + sellLimit;
 			}
 			if (rModel.getConfig().getWeaponItems().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100);
+				return 64 - (64 * matFactor / 100) + sellLimit;
 			}
 			if (rModel.getConfig().getArmorItems().containsKey(itemRef))
 			{
-				return 64- (64 * matFactor / 100); 
+				return 64- (64 * matFactor / 100) + sellLimit; 
 			}
 			if (rModel.getConfig().getFoodItems().containsKey(itemRef))
 			{
@@ -269,26 +311,26 @@ public class SettleManager
 			}
 			if (rModel.getConfig().getValuables().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100);
+				return 64 - (64 * matFactor / 100) + sellLimit;
 			}
 			if (rModel.getConfig().getBuildMaterialItems().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100);
+				return 64 - (64 * matFactor / 100) + sellLimit;
 			}
 			if (rModel.getConfig().getOreItems().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100);
+				return 64 - (64 * matFactor / 100) + sellLimit;
 			}
 			if (rModel.getConfig().getMaterialItems().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100);
+				return 64 - (64 * matFactor / 100) + sellLimit;
 			}
 			if (rModel.getConfig().getRawItems().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100);
+				return 64 - (64 * matFactor / 100) + sellLimit;
 			}
 			
-			return 8;
+			return 8 + sellLimit;
 		} else
 		{
 			return 9999;
@@ -324,10 +366,21 @@ public class SettleManager
 			
 			for (Item sellItem : sellItems.values())
 			{
-				McmdSellOrder sellOrder = new McmdSellOrder(rModel, settle.getId(), sellItem.ItemRef(), sellItem.value(), 0.0, 10);
-				settle.tradeManager().newSellOrder(sellOrder );
+				boolean isCmdFound = false;
+				for (TradeMarketOrder order : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
+				{
+					if (order.ItemRef().equalsIgnoreCase(sellItem.ItemRef()))
+					{
+						isCmdFound = true;
+					}
+				}
+				
+				if (isCmdFound == false)				
+				{
+					McmdSellOrder sellOrder = new McmdSellOrder(rModel, settle.getId(), sellItem.ItemRef(), sellItem.value(), 0.0, 10);
+					settle.tradeManager().newSellOrder(sellOrder );
+				}
 				return;
-		
 			}
 		}
 	}
@@ -348,5 +401,51 @@ public class SettleManager
 		
 	}
 	
+	private boolean checkBuildMaterials(RealmModel rModel, Settlement settle)
+	{
+		if (cmdBuilder.size() > 0)
+		{
+			buyList.clear();
+			BuildPlanType bType = cmdBuilder.get(0).getbType();
+			BuildPlanMap buildPLan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
+			ItemList buildMat = BuildManager.makeMaterialList(buildPLan);
+			buyList = settle.getWarehouse().searchItemsNotInWarehouse(buildMat);
+			if (buyList.isEmpty())
+			{
+				return true;
+			} else
+			{
+				return false;
+			}
+		}
+		
+		return false;
+	}
+
+	private void buyBuildMaterials(RealmModel rModel, Settlement settle)
+	{
+		for (Item item : buyList.values())
+		{
+			if (settle.getTrader().getBuyOrders().containsKey(item.ItemRef()) == false)
+			{
+				boolean isCmdFound = false;
+				for (McmdBuyOrder order : cmdBuy)
+				{
+					if (order.getItemRef().equalsIgnoreCase(item.ItemRef()))
+					{
+						isCmdFound = true;
+					}
+				}
+				
+				if (isCmdFound == false)				
+				{
+//					System.out.println(item.ItemRef()+":"+item.value());
+					cmdBuy.add(new McmdBuyOrder(rModel, settle.getId(), item.ItemRef(), item.value(), 0.0, 5));
+					dontSell.addItem(new Item(item.ItemRef(), item.value()));
+				}
+			}
+		}
+		buyList.clear();
+	}
 	
 }

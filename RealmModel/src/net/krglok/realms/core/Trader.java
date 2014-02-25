@@ -239,6 +239,10 @@ public class Trader
 		if (tmo.value() >= foundOrder.value())
 		{
 			amount = foundOrder.value();
+		} else
+		{
+			amount = tmo.value();
+		}
 			cost = amount * tmo.getBasePrice();
 			tmo.setValue(tmo.value() - amount);
 			long travelTime = getTransportDelay(distance);
@@ -270,7 +274,6 @@ public class Trader
 					foundOrder.setStatus(TradeStatus.NONE);
 				}
 			}	
-		}
 	}
 	
 	
@@ -279,14 +282,17 @@ public class Trader
 //		System.out.println("checkBuyOrder "+itemRef+"/");
 		for (TradeOrder to : buyOrders.values())
 		{
-//			System.out.println("checkBuyOrder "+itemRef+"/"+to.ItemRef());
-			if (to.ItemRef().equalsIgnoreCase(itemRef))
+			if (to.getStatus() == TradeStatus.STARTED)
 			{
-//				System.out.println("checkBuyOrder "+offerPrice+"<="+to.getBasePrice());
-				if (offerPrice <= to.getBasePrice())
+	//			System.out.println("checkBuyOrder "+itemRef+"/"+to.ItemRef());
+				if (to.ItemRef().equalsIgnoreCase(itemRef))
 				{
-//					System.out.println("return "+to.ItemRef());
-					return to;
+	//				System.out.println("checkBuyOrder "+offerPrice+"<="+to.getBasePrice());
+					if (offerPrice <= to.getBasePrice())
+					{
+	//					System.out.println("return "+to.ItemRef());
+						return to;
+					}
 				}
 			}
 		}
@@ -315,6 +321,7 @@ public class Trader
 			foundOrder = checkBuyOrder(tmo.ItemRef(), tmo.value(), tmo.getBasePrice());
 			if ( foundOrder != null)
 			{
+//				System.out.println(foundOrder.getId()+":"+foundOrder.ItemRef());
 				if (caravanCount < caravanMax)
 				{
 					distance = settle.getPosition().distance2D(settlements.getSettlement(tmo.getSettleID()).getPosition());

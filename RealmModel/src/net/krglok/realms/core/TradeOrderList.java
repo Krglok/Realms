@@ -63,6 +63,7 @@ public class TradeOrderList extends HashMap<Integer,TradeOrder>
 			lastNumber++;
 			tradeOrder.setId(lastNumber);
 		}
+		tradeOrder.setStatus(TradeStatus.STARTED);
 		this.put(tradeOrder.getId(), tradeOrder);
 		return tradeOrder;
 	}

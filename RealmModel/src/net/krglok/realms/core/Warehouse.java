@@ -198,4 +198,31 @@ public class Warehouse
 		
 		return resultList;
 	}
+	
+	/**
+	 * search items in Warehouse and check requested amount
+	 *  
+	 * @param searchList
+	 * @return all items form searchList that NOT in warehouse
+	 */
+	public ItemList searchItemsNotInWarehouse(ItemList searchList)
+	{
+		ItemList resultList = new ItemList();
+		for (Item search : searchList.values())
+		{
+			for (Item item :  this.getItemList().values())
+			{
+				if (item.ItemRef().equalsIgnoreCase(search.ItemRef()))
+				{
+					if (search.value() > item.value())
+					{
+						resultList.addItem(new Item(item.ItemRef(), search.value()) );
+					}
+				}
+			}
+		}
+		
+		return resultList;
+	}
+
 }

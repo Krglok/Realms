@@ -668,7 +668,7 @@ public class RealmModel
 		{
 			if (settle.isEnabled())
 			{
-				System.out.println("initTax");
+//				System.out.println("initTax");
 				taxQueue.add(settle);
 			}
 		}
@@ -684,7 +684,7 @@ public class RealmModel
 		}
 		Settlement settle = taxQueue.get(0);
 		messageData.log("TAx queue");
-		System.out.println("next Tax");
+//		System.out.println("next Tax");
 		settle.doCalcTax();
 		taxQueue.remove(0);
 		messageData.log("Tax queue remove 0");
@@ -712,8 +712,6 @@ public class RealmModel
 					keyArray[index] = order.getId();
 					index++;
 				}
-					
-				
 			}
 			for (Integer id : keyArray)
 			{

@@ -207,35 +207,41 @@ public class TradeManager
 		}
 		
 		// Clean order Queues
+		Integer[] keyArray = new Integer[settle.getTrader().getBuyOrders().size()];
+		int index = 0;
 		for (TradeOrder order : settle.getTrader().getBuyOrders().values())
 		{
-			if (order.getStatus() == TradeStatus.NONE)
+			if ((order.getStatus() == TradeStatus.NONE) || (order.getStatus() == TradeStatus.DECLINE))
 			{
-				settle.getTrader().getBuyOrders().remove(order);
-//				System.out.println("Buy Remove "+order.getId()+":"+settle.getName());
+				keyArray[index] = order.getId();
+				index++;
+			} else
+			{
+				order.runTick();
 			}
 		}
-
-		for (TradeMarketOrder mOrder : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
+		for (Integer id : keyArray)
 		{
-			if (mOrder.isDecline())
+			settle.getTrader().getBuyOrders().remove(id);
+		}
+
+		// clean 
+		for (TradeMarketOrder order : rModel.getTradeMarket().values())
+		{
+			if (order.getSettleID() == settle.getId())
 			{
-//				sellOrder.setAmount(sellOrder.getAmount()-mOrder.value());
-			}
-			if (mOrder.getStatus() == TradeStatus.FULFILL)
-			{
-				sellOrder.setReached(sellOrder.getReached()+mOrder.value());
+				if (order.getStatus() == TradeStatus.WAIT)
+				{
+					if (order.value() > 0)
+					{
+						settle.getWarehouse().depositItemValue(order.ItemRef(), order.value());
+					}
+					order.setStatus(TradeStatus.DECLINE);
+					
+				}
 			}
 		}
 		
-		for (TradeMarketOrder mOrder : rModel.getTradeTransport().values())
-		{
-			if (mOrder.getStatus() == TradeStatus.NONE)
-			{
-				rModel.getTradeTransport().remove(mOrder);
-//				System.out.println("Transport Remove "+mOrder.getId()+":"+settle.getName());
-			}
-		}
 	}
 
 	private int sellValuePrice(RealmModel rModel, Settlement settle, McmdSellOrder sellOrder)

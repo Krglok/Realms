@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import net.krglok.realms.admin.AdminStatus;
@@ -37,7 +38,9 @@ import org.junit.Test;
 
 public class SettleManagerTest
 {
-
+	private int dayCounter = 0;
+	private int month;
+	
 	@Test
 	public void testSettleMgr()
 	{
@@ -73,7 +76,7 @@ public class SettleManagerTest
 	}
 	
 
-	private void makeSettleAnalysis(Settlement settle, int moth, ItemPriceList priceList)
+	private void makeSettleAnalysis(Settlement settle, ItemPriceList priceList)
 	{
 		ArrayList<String> msg = new ArrayList<>();
 		// Resident Analyse
@@ -161,8 +164,18 @@ public class SettleManagerTest
 		System.out.println("==ProductionOverview ==");
 		System.out.print("Item            "+" : "+"   Last"+" | "+"  Monat"+" | "+"   Jahr"+"  Store");
 		System.out.println("");
-		for (BoardItem bItem : settle.getProductionOverview().values())
+		ArrayList<String> idList = new ArrayList<String>();
+		for (BoardItem item : settle.getProductionOverview().values())
 		{
+			idList.add(item.getName());
+		}
+		Collections.sort(idList);
+		for (String id : idList)
+		{
+
+//		for (BoardItem bItem : settle.getProductionOverview().values())
+//		{
+			BoardItem bItem = settle.getProductionOverview().get(id);
 			System.out.print(ConfigBasis.setStrleft(bItem.getName(),16)+" : ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()) ,7)+ " | ");
@@ -265,9 +278,48 @@ public class SettleManagerTest
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getBasePrice()),5));
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getTickCount()),5));
 			System.out.print("|"+ConfigBasis.setStrleft(order.getStatus().name(),12)+"");
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getMaxTicks()),5));
 			System.out.println("|");
 		}
 
+	}
+
+	
+	private void showBuyCmd(Settlement settle)
+	{
+		for (McmdBuyOrder order :  settle.settleManager().getCmdBuy())
+		{
+			System.out.print("|"+ConfigBasis.setStrleft(order.getItemRef(),12)+"");
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(order.getAmount()),5));
+			System.out.println("|");
+		}
+
+	}
+
+	private void doDayLoop(RealmModel rModel)
+	{
+		for (int i = 0; i < 100; i++)
+		{
+			rModel.OnTick();
+			
+		}
+		rModel.OnProduction();
+		dayCounter++;
+		if ((dayCounter % 30) == 0)
+		{
+			rModel.OnTax();
+			System.out.println(":");
+		}
+		
+	}
+
+	private void doLoop(RealmModel rModel, int maxDays)
+	{
+		for (int i = 0; i <= maxDays; i++)
+		{
+			doDayLoop( rModel);
+			System.out.print("=");
+		}
 	}
 	
 	@Test
@@ -281,7 +333,7 @@ public class SettleManagerTest
 		RealmModel rModel = new RealmModel(0, 0, server, config, data, msg);
     	rModel.OnEnable();
 
-		int settleId = 3;
+		int settleId = 1;
 
 		Settlement settle = rModel.getSettlements().getSettlement(settleId);
 		double expected = settle.getBank().getKonto();
@@ -318,52 +370,31 @@ public class SettleManagerTest
 		
 		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
 		
+		doLoop(rModel, 5);
 		rModel.OnCommand(bankCommand);
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnProduction();
-		rModel.OnTick();
+		doLoop(rModel, 5);
 		rModel.OnCommand(builderCommand);
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-//		rModel.OnCommand(sellCommand);
-//		rModel.OnCommand(buyCommand);
-		rModel.OnProduction();
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-//		rModel.OnCommand(sellNext);
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
+		doLoop(rModel, 5);
+		rModel.OnCommand(buyCommand);
+		doLoop(rModel, 5);
 		rModel.OnCommand(colonistCommand);
-		rModel.OnTick();
-		rModel.OnTick();
-		rModel.OnTick();
-		for (int i = 0; i < 1450; i++)
-		{
-			rModel.OnTick();
-			
-		}
+		doLoop(rModel, 35);
 
 		
 		System.out.println("");
 		System.out.println("testSettleMgrModel");
 		System.out.println("Settlement     : "+settle.getId()+" : "+settle.getName());
-		System.out.println("Bank       : "+settle.getBank().getKonto()+"/"+expected);
-		System.out.println("Builder    :"+settle.buildManager().getActualBuild().getBuildingType());
+		System.out.println("Bank       : "+ConfigBasis.format2(settle.getBank().getKonto())+"/"+expected);
+		if (settle.buildManager().getActualBuild() != null)
+		{
+			System.out.println("Builder    :"+settle.buildManager().getActualBuild().getBuildingType());
+		} else
+		{
+			System.out.println("Builder    :"+"NONE");
+		}
 		System.out.println("MgrBuyList :"+settle.settleManager().getCmdBuy().size());
 		System.out.println("MgrSellList:"+settle.settleManager().getCmdSell().size());
 		System.out.println("ModelCmd   :"+rModel.getcommandQueue().size());
-		System.out.println("TradeMgr SellOrder:");
-		if (settle.tradeManager().getSellOrder() != null)
-		{
-			System.out.print("|"+settle.tradeManager().getSellOrder().getItemRef());
-			System.out.print("|"+settle.tradeManager().getSellOrder().getAmount());
-			System.out.print("|"+settle.tradeManager().getSellOrder().getPrice());
-			System.out.println("|");
-		}
 		System.out.println("Market SellOrders :"+rModel.getTradeMarket().size());
 		showMarket(rModel);
 		System.out.println("Market Transports :"+rModel.getTradeTransport().size());
@@ -376,9 +407,11 @@ public class SettleManagerTest
 			System.out.println("BuyOrders :"+settl.getTrader().getBuyOrders().size());
 			showBuyList(settl);
 		}
-		makeSettleAnalysis( settle, 50, rModel.getData().getPriceList());
+		makeSettleAnalysis( settle, rModel.getData().getPriceList());
 		System.out.println("Warehouse :"+settle.getWarehouse().getItemList().size());
 		showStock(rModel, settle);
+		System.out.println("BuyCmd :"+settle.getWarehouse().getItemList().size());
+		showBuyCmd(settle);
 		System.out.println("");
 		
 	}

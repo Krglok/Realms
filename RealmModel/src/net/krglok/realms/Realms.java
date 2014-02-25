@@ -15,6 +15,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.data.ConfigData;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.MessageData;
@@ -93,6 +94,22 @@ public final class Realms extends JavaPlugin
 	public void onDisable()
 	{
 		// Store Settlements
+        log.info("[Realms] Save TradeMarket .");
+        for (TradeMarketOrder order : realmModel.getTradeMarket().values())
+        {
+        	Settlement settle = realmModel.getSettlements().getSettlement(order.getSettleID());
+        	settle.getWarehouse().depositItemValue(order.ItemRef(),order.value());
+        }
+        log.info("[Realms] Save Transport .");
+        for (TradeMarketOrder order : realmModel.getTradeTransport().values())
+        {
+        	Settlement settle = realmModel.getSettlements().getSettlement(order.getSettleID());
+			double cost = order.value() * order.getBasePrice();
+        	settle.getBank().addKonto(cost, "Trader "+order.getTargetId());
+        	Settlement target = realmModel.getSettlements().getSettlement(order.getSettleID());
+        	target.getWarehouse().depositItemValue(order.ItemRef(),order.value());
+        }
+        
         log.info("[Realms] Save Settlements .");
 		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
 		{
