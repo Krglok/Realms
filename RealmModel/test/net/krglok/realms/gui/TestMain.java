@@ -20,6 +20,7 @@ import java.io.PrintStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -28,18 +29,19 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
+import net.krglok.realms.tool.SettleManagerTest;
 import net.krglok.realms.unittest.SettlementDataTest;
 
 public class TestMain
 {
 
-	private JFrame frame;
+	private JFrame frmManagetTest;
 	private static BufferedReader reader;
 	private static PipedOutputStream pOut;
 	private static  TextArea textArea;
 	Image myImage;
 	
-	private SettlementDataTest settleDataTest = new SettlementDataTest();
+	private TestManager managerTest = new TestManager();
 	
 	/**
 	 * Launch the application.
@@ -54,7 +56,7 @@ public class TestMain
 				try
 				{
 					TestMain window = new TestMain();
-					window.frame.setVisible(true);
+					window.frmManagetTest.setVisible(true);
 				} catch (Exception e)
 				{
 					e.printStackTrace();
@@ -105,13 +107,14 @@ public class TestMain
 	 */
 	private void initialize()
 	{
-		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(TestMain.class.getResource("/net/krglok/realms/gui/star_blue - Kopie.gif")));
-		frame.setBounds(100, 100, 805, 576);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmManagetTest = new JFrame();
+		frmManagetTest.setTitle("Managet Test");
+		frmManagetTest.setIconImage(Toolkit.getDefaultToolkit().getImage(TestMain.class.getResource("/net/krglok/realms/gui/star_blue - Kopie.gif")));
+		frmManagetTest.setBounds(100, 100, 1060, 662);
+		frmManagetTest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+		frmManagetTest.setJMenuBar(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("File");
 		menuBar.add(mnNewMenu);
@@ -133,57 +136,75 @@ public class TestMain
 		mntmNewMenuItem_2.setSelectedIcon(new ImageIcon(TestMain.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
+		JMenu mnSettlements = new JMenu("Settlements");
+		menuBar.add(mnSettlements);
+		
+		JMenuItem mntmNewhaven = new JMenuItem("NewHaven");
+		mntmNewhaven.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//show settlement Data
+			}
+		});
+		mnSettlements.add(mntmNewhaven);
+		
+		JMenuItem mntmHelnrauu = new JMenuItem("Helnrau");
+		mnSettlements.add(mntmHelnrauu);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("SalicStadt");
+		mnSettlements.add(mntmNewMenuItem_3);
+		
+		JMenuItem mntmNetherhome = new JMenuItem("NetherHome");
+		mnSettlements.add(mntmNetherhome);
+		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setPreferredSize(new Dimension(13, 33));
 		toolBar.setMinimumSize(new Dimension(13, 33));
 		toolBar.setMaximumSize(new Dimension(13, 33));
-		frame.getContentPane().add(toolBar, BorderLayout.NORTH);
+		frmManagetTest.getContentPane().add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btn_end = new JButton("");
+		btn_end.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btn_end.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdelete - Kopie.gif")));
-		btnNewButton.setMaximumSize(new Dimension(33, 33));
-		btnNewButton.setMinimumSize(new Dimension(32, 32));
-		toolBar.add(btnNewButton);
+		btn_end.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdelete - Kopie.gif")));
+		btn_end.setMaximumSize(new Dimension(33, 33));
+		btn_end.setMinimumSize(new Dimension(32, 32));
+		toolBar.add(btn_end);
 		
-		JButton button = new JButton("");
-		button.setToolTipText("Start the SettlementDataTest\r\nRead Settlement from File\r\nRead Pricelist from File\r\nMake some Basisc Analysis and printout the Results");
-		button.addActionListener(new ActionListener() {
+		JButton btn_alltest = new JButton("");
+		btn_alltest.setToolTipText("Start the SettlementDataTest\r\nRead Settlement from File\r\nRead Pricelist from File\r\nMake some Basisc Analysis and printout the Results");
+		btn_alltest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//
 				writeInConsole();
 			}
 		});
-		button.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		button.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_db - Kopie.gif")));
-		toolBar.add(button);
+		btn_alltest.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btn_alltest.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_db - Kopie.gif")));
+		toolBar.add(btn_alltest);
 		
 		
 //		TextArea 
 		textArea = new TextArea();
-		textArea.setFont(new Font("CourierPS", Font.PLAIN, 10));
+		textArea.setForeground(Color.BLACK);
+		textArea.setFont(new Font("Courier New", Font.PLAIN, 10));
 		textArea.setText("new line");
-		frame.getContentPane().add(textArea, BorderLayout.WEST);
+		frmManagetTest.getContentPane().add(textArea, BorderLayout.WEST);
 		
-		final Canvas canvas = new Canvas();
-		frame.getContentPane().add(canvas, BorderLayout.CENTER);
-		canvas.createBufferStrategy(1);
-		
-		JButton button_1 = new JButton("");
-		button_1.addActionListener(new ActionListener() {
+		JButton btn_Settle = new JButton("");
+		btn_Settle.setToolTipText("Show Settle Data");
+		btn_Settle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//
-				 paintSome(canvas);
+				showSettleData();
 			}
 		});
-		button_1.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		button_1.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_db - Kopie.gif")));
-		toolBar.add(button_1);
+		btn_Settle.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btn_Settle.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_db - Kopie.gif")));
+		toolBar.add(btn_Settle);
 		
 	}
 
@@ -204,10 +225,22 @@ public class TestMain
 		canvas.getBufferStrategy().show();
 		
 	}
-	  
+	
+	private void showSettleData()
+	{
+		try
+		{
+//			ShowSettle dialog = new ShowSettle();
+			ShowSettle.showMe(managerTest.rModel.getSettlements().getSettlement(1));
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	private void writeInConsole()
 	{
-		System.out.println("TEST ");
-		settleDataTest.testReadSettledata();
+		managerTest.testSettleMgrModel(1);
+//		settleDataTest.testReadSettledata();
 	}
 }

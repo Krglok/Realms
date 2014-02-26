@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Canvas;
 
 public class TestSub extends JFrame
 {
@@ -44,6 +45,9 @@ public class TestSub extends JFrame
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		Canvas canvas = new Canvas();
+		contentPane.add(canvas, BorderLayout.CENTER);
 	}
 
 }
