@@ -83,5 +83,6 @@ public class ResidentTest
 		boolean actual = resident.withdrawHorse(5);
 		assertEquals(expected, actual);
 	}
+
 	
 }

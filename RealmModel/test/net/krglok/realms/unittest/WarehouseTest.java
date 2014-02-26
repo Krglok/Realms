@@ -127,7 +127,26 @@ public class WarehouseTest
 			}
 			
 		}
-		
+		String[][] dataRows = new String[warehouse.getItemList().size()][3];
+		int index = 0;
+		for (Item item : warehouse.getItemList().values())
+		{
+			if (index <100)
+			{
+				dataRows[index][0] = item.ItemRef();
+				dataRows[index][1] = String.valueOf(item.value());
+				dataRows[index][2] = String.valueOf(0.0);
+			}
+			index ++;
+		}
+		for (int j = 0; j < dataRows.length; j++)
+		{
+			System.out.print(dataRows[j][0]+"|");
+			System.out.print(dataRows[j][1]+"|");
+			System.out.print(dataRows[j][2]+"|");
+			System.out.println("");
+		}
+
 		assertEquals(expected, actual);
 	}
 	

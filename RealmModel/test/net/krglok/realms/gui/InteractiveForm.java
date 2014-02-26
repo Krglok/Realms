@@ -15,6 +15,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.JButton;
+import javax.swing.BoxLayout;
 
 public class InteractiveForm extends JPanel
 {
@@ -24,7 +26,7 @@ public class InteractiveForm extends JPanel
 	private static final long serialVersionUID = 1L;
 
 	public static final String[] columnNames = {
-        "Title", "Artist", "Album", ""
+        "0", "1", "2", ""
     };
 
     protected JTable table;
@@ -52,9 +54,8 @@ public class InteractiveForm extends JPanel
         hidden.setPreferredWidth(2);
         hidden.setMaxWidth(2);
         hidden.setCellRenderer((TableCellRenderer) new InteractiveRenderer(InteractiveTableModel.HIDDEN_INDEX));
-
-        setLayout(new BorderLayout());
-        add(scroller, BorderLayout.CENTER);
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        add(scroller);
     }
 
     public void highlightLastRow(int row) {

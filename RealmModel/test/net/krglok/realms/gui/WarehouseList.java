@@ -32,17 +32,20 @@ public class WarehouseList extends JDialog
 //	private Warehouse warehouse;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private static String[][] dataRows;
-	private String[] colHeader = new String[] {	"Items", "Amount", "Value"};
+	private static Object[][] dataRows; // = new String[][] {{	"0", "1", "2","3"}, {	"1", "11", "12","13"}};
+	private static String[] colHeader = new String[] {	"0", "1", "2"};
+	private static Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 		
 	/**
 	 * Launch the application.
 	 */
-	public static void showMe(String[][] data)
+	public static void showMe(Object[][] data, Class[] colTypes, String[] header )
 	{
 		try
 		{
 			dataRows = data;
+			colHeader = header;
+			columnTypes = colTypes;
 			WarehouseList dialog = new WarehouseList();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
@@ -74,27 +77,13 @@ public class WarehouseList extends JDialog
 			table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			table.setName("items");
 			table.setModel(new DefaultTableModel(
-				dataRows,
-				colHeader
-			) {
-				Class[] columnTypes = new Class[] {
-					String.class, Integer.class, Double.class
-				};
-				public Class getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-				boolean[] columnEditables = new boolean[] {
-					false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
+				dataRows, colHeader
+			));
 			table.getColumnModel().getColumn(0).setResizable(false);
 			table.getColumnModel().getColumn(0).setPreferredWidth(175);
 			table.getColumnModel().getColumn(0).setMinWidth(35);
 			table.getColumnModel().getColumn(0).setMaxWidth(250);
-			table.getColumnModel().getColumn(1).setResizable(false);
+			table.getColumnModel().getColumn(1).setResizable(true);
 			table.getColumnModel().getColumn(2).setResizable(false);
 			table.getColumnModel().getColumn(2).setPreferredWidth(105);
 			table.getColumnModel().getColumn(2).setMaxWidth(175);
@@ -115,7 +104,7 @@ public class WarehouseList extends JDialog
 						closeDialog();
 					}
 				});
-				okButton.setIcon(new ImageIcon(WarehouseList.class.getResource("/net/krglok/realms/gui/_tcheck - Kopie.gif")));
+				okButton.setIcon(new ImageIcon(WarehouseList.class.getResource("/net/krglok/realms/gui/delete.png")));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

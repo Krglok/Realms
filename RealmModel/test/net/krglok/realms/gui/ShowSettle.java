@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
+import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
@@ -26,6 +27,7 @@ import net.krglok.realms.core.Settlement;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 public class ShowSettle extends JDialog
 {
@@ -185,6 +187,7 @@ public class ShowSettle extends JDialog
 		}
 		{
 			JButton btnTransaction = new JButton("Transaction");
+			btnTransaction.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnTransaction.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					doBankTransaction();
@@ -205,12 +208,23 @@ public class ShowSettle extends JDialog
 		}
 		{
 			JButton btnNewButton = new JButton("Warehouse");
+			btnNewButton.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					doWarehouseList();
 				}
 			});
 			contentPanel.add(btnNewButton, "17, 5");
+		}
+		{
+			JButton btnProduction = new JButton("Production");
+			btnProduction.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					doOverview();
+				}
+			});
+			btnProduction.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			contentPanel.add(btnProduction, "5, 7");
 		}
 		{
 			JLabel lblBuildings = new JLabel("Buildings");
@@ -224,6 +238,7 @@ public class ShowSettle extends JDialog
 		}
 		{
 			JButton btnBuildings = new JButton("Buildings");
+			btnBuildings.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnBuildings.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					doBuildingList();
@@ -237,7 +252,7 @@ public class ShowSettle extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Close");
-				okButton.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/_tcheck - Kopie.gif")));
+				okButton.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/delete.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						closeDialog();
@@ -264,36 +279,64 @@ public class ShowSettle extends JDialog
 	}
 	private void doBuildingList()
 	{
-		String[][] dataRows = new String[settle.getBuildingList().getBuildingList().size()][3];
+		Object[][] dataRows = new Object[settle.getBuildingList().getBuildingList().size()][4];
 		int index = 0;
 		for (Building building : settle.getBuildingList().getBuildingList().values())
 		{
-			if (index <100)
+//			if (index <100)
 			{
 				dataRows[index][0] = building.getBuildingType().name();
 				dataRows[index][1] = String.valueOf(building.getSettler());
-//				dataRows[index][2] = String.valueOf(0.0);
+				dataRows[index][2] = building.getWorkerNeeded();
+//				dataRows[index] = new Object[] {building.getBuildingType().name(), building.getSettler(), "0.0"};
 			}
 			index ++;
 		}
-		WarehouseList.showMe(dataRows);
+		String[] colHeader = new String[] {	"Building", "Beds", "Worker"};
+		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
+
+		WarehouseList.showMe(dataRows, columnTypes, colHeader);
 	}
 	
 	private void doWarehouseList()
 	{
-		String[][] dataRows = new String[settle.getWarehouse().getItemList().size()][3];
+		Object[][] dataRows = new Object[settle.getWarehouse().getItemList().size()][3];
 		int index = 0;
 		for (Item item : settle.getWarehouse().getItemList().values())
 		{
-			if (index <100)
+//			if (index <100)
 			{
 				dataRows[index][0] = item.ItemRef();
-				dataRows[index][1] = String.valueOf(item.value());
-//				dataRows[index][2] = String.valueOf(0.0);
+				dataRows[index][1] = item.value();
+				dataRows[index][2] = " ";
 			}
 			index ++;
 		}
-		WarehouseList.showMe(dataRows);
+		String[] colHeader = new String[] {	"Items", "Amount",""};		
+		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
+		WarehouseList.showMe(dataRows, columnTypes, colHeader);
+	}
+
+	private void doOverview()
+	{
+		Object[][] dataRows = new Object[settle.getProductionOverview().size()][5];
+		int index = 0;
+		for (BoardItem item : settle.getProductionOverview().values())
+		{
+//			if (index <100)
+			{
+				dataRows[index][0] = item.getName();
+				dataRows[index][1] = (int)item.getLastValue();
+				dataRows[index][2] = (int)item.getCycleSum();
+				dataRows[index][3] = (int)item.getPeriodSum();
+				dataRows[index][4] = "";
+			}
+			index ++;
+		}
+		String[] colHeader = new String[] {	"Items", "Last","Month","Year"," "};		
+		Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, String.class};
+		OverviewList.showMe(dataRows, columnTypes, colHeader);
+		
 	}
 	
 	private void doBankTransaction()

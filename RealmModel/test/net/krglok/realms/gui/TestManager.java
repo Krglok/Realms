@@ -29,8 +29,8 @@ import org.bukkit.entity.Player;
 
 public class TestManager
 {
-	private int dayCounter = 0;
-	private int month;
+	int dayCounter = 0;
+	int month;
 	private ServerTest server;
 	private DataTest     data;
 	private ConfigTest config;
@@ -297,60 +297,96 @@ public class TestManager
 		}
 	}
 	
-	public void testSettleMgrModel(int settleId)
+	public void doLoop35(int settleId)
 	{
+		doLoop(rModel, 35);
+	}
 
+	public void doColonist(int settleId)
+	{
+		settle = rModel.getSettlements().getSettlement(settleId);
+		String name = "NewColonist";
+		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
+		String owner = "NPC1";
+		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
+		rModel.OnCommand(colonistCommand);
+		doLoop(rModel, 5);
+
+	}
+	
+	
+	public void dosellNext(int settleId)
+	{
+		settle = rModel.getSettlements().getSettlement(settleId);
+		String itemRef = "WOOL";
+		int value = 500;
+		double price = data.getPriceList().getBasePrice(itemRef);
+		int delayDays = 10;
+		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
+		rModel.OnCommand(sellNext);
+		doLoop(rModel, 5);
+
+	}
+	
+	public void doBuyLog(int settleId)
+	{
+		settle = rModel.getSettlements().getSettlement(settleId);
+		String itemRef = "LOG";
+		int value = 500;
+		double price = data.getPriceList().getBasePrice(itemRef);
+		int delayDays = 10;
+		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
+		rModel.OnCommand(buyCommand);
+		doLoop(rModel, 5);
+
+	}
+	
+	public void doSellWheat(int settleId)
+	{
+		settle = rModel.getSettlements().getSettlement(settleId);
+		String itemRef = "WHEAT";
+		int value = 500;
+		double price = data.getPriceList().getBasePrice(itemRef);
+		int delayDays = 10;
+		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
+		rModel.OnCommand(sellCommand);
+		doLoop(rModel, 5);
+
+	}
+
+	public void doBuildCommand(int settleId)
+	{
+		settle = rModel.getSettlements().getSettlement(settleId);
+		BuildPlanType bType = BuildPlanType.HOME;
+		LocationData position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
+		Player player = null;
+		McmdBuilder builderCommand    = new McmdBuilder(rModel, settleId, bType, position, player);
+		rModel.OnCommand(builderCommand);
+		doLoop(rModel, 5);
+
+	}
+	
+	public void doBankCommand(int settleId)
+	{
 		settle = rModel.getSettlements().getSettlement(settleId);
 
 		double expected = settle.getBank().getKonto();
 		double amount = 1000;
 		String userName = "TestUser";
 		McmdDepositeBank bankCommand = new McmdDepositeBank(rModel, settleId, amount , userName );
-		
-		BuildPlanType bType = BuildPlanType.HOME;
-		LocationData position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
-		Player player = null;
-		McmdBuilder builderCommand    = new McmdBuilder(rModel, settleId, bType, position, player);
-
-		String itemRef = "WHEAT";
-		int value = 500;
-		double price = data.getPriceList().getBasePrice(itemRef);
-		int delayDays = 10;
-		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
-
-		itemRef = "LOG";
-		value = 500;
-		price = data.getPriceList().getBasePrice(itemRef);
-		delayDays = 10;
-		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
-
-		itemRef = "WOOL";
-		value = 500;
-		price = data.getPriceList().getBasePrice(itemRef);
-		delayDays = 10;
-		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
-		
-		String name = "NewColonist";
-		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
-		String owner = "NPC1";
-		
-		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
-		
-		doLoop(rModel, 5);
 		rModel.OnCommand(bankCommand);
 		doLoop(rModel, 5);
-		rModel.OnCommand(builderCommand);
-		doLoop(rModel, 5);
-		rModel.OnCommand(buyCommand);
-		doLoop(rModel, 5);
-		rModel.OnCommand(colonistCommand);
-		doLoop(rModel, 35);
-
 		
+	}
+	
+	public void testSettleMgrModel(int settleId)
+	{
+		settle = rModel.getSettlements().getSettlement(settleId);
+		doLoop(rModel, 5);
+
 		System.out.println("");
 		System.out.println("testSettleMgrModel");
 		System.out.println("Settlement     : "+settle.getId()+" : "+settle.getName());
-		System.out.println("Bank       : "+ConfigBasis.format2(settle.getBank().getKonto())+"/"+expected);
 		if (settle.buildManager().getActualBuild() != null)
 		{
 			System.out.println("Builder    :"+settle.buildManager().getActualBuild().getBuildingType());

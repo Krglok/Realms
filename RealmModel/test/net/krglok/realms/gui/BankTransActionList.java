@@ -72,7 +72,7 @@ public class BankTransActionList extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Close");
-				okButton.setIcon(new ImageIcon(BankTransActionList.class.getResource("/net/krglok/realms/gui/_tdelete - Kopie.gif")));
+				okButton.setIcon(new ImageIcon(BankTransActionList.class.getResource("/net/krglok/realms/gui/delete.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						closeDialog();
