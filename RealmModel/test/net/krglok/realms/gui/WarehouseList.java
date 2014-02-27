@@ -39,7 +39,7 @@ public class WarehouseList extends JDialog
 	/**
 	 * Launch the application.
 	 */
-	public static void showMe(Object[][] data, Class[] colTypes, String[] header )
+	public static void showMe(Object[][] data, Class[] colTypes, String[] header, String titel )
 	{
 		try
 		{
@@ -49,6 +49,7 @@ public class WarehouseList extends JDialog
 			WarehouseList dialog = new WarehouseList();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setTitle(titel);
 		} catch (Exception e)
 		{
 			e.printStackTrace();

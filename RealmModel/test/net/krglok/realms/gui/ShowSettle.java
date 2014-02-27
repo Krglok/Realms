@@ -44,6 +44,7 @@ public class ShowSettle extends JDialog
 	private JTextField text_BuildingSize;
 	private JTextField text_Bank;
 	private JTextField text_StoreValue;
+	private JTextField text_Age;
 	
 	/**
 	 * Launch the application.
@@ -176,6 +177,17 @@ public class ShowSettle extends JDialog
 			contentPanel.add(text_WorkerSize, "13, 3, fill, default");
 		}
 		{
+			JLabel lblAge = new JLabel("Age : ");
+			lblAge.setHorizontalAlignment(SwingConstants.RIGHT);
+			contentPanel.add(lblAge, "15, 3, right, default");
+		}
+		{
+			text_Age = new JTextField();
+			text_Age.setMinimumSize(new Dimension(6, 10));
+			text_Age.setColumns(10);
+			contentPanel.add(text_Age, "17, 3, fill, default");
+		}
+		{
 			JLabel lblBank = new JLabel("Bank : ");
 			contentPanel.add(lblBank, "1, 5, right, default");
 		}
@@ -275,7 +287,10 @@ public class ShowSettle extends JDialog
 		text_SettlerSize.setText(String.valueOf(settle.getResident().getSettlerCount()));
 		text_WorkerSize.setText(String.valueOf(settle.getTownhall().getWorkerCount()));
 		text_BuildingSize.setText(String.valueOf(settle.getBuildingList().size()));
-		text_Bank.setText(String.valueOf(ConfigBasis.format2(settle.getBank().getKonto())));
+		text_Bank.setText(String.valueOf((int)settle.getBank().getKonto()));
+		text_Age.setText(String.valueOf(settle.getAge()));
+		text_StoreValue.setText(String.valueOf(settle.getWarehouse().getItemCount()));
+		
 	}
 	private void doBuildingList()
 	{
@@ -295,7 +310,7 @@ public class ShowSettle extends JDialog
 		String[] colHeader = new String[] {	"Building", "Beds", "Worker"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader);
+		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Building List");
 	}
 	
 	private void doWarehouseList()
@@ -308,13 +323,22 @@ public class ShowSettle extends JDialog
 			{
 				dataRows[index][0] = item.ItemRef();
 				dataRows[index][1] = item.value();
-				dataRows[index][2] = " ";
 			}
 			index ++;
 		}
-		String[] colHeader = new String[] {	"Items", "Amount",""};		
+		for (Item item : settle.getRequiredProduction().values())
+		{
+			for (int i = 0; i < dataRows.length; i++)
+			{
+				if (item.ItemRef().equalsIgnoreCase(String.valueOf(dataRows[i][0])))
+				{
+					dataRows[i][2] = item.value();
+				}
+			}
+		}
+		String[] colHeader = new String[] {	"Items", "Amount","Required"};		
 		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
-		WarehouseList.showMe(dataRows, columnTypes, colHeader);
+		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
 	}
 
 	private void doOverview()
@@ -335,7 +359,7 @@ public class ShowSettle extends JDialog
 		}
 		String[] colHeader = new String[] {	"Items", "Last","Month","Year"," "};		
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, String.class};
-		OverviewList.showMe(dataRows, columnTypes, colHeader);
+		OverviewList.showMe(dataRows, columnTypes, colHeader, "Production Overview");
 		
 	}
 	

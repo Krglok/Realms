@@ -25,7 +25,7 @@ public class OverviewList extends JDialog
 	/**
 	 * Launch the application.
 	 */
-	public static void showMe(Object[][] data, Class[] colTypes, String[] header)
+	public static void showMe(Object[][] data, Class[] colTypes, String[] header, String titel)
 	{
 		try
 		{
@@ -36,6 +36,7 @@ public class OverviewList extends JDialog
 			OverviewList dialog = new OverviewList();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			dialog.setTitle(titel);
 		} catch (Exception e)
 		{
 			e.printStackTrace();

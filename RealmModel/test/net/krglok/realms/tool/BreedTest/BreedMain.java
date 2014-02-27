@@ -1,4 +1,4 @@
-package net.krglok.realms.gui;
+package net.krglok.realms.tool.BreedTest;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,14 +32,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.TableModelEvent;
 
 import net.krglok.realms.core.TradeMarketOrder;
+import net.krglok.realms.gui.ShowSettle;
 import net.krglok.realms.tool.SettleManagerTest;
 import net.krglok.realms.unittest.SettlementDataTest;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
@@ -51,22 +55,35 @@ import javax.swing.JTextField;
 import java.awt.event.TextListener;
 import java.awt.event.TextEvent;
 import javax.swing.JSeparator;
+import javax.swing.JProgressBar;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.SoftBevelBorder;
 
-public class TestMain
+public class BreedMain
 {
 
 	private JFrame frmManagetTest;
 	private static BufferedReader reader;
 	private static PipedOutputStream pOut;
 	private static  TextArea textArea;
-	Image myImage;
-	private  Object[][] dataRows = initDataRow();
+	private JProgressBar progressBar;
+	private Image myImage;
+	JPanel panel_1;
+	private  Object[][] dataRows; // = initDataRow();
+	private  Object[][] dataRows1; // = initDataRow();
 	private String[] columnHeader = new String[] {"ID", "Sender", ">>", "Target", "Item", "amount", "price", "Status", "Count", "Max"};
+	private String[] columnHeader1 = new String[] {"ID", "Sender", ">>", "Target", "Item", "amount", "price", "Status", "Count", "Max"};
 	
 	
-	private TestManager managerTest = new TestManager();
-	private JTextField text_Loops;
+	private SettlementBreedTest managerTest = new SettlementBreedTest();
 	private JTable table;
+	private DefaultTableModel model;  //= new DefaultTableModel(dataRows,columnHeader );
+	private DefaultTableModel model1;  //= new DefaultTableModel(dataRows,columnHeader );
+	private int settleId = 1;
+	private JTable table_1;
 	
 	/**
 	 * Launch the application.
@@ -80,7 +97,7 @@ public class TestMain
 			{
 				try
 				{
-					TestMain window = new TestMain();
+					BreedMain window = new BreedMain();
 
 					window.frmManagetTest.setVisible(true);
 				} catch (Exception e)
@@ -96,32 +113,32 @@ public class TestMain
 	
 	//Followings are The Methods that do the Redirect, you can simply Ignore them. 
 	  private static void redirectSystemStreams() {
-	    OutputStream out = new OutputStream() {
-	      @Override
-	      public void write(int b) throws IOException {
-	        updateTextArea(String.valueOf((char) b));
-	      }
-	 
-	      @Override
-	      public void write(byte[] b, int off, int len) throws IOException {
-	        updateTextArea(new String(b, off, len));
-	      }
-	 
-	      @Override
-	      public void write(byte[] b) throws IOException {
-	        write(b, 0, b.length);
-	      }
-	    };
-	 
-	    System.setOut(new PrintStream(out, true));
-	    System.setErr(new PrintStream(out, true));
+//	    OutputStream out = new OutputStream() {
+//	      @Override
+//	      public void write(int b) throws IOException {
+//	        updateTextArea(String.valueOf((char) b));
+//	      }
+//	 
+//	      @Override
+//	      public void write(byte[] b, int off, int len) throws IOException {
+//	        updateTextArea(new String(b, off, len));
+//	      }
+//	 
+//	      @Override
+//	      public void write(byte[] b) throws IOException {
+//	        write(b, 0, b.length);
+//	      }
+//	    };
+//	 
+//	    System.setOut(new PrintStream(out, true));
+//	    System.setErr(new PrintStream(out, true));
 	  }
 	
 	  
 	/**
 	 * Create the application.
 	 */
-	public TestMain()
+	public BreedMain()
 	{
 		initialize();
 	
@@ -134,6 +151,10 @@ public class TestMain
 	private void initialize()
 	{
 		dataRows = initDataRow();
+		dataRows1 = initDataRow();
+		model = new DefaultTableModel(dataRows,columnHeader );
+		model1 = new DefaultTableModel(dataRows1,columnHeader1 );
+
 		frmManagetTest = new JFrame();
 		frmManagetTest.getContentPane().addKeyListener(new KeyAdapter() {
 			@Override
@@ -145,9 +166,9 @@ public class TestMain
 
 		frmManagetTest.addWindowListener( new AreYouSure() );
 
-		frmManagetTest.setTitle("Managet Test");
-		frmManagetTest.setIconImage(Toolkit.getDefaultToolkit().getImage(TestMain.class.getResource("/net/krglok/realms/gui/star_blue.gif")));
-		frmManagetTest.setBounds(100, 100, 1051, 662);
+		frmManagetTest.setTitle("Settlement Breeding");
+		frmManagetTest.setIconImage(Toolkit.getDefaultToolkit().getImage(BreedMain.class.getResource("/net/krglok/realms/gui/star_blue.gif")));
+		frmManagetTest.setBounds(100, 100, 1064, 630);
 		frmManagetTest.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 //		addWindowListener( new AreYouSure() );
 		
@@ -158,7 +179,7 @@ public class TestMain
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Open");
-		mntmNewMenuItem_1.setIcon(new ImageIcon(TestMain.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
+		mntmNewMenuItem_1.setIcon(new ImageIcon(BreedMain.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
 		mnNewMenu.add(mntmNewMenuItem_1);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Close");
@@ -170,8 +191,8 @@ public class TestMain
 				closeDialog();
 			}
 		});
-		mntmNewMenuItem_2.setIcon(new ImageIcon(TestMain.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose.gif")));
-		mntmNewMenuItem_2.setSelectedIcon(new ImageIcon(TestMain.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
+		mntmNewMenuItem_2.setIcon(new ImageIcon(BreedMain.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose.gif")));
+		mntmNewMenuItem_2.setSelectedIcon(new ImageIcon(BreedMain.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
 		JMenu mnSettlements = new JMenu("Settlements");
@@ -223,7 +244,7 @@ public class TestMain
 				closeDialog();
 			}
 		});
-		btn_end.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/delete2.png")));
+		btn_end.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/delete2.png")));
 		btn_end.setMaximumSize(new Dimension(33, 33));
 		btn_end.setMinimumSize(new Dimension(32, 32));
 		toolBar.add(btn_end);
@@ -233,35 +254,40 @@ public class TestMain
 		btn_Settle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//
-				showSettleData(1);
+				showSettleData(managerTest.settle.getId());
 			}
 		});
 		
-		JButton btn_Sell = new JButton("Sell   ");
-		btn_Sell.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				managerTest.doSellWheat(1);
-			}
-		});
-		btn_Sell.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		btn_Sell.setToolTipText("Command sell");
-		btn_Sell.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tcheck.gif")));
-		toolBar.add(btn_Sell);
-		
-		JButton btnLoop = new JButton("Loop 35  ");
-		btnLoop.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
+		JButton btnLoop = new JButton(" Loop 5 ");
+		btnLoop.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
 		btnLoop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				managerTest.doLoop35(1);
+				doBreeding(5);
+				refreshDataRow();
 			}
 		});
 		btnLoop.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		toolBar.add(btnLoop);
 		
+		JButton btnNewButton_1 = new JButton("Init Test");
+		btnNewButton_1.setBorder(new BevelBorder(BevelBorder.RAISED, Color.RED, null, null, null));
+		toolBar.add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				managerTest.SettlerBreedInit(settleId);
+			}
+		});
+		btnNewButton_1.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
+		
+		JButton btnBreedTest = new JButton("Breed Test");
+		btnBreedTest.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_tcheck.gif")));
+		btnBreedTest.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		toolBar.add(btnBreedTest);
+		
 		JSeparator separator = new JSeparator();
 		toolBar.add(separator);
 		btn_Settle.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		btn_Settle.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tinfo.gif")));
+		btn_Settle.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_tinfo.gif")));
 		toolBar.add(btn_Settle);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -271,9 +297,9 @@ public class TestMain
 		frmManagetTest.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(106dlu;default)"),
+				ColumnSpec.decode("max(106dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(111dlu;default)"),
+				ColumnSpec.decode("max(53dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(41dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -288,45 +314,31 @@ public class TestMain
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(289dlu;default):grow"),
+				RowSpec.decode("max(237dlu;default):grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
-		JButton btnNewButton_1 = new JButton("Init Test SettleManager");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				managerTest.testSettleMgrModel(1);
-			}
-		});
-		btnNewButton_1.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
-		panel.add(btnNewButton_1, "2, 2");
-		
 		JLabel lblNewLabel = new JLabel("LoopCounter : ");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(lblNewLabel, "6, 2, left, default");
 		
-		text_Loops = new JTextField();
-		text_Loops.setToolTipText("Running Loops");
-		panel.add(text_Loops, "8, 2, left, default");
-		text_Loops.setColumns(10);
-		
-		
-//		TextArea 
-		textArea = new TextArea();
-		panel.add(textArea, "2, 4, 4, 1, fill, fill");
-		textArea.addTextListener(new TextListener() {
-			public void textValueChanged(TextEvent arg0) {
-				setText();
+		progressBar = new JProgressBar();
+		progressBar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				progressBar.setToolTipText("Count : "+progressBar.getValue());
 			}
 		});
-		textArea.setForeground(Color.BLACK);
-		textArea.setFont(new Font("Courier New", Font.PLAIN, 10));
-		textArea.setText("new line");
+		progressBar.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+			}
+		});
+		panel.add(progressBar, "8, 2, 5, 1");
 		
 		JButton btnNewButton = new JButton("Market");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -334,18 +346,35 @@ public class TestMain
 				doMarketList();
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_text.gif")));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, "2, 4, 3, 1, fill, fill");
+		
+		table_1 = new JTable();
+		table_1.setModel(model1);
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(28);
+		table_1.getColumnModel().getColumn(1).setPreferredWidth(46);
+		table_1.getColumnModel().getColumn(2).setPreferredWidth(26);
+		table_1.getColumnModel().getColumn(3).setPreferredWidth(45);
+		table_1.getColumnModel().getColumn(4).setPreferredWidth(112);
+		table_1.getColumnModel().getColumn(5).setPreferredWidth(48);
+		table_1.getColumnModel().getColumn(7).setPreferredWidth(58);
+		table_1.getColumnModel().getColumn(8).setPreferredWidth(57);
+		table_1.getColumnModel().getColumn(9).setPreferredWidth(60);
+		scrollPane.setViewportView(table_1);
+		btnNewButton.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_text.gif")));
 		panel.add(btnNewButton, "6, 4");
 		
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel.add(scrollPane_1, "12, 4, fill, fill");
+		panel.add(scrollPane_1, "8, 4, 5, 1, fill, fill");
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			dataRows,
-			columnHeader
-		));
+		table.setModel(model);
+//		(new DefaultTableModel(
+//			dataRows,
+//			columnHeader
+//		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(28);
 		table.getColumnModel().getColumn(1).setPreferredWidth(46);
 		table.getColumnModel().getColumn(2).setPreferredWidth(26);
@@ -357,38 +386,64 @@ public class TestMain
 		table.getColumnModel().getColumn(9).setPreferredWidth(60);
 		scrollPane_1.setViewportView(table);
 		
+		
+//		TextArea 
+		textArea = new TextArea();
+		panel.add(textArea, "2, 6, 3, 1, fill, fill");
+		textArea.addTextListener(new TextListener() {
+			public void textValueChanged(TextEvent arg0) {
+				setText();
+			}
+		});
+		textArea.setForeground(Color.BLACK);
+		textArea.setFont(new Font("Courier New", Font.PLAIN, 10));
+		textArea.setText("new line");
+		
+		panel_1 = new JPanel();
+		panel_1.setBackground(Color.black);
+		panel.add(panel_1, "8, 6, 5, 1, fill, fill");
+		
 	}
 
 	//The following codes set where the text get redirected. In this case, jTextArea1    
-	  private static void updateTextArea(final String text) {
+	private static void updateTextArea(final String text) {
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {
 			textArea.append(text);
 	      }
 	    });
-	  }
+	}
 
+	private void doBreeding(int days)
+	{
+		int maxLoops = days * 40;
+		progressBar.setMaximum(1500);
+		progressBar.setValue(0);
+		for (int i = 0; i < maxLoops; i++)
+		{
+			managerTest.doBreeding(i);
+			progressBar.setValue(managerTest.dayCounter);
+			if (progressBar.getValue() >= 1500)
+			{
+				progressBar.setMaximum(managerTest.dayCounter+1500);
+			}
+			progressBar.repaint();
+		}
+	}
+	  
 	private void doMarketList() 
 	{
 		//
 		refreshDataRow();
 		table.repaint();
+		setText();
 	}
 	  
-	private void paintSome(Canvas canvas)
-	{
-		Graphics2D graphics = (Graphics2D) canvas.getBufferStrategy().getDrawGraphics();
-		graphics.setColor(Color.red);
-		graphics.fillRect(10, 10, 110, 110);
-		canvas.getBufferStrategy().show();
-		
-	}
 	
 	private void showSettleData(int settleId)
 	{
 		try
 		{
-//			ShowSettle dialog = new ShowSettle();
 			ShowSettle.showMe(managerTest.rModel.getSettlements().getSettlement(settleId));
 		} catch (Exception e)
 		{
@@ -403,22 +458,41 @@ public class TestMain
 			 int index = 0;
 			 if (managerTest.rModel.getTradeMarket().isEmpty() == false)
 			 {
+				 model.setRowCount(managerTest.rModel.getTradeMarket().size()+1);
 				 for (TradeMarketOrder order : managerTest.rModel.getTradeMarket().values() )
 				 {
-					 if (index < 200)
-					 {
-						 System.out.println(".");
-						 dataRows[index][0] = order.getId();
-						 dataRows[index][1] = order.getSettleID();
-						 dataRows[index][2] = ">>";
-						 dataRows[index][3] = order.getTargetId();
-						 dataRows[index][4] = order.ItemRef();
-						 dataRows[index][5] = order.value();
-						 dataRows[index][6] = order.getBasePrice();
-						 dataRows[index][7] = order.getStatus().name();
-						 dataRows[index][8] = order.getTickCount();
-						 dataRows[index][9] = order.getMaxTicks();
-					 }
+//						 System.out.println(".");
+					 model.setValueAt(order.getId(), index, 0);
+					 model.setValueAt(order.getSettleID(), index, 1);
+					 model.setValueAt(">>", index, 2);
+					 model.setValueAt(order.getTargetId(), index, 3);
+					 model.setValueAt(order.ItemRef(), index, 4);
+					 model.setValueAt(order.value(), index, 5);
+					 model.setValueAt(order.getBasePrice(), index, 6);
+					 model.setValueAt(order.getStatus().name(), index, 7);
+					 model.setValueAt(order.getTickCount(), index, 8);
+					 model.setValueAt(order.getMaxTicks(), index, 9);
+					 index++;
+				 }
+			 }
+			 index = 0;
+			 if (managerTest.rModel.getTradeTransport().isEmpty() == false)
+			 {
+				 model1.setRowCount(managerTest.rModel.getTradeTransport().size()+1);
+				 for (TradeMarketOrder order : managerTest.rModel.getTradeTransport().values() )
+				 {
+//						 System.out.println(".");
+					 model1.setValueAt(order.getId(), index, 0);
+					 model1.setValueAt(order.getSettleID(), index, 1);
+					 model1.setValueAt(">>", index, 2);
+					 model1.setValueAt(order.getTargetId(), index, 3);
+					 model1.setValueAt(order.ItemRef(), index, 4);
+					 model1.setValueAt(order.value(), index, 5);
+					 model1.setValueAt(order.getBasePrice(), index, 6);
+					 model1.setValueAt(order.getStatus().name(), index, 7);
+					 model1.setValueAt(order.getTickCount(), index, 8);
+					 model1.setValueAt(order.getMaxTicks(), index, 9);
+					 index++;
 				 }
 			 }
 		 }
@@ -428,30 +502,7 @@ public class TestMain
 	
 	private  Object[][] initDataRow()
 	{
-		 Object[][] rows = new  Object[200][10];
-		 if (managerTest != null)
-		 {
-//			 int index = 0;
-//			 if (managerTest.rModel.getTradeMarket().isEmpty() == false)
-//			 {
-//				 for (TradeMarketOrder order : managerTest.rModel.getTradeMarket().values() )
-//				 {
-//					 if (index < 200)
-//					 {
-//						 rows[index][0] = order.getId();
-//						 rows[index][1] = order.getSettleID();
-//						 rows[index][2] = ">>";
-//						 rows[index][3] = order.getTargetId();
-//						 rows[index][4] = order.ItemRef();
-//						 rows[index][5] = order.value();
-//						 rows[index][6] = order.getBasePrice();
-//						 rows[index][7] = order.getStatus().name();
-//						 rows[index][8] = order.getTickCount();
-//						 rows[index][9] = order.getMaxTicks();
-//					 }
-//				 }
-//			 }
-		 }
+		 Object[][] rows = new  Object[30][10];
 		 return rows;
 	}
 	
@@ -460,19 +511,10 @@ public class TestMain
   	  public void windowClosing( WindowEvent e ) 
   	  {  
   		closeDialog();
-//	            int option = JOptionPane.showOptionDialog(  
-//	            		frmManagetTest,  
-//	                    "Are you sure you want to quit?",  
-//	                    "Exit Dialog", JOptionPane.YES_NO_OPTION,  
-//	                    JOptionPane.WARNING_MESSAGE, null, null,  
-//	                    null );  
-//	            if( option == JOptionPane.YES_OPTION ) {  
-//	                System.exit( 0 );  
-//	            }  
   	   }  
     	@Override
     	public void windowActivated(WindowEvent arg0) {
-    		setText();
+//    		setText();
     	}
   }  
 
@@ -490,8 +532,69 @@ public class TestMain
         }  
 	}
 
+	private void drawRasterX(int x1, int y1, Graphics2D graphics)
+	{
+		int x2 = x1 ;
+		int y2 = y1 + 5;
+		graphics.drawLine(x1, y1, x2, y2);
+		
+	}
+	
+	private void drawRasterY(int x1, int y1, Graphics2D graphics)
+	{
+		int x2 = x1 - 5;
+		int y2 = y1 ;
+		graphics.drawLine(x1, y1, x2, y2);
+		
+	}
+	
+	private void paintSome(JPanel panel_1)
+	{
+		Graphics2D graphics = (Graphics2D) panel_1.getGraphics();
+		graphics.setColor(Color.lightGray);
+		
+		int x1 = 10;
+		int y1 = 100;
+		int x2 = 390;
+		int y2 = 100;
+		graphics.drawLine(x1, y1, x2, y2);
+		x1 = 10;
+		y1 = 100;
+		x2 = 10;
+		y2 = 10;
+		graphics.drawLine(x1, y1, x2, y2);
+		
+		graphics.setColor(Color.lightGray);
+		drawRasterX( x1,  y1,  graphics);
+		drawRasterX( x1+10,  y1,  graphics);
+		drawRasterX( x1+20,  y1,  graphics);
+		drawRasterX( x1+30,  y1,  graphics);
+		drawRasterX( x1+40,  y1,  graphics);
+		drawRasterX( x1+50,  y1,  graphics);
+		drawRasterX( x1+60,  y1,  graphics);
+		drawRasterX( x1+70,  y1,  graphics);
+		drawRasterX( x1+80,  y1,  graphics);
+		drawRasterX( x1+90,  y1,  graphics);
+		drawRasterX( x1+100,  y1,  graphics);
+		drawRasterX( x1+110,  y1,  graphics);
+		drawRasterX( x1+120,  y1,  graphics);
+		drawRasterX( x1+130,  y1,  graphics);
+		drawRasterX( x1+140,  y1,  graphics);
+		drawRasterX( x1+150,  y1,  graphics);
+
+		drawRasterY( x1,  y1,  graphics);
+		drawRasterY( x1,  y1-10,  graphics);
+		drawRasterY( x1,  y1-20,  graphics);
+		drawRasterY( x1,  y1-30,  graphics);
+		drawRasterY( x1,  y1-40,  graphics);
+		drawRasterY( x1,  y1-50,  graphics);
+		drawRasterY( x1,  y1-60,  graphics);
+		drawRasterY( x1,  y1-70,  graphics);
+		drawRasterY( x1,  y1-80,  graphics);
+	}
+	
 	private void setText()
 	{
-		text_Loops.setText(String.valueOf(managerTest.dayCounter));
+		paintSome(panel_1);
 	}
 }

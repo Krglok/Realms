@@ -750,7 +750,7 @@ public class RealmModel
 				
 				for (Integer id : keyArray)
 				{
-					tradeMarket.remove(id);
+//					tradeMarket.remove(id);
 				}
 			}
 		} catch (Exception e)
