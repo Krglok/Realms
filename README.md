@@ -1,12 +1,8 @@
 Realms
 ======
-
 Bukkit Plugin for managing Realms and settlements. Do NO protections . 
 Based on the ideas of Dominion from Pico52 i created this plugin.
-I want to resolve some design issues in the dominion design
-- no automatic building verification
-- small bandwidth of produced items and blocks
-- many different units with only virtual representation
+I want to resolve some design issues in the dominion design.
 After some analysis of the dominion design i made the decision to make  a new design 
 with a different architecture.
 
@@ -29,7 +25,7 @@ Design objects and requirements
 - no protection system for areas or chunks
 - npc player are posible
 
-Realm realize the feudalsystem
+Realm based on the feudalsystem
 - King
 - Highlord
 - Lord
@@ -37,16 +33,16 @@ Realm realize the feudalsystem
 - Settler
 
 Settlement realize the urban organization
-- Warehouse
-- Resident
 - Town-hall
+- Resident
+- Warehouse
 - Buildings
+- Production
 - Trader
 - Barrack with military units   
   
 Units represent the military and support entitys
 - settler
-- worker
 - militia
 - scout
 - archer

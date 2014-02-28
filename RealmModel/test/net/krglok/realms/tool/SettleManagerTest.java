@@ -282,6 +282,14 @@ public class SettleManagerTest
 			System.out.println("|");
 		}
 
+		for (Item item : settle.settleManager().getBuyList().values())
+		{
+			System.out.print("|"+ConfigBasis.setStrleft(item.ItemRef(),12)+"");
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(item.value()),5));
+			System.out.println("|");
+			
+		}
+		System.out.println("|");
 	}
 
 	
@@ -370,15 +378,15 @@ public class SettleManagerTest
 		
 		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
 		
-		doLoop(rModel, 5);
-		rModel.OnCommand(bankCommand);
-		doLoop(rModel, 5);
+//		doLoop(rModel, 5);
+//		rModel.OnCommand(bankCommand);
+//		doLoop(rModel, 5);
 		rModel.OnCommand(builderCommand);
-		doLoop(rModel, 5);
-		rModel.OnCommand(buyCommand);
-		doLoop(rModel, 5);
-		rModel.OnCommand(colonistCommand);
-		doLoop(rModel, 35);
+		doLoop(rModel, 1);
+//		rModel.OnCommand(buyCommand);
+//		doLoop(rModel, 5);
+//		rModel.OnCommand(colonistCommand);
+//		doLoop(rModel, 35);
 
 		
 		System.out.println("");
@@ -410,7 +418,7 @@ public class SettleManagerTest
 		makeSettleAnalysis( settle, rModel.getData().getPriceList());
 		System.out.println("Warehouse :"+settle.getWarehouse().getItemList().size());
 		showStock(rModel, settle);
-		System.out.println("BuyCmd :"+settle.getWarehouse().getItemList().size());
+		System.out.println("BuyCmd :"+settle.getTrader().getBuyOrders().size());
 		showBuyCmd(settle);
 		System.out.println("");
 		

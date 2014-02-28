@@ -250,6 +250,7 @@ public class TradeManager
 		int sellAmount = sellOrder.getAmount();
 		int amount = settle.getWarehouse().getItemList().getValue(sellOrder.getItemRef());
 		double sellPrice = priceList.getBasePrice(sellOrder.getItemRef());
+		//check valuables price
 		if (rModel.getConfig().getValuables().containsKey(sellOrder.getItemRef()))
 		{
 			sellPrice = sellPrice * 1.25;

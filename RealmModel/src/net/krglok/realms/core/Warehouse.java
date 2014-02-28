@@ -212,12 +212,15 @@ public class Warehouse
 		{
 			for (Item item :  this.getItemList().values())
 			{
-				if (item.ItemRef().equalsIgnoreCase(search.ItemRef()))
+				if (search.ItemRef().equalsIgnoreCase(item.ItemRef()))
 				{
 					if (search.value() > item.value())
 					{
 						resultList.addItem(new Item(item.ItemRef(), search.value()) );
 					}
+				} else
+				{
+					resultList.addItem(new Item(item.ItemRef(), search.value()) );
 				}
 			}
 		}

@@ -392,7 +392,7 @@ SETTLEMENT:
       isEnabled: 'false'
     itemList:
       EMERALD: '9'
-      GOLD_NUGGET: '5'
+      GOLD_NUGGET: '0'
       WOOL: '127'
       STICK: '126'
       BRICK: '128'
@@ -413,7 +413,7 @@ SETTLEMENT:
       COOKED_FISH: '0'
       WHEAT: '2245'
       DIRT: '24'
-      COBBLESTONE: '33'
+      COBBLESTONE: '1'
       SAND: '29'
       FEATHER: '10'
       RAW_BEEF: '6'

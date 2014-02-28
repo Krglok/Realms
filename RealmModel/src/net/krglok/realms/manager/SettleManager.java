@@ -9,6 +9,7 @@ import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Settlement;
@@ -43,6 +44,7 @@ public class SettleManager
 	private ArrayList<McmdBuilder> cmdBuilder;
 	private ArrayList<McmdBuyOrder> cmdBuy;
 	private ArrayList<McmdSellOrder> cmdSell;
+	
 	private ItemList buyList;
 	private ItemList dontSell;
 	private int checkCounter = 0;
@@ -58,6 +60,26 @@ public class SettleManager
 		this.dontSell = new ItemList();
 	}
 	
+	public ItemList getBuyList()
+	{
+		return buyList;
+	}
+
+	public void setBuyList(ItemList buyList)
+	{
+		this.buyList = buyList;
+	}
+
+	public ItemList getDontSell()
+	{
+		return dontSell;
+	}
+
+	public void setDontSell(ItemList dontSell)
+	{
+		this.dontSell = dontSell;
+	}
+
 	public void newCommand()
 	{
 		
@@ -410,6 +432,11 @@ public class SettleManager
 			BuildPlanMap buildPLan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
 			ItemList buildMat = BuildManager.makeMaterialList(buildPLan);
 			buyList = settle.getWarehouse().searchItemsNotInWarehouse(buildMat);
+			for (Item item : buildMat.values())
+			{
+				buyList.putItem(item.ItemRef(), item.value());
+			}
+			buildMat = rModel.getServer().getRegionReagents(bType.name());
 			if (buyList.isEmpty())
 			{
 				return true;
