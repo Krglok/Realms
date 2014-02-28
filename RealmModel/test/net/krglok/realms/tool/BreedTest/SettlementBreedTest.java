@@ -195,7 +195,7 @@ public class SettlementBreedTest
 	 * make a normal Breed for ALL Settlements 
 	 * @param days
 	 */
-	public void doBreeding(int days)
+	public void doBreeding()
 	{
 			dayCounter++;
 			rModel.OnTick();
@@ -204,28 +204,25 @@ public class SettlementBreedTest
 				rModel.OnProduction();
 
 			}
-			if ((settle.getAge() % 360) == 0)
-			{
-			    rModel.OnTax();	
-			}
+//			if ((settle.getAge() % 360) == 0)
+//			{
+//			    rModel.OnTax();	
+//			}
 	}
 	
 	/**
 	 * make a normal Production for the given Settlement
+	 * is equivalent to 1 day
 	 * @param settle
 	 * @param server
 	 * @param MaxLoop
 	 * @param priceList
 	 */
-	private void BreedingLoop(
-			Settlement settle,
-			int MaxLoop 
+	public void BreedingLoop(
+			Settlement settle
 			)
 	{
-		ItemPriceList priceList = rModel.getData().getPriceList();
 
-		for (int i = 0; i < MaxLoop; i++)
-		{
 			dayCounter++;
 			settle.setSettlerMax();
 			settle.checkBuildingsEnabled(server);
@@ -233,72 +230,11 @@ public class SettlementBreedTest
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.setHappiness();
 			settle.doProduce(server);
-			if (dayCounter == 30)
+			if ((dayCounter % 30) == 0)
 			{
 				settle.doCalcTax();
-				dayCounter = 0;
 			}
 			
-			showSettler = true;	
-			isMonth = false;
-			
-			if ((i %30) == 0)
-			{
-				isMonth = true;
-				month++;
-			} 
-			if ((settle.getAge() % 360) == 0)
-			{
-//				makeSettleAnalysis(settle, month, priceList);
-			}
-			
-			sb = ConfigBasis.setStrleft(showBalkenHappy(settle, isMonth,showSettler),27);
-			if (isOutput)
-			{
-				if (isMonth)
-				{
-					System.out.println(
-							ConfigBasis.setStrright(String.valueOf(month),3)+sb
-//							+"/S:"+settle.getSettlerFactor()
-//							+"/E:"+settle.getEntertainFactor()
-							+"/D:"+settle.getResident().getDeathrate()
-							+"/B:"+settle.getResident().getBirthrate()
-//							+"/Wo:"+settle.getTownhall().getWorkerCount()
-//							+"/Wn:"+settle.getTownhall().getWorkerNeeded()
-//							+"/M:"+(int)settle.getBank().getKonto()
-//							+"/W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
-							+"/R:"+settle.getRequiredProduction().size()+getReqList(settle)
-							+"/F:"+ConfigBasis.format2(settle.getFoodFactor())
-							+"/S:"+ConfigBasis.format2(settle.getSettlerFactor())
-							+"/f:"+settle.getResident().getFertilityCounter()
-							);
-				} else
-				{
-					if ((i % 10) == 0)
-					{
-						System.out.println(
-								ConfigBasis.setStrright(String.valueOf(month),3)+sb
-	//							+"/ F:"+settle.getFoodFactor()
-	//							+"/S:"+settle.getSettlerFactor()
-	//							+"/E:"+settle.getEntertainFactor()
-								+"/D:"+settle.getResident().getDeathrate()
-								+"/B:"+settle.getResident().getBirthrate()
-	//							+"/Wo:"+settle.getTownhall().getWorkerCount()
-	//							+"/Wn:"+settle.getTownhall().getWorkerNeeded()
-	//							+"/M:"+(int)settle.getBank().getKonto()
-//								+"/G:"+settle.getWarehouse().getItemList().getValue("GOLD_NUGGET")
-//								+"/W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
-								+"/R:"+settle.getRequiredProduction().size()+getReqList(settle)
-								+"/F:"+ConfigBasis.format2(settle.getFoodFactor())
-								+"/S:"+ConfigBasis.format2(settle.getSettlerFactor())
-								+"/f:"+settle.getResident().getFertilityCounter()
-								);
-					}
-				}
-			}
-			System.out.flush();
-		}
-		
 	}
 
 	private void makeSettleAnalysis(Settlement settle, int moth, ItemPriceList priceList)
@@ -410,136 +346,136 @@ public class SettlementBreedTest
 	 */
 	public void SettlerBreedInit(int settleId)
 	{
-		System.out.println("==Settlement Breed  : "+settle.getResident().getSettlerMax());
-		BreedingLoop(settle, 10);
-
-		return;
-	}
-		
-
-	public void testSettlementSettlerBreed(int settleId, Biome biome)
-	{
-		int hsRegion = 28;
-		Building building;
-
-		isOutput =   true; //(expected != actual);
-		ItemPriceList priceList = rModel.getData().getPriceList();
-		settle = rModel.getSettlements().getSettlement(settleId);
-		settle.setBiome(biome);
-		System.out.println(month+"=====Settler go away "+settle.getResident().getSettlerMax());
-		hsRegion++;
-
-		settle.setSettlerMax();
-		BreedingLoop(settle,  510);
-
-
-		settle.setSettlerMax();
-		System.out.println(month+"======New Houses "+settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue("WOOD_HOE",500);
-
-		BreedingLoop(settle, 1110);
-
-		hsRegion++;
-		building =  new Building(BuildPlanType.WHEAT, hsRegion, "WHEAT", true,null);
-		Settlement.addBuilding(building, settle);
-
-		settle.setSettlerMax();
-		System.out.println(month+"======New Production "+settle.getResident().getSettlerMax());
-
-		isOutput =   true; //(expected != actual);
-		BreedingLoop(settle, 1310);
-
-		
-		settle.getResident().setSettlerCount(150);
-		System.out.println(month+"====Now only 50 Settler in Settlement / Homes : "+settle.getResident().getSettlerCount());
-		settle.setSettlerMax();
-		BreedingLoop(settle, 1510);
-		
-		settle.setSettlerMax();
-		System.out.println(month+"==Last Run   "+settle.getResident().getSettlerMax());
-		isOutput =   true; //(expected != actual);
-		BreedingLoop(settle, 1310);
-
-		
-		System.out.println(" ");
-		System.out.println("== Laufzeit "+month*30+" Tage ");
-		makeSettleAnalysis(settle, month, priceList);
-		isOutput = false; // (expected != actual);
-		if (isOutput)
-		{
-			System.out.println(" ");
-			System.out.println("==Store Capacity ==");
-			System.out.print("Item            "+" : "+"Stack");
-			System.out.println("");
-			for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
-			{
-				System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
-				System.out.print(settle.getWarehouse().getTypeCapacityList().get(bItem).value()+ " | ");
-				System.out.print("");
-				System.out.println("");
-				
-			}
-			System.out.println(" ");
-			System.out.println("Warehouse");
-			double price = 0.0;
-			double balance = 0.0;
-			for (Item item : settle.getWarehouse().getItemList().values())
-			{
-//				price = Math.round(priceList.getBasePrice(item.ItemRef()));
-				price = priceList.getBasePrice(item.ItemRef());
-				System.out.println(
-						ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
-						ConfigBasis.setStrright(String.valueOf(item.value()),7)+" = "+
-						Math.round((item.value()*price)));
-				balance = balance + (item.value()*price);
-			}
-			System.out.println("Item balance = "+Math.round(balance));
-			System.out.println("=============================");
-			System.out.println("Treasure balance = "+settle.getBiome());
-			
-			ItemList items = new ItemList();
-			for (Item item : settle.getTreasureList())
-			{
-				items.addItem( new Item(item.ItemRef(),settle.getWarehouse().getItemList().getValue(item.ItemRef())));
-			}
-			for (Item item : items.values())
-			{
-				
-//				price = Math.round(priceList.getBasePrice(item.ItemRef()));
-				price = priceList.getBasePrice(item.ItemRef());
-				System.out.println(
-						ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
-						item.value()
-						);
-				balance = balance + (item.value()*price);
-			}
-			boolean isBuildingList = false;
-			if (isBuildingList)
-			{
-				System.out.println("== Buildings "+settle.getBuildingList().getBuildingList().size());
-				for (Building buildg : settle.getBuildingList().getBuildingList().values())
-				{
-					System.out.println("- "+buildg.getHsRegion()+" : "+buildg.getHsRegionType()+" :W "+buildg.getWorkerInstalled()+" :E "+buildg.isEnabled());
-				}
-			}
-			boolean isWarehouseList = false;
-			if (isWarehouseList)
-			{
-				System.out.println("== Warehouse ["+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax()+"]");
-				for (Item item : settle.getWarehouse().getItemList().values())
-				{
-					System.out.println("- "+item.ItemRef()+" : "+item.value());
-				}
-			}
-			boolean isCapacityList = false;
-			if (isCapacityList)
-			{
-				System.out.println("== Building Capacity List");
-				int usedCapacity = settle.getWarehouse().getUsedCapacity();
-				System.out.println("== Building Capacity used ["+usedCapacity+"/"+settle.getWarehouse().getItemMax()+"]");
-			}
-			
-		}
+//		System.out.println("==Settlement Breed  : "+settle.getResident().getSettlerMax());
+//		BreedingLoop(settle, 10);
+//
+//		return;
+//	}
+//		
+//
+//	public void testSettlementSettlerBreed(int settleId, Biome biome)
+//	{
+//		int hsRegion = 28;
+//		Building building;
+//
+//		isOutput =   true; //(expected != actual);
+//		ItemPriceList priceList = rModel.getData().getPriceList();
+//		settle = rModel.getSettlements().getSettlement(settleId);
+//		settle.setBiome(biome);
+//		System.out.println(month+"=====Settler go away "+settle.getResident().getSettlerMax());
+//		hsRegion++;
+//
+//		settle.setSettlerMax();
+//		BreedingLoop(settle,  510);
+//
+//
+//		settle.setSettlerMax();
+//		System.out.println(month+"======New Houses "+settle.getResident().getSettlerMax());
+//		settle.getWarehouse().depositItemValue("WOOD_HOE",500);
+//
+//		BreedingLoop(settle, 1110);
+//
+//		hsRegion++;
+//		building =  new Building(BuildPlanType.WHEAT, hsRegion, "WHEAT", true,null);
+//		Settlement.addBuilding(building, settle);
+//
+//		settle.setSettlerMax();
+//		System.out.println(month+"======New Production "+settle.getResident().getSettlerMax());
+//
+//		isOutput =   true; //(expected != actual);
+//		BreedingLoop(settle, 1310);
+//
+//		
+//		settle.getResident().setSettlerCount(150);
+//		System.out.println(month+"====Now only 50 Settler in Settlement / Homes : "+settle.getResident().getSettlerCount());
+//		settle.setSettlerMax();
+//		BreedingLoop(settle, 1510);
+//		
+//		settle.setSettlerMax();
+//		System.out.println(month+"==Last Run   "+settle.getResident().getSettlerMax());
+//		isOutput =   true; //(expected != actual);
+//		BreedingLoop(settle, 1310);
+//
+//		
+//		System.out.println(" ");
+//		System.out.println("== Laufzeit "+month*30+" Tage ");
+//		makeSettleAnalysis(settle, month, priceList);
+//		isOutput = false; // (expected != actual);
+//		if (isOutput)
+//		{
+//			System.out.println(" ");
+//			System.out.println("==Store Capacity ==");
+//			System.out.print("Item            "+" : "+"Stack");
+//			System.out.println("");
+//			for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
+//			{
+//				System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
+//				System.out.print(settle.getWarehouse().getTypeCapacityList().get(bItem).value()+ " | ");
+//				System.out.print("");
+//				System.out.println("");
+//				
+//			}
+//			System.out.println(" ");
+//			System.out.println("Warehouse");
+//			double price = 0.0;
+//			double balance = 0.0;
+//			for (Item item : settle.getWarehouse().getItemList().values())
+//			{
+////				price = Math.round(priceList.getBasePrice(item.ItemRef()));
+//				price = priceList.getBasePrice(item.ItemRef());
+//				System.out.println(
+//						ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
+//						ConfigBasis.setStrright(String.valueOf(item.value()),7)+" = "+
+//						Math.round((item.value()*price)));
+//				balance = balance + (item.value()*price);
+//			}
+//			System.out.println("Item balance = "+Math.round(balance));
+//			System.out.println("=============================");
+//			System.out.println("Treasure balance = "+settle.getBiome());
+//			
+//			ItemList items = new ItemList();
+//			for (Item item : settle.getTreasureList())
+//			{
+//				items.addItem( new Item(item.ItemRef(),settle.getWarehouse().getItemList().getValue(item.ItemRef())));
+//			}
+//			for (Item item : items.values())
+//			{
+//				
+////				price = Math.round(priceList.getBasePrice(item.ItemRef()));
+//				price = priceList.getBasePrice(item.ItemRef());
+//				System.out.println(
+//						ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
+//						item.value()
+//						);
+//				balance = balance + (item.value()*price);
+//			}
+//			boolean isBuildingList = false;
+//			if (isBuildingList)
+//			{
+//				System.out.println("== Buildings "+settle.getBuildingList().getBuildingList().size());
+//				for (Building buildg : settle.getBuildingList().getBuildingList().values())
+//				{
+//					System.out.println("- "+buildg.getHsRegion()+" : "+buildg.getHsRegionType()+" :W "+buildg.getWorkerInstalled()+" :E "+buildg.isEnabled());
+//				}
+//			}
+//			boolean isWarehouseList = false;
+//			if (isWarehouseList)
+//			{
+//				System.out.println("== Warehouse ["+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax()+"]");
+//				for (Item item : settle.getWarehouse().getItemList().values())
+//				{
+//					System.out.println("- "+item.ItemRef()+" : "+item.value());
+//				}
+//			}
+//			boolean isCapacityList = false;
+//			if (isCapacityList)
+//			{
+//				System.out.println("== Building Capacity List");
+//				int usedCapacity = settle.getWarehouse().getUsedCapacity();
+//				System.out.println("== Building Capacity used ["+usedCapacity+"/"+settle.getWarehouse().getItemMax()+"]");
+//			}
+//			
+//		}
 		
 	}
 	

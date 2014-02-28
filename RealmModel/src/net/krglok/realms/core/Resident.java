@@ -360,11 +360,11 @@ public class Resident
 						fertilityCounter = fertilityCounter +(FERTILITY) + (FERTILITY/100 * (settlerCount/2))  ;
 					} else
 					{
-						fertilityCounter = fertilityCounter + (FERTILITY/3) + (FERTILITY/2 /100 * (settlerCount/2)) ;
+						fertilityCounter = fertilityCounter + (FERTILITY) + (FERTILITY/2 /100 * (settlerCount/2)) ;
 					}
 				} else
 				{
-					fertilityCounter = fertilityCounter + (FERTILITY/3) + (FERTILITY/2 /100 * (settlerCount/2)); 
+					fertilityCounter = fertilityCounter + (FERTILITY) + (FERTILITY/2 /100 * (settlerCount/2)); 
 					
 				}
 			}

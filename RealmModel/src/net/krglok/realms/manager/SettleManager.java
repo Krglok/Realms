@@ -92,6 +92,12 @@ public class SettleManager
 		checkHunger ( rModel,  settle);
 		//check for money
 		checkMoneyLevel( rModel,  settle);
+		// check for Required Items
+		if (checkRequiredMaterials(rModel,  settle))
+		{
+			buyRequiredMaterials(rModel, settle);
+		}
+
 		// check for overstocking
 		checkOverStockSell( rModel,  settle);
 		// check for overpopulation
@@ -463,6 +469,43 @@ public class SettleManager
 						isCmdFound = true;
 					}
 				}
+				
+				if (isCmdFound == false)				
+				{
+//					System.out.println(item.ItemRef()+":"+item.value());
+					cmdBuy.add(new McmdBuyOrder(rModel, settle.getId(), item.ItemRef(), item.value(), 0.0, 5));
+					dontSell.addItem(new Item(item.ItemRef(), item.value()));
+				}
+			}
+		}
+		buyList.clear();
+	}
+
+	private boolean checkRequiredMaterials(RealmModel rModel, Settlement settle)
+	{
+			buyList.clear();
+//			System.out.println(settle.getId()+"/"+ settle.getRequiredProduction().size());
+			for (Item item : settle.getRequiredProduction().values())
+			{
+				buyList.addItem(new Item(item.ItemRef(), item.value()));
+			}
+			
+			if (buyList.isEmpty())
+			{
+				return false;
+			} else
+			{
+				return true;
+			}
+	}
+
+	private void buyRequiredMaterials(RealmModel rModel, Settlement settle)
+	{
+		for (Item item : buyList.values())
+		{
+			if (settle.getTrader().getBuyOrders().containsKey(item.ItemRef()) == false)
+			{
+				boolean isCmdFound = false;
 				
 				if (isCmdFound == false)				
 				{

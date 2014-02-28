@@ -62,6 +62,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.SoftBevelBorder;
 
+import org.bukkit.block.Biome;
+
 public class BreedMain
 {
 
@@ -71,7 +73,8 @@ public class BreedMain
 	private static  TextArea textArea;
 	private JProgressBar progressBar;
 	private Image myImage;
-	JPanel panel_1;
+	private JPanel panel_1;
+	private JPanel panel;
 	private  Object[][] dataRows; // = initDataRow();
 	private  Object[][] dataRows1; // = initDataRow();
 	private String[] columnHeader = new String[] {"ID", "Sender", ">>", "Target", "Item", "amount", "price", "Status", "Count", "Max"};
@@ -113,25 +116,25 @@ public class BreedMain
 	
 	//Followings are The Methods that do the Redirect, you can simply Ignore them. 
 	  private static void redirectSystemStreams() {
-//	    OutputStream out = new OutputStream() {
-//	      @Override
-//	      public void write(int b) throws IOException {
-//	        updateTextArea(String.valueOf((char) b));
-//	      }
-//	 
-//	      @Override
-//	      public void write(byte[] b, int off, int len) throws IOException {
-//	        updateTextArea(new String(b, off, len));
-//	      }
-//	 
-//	      @Override
-//	      public void write(byte[] b) throws IOException {
-//	        write(b, 0, b.length);
-//	      }
-//	    };
-//	 
-//	    System.setOut(new PrintStream(out, true));
-//	    System.setErr(new PrintStream(out, true));
+	    OutputStream out = new OutputStream() {
+	      @Override
+	      public void write(int b) throws IOException {
+	        updateTextArea(String.valueOf((char) b));
+	      }
+	 
+	      @Override
+	      public void write(byte[] b, int off, int len) throws IOException {
+	        updateTextArea(new String(b, off, len));
+	      }
+	 
+	      @Override
+	      public void write(byte[] b) throws IOException {
+	        write(b, 0, b.length);
+	      }
+	    };
+	 
+	    System.setOut(new PrintStream(out, true));
+	    System.setErr(new PrintStream(out, true));
 	  }
 	
 	  
@@ -168,7 +171,7 @@ public class BreedMain
 
 		frmManagetTest.setTitle("Settlement Breeding");
 		frmManagetTest.setIconImage(Toolkit.getDefaultToolkit().getImage(BreedMain.class.getResource("/net/krglok/realms/gui/star_blue.gif")));
-		frmManagetTest.setBounds(100, 100, 1064, 630);
+		frmManagetTest.setBounds(100, 100, 1226, 630);
 		frmManagetTest.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 //		addWindowListener( new AreYouSure() );
 		
@@ -262,7 +265,7 @@ public class BreedMain
 		btnLoop.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
 		btnLoop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				doBreeding(5);
+				doBreeding(500);
 				refreshDataRow();
 			}
 		});
@@ -275,11 +278,17 @@ public class BreedMain
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				managerTest.SettlerBreedInit(settleId);
+				managerTest.dayCounter = 0;
 			}
 		});
 		btnNewButton_1.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
 		
 		JButton btnBreedTest = new JButton("Breed Test");
+		btnBreedTest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				doSettleBreedTest();
+			}
+		});
 		btnBreedTest.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_tcheck.gif")));
 		btnBreedTest.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		toolBar.add(btnBreedTest);
@@ -293,11 +302,13 @@ public class BreedMain
 		JSeparator separator_1 = new JSeparator();
 		toolBar.add(separator_1);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		frmManagetTest.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(106dlu;default):grow"),
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("left:max(214dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(53dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -305,9 +316,9 @@ public class BreedMain
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.GLUE_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(212dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(201dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
@@ -325,7 +336,7 @@ public class BreedMain
 		
 		JLabel lblNewLabel = new JLabel("LoopCounter : ");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel.add(lblNewLabel, "6, 2, left, default");
+		panel.add(lblNewLabel, "8, 2, left, default");
 		
 		progressBar = new JProgressBar();
 		progressBar.addMouseListener(new MouseAdapter() {
@@ -338,7 +349,7 @@ public class BreedMain
 			public void stateChanged(ChangeEvent arg0) {
 			}
 		});
-		panel.add(progressBar, "8, 2, 5, 1");
+		panel.add(progressBar, "10, 2, 5, 1");
 		
 		JButton btnNewButton = new JButton("Market");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -348,7 +359,7 @@ public class BreedMain
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane, "2, 4, 3, 1, fill, fill");
+		panel.add(scrollPane, "4, 4, 3, 1, fill, fill");
 		
 		table_1 = new JTable();
 		table_1.setModel(model1);
@@ -363,11 +374,11 @@ public class BreedMain
 		table_1.getColumnModel().getColumn(9).setPreferredWidth(60);
 		scrollPane.setViewportView(table_1);
 		btnNewButton.setIcon(new ImageIcon(BreedMain.class.getResource("/net/krglok/realms/gui/_text.gif")));
-		panel.add(btnNewButton, "6, 4");
+		panel.add(btnNewButton, "8, 4");
 		
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel.add(scrollPane_1, "8, 4, 5, 1, fill, fill");
+		panel.add(scrollPane_1, "10, 4, 5, 1, fill, fill");
 		
 		table = new JTable();
 		table.setModel(model);
@@ -386,10 +397,20 @@ public class BreedMain
 		table.getColumnModel().getColumn(9).setPreferredWidth(60);
 		scrollPane_1.setViewportView(table);
 		
+		panel_1 = new JPanel();
+		panel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				panel_1.repaint();
+			}
+		});
+		panel_1.setBackground(Color.black);
+		panel.add(panel_1, "4, 6, 10, 1, fill, fill");
+		
 		
 //		TextArea 
 		textArea = new TextArea();
-		panel.add(textArea, "2, 6, 3, 1, fill, fill");
+		panel.add(textArea, "14, 6, fill, fill");
 		textArea.addTextListener(new TextListener() {
 			public void textValueChanged(TextEvent arg0) {
 				setText();
@@ -398,10 +419,6 @@ public class BreedMain
 		textArea.setForeground(Color.BLACK);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 10));
 		textArea.setText("new line");
-		
-		panel_1 = new JPanel();
-		panel_1.setBackground(Color.black);
-		panel.add(panel_1, "8, 6, 5, 1, fill, fill");
 		
 	}
 
@@ -413,21 +430,59 @@ public class BreedMain
 	      }
 	    });
 	}
-
-	private void doBreeding(int days)
+	
+	private void doSettleBreedTest()
 	{
-		int maxLoops = days * 40;
-		progressBar.setMaximum(1500);
-		progressBar.setValue(0);
-		for (int i = 0; i < maxLoops; i++)
+		paintSome(panel_1);
+		paintHorLine(8, (100-managerTest.settle.getResident().getSettlerMax()) , panel_1,Color.magenta);
+		managerTest.dayCounter = 0;
+		for (int i = 0; i < 1250; i++)
 		{
-			managerTest.doBreeding(i);
+			managerTest.BreedingLoop(managerTest.settle);
 			progressBar.setValue(managerTest.dayCounter);
+//			if ((managerTest.dayCounter % 40) == 0)
+			{
+				paintBalken(managerTest.settle.getResident().getSettlerCount(), (managerTest.dayCounter ), panel_1, Color.green);
+				paintBalken((int)managerTest.settle.getResident().getFertilityCounter(), (managerTest.dayCounter), panel_1, Color.yellow);
+				paintBalken((int)(managerTest.settle.getResident().getHappiness()*10), (managerTest.dayCounter), panel_1, Color.red);
+			}
 			if (progressBar.getValue() >= 1500)
 			{
 				progressBar.setMaximum(managerTest.dayCounter+1500);
 			}
 			progressBar.repaint();
+		}
+	}
+
+	private void doBreeding(int days)
+	{
+		paintSome(panel_1);
+		days = 10;
+		int maxLoops = days * 40;
+		paintSome(panel_1);
+		paintHorLine(8, (100-managerTest.settle.getResident().getSettlerMax()) , panel_1,Color.magenta);
+		progressBar.setMaximum(1500);
+		progressBar.setValue(0);
+		for (int i = 0; i < maxLoops; i++)
+		{
+			managerTest.doBreeding();
+			progressBar.setValue(managerTest.dayCounter);
+			if ((managerTest.dayCounter % 40) == 0)
+			{
+				paintBalken(managerTest.settle.getResident().getSettlerCount(), (managerTest.dayCounter / 40), panel_1, Color.green);
+				paintBalken((int)managerTest.settle.getResident().getFertilityCounter(), (managerTest.dayCounter / 40), panel_1, Color.yellow);
+				paintBalken((int)(managerTest.settle.getResident().getHappiness()*10), (managerTest.dayCounter / 40), panel_1, Color.red);
+				refreshDataRow();
+				panel.setVisible(true);
+				System.out.println(".");
+				textArea.repaint();
+			}
+			if (progressBar.getValue() >= 1500)
+			{
+				progressBar.setMaximum(managerTest.dayCounter+1500);
+			}
+			progressBar.repaint();
+			
 		}
 	}
 	  
@@ -455,6 +510,7 @@ public class BreedMain
 	{
 		 if (managerTest != null)
 		 {
+//			 System.out.println("=");
 			 int index = 0;
 			 if (managerTest.rModel.getTradeMarket().isEmpty() == false)
 			 {
@@ -495,6 +551,8 @@ public class BreedMain
 					 index++;
 				 }
 			 }
+			 table.repaint();
+			 table_1.repaint();
 		 }
 		 
 	}
@@ -532,19 +590,46 @@ public class BreedMain
         }  
 	}
 
-	private void drawRasterX(int x1, int y1, Graphics2D graphics)
+	private void paintBalken(int len, int step, JPanel panel_1, Color color)
+	{
+		Graphics2D graphics = (Graphics2D) panel_1.getGraphics();
+		Color lastColor = graphics.getColor();
+		graphics.setColor(color);
+		int x1 = 10+step;
+		int y1 = 100-len;
+		int x2 = 10+step;
+		int y2 = y1+1; //-len+2;
+		graphics.drawLine(x1, y1, x2, y2);
+		graphics.setColor(lastColor);
+		
+	}
+	
+	private void drawRasterX(int x1, int y1, Graphics2D graphics, int len)
 	{
 		int x2 = x1 ;
-		int y2 = y1 + 5;
+		int y2 = y1 + len;
 		graphics.drawLine(x1, y1, x2, y2);
 		
 	}
 	
-	private void drawRasterY(int x1, int y1, Graphics2D graphics)
+	private void drawRasterY(int x1, int y1, Graphics2D graphics, int len)
 	{
-		int x2 = x1 - 5;
+		int x2 = x1 - len;
 		int y2 = y1 ;
 		graphics.drawLine(x1, y1, x2, y2);
+		
+	}
+	
+	private void paintHorLine(int x1, int y1, JPanel panel_1, Color color)
+	{
+		Graphics2D graphics = (Graphics2D) panel_1.getGraphics();
+		Color lastColor = graphics.getColor();
+		graphics.setColor(color);
+		int width = graphics.getDeviceConfiguration().getBounds().width -20;
+		int x2 = x1 + width;
+		int y2 = y1;
+		graphics.drawLine(x1, y1, x2, y2);
+		graphics.setColor(lastColor);
 		
 	}
 	
@@ -552,45 +637,52 @@ public class BreedMain
 	{
 		Graphics2D graphics = (Graphics2D) panel_1.getGraphics();
 		graphics.setColor(Color.lightGray);
-		
+		int width = graphics.getDeviceConfiguration().getBounds().width -20;
 		int x1 = 10;
-		int y1 = 100;
-		int x2 = 390;
-		int y2 = 100;
+		int y1 = 101;
+		int x2 = x1 + width;
+		int y2 = 101;
 		graphics.drawLine(x1, y1, x2, y2);
 		x1 = 10;
-		y1 = 100;
+		y1 = 51;
+		x2 = x1 + width;
+		y2 = 51;
+		graphics.drawLine(x1, y1, x2, y2);
+		x1 = 10;
+		y1 = 101;
 		x2 = 10;
 		y2 = 10;
 		graphics.drawLine(x1, y1, x2, y2);
 		
 		graphics.setColor(Color.lightGray);
-		drawRasterX( x1,  y1,  graphics);
-		drawRasterX( x1+10,  y1,  graphics);
-		drawRasterX( x1+20,  y1,  graphics);
-		drawRasterX( x1+30,  y1,  graphics);
-		drawRasterX( x1+40,  y1,  graphics);
-		drawRasterX( x1+50,  y1,  graphics);
-		drawRasterX( x1+60,  y1,  graphics);
-		drawRasterX( x1+70,  y1,  graphics);
-		drawRasterX( x1+80,  y1,  graphics);
-		drawRasterX( x1+90,  y1,  graphics);
-		drawRasterX( x1+100,  y1,  graphics);
-		drawRasterX( x1+110,  y1,  graphics);
-		drawRasterX( x1+120,  y1,  graphics);
-		drawRasterX( x1+130,  y1,  graphics);
-		drawRasterX( x1+140,  y1,  graphics);
-		drawRasterX( x1+150,  y1,  graphics);
+		drawRasterX( x1,  y1,  graphics,3);
+		drawRasterX( x1+10,  y1,  graphics,3);
+		drawRasterX( x1+20,  y1,  graphics,3);
+		drawRasterX( x1+30,  y1,  graphics,3);
+		drawRasterX( x1+40,  y1,  graphics,3);
+		drawRasterX( x1+50,  y1,  graphics,5);
+		drawRasterX( x1+60,  y1,  graphics,3);
+		drawRasterX( x1+70,  y1,  graphics,3);
+		drawRasterX( x1+80,  y1,  graphics,3);
+		drawRasterX( x1+90,  y1,  graphics,3);
+		drawRasterX( x1+100,  y1,  graphics,5);
+		drawRasterX( x1+110,  y1,  graphics,3);
+		drawRasterX( x1+120,  y1,  graphics,3);
+		drawRasterX( x1+130,  y1,  graphics,3);
+		drawRasterX( x1+140,  y1,  graphics,3);
+		drawRasterX( x1+150,  y1,  graphics,5);
 
-		drawRasterY( x1,  y1,  graphics);
-		drawRasterY( x1,  y1-10,  graphics);
-		drawRasterY( x1,  y1-20,  graphics);
-		drawRasterY( x1,  y1-30,  graphics);
-		drawRasterY( x1,  y1-40,  graphics);
-		drawRasterY( x1,  y1-50,  graphics);
-		drawRasterY( x1,  y1-60,  graphics);
-		drawRasterY( x1,  y1-70,  graphics);
-		drawRasterY( x1,  y1-80,  graphics);
+		drawRasterY( x1,  y1,  graphics,3);
+		drawRasterY( x1,  y1-10,  graphics,3);
+		drawRasterY( x1,  y1-20,  graphics,3);
+		drawRasterY( x1,  y1-30,  graphics,3);
+		drawRasterY( x1,  y1-40,  graphics,3);
+		drawRasterY( x1,  y1-50,  graphics,5);
+		drawRasterY( x1,  y1-60,  graphics,3);
+		drawRasterY( x1,  y1-70,  graphics,3);
+		drawRasterY( x1,  y1-80,  graphics,3);
+		drawRasterY( x1,  y1-90,  graphics,3);
+		drawRasterY( x1,  y1-100,  graphics,35);
 	}
 	
 	private void setText()

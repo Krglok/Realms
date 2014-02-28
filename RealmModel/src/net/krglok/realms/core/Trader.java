@@ -243,6 +243,8 @@ public class Trader
 		{
 			amount = tmo.value();
 		}
+		if (amount > 0)
+		{
 			cost = amount * tmo.getBasePrice();
 			tmo.setValue(tmo.value() - amount);
 			long travelTime = getTransportDelay(distance);
@@ -274,6 +276,7 @@ public class Trader
 					foundOrder.setStatus(TradeStatus.NONE);
 				}
 			}	
+		}
 	}
 	
 	

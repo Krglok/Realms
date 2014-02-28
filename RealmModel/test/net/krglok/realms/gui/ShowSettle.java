@@ -24,6 +24,8 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.TradeOrder;
+
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -45,6 +47,8 @@ public class ShowSettle extends JDialog
 	private JTextField text_Bank;
 	private JTextField text_StoreValue;
 	private JTextField text_Age;
+	private JTextField text_BuyOrder;
+	private JTextField text_Required;
 	
 	/**
 	 * Launch the application.
@@ -235,6 +239,16 @@ public class ShowSettle extends JDialog
 					doOverview();
 				}
 			});
+			{
+				JLabel lblRequired = new JLabel("Required : ");
+				contentPanel.add(lblRequired, "1, 7, right, default");
+			}
+			{
+				text_Required = new JTextField();
+				text_Required.setMinimumSize(new Dimension(6, 10));
+				text_Required.setColumns(10);
+				contentPanel.add(text_Required, "3, 7, fill, default");
+			}
 			btnProduction.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btnProduction, "5, 7");
 		}
@@ -257,6 +271,26 @@ public class ShowSettle extends JDialog
 				}
 			});
 			contentPanel.add(btnBuildings, "17, 7");
+		}
+		{
+			JButton btnBuyorder = new JButton("BuyOrder");
+			btnBuyorder.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					doBuyOrderList();
+				}
+			});
+			{
+				JLabel lblBuyorder = new JLabel("BuyOrder : ");
+				contentPanel.add(lblBuyorder, "1, 8, right, default");
+			}
+			{
+				text_BuyOrder = new JTextField();
+				text_BuyOrder.setMinimumSize(new Dimension(6, 10));
+				text_BuyOrder.setColumns(10);
+				contentPanel.add(text_BuyOrder, "3, 8, fill, default");
+			}
+			btnBuyorder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			contentPanel.add(btnBuyorder, "5, 8");
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -290,8 +324,34 @@ public class ShowSettle extends JDialog
 		text_Bank.setText(String.valueOf((int)settle.getBank().getKonto()));
 		text_Age.setText(String.valueOf(settle.getAge()));
 		text_StoreValue.setText(String.valueOf(settle.getWarehouse().getItemCount()));
+		text_BuyOrder.setText(String.valueOf(settle.getTrader().getBuyOrders().size()));
+		text_Required.setText(String.valueOf(settle.getRequiredProduction().size()));
 		
 	}
+	
+	
+	private void doBuyOrderList()
+	{
+		Object[][] dataRows = new Object[settle.getTrader().getBuyOrders().size()][4];
+		int index = 0;
+		for (TradeOrder order : settle.getTrader().getBuyOrders().values())
+		{
+//			if (index <100)
+			{
+				dataRows[index][0] = order.ItemRef();
+				dataRows[index][1] = order.value();
+				dataRows[index][2] = ConfigBasis.format2(order.getBasePrice());
+				dataRows[index][3] = order.getStatus().name();
+			}
+			index ++;
+		}
+		String[] colHeader = new String[] {	"Item", "amount", "price","Status"};
+		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
+
+		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Buy Orders");
+	}
+	
+	
 	private void doBuildingList()
 	{
 		Object[][] dataRows = new Object[settle.getBuildingList().getBuildingList().size()][4];

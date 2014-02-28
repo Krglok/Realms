@@ -715,7 +715,10 @@ public class RealmModel
 			}
 			for (Integer id : keyArray)
 			{
-				tradeTransport.remove(id);
+				if (id != null)
+				{
+					tradeTransport.remove(id);
+				}
 			}
 		} catch (Exception e)
 		{
@@ -750,7 +753,10 @@ public class RealmModel
 				
 				for (Integer id : keyArray)
 				{
-//					tradeMarket.remove(id);
+					if (id != null)
+					{
+						tradeMarket.remove(id);
+					}
 				}
 			}
 		} catch (Exception e)
