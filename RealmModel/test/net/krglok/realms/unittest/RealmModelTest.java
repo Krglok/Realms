@@ -3,10 +3,13 @@ package net.krglok.realms.unittest;
 import static org.junit.Assert.assertEquals;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.model.McmdColonistCreate;
+import net.krglok.realms.model.McmdColonyBuild;
 import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
@@ -286,25 +289,39 @@ public class RealmModelTest
 				testData,
 				message);
 		
-		McmdEnable modelCommand = new McmdEnable(rModel);
+		rModel.OnEnable();
+		
+		String name = "Newhome";
+		LocationData centerPos = new LocationData("Test", 0.0, 0.0, 0.0);
+		String owner = "drAdmin";
+		
+		McmdColonistCreate colonist1 = new McmdColonistCreate(rModel, name, centerPos, owner);
+		
+		boolean isCleanUp = true;
+		int colonyId = 1;
+		McmdColonyBuild colonist2 = new McmdColonyBuild(rModel, colonyId, isCleanUp);
 		
 		Boolean expected = true; 
 		Boolean actual = false;
 		int i = 0;
-//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
-//		rModel.OnEnable();
-//		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 
 		rModel.OnProduction();
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
-		rModel.OnCommand(modelCommand);
+		rModel.OnCommand(colonist1);
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 		rModel.OnTick();
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 		rModel.OnTick();
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
+		rModel.OnCommand(colonist2);
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
+		rModel.OnTick();
 		rModel.OnTick();
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 		rModel.OnTick();

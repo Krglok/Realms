@@ -35,7 +35,7 @@ public class CmdSettleCreate extends RealmsCommand
 		};
 		requiredArgs = 1;
 		this.name = "";
-		this.settleType = SettleType.SETTLE_NONE;
+		this.settleType = SettleType.NONE;
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public class CmdSettleCreate extends RealmsCommand
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
 	    {
 	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
-	    	if (settleType != SettleType.SETTLE_NONE)
+	    	if (settleType != SettleType.NONE)
 	    	{
 	    		return sRegion.getName();
 	    	}
@@ -251,7 +251,7 @@ public class CmdSettleCreate extends RealmsCommand
 			}
 			// pruefe settleType der SuperRegion und setze den internen wert
 			this.settleType = plugin.getConfigData().superRegionToSettleType((plugin.stronghold.getRegionManager().getSuperRegion(name).getType()));
-			if (settleType == SettleType.SETTLE_NONE)
+			if (settleType == SettleType.NONE)
 			{
 				return false;
 			}

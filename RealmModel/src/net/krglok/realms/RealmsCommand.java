@@ -187,7 +187,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 				}
 			}
 			SettleType settleType = plugin.getConfigData().superRegionToSettleType((plugin.stronghold.getRegionManager().getSuperRegion(name).getType()));
-			if (settleType == SettleType.SETTLE_NONE)
+			if (settleType == SettleType.NONE)
 			{
 				return false;
 			}

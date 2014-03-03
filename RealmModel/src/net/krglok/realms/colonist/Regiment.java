@@ -16,6 +16,6 @@ public class Regiment extends Settlement
 	
 	public Regiment(String owner, LocationData position,  String name)
 	{
-		super(owner, position, SettleType.SETTLE_NONE, name, null);
+		super(owner, position, SettleType.NONE, name, null);
 	}
 }

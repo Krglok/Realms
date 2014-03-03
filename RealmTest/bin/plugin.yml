@@ -10,7 +10,7 @@ depend: [HeroStronghold,Vault]
 commands:
     realms:
         description: Basic command only show version and commandlist
-        usage: " /realms only for ops to control model and setup
+        usage: "/realms only for ops to control model and setup
  /owner only for ops for managing owners 
  /kingdom player command for realm management
  /settle player command for settlement management

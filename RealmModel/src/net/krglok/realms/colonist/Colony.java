@@ -104,9 +104,13 @@ public class Colony
 	private int prepareCol;
 	private int prepareRadius;
 	private int prepareOffset;
+	private int prepareMaxLevel;
+	
 	
 	private Biome biome;
 	private ArrayList<BiomeLocation> biomeRequest;
+	
+	private int timeout;
 	
 	public Colony (String name, LocationData position, String owner)
 	{
@@ -128,7 +132,7 @@ public class Colony
 		this.netherSchema = SettleSchema.initHellHamlet();
 		this.markUpStep = 0;
 		this.buildPosIndex = 0;
-		this.newSuperRegion = new RegionLocation("Siedlung", position, owner, name);
+		this.newSuperRegion = new RegionLocation("HAMLET", position, owner, name);
 		this.superRequest = null;
 		this.isPrepared = false;
 		this.prepareLevel = 41;
@@ -136,8 +140,10 @@ public class Colony
 		this.prepareCol = 0;
 		this.prepareRadius= 21;
 		this.prepareOffset= 0;
+		this.prepareMaxLevel = 21;
 		this.biome = null;
 		this.biomeRequest = new ArrayList<BiomeLocation>();
+		this.timeout = 0;
 		
 	}
 
@@ -305,7 +311,7 @@ public class Colony
 				if (this.prepareCol < edge)
 				{
 					LocationData l = new LocationData(position.getWorld(), position.getX(), position.getY(),position.getZ());
-					l.setX(l.getX()-radius); 
+					l.setX(l.getX()-radius+1); 
 					l.setY(l.getY()); 
 					l.setZ(l.getZ()-radius);
 
@@ -351,6 +357,7 @@ public class Colony
 				this.prepareLevel = prepareOffset;
 				this.prepareRow = 0;
 				this.prepareCol = 0;
+				this.prepareMaxLevel = 21;
 				this.cStatus = ColonyStatus.PREPARE;
 				System.out.println(id+" Prepare  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 
@@ -362,7 +369,7 @@ public class Colony
 		case PREPARE:
 			doPrepareArea();
 			
-			if ((prepareLevel > prepareRadius) && (buildManager.getCleanRequest().isEmpty()))
+			if ((prepareLevel > prepareMaxLevel) && (buildManager.getCleanRequest().isEmpty()))
 			{
 				isPrepared = true;
 			}
@@ -458,7 +465,7 @@ public class Colony
 			if (superRequest == null)
 			{
 				System.out.println(id+" Create Settlement  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-				McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.SETTLE_HAMLET,biome);
+				McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.HAMLET,biome);
 				rModel.OnCommand(msCreate);
 				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
 				this.cStatus = ColonyStatus.REINFORCE;
@@ -468,12 +475,13 @@ public class Colony
 				this.prepareRow = 0;
 				this.prepareCol = 0;
 				this.prepareRadius = 4;
+				this.prepareMaxLevel = 7;
 				System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 			}
 			break;
 		case REINFORCE:
 			doPrepareArea();
-			if ((prepareLevel > prepareRadius) && (buildManager.getCleanRequest().isEmpty()))
+			if ((prepareLevel > prepareMaxLevel) && (buildManager.getCleanRequest().isEmpty()))
 			{
 				isPrepared = true;
 			}
@@ -481,6 +489,7 @@ public class Colony
 			{
 				this.cStatus = ColonyStatus.DONE;
 				System.out.println("Colonist Reinforce ended normally");
+				timeout = 0;
 			}
 			break;
 		case DONE:			// der Builder beendet den Auftrag.
@@ -496,6 +505,12 @@ public class Colony
 			} else
 			{
 				System.out.println("Wait for Create Settlement");
+				timeout++;
+				if (timeout > 100)
+				{
+					this.cStatus = ColonyStatus.FULFILL;
+					System.out.println("Colonist ended abnormal ");
+				}
 			}
 			break;
 		case WAIT:			// der Builder wartet auf Material
@@ -613,6 +628,16 @@ public class Colony
 	public String getStatus()
 	{
 		return cStatus.name();
+	}
+
+	public SettleSchema getSettleSchema()
+	{
+		return settleSchema;
+	}
+
+	public void setSettleSchema(SettleSchema settleSchema)
+	{
+		this.settleSchema = settleSchema;
 	}
 
 	public RegionLocation getSuperRequest()

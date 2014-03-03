@@ -212,12 +212,12 @@ public class ConfigTest implements ConfigInterface
 	 */
 	public void initSuperSettleTypes()
 	{
-		superSettleTypes.put("Mine", SettleType.SETTLE_HAMLET.name());
-		superSettleTypes.put("Burg", SettleType.SETTLE_CASTLE.name());
-		superSettleTypes.put("Siedlung", SettleType.SETTLE_HAMLET.name());
-		superSettleTypes.put("Dorf", SettleType.SETTLE_TOWN.name());
-		superSettleTypes.put("Stadt", SettleType.SETTLE_CITY.name());
-		superSettleTypes.put("Metropole", SettleType.SETTLE_METRO.name());
+		superSettleTypes.put("Mine", SettleType.HAMLET.name());
+		superSettleTypes.put("Burg", SettleType.CASTLE.name());
+		superSettleTypes.put("Siedlung", SettleType.HAMLET.name());
+		superSettleTypes.put("Dorf", SettleType.TOWN.name());
+		superSettleTypes.put("Stadt", SettleType.CITY.name());
+		superSettleTypes.put("Metropole", SettleType.METROPOLIS.name());
 	}
 
 	/**

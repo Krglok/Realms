@@ -423,6 +423,7 @@ public class RealmModel
 			tradeTransport.runTick();
 			tradeMarket.runTick();
 			// Builder
+			colonyManagersRun();
 			managersRun();
 			colonyRun();
 			switch (modelStatus)
@@ -503,16 +504,16 @@ public class RealmModel
 	/**
 	 * ruft den BuildManager jedes Settlement auf und laesst ihn eine Runde arbeiten
 	 */
-	private void buildManagersRun()
+	private void colonyManagersRun()
 	{
-		for (Settlement settle : settlements.getSettlements().values())
-		{
-//			if (settle.buildManager().getStatus().equalsIgnoreCase("None") == false)
-			{
-				settle.buildManager().run(this, settle.getWarehouse(),settle);
-			}
-
-		}
+//		for (Settlement settle : settlements.getSettlements().values())
+//		{
+////			if (settle.buildManager().getStatus().equalsIgnoreCase("None") == false)
+//			{
+//				settle.buildManager().run(this, settle.getWarehouse(),settle);
+//			}
+//
+//		}
 		
 		for (Colony colony : colonys.values())
 		{
@@ -540,7 +541,7 @@ public class RealmModel
 			settle.settleManager().run(this, settle);
 			settle.buildManager().run(this, settle.getWarehouse(),settle);
 			settle.tradeManager().run(this, settle);
-
+			
 		}
 		
 	}
@@ -554,15 +555,24 @@ public class RealmModel
 	
 	private ModelStatus nextCommandQueue()
 	{
+//		System.out.println("Before CommandQueue ");
 		if (commandQueue.isEmpty()) 
 		{
 			return ModelStatus.MODEL_ENABLED;
 		}
 		// do Command
+//		System.out.println("Before GetCommand ");
 		modelStatus = ModelStatus.MODEL_COMMAND;
 		iModelCommand command = commandQueue.get(0);
+		if (command == null)
+		{
+			System.out.println("Command NULL");
+			return modelStatus;
+		}
+//		System.out.println("Before Can Execute");
 		if (command.canExecute())
 		{
+//			System.out.println("Before Switch");
 			switch (command.command())
 			{
 			case NONE :
@@ -571,8 +581,14 @@ public class RealmModel
 			case MODELDISABLE:
 			case CREATECOLONY:
 			case BUILDCOLONY:
+			case CREATESETTLEMENT:
+			case DEPOSITWAREHOUSE:
+			case WITHDRAWWAREHOUSE:
+			case WITHDRAWBANK:
 				command.execute();
 				commandQueue.remove(command);
+				break;
+			default:
 				break;
 			}
 //			commandQueue.remove(command);

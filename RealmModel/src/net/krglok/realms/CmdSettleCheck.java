@@ -86,7 +86,7 @@ public class CmdSettleCheck extends RealmsCommand
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
 	    {
 	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
-	    	if (settleType != SettleType.SETTLE_NONE)
+	    	if (settleType != SettleType.NONE)
 	    	{
 	    		return sRegion.getName();
 	    	}
@@ -142,7 +142,7 @@ public class CmdSettleCheck extends RealmsCommand
 				if (d > 70)
 				{
 					sName = region.getType() ; //StrongholdTools.setStrleft(, 15);
-					if (SettleType.getSettleType(plugin.getConfigData().getSuperSettleTypes().get(sName)) != SettleType.SETTLE_NONE ) //plugin.getConfigData().getSuperSettleTypes().get(sName).equalsIgnoreCase(SettleType.SETTLE_NONE.name()))
+					if (SettleType.getSettleType(plugin.getConfigData().getSuperSettleTypes().get(sName)) != SettleType.NONE ) //plugin.getConfigData().getSuperSettleTypes().get(sName).equalsIgnoreCase(SettleType.SETTLE_NONE.name()))
 					{
 						sName = StrongholdTools.setStrleft(sName, 15);
 			    		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getName()+"  at : "+d);

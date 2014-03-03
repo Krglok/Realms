@@ -209,7 +209,7 @@ public class ModelCmdTest
 		someLoops(5, rModel);
 		
 		
-		McmdCreateSettle createSettle = new McmdCreateSettle(rModel, "Erebor", "NPC1", SettleType.SETTLE_HAMLET,Biome.PLAINS);
+		McmdCreateSettle createSettle = new McmdCreateSettle(rModel, "Erebor", "NPC1", SettleType.HAMLET,Biome.PLAINS);
 		rModel.OnCommand(createSettle);
 		someLoops(5, rModel);
 		

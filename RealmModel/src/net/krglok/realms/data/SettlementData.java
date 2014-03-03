@@ -31,11 +31,11 @@ public class SettlementData
 {
 
 //	private Realms plugin;
-	private File dataFolder; 
+	private String dataFolder; 
 //	private ItemList requiredProduction;
 //
 	
-	public SettlementData(File dataFolder)		//Realms plugin)
+	public SettlementData(String dataFolder)		//Realms plugin)
 	{
 //		this.plugin = plugin;
 		this.dataFolder = dataFolder;
@@ -61,8 +61,8 @@ public class SettlementData
 	            
 	            FileConfiguration config = new YamlConfiguration();
 	            config.load(settleFile);
-	            
 	            String base = getSettleKey(settle.getId());
+	            System.out.println("WRITE : "+dataFolder+":"+"settlement.yml");
 	            
 	            ConfigurationSection settleSec = config.createSection(base);
 	            config.set(MemorySection.createPath(settleSec, "id"), settle.getId());
@@ -163,6 +163,7 @@ public class SettlementData
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
+            System.out.println("READ : "+dataFolder+":"+"settlement.yml");
             if (config.isConfigurationSection(settleSec))
             {
 //                System.out.println(settleSec);
@@ -274,18 +275,27 @@ public class SettlementData
 		return settle;
 	}
 	
-	public ArrayList<String> readSettleList() 
+	public ArrayList<String> readSettleList(Realms plugin) 
 	{
+		String path = plugin.getDataFolder().getPath(); //+"\\buildplan";
+		if (plugin == null)
+		{
+			path = dataFolder;
+		} else
+		{
+			dataFolder = path;
+		}
         String settleSec = "SETTLEMENT"; // getSettleKey(settle.getId());
 		ArrayList<String> msg = new ArrayList<String>();
 		try
 		{
-            File settleFile = new File(dataFolder, "settlement.yml");
+            File settleFile = new File(path, "settlement.yml");
             if (!settleFile.exists()) 
             {
             	settleFile.createNewFile();
-    			System.out.println("NEW SettlementData: "+dataFolder.getName());
+    			System.out.println("NEW SettlementData: "+dataFolder);
             }
+            System.out.println("READLIST : "+dataFolder+":"+"settlement.yml");
             
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);

@@ -164,12 +164,12 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	 */
 	private void initSuperSettleTypes()
 	{
-		superSettleTypes.put("Mine", SettleType.SETTLE_HAMLET.name());
-		superSettleTypes.put("Burg", SettleType.SETTLE_CASTLE.name());
-		superSettleTypes.put("Siedlung", SettleType.SETTLE_HAMLET.name());
-		superSettleTypes.put("Dorf", SettleType.SETTLE_TOWN.name());
-		superSettleTypes.put("Stadt", SettleType.SETTLE_CITY.name());
-		superSettleTypes.put("Metropole", SettleType.SETTLE_METRO.name());
+		superSettleTypes.put("Mine", SettleType.HAMLET.name());
+		superSettleTypes.put("Burg", SettleType.CASTLE.name());
+		superSettleTypes.put("Siedlung", SettleType.HAMLET.name());
+		superSettleTypes.put("Dorf", SettleType.TOWN.name());
+		superSettleTypes.put("Stadt", SettleType.CITY.name());
+		superSettleTypes.put("Metropole", SettleType.METROPOLIS.name());
 	}
 
 	/**
@@ -330,9 +330,10 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	@Override
 	public BuildPlanType regionToBuildingType(String regionTypeName)
 	{
+		
 		if (BuildPlanType.getBuildPlanType(regionTypeName) != BuildPlanType.NONE)
 		{
-			BuildPlanType.getBuildPlanType(regionTypeName);
+			return BuildPlanType.getBuildPlanType(regionTypeName);
 		}
 		String name = regionBuildingTypes.get(regionTypeName);
 
@@ -348,6 +349,10 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	 */
 	public SettleType superRegionToSettleType(String superRegionTypeName)
 	{
+		if (SettleType.getSettleType(superRegionTypeName) != SettleType.NONE)
+		{
+			return SettleType.getSettleType(superRegionTypeName);
+		}
 		String name = superSettleTypes.get(superRegionTypeName);
 		return SettleType.getSettleType(name);
 	}

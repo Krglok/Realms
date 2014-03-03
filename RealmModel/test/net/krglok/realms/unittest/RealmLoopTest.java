@@ -70,7 +70,7 @@ public class RealmLoopTest
 		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(

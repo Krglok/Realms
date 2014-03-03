@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
@@ -25,8 +27,10 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * <pre>
@@ -80,9 +84,10 @@ public class ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClose(InventoryCloseEvent event)
     {
-    	Location pos = event.getPlayer().getLocation();
-    	
-    	event.getInventory();
+    	if (event.getPlayer() instanceof Player)
+    	{
+    		checkSettleChest(event);
+    	}
     }
     
     
@@ -92,6 +97,7 @@ public class ServerListener implements Listener
     	Block b = event.getClickedBlock();
     	if (b != null)
     	{
+        	ArrayList<String> msg = new ArrayList<String>();
 	    	if (b.getType() == Material.WALL_SIGN)
 	    	{
 	    		Sign sign = (Sign) b.getState();
@@ -108,6 +114,41 @@ public class ServerListener implements Listener
 	    			cmdRequiredBook(event);
 	    		}
 	    	}
+	    	if (b.getType() == Material.SIGN_POST)
+	    	{
+	    		Sign sign = (Sign) b.getState();
+	    		String l0 = sign.getLine(0);
+	    		String l1 = sign.getLine(1);
+	    		if (l0.contains("[BUILD]"))
+	    		{
+	    			System.out.println("SignPost");
+		    		if (l1 != "")
+		    		{
+		    			Location pos = b.getLocation();
+		    	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
+		    	    	{
+			    			System.out.println("Check");
+		    	    		checkAt(pos, l1, event.getPlayer(), msg);
+		    	    		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+		    	    		return;
+		    	    	} else
+		    	    	{
+			    			System.out.println("BuildAt");
+			    			if (buildAt( pos, l1, event.getPlayer(), msg))
+			    			{
+						    	msg.add(" ");
+						    	msg.add(" ");
+			    			} else
+			    			{
+						    	msg.add("Building NOT Build : "+l1);
+						    	msg.add(" ");
+			    			}
+			    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+			    			return;
+		    	    	}
+		    		}
+	    		}
+	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
 	    	{
 //    			event.getPlayer().sendMessage("You hold a Blazerod :");
@@ -115,6 +156,7 @@ public class ServerListener implements Listener
 	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
 	    	{
+    			System.out.println("BOOK");
 	    		cmdBuildBook(event);
 	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK_AND_QUILL)
@@ -177,7 +219,7 @@ public class ServerListener implements Listener
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
 	    {
 	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
-	    	if (settleType != SettleType.SETTLE_NONE)
+	    	if (settleType != SettleType.NONE)
 	    	{
 	    		return sRegion.getName();
 	    	}
@@ -185,6 +227,20 @@ public class ServerListener implements Listener
 		return "";
 	}
 
+	private String findRegionAtLocation(Realms plugin, Player player)
+	{
+		Location position = player.getLocation();
+	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
+	    {
+	    	BuildPlanType bType = plugin.getConfigData().regionToBuildingType(region.getType());
+	    	if (bType != BuildPlanType.NONE)
+	    	{
+	    		return bType.name();
+	    	}
+	    }
+		return "";
+	}
+	
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerPlayerEditBookEvent(PlayerEditBookEvent event)
     {
@@ -199,33 +255,46 @@ public class ServerListener implements Listener
     private void cmdBuildBook(PlayerInteractEvent event)
     {
     	Player player = event.getPlayer();
+    	ItemStack handItem = event.getPlayer().getItemInHand();
     	ArrayList<String> msg = new ArrayList<String>();
     	if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
     	{
-//    		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+    		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
     		{
 		    	Block target = ((PlayerInteractEvent) event).getClickedBlock();
 		    	Location pos = target.getLocation();
-				LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY()+1, pos.getZ()+1);
-				String sRegion = findSuperRegionAtLocation(plugin, player); 
-				Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-				if (settle != null)
+				if (handItem != null)
 				{
-					ItemStack book = event.getPlayer().getItemInHand();
-		//			final BookMeta bm = (BookMeta) book.getItemMeta();
-		//			if (bm.getTitle().equalsIgnoreCase("[WHEAT]"))
-					if (book.getItemMeta().getDisplayName().equalsIgnoreCase("[WHEAT]"))
+					ItemMeta meta = handItem.getItemMeta();
+					if (meta != null)
 					{
-						BuildPlanType bType = BuildPlanType.WHEAT;
-						McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settle.getId(), bType, iLoc,player);
-						plugin.getRealmModel().OnCommand(modelCommand);
-				    	msg.add("BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
+		    			System.out.println("CheckMeta");
+						if (meta.getDisplayName() == "[WHEAT]")
+						{
+							if (buildAt(pos, "WHEAT", player, msg))
+							{
+						    	msg.add(":"+meta.getDisplayName()+":");
+								
+							} else
+							{
+						    	msg.add("Not Build  WHEAT !");
+						    	msg.add(":"+meta.getDisplayName()+":");
+							}
+						} else
+						{
+					    	msg.add("Not a BuildPlan name WHEAT!");
+					    	msg.add(":"+meta.getDisplayName()+":");
+						}
+					} else
+					{
+				    	msg.add("No Meta in Hand !");
 				    	msg.add(" ");
 					}
+						
 				} else
 				{
-					msg.add("No settlement found at this position !!");
-					msg.add("Build process is canceled!");
+			    	msg.add("No Item in Hand !");
+			    	msg.add(" ");
 				}
     		}
     	} else
@@ -234,6 +303,166 @@ public class ServerListener implements Listener
 			msg.add("Try later again");
     	}
 		plugin.getMessageData().printPage(player, msg, 1);
-}
+    }
+    
+    private boolean buildAt(Location pos, String name, Player player, ArrayList<String> msg)
+    {
+		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY()+1, pos.getZ()+1);
+		String sRegion = findSuperRegionAtLocation(plugin, player); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle != null)
+		{
+			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
+			{
+				if (checkBuild(pos, name, player, msg))
+				{
+					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
+					McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settle.getId(), bType, iLoc,player);
+					plugin.getRealmModel().OnCommand(modelCommand);
+			    	msg.add("BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
+			    	msg.add(" ");
+			    	return true;
+				} else
+				{
+			    	msg.add("Some Material not available");
+			    	msg.add("Give Items to warehouse ! ");
+					return false;
+				}
+			} else
+			{
+		    	msg.add("No BuildPlan set in Line 1");
+		    	msg.add(" ");
+		    	return false;
+			}
+		} else
+		{
+	    	msg.add("Not in Range of a Settlement ");
+	    	msg.add(" ");
+	    	return false;
+		}
+    }
+    
+    private boolean checkBuild(Location pos, String name, Player player, ArrayList<String> msg)
+    {
+		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY()+1, pos.getZ()+1);
+		String sRegion = findSuperRegionAtLocation(plugin, player); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		ItemList needMat = new ItemList();
+		if (settle != null)
+		{
+			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
+			{
+				BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
+				needMat = settle.settleManager().checkBuildingMaterials(plugin.getRealmModel(), settle, bType);
+				if (needMat.isEmpty())
+				{
+					return true;
+				} else
+				{
+					for (Item item : needMat.values())
+					{
+						msg.add(item.ItemRef()+":"+item.value());
+					}
+			    	return false;
+				}
+			} else
+			{
+		    	msg.add("No BuildPlan set in Line 1");
+		    	msg.add(" ");
+		    	return false;
+			}
+		} else
+		{
+	    	msg.add("Not in Range of a Settlement ");
+	    	msg.add(" ");
+	    	return false;
+		}
+    }
+
+    private boolean checkAt(Location pos, String name, Player player, ArrayList<String> msg)
+    {
+		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY()+1, pos.getZ()+1);
+		String sRegion = findSuperRegionAtLocation(plugin, player); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle != null)
+		{
+			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
+			{
+				if (checkBuild(pos, name, player, msg))
+				{
+					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
+			    	msg.add("Ready to BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
+			    	msg.add(" ");
+			    	return true;
+				} else
+				{
+			    	msg.add("Some Material not available");
+			    	msg.add("Give Items to warehouse ! ");
+					return false;
+				}
+			} else
+			{
+		    	msg.add("No BuildPlan set in Line 1");
+		    	msg.add(" ");
+		    	return false;
+			}
+		} else
+		{
+	    	msg.add("Not in Range of a Settlement ");
+	    	msg.add(" ");
+	    	return false;
+		}
+    }
+
+    private void  checkSettleChest(InventoryCloseEvent event)
+    {
+    	Player player = (Player) event.getPlayer();
+		Location pos = event.getPlayer().getLocation();
+		Inventory inventory = event.getInventory();
+		String sRegion = findSuperRegionAtLocation(plugin, player); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		ItemList needMat = new ItemList();
+		if (settle != null)
+		{
+			String region = findRegionAtLocation(plugin, player);
+			if (region.equalsIgnoreCase(BuildPlanType.WAREHOUSE.name()))
+			{
+				System.out.println("You are in a WAREHOUSE closed a Chest");
+				if (inventory.getSize() > 0)
+				{
+					for (ItemStack itemStack :inventory.getContents())
+					{
+						settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
+					}
+					inventory.clear();
+				}
+			}
+			if (region.equalsIgnoreCase(BuildPlanType.HALL.name()))
+			{
+				System.out.println("You are in a HALL closed a Chest");
+				if (inventory.getSize() > 0)
+				{
+					for (ItemStack itemStack :inventory.getContents())
+					{
+						if (itemStack != null)
+						{
+							String name = itemStack.getType().name();
+							if (name.equalsIgnoreCase(Material.WATER_BUCKET.name()))
+							{
+								name = Material.WATER.name();
+							}
+							if (name.equalsIgnoreCase(Material.DIRT.name()))
+							{
+								name = Material.SOIL.name();
+							}
+							settle.getWarehouse().depositItemValue(name, itemStack.getAmount());
+							System.out.println("Warehouse : "+itemStack.getType().name()+":"+itemStack.getAmount());
+						}
+					}
+					inventory.clear();
+				}
+			}
+		}
+    }
     
 }

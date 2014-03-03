@@ -350,7 +350,7 @@ public class Resident
 			if (fertilityCounter >= FertilityCounter_Limit)
 			{
 				value = value + 1.0;
-				fertilityCounter = fertilityCounter - FertilityCounter_Limit;
+				fertilityCounter = 0.0; //fertilityCounter - FertilityCounter_Limit;
 			} else
 			{
 				if ((settlerMax-settlerCount) > 0)

@@ -1,6 +1,7 @@
 package net.krglok.realms.model;
 
 import net.krglok.realms.colonist.Colony;
+import net.krglok.realms.core.LocationData;
 
 public class McmdColonyBuild implements iModelCommand
 {
@@ -22,15 +23,14 @@ public class McmdColonyBuild implements iModelCommand
 	@Override
 	public ModelCommandType command()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("BUILDCOLONY");
+		return ModelCommandType.BUILDCOLONY;
 	}
 
 	@Override
 	public String[] getParaTypes()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return  new String [] { RealmModel.class.getName(), Integer.class.getName(), Boolean.class.getName() };
 	}
 
 	@Override

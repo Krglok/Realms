@@ -269,11 +269,11 @@ public class SettlementDataTest
 		ItemPriceList priceList = readPriceData();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
         File DataFile = new File(path, "Realms");
-		SettlementData sData = new SettlementData(DataFile);
+		SettlementData sData = new SettlementData(path);
 		SettlementList settleList = new SettlementList(0);
 
 		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = sData.readSettleList();
+		ArrayList<String> sList = sData.readSettleList(null);
 		for (String sName : sList)
 		{
 			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList()));

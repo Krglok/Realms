@@ -8,12 +8,12 @@ package net.krglok.realms.core;
  */
 public enum SettleType
 {
-	SETTLE_NONE (0),
-	SETTLE_HAMLET (10),
-	SETTLE_TOWN (100),
-	SETTLE_CITY (200),
-	SETTLE_CASTLE (250),
-	SETTLE_METRO (300)
+	NONE (0),
+	HAMLET (10),
+	TOWN (100),
+	CITY (200),
+	CASTLE (250),
+	METROPOLIS (300)
 	;
 	
 	private final int value;
@@ -38,7 +38,7 @@ public enum SettleType
 			}
 		}
 		
-		return SettleType.SETTLE_NONE;
+		return SettleType.NONE;
 		
 	}
 

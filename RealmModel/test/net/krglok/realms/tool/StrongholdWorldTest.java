@@ -303,7 +303,7 @@ public class StrongholdWorldTest
         showCreationAnalysis(
         		tempList, 
         		"NewHaven", 
-        		SettleType.SETTLE_CITY,
+        		SettleType.CITY,
     			sList, 
     			worldName, 
     			loc

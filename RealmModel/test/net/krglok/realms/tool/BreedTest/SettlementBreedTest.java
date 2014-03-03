@@ -192,7 +192,8 @@ public class SettlementBreedTest
 	}
 	
 	/**
-	 * make a normal Breed for ALL Settlements 
+	 * make a normal Breed for ALL Settlements
+	 * call OnTick 
 	 * @param days
 	 */
 	public void doBreeding()
@@ -204,10 +205,6 @@ public class SettlementBreedTest
 				rModel.OnProduction();
 
 			}
-//			if ((settle.getAge() % 360) == 0)
-//			{
-//			    rModel.OnTax();	
-//			}
 	}
 	
 	/**

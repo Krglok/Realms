@@ -75,7 +75,7 @@ public class DataTest implements DataInterface
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		File dataFolder = new File(path);
-		settleData = new SettlementData(dataFolder);
+		settleData = new SettlementData(path);
 		initTestData();
 	}
 
@@ -143,10 +143,10 @@ public class DataTest implements DataInterface
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
         File DataFile = new File(path, "Realms");
         SettlementList settlements = new SettlementList(1);
-		SettlementData sData = new SettlementData(DataFile);
+		SettlementData sData = new SettlementData(path);
 		
 //		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = sData.readSettleList();
+		ArrayList<String> sList = sData.readSettleList(null);
 		settlements.getSettlements().clear();
 		for (String sName : sList)
 		{
@@ -171,7 +171,7 @@ public class DataTest implements DataInterface
 		resident.setSettlerCount(13);
 		Settlement settle =  new Settlement(
 				id, 
-				SettleType.SETTLE_HAMLET, 
+				SettleType.HAMLET, 
 				"TestSiedlung", 
 				position, 
 				owner.getPlayerName(),
@@ -591,7 +591,7 @@ public class DataTest implements DataInterface
 	public HashMap<String,String> defaultSuperregionList()
 	{
 		HashMap<String,String> regionTypes = new HashMap<String,String>();
-		regionTypes.put("NewHaven",SettleType.SETTLE_HAMLET.name());
+		regionTypes.put("NewHaven",SettleType.HAMLET.name());
 				
 		//this.strongholdAPI.getRegionAtPotion(pos, testData);
 		return regionTypes;

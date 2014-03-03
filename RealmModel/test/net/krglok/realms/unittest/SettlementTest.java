@@ -79,7 +79,7 @@ public class SettlementTest
 		int id = 99;
 		String name 		= "Test Para Hamlet";
 		Boolean isCapital 	= true;
-		SettleType settletype = SettleType.SETTLE_HAMLET;
+		SettleType settletype = SettleType.HAMLET;
 		Barrack barrack 	= new Barrack(10);
 		Warehouse warehouse = new Warehouse(1000);
 		BuildingList buildingList = new BuildingList();
@@ -113,7 +113,7 @@ public class SettlementTest
 		HashMap<String,String> regionTypes = testData.defaultRegionList();
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -164,7 +164,7 @@ public class SettlementTest
 		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -217,7 +217,7 @@ public class SettlementTest
 		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -305,7 +305,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -455,7 +455,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -556,7 +556,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -624,7 +624,7 @@ public class SettlementTest
 		regionTypes.put("69","WAREHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -710,7 +710,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -778,7 +778,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -873,7 +873,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -972,7 +972,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
@@ -1105,7 +1105,7 @@ public class SettlementTest
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(

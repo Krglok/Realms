@@ -210,18 +210,10 @@ public class Warehouse
 		ItemList resultList = new ItemList();
 		for (Item search : searchList.values())
 		{
-			for (Item item :  this.getItemList().values())
+//			System.out.println("SearchInList "+search.ItemRef());
+			if (itemList.getValue(search.ItemRef()) < search.value())
 			{
-				if (search.ItemRef().equalsIgnoreCase(item.ItemRef()))
-				{
-					if (search.value() > item.value())
-					{
-						resultList.addItem(new Item(item.ItemRef(), search.value()) );
-					}
-				} else
-				{
-					resultList.addItem(new Item(item.ItemRef(), search.value()) );
-				}
+				resultList.addItem(new Item(search.ItemRef(), search.value()) );
 			}
 		}
 		

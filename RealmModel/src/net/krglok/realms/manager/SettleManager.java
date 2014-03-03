@@ -435,14 +435,7 @@ public class SettleManager
 		{
 			buyList.clear();
 			BuildPlanType bType = cmdBuilder.get(0).getbType();
-			BuildPlanMap buildPLan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
-			ItemList buildMat = BuildManager.makeMaterialList(buildPLan);
-			buyList = settle.getWarehouse().searchItemsNotInWarehouse(buildMat);
-			for (Item item : buildMat.values())
-			{
-				buyList.putItem(item.ItemRef(), item.value());
-			}
-			buildMat = rModel.getServer().getRegionReagents(bType.name());
+			buyList = checkBuildingMaterials( rModel,  settle,  bType);
 			if (buyList.isEmpty())
 			{
 				return true;
@@ -454,6 +447,23 @@ public class SettleManager
 		
 		return false;
 	}
+	
+	public ItemList checkBuildingMaterials(RealmModel rModel, Settlement settle, BuildPlanType bType)
+	{
+		ItemList needMat = new ItemList();
+		ItemList needReagents = new ItemList();
+		BuildPlanMap buildPLan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
+		ItemList buildMat = BuildManager.makeMaterialList(buildPLan);
+		needMat = settle.getWarehouse().searchItemsNotInWarehouse(buildMat);
+		buildMat = rModel.getServer().getRegionReagents(bType.name());
+		needReagents = settle.getWarehouse().searchItemsNotInWarehouse(buildMat);
+		for (Item item : needReagents.values())
+		{
+			needMat.putItem(item.ItemRef(), item.value());
+		}
+		return needMat;
+	}
+	
 
 	private void buyBuildMaterials(RealmModel rModel, Settlement settle)
 	{

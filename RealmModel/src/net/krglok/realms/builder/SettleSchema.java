@@ -39,7 +39,7 @@ public class SettleSchema
 	 */
 	public static SettleSchema initDefaultHamlet()
 	{
-		SettleSchema schema = new SettleSchema(SettleType.SETTLE_HAMLET, 40);
+		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40);
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HALL, new LocationData("", -10.0, 0.0, -10.0)));
 		
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("", -7.0, 0.0, 7.0)));
@@ -57,7 +57,7 @@ public class SettleSchema
 	
 	public static SettleSchema initBasicHamlet()
 	{
-		SettleSchema schema = new SettleSchema(SettleType.SETTLE_HAMLET, 40);
+		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40);
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.SHEPHERD,     new LocationData("", 16.0, 0.0, 16.0)));
 		
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.CARPENTER,    new LocationData("", -25.0, 0.0, 7.0)));
@@ -79,7 +79,7 @@ public class SettleSchema
 	 */
 	public static SettleSchema initHellHamlet()
 	{
-		SettleSchema schema = new SettleSchema(SettleType.SETTLE_HAMLET, 40);
+		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40);
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HALL, new LocationData("", -10.0, 0.0, -10.0)));
 		
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("", -7.0, 0.0, 7.0)));

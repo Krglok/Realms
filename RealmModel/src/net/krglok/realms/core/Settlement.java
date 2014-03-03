@@ -45,7 +45,7 @@ public class Settlement //implements Serializable
 	private static int COUNTER;
 	
 	private int id;
-	private SettleType settleType = SettleType.SETTLE_NONE;
+	private SettleType settleType = SettleType.NONE;
 	private LocationData position;
 	private String name;
 	private String owner;
@@ -93,7 +93,7 @@ public class Settlement //implements Serializable
 		COUNTER++;
 		id			= COUNTER;
 		age         = 0;
-		settleType 	= SettleType.SETTLE_NONE;
+		settleType 	= SettleType.NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
@@ -126,7 +126,7 @@ public class Settlement //implements Serializable
 		COUNTER++;
 		id			= COUNTER;
 		age         = 0;
-		settleType 	= SettleType.SETTLE_NONE;
+		settleType 	= SettleType.NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
@@ -166,7 +166,7 @@ public class Settlement //implements Serializable
 		COUNTER++;
 		id			= COUNTER;
 		age         = 0;
-		settleType 	= SettleType.SETTLE_NONE;
+		settleType 	= SettleType.NONE;
 		name		= NEW_SETTLEMENT;
 		this.position 	= position;
 		this.owner = owner;
@@ -335,11 +335,11 @@ public class Settlement //implements Serializable
 	{
 		switch (settleType)
 		{
-		case SETTLE_HAMLET : return 10 * ConfigBasis.CHEST_STORE;
-		case SETTLE_TOWN   : return 10 * ConfigBasis.CHEST_STORE;
-		case SETTLE_CITY   : return 4 * ConfigBasis.CHEST_STORE;
-		case SETTLE_METRO  : return 4 * ConfigBasis.CHEST_STORE;
-		case SETTLE_CASTLE : return 4 * ConfigBasis.CHEST_STORE;
+		case HAMLET : return 10 * ConfigBasis.CHEST_STORE;
+		case TOWN   : return 10 * ConfigBasis.CHEST_STORE;
+		case CITY   : return 4 * ConfigBasis.CHEST_STORE;
+		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
+		case CASTLE : return 4 * ConfigBasis.CHEST_STORE;
 		default :
 			return 0;
 		}
@@ -354,11 +354,11 @@ public class Settlement //implements Serializable
 	{
 		switch (settleType)
 		{
-		case SETTLE_HAMLET : return 1 * ConfigBasis.HALL_Settler;
-		case SETTLE_TOWN   : return 1 * ConfigBasis.HALL_Settler*2;
-		case SETTLE_CITY   : return 2 * ConfigBasis.HALL_Settler*3;
-		case SETTLE_METRO  : return 4 * ConfigBasis.HALL_Settler*4;
-		case SETTLE_CASTLE : return 4 * ConfigBasis.HALL_Settler;
+		case HAMLET : return 1 * ConfigBasis.HALL_Settler;
+		case TOWN   : return 1 * ConfigBasis.HALL_Settler*2;
+		case CITY   : return 2 * ConfigBasis.HALL_Settler*3;
+		case METROPOLIS  : return 4 * ConfigBasis.HALL_Settler*4;
+		case CASTLE : return 4 * ConfigBasis.HALL_Settler;
 		default :
 			return 0;
 		}
@@ -768,7 +768,7 @@ public class Settlement //implements Serializable
 											HashMap<String,String> regionBuildings,
 											Biome biome)
 	{
-		if (settleType != SettleType.SETTLE_NONE)
+		if (settleType != SettleType.NONE)
 		{
 			Settlement settlement = new Settlement(owner,position, settleType, settleName,biome);
 //			BuildingList buildingList = new BuildingList();

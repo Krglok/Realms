@@ -4,17 +4,15 @@ effects:
 - denyblockbuild.1
 - denyblockbreak.1
 - denyplayerinteract.1
-- periodicupkeep.1
 - denyfriendlyfire.1
-radius: 4
+radius: 2
 requirements:
-- WOODEN_DOOR.1
-- WALL_SIGN.1
-- WOOL.16
-reagents:
-- GOLD_NUGGET.1
-upkeep: []
+- COBBLESTONE.2
+- TORCH.1
+reagents: []
+upkeep:
+- CARROT.2
 upkeep-chance: 0.001
 output: []
-money-requirement: 100.0
-upkeep-money-output: 1.0
+money-requirement: 50.0
+upkeep-money-output: 0.0

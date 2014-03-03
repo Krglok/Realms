@@ -21,7 +21,7 @@ public class ConfigBasis implements ConfigInterface
 	protected static final String PLUGIN_NAME = "Realms";
 	protected static String PLUGIN_VER = "0.2.0";
 
-	public final static long dayNight = 2400; //0 ; // serverTicks 
+	public final static long dayNight = 24000; //2400 for test ; // serverTicks 
 	public final static long RealmTick = 20L; 
 	public final static long DelayTick = 20L; 
 	public static long GameDay = ConfigBasis.dayNight / ConfigBasis.RealmTick; // 40; //

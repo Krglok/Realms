@@ -9,24 +9,21 @@ effects:
 - denymobspawn
 radius: 100
 requirements:
-- HOUSE.5
 - TOWNHALL.1
-- markt.1
-- taverne.1
-- stadtwache.1
-central-structure: rathaus
-money-requirement: 470000.0
+- HOME.2
+- HOUSE.3
+- WAREHOUSE.1
+- TAVERNE.1
+- GUARDHOUSE.1
+- WHEAT.6
+- BAKERY.1
+central-structure: TOWNHALL
+money-requirement: 450000.0
 money-output-daily: -15.0
 max-power: 10000
 daily-power-increase: 150
 charter: 4
 child-regions:
-- siedlung
-- dorf
-- ward
-- burg
-- werkstatt
-- soeldnergilde
-- claim
-- stadtviertel
+- Hamlet
+- Town
 exp: 10000

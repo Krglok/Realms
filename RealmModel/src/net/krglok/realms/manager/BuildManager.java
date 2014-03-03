@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlan;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
@@ -73,6 +74,7 @@ public class BuildManager
 	private ArrayList<RegionLocation> regionRequest;
 	private ArrayList<ItemListLocation> chestSetRequest;
 
+	private int timeout;
 
 	public BuildManager()
 	{
@@ -409,19 +411,23 @@ public class BuildManager
 		// region erzeugen 
 		if (buildRequest.isEmpty() )
 		{
-			String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
-			if (regionType != "")
+			if (buildPlan.getBuildingType() != BuildPlanType.PILLAR)
 			{
-				LocationData position = new LocationData(
-						buildLocation.getWorld(), 
-						buildLocation.getX(), 
-						buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
-						buildLocation.getZ()-1
-						);
-				String owner = "";
-				regionRequest.add(new RegionLocation(regionType, position, owner,""));
+				String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
+				if (regionType != "")
+				{
+					LocationData position = new LocationData(
+							buildLocation.getWorld(), 
+							buildLocation.getX(), 
+							buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
+							buildLocation.getZ()-1
+							);
+					String owner = "";
+					regionRequest.add(new RegionLocation(regionType, position, owner,""));
+				}
 			}
 			bStatus = BuildStatus.DONE;
+			timeout = 0;
 		}  else
 		{
 			System.out.println("Wait on Build ready");
@@ -436,23 +442,27 @@ public class BuildManager
 		String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
 		if (regionRequest.isEmpty())
 		{
-			LocationData position = new LocationData(
-					buildLocation.getWorld(), 
-					buildLocation.getX(), 
-					buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
-					buildLocation.getZ()
-					);
-			ItemList reagents = rModel.getServer().getRegionReagents(regionType);
-			chestSetRequest.add(new ItemListLocation(reagents, position));
-			
-			if (settle != null)
+			if (buildPlan.getBuildingType() != BuildPlanType.PILLAR)
 			{
-				Building building = new Building(buildPlan.getBuildingType(), regionType, true);
-				if (settle.getBuildingList().addBuilding(building))
+				LocationData position = new LocationData(
+						buildLocation.getWorld(), 
+						buildLocation.getX(), 
+						buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
+						buildLocation.getZ()-1
+						);
+				System.out.println("Chest Pos X:"+position.getX()+" Y:"+position.getY()+position.getY()+" Z:"+position.getZ());
+				ItemList reagents = rModel.getServer().getRegionReagents(regionType);
+				chestSetRequest.add(new ItemListLocation(reagents, position));
+
+				if (settle != null)
 				{
-//					System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
+					Building building = new Building(buildPlan.getBuildingType(), regionType, true);
+					if (settle.getBuildingList().addBuilding(building))
+					{
+	//					System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
+					}
 				}
-			}
+			}			
 			
 //			System.out.println("doDone added : "+buildPlan.getBuildingType());
 //			buildLocation = null;
@@ -464,8 +474,13 @@ public class BuildManager
 //			System.out.println("FullFill : "+bStatus.name());
 		} else
 		{
-			System.out.println("Wait on Chest filled");
-			
+			System.out.println("Wait on regionRequest ready");
+			timeout++;
+			if (timeout > 100)
+			{
+				System.out.println("Timeout on regionRequest! aborded!");
+				bStatus = BuildStatus.NONE;
+			}
 		}
 	}
 	

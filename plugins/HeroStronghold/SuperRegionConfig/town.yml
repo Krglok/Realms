@@ -7,20 +7,20 @@ effects:
 - denyexplosionnoreagent
 radius: 70
 requirements:
-- haupthaus.1
-- markt.1
-- taverne.1
-- haus_einfach.3
-- bauern_haus.3
+- HALL.1
+- WAREHOUSE.1
+- TAVERNE.1
+- HOME.3
+- WHEAT.2
+- WOODCUTTER
+- QUARRY
+- FARMHOUSE.3
 central-structure: haupthaus
-money-requirement: 200000.0
+money-requirement: 150000.0
 money-output-daily: -10.0
 max-power: 1500
 daily-power-increase: 50
 charter: 2
 child-super-regions: 
-- Bauernhof
-- Werkstatt
-- Soeldnergilde
-- Claim
+- Town
 exp: 5000

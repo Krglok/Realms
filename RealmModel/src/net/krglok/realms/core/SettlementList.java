@@ -211,13 +211,13 @@ public class SettlementList
 		for (String  typeName: regionTypes.values())
 		{
 			SettleType sType = SettleType.getSettleType(typeName);
-			if ( sType != SettleType.SETTLE_NONE)
+			if ( sType != SettleType.NONE)
 			{
 				return sType;
 			}
 		}
 		
-		return SettleType.SETTLE_NONE;
+		return SettleType.NONE;
 	}
 	
 	/**
@@ -229,7 +229,7 @@ public class SettlementList
 	{
 		for (String keyName : superRegionTypes.keySet())
 		{
-			if (SettleType.getSettleType(superRegionTypes.get(keyName)) != SettleType.SETTLE_NONE)
+			if (SettleType.getSettleType(superRegionTypes.get(keyName)) != SettleType.NONE)
 			{
 				return keyName;
 			}
@@ -261,7 +261,7 @@ public class SettlementList
 	{
 		SettlementList settleList = new SettlementList(0);
 		SettleType settleType = getSuperRegionSettleType(superRegionTypes);
-		if (settleType != SettleType.SETTLE_NONE)
+		if (settleType != SettleType.NONE)
 		{
 			String settleName = getSettleName(superRegionTypes); 
 			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, owner, regionTypes, regionBuildings,biome);

@@ -407,7 +407,7 @@ public class SettleBreedingTest
 		regionTypes.put("90","QUARRY");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
-		SettleType settleType = SettleType.SETTLE_HAMLET;
+		SettleType settleType = SettleType.HAMLET;
 		String settleName = "Hochweg";
 		
 		Settlement settle =  

@@ -221,7 +221,7 @@ public final class Realms extends JavaPlugin
 	 */
 	public void setChest(World world, ItemListLocation iLoc)
 	{
-		Block b = world.getBlockAt((int)iLoc.position().getX()+1, (int)iLoc.position().getY(),(int) iLoc.position().getZ()+1);
+		Block b = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(),(int) iLoc.position().getZ());
 		if (b.getType() == Material.CHEST)
 		{
 			 Chest chest = (Chest) b.getState();
@@ -250,26 +250,28 @@ public final class Realms extends JavaPlugin
 	  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
 	  {
 		
-		  Block bs = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
-		  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
+		  Block bs = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()-1);
+		  if ((bs.getType() != Material.WALL_SIGN) && (bs.getType() != Material.SIGN_POST))
 		  {
-			  if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
+			  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
 			  {
-				  bs.setType(iLoc.itemRef());
-			  } else
-			  {
-				  if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+				  if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
 				  {
-					  bs.setType(Material.SIGN_POST);
+					  bs.setType(iLoc.itemRef());
+				  } else
+				  {
+					  if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+					  {
+						  bs.setType(Material.WALL_SIGN);
+					  }
 				  }
 			  }
-		  }
-		  if ((iLoc.itemRef() == Material.SIGN_POST))
-		  {
-			  bs.setType(Material.SIGN_POST);
+			  if ((iLoc.itemRef() == Material.SIGN_POST))
+			  {
+				  bs.setType(Material.SIGN_POST);
+			  }
 		  }
 			Sign sBlock =	((Sign) bs.getState());
-//			String[] signText = sBlock.getLines();
 			for (int i=0; i < 4; i++)
 			{
 				String text = signText[i];
@@ -317,16 +319,23 @@ public final class Realms extends JavaPlugin
 				b.setType(Material.CROPS);
 				
 				break;
+			case SIGN_POST:
 			case WALL_SIGN:
 				
 				Block bs = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
 				if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
 				{
-					bs.setType(iLoc.itemRef());
+					System.out.println("Set WallSign SOUTH");
+					bs.setType(Material.WALL_SIGN);
 				} else
 				{
 					if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
 					{
+						System.out.println("Set WallSign NORTH");
+						bs.setType(Material.WALL_SIGN);
+					} else
+					{
+						System.out.println("Set SignPost !");
 						bs.setType(Material.SIGN_POST);
 					}
 				}
