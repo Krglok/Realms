@@ -1,0 +1,36 @@
+//! Colonist build are only possible as Op !//
+
+The colonist is an automated Hamlet constructor. The basic commands for the colonist is :
+
+===== create a colonist  =====
+will create the colonist at the given position. Set a sign at the position with  a name and status [new].  The position of the colonist is the center of the new settlement. Consider that the settlement is a cube !  The position is the center point of the cube.
+
+//Hint :// with settle move , you can give a new position.
+
+**/colonist  create [name] [x] [y] [z]** , 
+
+===== list of colonist  =====
+list up the actual colonist in chat.
+
+**/colonist list**, 
+
+===== build a settlement  =====
+start the building of the Hamlet at given position. When you give clean = true, the inner part of the settlement will be cleaned from any block. all taken block given to the warehouse and later to the warehouse of the settlement.  The clean 
+
+
+**/colonist build [ID] [clean]** , 
+
+**ID**, the number of the colonist in the colonist list, this is the main reference
+
+**clean** , true = clean  a 21x21 block area to build the new settlement. false = do no clean.
+
+===== Move the colonist  =====
+
+the colonist will be moved to a new position. the old sign are deleted and a new sign will be set at the new postion.
+
+===== Warehouse of the colonist  =====
+show the items in the warehouse of the colonist. After creation complete all items transferred to the new Hamlet. Therefor clean of a area can be useful to get the resource of the settlement  area.
+
+**/colonist warehouse [ID]** , 
+
+

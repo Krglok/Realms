@@ -1,0 +1,57 @@
+=== Buildingtype ===
+The buildings are separated in groups with common attributes. The biggest group is production (200). This buildings make the products of the settlements.
+
+//notice : The recipe for creating a building and the recipe for production are in the regions of HeroStronghold defined !//
+
+//notice : in the future phases are new buildings will be defined. //
+
+BuildPlanTypes:
+
+===== Administration=====
+* COLONY (1),
+* PILLAR (2),
+* WALL (3),
+* LANE (4),
+* ROAD (5),
+* STEEPLE (6),
+* HALL (11),
+* WAREHOUSE (12),
+
+===== Housing =====
+*	HOME (100),
+*	HOUSE (110),
+*	MANSION (120),
+
+===== Production =====
+*	WHEAT(202),
+*	WOODCUTTER (203),
+*	QUARRY (204),
+*	SHEPHERD (205),
+*	CARPENTER (206),
+*	CABINETMAKER (207),
+*	FISHERHOOD (208),
+*	AXESHOP (209),
+*	PICKAXESHOP (210),
+*	HOESHOP (211),
+*	KNIFESHOP (212),
+*	SPADESHOP (213),
+*	BAKERY (216),
+*	CHARBURNER (217),
+*	COWSHED (218),
+*	CHICKENHOUSE (219),
+*	BRICKWORK (220),
+*	STONEMINE (221),
+*	SMELTER (222),
+*	WORKSHOP (223),
+*	FARM (224),
+*	PIGPEN (225),
+
+===== Housing and production =====
+* FARMHOUSE (215),
+* FARM (220)
+
+===== Trade =====
+*TRADER (401),
+===== Entertainment =====
+*TAVERNE(601),
+

@@ -1,0 +1,21 @@
+At some point the plugin use special Items or blocks to realize a function. There are no custom items are used only standard items with modified reaction to settlements.  
+
+//Remember: So the most interaction only work in a area of a settlement !  //
+
+===== Warehouse chest =====
+All chest in a HALL or WAREHOUSE building can be used to give items to the settlement. 
+
+On close all items from the will stored in the warehouse of the settlement and remove from the chest.
+
+**Operation : ** Open the chest , drop items in the chest , close the chest.
+
+===== Build with sign =====
+When you place a sign with [BUILD] in the first line and a legal name of a [[Buildings|buildplantype]] in the second line, you can instruct the manager to build at this position the building.
+
+**Operation 1 : **  on <right_click> and empty hand on the sign, the manager will start the build process.
+
+**Operation 2 : ** on <right_click> and and a Book in your hand , the manager will make a check for the required blocks in warehouse.  If some blocks not available he send a list to your chat.
+
+**//Hint : Be careful with the position, there is no overlapping check for regions and buildings  in the Beta version ! //**
+
+

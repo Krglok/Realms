@@ -1,0 +1,50 @@
+The concept based on the ideas of Dominion from Pico52 . I extended the building mechanics with the functions of HeroStronghold.
+
+The HeroStronghold plugin has an excellent building and configuration mechanic. The base idea is to get the regions and superregions into a administration tool, the settlements.  Some special regions and superregion configuration are necessary for work with the settlements. The production and supply balance based on the region upkeep and output recipes. The creation cost based on region requirements.
+
+The settlements do automatic production based on the installed buildings and the recipe describe in the regions of //HeroStronghold// . 
+
+The settlement should interact and make some trade based on differences in their production and requirements of supply. 
+
+The biome give the differences for production efficiency and make trade necessary. In the settlement is a trade manager installed who managing this task.
+ 
+
+=== Design objects and requirements ===
+* Owner Object , playername
+* Realm Object
+* Settlement Object
+* Units
+* Regiment for movable units
+* no protection system for areas or chunks
+* npc player are posible
+
+=== Realms ===
+Kingdom based on the feudalsystem 
+* King
+* Highlord
+* Lord
+* Knight
+* Settler
+
+=== Settlements ===
+Settlement realize the urban organization
+* Town-hall
+* Resident
+* Warehouse
+* Buildings
+* Production
+* Trader
+* Barrack with military units   
+  
+=== Units  ===
+Units represent the military and support entitys
+* settler
+* militia
+* scout
+* archer
+* light infantry
+* heavy infantry
+* knight
+* commander
+
+

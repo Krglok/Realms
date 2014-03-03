@@ -1,0 +1,96 @@
+== Realms ==
+
+Plugin for managing **//Realms//** and **//Settlements//**. Do NO protections on its own . 
+
+Establish some Buildings . Then create a Settlement .  Support the Settlers with money and Resources. The Settlement will grow and produce their supply. The settlers will love you.  Trade with other Settlements and make some money. 
+
+Build up some military units .Create more settlements and build up a kingdom. 
+
+**That's the way of Realms.**
+
+**This is a Beta Version !!**  At this time only documentation in German available sorry :(
+
+=== History ===
+
+Based on the ideas of Dominion from Pico52 i created this plugin.
+
+Based on experience with HeroStronghold.
+
+===Features===
+* Build settlements with regions and superregions from HeroStronghold
+* Area protection from HeroStronghold
+* Automatic build of buildings in settlements
+* Simple manager functionality (AI) for the settlements
+* Automatic trading of settlements for needed items
+* Automatic breeding of settlers , based on happiness of the residents
+* Automatic creation of settlements with settlers
+* in game mechanics for settlement control , written books, chests to put items in warehouse, signs control 
+* predefined buildings for production and managment
+* Players can support the settlement to give them money or items/blocks
+* Player [[commands|commands]] to control the settlements
+* The player can build there own buildings and create a region
+
+=== Basic functionality: ===
+* use HeroStronghold /hs help , /hs info, /hs create 
+* create a set of regions (1 x HALL, 2 x HOME, 2 x WHEAT, 1 x WOODCUTTER, 1 x QUARRY)
+* decorate it as you want, it must only fulfil the requirements of the regions
+* create a superregion of type HAMLET, give it a nice name. otherwise Herobrine will come and destroy all your work :)
+* create a SETTLEMENT for the superregion , name and buildings are automatically assume to the settlement
+* ready !
+* do the settle commands to control and expand the settlement
+* //Consider that you need more settlements to make some trade !//
+
+=== Commands ===
+There are help available ingame :
+* /realms HELP
+* /settle HELP
+* /colonist HELP
+
+see  [[Commands| Commands]]  for detail information
+
+=== Extended functionality ===
+* create a [[colonist|colonist]]
+* command the colonist to build  a Hamlet at the position 
+* set a sign in the settlement and command the manager to build the building on sign described
+* go to the HALL and put the needed items/blocks for the settlement in the chest
+* give some money to the bank of the settlement, so that the manger can trade 
+* create the buildings that are more effectively in the biome of the settlement.
+* automatic build in a settlement with predefined [[buildings|buildings]]
+
+**//!! Be careful colonists are not stored on server down and rebuild after server start !!//**
+
+**//!! The colonist will build at the given position without any limit what are there before build ! //**
+
+**//! Automatic build are only possible with an existing settlement !//**
+
+see  [[Buildings|Buildings ]] for more information
+
+if something don't function look first in [[FAQ|FAQ]]
+
+===Permissions ===
+The plugin has only a few permissions. The permissions are mostly not necessary because the commands check for the owner of a settlement.
+
+* **realms.admin**   give the admin commands without a op
+* **realms.use**  give a commands to normal users
+
+
+== Realization ==
+The realization are split into multiple phases
+====== Realized ======
+
+
+====== Work in progress ======
+* **Phase 1** , create Settlements, create buildings, do Trading, do production, do breeding of settlers
+
+====== Future Phase ======
+* Phase 2 , create units and do evolution on the settlement
+* Phase 3 , create a kingdom and rule the world, fighting your opponents
+* Phase 4 , strategic rules for NPC 
+
+see [[concept|Concept Page]]
+
+== Required Plugin ==
+* **HeroStronghold**
+* **Vault**
+* economy (Vault)
+
