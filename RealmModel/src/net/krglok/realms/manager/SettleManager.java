@@ -343,7 +343,7 @@ public class SettleManager
 			}
 			if (rModel.getConfig().getBuildMaterialItems().containsKey(itemRef))
 			{
-				return 64 - (64 * matFactor / 100) + sellLimit;
+				return 196 - (64 * matFactor / 100) + sellLimit;
 			}
 			if (rModel.getConfig().getOreItems().containsKey(itemRef))
 			{

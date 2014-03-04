@@ -146,7 +146,7 @@ public class Warehouse
 	{
 		if (getFreeCapacity() > (value/64))
 		{
-			if (itemMax >= (itemCount+value))
+			if ((getFreeCapacity()*64) >= (itemCount+value))
 			{
 				itemList.depositItem(itemRef, value);
 				itemCount = itemCount + value;

@@ -24,6 +24,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -157,7 +158,7 @@ public class ServerListener implements Listener
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
 	    	{
     			System.out.println("BOOK");
-	    		cmdBuildBook(event);
+//	    		cmdBuildBook(event);
 	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK_AND_QUILL)
 	    	{
@@ -291,10 +292,6 @@ public class ServerListener implements Listener
 				    	msg.add(" ");
 					}
 						
-				} else
-				{
-			    	msg.add("No Item in Hand !");
-			    	msg.add(" ");
 				}
     		}
     	} else
@@ -307,7 +304,7 @@ public class ServerListener implements Listener
     
     private boolean buildAt(Location pos, String name, Player player, ArrayList<String> msg)
     {
-		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY()+1, pos.getZ()+1);
+		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY(), pos.getZ()+1);
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		if (settle != null)
@@ -324,7 +321,7 @@ public class ServerListener implements Listener
 			    	return true;
 				} else
 				{
-			    	msg.add("Some Material not available");
+			    	msg.add("Some Material is not available");
 			    	msg.add("Give Items to warehouse ! ");
 					return false;
 				}
@@ -427,39 +424,45 @@ public class ServerListener implements Listener
 			String region = findRegionAtLocation(plugin, player);
 			if (region.equalsIgnoreCase(BuildPlanType.WAREHOUSE.name()))
 			{
-				System.out.println("You are in a WAREHOUSE closed a Chest");
-				if (inventory.getSize() > 0)
+				if (event.getView().getType() == InventoryType.CHEST)
 				{
-					for (ItemStack itemStack :inventory.getContents())
+					System.out.println("You are in a WAREHOUSE closed a Chest");
+					if (inventory.getSize() > 0)
 					{
-						settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
+						for (ItemStack itemStack :inventory.getContents())
+						{
+							settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
+						}
+						inventory.clear();
 					}
-					inventory.clear();
 				}
 			}
 			if (region.equalsIgnoreCase(BuildPlanType.HALL.name()))
 			{
-				System.out.println("You are in a HALL closed a Chest");
-				if (inventory.getSize() > 0)
+				if (event.getView().getType() == InventoryType.CHEST)
 				{
-					for (ItemStack itemStack :inventory.getContents())
+					System.out.println("You are in a HALL closed a Chest");
+					if (inventory.getSize() > 0)
 					{
-						if (itemStack != null)
+						for (ItemStack itemStack :inventory.getContents())
 						{
-							String name = itemStack.getType().name();
-							if (name.equalsIgnoreCase(Material.WATER_BUCKET.name()))
+							if (itemStack != null)
 							{
-								name = Material.WATER.name();
+								String name = itemStack.getType().name();
+								if (name.equalsIgnoreCase(Material.WATER_BUCKET.name()))
+								{
+									name = Material.WATER.name();
+								}
+								if (name.equalsIgnoreCase(Material.DIRT.name()))
+								{
+									name = Material.SOIL.name();
+								}
+								settle.getWarehouse().depositItemValue(name, itemStack.getAmount());
+								System.out.println("Warehouse : "+itemStack.getType().name()+":"+itemStack.getAmount());
 							}
-							if (name.equalsIgnoreCase(Material.DIRT.name()))
-							{
-								name = Material.SOIL.name();
-							}
-							settle.getWarehouse().depositItemValue(name, itemStack.getAmount());
-							System.out.println("Warehouse : "+itemStack.getType().name()+":"+itemStack.getAmount());
 						}
+						inventory.clear();
 					}
-					inventory.clear();
 				}
 			}
 		}

@@ -78,9 +78,10 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    if (settle != null)
 	    {
 			msg.add("Settlement ["+settle.getId()+"] : "+settle.getName());
-			msg.add(settle.getName()+" Warehouse  [ "+settle.getWarehouse().getItemList().size()+"/"+settle.getWarehouse().getItemList().getItemCount() +" ]");
+			msg.add(settle.getName()+" Warehouse  [ "+settle.getWarehouse().getUsedCapacity()+"/"+settle.getWarehouse().getFreeCapacity() +" ]");
 		    for (Item item : settle.getWarehouse().getItemList().values())
 		    {
+//		    	System.out.println(item.ItemRef()+":"+item.value());
 	    		msg.add(ConfigBasis.setStrleft(item.ItemRef(),15)+" : "+ChatColor.YELLOW+item.value());
 		    }
 	    }

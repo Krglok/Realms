@@ -1,7 +1,5 @@
-location: SteamHaven:160.60704032213533:66:469.30000001192093
-type: haus_einfach
+location: Draskoriascraft:475.0:82:751.0
+type: HOME
 owners:
-- dradmin
-- Balathrus
-members:
-- dradmin
+- ''
+members: []

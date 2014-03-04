@@ -12,7 +12,7 @@ package net.krglok.realms.core;
 public class Item 
 {
    private String sRef;
-   private int iValue;
+   private Integer iValue;
    
    public Item()
    {
@@ -32,8 +32,9 @@ public class Item
 	   return sRef;
    }
    
-   public int value()
+   public Integer value()
    {
+//	   System.out.println(iValue);
 	   return iValue;
    }
    

@@ -1,7 +1,5 @@
-location: SteamHaven:166.4831729022477:66:483.69999998807907
-type: haus_einfach
+location: Draskoriascraft:498.0:82:760.0
+type: QUARRY
 owners:
-- dradmin
-- Balathrus
-members:
-- dradmin
+- ''
+members: []

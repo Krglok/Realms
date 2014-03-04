@@ -1,5 +1,6 @@
-location: DRASKORIA:-2474.4105939659903:81:44.74500469400681
-type: haus_einfach
+location: Draskoriascraft:-169.0:68:-488.0
+type: HALL
 owners:
-- Emrys_Moonchild
-members: []
+- ''
+members:
+- dradmin

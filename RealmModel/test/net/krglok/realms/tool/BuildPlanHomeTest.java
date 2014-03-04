@@ -45,7 +45,7 @@ public class BuildPlanHomeTest
 		case 13: return Material.RED_ROSE;
 		case 14: return Material.YELLOW_FLOWER;
 		case 16: return Material.SAPLING;
-		case 20: return Material.BED_BLOCK;
+		case 20: return Material.BED;
 		case 25: return Material.COBBLESTONE;
 		case 26: return Material.BEDROCK;
 		case 27: return Material.SAND;

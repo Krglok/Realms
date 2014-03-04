@@ -1,7 +1,5 @@
-location: SteamHaven:114.51956773591286:68:462.3558861279081
-type: haus_einfach
+location: Draskoriascraft:-237.0:65:578.0
+type: WOODCUTTER
 owners:
-- dradmin
-- Balathrus
-members:
-- dradmin
+- ''
+members: []

@@ -158,7 +158,7 @@ public class Colony
 	{
 		
 		Colony colony = new Colony ( name,  position,  owner);
-		colony.getWarehouse().depositItemValue(Material.BED_BLOCK.name(), 5);
+		colony.getWarehouse().depositItemValue(Material.BED.name(), 5);
 		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
 		colony.getWarehouse().depositItemValue(Material.LOG.name(), 250);
 		colony.getWarehouse().depositItemValue(Material.WHEAT.name(), 100);

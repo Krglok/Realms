@@ -319,6 +319,7 @@ public final class Realms extends JavaPlugin
 				b.setType(Material.CROPS);
 				
 				break;
+			case SIGN:
 			case SIGN_POST:
 			case WALL_SIGN:
 				
@@ -335,11 +336,26 @@ public final class Realms extends JavaPlugin
 						bs.setType(Material.WALL_SIGN);
 					} else
 					{
-						System.out.println("Set SignPost !");
-						bs.setType(Material.SIGN_POST);
+						if (bs.getRelative(BlockFace.EAST).getType() != Material.AIR)
+						{
+							System.out.println("Set WallSign EAST");
+							bs.setType(Material.WALL_SIGN);
+						} else
+						{
+							if (bs.getRelative(BlockFace.WEST).getType() != Material.AIR)
+							{
+								System.out.println("Set WallSign WEST");
+								bs.setType(Material.WALL_SIGN);
+							} else
+							{
+								System.out.println("Set SignPost !");
+								bs.setType(Material.SIGN_POST);
+							}
+						}
 					}
 				}
 				break;
+			case BED:
 			case BED_BLOCK:
 				System.out.println("Set Bed !");
 	            BlockState bedFoot = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).getState();
@@ -717,7 +733,7 @@ public final class Realms extends JavaPlugin
 		// Torch suchen
 		getTorchBlock( block, buildManager, Material .TORCH, Material.TORCH);
 		//Wallsign suchen
-		getWallBlock(block, buildManager, Material.WALL_SIGN, Material.WALL_SIGN);
+		getWallBlock(block, buildManager, Material.WALL_SIGN, Material.SIGN);
 		// leietern suchen
 		getWallBlock(block, buildManager, Material.LADDER, Material.LADDER);
     		
@@ -729,6 +745,7 @@ public final class Realms extends JavaPlugin
 			System.out.println("GetDoor !");
 			block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
 			block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
+			mat = block.getType();
 			break;
 		case CHEST :
 			Chest chest = (Chest) block.getState();
@@ -747,6 +764,7 @@ public final class Realms extends JavaPlugin
 					}
 				}
 				chest.getInventory().clear();
+				mat = block.getType();
 			} else
 			{				
 				DoubleChest dChest = (DoubleChest) block.getState();
@@ -766,17 +784,20 @@ public final class Realms extends JavaPlugin
 					}
 					chest.getInventory().clear();
 				}
+				mat = block.getType();
 			}
 			break;
 		case BED_BLOCK:
 			System.out.println("Get Bed !");
             block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
             block.getRelative(BlockFace.SOUTH).setType(Material.AIR);
+    		mat = Material.BED;
+    		block.setType(Material.AIR);
 			break;
 		default :
 			block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
+			mat = block.getType();
 		}
-		mat = block.getType();
 		block.setType(Material.AIR);
 //	    	System.out.println(block.getType().name()+"/"+mat.name());
 		return mat;

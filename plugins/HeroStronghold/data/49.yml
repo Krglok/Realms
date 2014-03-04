@@ -1,7 +1,5 @@
-location: SteamHaven:164.34571222770003:65:444.30000001192093
-type: haupthaus
+location: Draskoriascraft:498.0:82:751.0
+type: HOME
 owners:
-- dradmin
-- Balathrus
-members:
-- dradmin
+- ''
+members: []

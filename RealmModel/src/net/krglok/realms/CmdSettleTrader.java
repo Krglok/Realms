@@ -2,6 +2,7 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
@@ -91,12 +92,13 @@ public class CmdSettleTrader extends RealmsCommand
 							);
 				}
 				msg.add("SellOrder: ["+plugin.getRealmModel().getTradeMarket().getSettleOrders(settleID).size()+"/"+settle.getTrader().getOrderMax()+"]");
-				for (TradeOrder order : plugin.getRealmModel().getTradeMarket().getSettleOrders(settleID).values())
+				for (TradeMarketOrder order : plugin.getRealmModel().getTradeMarket().getSettleOrders(settleID).values())
 				{
-					msg.add("Sell : "+ChatColor.GREEN+order.getId()
-							+" "+ChatColor.YELLOW+order.ItemRef()
+					msg.add(""+ ConfigBasis.setStrright(String.valueOf(order.getId()),4)
+							+":"+ChatColor.GREEN+ ConfigBasis.setStrright(String.valueOf(order.getSettleID()),2)
+							+" "+ChatColor.YELLOW+ConfigBasis.setStrleft(order.ItemRef()+"___________",15)
 							+":"+ChatColor.YELLOW+order.value()
-							+":"+ChatColor.YELLOW+order.getBasePrice()
+//							+":"+ChatColor.YELLOW+order.getBasePrice()
 							+" ["+order.getStatus()+"]"
 							);
 				}

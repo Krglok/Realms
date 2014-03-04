@@ -1,5 +1,7 @@
-location: DRASKORIA:321.69999998807907:85:-1809.6568177495155
-type: haus_einfach
+location: Draskoriascraft:-270.0:81:-113.0
+type: HALL
 owners:
-- sebbra
-members: []
+- ''
+members:
+- dradmin
+- Krglok

@@ -1,7 +1,5 @@
-location: SteamHaven:152.30000001192093:66:489.3039398909727
-type: haus_einfach
+location: Draskoriascraft:489.0:82:760.0
+type: WHEAT
 owners:
-- dradmin
-- Balathrus
-members:
-- dradmin
+- ''
+members: []

@@ -1,7 +1,5 @@
-location: SteamHaven:173.36706654394783:65:466.68917482723583
-type: markt
+location: Draskoriascraft:726.0:71:68.0
+type: QUARRY
 owners:
-- dradmin
-- Balathrus
-members:
-- dradmin
+- ''
+members: []

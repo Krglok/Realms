@@ -82,7 +82,7 @@ public class ConfigBasis implements ConfigInterface
 		case WOOD_DOOR: return 64;
 		case SIGN: return 63;
 		case WALL_SIGN : return 68;
-		case BED_BLOCK : return 26;
+		case BED : return 26;
 		case BOOKSHELF : return 47;
 		case TORCH : return 50;
 		case WOOL : return 35;
@@ -170,7 +170,7 @@ public class ConfigBasis implements ConfigInterface
 		case 17 : return Material.LOG;
 		case 18 : return Material.LEAVES;
 		case 24 : return Material.SANDSTONE;
-		case 26 : return Material.BED_BLOCK;
+		case 26 : return Material.BED;
 		case 31 : return Material.GRASS;
 		case 35 : return Material.WOOL;
 		case 39 : return Material.BROWN_MUSHROOM;
@@ -440,7 +440,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.CHEST.name(),0);
 		subList.addItem(Material.WORKBENCH.name(),0);
 		subList.addItem(Material.FURNACE.name(),0);
-		subList.addItem(Material.BED_BLOCK.name(),0);
+		subList.addItem(Material.BED.name(),0);
 		subList.addItem(Material.BED.name(),0);
 		subList.addItem(Material.TORCH.name(),0);
 		subList.addItem(Material.WOOL.name(),0);
