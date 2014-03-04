@@ -179,11 +179,23 @@ public class TradeManager
 //			System.out.println("SellOrder amount "+sellOrder.getAmount());
 			if (sellOrder.getAmount() > 0 )
 			{
-				int restAmount = sellValuePrice(rModel, settle, sellOrder);
-//				System.out.println("SellOrder rest "+restAmount);
-				if (restAmount <= 0)
+				boolean isSellOrder = false;
+				for (TradeMarketOrder tOrder : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
 				{
-					sellOrder.setAmount(0);
+					if (tOrder.ItemRef().equalsIgnoreCase(sellOrder.getItemRef()))
+					{
+						isSellOrder = true;
+					}
+				}
+				if (isSellOrder == false)
+				{
+					// make new SellOrder and give return rest 
+					int restAmount = sellValuePrice(rModel, settle, sellOrder);
+		//				System.out.println("SellOrder rest "+restAmount);
+					if (restAmount <= 0)
+					{
+						sellOrder.setAmount(0);
+					}
 				}
 			}
 		}

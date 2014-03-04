@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -22,9 +23,9 @@ public class CmdSettleAddMember extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.MEMBER);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle SELL [ID] [item] [amount] [prive] [days]",
-				"Set an buy order for te amount of item to the trader ",
-		    	"of Settlement <ID>, the decline after day(s) ",
+				ChatColor.YELLOW+"/settle MEMBER [ID] [playername]",
+				"Set the playername as member to every building ",
+		    	"expect the HOME and HOUSE ",
 		    	"  "
 		};
 		requiredArgs = 2;
@@ -106,11 +107,14 @@ public class CmdSettleAddMember extends RealmsCommand
 					List<String> perms = null;
 					List<String> members = new ArrayList<String>();
 					members.add(playername);
-					plugin.stronghold.getRegionManager().setMember(sRegion, playername, members);
+					plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
 //					sRegion.addMember(playername, perms );
 					for (Building building : settle.getBuildingList().getBuildingList().values())
 					{
-//						plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()).addMember(playername);
+						if ((building.getBuildingType() != BuildPlanType.HOME) 
+								&& (building.getBuildingType() != BuildPlanType.HOUSE)
+								&& (building.getBuildingType() != BuildPlanType.MANSION)
+								)
 						plugin.stronghold.getRegionManager().setMember(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
 					}
 					msg.add("Member added to "+settle.getName());

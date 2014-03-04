@@ -84,6 +84,19 @@ public class BuildingList
 		return buildingList.isEmpty();
 	}
 	
+	public boolean containRegion(int regionId)
+	{
+		for (Building building : buildingList.values())
+		{
+			if (building.getHsRegion() == regionId)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	
 	/**
 	 * !!! Normally used by the automatic. USE instead settlement.addBuilding()
@@ -97,15 +110,18 @@ public class BuildingList
 		Boolean isBuild = false;
 		if (building != null)
 		{
-			int newId = checkId(building.getId());
-			building.setId(newId);
-			buildingList.put(String.valueOf(newId),building);
-			if (building.getBuildingType() == BuildPlanType.HALL)
+			if(containRegion(building.getHsRegion()) == false)
 			{
-				isHall = true;
+				int newId = checkId(building.getId());
+				building.setId(newId);
+				buildingList.put(String.valueOf(newId),building);
+				if (building.getBuildingType() == BuildPlanType.HALL)
+				{
+					isHall = true;
+				}
+				isBuild = true;
+				addBuildTypeList(building.getBuildingType());
 			}
-			isBuild = true;
-			addBuildTypeList(building.getBuildingType());
 		}
 		return isBuild;
 	}

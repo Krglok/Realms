@@ -2,7 +2,12 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
@@ -22,21 +27,27 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.DataTest;
 
 import org.bukkit.block.Biome;
+import org.bukkit.craftbukkit.libs.jline.console.history.FileHistory;
 import org.junit.Test;
 
 public class TraderTest
 {
 
 	private Boolean isOutput = false; // set this to false to suppress println
-	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
+	LocationData pos = new LocationData("SteamHaven",-469.51,72,-1236.65);
+	private Logger logMarket = Logger.getLogger("Market"); 
 
 	@Test
-	public void testTrader()
+	public void testTrader() throws SecurityException, IOException
 	{
 		Trader trader = new Trader();
 //		TradeOrder sellOrder = new TradeOrder(0, TradeType.SELL, "WOOD", 64 , 0.2 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
-		TradeOrder buyOrder = new TradeOrder(0, TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
-		
+		TradeOrder buyOrder = new TradeOrder(0, TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "WORLD",0);
+		String msg = "0,BUY, WHEAT, 64 , 0 , 1, 0L, NONE,WORLD,0";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+		Handler handler = new FileHandler(path+"\\trader.log");
+		logMarket.addHandler(handler );
+		logMarket.info(msg);
 		trader.getBuyOrders().put(1, buyOrder);
 		
 		int expected = 1;

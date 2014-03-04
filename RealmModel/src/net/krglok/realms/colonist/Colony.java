@@ -246,7 +246,7 @@ public class Colony
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
 				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.PILLAR, 4, 0);
-				buildManager.newBuild(buildPlan, corner);
+				buildManager.newBuild(buildPlan, corner, owner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -257,7 +257,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
-				buildManager.newBuild(buildPlan, corner);
+				buildManager.newBuild(buildPlan, corner,owner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -268,7 +268,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
-				buildManager.newBuild(buildPlan, corner);
+				buildManager.newBuild(buildPlan, corner, owner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -279,7 +279,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
-				buildManager.newBuild(buildPlan, corner);
+				buildManager.newBuild(buildPlan, corner, owner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -391,7 +391,7 @@ public class Colony
 		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
 			System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 			buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
-			buildManager.newBuild(buildPlan, this.position);
+			buildManager.newBuild(buildPlan, this.position, owner);
 			nextStatus = ColonyStatus.READY;
 			this.cStatus = ColonyStatus.WAITBUILD;
 			break;
@@ -436,7 +436,7 @@ public class Colony
 						);
 				System.out.println(id+" Build List "+actualBuildPos.getbType()+":"+buildPosIndex);
 				buildPlan = rModel.getData().readTMXBuildPlan(actualBuildPos.getbType(), 4, -1);
-				buildManager.newBuild(buildPlan,newPos);
+				buildManager.newBuild(buildPlan,newPos, owner);
 				nextStatus = ColonyStatus.NEXTLIST;
 				this.cStatus = ColonyStatus.WAITBUILD;
 			}
@@ -500,6 +500,7 @@ public class Colony
 				{
 					settle.getWarehouse().depositItemValue(item.ItemRef(), item.value());
 				}
+				settle.getBank().depositKonto(1000.0, "Colonist");
 				System.out.println("Build FULLFILL ");
 				this.cStatus = ColonyStatus.FULFILL;
 			} else

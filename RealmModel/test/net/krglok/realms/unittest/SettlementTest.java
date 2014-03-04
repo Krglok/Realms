@@ -1196,5 +1196,94 @@ public class SettlementTest
 		assertEquals(expected, actual);
 
 	}
+
+	@Test
+	public void testAddBuilding()
+	{
+		DataTest data = new DataTest();
+		data.initSettleDate();
+		OwnerList ownerList =  data.getTestOwners();
+		ServerTest server = new ServerTest();
+		
+		ConfigTest config = new ConfigTest();
+		config.initRegionBuilding();
+	
+		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
+		regionTypes.put("1","HALL");
+		regionTypes.put("2","HOME");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
+		regionTypes.put("6","HOME");
+		regionTypes.put("60","TAVERNE");
+		regionTypes.put("65","WHEAT");
+		regionTypes.put("69","WAREHOUSE");
+		regionTypes.put("31","FARMHOUSE");
+		regionTypes.put("41","WORKSHOP");
+		regionTypes.put("42","WORKSHOP");
+		regionTypes.put("51","BAKERY");
+		regionTypes.put("52","BAKERY");
+		regionTypes.put("61","SMELTER");
+		
+		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
+
+		SettleType settleType = SettleType.HAMLET;
+		String settleName = "New TEST";
+		
+		Settlement settle = //data.getTestSettlements().getSettlements().get(1); 
+				Settlement.createSettlement(
+				position, 
+				settleType, 
+				settleName, 
+				ownerList.getOwner("NPC0").getPlayerName(),
+				regionTypes, 
+				regionBuildings,
+				Biome.PLAINS
+				);
+
+		
+		int id  = 12;
+		BuildPlanType buildingType = BuildPlanType.HOME;
+		int settler = 4;
+		int workerNeeded = 0;
+		int workerInstalled = 0;
+		Boolean isRegion = true;
+		int hsRegion = 2;
+		String hsRegionType = "HOME";
+		String hsSuperRegion = "";
+		Boolean isEnabled = true;
+		Building newBuilding = new Building(id, buildingType, settler, workerNeeded, workerInstalled, isRegion, hsRegion, hsRegionType, hsSuperRegion, isEnabled);
+		
+		Settlement.addBuilding(newBuilding, settle);
+		
+		int expected = 15;
+		int actual = settle.getBuildingList().size(); 
+
+		isOutput = (expected !=  actual);
+		if (isOutput)
+		{
+			System.out.print("==Settlement Add Building == ");
+			System.out.print(settle.getId()+":"+settle.getName());
+			System.out.println("");
+			System.out.println("Settlements ="+data.getTestSettlements().count());
+			for (Settlement settl : data.getTestSettlements().getSettlements().values())
+			{
+				System.out.print("|"+ConfigBasis.setStrright(settl.getId(), 2));
+				System.out.print("|"+ConfigBasis.setStrleft(settl.getName(),12));
+				System.out.print("|"+ConfigBasis.setStrright(settl.getBuildingList().size(), 2));
+				System.out.println("");
+			}
+			System.out.println("Buildings ="+settle.getBuildingList().size());
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				System.out.print("|"+ConfigBasis.setStrright(building.getId(), 2));
+				System.out.print("|"+ConfigBasis.setStrleft(building.getBuildingType().name(), 10));
+				System.out.print("|"+ConfigBasis.setStrright(building.getHsRegion(), 2));
+				System.out.println("|");
+			}
+		}
+		assertEquals(expected, actual);
+
+	}
 	
 }

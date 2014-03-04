@@ -74,7 +74,7 @@ public class CmdSettleAddBuilding extends RealmsCommand
 	{
 		return new String[] {int.class.getName(), int.class.getName() };
 	}
-
+	
 	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
@@ -138,12 +138,20 @@ public class CmdSettleAddBuilding extends RealmsCommand
 		if (plugin.getRealmModel().getModelStatus() != ModelStatus.MODEL_ENABLED)
 		{
 			errorMsg.add("The Model is busy or not enaled !");
+			errorMsg.add("");
+			return false;
+		}
+		if ( plugin.getRealmModel().getSettlements().getSettlement(this.settleId).getBuildingList().containRegion(regionId) )
+		{
+			errorMsg.add("The region is always in the settlement !");
+			errorMsg.add("");
 			return false;
 		}
 		if (sender.isOp())
 		{
 			return true;
 		}
+
 		return isSettleOwner(plugin, sender, settleId);
 	}
 }

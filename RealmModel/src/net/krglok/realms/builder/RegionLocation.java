@@ -2,6 +2,13 @@ package net.krglok.realms.builder;
 
 import net.krglok.realms.core.LocationData;
 
+/**
+ * this class contain the data for a RegionRequest.
+ * this contain a regiontype , the position of the region , the name of the region and the owner
+ *
+ * @author oduda
+ *
+ */
 public class RegionLocation
 {
 	private String name;

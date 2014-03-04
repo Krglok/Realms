@@ -73,6 +73,7 @@ public class BuildManager
 	private ArrayList<ItemLocation> resultBlockRequest;
 	private ArrayList<RegionLocation> regionRequest;
 	private ArrayList<ItemListLocation> chestSetRequest;
+	private String owner;
 
 	private int timeout;
 
@@ -87,6 +88,7 @@ public class BuildManager
 		this.regionRequest = new ArrayList<RegionLocation>();
 		this.chestSetRequest = new ArrayList<ItemListLocation>();
 		bStatus = BuildStatus.NONE;
+		this.owner = "";
 	}
 	
 	public BuildStatus getStatus()
@@ -124,7 +126,7 @@ public class BuildManager
 	 * @param centerPos
 	 * @return
 	 */
-	public boolean newBuild(BuildPlan bType, LocationData centerPos)
+	public boolean newBuild(BuildPlan bType, LocationData centerPos, String owner)
 	{
 //		System.out.println("new Build : "+":"+bType.getBuildingType().name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
 		if (bStatus == BuildStatus.NONE)
@@ -139,6 +141,7 @@ public class BuildManager
 			sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
 			signText[2] = sPos.toCharArray();
 			bStatus = BuildStatus.PREBUILD;
+			this.owner = owner;
 			if (buildPlan == null)
 			{
 				bStatus = BuildStatus.NONE;
@@ -411,7 +414,7 @@ public class BuildManager
 		// region erzeugen 
 		if (buildRequest.isEmpty() )
 		{
-			if (buildPlan.getBuildingType() != BuildPlanType.PILLAR)
+			if ((buildPlan.getBuildingType() != BuildPlanType.PILLAR) && (buildPlan.getBuildingType() != BuildPlanType.COLONY))
 			{
 				String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
 				if (regionType != "")
@@ -422,7 +425,7 @@ public class BuildManager
 							buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
 							buildLocation.getZ()-1
 							);
-					String owner = "";
+					String owner = this.owner;
 					regionRequest.add(new RegionLocation(regionType, position, owner,""));
 				}
 			}

@@ -74,7 +74,6 @@ public class DataTest implements DataInterface
 	public DataTest()
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
-		File dataFolder = new File(path);
 		settleData = new SettlementData(path);
 		initTestData();
 	}
@@ -142,7 +141,7 @@ public class DataTest implements DataInterface
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
         File DataFile = new File(path, "Realms");
-        SettlementList settlements = new SettlementList(1);
+        SettlementList settlements = new SettlementList(0);
 		SettlementData sData = new SettlementData(path);
 		
 //		System.out.println("==Read Settlement from File ==");

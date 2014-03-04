@@ -45,7 +45,7 @@ public class McmdCreateSettle implements iModelCommand
 	@Override
 	public void execute()
 	{
-		playerName = "";
+//		playerName = "";
 		boolean isNPC = false;
 		Owner owner = null; 
 		if ((playerName == "") )

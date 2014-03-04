@@ -38,7 +38,7 @@ public class SettlementData
 	public SettlementData(String dataFolder)		//Realms plugin)
 	{
 //		this.plugin = plugin;
-		this.dataFolder = dataFolder;
+		this.dataFolder = dataFolder+"\\Realms";
 //		System.out.println("SettlementData: "+dataFolder.getName());
 	}
 
@@ -163,7 +163,7 @@ public class SettlementData
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
-            System.out.println("READ : "+dataFolder+":"+"settlement.yml");
+//            System.out.println("READ : "+dataFolder+":"+"settlement.yml");
             if (config.isConfigurationSection(settleSec))
             {
 //                System.out.println(settleSec);
@@ -277,12 +277,13 @@ public class SettlementData
 	
 	public ArrayList<String> readSettleList(Realms plugin) 
 	{
-		String path = plugin.getDataFolder().getPath(); //+"\\buildplan";
+		String path = "";
 		if (plugin == null)
 		{
 			path = dataFolder;
 		} else
 		{
+			path = plugin.getDataFolder().getPath(); //+"\\buildplan";
 			dataFolder = path;
 		}
         String settleSec = "SETTLEMENT"; // getSettleKey(settle.getId());
@@ -295,7 +296,7 @@ public class SettlementData
             	settleFile.createNewFile();
     			System.out.println("NEW SettlementData: "+dataFolder);
             }
-            System.out.println("READLIST : "+dataFolder+":"+"settlement.yml");
+//            System.out.println("READLIST : "+dataFolder+":"+"settlement.yml");
             
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);

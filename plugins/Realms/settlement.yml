@@ -35,7 +35,7 @@ SETTLEMENT:
         workerNeeded: '1'
         isEnabled: 'true'
         isActiv: 'true'
-       '3':
+      '3':
         position: Draskoriascraft:-260.0:77.0:-102.0
         id: '3'
         settler: '0'

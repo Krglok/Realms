@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2014-03-04T11:56:45</date>
+  <millis>1393930605228</millis>
+  <sequence>0</sequence>
+  <logger>Market</logger>
+  <level>INFO</level>
+  <class>net.krglok.realms.unittest.TraderTest</class>
+  <method>testTrader</method>
+  <thread>1</thread>
+  <message>0,BUY, WHEAT, 64 , 0 , 1, 0L, NONE,WORLD,0</message>
+</record>
+</log>
