@@ -16,3 +16,11 @@ upkeep-chance: 0.001
 output: []
 money-requirement: 50.0
 upkeep-money-output: 0.0
+super-regions:
+- Mine
+- Lager
+- Hauptlager
+- Werkstatt
+- Siedlung
+- Dorf
+- Stadt

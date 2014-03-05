@@ -22,7 +22,7 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - LEATHER_BOOTS.1
-- LEATHER_CHESTPLATE1
+- LEATHER_CHESTPLATE.1
 - LEATHER_HELMET.1
 - LEATHER_LEGGINGS.1
 money-requirement: 2000.0

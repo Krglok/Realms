@@ -17,7 +17,7 @@ requirements:
 - GUARDHOUSE.4
 - DEFENSETOWER.2
 - WATCHTOWER.2
-central-structure: townhall
+central-structure: TOWNHALL
 money-requirement: 1200000.0
 money-output-daily: -100.0
 max-power: 30000

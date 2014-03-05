@@ -3,8 +3,10 @@ package net.krglok.realms.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +18,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.LocationData;
 
 /**
  * here will be the Data from the Server are transformed to RealData
@@ -281,7 +284,7 @@ public class ServerData implements ServerInterface
 		case SEEDS : return FAKTOR_PP;
 		case COBBLESTONE: return FAKTOR_M;
 		case LOG: return FAKTOR_M;
-		case WOOL : return FAKTOR_PP;
+		case WOOL : return FAKTOR_0;
 		case GOLD_NUGGET: return FAKTOR_MMM;
 		case LEATHER : return FAKTOR_P;
 		case RAW_BEEF : return FAKTOR_P;
@@ -720,4 +723,12 @@ public class ServerData implements ServerInterface
 		return plugin.stronghold.getRegionManager().getRegionByID(id).getType();
 	}
 
+	@Override
+	public Region getRegionAt(LocationData pos)
+	{
+		World world = plugin.getServer().getWorld(pos.getWorld());
+		return plugin.stronghold.getRegionManager().getRegion(new Location (world, pos.getX(),pos.getY(),pos.getZ())); 
+	}
+
+	
 }

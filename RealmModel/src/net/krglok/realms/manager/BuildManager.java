@@ -3,6 +3,7 @@ package net.krglok.realms.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.builder.BuildPlan;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
@@ -459,11 +460,23 @@ public class BuildManager
 
 				if (settle != null)
 				{
-					Building building = new Building(buildPlan.getBuildingType(), regionType, true);
-					if (settle.getBuildingList().addBuilding(building))
+					Region region = rModel.getServer().getRegionAt(position);
+					if (region != null)
 					{
-	//					System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
+						System.out.println("Settle Building added : "+buildPlan.getBuildingType()+":"+region.getID());
+						Building building = new Building(buildPlan.getBuildingType(), regionType, true);
+						building.setHsRegion(region.getID());
+						if (settle.getBuildingList().addBuilding(building))
+						{
+							System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
+						}
+					} else
+					{
+						System.out.println("New region NOT found: ");
 					}
+				} else
+				{
+					System.out.println("Settlement  NOT found: ");
 				}
 			}			
 			

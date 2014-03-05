@@ -8,6 +8,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.tool.SuperRegionData;
 import net.krglok.realms.unittest.RegionConfig;
 
@@ -854,5 +855,12 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		ItemList items = new ItemList();
 		items.addItem(new Item("GOLD_NUGGET",1 ));
 		return items;
+	}
+
+	@Override
+	public Region getRegionAt(LocationData pos)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

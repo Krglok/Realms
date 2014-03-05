@@ -171,37 +171,51 @@ public class ServerListener implements Listener
     
     private void cmdBlazeRod(PlayerInteractEvent event)
     {
-    	Block target = event.getClickedBlock();
-    	Location pos = target.getLocation();
-		ArrayList<Region> targets =  plugin.stronghold.getRegionManager().getContainingRegions(pos);
-    	ArrayList<String> msg = new ArrayList<String>();
-		msg.add("== HeroStronghold : Region Info");
-		if (targets != null)
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
-			if (targets.size() > 0)
+	    	Block target = event.getClickedBlock();
+	    	Location pos = target.getLocation();
+			ArrayList<Region> targets =  plugin.stronghold.getRegionManager().getContainingRegions(pos);
+	    	ArrayList<String> msg = new ArrayList<String>();
+			msg.add("== HeroStronghold : Region Info");
+			if (targets != null)
 			{
-	    		for (Region region : targets)
-	    		{
-	    			if (region.getOwners().size() > 0)
-	    			{
-	    				msg.add(region.getID()+":"+region.getType()+":"+region.getOwners().get(0));
-	    			} else
-	    			{
-	    				msg.add(region.getID()+":"+region.getType()+":"+region.getOwners().get(0));
-	    			}
-	    			
-	    		}
+				if (targets.size() > 0)
+				{
+		    		for (Region region : targets)
+		    		{
+		    			if (region.getOwners().size() > 0)
+		    			{
+		    				msg.add(region.getID()+":"+region.getType()+":"+region.getOwners().get(0));
+		    			} else
+		    			{
+		    				msg.add(region.getID()+":"+region.getType()+":");
+		    			}
+		    			
+		    		}
+				} else
+				{
+		    		msg.add("No Region found ! ");
+				}
+	
 			} else
 			{
 	    		msg.add("No Region found ! ");
 			}
-
-		} else
-		{
-    		msg.add("No Region found ! ");
-		}
-		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
-    	
+			for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(pos))
+			{
+				if (sRegion.getOwners().size() > 0)
+				{
+					msg.add(sRegion.getName()+":"+sRegion.getType()+":"+sRegion.getOwners().get(0));
+				} else
+				{
+					msg.add(sRegion.getName()+":"+sRegion.getType()+":");
+				}
+				
+			}
+			
+			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+		}    	
     }
 
     private void cmdBuildPlanBook(PlayerInteractEvent event)
@@ -304,7 +318,7 @@ public class ServerListener implements Listener
     
     private boolean buildAt(Location pos, String name, Player player, ArrayList<String> msg)
     {
-		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY(), pos.getZ()+1);
+		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY(), pos.getZ()+1);
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		if (settle != null)
@@ -341,7 +355,7 @@ public class ServerListener implements Listener
     
     private boolean checkBuild(Location pos, String name, Player player, ArrayList<String> msg)
     {
-		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY()+1, pos.getZ()+1);
+		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		ItemList needMat = new ItemList();
@@ -378,7 +392,7 @@ public class ServerListener implements Listener
 
     private boolean checkAt(Location pos, String name, Player player, ArrayList<String> msg)
     {
-		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX()+1, pos.getY()+1, pos.getZ()+1);
+		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		if (settle != null)

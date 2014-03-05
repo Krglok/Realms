@@ -10,6 +10,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.LocationData;
 
 /**
  *  private Map<Location, Region> liveRegions = new HashMap<Location, Region>();
@@ -83,5 +84,7 @@ public interface ServerInterface
 	public Double getItemPrice(String itemRef);
 
 	int getSuperRegionRadius(String superRegionName);
+	
+	public Region getRegionAt(LocationData pos);
 	
 }

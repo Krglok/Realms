@@ -12,15 +12,15 @@ requirements:
 - TAVERNE.1
 - HOME.3
 - WHEAT.2
-- WOODCUTTER
-- QUARRY
+- WOODCUTTER.1
+- QUARRY.1
 - FARMHOUSE.3
-central-structure: haupthaus
+central-structure: HALL
 money-requirement: 150000.0
 money-output-daily: -10.0
 max-power: 1500
 daily-power-increase: 50
 charter: 2
 child-super-regions: 
-- Town
+- Hamlet
 exp: 5000

@@ -4,8 +4,6 @@ effects:
 - periodicupkeep.1
 radius: 4
 requirements:
-- WOODEN_DOOR.1
-- BED_BLOCK.2
 - WORKBENCH.1
 - CHEST.1
 - WALL_SIGN.1

@@ -407,8 +407,8 @@ public class SettleManager
 				{
 					McmdSellOrder sellOrder = new McmdSellOrder(rModel, settle.getId(), sellItem.ItemRef(), sellItem.value(), 0.0, 10);
 					settle.tradeManager().newSellOrder(sellOrder );
+					return;
 				}
-				return;
 			}
 		}
 	}

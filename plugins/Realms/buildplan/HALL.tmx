@@ -525,7 +525,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Kachelebene 3" width="13" height="13">
+ <layer name="Kachelebene 3" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -622,13 +622,13 @@
    <tile gid="5"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
    <tile gid="5"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -698,7 +698,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Kachelebene 4" width="13" height="13" visible="0">
+ <layer name="Kachelebene 4" width="13" height="13">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -795,13 +795,13 @@
    <tile gid="5"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
+   <tile gid="91"/>
    <tile gid="5"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -871,7 +871,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Kachelebene 5" width="13" height="13" visible="0">
+ <layer name="Kachelebene 5" width="13" height="13">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -1044,7 +1044,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Kachelebene 6" width="13" height="13" visible="0">
+ <layer name="Kachelebene 6" width="13" height="13">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -1127,13 +1127,13 @@
    <tile gid="0"/>
    <tile gid="30"/>
    <tile gid="2"/>
+   <tile gid="69"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="69"/>
    <tile gid="2"/>
    <tile gid="30"/>
    <tile gid="0"/>
@@ -1208,7 +1208,7 @@
    <tile gid="5"/>
    <tile gid="5"/>
    <tile gid="5"/>
-   <tile gid="5"/>
+   <tile gid="69"/>
    <tile gid="5"/>
    <tile gid="5"/>
    <tile gid="5"/>
