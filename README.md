@@ -1,7 +1,7 @@
 Realms
 ======
 Bukkit Plugin for managing Realms and settlements. Do NO protections . 
-Based on the ideas of Dominion from Pico52 i created this plugin.
+Based on the ideas of Dominion from Pico52, this plugin was designed and created.
 I want to resolve some design issues in the dominion design.
 After some analysis of the dominion design i made the decision to make  a new design 
 with a different architecture.
@@ -51,4 +51,12 @@ Units represent the military and support entitys
 - knight
 - commander
 
-  
+The project is devide into 3 phases to reach Version 1.0
+- Phase 1, economy and buildings
+- Phase 2, units and unit relevant buildings
+- Phase 3, Realms and Conflicts
+ 
+In progress:
+- Phase 1, nearby ready to publish as beta 0.8
+
+
