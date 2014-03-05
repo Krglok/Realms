@@ -105,7 +105,7 @@ public class BuildingTest
 		building.setSales(sale);
 		Double expected = 4.8;
 		Double actual 	 = building.getSales();
-		isOutput = (expected != actual);
+//		isOutput = (expected != actual);
 		if (isOutput)
 		{
 			System.out.println("==testBuildingTax == : "+outValues.size());
@@ -139,7 +139,6 @@ public class BuildingTest
 		outValues = building.produce(server);
 		
 		
-		isOutput = true;
 		if (isOutput)
 		{
 			System.out.println("==Matlist == : "+matList.size());
@@ -175,7 +174,7 @@ public class BuildingTest
 		outValues = building.produce(server);
 		
 
-		isOutput = true;
+//		isOutput = true;
 		if (isOutput)
 		{
 			System.out.println("==Matlist == : "+matList.size());

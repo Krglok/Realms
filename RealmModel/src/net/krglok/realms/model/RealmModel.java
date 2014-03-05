@@ -45,7 +45,7 @@ import net.krglok.realms.manager.BuildManager;
 public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
-	private static final String REALM_MODEL_VER = "0.8.1";
+	private static final String REALM_MODEL_VER = "0.8.2";
 	private static int garbageCounterLimit = 57;
 	
 	private ModelStatus modelStatus;

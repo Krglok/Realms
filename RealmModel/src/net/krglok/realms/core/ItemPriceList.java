@@ -57,5 +57,14 @@ public class ItemPriceList extends HashMap<String,ItemPrice>
 		return 0.0;
 	}
 
-	
+	public double getPriceOfList(ItemList items)
+	{
+		double sum = 0.0;
+		for (Item item : items.values())
+		{
+			sum = sum + (this.getBasePrice(item.ItemRef()) * item.value());
+		}
+		
+		return sum;
+	}
 }

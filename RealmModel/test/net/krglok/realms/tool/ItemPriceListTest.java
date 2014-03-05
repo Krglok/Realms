@@ -11,21 +11,35 @@ import java.util.Map;
 
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.manager.CraftManager;
+import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 import org.junit.Test;
 
 public class ItemPriceListTest
 {
-	
+
+	private boolean isOutput = false;
 	private String getBaseKey()
 	{
 		return "BASEPRICE";
@@ -50,7 +64,7 @@ public class ItemPriceListTest
             ConfigurationSection settleSec = config.createSection(base);
             for (ItemPrice item : Items.values())
             {
-            	config.set(MemorySection.createPath(settleSec, item.ItemRef()),item.getBasePrice());
+            	config.set(MemorySection.createPath(settleSec, item.ItemRef()),ConfigBasis.format2(item.getBasePrice()));
             }
             config.save(DataFile);
 			
@@ -210,16 +224,16 @@ public class ItemPriceListTest
 	private String[] setBasisList()
 	{
 		return new String[] 
-        		{"haupthaus",
-				"markt",
-				"taverne",
-        		"haus_einfach", 
-        		"kornfeld", 
-        		"holzfaeller",
-        		"steinbruch",
-        		"schaefer",
-        		"schreiner",
-        		"tischler"
+        		{"HALL",
+				"WAREHOUSE",
+				"TAVERNE",
+        		"HOME", 
+        		"WHEAT", 
+        		"WOODCUTTER",
+        		"QUARRY",
+        		"SHEPHERD",
+        		"CARPENTER",
+        		"CABINETMAKER"
         		};
 	}
 
@@ -227,19 +241,19 @@ public class ItemPriceListTest
 	private String[] setErweitertList()
 	{
 		return new String[] 
-        		{"prod_waxe",
-        		"prod_whoe", 
-        		"prod_wpaxe", 
-        		"prod_wsword",
-        		"prod_wspade",
-        		"prod_steinziegel",
-        		"prod_netherziegel",
-        		"bauern_haus",
-        		"haus_baecker",
-        		"koehler",
-        		"rinderstall",
-        		"huehnerstall",
-        		"fischer"
+        		{"AXESHOP",
+        		"HOESHOP", 
+        		"PICKAXESHOP", 
+        		"KNIFESHOP",
+        		"SPADESHOP",
+        		"BRICKWORK",
+        		"NETHER_BRICKWORK",
+        		"FARMHOUSE",
+        		"BAKERY",
+        		"CHARBURNER",
+        		"COWSHED",
+        		"CHICKENHOUSE",
+        		"FISHERHOOD"
         		};
 	}
 
@@ -247,45 +261,46 @@ public class ItemPriceListTest
 	private String[] setEnhancedList()
 	{
 		return new String[] 
-        		{"werkstatt",
-				"steinmine",
-				"schmelze",
-				"bauernhof",
-				"schweinestall"
+        		{"WORKSHOP",
+				"STONEMINE",
+				"SMELTER",
+				"FARM",
+				"PIGPEN"
         		};
 	}
 
 	private String[] setBuildingList()
 	{
 		return new String[] 
-        		{"haupthaus",
-				"markt",
-				"taverne",
-        		"haus_einfach", 
-        		"kornfeld", 
-        		"holzfaeller",
-        		"steinbruch",
-        		"schaefer",
-        		"schreiner",
-        		"tischler",
-        		"prod_waxe",
-        		"prod_whoe", 
-        		"prod_wpaxe", 
-        		"prod_wsword",
-        		"prod_wspade",
-        		"prod_steinziegel",
-        		"prod_netherziegel",
-        		"bauern_haus",
-        		"haus_baecker",
-        		"koehler",
-        		"rinderstall",
-        		"huehnerstall",
-        		"fischer",
-        		"werkstatt",
-				"steinmine",
-				"schmelze",
-				"bauernhof",
-				"schweinestall"
+        		{"HALL",
+				"WAREHOUSE",
+				"TAVERNE",
+        		"HOME", 
+        		"WHEAT", 
+        		"WOODCUTTER",
+        		"QUARRY",
+        		"SHEPHERD",
+        		"CARPENTER",
+        		"CABINETMAKER",
+        		"AXESHOP",
+        		"HOESHOP", 
+        		"PICKAXESHOP", 
+        		"KNIFESHOP",
+        		"SPADESHOP",
+        		"BRICKWORK",
+        		"NETHER_BRICKWORK",
+        		"FARMHOUSE",
+        		"BAKERY",
+        		"CHARBURNER",
+        		"COWSHED",
+        		"CHICKENHOUSE",
+        		"FISHERHOOD",
+        		"WORKSHOP",
+				"STONEMINE",
+				"SMELTER",
+				"FARM",
+				"PIGPEN"
+
         		};
 	}
 	
@@ -476,15 +491,72 @@ public class ItemPriceListTest
         
 	}
 	
+	private int getMinStorage(ServerTest server, Biome biome, String itemRef)
+	{
+		ConfigTest config = new ConfigTest();
+		int matFactor = server.getBioneFactor( biome, Material.getMaterial(itemRef));
+		int sellLimit = 0;
+		if (itemRef.equalsIgnoreCase(Material.COBBLESTONE.name()))
+		{
+//		  System.out.print(">");	
+		}
+		if (matFactor >= 0)
+		{
+			if (config.getToolItems().containsKey(itemRef))
+			{
+				return 32 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (config.getWeaponItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (config.getArmorItems().containsKey(itemRef))
+			{
+				return 64- (64 * matFactor / 100) + sellLimit; 
+			}
+			if (config.getFoodItems().containsKey(itemRef))
+			{
+				return 21 * 16 ;
+			}
+			if (config.getValuables().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (config.getBuildMaterialItems().containsKey(itemRef))
+			{
+//				System.out.print("B:");
+				return 196 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (config.getOreItems().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (config.getMaterialItems().containsKey(itemRef))
+			{
+//				System.out.print("M:");
+				return 32 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (config.getRawItems().containsKey(itemRef))
+			{
+//				System.out.print("R: ");
+				return 64 - (64 * matFactor / 100) + sellLimit;
+			}
+			
+			return 8 + sellLimit;
+		} else
+		{
+			return 999;
+		}
+	}
+
+	
 	@Test
 	public void testItemPriceList()
 	{
 		String[] sList;
         sList = setBuildingList();
         ItemPriceList itemPrices = testPriceList();
-//      sList = setBasisList();
-//      sList = setErweitertList();
-//      sList = setEnhancedList();
+        ServerTest server = new ServerTest();
 		
 		getStrongholdConstructionMaterial(sList, itemPrices);
 		getStrongholdConstructionMaterial(sList, itemPrices);
@@ -493,19 +565,35 @@ public class ItemPriceListTest
 		System.out.println("== new Pricelist =================");
 		for (ItemPrice itemPrice : itemPrices.values())
 		{
-			price = (double) ((int)(itemPrice.getBasePrice() * 100)/100.0) ;
+			price = itemPrice.getBasePrice() ;
 			itemPrice.setBasePrice(price);
-			System.out.println(itemPrice.ItemRef()+" : "+price );
+			System.out.println(ConfigBasis.setStrleft(itemPrice.ItemRef(),12)+" : "+ConfigBasis.setStrformat2(price, 5));
 		}
 		System.out.println("== error Pricelist =================");
 		for (ItemPrice itemPrice : itemPrices.values())
 		{
 			if (itemPrice.getBasePrice() == 0.0)
-			System.out.println(itemPrice.ItemRef()+" : "+itemPrice.getBasePrice()  );
+			{
+				ItemList inggredients = server.getRecipe(itemPrice.ItemRef());
+				System.out.println(ConfigBasis.setStrleft(itemPrice.ItemRef(),12)+" : "+ConfigBasis.setStrformat2(0.0, 5));
+				double value = itemPrices.getPriceOfList(inggredients);
+				for (Item item : inggredients.values())
+				{
+					System.out.println(ConfigBasis.setStrleft("-"+item.ItemRef(),12)+" : "+ConfigBasis.setStrformat2(value, 5));
+				}
+			}		
 		}
 		writePriceData(itemPrices) ;
+		Biome biome = Biome.FOREST;
+		System.out.println("== MinStoreList =======: "+biome);
+		for (ItemPrice itemPrice : itemPrices.values())
+		{
+			price = itemPrice.getBasePrice() ;
+			itemPrice.setBasePrice(price);
+			int minStore = getMinStorage(server, biome, itemPrice.ItemRef());
+			System.out.println(ConfigBasis.setStrleft(itemPrice.ItemRef(),12)+" : "+ConfigBasis.setStrright(minStore, 5));
+		}
 		
-		System.out.println("== Material List == ["+Material.values().length+"]");
 		int col = 0;
 		ArrayList<String> list = new ArrayList<String>();
 		for (Material mat : Material.values())
@@ -513,16 +601,19 @@ public class ItemPriceListTest
 			list.add(mat.name());
 		}
 		Collections.sort(list);
-//		Material.MUSHROOM_SOUP
-		for (String name : list)
+		if (isOutput)
 		{
-			Material mat = Material.getMaterial(name);
-			System.out.print(ConfigBasis.setStrright(String.valueOf(mat.getId()),4)+":"+ConfigBasis.setStrleft(mat.name(),22));
-			col++;
-			if (col > 2)
+			System.out.println("== Material List == ["+Material.values().length+"]");
+			for (String name : list)
 			{
-				col = 0;
-				System.out.println("");
+				Material mat = Material.getMaterial(name);
+				System.out.print(ConfigBasis.setStrright(String.valueOf(mat.getId()),4)+":"+ConfigBasis.setStrleft(mat.name(),22));
+				col++;
+				if (col > 2)
+				{
+					col = 0;
+					System.out.println("");
+				}
 			}
 		}
 		

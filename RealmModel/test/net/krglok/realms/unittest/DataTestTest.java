@@ -39,7 +39,7 @@ public class DataTestTest
 		try
 		{
 			//\\Program Files\\BuckitTest\\plugins\\Realms
-            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms", "baseprice.yml");
+            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins", "baseprice.yml");
             if (!DataFile.exists()) 
             {
             	DataFile.createNewFile();
@@ -190,7 +190,7 @@ public class DataTestTest
 	{
 		ConfigTest data = new ConfigTest();
 		ItemList iList = data.getToolItems();
-		int expected = 25;
+		int expected = 24;
 		int actual = iList.size();
 		assertEquals(expected, actual);
 

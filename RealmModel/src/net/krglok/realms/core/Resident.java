@@ -353,18 +353,19 @@ public class Resident
 				fertilityCounter = 0.0; //fertilityCounter - FertilityCounter_Limit;
 			} else
 			{
+				double baseFertility = (FERTILITY / 3);
 				if ((settlerMax-settlerCount) > 0)
 				{
 					if (happiness > BASE_HAPPINES)
 					{
-						fertilityCounter = fertilityCounter +(FERTILITY) + (FERTILITY/100 * (settlerCount/2))  ;
+						fertilityCounter = fertilityCounter + baseFertility + (FERTILITY/100 * (settlerCount/2))  ;
 					} else
 					{
-						fertilityCounter = fertilityCounter + (FERTILITY) + (FERTILITY/2 /100 * (settlerCount/2)) ;
+						fertilityCounter = fertilityCounter + baseFertility + (FERTILITY/2 /100 * (settlerCount/2)) ;
 					}
 				} else
 				{
-					fertilityCounter = fertilityCounter + (FERTILITY) + (FERTILITY/2 /100 * (settlerCount/2)); 
+					fertilityCounter = fertilityCounter + baseFertility + (FERTILITY/2 /100 * (settlerCount/2)); 
 					
 				}
 			}

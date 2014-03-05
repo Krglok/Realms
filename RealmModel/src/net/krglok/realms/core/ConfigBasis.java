@@ -19,7 +19,7 @@ public class ConfigBasis implements ConfigInterface
 	protected static final String CONFIG_PLUGIN_VER = "plugin_ver";
 	protected static final String CONFIG_PLUGIN_NAME = "plugin_name";
 	protected static final String PLUGIN_NAME = "Realms";
-	protected static String PLUGIN_VER = "0.2.0";
+	protected static String PLUGIN_VER = "0.1.0";
 
 	public final static long dayNight = 24000; //2400 for test ; // serverTicks 
 	public final static long RealmTick = 20L; 
@@ -446,36 +446,17 @@ public class ConfigBasis implements ConfigInterface
 
 		subList.addItem(Material.COBBLESTONE.name(),0);
 		subList.addItem(Material.LOG.name(),0);
-		subList.addItem(Material.WOOD.name(),0);
 		subList.addItem(Material.STONE.name(),0);
-		subList.addItem(Material.FENCE.name(),0);
-		subList.addItem(Material.FENCE_GATE.name(),0);
 		subList.addItem(Material.STONE.name(),0);
 		subList.addItem(Material.BRICK.name(),0);
 		subList.addItem(Material.NETHER_BRICK.name(),0);
-		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
-		subList.addItem(Material.WOOD_DOOR.name(),0);
-		subList.addItem(Material.CHEST.name(),0);
-		subList.addItem(Material.WORKBENCH.name(),0);
-		subList.addItem(Material.FURNACE.name(),0);
-		subList.addItem(Material.BED.name(),0);
-		subList.addItem(Material.BED.name(),0);
-		subList.addItem(Material.TORCH.name(),0);
-		subList.addItem(Material.WOOL.name(),0);
-		subList.addItem(Material.ANVIL.name(),0);
-		subList.addItem(Material.BOOKSHELF.name(),0);
 		subList.addItem(Material.WOOD_STEP.name(),0);
 		subList.addItem(Material.STEP.name(),0);
-		subList.addItem(Material.WALL_SIGN.name(),0);
-		subList.addItem(Material.SIGN.name(),0);
-		subList.addItem(Material.SIGN_POST.name(),0);
 		subList.addItem(Material.DIRT.name(),0);
 		subList.addItem(Material.GRASS.name(),0);
 		subList.addItem(Material.WATER.name(),0);
 		subList.addItem(Material.NETHERRACK.name(),0);
 		subList.addItem(Material.WHEAT.name(),0);
-		subList.addItem(Material.RED_MUSHROOM.name(),0);
-		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
 //		subList.addItem(Material..name(),0);
 		
 		return subList;
@@ -489,10 +470,24 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.WOOD.name(),0);
 		subList.addItem(Material.STICK.name(),0);
 		subList.addItem(Material.WOOL.name(),0);
-		subList.addItem(Material.COBBLESTONE.name(),0);
-		subList.addItem(Material.LOG.name(),0);
 		subList.addItem(Material.SEEDS.name(),0);
-		subList.addItem(Material.NETHERRACK.name(),0);
+		subList.addItem(Material.FENCE.name(),0);
+		subList.addItem(Material.FENCE_GATE.name(),0);
+		subList.addItem(Material.BED.name(),0);
+		subList.addItem(Material.TORCH.name(),0);
+		subList.addItem(Material.WOOL.name(),0);
+		subList.addItem(Material.ANVIL.name(),0);
+		subList.addItem(Material.BOOKSHELF.name(),0);
+		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
+		subList.addItem(Material.WOOD_DOOR.name(),0);
+		subList.addItem(Material.CHEST.name(),0);
+		subList.addItem(Material.WORKBENCH.name(),0);
+		subList.addItem(Material.FURNACE.name(),0);
+		subList.addItem(Material.WALL_SIGN.name(),0);
+		subList.addItem(Material.SIGN.name(),0);
+		subList.addItem(Material.SIGN_POST.name(),0);
+		subList.addItem(Material.WOOD.name(),0);
+
 //		subList.addItem(Material..name(),0);
 		
 		return subList;
@@ -573,6 +568,13 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.RED_MUSHROOM.name(),0);
 		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
 		subList.addItem(Material.MUSHROOM_SOUP.name(),0);
+		subList.addItem(Material.RED_MUSHROOM.name(),0);
+		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
+		subList.addItem(Material.COOKED_BEEF.name(),0);
+		subList.addItem(Material.COOKED_CHICKEN.name(),0);
+		subList.addItem(Material.COOKED_FISH.name(),0);
+		subList.addItem(Material.COOKIE.name(),0);
+		
 //		subList.addItem(Material..name(),0);
 
 		return subList;

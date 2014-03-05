@@ -133,9 +133,9 @@ public class WarehouseTest
 		{
 			if (index <100)
 			{
-				dataRows[index][0] = item.ItemRef();
-				dataRows[index][1] = String.valueOf(item.value());
-				dataRows[index][2] = String.valueOf(0.0);
+				dataRows[index][0] = ConfigBasis.setStrleft(item.ItemRef(),15);
+				dataRows[index][1] = ConfigBasis.setStrright(item.value(),4);
+				dataRows[index][2] = ConfigBasis.setStrright(0.0,5);
 			}
 			index ++;
 		}

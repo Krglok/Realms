@@ -73,7 +73,7 @@ public class DataTest implements DataInterface
 	
 	public DataTest()
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		settleData = new SettlementData(path);
 		initTestData();
 	}

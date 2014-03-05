@@ -658,7 +658,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		{
 			if (mat.name().contains("IRON"))
 			{
-				items.add(mat.name(), 1.0);
+				items.add(mat.name(), 25.0);
 			}
 		}
 		items.add("WHEAT", 0.30);
