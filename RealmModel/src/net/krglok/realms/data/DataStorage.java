@@ -380,7 +380,8 @@ public class DataStorage implements DataInterface
 			buildPlan.setCube(newCube);
 		} catch (Exception e)
 		{
-			e.printStackTrace();
+			System.out.println("TMX File not "+filename);
+//			e.printStackTrace();
 		}
 		return buildPlan;
 	}

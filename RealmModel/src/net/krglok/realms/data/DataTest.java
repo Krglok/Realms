@@ -846,7 +846,8 @@ public class DataTest implements DataInterface
 			buildPlan.setCube(newCube);
 		} catch (Exception e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("TMX File not "+filename);
 		}
 		return buildPlan;
 	}

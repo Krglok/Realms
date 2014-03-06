@@ -257,7 +257,7 @@ public class BuildPlanHomeTest
 					System.out.print("|");
 					for (int j2 = 0; j2 < bHome.getEdge(); j2++)
 					{
-						System.out.print(ConfigBasis.planValueToChar(bHome.getCube()[i][j][j2])+"|");
+						System.out.print( ConfigBasis.setStrright(ConfigBasis.planValueToChar(bHome.getCube()[i][j][j2]),2)+"|");
 					}
 					System.out.println("");
 					

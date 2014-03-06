@@ -49,6 +49,7 @@ public enum RealmsSubCommandType
 	UNSET ,
 	VERSION ,
 	WITHDRAW ,
+	WORKSHOP,
 	HELP
 	;
 	

@@ -42,7 +42,7 @@ public class Building  implements Serializable
 	private String hsSuperRegion;
 	private Boolean isEnabled;
 	private boolean isActiv;
-	private ItemArray slots ;
+	private Item[] slots ;
 	private Double sales;
 	private boolean isSlot;
 	private int storeCapacity;
@@ -64,7 +64,7 @@ public class Building  implements Serializable
 		hsSuperRegion	= "";
 		isEnabled		= true;
 		isActiv 	    = true;
-		slots = new ItemArray();
+		slots = new Item[5];
 		setSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
@@ -86,7 +86,7 @@ public class Building  implements Serializable
 		hsSuperRegion	= "";
 		isEnabled		= true;
 		isActiv 	    = true;
-		slots = new ItemArray();
+		slots = new Item[5];
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
 		position = new LocationData("", 0.0, 0.0, 0.0);
@@ -108,7 +108,7 @@ public class Building  implements Serializable
 		this.hsSuperRegion = "";
 		this.isEnabled  = true;
 		isActiv 	    = true;
-		slots = new ItemArray();
+		slots = new Item[5];
 		setSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
@@ -133,7 +133,7 @@ public class Building  implements Serializable
 		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
 		isActiv 	    = true;
-		slots = new ItemArray();
+		slots = new Item[5];
 		setSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
@@ -163,30 +163,30 @@ public class Building  implements Serializable
 		
 		isActiv 	    = true;
 		setSlot(false);
-		slots = new ItemArray();
+		slots = new Item[5];
 		if (slot1 != "")
 		{
-			slots.addItem(slot1, 1);
+			slots[0] = new Item(slot1, 1);
 			setSlot(true);
 		}
 		if (slot2 != "")
 		{
-			slots.addItem(slot2, 1);
+			slots[1] = new Item(slot2, 1);
 			setSlot(true);
 		}
 		if (slot3 != "")
 		{
-			slots.addItem(slot3, 1);
+			slots[2] = new Item(slot3, 1);
 			setSlot(true);
 		}
 		if (slot4 != "")
 		{
-			slots.addItem(slot4, 1);
+			slots[3] = new Item(slot4, 1);
 			setSlot(true);
 		}
 		if (slot5 != "")
 		{
-			slots.addItem(slot5, 1);
+			slots[0] = new Item(slot5, 1);
 			setSlot(true);
 		}
 		this.sales = sales;
@@ -340,37 +340,39 @@ public class Building  implements Serializable
 	}
 
 
-	public ItemArray getSlot1()
+	public Item[] getSlots()
 	{
 		return 	slots;
 	}
 
-	public void setSlot1(ItemArray slots)
+	public void setSlots(ItemArray slots)
 	{
-		this.slots = slots;
+		int index = 0;
+		for (Item item : slots)
+		{
+			this.slots[index] = item;
+			index ++;
+		}
 	}
 
-	public boolean addSlot(String itemRef, ConfigInterface config)
+	public boolean addSlot(int slot, String itemRef, ConfigInterface config)
 	{
 		int iValue = 16;
-//		if (slots.contains(itemRef) == false)
-//		{
-			if (config.getToolItems().containsKey(itemRef))
-			{
-				iValue = 32;
-			}
-			if (config.getWeaponItems().containsKey(itemRef))
-			{
-				iValue = 1;
-			}
-			if (config.getArmorItems().containsKey(itemRef))
-			{
-				iValue = 1;
-			}
+		if (config.getToolItems().containsKey(itemRef))
+		{
+			iValue = 32;
+		}
+		if (config.getWeaponItems().containsKey(itemRef))
+		{
+			iValue = 1;
+		}
+		if (config.getArmorItems().containsKey(itemRef))
+		{
+			iValue = 1;
+		}
 
-			slots.addItem(itemRef, iValue);
-//		}
-		return false;
+		slots[slot] = new Item(itemRef, iValue);
+		return true;
 	}
 	
 	/**
@@ -646,10 +648,6 @@ public class Building  implements Serializable
 	 */
 	public boolean isSlot()
 	{
-		if (slots.isEmpty())
-		{
-			return false;
-		}
 		isSlot = false;
 		for (Item item : slots)
 		{

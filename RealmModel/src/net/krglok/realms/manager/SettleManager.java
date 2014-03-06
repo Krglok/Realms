@@ -448,6 +448,14 @@ public class SettleManager
 		return false;
 	}
 	
+	/**
+	 * check for needed materials of the BuildPlanType
+	 * 
+	 * @param rModel
+	 * @param settle
+	 * @param bType
+	 * @return list of needed material 
+	 */
 	public ItemList checkBuildingMaterials(RealmModel rModel, Settlement settle, BuildPlanType bType)
 	{
 		ItemList needMat = new ItemList();
@@ -460,11 +468,19 @@ public class SettleManager
 		for (Item item : needReagents.values())
 		{
 			needMat.putItem(item.ItemRef(), item.value());
+			dontSell.putItem(item.ItemRef(), item.value());
 		}
 		return needMat;
 	}
 	
 
+	/**
+	 * Buy material for build the BuildPlanType
+	 * add buy order to cmdBuy.queue
+	 * 
+	 * @param rModel
+	 * @param settle
+	 */
 	private void buyBuildMaterials(RealmModel rModel, Settlement settle)
 	{
 		for (Item item : buyList.values())
@@ -491,6 +507,14 @@ public class SettleManager
 		buyList.clear();
 	}
 
+	/**
+	 * check for required material for production
+	 * add the material to the buy list
+	 *  
+	 * @param rModel
+	 * @param settle
+	 * @return
+	 */
 	private boolean checkRequiredMaterials(RealmModel rModel, Settlement settle)
 	{
 			buyList.clear();
@@ -509,6 +533,13 @@ public class SettleManager
 			}
 	}
 
+	/**
+	 * buy the required material for production
+	 * add buy order to cmdBuy.queue
+	 * 
+	 * @param rModel
+	 * @param settle
+	 */
 	private void buyRequiredMaterials(RealmModel rModel, Settlement settle)
 	{
 		for (Item item : buyList.values())

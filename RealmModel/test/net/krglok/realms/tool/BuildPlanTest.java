@@ -2,16 +2,34 @@ package net.krglok.realms.tool;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlan;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
+import net.krglok.realms.data.DataTest;
+import net.krglok.realms.data.StrongholdTools;
+import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
+
+import com.avaje.ebean.config.dbplatform.DatabasePlatform;
+
+import tiled.core.Map;
+import tiled.core.MapLayer;
+import tiled.core.Tile;
+import tiled.core.TileLayer;
+import tiled.core.TileSet;
+import tiled.io.TMXMapReader;
 
 public class BuildPlanTest
 {
@@ -202,16 +220,16 @@ public class BuildPlanTest
 		System.out.println("List of BuildPlanTypes ====================");
 		for (BuildPlanType bType : BuildPlanType.values())
 		{
-			System.out.print(bType.getValue()+":"+bType.name());
+			System.out.print( ConfigBasis.setStrright(bType.getValue(),3)+":"+ConfigBasis.setStrleft(bType.name(),14));
 			if (tmxList.contains(bType.name()))
 			{
 				System.out.print(": "+tmxList.get(tmxList.indexOf(bType.name())));
 			}
 			System.out.println("");
 		}
-//		for (String tmx : tmxList)
-//		{
-//			System.out.println(tmx);
-//		}
+		byte expected = ConfigBasis.getMaterialId(Material.CHEST);
+		byte actual = 2;
+		assertEquals(expected, actual);
 	}
+
 }
