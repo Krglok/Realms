@@ -118,14 +118,14 @@ public class MessageData implements MessageInterface
 	 * @param msg , ArrayList<String> to print
 	 * @param doPage , pagenumber to print
 	 */
-	public void printPage(CommandSender sender, ArrayList<String> msg, int pageNumber)
+	public int printPage(CommandSender sender, ArrayList<String> msg, Integer pageNumber)
 	{
 		if (msg.size() > 0)
 		{
 			HashMap<Integer,ArrayList<String>> pages = preparePage(msg);
 			if (pageNumber > pages.size())
 			{
-				pageNumber = pages.size()-1;
+				pageNumber = 1;;
 			}
 			if (pageNumber < 1)
 			{
@@ -133,9 +133,11 @@ public class MessageData implements MessageInterface
 			}
 			ArrayList<String> page = pages.get(pageNumber);
 			sendPage(sender, page);
+			return pageNumber;
 		} else
 		{
 			sender.sendMessage("NO data in message !");
+			return 0;
 		}
 	}
 	

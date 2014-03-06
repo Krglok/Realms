@@ -27,6 +27,11 @@ public class CmdSettleProduction extends RealmsCommand
 		settleId = 0;
 	}
 
+	public int getPage()
+	{
+		return page;
+	}
+	
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -84,8 +89,7 @@ public class CmdSettleProduction extends RealmsCommand
 			msg.add(name +"| "+last+" | "+cycle+" | "+period);
 		}
 		msg.add("");
-		plugin.getMessageData().printPage(sender, msg, page);
-		page = 1;
+		page = plugin.getMessageData().printPage(sender, msg, page);
 	}
 
 	@Override

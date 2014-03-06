@@ -46,10 +46,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ServerListener implements Listener
 {
 	private Realms plugin;
+	private int lastPage;
+	private int marketPage;
 	
 	public ServerListener(Realms plugin)
 	{
 		this.plugin = plugin;
+		this.lastPage = 0;
+		this.marketPage = 0;
 	}
 
 //    @EventHandler(priority = EventPriority.NORMAL)
@@ -101,19 +105,7 @@ public class ServerListener implements Listener
         	ArrayList<String> msg = new ArrayList<String>();
 	    	if (b.getType() == Material.WALL_SIGN)
 	    	{
-	    		Sign sign = (Sign) b.getState();
-	    		String l0 = sign.getLine(0);
-	    		String l1 = sign.getLine(1);
-	    		if (l0.contains("[BuildPlan]"))
-	    		{
-	    			event.getPlayer().sendMessage("You will get a BuildPLan Book of :"+l1);
-	    			cmdBuildPlanBook(event);
-	    		}
-	    		if (l0.contains("[Required]"))
-	    		{
-	    			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
-	    			cmdRequiredBook(event);
-	    		}
+	    		cmdWallSign(event, b);
 	    	}
 	    	if (b.getType() == Material.SIGN_POST)
 	    	{
@@ -157,13 +149,13 @@ public class ServerListener implements Listener
 	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
 	    	{
-    			System.out.println("BOOK");
+//    			System.out.println("BOOK");
 //	    		cmdBuildBook(event);
 	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK_AND_QUILL)
 	    	{
 	    		cmdBuildBook(event);
-	    		System.out.println("BookEdit");
+//	    		System.out.println("BookEdit");
 	    	}
 
     	}
@@ -480,6 +472,105 @@ public class ServerListener implements Listener
 				}
 			}
 		}
+    }
+
+    private void cmdWallSign(PlayerInteractEvent event, Block b)
+    {
+		Sign sign = (Sign) b.getState();
+		String l0 = sign.getLine(0);
+		String l1 = sign.getLine(1);
+		if (l0.contains("[WAREHOUSE]"))
+		{
+//			cmdBuildPlanBook(event);
+			CmdSettleWarehouse cmdWare = new CmdSettleWarehouse();
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				cmdWare.execute(plugin, event.getPlayer());
+				cmdWare.setPara(0, settle.getId());
+				cmdWare.setPara(1, this.lastPage);
+				cmdWare.execute(plugin, event.getPlayer());
+				lastPage = cmdWare.getPage()+1;
+				
+			}
+			return;
+		}
+		if (l0.contains("[INFO]"))
+		{
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				CmdSettleInfo cmdInfo = new CmdSettleInfo();
+				cmdInfo.setPara(0, settle.getId());
+				cmdInfo.setPara(1, 1);
+				cmdInfo.execute(plugin, event.getPlayer());
+			}
+			return;
+		}
+		if (l0.contains("[TRADER]"))
+		{
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				CmdSettleTrader cmd = new CmdSettleTrader();
+				cmd.setPara(0, settle.getId());
+				cmd.setPara(1, 1);
+				cmd.execute(plugin, event.getPlayer());
+			}
+			return;
+		}
+		if (l0.contains("[BUILDINGS]"))
+		{
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				CmdSettleBuildingList cmd = new CmdSettleBuildingList();
+				cmd.setPara(0, settle.getId());
+				cmd.setPara(1, 1);
+				cmd.execute(plugin, event.getPlayer());
+			}
+			return;
+		}
+		if (l0.contains("[PRODUCTION]"))
+		{
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				CmdSettleProduction cmd = new CmdSettleProduction();
+				cmd.setPara(0, settle.getId());
+				cmd.setPara(1, marketPage);
+				cmd.execute(plugin, event.getPlayer());
+				marketPage = cmd.getPage()+1;
+			}
+			return;
+		}
+
+		if (l0.contains("[MARKET]"))
+		{
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				CmdSettleMarket cmd = new CmdSettleMarket();
+				cmd.setPara(0, settle.getId());
+				cmd.setPara(1, marketPage);
+				cmd.execute(plugin, event.getPlayer());
+				marketPage = cmd.getPage()+1;
+			}
+			return;
+		}
+		
+		if (l0.contains("[Required]"))
+		{
+			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
+			cmdRequiredBook(event);
+		}
+    	
     }
     
 }

@@ -80,7 +80,7 @@ public final class Realms extends JavaPlugin
 	private TaxTask taxTask = null;
 	
 	private final MessageData messageData = new MessageData(log);
-	private final ServerListener serverListener = new ServerListener(this);
+	private ServerListener serverListener = new ServerListener(this);
 	@SuppressWarnings("unused")
 	private final Update update = new Update();
 
@@ -165,7 +165,7 @@ public final class Realms extends JavaPlugin
         	isReady = false;
     		log.info("[Realms] Data not properly read !");
         }
-        new ServerListener(this);
+        
 
         realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData);
         

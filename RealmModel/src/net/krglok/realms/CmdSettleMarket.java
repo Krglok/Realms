@@ -28,6 +28,11 @@ public class CmdSettleMarket extends RealmsCommand
 		this.page = 1;  //default value
 	}
 
+	public int getPage()
+	{
+		return page;
+	}
+	
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -88,8 +93,7 @@ public class CmdSettleMarket extends RealmsCommand
 			errorMsg.add("[Realm Model] NOT enabled or too busy");
 			errorMsg.add("Try later again");
 		}
-		plugin.getMessageData().printPage(sender, msg, page);
-
+		page = plugin.getMessageData().printPage(sender, msg, page);
 	}
 
 	@Override

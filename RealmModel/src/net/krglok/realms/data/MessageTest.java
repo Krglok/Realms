@@ -208,11 +208,11 @@ public class MessageTest implements MessageInterface
 	}
 
 	@Override
-	public void printPage(CommandSender sender, ArrayList<String> msg,
-			int pageNumber)
+	public int printPage(CommandSender sender, ArrayList<String> msg,
+			Integer pageNumber)
 	{
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public interface MessageInterface
 	 * @param msg , ArrayList<String> to print
 	 * @param doPage , pagenumber to print
 	 */
-	public void printPage(CommandSender sender, ArrayList<String> msg, int pageNumber);
+	public int printPage(CommandSender sender, ArrayList<String> msg, Integer pageNumber);
 	
 	/**
 	 * generate Test page with number of lines

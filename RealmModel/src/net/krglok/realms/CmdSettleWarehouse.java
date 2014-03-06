@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 public class CmdSettleWarehouse extends RealmsCommand
 {
 	int settleID;
-	int page ;
+	Integer page ;
 
 	public CmdSettleWarehouse( )
 	{
@@ -29,6 +29,11 @@ public class CmdSettleWarehouse extends RealmsCommand
 			this.page = 1;  //default value
 	}
 
+	public int getPage()
+	{
+		return page;
+	}
+	
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -85,8 +90,8 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    		msg.add(ConfigBasis.setStrleft(item.ItemRef(),15)+" : "+ChatColor.YELLOW+item.value());
 		    }
 	    }
-		plugin.getMessageData().printPage(sender, msg, page);
-		page = 1;
+	    page = plugin.getMessageData().printPage(sender, msg, page);
+//		page = 1;
 	}
 
 	@Override
