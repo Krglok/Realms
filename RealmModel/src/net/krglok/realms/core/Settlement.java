@@ -1273,6 +1273,15 @@ public class Settlement //implements Serializable
 		warehouse.setStoreCapacity();			
 	}
 	
+	/**
+	 * check the storage capacity and the maxStorage for each item based on :
+	 * - item store < maxSlots / 4
+	 * - item store <=  item.capacity * 2;
+	 * 
+	 * @param server
+	 * @param building
+	 * @return
+	 */
 	private boolean checkStoreCapacity(ServerInterface server, Building building)
 	{
 		String itemRef = "";
@@ -1285,7 +1294,7 @@ public class Settlement //implements Serializable
 			if ((warehouse.getItemList().getValue(itemRef)/64) < (warehouse.getItemMax() / 64 / 4))
 			{
 				//check 
-				if ((warehouse.getItemList().getValue(itemRef)/64) > warehouse.getTypeCapacityList().getValue(itemRef))
+				if ((warehouse.getItemList().getValue(itemRef)/64) >= (warehouse.getTypeCapacityList().getValue(itemRef)*2))
 				{
 					isResult = false;
 				}
