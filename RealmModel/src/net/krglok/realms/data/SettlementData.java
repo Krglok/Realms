@@ -112,9 +112,9 @@ public class SettlementData
 	            	values.put("isEnabled", building.isEnabled().toString());
 	            	values.put("isActiv", building.isActive().toString());
 	            	values.put("position", LocationData.toString(building.getPosition()));
-	            	for (int i = 0; i < building.getSlot1().size(); i++)
+	            	for (int i = 0; i < building.getSlots().length; i++)
 					{
-	            		values.put("slot"+i, building.getSlot1().get(i).ItemRef());
+	            		values.put("slot"+i, building.getSlots()[i].ItemRef());
 					}
 	            	buildings.put(String.valueOf(building.getId()), values ); 
 		            config.set((MemorySection.createPath(settleSec,"buildinglist")), buildings);

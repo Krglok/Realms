@@ -72,7 +72,7 @@ public class SettlementBaeckerTest
 			}
 			if (b.getHsRegion() == 52)
 			{
-				b.addSlot(Material.BREAD.name(),config);
+				b.addSlot(0, Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);

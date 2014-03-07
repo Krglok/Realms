@@ -65,7 +65,7 @@ public class Building  implements Serializable
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new Item[5];
-		setSlot(false);
+		setisSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
 		position = new LocationData("", 0.0, 0.0, 0.0);
@@ -109,7 +109,7 @@ public class Building  implements Serializable
 		this.isEnabled  = true;
 		isActiv 	    = true;
 		slots = new Item[5];
-		setSlot(false);
+		setisSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
 		this.position = position; //new LocationData("", 0.0, 0.0, 0.0);
@@ -134,7 +134,7 @@ public class Building  implements Serializable
 		this.isEnabled = isEnabled;
 		isActiv 	    = true;
 		slots = new Item[5];
-		setSlot(false);
+		setisSlot(false);
 		sales = 0.0;
 		storeCapacity   = getStoreCapacity(buildingType);
 		position = new LocationData("", 0.0, 0.0, 0.0);
@@ -162,32 +162,32 @@ public class Building  implements Serializable
 		storeCapacity   = getStoreCapacity(buildingType);
 		
 		isActiv 	    = true;
-		setSlot(false);
+		setisSlot(false);
 		slots = new Item[5];
 		if (slot1 != "")
 		{
 			slots[0] = new Item(slot1, 1);
-			setSlot(true);
+			setisSlot(true);
 		}
 		if (slot2 != "")
 		{
 			slots[1] = new Item(slot2, 1);
-			setSlot(true);
+			setisSlot(true);
 		}
 		if (slot3 != "")
 		{
 			slots[2] = new Item(slot3, 1);
-			setSlot(true);
+			setisSlot(true);
 		}
 		if (slot4 != "")
 		{
 			slots[3] = new Item(slot4, 1);
-			setSlot(true);
+			setisSlot(true);
 		}
 		if (slot5 != "")
 		{
 			slots[0] = new Item(slot5, 1);
-			setSlot(true);
+			setisSlot(true);
 		}
 		this.sales = sales;
 		this.position = position;
@@ -662,7 +662,7 @@ public class Building  implements Serializable
 	/**
 	 * @param isSlot the isSlot to set
 	 */
-	public void setSlot(boolean isSlot)
+	public void setisSlot(boolean isSlot)
 	{
 		this.isSlot = isSlot;
 	}
@@ -710,18 +710,12 @@ public class Building  implements Serializable
 		ItemArray items = new ItemArray();
 		int iValue = 0;
 		double prodFactor = 1;
-		if (slots.isEmpty() == false)
+		for (Item item : slots)
 		{
-			for (Item item : slots)
-			{
-				prodFactor = server.getRecipeFactor(item.ItemRef(), biome);
-				recipeList = server.getRecipe(item.ItemRef());
-				iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
-				items.addItem(item.ItemRef(), iValue);
-			}
-		} else
-		{
-			
+			prodFactor = server.getRecipeFactor(item.ItemRef(), biome);
+			recipeList = server.getRecipe(item.ItemRef());
+			iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
+			items.addItem(item.ItemRef(), iValue);
 		}
 		return items;
 	}

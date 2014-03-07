@@ -97,7 +97,6 @@ public class CmdSettleSetItem extends RealmsCommand
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
     	msg.add(ChatColor.YELLOW+"Set Item: "+ChatColor.GREEN+itemRef+":"+amount);
     	msg.add("");
-//		msg.addAll(getDescriptionString());
 		plugin.getMessageData().printPage(sender, msg, 1);
 
 	}

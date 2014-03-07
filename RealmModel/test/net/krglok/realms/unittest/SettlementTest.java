@@ -795,19 +795,19 @@ public class SettlementTest
 		{
 			if (b.getHsRegion() == 41)
 			{
-				b.addSlot("WOOD_PICKAXE",config);
-				b.addSlot("WOOD_AXE",config);
-				b.addSlot("WOOD_HOE",config);
-				b.addSlot(Material.IRON_SWORD.name(),config);
-				b.addSlot(Material.LEATHER_CHESTPLATE.name(),config);
+				b.addSlot(0,"WOOD_PICKAXE",config);
+				b.addSlot(1,"WOOD_AXE",config);
+				b.addSlot(2,"WOOD_HOE",config);
+				b.addSlot(3,Material.IRON_SWORD.name(),config);
+				b.addSlot(4,Material.LEATHER_CHESTPLATE.name(),config);
 			}
 			if (b.getHsRegion() == 42)
 			{
-				b.addSlot("STICK",config);
-				b.addSlot("WOOD",config);
-				b.addSlot("FENCE",config);
-				b.addSlot(Material.STICK.name(),config);
-				b.addSlot(Material.WOOD.name(),config);
+				b.addSlot(0,"STICK",config);
+				b.addSlot(1,"WOOD",config);
+				b.addSlot(2,"FENCE",config);
+				b.addSlot(3,Material.STICK.name(),config);
+				b.addSlot(4,Material.WOOD.name(),config);
 			}
 		}
 		settle.getWarehouse().depositItemValue(Material.LOG.name(), 64);
@@ -890,8 +890,8 @@ public class SettlementTest
 		{
 			if (b.getHsRegion() == 51)
 			{
-				b.addSlot(Material.BREAD.name(),config);
-				b.addSlot(Material.BREAD.name(),config);
+				b.addSlot(0,Material.BREAD.name(),config);
+				b.addSlot(1,Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
@@ -990,8 +990,8 @@ public class SettlementTest
 			b.setIsActive(true);
 			if (b.getHsRegion() == 51)
 			{
-				b.addSlot(Material.BREAD.name(),config);
-				b.addSlot(Material.BREAD.name(),config);
+				b.addSlot(0,Material.BREAD.name(),config);
+				b.addSlot(1,Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
@@ -999,8 +999,8 @@ public class SettlementTest
 			if (b.getHsRegion() == 52)
 			{
 				b.setIsActive(false);
-				b.addSlot(Material.BREAD.name(),config);
-				b.addSlot(Material.BREAD.name(),config);
+				b.addSlot(0,Material.BREAD.name(),config);
+				b.addSlot(1,Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
 //				b.addSlot(Material.BREAD.name(),config);
@@ -1008,20 +1008,20 @@ public class SettlementTest
 			if (b.getHsRegion() == 41)
 			{
 				b.setIsActive(false);
-				b.addSlot("WOOD_AXE",config);
-				b.addSlot("WOOD_HOE",config);
-				b.addSlot(Material.WOOD_PICKAXE.name(),config);
-				b.addSlot(Material.IRON_SWORD.name(),config);
-				b.addSlot(Material.LEATHER_CHESTPLATE.name(),config);
+				b.addSlot(0,"WOOD_AXE",config);
+				b.addSlot(1,"WOOD_HOE",config);
+				b.addSlot(2,Material.WOOD_PICKAXE.name(),config);
+				b.addSlot(3,Material.IRON_SWORD.name(),config);
+				b.addSlot(4,Material.LEATHER_CHESTPLATE.name(),config);
 			}
 			if (b.getHsRegion() == 42)
 			{
 				b.setIsActive(true);
-				b.addSlot("STICK",config);
-				b.addSlot("WOOD",config);
-				b.addSlot("WOOD",config);
-				b.addSlot(Material.STICK.name(),config);
-				b.addSlot(Material.WOOD.name(),config);
+				b.addSlot(0,"STICK",config);
+				b.addSlot(1,"WOOD",config);
+				b.addSlot(2,"WOOD",config);
+				b.addSlot(3,Material.STICK.name(),config);
+				b.addSlot(4,Material.WOOD.name(),config);
 			}
 		}
 		
@@ -1142,20 +1142,20 @@ public class SettlementTest
 			if (b.getHsRegion() == 41)
 			{
 				b.setIsActive(true);
-				b.addSlot("WOOD_AXE",config);
-				b.addSlot("WOOD_HOE",config);
-				b.addSlot(Material.WOOD_PICKAXE.name(),config);
-				b.addSlot(Material.IRON_SWORD.name(),config);
-				b.addSlot(Material.LEATHER_CHESTPLATE.name(),config);
+				b.addSlot(0,"WOOD_AXE",config);
+				b.addSlot(1,"WOOD_HOE",config);
+				b.addSlot(2,Material.WOOD_PICKAXE.name(),config);
+				b.addSlot(3,Material.IRON_SWORD.name(),config);
+				b.addSlot(4,Material.LEATHER_CHESTPLATE.name(),config);
 			}
 			if (b.getHsRegion() == 42)
 			{
 				b.setIsActive(true);
-				b.addSlot("STICK",config);
-				b.addSlot("WOOD",config);
-				b.addSlot("WOOD",config);
-				b.addSlot(Material.STICK.name(),config);
-				b.addSlot(Material.WOOD.name(),config);
+				b.addSlot(0,"STICK",config);
+				b.addSlot(1,"WOOD",config);
+				b.addSlot(2,"WOOD",config);
+				b.addSlot(3,Material.STICK.name(),config);
+				b.addSlot(4,Material.WOOD.name(),config);
 			}
 		}
 		

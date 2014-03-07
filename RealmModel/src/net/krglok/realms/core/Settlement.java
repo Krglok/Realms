@@ -1282,7 +1282,7 @@ public class Settlement //implements Serializable
 		{
 			itemRef = item.ItemRef();
 			// check MaxStorage
-			if ((warehouse.getItemList().getValue(itemRef)/64) < building.getStoreCapacity())
+			if ((warehouse.getItemList().getValue(itemRef)/64) < (warehouse.getItemMax() / 64 / 4))
 			{
 				//check 
 				if ((warehouse.getItemList().getValue(itemRef)/64) > warehouse.getTypeCapacityList().getValue(itemRef))
