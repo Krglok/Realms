@@ -57,6 +57,9 @@ The project is devide into 3 phases to reach Version 1.0
 - Phase 3, Realms and Conflicts
  
 In progress:
-- Phase 1, nearby ready to publish as beta 0.8
+- Phase 2, units and unit relevant buildings
+
+Ready and published
+- Phase 1, ready, publish as beta 0.8.2
 
 
