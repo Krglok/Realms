@@ -8,7 +8,6 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.manager.BuildManager;
@@ -16,6 +15,7 @@ import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdColonyBuild;
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.unittest.DataTest;
 
 import org.junit.Test;
 

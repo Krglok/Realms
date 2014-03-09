@@ -91,20 +91,11 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 		{
 			String sLine = "";
 			sLine = ConfigBasis.setStrleft(item.ItemRef()+"________",9)+":§a "+item.getFormatedBasePrice()+"§0 ";
-				
-//			if (sLine.length() > 19)
-//			{
-//				int dif = sLine.length() - 19;
-//				sLine = item.ItemRef();
-//				sLine = sLine.substring(0, sLine.length()-dif);
-//				sLine = ConfigBasis.setStrleft(""+sLine+":§a"+item.getFormatedBasePrice()+"§0 ", 19);
-//			}
 			msg.add(sLine);
 			
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);
-		msg.clear();
 		if (sender instanceof Player)
 		{
 			String sPage = "";

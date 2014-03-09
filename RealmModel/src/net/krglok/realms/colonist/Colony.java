@@ -303,7 +303,7 @@ public class Colony
 		int radius = prepareRadius; 
 		int edge =  radius * 2 -1;
 		// erzeuge CleanRequest 
-		if (this.prepareLevel < radius)
+		if (this.prepareLevel < prepareMaxLevel)
 		{
 			for (int i = 0; i < edge; i++)
 			{

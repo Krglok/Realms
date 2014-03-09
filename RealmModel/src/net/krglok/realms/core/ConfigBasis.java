@@ -447,7 +447,6 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.COBBLESTONE.name(),0);
 		subList.addItem(Material.LOG.name(),0);
 		subList.addItem(Material.STONE.name(),0);
-		subList.addItem(Material.STONE.name(),0);
 		subList.addItem(Material.BRICK.name(),0);
 		subList.addItem(Material.NETHER_BRICK.name(),0);
 		subList.addItem(Material.WOOD_STEP.name(),0);
@@ -457,6 +456,8 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.WATER.name(),0);
 		subList.addItem(Material.NETHERRACK.name(),0);
 		subList.addItem(Material.WHEAT.name(),0);
+		subList.addItem(Material.WOOD.name(),0);
+		subList.addItem(Material.SOIL.name(),0);
 //		subList.addItem(Material..name(),0);
 		
 		return subList;
@@ -467,7 +468,6 @@ public class ConfigBasis implements ConfigInterface
 		ItemList subList = new ItemList();
 
 		subList.addItem(Material.COAL.name(),0);
-		subList.addItem(Material.WOOD.name(),0);
 		subList.addItem(Material.STICK.name(),0);
 		subList.addItem(Material.WOOL.name(),0);
 		subList.addItem(Material.SEEDS.name(),0);
@@ -475,7 +475,6 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.FENCE_GATE.name(),0);
 		subList.addItem(Material.BED.name(),0);
 		subList.addItem(Material.TORCH.name(),0);
-		subList.addItem(Material.WOOL.name(),0);
 		subList.addItem(Material.ANVIL.name(),0);
 		subList.addItem(Material.BOOKSHELF.name(),0);
 		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
@@ -486,7 +485,6 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.WALL_SIGN.name(),0);
 		subList.addItem(Material.SIGN.name(),0);
 		subList.addItem(Material.SIGN_POST.name(),0);
-		subList.addItem(Material.WOOD.name(),0);
 
 //		subList.addItem(Material..name(),0);
 		

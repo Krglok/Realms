@@ -446,7 +446,7 @@ public class BuildManager
 		String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
 		if (regionRequest.isEmpty())
 		{
-			if (buildPlan.getBuildingType() != BuildPlanType.PILLAR)
+			if ((buildPlan.getBuildingType().getValue() > 50))
 			{
 				LocationData position = new LocationData(
 						buildLocation.getWorld(), 

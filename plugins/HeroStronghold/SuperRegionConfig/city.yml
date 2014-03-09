@@ -7,7 +7,7 @@ effects:
 - denyliquid
 - denyexplosion
 - denymobspawn
-radius: 100
+radius: 110
 requirements:
 - TOWNHALL.1
 - HOME.2

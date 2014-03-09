@@ -5,7 +5,6 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.McmdColonistCreate;

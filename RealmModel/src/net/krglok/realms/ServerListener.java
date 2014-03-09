@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -317,6 +318,8 @@ public class ServerListener implements Listener
 		{
 			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
 			{
+				BuildPlanMap buildPLan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.getBuildPlanType(name), 4, -1);
+				
 				if (checkBuild(pos, name, player, msg))
 				{
 					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);

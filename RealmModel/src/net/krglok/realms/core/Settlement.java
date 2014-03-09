@@ -1291,16 +1291,18 @@ public class Settlement //implements Serializable
 		{
 			itemRef = item.ItemRef();
 			// check MaxStorage
-			if ((warehouse.getItemList().getValue(itemRef)/64) < (warehouse.getItemMax() / 64 / 4))
+			if ((warehouse.getItemList().getValue(itemRef)/64) < (warehouse.getItemMax() / 64 / 5))
 			{
-				//check 
-				if ((warehouse.getItemList().getValue(itemRef)/64) >= (warehouse.getTypeCapacityList().getValue(itemRef)*2))
-				{
-					isResult = false;
-				}
+//				//check 
+//				if ((warehouse.getItemList().getValue(itemRef)/64) >= (warehouse.getTypeCapacityList().getValue(itemRef)*2))
+//					if ((warehouse.getItemList().getValue(itemRef)/64) >= (warehouse.getTypeCapacityList().getValue(itemRef)*2))
+//				{
+//					isResult = false;
+//					System.out.println(getId()+" :TypCapacity "+itemRef+":"+(warehouse.getItemList().getValue(itemRef)/64)+"/"+(warehouse.getTypeCapacityList().getValue(itemRef)*2));
+//				}
 			} else
 			{
-//				System.out.println(getId()+" :CheckStore "+itemRef+":"+warehouse.getItemList().getValue(itemRef)+":"+warehouse.getTypeCapacityList().get(itemRef));
+				System.out.println(getId()+" :MaxItems "+itemRef+":"+(warehouse.getItemList().getValue(itemRef)/64) +"/"+ (warehouse.getItemMax() / 64 / 4));
 				isResult = false;
 			}
 		}

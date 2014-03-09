@@ -1,0 +1,29 @@
+effects:
+- denymobspawnnoreagent
+- denyblockbuild
+- denyblockbreak
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+- denymobspawn
+radius: 100
+requirements:
+- TOWNHALL.1
+- HOME.2
+- HOUSE.3
+- WAREHOUSE.1
+- TAVERNE.1
+- GUARDHOUSE.1
+- WHEAT.6
+- BAKERY.1
+central-structure: TOWNHALL
+money-requirement: 450000.0
+money-output-daily: -15.0
+max-power: 10000
+daily-power-increase: 150
+charter: 4
+child-regions:
+- Hamlet
+- Town
+exp: 10000

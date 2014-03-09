@@ -1,0 +1,31 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
+radius: 4
+requirements:
+- FENCE.24
+- GRASS.49
+reagents:
+- GOLD_NUGGET.1
+- WOOD_SWORD.1
+upkeep:
+- WHEAT.10
+upkeep-chance: 0.001
+output:
+- COOKED_BEEF.2
+- LEATHER.1
+money-requirement: 500.0
+upkeep-money-output: -2.0
+super-regions:
+- Mine
+- Lager
+- Hauptlager
+- Werkstatt
+- Siedlung
+- Dorf
+- Stadt

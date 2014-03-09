@@ -528,7 +528,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case WHEAT : return FAKTOR_MM;
 		case SEEDS : return FAKTOR_MM;
 		case WOOL : return FAKTOR_MM;
-		case GOLD_NUGGET: return FAKTOR_PP;
+		case GOLD_NUGGET: return FAKTOR_PPP;
 		case LEATHER : return FAKTOR_MM;
 		case RAW_BEEF : return FAKTOR_MM;
 		case PORK : return FAKTOR_MM;
@@ -536,9 +536,11 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case FEATHER : return FAKTOR_MM;
 		case RED_MUSHROOM : return FAKTOR_PPP; 
 		case BROWN_MUSHROOM : return FAKTOR_PPP;
-		case LAVA : return FAKTOR_MMM;
-		case NETHERRACK : return FAKTOR_MM;
-		case SOUL_SAND : return FAKTOR_MM;
+		case LAVA : return FAKTOR_PPP;
+		case NETHERRACK : return FAKTOR_PPP;
+		case SOUL_SAND : return FAKTOR_PPP;
+		case GHAST_TEAR : return FAKTOR_PPP;
+		case MAGMA_CREAM : return FAKTOR_PPP;
 		
 		default :
 			return  FAKTOR_MMM;

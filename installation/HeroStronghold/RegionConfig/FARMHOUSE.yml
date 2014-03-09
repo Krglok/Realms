@@ -1,0 +1,31 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 7
+requirements:
+- WOODEN_DOOR.1
+- BED_BLOCK.2
+- WORKBENCH.1
+- CHEST.1
+- WALL_SIGN.1
+- COBBLESTONE.61
+reagents:
+- GOLD_NUGGET.1
+upkeep:
+- WOOD_HOE.1
+upkeep-chance: 0.001
+output:
+- WHEAT.64
+- SEEDS.4
+money-requirement: 1500.0
+upkeep-money-output: 1.0
+housing: 8
+power-drain: 0.0
+group: home
+biome: [] 
+description: Hold Settler

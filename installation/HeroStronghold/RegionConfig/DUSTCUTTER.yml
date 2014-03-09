@@ -1,0 +1,24 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
+radius: 4
+requirements:
+- WORKBENCH.1
+- CHEST.1
+- GLOWSTONE.10
+- WALL_SIGN.1
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output:
+- GLOWSTONE_DUST.16
+money-requirement: 500.0
+upkeep-money-output: 0.0
+biome:
+- HELL

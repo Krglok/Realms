@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
@@ -50,21 +51,25 @@ public class SettlementData
 	public void writeSettledata(Settlement settle) 
 	{
 		try
-		{
-//    			System.out.println("Write SettlementData: "+dataFolder.getName());
-	            File settleFile = new File(dataFolder, "settlement.yml");
+		{ 
+//	            File settleFile = new File(dataFolder, "settlement.yml");
 //	            if (!settleFile.exists()) 
 //	            {
-//	            	settleFile.createNewFile();
+//		            System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+"\\"+" not Exist !!!");
+//		            return;
 //	            }
-	            HashMap<String,String> values; // = new HashMap<String,String>();
-	            
+//            	settleFile.setWritable(true);
+//	            
+				HashMap<String,String> values; // = new HashMap<String,String>();
 	            FileConfiguration config = new YamlConfiguration();
-	            config.load(settleFile);
+	            String fileName = dataFolder+"\\settlement.yml";
+	            config.load(fileName);
+//	            System.out.println("LOAD : "+settle.getId()+": "+fileName);
+            
 	            String base = getSettleKey(settle.getId());
-	            System.out.println("WRITE : "+dataFolder+":"+"settlement.yml");
 	            
 	            ConfigurationSection settleSec = config.createSection(base);
+            
 	            config.set(MemorySection.createPath(settleSec, "id"), settle.getId());
 	            config.set(MemorySection.createPath(settleSec, "settleType"), settle.getSettleType().name());
 	            config.set(MemorySection.createPath(settleSec, "position"), LocationData.toString(settle.getPosition()));
@@ -77,11 +82,15 @@ public class SettlementData
 	            config.set(MemorySection.createPath(settleSec, "isActive"), settle.isActive());
 	            config.set(MemorySection.createPath(settleSec, "bank"), settle.getBank().getKonto());
 
+//	            System.out.println("SAVE : 1");
+//
 	            values = new HashMap<String,String>();
 	            values.put("isEnabled",settle.getTownhall().getIsEnabled().toString());
 	            values.put("workerNeeded",String.valueOf(settle.getTownhall().getWorkerNeeded()));
 	            values.put( "workerCount",String.valueOf(settle.getTownhall().getWorkerCount()));
 	            config.set(MemorySection.createPath(settleSec, "townhall"), values);
+
+//	            System.out.println("SAVE : 2");
 
 //	            ConfigurationSection residentSec = config.createSection(base+".resident");
 	            values = new HashMap<String,String>();
@@ -94,6 +103,7 @@ public class SettlementData
 	            values.put("horseCount",String.valueOf(settle.getResident().getCowCount()));
 	            config.set(MemorySection.createPath(settleSec,"resident"), values);
 
+//	            System.out.println("SAVE : 3");
 //	            ConfigurationSection buildingSec = config.createSection(base+".buildinglist");
 	            HashMap<String,HashMap<String,String>> buildings = new HashMap<String,HashMap<String,String>>();
 	            for (Building building : settle.getBuildingList().getBuildingList().values())
@@ -114,16 +124,20 @@ public class SettlementData
 	            	values.put("position", LocationData.toString(building.getPosition()));
 	            	for (int i = 0; i < building.getSlots().length; i++)
 					{
-	            		values.put("slot"+i, building.getSlots()[i].ItemRef());
+	            		if (building.getSlots()[i] != null)
+	            		{
+	            			if (building.getSlots()[i].ItemRef() != "")
+	            			{
+	            				values.put("slot"+i, building.getSlots()[i].ItemRef());
+	            			}
+	            		}
 					}
 	            	buildings.put(String.valueOf(building.getId()), values ); 
 		            config.set((MemorySection.createPath(settleSec,"buildinglist")), buildings);
 	            }
-////	        	private Warehouse warehouse ;
-////	    			private Boolean isEnabled;
-////	    			private int itemMax;
-////	    			private int itemCount;
-////	    			private ItemList itemList;
+
+//	            System.out.println("SAVE : 4");
+
 	            values = new HashMap<String,String>();
             	values.put("itemMax", String.valueOf(settle.getWarehouse().getItemMax()));
             	values.put("itemCount", String.valueOf(settle.getWarehouse().getItemCount()));
@@ -137,7 +151,15 @@ public class SettlementData
             	}
 	            config.set(MemorySection.createPath(settleSec,"itemList"), values);
 ////	            config.set("", settle);
-            	config.save(settleFile);
+//	            System.out.println("SAVE : "+settle.getId()+": "+fileName);
+	            try
+				{
+	            	config.save(fileName); // dataFolder+"\\settlement.yml");
+				} catch (Exception e)
+				{
+		            System.out.println("ECXEPTION : "+settle.getId()+": "+fileName);
+				}
+	            System.out.println("WRITTEN : "+settle.getId()+": "+dataFolder+"\\"+"settlement.yml");
 			
 		} catch (Exception e)
 		{
@@ -163,7 +185,7 @@ public class SettlementData
             FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
-//            System.out.println("READ : "+dataFolder+":"+"settlement.yml");
+            System.out.println("READ : "+id+":"+dataFolder+":"+"settlement.yml");
             if (config.isConfigurationSection(settleSec))
             {
 //                System.out.println(settleSec);

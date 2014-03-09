@@ -42,7 +42,7 @@ public class SettlementList
 	}
 
 	/**
-	 * replace settlementList
+	 * replace settlementListt
 	 * @param settlements <id, Settlement>
 	 */
 	public void setSettlements(Map<Integer,Settlement> settlements)
@@ -66,15 +66,15 @@ public class SettlementList
 		}
 	}
 	
-//	public int checkId(int ref)
-//	{
-//		while (settlementList.containsKey(ref))
-//		{
-//			ref++;
-//		}
-//		Settlement.initCounter(ref);
-//		return Settlement.getCounter();
-//	}
+	public int checkId(int ref)
+	{
+		while (settlementList.containsKey(ref))
+		{
+			ref++;
+		}
+		Settlement.initCounter(ref);
+		return Settlement.getCounter();
+	}
 
 	/**
 	 * add settlement to the list
@@ -83,7 +83,7 @@ public class SettlementList
 	 */
 	public void addSettlement(Settlement settlement)
 	{
-//		settlement.setId(checkId(settlement.getId()));
+		settlement.setId(checkId(settlement.getId()));
 		settlementList.put(settlement.getId(),settlement);
 		settlement.initSettlement();
 		setOwner(settlement.getId(), settlement.getOwner());

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPrice;
 
@@ -44,7 +45,7 @@ public class CmdRealmsTest extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms TEST [page]   ",
-		    	" give the player a Map in Inventory  ",
+		    	" test all region for center chest  ",
 		    	"  ",
 		    	"  ",
 		    	" "
@@ -92,39 +93,43 @@ public class CmdRealmsTest extends RealmsCommand
 		return new String[] {int.class.getName()  };
 	}
 
+	private void checkRegionChest(Realms plugin, ArrayList<String> msg)
+	{
+		for (Region region : plugin.stronghold.getRegionManager().getRegions().values())
+		{
+			Block bs = region.getLocation().getBlock();
+			if (bs.getType() != Material.CHEST)
+			{
+				String x = ConfigBasis.setStrformat2(region.getLocation().getX(),7);
+				String y = ConfigBasis.setStrformat2(region.getLocation().getY(),7);
+				String z = ConfigBasis.setStrformat2(region.getLocation().getZ(),7);
+				String type = ConfigBasis.setStrleft(region.getType(), 12);
+				msg.add(region.getID()+":"+ type +":"+ x + ":"+ y +":"+ z);
+			}
+		}
+	}
+	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-		Player player = (Player) sender;
-//		PlayerInventory inventory = player.getInventory();
-//		ItemStack bMap = new ItemStack(Material.MAP);
-		Location lookPos = player.getTargetBlock(null, 6).getLocation();
-		Block lookAt =  player.getTargetBlock(null, 6);   
-		player.getWorld().spawnCreature(lookPos, CreatureType.VILLAGER);
-//		MapView map = plugin.getServer().createMap(player.getLocation().getWorld());
-//		
-//		MapRenderer mRender =  map.getRenderers().get(0);
-		
-		
-		
-//		final MapMeta mm = (MapMeta) bMap.getItemMeta();
-//		mm.setDisplayName("RealmsMap");
-//		bMap.setItemMeta(mm);
-//		inventory.addItem(bMap);
-				
+//		Player player = (Player) sender;
+		checkRegionChest(plugin, msg);
+		plugin.getMessageData().printPage(sender, msg, page);
+
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (sender instanceof Player)
-		{
-			return true;
-		}
-		errorMsg.add("Not a console command !");
-		errorMsg.add("The command must send by a Player !");
-		return false;
+		return true;
+//		if (sender instanceof Player)
+//		{
+//			return true;
+//		}
+//		errorMsg.add("Not a console command !");
+//		errorMsg.add("The command must send by a Player !");
+//		return false;
 	}
 
 }

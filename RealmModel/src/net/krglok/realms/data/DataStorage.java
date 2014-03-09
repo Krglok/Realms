@@ -344,7 +344,7 @@ public class DataStorage implements DataInterface
 		{
 			tmxMap =  mapReader.readMap(filename);
 			String sOffSet = tmxMap.getProperties().getProperty("offset");
-			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth()+":"+sOffSet);
+//			System.out.println(tmxMap.getFilename()+":"+tmxMap.getHeight()+":"+tmxMap.getWidth()+":"+sOffSet);
 			if (sOffSet != null)
 			{
 				offSet = Integer.valueOf(sOffSet);

@@ -4,11 +4,11 @@ SETTLEMENT:
     settleType: HAMLET
     position: Draskoriascraft:-260.0:77.0:-102.0
     biome: MEGA_TAIGA
-    age: 224
+    age: 92
     name: NewHeaven
     isCapital: false
     isActive: true
-    bank: 273.99999999999966
+    bank: 1035.9999999999998
     townhall:
       workerNeeded: '14'
       workerCount: '14'
@@ -16,38 +16,12 @@ SETTLEMENT:
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '24'
-      fertilityCounter: '3.18'
-      happiness: '-0.09466666666666666'
+      settlerCount: '20'
+      fertilityCounter: '13.000000000000002'
+      happiness: '1.716000000000001'
       workerCount: '0'
       settlerMax: '25'
     buildinglist:
-      '49':
-        position: Draskoriascraft:-260.0:77.0:-102.0
-        id: '49'
-        settler: '0'
-        hsRegionType: WHEAT
-        isRegion: 'true'
-        hsSuperRegion: ''
-        hsRegion: '60'
-        workerInstalled: '1'
-        buildingType: WHEAT
-        workerNeeded: '1'
-        isEnabled: 'true'
-        isActiv: 'true'
-      '48':
-        position: Draskoriascraft:-260.0:77.0:-102.0
-        id: '48'
-        settler: '0'
-        hsRegionType: WHEAT
-        isRegion: 'true'
-        hsSuperRegion: ''
-        hsRegion: '61'
-        workerInstalled: '1'
-        buildingType: WHEAT
-        workerNeeded: '1'
-        isEnabled: 'true'
-        isActiv: 'true'
       '45':
         position: Draskoriascraft:-260.0:77.0:-102.0
         id: '45'
@@ -72,19 +46,6 @@ SETTLEMENT:
         workerInstalled: '2'
         buildingType: CABINETMAKER
         workerNeeded: '2'
-        isEnabled: 'true'
-        isActiv: 'true'
-      '39':
-        position: Draskoriascraft:-260.0:77.0:-102.0
-        id: '39'
-        settler: '0'
-        hsRegionType: WHEAT
-        isRegion: 'true'
-        hsSuperRegion: ''
-        hsRegion: '0'
-        workerInstalled: '1'
-        buildingType: WHEAT
-        workerNeeded: '1'
         isEnabled: 'true'
         isActiv: 'true'
       '3':
@@ -217,32 +178,6 @@ SETTLEMENT:
         workerNeeded: '0'
         isEnabled: 'true'
         isActiv: 'true'
-      '51':
-        position: Draskoriascraft:-260.0:77.0:-102.0
-        id: '51'
-        settler: '0'
-        hsRegionType: WHEAT
-        isRegion: 'true'
-        hsSuperRegion: ''
-        hsRegion: '44'
-        workerInstalled: '1'
-        buildingType: WHEAT
-        workerNeeded: '1'
-        isEnabled: 'true'
-        isActiv: 'true'
-      '52':
-        position: Draskoriascraft:-260.0:77.0:-102.0
-        id: '52'
-        settler: '0'
-        hsRegionType: WHEAT
-        isRegion: 'true'
-        hsSuperRegion: ''
-        hsRegion: '63'
-        workerInstalled: '1'
-        buildingType: WHEAT
-        workerNeeded: '1'
-        isEnabled: 'true'
-        isActiv: 'true'
       '9':
         position: Draskoriascraft:-260.0:77.0:-102.0
         id: '9'
@@ -283,32 +218,32 @@ SETTLEMENT:
         isEnabled: 'true'
         isActiv: 'true'
     warehouse:
-      itemCount: '1979'
+      itemCount: '2101'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
       SIGN: '2'
       LEASH: '8'
-      EMERALD: '3'
-      GOLD_NUGGET: '5'
-      WOOL: '13'
-      LOG: '22'
+      EMERALD: '4'
+      GOLD_NUGGET: '6'
+      WOOL: '65'
+      LOG: '13'
       AIR: '0'
       TORCH: '11'
-      WORKBENCH: '53'
+      WORKBENCH: '62'
       FENCE_GATE: '1'
-      WALL_SIGN: '11'
+      WALL_SIGN: '13'
       MOSSY_COBBLESTONE: '25'
-      WATER: '4'
+      WATER: '6'
       SULPHUR: '2'
       WOOD_DOOR: '1'
       EXP_BOTTLE: '8'
       SIGN_POST: '4'
       BREAD: '0'
-      WOOD: '196'
+      WOOD: '64'
       WOOD_AXE: '13'
       LONG_GRASS: '8'
-      CARROT: '4'
+      CARROT: '5'
       DOUBLE_PLANT: '2'
       ANVIL: '1'
       GRAVEL: '64'
@@ -320,7 +255,7 @@ SETTLEMENT:
       SAND: '3'
       GRASS: '196'
       WOOD_HOE: '5'
-      STICK: '64'
+      STICK: '94'
       BROWN_MUSHROOM: '0'
       ROTTEN_FLESH: '8'
       LEATHER: '2'
@@ -328,15 +263,15 @@ SETTLEMENT:
       CHEST: '3'
       WOOD_PICKAXE: '5'
       IRON_INGOT: '3'
-      IRON_ORE: '4'
-      FURNACE: '4'
+      IRON_ORE: '5'
+      FURNACE: '5'
       COAL: '2'
       BONE: '4'
-      WHEAT: '502'
-      COBBLESTONE: '204'
+      WHEAT: '656'
+      COBBLESTONE: '212'
       DIRT: '196'
       MONSTER_EGG: '2'
-      BED: '6'
+      BED: '7'
       RAW_BEEF: '8'
       SAPLING: '1'
       STRING: '8'
@@ -346,11 +281,11 @@ SETTLEMENT:
     settleType: HAMLET
     position: Draskoriascraft:710.0:69.0:53.0
     biome: PLAINS
-    age: 223
+    age: 92
     name: HillHeim
     isCapital: false
     isActive: true
-    bank: 1215.399999999999
+    bank: 2293.6999999999975
     townhall:
       workerNeeded: '0'
       workerCount: '0'
@@ -359,8 +294,8 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '20'
-      fertilityCounter: '6.300000000000001'
-      happiness: '0.01904761904761904'
+      fertilityCounter: '7.799999999999999'
+      happiness: '0.6714285714285713'
       workerCount: '0'
       settlerMax: '21'
     buildinglist:
@@ -375,7 +310,7 @@ SETTLEMENT:
         workerInstalled: '0'
         buildingType: WOODCUTTER
         workerNeeded: '0'
-        isEnabled: 'true'
+        isEnabled: 'false'
         isActiv: 'true'
       '20':
         position: Draskoriascraft:710.0:69.0:53.0
@@ -482,51 +417,52 @@ SETTLEMENT:
         isEnabled: 'true'
         isActiv: 'true'
     warehouse:
-      itemCount: '3265'
+      itemCount: '3989'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
-      IRON_ORE: '1'
+      IRON_ORE: '2'
       IRON_INGOT: '8'
       WOOD_AXE: '5'
       EMERALD: '1'
-      CARROT: '7'
+      CARROT: '8'
       PORK: '1'
-      WOOL: '11'
-      STICK: '10'
-      LOG: '1870'
+      WOOL: '12'
+      STICK: '14'
+      LOG: '2053'
       WHEAT: '364'
-      DIRT: '5'
-      WATER: '4'
-      COBBLESTONE: '941'
-      SAND: '7'
-      LEATHER: '1'
+      DIRT: '6'
+      WATER: '8'
+      COBBLESTONE: '1463'
+      SAND: '9'
+      LEATHER: '2'
       FEATHER: '1'
-      SEEDS: '9'
+      SEEDS: '10'
       WOOD_PICKAXE: '5'
+      RAW_BEEF: '1'
       BREAD: '0'
       WOOD_HOE: '5'
-      WOOD: '8'
+      WOOD: '10'
   '3':
     id: 3
     settleType: HAMLET
     position: Draskoriascraft:-221.0:63.0:563.0
     biome: ROOFED_FOREST
-    age: 209
+    age: 92
     name: WaldHeim
     isCapital: false
     isActive: true
-    bank: 896.9000000000002
+    bank: 2624.3000000000006
     townhall:
-      workerNeeded: '2'
-      workerCount: '2'
+      workerNeeded: '4'
+      workerCount: '4'
       isEnabled: 'true'
     resident:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '20'
-      fertilityCounter: '6.300000000000001'
-      happiness: '-0.01428571428571429'
+      fertilityCounter: '6.499999999999999'
+      happiness: '0.676190476190476'
       workerCount: '0'
       settlerMax: '21'
     buildinglist:
@@ -634,6 +570,19 @@ SETTLEMENT:
         workerNeeded: '0'
         isEnabled: 'true'
         isActiv: 'true'
+      '39':
+        position: Draskoriascraft:-221.0:63.0:563.0
+        id: '39'
+        settler: '0'
+        hsRegionType: CARPENTER
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '68'
+        workerInstalled: '2'
+        buildingType: CARPENTER
+        workerNeeded: '2'
+        isEnabled: 'true'
+        isActiv: 'true'
       '27':
         position: Draskoriascraft:-221.0:63.0:563.0
         id: '27'
@@ -660,57 +609,45 @@ SETTLEMENT:
         workerNeeded: '0'
         isEnabled: 'true'
         isActiv: 'true'
-      '29':
-        position: Draskoriascraft:-221.0:63.0:563.0
-        id: '29'
-        settler: '0'
-        hsRegionType: WHEAT
-        isRegion: 'true'
-        hsSuperRegion: ''
-        hsRegion: '27'
-        workerInstalled: '0'
-        buildingType: NONE
-        workerNeeded: '0'
-        isEnabled: 'true'
-        isActiv: 'true'
     warehouse:
-      itemCount: '1156'
+      itemCount: '1333'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
       SIGN: '6'
       GOLD_NUGGET: '1'
-      EMERALD: '3'
+      EMERALD: '6'
       WATER_BUCKET: '8'
-      WOOL: '6'
-      STICK: '13'
-      LOG: '232'
+      WOOL: '7'
+      STICK: '124'
+      LOG: '168'
       BROWN_MUSHROOM: '0'
       AIR: '0'
       TORCH: '1'
       WORKBENCH: '1'
       WALL_SIGN: '1'
-      WATER: '29'
+      WATER: '31'
       SEEDS: '64'
       CHEST: '64'
       SIGN_POST: '1'
       WOOD_PICKAXE: '5'
-      BREAD: '1'
-      WOOD: '8'
+      BREAD: '0'
+      WOOD: '124'
       LOG_2: '8'
-      IRON_ORE: '6'
-      IRON_INGOT: '4'
+      IRON_ORE: '7'
+      IRON_INGOT: '5'
       WOOD_AXE: '5'
       LONG_GRASS: '1'
       CARROT: '5'
       STATIONARY_WATER: '8'
-      WHEAT: '282'
-      COBBLESTONE: '204'
-      DIRT: '8'
+      WHEAT: '191'
+      STONE: '2'
+      COBBLESTONE: '212'
+      DIRT: '38'
       RED_MUSHROOM: '0'
-      SAND: '7'
-      LEAVES_2: '63'
-      GRASS: '74'
+      SAND: '9'
+      LEAVES_2: '64'
+      GRASS: '129'
       SAPLING: '2'
       WOOD_HOE: '5'
       LEAVES: '30'
@@ -719,11 +656,11 @@ SETTLEMENT:
     settleType: HAMLET
     position: Draskoriascraft:-159.0:64.0:-477.0
     biome: PLAINS
-    age: 174
+    age: 92
     name: NewPort
     isCapital: false
     isActive: true
-    bank: 1587.1000000000004
+    bank: 2020.6000000000004
     townhall:
       workerNeeded: '15'
       workerCount: '15'
@@ -731,9 +668,9 @@ SETTLEMENT:
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '23'
-      fertilityCounter: '56.969999999999985'
-      happiness: '0.09299397920087576'
+      settlerCount: '20'
+      fertilityCounter: '11.700000000000001'
+      happiness: '2.260591133004926'
       workerCount: '0'
       settlerMax: '29'
     buildinglist:
@@ -985,22 +922,22 @@ SETTLEMENT:
         isEnabled: 'true'
         isActiv: 'true'
     warehouse:
-      itemCount: '3314'
+      itemCount: '3625'
       itemMax: '34560'
       isEnabled: 'false'
     itemList:
       SIGN: '1'
       COAL_ORE: '5'
       GOLD_NUGGET: '5'
-      EMERALD: '2'
+      EMERALD: '3'
       WATER_BUCKET: '8'
-      WOOL: '4'
-      STICK: '94'
-      LOG: '288'
+      WOOL: '6'
+      STICK: '124'
+      LOG: '36'
       AIR: '0'
       TORCH: '3'
       WORKBENCH: '1'
-      WATER: '83'
+      WATER: '84'
       SULPHUR: '4'
       LEATHER: '1'
       WOOD_DOOR: '6'
@@ -1009,9 +946,9 @@ SETTLEMENT:
       WOOD_PICKAXE: '21'
       SIGN_POST: '3'
       BREAD: '0'
-      WOOD: '226'
-      IRON_ORE: '1'
-      IRON_INGOT: '5'
+      WOOD: '64'
+      IRON_ORE: '2'
+      IRON_INGOT: '7'
       WOOD_AXE: '21'
       LONG_GRASS: '8'
       CARROT: '3'
@@ -1019,14 +956,14 @@ SETTLEMENT:
       DOUBLE_PLANT: '8'
       STATIONARY_WATER: '8'
       SOIL: '8'
-      WHEAT: '830'
+      WHEAT: '995'
       STONE: '196'
-      COBBLESTONE: '952'
+      COBBLESTONE: '1474'
       DIRT: '196'
       BED: '4'
       SAND: '64'
       FEATHER: '1'
-      RAW_BEEF: '1'
+      RAW_BEEF: '2'
       BOOKSHELF: '8'
       GRASS: '196'
       WOOD_HOE: '0'
@@ -1035,11 +972,11 @@ SETTLEMENT:
     settleType: HAMLET
     position: Draskoriascraft:482.0:80.0:745.0
     biome: EXTREME_HILLS
-    age: 151
+    age: 92
     name: BergHeim
     isCapital: false
     isActive: true
-    bank: 155.8999999999999
+    bank: 623.6999999999996
     townhall:
       workerNeeded: '4'
       workerCount: '4'
@@ -1048,8 +985,8 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '20'
-      fertilityCounter: '6.300000000000001'
-      happiness: '0.01904761904761904'
+      fertilityCounter: '5.199999999999999'
+      happiness: '0.6809523809523808'
       workerCount: '0'
       settlerMax: '21'
     buildinglist:
@@ -1184,7 +1121,7 @@ SETTLEMENT:
         isEnabled: 'true'
         isActiv: 'true'
     warehouse:
-      itemCount: '3078'
+      itemCount: '3587'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
@@ -1194,7 +1131,7 @@ SETTLEMENT:
       GOLD_NUGGET: '4'
       WOOL: '120'
       GRILLED_PORK: '8'
-      LOG: '815'
+      LOG: '1164'
       AIR: '0'
       TORCH: '23'
       WORKBENCH: '6'
@@ -1203,34 +1140,35 @@ SETTLEMENT:
       SULPHUR: '2'
       WOOD_DOOR: '8'
       BREAD: '0'
-      WOOD: '69'
+      WOOD: '64'
       WOOD_AXE: '22'
       LONG_GRASS: '8'
-      CARROT: '2'
+      CARROT: '3'
       ANVIL: '1'
       GRAVEL: '64'
       STONE: '64'
       RED_MUSHROOM: '0'
-      SAND: '2'
+      SAND: '3'
       BOOKSHELF: '4'
       WOOD_HOE: '21'
-      STICK: '23'
+      REDSTONE_ORE: '1'
+      STICK: '25'
       BROWN_MUSHROOM: '0'
       YELLOW_FLOWER: '5'
       ROTTEN_FLESH: '7'
-      LAPIS_ORE: '2'
+      LAPIS_ORE: '3'
       LEATHER: '7'
       BEDROCK: '1'
       CHEST: '40'
       WOOD_PICKAXE: '21'
       EGG: '2'
-      IRON_INGOT: '1'
-      IRON_ORE: '7'
+      IRON_INGOT: '3'
+      IRON_ORE: '10'
       BONE: '8'
-      WHEAT: '1384'
-      COBBLESTONE: '176'
+      WHEAT: '1520'
+      COBBLESTONE: '188'
       ARROW: '8'
-      DIRT: '4'
+      DIRT: '9'
       PAPER: '3'
       RAILS: '8'
       BED: '5'
@@ -1238,3 +1176,178 @@ SETTLEMENT:
       RAW_BEEF: '15'
       SAPLING: '1'
       STRING: '4'
+  '6':
+    id: 6
+    settleType: HAMLET
+    position: Draskoriascraft_nether:-24.0:37.0:24.0
+    biome: HELL
+    age: 1
+    name: NetherPort
+    owner: NPC1
+    isCapital: false
+    isActive: true
+    bank: 1100.0
+    townhall:
+      workerNeeded: '0'
+      workerCount: '0'
+      isEnabled: 'true'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '11'
+      fertilityCounter: '0.0'
+      happiness: '0.5523809523809524'
+      workerCount: '0'
+      settlerMax: '21'
+    buildinglist:
+      '43':
+        position: Draskoriascraft_nether:-34.0:41.0:13.0
+        id: '43'
+        settler: '0'
+        hsRegionType: HALL
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '69'
+        workerInstalled: '0'
+        buildingType: HALL
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '45':
+        position: Draskoriascraft_nether:-31.0:39.0:39.0
+        id: '45'
+        settler: '0'
+        hsRegionType: MUSHROOM
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '74'
+        workerInstalled: '0'
+        buildingType: MUSHROOM
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '42':
+        position: Draskoriascraft_nether:-17.0:39.0:39.0
+        id: '42'
+        settler: '0'
+        hsRegionType: MUSHROOM
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '75'
+        workerInstalled: '0'
+        buildingType: MUSHROOM
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '44':
+        position: Draskoriascraft_nether:-31.0:39.0:30.0
+        id: '44'
+        settler: '4'
+        hsRegionType: HOME
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '70'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '41':
+        position: Draskoriascraft_nether:-17.0:39.0:30.0
+        id: '41'
+        settler: '4'
+        hsRegionType: HOME
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '72'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '47':
+        position: Draskoriascraft_nether:-40.0:39.0:39.0
+        id: '47'
+        settler: '0'
+        hsRegionType: DUSTCUTTER
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '76'
+        workerInstalled: '0'
+        buildingType: DUSTCUTTER
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '40':
+        position: Draskoriascraft_nether:-8.0:39.0:39.0
+        id: '40'
+        settler: '0'
+        hsRegionType: NETHERQUARRY
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '77'
+        workerInstalled: '0'
+        buildingType: NETHERQUARRY
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '46':
+        position: Draskoriascraft_nether:-40.0:39.0:30.0
+        id: '46'
+        settler: '4'
+        hsRegionType: HOME
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '71'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '39':
+        position: Draskoriascraft_nether:-8.0:39.0:30.0
+        id: '39'
+        settler: '4'
+        hsRegionType: HOME
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '73'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+    warehouse:
+      itemCount: '7664'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList:
+      LAVA_BUCKET: '237'
+      WOOL: '120'
+      STICK: '21'
+      LOG: '271'
+      BROWN_MUSHROOM: '76'
+      TORCH: '24'
+      WORKBENCH: '6'
+      GLOWSTONE: '72'
+      NETHERRACK: '2'
+      WATER: '10'
+      GLOWSTONE_DUST: '0'
+      WOOD_DOOR: '8'
+      BEDROCK: '1'
+      CHEST: '40'
+      SIGN_POST: '4'
+      WOOD_PICKAXE: '21'
+      BREAD: '32'
+      WOOD: '521'
+      WOOD_AXE: '21'
+      SOUL_SAND: '1527'
+      QUARTZ_ORE: '197'
+      WHEAT: '132'
+      STONE: '400'
+      COBBLESTONE: '619'
+      DIRT: '100'
+      RED_MUSHROOM: '72'
+      BED: '5'
+      BOOKSHELF: '4'
+      WOOD_HOE: '21'

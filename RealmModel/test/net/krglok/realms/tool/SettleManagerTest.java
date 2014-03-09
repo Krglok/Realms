@@ -20,7 +20,6 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.manager.SettleManager;
@@ -31,6 +30,7 @@ import net.krglok.realms.model.McmdDepositeBank;
 import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.McmdSellOrder;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.unittest.DataTest;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

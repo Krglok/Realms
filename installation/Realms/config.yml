@@ -1,0 +1,23 @@
+# 
+# General Settings #
+updatecheck: false
+autoupdate: false
+plugin_name: Realms
+plugin_ver: 0.2.0
+realmCounter: 0
+settlementCounter: 0
+buildingCounter: 0
+superSettleTypes:
+  SETTLE_HAMLET: Siedlung
+  SETTLE_CASTLE: Burg
+  SETTLE_TOWN: Dorf
+  SETTLE_CITY: Stadt
+  SETTLE_METRO: Metropole
+regionBuildingTypes:
+  haus_einfach: BUILDING_HOME
+  haus_gross: BUILDING_HOME
+  haupthaus: BUILDING_HALL
+  taverne: BUILDING_ENTERTAIN
+  markt: BUILDING_WAREHOUSE
+  kornfeld: BUILDING_PROD
+  holzfaeller: BUILDING_PROD

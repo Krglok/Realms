@@ -1,0 +1,25 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
+radius: 4
+requirements:
+- LOG.6
+- WOOD.9
+- FURNACE.1
+reagents:
+- GOLD_NUGGET.1
+upkeep: 
+- LOG.2
+upkeep-chance: 0.001
+output:
+- COOKED_FISH.10
+money-requirement: 500.0
+upkeep-money-output: -2.0
+biome:
+- OCEAN
+- RIVER

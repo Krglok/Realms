@@ -22,7 +22,6 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.LogList;
 

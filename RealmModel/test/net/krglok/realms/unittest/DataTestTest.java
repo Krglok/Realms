@@ -16,7 +16,6 @@ import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

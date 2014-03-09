@@ -6,7 +6,6 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.data.DataTest;
 import net.krglok.realms.manager.BuildManager;
 
 import org.junit.Test;

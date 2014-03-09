@@ -300,6 +300,8 @@ public class ServerData implements ServerInterface
 		case REDSTONE_ORE : return FAKTOR_MM;
 		case LAPIS_ORE : return FAKTOR_MM;
 		case GOLD_ORE : return FAKTOR_MM;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_0;
 		}
@@ -331,6 +333,8 @@ public class ServerData implements ServerInterface
 		case REDSTONE_ORE : return FAKTOR_P;
 		case GOLD_ORE : return FAKTOR_P;
 		case LAPIS_ORE : return FAKTOR_P;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_0;
 		}
@@ -362,6 +366,8 @@ public class ServerData implements ServerInterface
 		case REDSTONE_ORE : return FAKTOR_P;
 		case GOLD_ORE : return FAKTOR_P;
 		case LAPIS_ORE : return FAKTOR_P;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_0;
 		}
@@ -393,6 +399,8 @@ public class ServerData implements ServerInterface
 		case REDSTONE_ORE : return FAKTOR_MM;
 		case GOLD_ORE : return FAKTOR_MM;
 		case LAPIS_ORE : return FAKTOR_MM;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_0;
 		}
@@ -424,6 +432,8 @@ public class ServerData implements ServerInterface
 		case LAPIS_ORE : return FAKTOR_0;
 		case REDSTONE_ORE : return FAKTOR_MMM;
 		case GOLD_ORE : return FAKTOR_MMM;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_0;
 		}
@@ -455,6 +465,8 @@ public class ServerData implements ServerInterface
 		case REDSTONE_ORE : return FAKTOR_0;
 		case LAPIS_ORE : return FAKTOR_0;
 		case GOLD_ORE : return FAKTOR_0;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_0;
 		}
@@ -487,6 +499,8 @@ public class ServerData implements ServerInterface
 		case REDSTONE_ORE : return FAKTOR_M;
 		case LAPIS_ORE : return FAKTOR_M;
 		case GOLD_ORE : return FAKTOR_M;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_MM;
 		}
@@ -518,6 +532,8 @@ public class ServerData implements ServerInterface
 		case REDSTONE_ORE : return FAKTOR_P;
 		case LAPIS_ORE : return FAKTOR_P;
 		case GOLD_ORE : return FAKTOR_0;
+		case GHAST_TEAR : return FAKTOR_MMM;
+		case MAGMA_CREAM : return FAKTOR_MMM;
 		default :
 			return  FAKTOR_0;
 		}
@@ -530,7 +546,7 @@ public class ServerData implements ServerInterface
 		case WHEAT : return FAKTOR_MM;
 		case SEEDS : return FAKTOR_MM;
 		case WOOL : return FAKTOR_MM;
-		case GOLD_NUGGET: return FAKTOR_PP;
+		case GOLD_NUGGET: return FAKTOR_PPP;
 		case LEATHER : return FAKTOR_MM;
 		case RAW_BEEF : return FAKTOR_MM;
 		case PORK : return FAKTOR_MM;
@@ -538,9 +554,11 @@ public class ServerData implements ServerInterface
 		case FEATHER : return FAKTOR_MM;
 		case RED_MUSHROOM : return FAKTOR_PPP; 
 		case BROWN_MUSHROOM : return FAKTOR_PPP;
-		case LAVA : return FAKTOR_MMM;
-		case NETHERRACK : return FAKTOR_MM;
-		case SOUL_SAND : return FAKTOR_MM;
+		case LAVA : return FAKTOR_PPP;
+		case NETHERRACK : return FAKTOR_PPP;
+		case SOUL_SAND : return FAKTOR_PPP;
+		case GHAST_TEAR : return FAKTOR_PPP;
+		case MAGMA_CREAM : return FAKTOR_PPP;
 		
 		default :
 			return  FAKTOR_MMM;

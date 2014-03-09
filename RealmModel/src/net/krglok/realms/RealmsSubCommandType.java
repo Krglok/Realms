@@ -13,6 +13,7 @@ public enum RealmsSubCommandType
 	ACTIVATE ,
 	ADD ,
 	BANK,
+	BIOME,
 	BUILDING,
 	BUILDINGLIST,
 	BUILD,

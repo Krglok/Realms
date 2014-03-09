@@ -121,6 +121,7 @@ public class CmdSettleAddMember extends RealmsCommand
 					msg.add("Player "+playername+" now can use every Building in the Area");
 					msg.add("Player "+playername+" now can rearrange the settlement area");
 					msg.add("They now look at you. Dont disappoint them !");
+					msg.add("Notice you are not the membet of the houses !");
 					msg.add("");
 					for (String s : msg)
 					{
@@ -166,7 +167,7 @@ public class CmdSettleAddMember extends RealmsCommand
 			
 		} else
 		{
-			errorMsg.add("You are not the owner ! ");
+			errorMsg.add("Settlement not found ! ");
 			errorMsg.add(" ");
 			return false;
 			

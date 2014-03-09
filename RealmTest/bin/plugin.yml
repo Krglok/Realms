@@ -5,8 +5,8 @@ version: 0.1.0
 description: Allows you to create settlements based on herostronghold regions. Expand the settlement with buildings. Trade with other settlements.
 author: krglok
 startup: postworld
-website: 
-depend: [HeroStronghold,Vault]
+website: http://dev.bukkit.org/bukkit-plugins/realms/
+depend: [Vault,HeroStronghold]
 commands:
     realms:
         description: Basic command only show version and commandlist

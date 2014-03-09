@@ -1,0 +1,37 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 5
+requirements:
+- WOODEN_DOOR.1
+- WORKBENCH.1
+- CHEST.2
+- FURNACE.1
+- WALL_SIGN.1
+- STONE.81
+- COBBLESTONE.81
+reagents:
+- GOLD_NUGGET.2
+upkeep:
+- BREAD.1
+- STICK.5
+- COBBLESTONE.10
+upkeep-chance: 0.001
+output:
+- STONE_SWORD.5
+money-requirement: 2000.0
+upkeep-money-output: 0.0
+super-regions:
+- Mine
+- Lager
+- Hauptlager
+- Werkstatt
+- Siedlung
+- Dorf
+- Stadt
+- Metropole

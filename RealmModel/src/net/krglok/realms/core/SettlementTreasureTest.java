@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.unittest.DataTest;
 
 import org.bukkit.block.Biome;
 import org.junit.Test;

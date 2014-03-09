@@ -15,7 +15,6 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.McmdBuilder;

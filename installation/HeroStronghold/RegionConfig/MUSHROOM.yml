@@ -1,0 +1,17 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- LOG.10
+- DIRT.10
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output:
+- RED_MUSHROOM.8
+- BROWN_MUSHROOM.8
+money-requirement: 500.0
+upkeep-money-output: -1.0

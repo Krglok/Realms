@@ -24,7 +24,6 @@ import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.core.TradeType;
 import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.DataTest;
 
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.libs.jline.console.history.FileHistory;

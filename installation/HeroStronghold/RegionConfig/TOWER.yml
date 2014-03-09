@@ -1,0 +1,26 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 14
+requirements:
+- WOODEN_DOOR.2
+- CHEST.4
+- WALL_SIGN.1
+- COBBLESTONE.338
+- WOOD_STAIRS.8
+- FENCE.8
+reagents:
+- GOLD_NUGGET.10
+- IRON_INGOT.20
+- BREAD.20
+upkeep: []
+upkeep-chance: 0.001
+output: []
+money-requirement: 2000.0
+upkeep-money-output: -10.0
+daily.power-increase: 20.0
