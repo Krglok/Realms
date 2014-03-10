@@ -1,6 +1,9 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
+import net.krglok.realms.unit.Unit;
+import net.krglok.realms.unit.UnitItem;
+import net.krglok.realms.unit.UnitList;
+import net.krglok.realms.unit.UnitType;
 
 /**
  * not yet implemented
@@ -9,9 +12,6 @@ import java.io.Serializable;
  */
 public class Barrack 
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3574102060452319954L;
 	private Boolean isEnabled;
 	private int unitMax;
@@ -60,13 +60,9 @@ public class Barrack
 		this.unitList = unitList;
 	}
 
-	public void addUnit(Unit unit)
+	public void addUnit(UnitItem unitItem)
 	{
-		unitList.put(unit.getUnitType().name(),unit);
+		unitList.put(unitItem.getID(),unitItem);
 	}
 
-	public Boolean setUnitCount(UnitType unitType, int value)
-	{
-		return unitList.addUnitCount(unitType, value);
-	}
 }

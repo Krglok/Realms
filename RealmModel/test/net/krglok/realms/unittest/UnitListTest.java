@@ -5,9 +5,9 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.core.Unit;
-import net.krglok.realms.core.UnitList;
 import net.krglok.realms.core.UnitType;
+import net.krglok.realms.unit.Unit;
+import net.krglok.realms.unit.UnitList;
 
 import org.junit.Test;
 
