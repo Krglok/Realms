@@ -5,10 +5,11 @@ import net.krglok.realms.core.ItemList;
 public class UnitSettler extends AbstractUnit
 {
 
+
 	public UnitSettler()
 	{
 		super();
-//		this.unitType = UnitType.MILITIA;
+		unitType = UnitType.SETTLER;
 		armor = 1;
 		speed = 5;
 		offense = 1;
@@ -16,7 +17,6 @@ public class UnitSettler extends AbstractUnit
 		offenseRange = 1;
 		maxStorage = 27;
 		
-		armor  = 0;
 		// required
 		requiredItems = new ItemList();
 		requiredCost = 0.0;

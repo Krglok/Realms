@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 import net.krglok.realms.unit.AbstractUnit;
+import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.UnitList;
 
 /**
@@ -58,7 +59,7 @@ public class Barrack
 		this.unitList = unitList;
 	}
 
-	public void addUnit(AbstractUnit unit)
+	public void addUnit(IUnit unit)
 	{
 		unitList.add(unit);
 	}

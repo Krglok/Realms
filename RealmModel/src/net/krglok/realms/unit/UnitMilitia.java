@@ -8,12 +8,11 @@ import net.krglok.realms.core.ItemList;
 public class UnitMilitia extends AbstractUnit
 {
 
-//	private UnitType unitType;
-	
+
 	public UnitMilitia()
 	{
 		super();
-//		this.unitType = UnitType.MILITIA;
+		unitType = UnitType.MILITIA;
 		armor = 3;
 		speed = 4;
 		offense = 6;
@@ -21,7 +20,6 @@ public class UnitMilitia extends AbstractUnit
 		offenseRange = 1;
 		maxStorage = 27;
 		
-		armor  = 0;
 		// required
 		requiredItems = new ItemList();
 		requiredCost = 0.0;
@@ -93,4 +91,6 @@ public class UnitMilitia extends AbstractUnit
 		// TODO Auto-generated method stub
 		
 	}
+
+
 }

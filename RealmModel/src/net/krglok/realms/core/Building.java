@@ -51,8 +51,8 @@ public class Building  implements Serializable
 	private LocationData position;
 	private Biome biome;
 	private UnitType trainType;
-	private long trainCounter;
-	private long trainTime;
+	private int trainCounter;
+	private int trainTime;
 	
 	public Building()
 	{
@@ -956,12 +956,22 @@ public class Building  implements Serializable
 		this.biome = biome;
 	}
 
+	public UnitType getTrainType()
+	{
+		return trainType;
+	}
+
+	public void setTrainType(UnitType trainType)
+	{
+		this.trainType = trainType;
+	}
+
 	public long getTrainCounter()
 	{
 		return trainCounter;
 	}
 
-	public void setTrainCounter(long trainCounter)
+	public void setTrainCounter(int trainCounter)
 	{
 		this.trainCounter = trainCounter;
 	}
@@ -978,6 +988,16 @@ public class Building  implements Serializable
 			return true;
 		}
 		return false;
+	}
+
+	public int getTrainTime()
+	{
+		return trainTime;
+	}
+
+	public void setTrainTime(int trainTime)
+	{
+		this.trainTime = trainTime;
 	}
 	
 }

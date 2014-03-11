@@ -9,6 +9,8 @@ import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
+import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.UnitFactory;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -48,7 +50,7 @@ public class Settlement //implements Serializable
 	private String name;
 	private String owner;
 	private Boolean isCapital;
-//	private Barrack barrack ;
+	private Barrack barrack ;
 	private Warehouse warehouse ;
 	private BuildingList buildingList;
 	private Townhall townhall;
@@ -96,7 +98,7 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -119,6 +121,10 @@ public class Settlement //implements Serializable
 		treasureList =  new ArrayList<Item>();
 	}
 
+	/**
+	 * used by read from file
+	 * @param priceList
+	 */
 	public Settlement(ItemPriceList priceList)
 	{
 		COUNTER++;
@@ -129,7 +135,7 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -169,7 +175,7 @@ public class Settlement //implements Serializable
 		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -211,7 +217,7 @@ public class Settlement //implements Serializable
 		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -266,7 +272,7 @@ public class Settlement //implements Serializable
 		this.owner = owner;
 		this.isCapital = isCapital;
 		this.position = position;
-//		this.barrack = barrack;
+		this.barrack = barrack;
 		this.warehouse = warehouse;
 		this.buildingList = buildingList;
 		this.townhall = townhall;
@@ -430,12 +436,12 @@ public class Settlement //implements Serializable
 
 	public Barrack getBarrack()
 	{
-		return null; //barrack;
+		return barrack;
 	}
 
 	public void setBarrack(Barrack barrack)
 	{
-//		this.barrack = barrack;
+		this.barrack = barrack;
 	}
 
 	public Warehouse getWarehouse()
@@ -1563,6 +1569,36 @@ public class Settlement //implements Serializable
 		bank.depositKonto(taxSum, "TAX_COLLECTOR");
 		//  Kingdom tax are an open item
 		
+	}
+	
+	
+	public void doUnitTrain(UnitFactory unitFactory)
+	{
+		for (Building building : buildingList.getBuildingList().values())
+		{
+			// unit production
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())== 5)
+			{
+				if (building.isEnabled())
+				{
+					switch(building.getBuildingType())
+					{
+					case GUARDHOUSE:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							IUnit unit = unitFactory.erzeugeAbstractUnit(building.getTrainType());
+							barrack.getUnitList().add(unit);
+						} else
+						{
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	/**

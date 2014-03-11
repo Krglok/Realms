@@ -1,6 +1,343 @@
 SETTLEMENT:
   '1':
     id: 1
+    settleType: CITY
+    position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+    biome: PLAINS
+    age: 94
+    name: NewHaven
+    isCapital: false
+    isActive: true
+    bank: 4294.0
+    townhall:
+      workerNeeded: '12'
+      workerCount: '12'
+      isEnabled: 'true'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '23'
+      fertilityCounter: '607.59'
+      happiness: '1.1242424242424243'
+      workerCount: '0'
+      settlerMax: '33'
+    buildinglist:
+      '19':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '19'
+        settler: '0'
+        hsRegionType: kornfeld
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '73'
+        workerInstalled: '1'
+        buildingType: WHEAT
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '22':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '22'
+        settler: '0'
+        hsRegionType: kornfeld
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '71'
+        workerInstalled: '1'
+        buildingType: WHEAT
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '17':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '17'
+        settler: '0'
+        hsRegionType: markt
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '61'
+        workerInstalled: '0'
+        buildingType: WAREHOUSE
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '18':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '18'
+        settler: '0'
+        hsRegionType: kornfeld
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '74'
+        workerInstalled: '1'
+        buildingType: WHEAT
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '15':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '15'
+        settler: '0'
+        hsRegionType: bibliothek
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '6'
+        workerInstalled: '0'
+        buildingType: NONE
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '16':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '16'
+        settler: '0'
+        hsRegionType: kornfeld
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '75'
+        workerInstalled: '1'
+        buildingType: WHEAT
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '13':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '13'
+        settler: '0'
+        hsRegionType: rathaus
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '4'
+        workerInstalled: '0'
+        buildingType: HALL
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '14':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '14'
+        settler: '0'
+        hsRegionType: stadtwache
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '5'
+        workerInstalled: '0'
+        buildingType: GUARDHOUSE
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '11':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '11'
+        settler: '0'
+        hsRegionType: haus_baecker
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '76'
+        workerInstalled: '1'
+        buildingType: BAKERY
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '12':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '12'
+        settler: '4'
+        hsRegionType: haus_einfach
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '13'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '21':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '21'
+        settler: '0'
+        hsRegionType: kornfeld
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '72'
+        workerInstalled: '1'
+        buildingType: WHEAT
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '3':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '3'
+        settler: '4'
+        hsRegionType: haus_einfach
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '14'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '2':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '2'
+        settler: '0'
+        hsRegionType: taverne
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '8'
+        workerInstalled: '2'
+        buildingType: TAVERNE
+        workerNeeded: '2'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '20':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '20'
+        settler: '0'
+        hsRegionType: haupthaus
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '52'
+        workerInstalled: '0'
+        buildingType: HALL
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '10':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '10'
+        settler: '0'
+        hsRegionType: schreiner
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '79'
+        workerInstalled: '2'
+        buildingType: CARPENTER
+        workerNeeded: '2'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '1':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '1'
+        settler: '8'
+        hsRegionType: haus_stadt
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '15'
+        workerInstalled: '0'
+        buildingType: HOUSE
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '7':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '7'
+        settler: '4'
+        hsRegionType: haus_einfach
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '11'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '6':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '6'
+        settler: '4'
+        hsRegionType: haus_einfach
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '10'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '5':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '5'
+        settler: '0'
+        hsRegionType: schaefer
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '63'
+        workerInstalled: '1'
+        buildingType: SHEPHERD
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '4':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '4'
+        settler: '0'
+        hsRegionType: koehler
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '91'
+        workerInstalled: '1'
+        buildingType: CHARBURNER
+        workerNeeded: '1'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '9':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '9'
+        settler: '0'
+        hsRegionType: markt
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '9'
+        workerInstalled: '0'
+        buildingType: WAREHOUSE
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+      '8':
+        position: SteamHaven:-470.30000001192093:68.0:-1249.699999988079
+        id: '8'
+        settler: '4'
+        hsRegionType: haus_einfach
+        isRegion: 'true'
+        hsSuperRegion: ''
+        hsRegion: '12'
+        workerInstalled: '0'
+        buildingType: HOME
+        workerNeeded: '0'
+        isEnabled: 'true'
+        isActiv: 'true'
+    warehouse:
+      itemCount: '1380'
+      itemMax: '44928'
+      isEnabled: 'false'
+    itemList:
+      IRON_ORE: '1'
+      WOOD_AXE: '33'
+      COAL: '96'
+      CARROT: '2'
+      WOOL: '65'
+      STICK: '94'
+      LOG: '28'
+      WHEAT: '557'
+      COBBLESTONE: '33'
+      DIRT: '1'
+      WATER: '1'
+      FEATHER: '2'
+      WOOD_PICKAXE: '33'
+      RAW_BEEF: '1'
+      BREAD: '174'
+      WOOD_HOE: '33'
+      WOOD: '226'
+    unitlist:
+      '3': MILITIA
+      '2': SETTLER
+      '1': MILITIA
+      '0': MILITIA
+      '4': MILITIA
+  '7':
+    id: 1
     settleType: HAMLET
     position: Draskoriascraft:-260.0:77.0:-102.0
     biome: MEGA_TAIGA
@@ -294,7 +631,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '20'
-      fertilityCounter: '7.799999999999999'
+      fertilityCounter: '108.39999999999999'
       happiness: '0.6714285714285713'
       workerCount: '0'
       settlerMax: '21'
@@ -417,7 +754,7 @@ SETTLEMENT:
         isEnabled: 'true'
         isActiv: 'true'
     warehouse:
-      itemCount: '3989'
+      itemCount: '3988'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
@@ -443,6 +780,7 @@ SETTLEMENT:
       BREAD: '0'
       WOOD_HOE: '5'
       WOOD: '10'
+    unitlist: {}
   '3':
     id: 3
     settleType: HAMLET

@@ -51,6 +51,8 @@ public interface IUnit
 
 	public abstract ItemList getConsumItems();
 
+	public abstract UnitType getUnitType();
+
 	public void train();
 	
 	public void upgrade();
@@ -58,4 +60,5 @@ public interface IUnit
 	public void attack();
 	
 	public void defend();
+	
 }

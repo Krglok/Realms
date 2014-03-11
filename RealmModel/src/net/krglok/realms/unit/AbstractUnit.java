@@ -18,11 +18,11 @@ public abstract class AbstractUnit implements IUnit
 {
 	
 //	private int id;
-//	private UnitType unitType;
-	private int health;
-	private LocationData position;
-	private ItemList storage;
-	private Item used;
+	protected UnitType unitType;
+	protected int health;
+	protected LocationData position;
+	protected ItemList storage;
+	protected Item used;
 
 	protected int speed;
 	protected int offense;
@@ -47,11 +47,29 @@ public abstract class AbstractUnit implements IUnit
 	{
 //		ID++;
 //		this.id = ID;
-//		this.unitType = UnitType.NONE;
+		this.unitType = UnitType.NONE;
 		this.health = restoreHealth();
 		this.position = new LocationData("", 0.0, 0.0, 0.0);
 		this.storage = new ItemList();
 		this.used = new Item(Material.AIR.name(),1); 
+		this.armor = 0;
+		this.speed = 0;
+		this.offense = 0;
+		this.defense = 0;
+		this.offenseRange = 0;
+		this.maxStorage = 0;
+	
+		// required
+		this.requiredItems = new ItemList();
+		this.requiredCost = 0.0;
+		this.requiredTime = 10;
+		this.requiredUnits = new UnitTypeList();
+		
+		//consum
+		this.consumItems = new ItemList();
+		this.consumCost  = 0.0;
+		this.consumTime  = 10;
+
 	}
 	
 
@@ -276,5 +294,16 @@ public abstract class AbstractUnit implements IUnit
 	{
 		return consumItems;
 	}
+
+
+
+	/**
+	 * @return the unitType
+	 */
+	public UnitType getUnitType()
+	{
+		return unitType;
+	}
+
 
 }

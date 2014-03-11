@@ -18,16 +18,16 @@ public class UnitList extends  ArrayList<IUnit>
 	 */
 	private static final long serialVersionUID = -2750568392824062736L;
 
-	public List<IUnit> getTypeUnits(Class<?> unitType)
+	public List<IUnit> getTypeUnits(UnitType unitType)
 	{
 		ArrayList<IUnit> subList = new ArrayList<IUnit>();
 		
 		for (IUnit unit : this)
 		{
-//			if (unit instanceof unitType)
-//			{
-//				
-//			}
+			if (unit.getUnitType() == unitType)
+			{
+				subList.add(unit);
+			}
 		}
 		
 		return subList;

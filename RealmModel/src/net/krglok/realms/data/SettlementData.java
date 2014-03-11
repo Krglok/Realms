@@ -20,6 +20,9 @@ import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.UnitFactory;
+import net.krglok.realms.unit.UnitType;
 
 /**
  * read Data from YML file 
@@ -152,6 +155,15 @@ public class SettlementData
 	            config.set(MemorySection.createPath(settleSec,"itemList"), values);
 ////	            config.set("", settle);
 //	            System.out.println("SAVE : "+settle.getId()+": "+fileName);
+	            values = new HashMap<String,String>();
+	            int index = 0;
+            	for (IUnit unit : settle.getBarrack().getUnitList())
+            	{
+            		values.put(String.valueOf(index), unit.getUnitType().name());
+            		index++;
+            	}
+	            config.set(MemorySection.createPath(settleSec,"unitlist"), values);
+
 	            try
 				{
 	            	config.save(fileName); // dataFolder+"\\settlement.yml");
@@ -282,6 +294,15 @@ public class SettlementData
                 iList.addItem(ref, value);
         	}    
         	settle.getWarehouse().setItemList(iList);
+        	
+        	UnitFactory uFactory = new UnitFactory();
+			Map<String,Object> uList = config.getConfigurationSection(settleSec+".unitlist").getValues(false);
+        	for (Object ref : uList.values())
+        	{
+        		String uType = (String) ref;
+        		settle.getBarrack().getUnitList().add(uFactory.erzeugeAbstractUnit(UnitType.getBuildPlanType(uType)));
+                System.out.println(ref+":");
+        	}    
 		} catch (Exception e)
 		{
 			 String name = "" ;
