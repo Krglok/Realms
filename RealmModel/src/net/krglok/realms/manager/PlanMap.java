@@ -137,12 +137,12 @@ public class PlanMap
 	{
 		try
 		{
-			//\\Program Files\\BuckitTest\\plugins\\Realms
+			//Program FilesBuckitTestpluginsRealms
             File DataFile = new File(path, "plan_"+name+".yml");
             if (!DataFile.exists()) 
             {
             	DataFile.createNewFile();
-            	System.out.println("create PlanMap file : "+path+"\\"+"plan+_"+name+".yml");
+            	System.out.println("create PlanMap file : "+path+""+"plan+_"+name+".yml");
             }
             
             FileConfiguration config = new YamlConfiguration();
@@ -188,7 +188,7 @@ public class PlanMap
 	{
 		try
 		{
-            File DataFile = new File(path+ "\\", "plan_"+name+".yml");
+            File DataFile = new File(path+ "", "plan_"+name+".yml");
             if (!DataFile.exists()) 
             {
     			System.out.println("File not found  : "+name);
@@ -216,8 +216,8 @@ public class PlanMap
 //        byte[][] planData;
 		try
 		{
-			//\\Program Files\\BuckitTest\\plugins\\Realms
-            File DataFile = new File(path+ "\\", "plan_"+name+".yml");
+			//Program FilesBuckitTestpluginsRealms
+            File DataFile = new File(path+ "", "plan_"+name+".yml");
             if (!DataFile.exists()) 
             {
     			System.out.println("File not found  : "+name);

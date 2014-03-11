@@ -92,7 +92,7 @@ public class CmdRealmsMap extends RealmsCommand
 		@SuppressWarnings("unused")
 		String worldName = "SteamHaven"; 
 		String path = plugin.getDataFolder().getAbsolutePath();
-//		path = "D:\\Program Files\\BuckitTest\\plugins\\Realms";
+//		path = "D:Program FilesBuckitTestpluginsRealms";
 		SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(name);
 		if (sRegion == null)
 		{

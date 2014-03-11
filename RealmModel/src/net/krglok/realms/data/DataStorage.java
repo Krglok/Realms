@@ -335,10 +335,10 @@ public class DataStorage implements DataInterface
      */
 	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet)
 	{
-		String path = plugin.getDataFolder().getPath()+"\\buildplan";
+		String path = plugin.getDataFolder().getPath()+"//buildplan";
 		BuildPlanMap buildPlan = new BuildPlanMap(bType,radius , offSet);
 		TMXMapReader mapReader = new TMXMapReader();
-		String filename =  path+"\\"+bType.name()+".tmx";
+		String filename =  path+"//"+bType.name()+".tmx";
 		Map tmxMap = null;
 		try
 		{

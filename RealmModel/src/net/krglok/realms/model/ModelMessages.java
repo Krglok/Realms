@@ -1,6 +1,5 @@
 package net.krglok.realms.model;
 
-import net.krglok.realms.unit.UnitType;
 
 
 /**

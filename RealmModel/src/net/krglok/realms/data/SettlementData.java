@@ -39,7 +39,7 @@ public class SettlementData
 	public SettlementData(String dataFolder)		//Realms plugin)
 	{
 //		this.plugin = plugin;
-		this.dataFolder = dataFolder+"\\Realms";
+		this.dataFolder = dataFolder+"Realms";
 //		System.out.println("SettlementData: "+dataFolder.getName());
 	}
 
@@ -55,14 +55,14 @@ public class SettlementData
 //	            File settleFile = new File(dataFolder, "settlement.yml");
 //	            if (!settleFile.exists()) 
 //	            {
-//		            System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+"\\"+" not Exist !!!");
+//		            System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+""+" not Exist !!!");
 //		            return;
 //	            }
 //            	settleFile.setWritable(true);
 //	            
 				HashMap<String,String> values; // = new HashMap<String,String>();
 	            FileConfiguration config = new YamlConfiguration();
-	            String fileName = dataFolder+"\\settlement.yml";
+	            String fileName = dataFolder+"settlement.yml";
 	            config.load(fileName);
 //	            System.out.println("LOAD : "+settle.getId()+": "+fileName);
             
@@ -154,12 +154,12 @@ public class SettlementData
 //	            System.out.println("SAVE : "+settle.getId()+": "+fileName);
 	            try
 				{
-	            	config.save(fileName); // dataFolder+"\\settlement.yml");
+	            	config.save(fileName); // dataFolder+"settlement.yml");
 				} catch (Exception e)
 				{
 		            System.out.println("ECXEPTION : "+settle.getId()+": "+fileName);
 				}
-	            System.out.println("WRITTEN : "+settle.getId()+": "+dataFolder+"\\"+"settlement.yml");
+	            System.out.println("WRITTEN : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
 			
 		} catch (Exception e)
 		{
@@ -305,7 +305,7 @@ public class SettlementData
 			path = dataFolder;
 		} else
 		{
-			path = plugin.getDataFolder().getPath(); //+"\\buildplan";
+			path = plugin.getDataFolder().getPath(); //+"buildplan";
 			dataFolder = path;
 		}
         String settleSec = "SETTLEMENT"; // getSettleKey(settle.getId());
