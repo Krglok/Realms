@@ -52,18 +52,19 @@ public class SettlementData
 	{
 		try
 		{ 
-//	            File settleFile = new File(dataFolder, "settlement.yml");
-//	            if (!settleFile.exists()) 
-//	            {
-//		            System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+""+" not Exist !!!");
-//		            return;
-//	            }
+	            File settleFile = new File(dataFolder, "settlement.yml");
+	            if (!settleFile.exists()) 
+	            {
+	            	System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+""+" not Exist !!!");
+		            return;
+	            }
 //            	settleFile.setWritable(true);
 //	            
+	            System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+":"+"settlement.yml");
 				HashMap<String,String> values; // = new HashMap<String,String>();
 	            FileConfiguration config = new YamlConfiguration();
-	            String fileName = dataFolder+"settlement.yml";
-	            config.load(fileName);
+//	            String fileName = dataFolder+"//settlement.yml";
+	            config.load(settleFile);
 //	            System.out.println("LOAD : "+settle.getId()+": "+fileName);
             
 	            String base = getSettleKey(settle.getId());
@@ -154,10 +155,10 @@ public class SettlementData
 //	            System.out.println("SAVE : "+settle.getId()+": "+fileName);
 	            try
 				{
-	            	config.save(fileName); // dataFolder+"settlement.yml");
+	            	config.save(settleFile); // dataFolder+"settlement.yml");
 				} catch (Exception e)
 				{
-		            System.out.println("ECXEPTION : "+settle.getId()+": "+fileName);
+		            System.out.println("ECXEPTION : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
 				}
 	            System.out.println("WRITTEN : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
 			

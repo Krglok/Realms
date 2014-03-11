@@ -651,9 +651,12 @@ public class Building  implements Serializable
 		isSlot = false;
 		for (Item item : slots)
 		{
-			if(item.ItemRef() != "")
+			if (item != null)
 			{
-				isSlot = true;
+				if(item.ItemRef() != "")
+				{
+					isSlot = true;
+				}
 			}
 		}
 		return isSlot;
