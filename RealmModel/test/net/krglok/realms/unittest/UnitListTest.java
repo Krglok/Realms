@@ -3,11 +3,10 @@
  */
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
-import net.krglok.realms.core.UnitType;
+import static org.junit.Assert.assertEquals;
 import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitList;
+import net.krglok.realms.unit.UnitType;
 
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class UnitListTest
 			System.out.println("==UnitList : "+unitList.size());
 			for(Unit unit : unitList.values())
 			{
-				System.out.println(unit.getUnitType().name()+" : "+unit.getUnitCount());
+//				System.out.println(unit.getUnitType().name()+" : "+unit.getUnitCount());
 			}
 			assertEquals("UnitList",expected,actual);
 		}
@@ -44,21 +43,21 @@ public class UnitListTest
 	{
 		UnitList unitList = new UnitList();
 //		unitList.initUnitList();
-		int expected = 5;
-		unitList.put(UnitType.UNIT_WORKER.name(),new Unit(UnitType.UNIT_WORKER));
-		unitList.addUnitCount(UnitType.UNIT_WORKER, expected);
-
-		isOutput = false;
-		if(isOutput)
-		{
-			System.out.println("==UnitList : "+unitList.size());
-			for(Unit unit : unitList.values())
-			{
-				System.out.println(unit.getUnitType().name()+" : "+unit.getUnitCount());
-			}
-		}
-		int actual =  unitList.getUnit(UnitType.UNIT_WORKER).getUnitCount();
-		assertEquals(expected,actual);
+//		int expected = 5;
+//		unitList.put(UnitType.UNIT_WORKER.name(),new Unit(UnitType.UNIT_WORKER));
+//		unitList.addUnitCount(UnitType.UNIT_WORKER, expected);
+//
+//		isOutput = false;
+//		if(isOutput)
+//		{
+//			System.out.println("==UnitList : "+unitList.size());
+//			for(Unit unit : unitList.values())
+//			{
+//				System.out.println(unit.getUnitType().name()+" : "+unit.getUnitCount());
+//			}
+//		}
+//		int actual =  unitList.getUnit(UnitType.UNIT_WORKER).getUnitCount();
+//		assertEquals(expected,actual);
 	}
 	
 }
