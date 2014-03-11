@@ -1,38 +1,36 @@
 package net.krglok.realms.unit;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Die UnitList enthält die individuellen Units.
  * Jede Unit wird einzeln verwaltet, weil ansonsten keine visualisierung mit NPC
  * und keine individuelle Verfolgung bei Kämpfen möglich ist. 
+ * Die Units werden über die Class identifiziert.
  * @author Windu
  *
  */
-public class UnitList extends  HashMap<Integer, Unit> 
+public class UnitList extends  ArrayList<IUnit> 
 {
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2750568392824062736L;
 
-	
-	/**
-	 * add unit to the list if in not contain in list
-	 * otherwise return false
-	 * @param unit
-	 * @return true if added to list otherwise false
-	 */
-	public boolean addUnit(Unit unit)
+	public List<IUnit> getTypeUnits(Class<?> unitType)
 	{
-		if (this.containsKey(unit.getId()) == false)
+		ArrayList<IUnit> subList = new ArrayList<IUnit>();
+		
+		for (IUnit unit : this)
 		{
-			this.put(unit.getId(), unit);
-			return true;
+//			if (unit instanceof unitType)
+//			{
+//				
+//			}
 		}
-		return false;
+		
+		return subList;
 	}
-
 	
 }

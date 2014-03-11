@@ -4,7 +4,8 @@
 package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
-import net.krglok.realms.unit.Unit;
+import net.krglok.realms.unit.AbstractUnit;
+import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.UnitList;
 import net.krglok.realms.unit.UnitType;
 
@@ -30,7 +31,7 @@ public class UnitListTest
 		if(isOutput)
 		{
 			System.out.println("==UnitList : "+unitList.size());
-			for(Unit unit : unitList.values())
+			for(IUnit unit : unitList)
 			{
 //				System.out.println(unit.getUnitType().name()+" : "+unit.getUnitCount());
 			}

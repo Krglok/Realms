@@ -3,7 +3,6 @@ package net.krglok.realms.unit;
 
 public enum UnitType
 {
-
 	NONE,
 	SETTLER,
 	COW,

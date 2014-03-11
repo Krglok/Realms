@@ -1,19 +1,17 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.Material;
-import org.bukkit.block.Biome;
-
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
+
+import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 /**
  * <pre>
@@ -1502,6 +1500,42 @@ public class Settlement //implements Serializable
 						}
 					}
 					building.addSales(sale);
+				}
+				
+				// unit production
+				if (BuildPlanType.getBuildGroup(building.getBuildingType())== 5)
+				{
+					if (building.isEnabled())
+					{
+						switch(building.getBuildingType())
+						{
+						case GUARDHOUSE:
+							if (building.getTrainCounter() == 0)
+							{
+								if (resident.getSettlerCount() > townhall.getWorkerCount())
+								{
+									ingredients = building.militaryProduction();
+									prodFactor  = 1.0;
+									if (checkStock(prodFactor, ingredients))
+									{
+										// ausrüstung abbuchen
+										consumStock(prodFactor, ingredients);
+										// Siedler aus vorrat nehmen
+										resident.depositSettler(-1);
+										// Counter starten
+										building.addTrainCounter(1);
+									}
+								}
+		//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							} else
+							{
+								building.addTrainCounter(1);
+							}
+							break;
+						default:
+							break;
+						}
+					}
 				}
 			} else
 			{

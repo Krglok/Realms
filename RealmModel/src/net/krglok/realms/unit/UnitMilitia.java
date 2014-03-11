@@ -5,17 +5,17 @@ import org.bukkit.Material;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 
-public class UnitMilitia extends UnitData
+public class UnitMilitia extends AbstractUnit
 {
 
-	private UnitType unitType;
+//	private UnitType unitType;
 	
 	public UnitMilitia()
 	{
 		super();
-		this.unitType = UnitType.MILITIA;
-		armor = 1;
-		speed = 3;
+//		this.unitType = UnitType.MILITIA;
+		armor = 3;
+		speed = 4;
 		offense = 6;
 		defense = 3;
 		offenseRange = 1;
@@ -64,5 +64,33 @@ public class UnitMilitia extends UnitData
 		subList.addItem(Material.BREAD.name(),0);
 		
 		return subList;
+	}
+
+	@Override
+	public void train()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void upgrade()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void attack()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void defend()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

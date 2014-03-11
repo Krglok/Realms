@@ -7,6 +7,8 @@ import org.bukkit.block.Biome;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.unit.UnitMilitia;
+import net.krglok.realms.unit.UnitType;
 
 /**
  * <pre>
@@ -48,7 +50,9 @@ public class Building  implements Serializable
 	private int storeCapacity;
 	private LocationData position;
 	private Biome biome;
-	
+	private UnitType trainType;
+	private long trainCounter;
+	private long trainTime;
 	
 	public Building()
 	{
@@ -70,6 +74,8 @@ public class Building  implements Serializable
 		storeCapacity   = getStoreCapacity(buildingType);
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		biome = null;
+		trainType = UnitType.NONE;
+		trainTime = 1;
 	}
 	
 	public Building(BuildPlanType buildingType, String regionType, boolean isRegion)
@@ -91,6 +97,7 @@ public class Building  implements Serializable
 		storeCapacity   = getStoreCapacity(buildingType);
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		biome = null;
+		trainType = setDefaultTrainingType(buildingType);
 	}
 
 
@@ -114,6 +121,7 @@ public class Building  implements Serializable
 		storeCapacity   = getStoreCapacity(buildingType);
 		this.position = position; //new LocationData("", 0.0, 0.0, 0.0);
 		biome = null;
+		trainType = setDefaultTrainingType(buildingType);
 	}
 	
 	public Building(int id, BuildPlanType buildingType, int settler,
@@ -139,6 +147,7 @@ public class Building  implements Serializable
 		storeCapacity   = getStoreCapacity(buildingType);
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		biome = null;
+		trainType = setDefaultTrainingType(buildingType);
 	}
 	
 	public Building(int id, BuildPlanType buildingType, int settler,
@@ -192,9 +201,31 @@ public class Building  implements Serializable
 		this.sales = sales;
 		this.position = position;
 		biome = null;
+		trainType = setDefaultTrainingType(buildingType);
 
 	}
 
+	/**
+	 * set the training parameter
+	 * 
+	 * @param buildingType
+	 * @return
+	 */
+	private UnitType setDefaultTrainingType(BuildPlanType buildingType)
+	{
+		switch(buildingType)
+		{
+		case GUARDHOUSE : 
+			trainTime = 5; // es sind 5 productionZyklen = 5 inGameTage gemeint
+			return UnitType.MILITIA ;
+		default :
+			return UnitType.NONE;
+		}
+		
+		
+	}
+
+	
 	
 	private void setWorkerDefault(BuildPlanType buildingType)
 	{
@@ -318,7 +349,7 @@ public class Building  implements Serializable
 	
 	
 	/**
-	 * Setzt den Staroage Factor fuer den BuidingType
+	 * Setzt den Storage Factor fuer den BuidingType
 	 * dieser wird bei der Verteilung der Worker auf die Building
 	 * benutzt um festzustellen ob die Produktion sinnvoll ist.
 	 * @param bType
@@ -335,6 +366,7 @@ public class Building  implements Serializable
 		case FARMHOUSE:return 64;
 		case FARM : return 64;
 		case TRADER: return 27;
+		case GUARDHOUSE : return 5;
 		default:  return 32; 
 		}
 	}
@@ -796,6 +828,28 @@ public class Building  implements Serializable
 	}
 	
 	/**
+	 * liefert die required items fuer eine militaryProduction
+	 * 
+	 * @return
+	 */
+	public ItemList militaryProduction()
+	{
+		ItemList outValues = new ItemList();
+		switch (trainType)
+		{
+		case MILITIA:
+			UnitMilitia militia = new UnitMilitia();
+			for (Item item : militia.getRequiredItems().values())
+			{
+				outValues.put(item.ItemRef() ,new Item(item.ItemRef(),item.value()));
+			}
+			break;
+		default :
+		}
+		return outValues;
+	}
+	
+	/**
 	 * get produced items from stronghold chest
 	 * will calculate the amount that will be produced when enough stock is available
 	 * dont set the production to storage, this will be done by settlement 
@@ -902,5 +956,28 @@ public class Building  implements Serializable
 		this.biome = biome;
 	}
 
+	public long getTrainCounter()
+	{
+		return trainCounter;
+	}
+
+	public void setTrainCounter(long trainCounter)
+	{
+		this.trainCounter = trainCounter;
+	}
+
+	public void addTrainCounter(int value)
+	{
+		this.trainCounter = this.trainCounter + value;
+	}
+	
+	public boolean isTrainReady()
+	{
+		if (this.trainCounter >= this.trainTime)
+		{
+			return true;
+		}
+		return false;
+	}
 	
 }
