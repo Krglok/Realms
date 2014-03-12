@@ -431,21 +431,21 @@ public class ServerListener implements Listener
 		if (settle != null)
 		{
 			String region = findRegionAtLocation(plugin, player);
-			if (region.equalsIgnoreCase(BuildPlanType.WAREHOUSE.name()))
-			{
-				if (event.getView().getType() == InventoryType.CHEST)
-				{
-					System.out.println("You are in a WAREHOUSE closed a Chest");
-					if (inventory.getSize() > 0)
-					{
-						for (ItemStack itemStack :inventory.getContents())
-						{
-							settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
-						}
-						inventory.clear();
-					}
-				}
-			}
+//			if (region.equalsIgnoreCase(BuildPlanType.WAREHOUSE.name()))
+//			{
+//				if (event.getView().getType() == InventoryType.CHEST)
+//				{
+//					System.out.println("You are in a WAREHOUSE closed a Chest");
+//					if (inventory.getSize() > 0)
+//					{
+//						for (ItemStack itemStack :inventory.getContents())
+//						{
+//							settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
+//						}
+//						inventory.clear();
+//					}
+//				}
+//			}
 			if (region.equalsIgnoreCase(BuildPlanType.HALL.name()))
 			{
 				if (event.getView().getType() == InventoryType.CHEST)
