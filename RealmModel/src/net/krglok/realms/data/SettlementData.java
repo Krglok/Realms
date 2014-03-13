@@ -160,7 +160,7 @@ public class SettlementData
 				{
 		            System.out.println("ECXEPTION : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
 				}
-	            System.out.println("WRITTEN : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
+//	            System.out.println("WRITTEN : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
 			
 		} catch (Exception e)
 		{

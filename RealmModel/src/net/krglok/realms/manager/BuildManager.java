@@ -506,7 +506,7 @@ public class BuildManager
 	 */
 	private void doWait()
 	{
-		System.out.println(bStatus.name());
+//		System.out.println(bStatus.name());
 		if (bStatus == BuildStatus.WAIT)
 		{
 			if (checkRequired() == true)
