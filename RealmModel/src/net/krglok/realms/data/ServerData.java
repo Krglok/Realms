@@ -280,6 +280,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_0;
 		case WHEAT : return FAKTOR_PP;
 		case SEEDS : return FAKTOR_PP;
 		case COBBLESTONE: return FAKTOR_M;
@@ -311,6 +312,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_MM;
 		case WHEAT : return FAKTOR_MM;
 		case SEEDS : return FAKTOR_MM;
 		case COBBLESTONE: return FAKTOR_PP;
@@ -344,6 +346,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_M;
 		case WHEAT : return FAKTOR_M;
 		case SEEDS : return FAKTOR_M;
 		case COBBLESTONE: return FAKTOR_P;
@@ -377,6 +380,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_P;
 		case WHEAT : return FAKTOR_0;
 		case SEEDS : return FAKTOR_0;
 		case COBBLESTONE: return FAKTOR_MM;
@@ -410,6 +414,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_PP;
 		case WHEAT : return FAKTOR_0;
 		case SEEDS : return FAKTOR_0;
 		case COBBLESTONE: return FAKTOR_MM;
@@ -476,6 +481,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_MMM;
 		case SAND : return FAKTOR_PPP;
 		case WHEAT : return FAKTOR_M;
 		case SEEDS : return FAKTOR_M;
@@ -510,6 +516,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_MM;
 		case WHEAT : return FAKTOR_MMM;
 		case SEEDS : return FAKTOR_MMM;
 		case COBBLESTONE: return FAKTOR_PP;
@@ -543,6 +550,7 @@ public class ServerData implements ServerInterface
 	{
 		switch (mat)
 		{
+		case WATER : return FAKTOR_MMM;
 		case WHEAT : return FAKTOR_MM;
 		case SEEDS : return FAKTOR_MM;
 		case WOOL : return FAKTOR_MM;

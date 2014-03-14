@@ -198,7 +198,7 @@ public class SettlementData
 
             	//Biome.valueOf(settle.getBiome()));
             	settle.setName(config.getString(settleSec+".name"));
-            	settle.setOwner(null);
+            	settle.setOwner(config.getString(settleSec+".owner"));
             	settle.setIsCapital(config.getBoolean(settleSec+".isCapital"));
             	settle.setIsActive(config.getBoolean(settleSec+".isActive"));
             	settle.getBank().addKonto(config.getDouble(settleSec+".bank",0.0),"SettleRead");

@@ -450,7 +450,7 @@ public class ServerListener implements Listener
 			{
 				if (event.getView().getType() == InventoryType.CHEST)
 				{
-					System.out.println("You are in a HALL closed a Chest");
+//					System.out.println("You are in a HALL closed a Chest");
 					if (inventory.getSize() > 0)
 					{
 						for (ItemStack itemStack :inventory.getContents())

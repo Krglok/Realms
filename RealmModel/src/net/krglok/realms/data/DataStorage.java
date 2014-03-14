@@ -1,6 +1,7 @@
 package net.krglok.realms.data;
 
 import java.awt.Rectangle;
+import java.io.File;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
@@ -335,10 +336,12 @@ public class DataStorage implements DataInterface
      */
 	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet)
 	{
-		String path = plugin.getDataFolder().getPath()+"//buildplan";
+		String path = plugin.getDataFolder().getPath();
+        File tmxFolder = new File(path, "buildplan");
+        File tmxFile = new File(tmxFolder.getAbsoluteFile(), bType.name()+".tmx");
 		BuildPlanMap buildPlan = new BuildPlanMap(bType,radius , offSet);
 		TMXMapReader mapReader = new TMXMapReader();
-		String filename =  path+"//"+bType.name()+".tmx";
+		String filename =  tmxFile.getAbsolutePath();
 		Map tmxMap = null;
 		try
 		{

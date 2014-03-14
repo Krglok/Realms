@@ -1302,7 +1302,7 @@ public class Settlement //implements Serializable
 //				}
 			} else
 			{
-				System.out.println(getId()+" :MaxItems "+itemRef+":"+(warehouse.getItemList().getValue(itemRef)/64) +"/"+ (warehouse.getItemMax() / 64 / 4));
+//				System.out.println(getId()+" :MaxItems "+itemRef+":"+(warehouse.getItemList().getValue(itemRef)/64) +"/"+ (warehouse.getItemMax() / 64 / 4));
 				isResult = false;
 			}
 		}

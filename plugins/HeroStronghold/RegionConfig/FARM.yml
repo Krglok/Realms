@@ -6,7 +6,7 @@ effects:
 - denyplayerinteract.1
 - periodicupkeep.1
 - denyfriendlyfire.1
-radius: 5
+radius: 9
 requirements:
 - WOODEN_DOOR.1
 - BED_BLOCK.4

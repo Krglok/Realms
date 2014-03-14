@@ -1,6 +1,9 @@
 friendly-classes: []
 enemy-classes: []
 effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
 - periodicupkeep.1
 radius: 4
 requirements:
@@ -12,5 +15,6 @@ upkeep: []
 upkeep-chance: 0.001
 output:
 - WHEAT.16
+- SOIL.1
 money-requirement: 500.0
 upkeep-money-output: -1.0

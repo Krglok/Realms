@@ -23,7 +23,3 @@ upkeep-chance: 0.001
 output: []
 money-requirement: 1000.0
 upkeep-money-output: 2.0
-super-regions:
-- Stadt
-- Metropole
-- Stadtviertel

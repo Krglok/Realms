@@ -126,6 +126,12 @@ public class CmdColonistCreate extends RealmsCommand
 		{
 			if (sender instanceof Player)
 			{
+				if (name.equals(""))
+				{
+					errorMsg.add("You must give a name for the new settlement !");
+					errorMsg.add(" ");
+					return false;
+				}
 				return true;
 			}
 			errorMsg.add("The World can NOT be set correct !");
