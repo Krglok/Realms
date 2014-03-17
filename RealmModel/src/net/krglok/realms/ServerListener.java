@@ -82,7 +82,7 @@ public class ServerListener implements Listener
 		{
 			
 			String msg = "[Realms] Updatecheck : "+plugin.getConfigData().getPluginName()+" Vers.: "+plugin.getConfigData().getVersion();
-			Update.message(event.getPlayer(),msg);
+			UpdateOld.message(event.getPlayer(),msg);
 		}
 		return; // no OP => OUT
 	}
@@ -128,9 +128,11 @@ public class ServerListener implements Listener
 		    	    	} else
 		    	    	{
 			    			System.out.println("BuildAt");
+			    			sign.setLine(0, "");
+			    			sign.update();
 			    			if (buildAt( pos, l1, event.getPlayer(), msg))
 			    			{
-						    	msg.add(" ");
+						    	msg.add("Build startet  ");
 						    	msg.add(" ");
 			    			} else
 			    			{

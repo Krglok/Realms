@@ -22,8 +22,8 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerTest;
-import net.krglok.realms.model.LogList;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -37,6 +37,8 @@ public class SettlementTest
 
 	private Boolean isOutput = false; // set this to false to suppress println
 	LocationData position  = new LocationData("SteamHaven",-519.5118200333327,68,-1415.4833680460988); 
+	String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+	LogList logTest = new LogList(path);
 
 	
 	@Test
@@ -52,7 +54,8 @@ public class SettlementTest
 	@Test
 	public void testSettlement()
 	{
-		Settlement settlement = new Settlement();
+		
+		Settlement settlement = new Settlement(logTest);
 		String expected = new Owner().getPlayerName();
 		String actual = settlement.getOwner();
 		assertEquals(expected, actual);
@@ -64,7 +67,7 @@ public class SettlementTest
 		Owner owner = new Owner();
 		owner.setId(5);
 		String expected =  "";
-		Settlement settlement = new Settlement(owner.getPlayerName(), position);
+		Settlement settlement = new Settlement(owner.getPlayerName(), position, logTest);
 		String actual = settlement.getOwner();
 		assertEquals(expected, actual);
 	}
@@ -83,10 +86,9 @@ public class SettlementTest
 		Warehouse warehouse = new Warehouse(1000);
 		BuildingList buildingList = new BuildingList();
 		Townhall townhall 	= new Townhall();
-		Bank bank 			= new Bank();
+		Bank bank 			= new Bank(logTest);
 		Resident resident	= new Resident();
 	    ItemPriceList priceList = new ItemPriceList();
-;
 
 		Settlement settlement = new Settlement(
 				id, settletype, name, position,  
@@ -103,7 +105,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementCreate()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 
 		ConfigTest config = new ConfigTest();
@@ -122,7 +124,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(), 
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		int expected = 6;
@@ -146,7 +149,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementItemMax()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 
 		ConfigTest config = new ConfigTest();
@@ -173,7 +176,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(), 
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		int expected = 32832;
@@ -199,7 +203,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementProduce()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -226,7 +230,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
@@ -253,7 +258,8 @@ public class SettlementTest
 				System.out.println(itemRef+":"+settle.getWarehouse().getItemList().getValue(itemRef));
 			}
 		}
-		
+		logTest.run();
+
 		assertEquals(expected, actual);
 
 	}
@@ -264,7 +270,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementSettlerWorkerSupply()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -314,7 +320,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 		settle.initTreasureList();
 		settle.expandTreasureList(settle.getBiome(), server);
@@ -385,7 +392,6 @@ public class SettlementTest
 							+"|WHEAT:"+settle.getWarehouse().getItemList().getValue("WHEAT")+"BREAD:"+settle.getWarehouse().getItemList().getValue("BREAD"));
 				}
 			}
-			
 		}
 		
 		int expected = 25;
@@ -400,14 +406,15 @@ public class SettlementTest
 			System.out.println("=Expectedt      : "+expected);
 			System.out.println("=Actual Settler : "+settle.getResident().getSettlerCount());
 		}
-		
+		logTest.run();
+	
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testSettlementWorkerNeeded()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 //		ServerTest server = new ServerTest();
 		
@@ -464,7 +471,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		settle.getResident().setSettlerCount(50);
@@ -502,7 +510,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementSettlerWorked()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 //		ServerTest server = new ServerTest();
 		
@@ -565,7 +573,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		settle.getResident().setSettlerCount(50);
@@ -603,7 +612,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementTax()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -633,10 +642,11 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 		double value = settle.getBank().getKonto() * -1.0;
-		settle.getBank().addKonto(value, "Reset");
+		settle.getBank().addKonto(value, "Reset",settle.getId());
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		int freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
@@ -680,7 +690,8 @@ public class SettlementTest
 			}
 			
 		}
-		
+		logTest.run();
+
 		assertEquals(expected, actual);
 
 	}
@@ -688,11 +699,12 @@ public class SettlementTest
 	@Test
 	public void testSettlementBauernhof()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
-		ConfigTest config = new ConfigTest();
+		ConfigTest config = new ConfigTest();			
+
 		config.initRegionBuilding();
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
@@ -719,7 +731,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
@@ -746,7 +759,8 @@ public class SettlementTest
 				System.out.println(itemRef+":"+settle.getWarehouse().getItemList().getValue(itemRef));
 			}
 		}
-		
+		logTest.run();
+
 		assertEquals(expected, actual);
 
 	}
@@ -754,7 +768,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementWerkstatt()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -787,7 +801,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
@@ -841,7 +856,8 @@ public class SettlementTest
 				System.out.println(itemRef+":"+settle.getWarehouse().getItemList().getValue(itemRef));
 			}
 		}
-		
+		logTest.run();
+
 		assertEquals(expected, actual);
 
 	}
@@ -850,7 +866,7 @@ public class SettlementTest
 	@Test
 	public void testSettlementSchmelze()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -882,7 +898,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
@@ -937,7 +954,8 @@ public class SettlementTest
 				System.out.println(itemRef+":"+settle.getWarehouse().getItemList().getValue(itemRef));
 			}
 		}
-		
+		logTest.run();
+
 		assertEquals(expected, actual);
 
 	}
@@ -945,7 +963,7 @@ public class SettlementTest
 	@Test
 	public void testBuildingEnabled()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -981,7 +999,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
@@ -1070,7 +1089,8 @@ public class SettlementTest
 				System.out.println(itemRef+":"+settle.getWarehouse().getItemList().getValue(itemRef));
 			}
 		}
-		
+		logTest.run();
+
 		assertEquals(expected, actual);
 
 	}
@@ -1078,7 +1098,7 @@ public class SettlementTest
 	@Test
 	public void testRequiredProduction()
 	{
-		DataTest testData = new DataTest();
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -1114,7 +1134,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())
@@ -1192,6 +1213,8 @@ public class SettlementTest
 				
 			}
 		}
+		logTest.run();
+
 		assertEquals(expected, actual);
 
 	}
@@ -1199,9 +1222,9 @@ public class SettlementTest
 	@Test
 	public void testAddBuilding()
 	{
-		DataTest data = new DataTest();
-		data.initSettleDate();
-		OwnerList ownerList =  data.getTestOwners();
+		DataTest testData = new DataTest(logTest);
+		testData.initSettleDate();
+		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -1237,7 +1260,8 @@ public class SettlementTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		
@@ -1264,8 +1288,8 @@ public class SettlementTest
 			System.out.print("==Settlement Add Building == ");
 			System.out.print(settle.getId()+":"+settle.getName());
 			System.out.println("");
-			System.out.println("Settlements ="+data.getTestSettlements().count());
-			for (Settlement settl : data.getTestSettlements().getSettlements().values())
+			System.out.println("Settlements ="+testData.getTestSettlements().count());
+			for (Settlement settl : testData.getTestSettlements().getSettlements().values())
 			{
 				System.out.print("|"+ConfigBasis.setStrright(settl.getId(), 2));
 				System.out.print("|"+ConfigBasis.setStrleft(settl.getName(),12));

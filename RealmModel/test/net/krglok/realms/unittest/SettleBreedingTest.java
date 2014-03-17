@@ -20,6 +20,7 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.block.Biome;
@@ -367,13 +368,15 @@ public class SettleBreedingTest
 	@Test
 	public void testSettlementBreed()
 	{
-		
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
 		ItemPriceList priceList = readPriceData(); 
 		
+		logTest.addText("TestUser", "testSettlementBreed");
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
@@ -417,7 +420,8 @@ public class SettleBreedingTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.HELL
+				Biome.HELL,
+				logTest
 				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
@@ -512,7 +516,7 @@ public class SettleBreedingTest
 			}
 			
 		}
-		
+		logTest.run();
 		assertEquals(expected, actual);
 
 	}

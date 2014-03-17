@@ -39,7 +39,7 @@ public class SettlementData
 	public SettlementData(String dataFolder)		//Realms plugin)
 	{
 //		this.plugin = plugin;
-		this.dataFolder = dataFolder+"Realms";
+		this.dataFolder = dataFolder; //+"Realms";
 //		System.out.println("SettlementData: "+dataFolder.getName());
 	}
 
@@ -176,9 +176,9 @@ public class SettlementData
 
 	}
 	
-	public Settlement readSettledata(int id, ItemPriceList priceList) 
+	public Settlement readSettledata(int id, ItemPriceList priceList, LogList logList) 
 	{
-		Settlement settle = new Settlement(priceList);
+		Settlement settle = new Settlement(priceList, logList);
         String settleSec = getSettleKey(id);
 		try
 		{
@@ -201,7 +201,7 @@ public class SettlementData
             	settle.setOwner(config.getString(settleSec+".owner"));
             	settle.setIsCapital(config.getBoolean(settleSec+".isCapital"));
             	settle.setIsActive(config.getBoolean(settleSec+".isActive"));
-            	settle.getBank().addKonto(config.getDouble(settleSec+".bank",0.0),"SettleRead");
+            	settle.getBank().addKonto(config.getDouble(settleSec+".bank",0.0),"SettleRead",settle.getId());
             	
             	// die werte werden als String gelesen, da verschiedene Datentypen im array sind
             	settle.getTownhall().setIsEnabled(Boolean.valueOf(config.getString(settleSec+".townhall"+".isEnable")));

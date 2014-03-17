@@ -6,6 +6,7 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.manager.BuildManager;
 
 import org.junit.Test;
@@ -17,10 +18,13 @@ public class BuildManagerTest
 	@Test
 	public void testBuildManager()
 	{
-		DataTest data = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+		
 		BuildManager bManager = new BuildManager();
 		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
-		BuildPlanMap buildPlan = data.readTMXBuildPlan(BuildPlanType.HALL, 4, -1);
+		BuildPlanMap buildPlan = testData.readTMXBuildPlan(BuildPlanType.HALL, 4, -1);
 //		bManager.newBuild(buildPlan, centerPos);
 
 		ItemList matList = BuildManager.makeMaterialList(buildPlan);
@@ -46,23 +50,25 @@ public class BuildManagerTest
 	@Test
 	public void testMakeMaterialList()
 	{
-		DataTest data = new DataTest();
-		BuildManager bManager = new BuildManager();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+		
 		ItemList gesamtList = new ItemList();
 		
-		BuildPlan bPlan =  data.readTMXBuildPlan(BuildPlanType.HALL, 4, -1);
+		BuildPlan bPlan =  testData.readTMXBuildPlan(BuildPlanType.HALL, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan =  data.readTMXBuildPlan(BuildPlanType.HOME, 4, -1);
-		gesamtList = getMatListfor( bPlan, gesamtList);
-		gesamtList = getMatListfor( bPlan, gesamtList);
+		bPlan =  testData.readTMXBuildPlan(BuildPlanType.HOME, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan =  data.readTMXBuildPlan(BuildPlanType.WHEAT, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan =  data.readTMXBuildPlan(BuildPlanType.WOODCUTTER, 4, -1);
+		bPlan =  testData.readTMXBuildPlan(BuildPlanType.WHEAT, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
-		bPlan =  data.readTMXBuildPlan(BuildPlanType.QUARRY, 4, -1);
+		gesamtList = getMatListfor( bPlan, gesamtList);
+		bPlan =  testData.readTMXBuildPlan(BuildPlanType.WOODCUTTER, 4, -1);
+		gesamtList = getMatListfor( bPlan, gesamtList);
+		bPlan =  testData.readTMXBuildPlan(BuildPlanType.QUARRY, 4, -1);
 		gesamtList = getMatListfor( bPlan, gesamtList);
 		
 		System.out.println("Bauterial for ALL ");

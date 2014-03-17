@@ -16,9 +16,9 @@ import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
-import net.krglok.realms.manager.BuildManager;
 
 /**
  * the realmModel is the top Class of the realm handling.
@@ -53,6 +53,7 @@ public class RealmModel
 	private ConfigInterface config;
 	private DataInterface data;
 	public MessageInterface messageData;
+	private LogList logList;
 	
 	private OwnerList owners;
 	private KingdomList realms;
@@ -86,7 +87,8 @@ public class RealmModel
 			ServerInterface server,
 			ConfigInterface config,
 			DataInterface data,
-			MessageInterface messageData
+			MessageInterface messageData,
+			LogList logList
 			)
 	{
 		modelStatus =  ModelStatus.MODEL_DISABLED;
@@ -96,6 +98,7 @@ public class RealmModel
 		taxQueue = new ArrayList<Settlement>();
 		storeQueue = new HashMap<Integer,Integer>();
 		
+		this.logList = logList;
 		owners = new OwnerList();
 		realms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
@@ -221,6 +224,11 @@ public class RealmModel
 	public ConfigInterface getConfig()
 	{
 		return config;
+	}
+
+	public LogList getLogList()
+	{
+		return logList;
 	}
 
 	public TradeMarket getTradeMarket()
@@ -448,6 +456,10 @@ public class RealmModel
 					garbageCounter = 0;
 					messageData.log("Enabled Garbage Collector for TradeOrder");
 					doGarbageOrders();
+				} else
+				{
+					logList.run();
+					
 				}
 				
 				break;

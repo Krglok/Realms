@@ -135,7 +135,7 @@ public class DataStorage implements DataInterface
 	 */
 	private Settlement readSettlement(int id, ItemPriceList priceList)
 	{
-		return settleData.readSettledata(id, priceList);
+		return settleData.readSettledata(id, priceList, plugin.getLogList());
 	}
 	
 //	private Settlement initSettlement()

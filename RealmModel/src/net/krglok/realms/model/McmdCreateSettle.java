@@ -79,7 +79,7 @@ public class McmdCreateSettle implements iModelCommand
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 
-		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName, biome);
+		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName, biome, rModel.getLogList());
 		rModel.getSettlements().addSettlement(settlement);
 //		System.out.println(superRegionName+" : "+settlement.getId());
 		for (Region region : rModel.getServer().getRegionInSuperRegion(superRegionName))
@@ -118,7 +118,7 @@ public class McmdCreateSettle implements iModelCommand
 		settlement.getWarehouse().depositItemValue("SOIL",64);
 		settlement.getWarehouse().depositItemValue("WATER",settlement.getResident().getSettlerMax());
 		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
-		settlement.getBank().depositKonto((double) (settlement.getResident().getSettlerCount()*10) , "CREATE");
+		settlement.getBank().depositKonto((double) (settlement.getResident().getSettlerCount()*10) , "CREATE",settlement.getId());
 		System.out.println("Write Settlement to Storage : "+settlement.getName()+" Activ:"+settlement.isActive()+" Enable:"+settlement.isEnabled());
 		rModel.getData().writeSettlement(settlement);
 	}

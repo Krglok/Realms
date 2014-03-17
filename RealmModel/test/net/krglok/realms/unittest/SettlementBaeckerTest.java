@@ -11,6 +11,7 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
@@ -26,7 +27,9 @@ public class SettlementBaeckerTest
 	@Test
 	public void testSettlementBaecker()
 	{
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -56,7 +59,8 @@ public class SettlementBaeckerTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.FOREST
+				Biome.FOREST,
+				logTest
 				);
 
 		for (Building b : settle.getBuildingList().getBuildingList().values())

@@ -20,6 +20,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.manager.BuildManager;
 
@@ -264,10 +265,14 @@ public class SettlementDataTest
 	{
 		final double MIN_MONEY_FACTOR = 50.0; 
 		ConfigTest config = new ConfigTest();
-		DataTest data     = new DataTest();
+		
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+		
 		ItemPriceList priceList = readPriceData();
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
-        File DataFile = new File(path, "Realms");
+
+		File DataFile = new File(path, "Realms");
 		SettlementData sData = new SettlementData(path);
 		SettlementList settleList = new SettlementList(0);
 
@@ -275,7 +280,7 @@ public class SettlementDataTest
 		ArrayList<String> sList = sData.readSettleList(null);
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList()));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList(), logTest));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");
@@ -421,7 +426,7 @@ public class SettlementDataTest
 			System.out.println(" ");
 
 			BuildPlanType neededBuilding = checkNeededBuilding(settle);
-			BuildPlanMap buildPlan = data.readTMXBuildPlan(neededBuilding, 4, -1);
+			BuildPlanMap buildPlan = testData.readTMXBuildPlan(neededBuilding, 4, -1);
 			ItemList buyRequest = checkRequiredInWarehouse(settle, BuildManager.makeMaterialList(buildPlan));
 			System.out.print("  |"+"Buy order ");
 			System.out.println(" ");

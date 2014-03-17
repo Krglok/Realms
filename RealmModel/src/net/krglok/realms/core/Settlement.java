@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
@@ -84,11 +85,13 @@ public class Settlement //implements Serializable
 	
 	private ArrayList<Item> treasureList;
 	
+	private LogList logList;
+	
 	/**
 	 * instance empty settlement with
 	 * - sequential ID
 	 */
-	public Settlement()
+	public Settlement(LogList logList)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -102,7 +105,7 @@ public class Settlement //implements Serializable
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank();
+		bank		= new Bank(this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -121,7 +124,7 @@ public class Settlement //implements Serializable
 		treasureList =  new ArrayList<Item>();
 	}
 
-	public Settlement(ItemPriceList priceList)
+	public Settlement(ItemPriceList priceList, LogList logList)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -131,11 +134,12 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
+		this.logList = logList;
 //		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank();
+		bank		= new Bank(this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -161,7 +165,7 @@ public class Settlement //implements Serializable
 	 * 
 	 * @param Owner
 	 */
-	public Settlement(String owner, LocationData position)
+	public Settlement(String owner, LocationData position, LogList logList)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -175,7 +179,8 @@ public class Settlement //implements Serializable
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank();
+		this.logList = logList;
+		bank		= new Bank(this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -203,7 +208,7 @@ public class Settlement //implements Serializable
 	 * @param settleType
 	 * @param name
 	 */
-	public Settlement(String owner, LocationData position, SettleType settleType, String name, Biome biome)
+	public Settlement(String owner, LocationData position, SettleType settleType, String name, Biome biome, LogList logList)
 	{
 		COUNTER++;
 		age         = 0;
@@ -217,7 +222,8 @@ public class Settlement //implements Serializable
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank();
+		this.logList = logList;
+		bank		= new Bank(this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -766,11 +772,11 @@ public class Settlement //implements Serializable
 											settleType, String settleName, String owner, 
 											HashMap<String,String> regionTypes, 
 											HashMap<String,String> regionBuildings,
-											Biome biome)
+											Biome biome,LogList logList)
 	{
 		if (settleType != SettleType.NONE)
 		{
-			Settlement settlement = new Settlement(owner,position, settleType, settleName,biome);
+			Settlement settlement = new Settlement(owner,position, settleType, settleName,biome,logList);
 //			BuildingList buildingList = new BuildingList();
 			int regionId = 0;
 			String BuildingTypeName = "";
@@ -1010,7 +1016,7 @@ public class Settlement //implements Serializable
 		}
 		taxSum = taxSum + townhall.getWorkerCount() * ConfigBasis.SETTLER_TAXE;
 //		taxSum = resident.getSettlerCount() * SETTLER_TAXE;
-		bank.addKonto(taxSum,"TAX");
+		bank.addKonto(taxSum,"TAX", getId());
 	}
 	
 	/**
@@ -1073,8 +1079,10 @@ public class Settlement //implements Serializable
 		SettlerFactor = resident.calcResidentHappiness(SettlerFactor); //resident.getHappiness());
 		FoodFactor = consumeFood(); //SettlerFactor);
 		sumDif = EntertainFactor + SettlerFactor + FoodFactor;
+		logList.addHappiness("CYCLE", getId(), sumDif, EntertainFactor, SettlerFactor, FoodFactor, "CraftManager", getAge());
 		resident.setHappiness(sumDif);
 		resident.settlerCalculation();
+		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
 
 	}
 	
@@ -1482,18 +1490,22 @@ public class Settlement //implements Serializable
 	//						iValue = item.value();
 							iValue = (int)((double) item.value() *prodFactor);
 							// berechne Verkaufpreis der Produktion
+							logList.addProduction(building.getBuildingType().name(), getId(), building.getId(), item.ItemRef(), iValue, "CraftManager",getAge());
 							sale = building.calcSales(server,item);
 							// berechne die MaterialKosten der Produktion
+							
 							cost = server.getRecipePrice(item.ItemRef(), ingredients);
 							if ((sale - cost) > 0.0)
 							{
 							// setze Ertrag auf Building .. der Ertrag wird versteuert !!
 								account = (sale-cost) * (double) iValue / 2;
 								building.addSales(account); //-cost);
+								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
 							} else
 							{
 								account =  1.0 * (double) iValue;
 								building.addSales(account); //-cost);
+								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
 							}
 							consumStock(prodFactor, ingredients);
 //							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
@@ -1526,7 +1538,7 @@ public class Settlement //implements Serializable
 			taxSum = taxSum + value;
 				// pruefe ob Stronghold region enabled sind
 		}
-		bank.depositKonto(taxSum, "TAX_COLLECTOR");
+		bank.depositKonto(taxSum, "TAX_COLLECTOR", getId());
 		//  Kingdom tax are an open item
 		
 	}

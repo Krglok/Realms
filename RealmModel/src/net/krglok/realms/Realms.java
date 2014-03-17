@@ -18,6 +18,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.data.ConfigData;
 import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerData;
 import net.krglok.realms.manager.BiomeLocation;
@@ -63,7 +64,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public final class Realms extends JavaPlugin
 {
+//	 * API Key: 7a99d55450a225335559c13c44607f248a2533e8
+//	 * [{"id":75301,"name":"Realms","slug":"realms","stage":"beta"}]
+	private final int projectId =  75301;
+	private final String apiKey = "7a99d55450a225335559c13c44607f248a2533e8";
 	private Logger log = Logger.getLogger("Minecraft"); 
+	///This is a separate logfile, data stored as CSV values
+	private LogList logList; // = new LogList(this.getDataFolder().getPath());
+
 //	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
 //	private final CommandModel commandModel  = new CommandModel(this);
 //	private final CommandStronghold commandStronghold = new CommandStronghold(this);
@@ -82,7 +90,7 @@ public final class Realms extends JavaPlugin
 	private final MessageData messageData = new MessageData(log);
 	private ServerListener serverListener = new ServerListener(this);
 	@SuppressWarnings("unused")
-	private final Update update = new Update();
+	private Update update; // = new Update(projectId, apiKey);
 
     public HeroStronghold stronghold = null;
 //    public Vault vault = null;
@@ -105,7 +113,7 @@ public final class Realms extends JavaPlugin
         {
         	Settlement settle = realmModel.getSettlements().getSettlement(order.getSettleID());
 			double cost = order.value() * order.getBasePrice();
-        	settle.getBank().addKonto(cost, "Trader "+order.getTargetId());
+        	settle.getBank().addKonto(cost, "Trader "+order.getTargetId(),settle.getId());
         	Settlement target = realmModel.getSettlements().getSettlement(order.getSettleID());
         	target.getWarehouse().depositItemValue(order.ItemRef(),order.value());
         }
@@ -115,18 +123,21 @@ public final class Realms extends JavaPlugin
 		{
 			data.writeSettlement(settle);
 		}
-//		log = Logger.getLogger("Minecraft");
+		// write special Logdata to File
+        log.info("[Realms] Save Transacton List");
+		logList.run();
+		// diable message to console;
 		log.info("[Realms] is now disabled !");
 	}
 	
 	@Override
 	public void onEnable()
 	{
-		
+		logList = new LogList(this.getDataFolder().getPath());
 //		log = Logger.getLogger("Minecraft"); 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(serverListener, this);
-		
+		update = new Update(projectId, apiKey);		
         Plugin currentPlugin = pm.getPlugin("HeroStronghold");
         if (currentPlugin != null) {
             log.info("[Realms] found HeroStronghold !");
@@ -165,9 +176,10 @@ public final class Realms extends JavaPlugin
         	isReady = false;
     		log.info("[Realms] Data not properly read !");
         }
+
         
 
-        realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData);
+        realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData, logList);
         
         //Setup repeating sync task for calculating model
         long actualTime = this.getServer().getWorlds().get(0).getTime();
@@ -963,8 +975,16 @@ public final class Realms extends JavaPlugin
 	{
 		return commandRealms;
 	}
-	
-	
+
+	/**
+	 * This is a separate logfile, data stored as CSV values
+	 * @return the logList
+	 */
+	public LogList getLogList()
+	{
+		return logList;
+	}
+
 	
 
 }

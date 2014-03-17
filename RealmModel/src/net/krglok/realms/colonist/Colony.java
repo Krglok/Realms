@@ -17,6 +17,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageText;
 import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
@@ -111,8 +112,9 @@ public class Colony
 	private ArrayList<BiomeLocation> biomeRequest;
 	
 	private int timeout;
+	private LogList logList;
 	
-	public Colony (String name, LocationData position, String owner)
+	public Colony (String name, LocationData position, String owner, LogList logList)
 	{
 		COUNTER++;
 		id = COUNTER;
@@ -121,7 +123,8 @@ public class Colony
 		this.name = name;
 		this.position = position;
 		this.owner = owner;
-		this.bank = new Bank();
+		this.logList = logList;
+		this.bank = new Bank(logList);
 		this.isEnabled = true;
 		this.isActive  = true;
 		this.warehouse = new Warehouse(defaultItemMax());
@@ -148,16 +151,16 @@ public class Colony
 	}
 
 	/**
-	 * creaze a new Colony with preset Wareouse
+	 * create a new Colony with preset wareouse
 	 * 
 	 * @param name
 	 * @param position
 	 * @param owner
 	 */
-	public static Colony newColony(String name, LocationData position, String owner)
+	public static Colony newColony(String name, LocationData position, String owner, LogList logList)
 	{
 		
-		Colony colony = new Colony ( name,  position,  owner);
+		Colony colony = new Colony ( name,  position,  owner, logList);
 		colony.getWarehouse().depositItemValue(Material.BED.name(), 5);
 		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
 		colony.getWarehouse().depositItemValue(Material.LOG.name(), 250);
@@ -500,7 +503,7 @@ public class Colony
 				{
 					settle.getWarehouse().depositItemValue(item.ItemRef(), item.value());
 				}
-				settle.getBank().depositKonto(1000.0, "Colonist");
+				settle.getBank().depositKonto(1000.0, "Colonist",settle.getId());
 				System.out.println("Build FULLFILL ");
 				this.cStatus = ColonyStatus.FULFILL;
 			} else

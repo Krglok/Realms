@@ -10,6 +10,7 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.StrongholdTools;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.unittest.DataTest;
@@ -210,8 +211,11 @@ public class BuildPlanTools
 	@Test
 	public void getBuildPlanConstructionMaterial()
 	{
-		DataTest  data = new DataTest(); 
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms\\buildplan";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+
+		path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms\\buildplan";
 		BuildPlanMap buildPLan;
 
 		HashMap<String,Integer> required = new HashMap<String,Integer>();
@@ -232,7 +236,7 @@ public class BuildPlanTools
         for (String sType : sList) 
         {
         		BuildPlanType bType = BuildPlanType.getBuildPlanType(sType);
-        		buildPLan = data.readTMXBuildPlan(bType, 4, -1);
+        		buildPLan = testData.readTMXBuildPlan(bType, 4, -1);
 	            ItemList matItems = BuildManager.makeMaterialList(buildPLan);
 	            for (Item item : matItems.values())
 	            {
@@ -242,7 +246,7 @@ public class BuildPlanTools
         for (String sType : sList) 
         {
         		BuildPlanType bType = BuildPlanType.getBuildPlanType(sType);
-        		buildPLan = data.readTMXBuildPlan(bType, 4, -1);
+        		buildPLan = testData.readTMXBuildPlan(bType, 4, -1);
 	            ItemList matItems = BuildManager.makeMaterialList(buildPLan);
 	            for (Item item : matItems.values())
 	            {
@@ -250,7 +254,7 @@ public class BuildPlanTools
 	            }
         }
 
-        showReagentList( required, sList,data);
+        showReagentList( required, sList,testData);
         
 		byte expected = ConfigBasis.getMaterialId(Material.CHEST);
 		byte actual = 2;

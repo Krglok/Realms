@@ -13,6 +13,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.McmdAddBuilding;
@@ -169,9 +170,13 @@ public class ModelCmdTest
 	public void testLoop() 
 	{
 		Logger log = Logger.getLogger("Minecraft"); 
-		
 		MessageData messageData = new MessageData(log);
 
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+		ServerTest server = new ServerTest();
+		
 		ConfigTest config = new ConfigTest();
 		config.initConfigData();
 		config.initRegionBuilding();
@@ -179,9 +184,7 @@ public class ModelCmdTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 
-		ServerTest server = new ServerTest();
 
-		DataTest testData = new DataTest();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -189,7 +192,8 @@ public class ModelCmdTest
 				server,
 				config,
 				testData,
-				messageData);
+				messageData,
+				logTest);
 
 		McmdEnable modelEnable = new McmdEnable(rModel);
 		

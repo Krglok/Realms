@@ -16,6 +16,7 @@ import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -68,8 +69,10 @@ public class DataTestTest
 	@Test
 	public void testInitOwnerList()
 	{
-		DataTest data = new DataTest();
-		OwnerList oList = data.getTestOwners();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+		OwnerList oList = testData.getTestOwners();
 		int expected = 6; 
 		int actual = oList.size();
 		assertEquals(expected, actual);
@@ -86,8 +89,10 @@ public class DataTestTest
 	@Test
 	public void testInitRealmList()
 	{
-		DataTest data = new DataTest();
-		KingdomList rList = data.getTestRealms();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+		KingdomList rList = testData.getTestRealms();
 		int expected = 1; 
 		int actual = rList.size();
 		assertEquals(expected, actual);
@@ -103,8 +108,10 @@ public class DataTestTest
 	@Test
 	public void testInitRealmListOwner()
 	{
-		DataTest data = new DataTest();
-		KingdomList rList = data.getTestRealms();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+		KingdomList rList = testData.getTestRealms();
 		int expected = 1; 
 		int actual = rList.size();
 		assertEquals(expected, actual);
@@ -212,14 +219,16 @@ public class DataTestTest
 	@Test
 	public void testInitSettleList()
 	{
-		DataTest data = new DataTest();
-        ItemPriceList itemPrices = data.getPriceList();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
+        ItemPriceList itemPrices = testData.getPriceList();
 
 		SettlementList settleList = new SettlementList(0);
-		settleList.addSettlement(data.readSettlement(1,itemPrices));
-		settleList.addSettlement(data.readSettlement(2,itemPrices));
-		settleList.addSettlement(data.readSettlement(3,itemPrices));
-		settleList.addSettlement(data.readSettlement(4,itemPrices));
+		settleList.addSettlement(testData.readSettlement(1,itemPrices, logTest));
+		settleList.addSettlement(testData.readSettlement(2,itemPrices, logTest));
+		settleList.addSettlement(testData.readSettlement(3,itemPrices, logTest));
+		settleList.addSettlement(testData.readSettlement(4,itemPrices, logTest));
 		ItemPriceList priceList = readPriceData(); 
 		
 		int expected = 4; 

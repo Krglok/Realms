@@ -5,6 +5,7 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.model.McmdColonistCreate;
@@ -34,7 +35,9 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 				
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -42,7 +45,8 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null);
+				null,
+				logTest);
 		
 //		rModel.setOwners(ownerList);
 //		rModel.setRealms(realmList);
@@ -64,20 +68,15 @@ public class RealmModelTest
 	@Test
 	public void testOnEnable() {
 		ConfigTest config = new ConfigTest();
-//		config.initConfigData();
-//		config.initRegionBuilding();
-////		config.initSuperBuilding();
-//		config.initSuperSettleTypes();
 		
 		ServerTest server = new ServerTest();
 		
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 				
-		DataTest testData = new DataTest();
-//		OwnerList ownerList =  testData.getTestOwners();
-//		RealmList realmList =  testData.getTestRealms();
-//		SettlementList settleList = testData.getTestSettlements();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -85,7 +84,8 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null);
+				null,
+				logTest);
 		
 //		rModel.setOwners(ownerList);
 //		rModel.setRealms(realmList);
@@ -111,7 +111,6 @@ public class RealmModelTest
 		ConfigTest config = new ConfigTest();
 		config.initConfigData();
 		config.initRegionBuilding();
-//		config.initSuperBuilding();
 		config.initSuperSettleTypes();
 		
 		int realmCounter = config.getRealmCounter();
@@ -119,10 +118,9 @@ public class RealmModelTest
 				
 		ServerTest server = new ServerTest();
 
-		DataTest testData = new DataTest();
-//		OwnerList ownerList =  testData.getTestOwners();
-//		RealmList realmList =  testData.getTestRealms();
-//		SettlementList settleList = testData.getTestSettlements();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -130,13 +128,9 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null);
+				null,
+				logTest);
 				
-		
-//		rModel.setOwners(ownerList);
-//		rModel.setRealms(realmList);
-//		rModel.setSettlements(settleList);
-
 		Boolean expected = true; //rModel.isInit();
 		Boolean actual = false; 
 		
@@ -165,7 +159,9 @@ public class RealmModelTest
 				
 		ServerTest server = new ServerTest();
 
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -173,7 +169,8 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null);
+				null,
+				logTest);
 		
 //		String command = RealmsCommandType.REALMS.name();
 //		String subCommand = "version";
@@ -207,7 +204,9 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		ServerTest server = new ServerTest();
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
@@ -216,7 +215,8 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				message);
+				message,
+				logTest);
 		
 		Boolean expected = true; 
 		Boolean actual = false; 
@@ -277,7 +277,9 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		ServerTest server = new ServerTest();
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
@@ -286,7 +288,8 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				message);
+				message,
+				logTest);
 		
 		rModel.OnEnable();
 		

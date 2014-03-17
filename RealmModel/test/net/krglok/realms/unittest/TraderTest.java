@@ -24,6 +24,7 @@ import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.core.TradeType;
 import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.libs.jline.console.history.FileHistory;
@@ -58,7 +59,9 @@ public class TraderTest
 	
 	private Settlement createSettlement()
 	{
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		
 		ConfigTest config = new ConfigTest();
@@ -103,7 +106,8 @@ public class TraderTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
@@ -129,10 +133,10 @@ public class TraderTest
 		Settlement target = createSettlement();
 		sender.setId(0);
 		target.setId(1);
-		target.getBank().depositKonto(10000.0, "Admin");
+		target.getBank().depositKonto(10000.0, "Admin",target.getId());
 //		target.doProduce(server);
 //		sender.doProduce(server);
-		sender.getBank().depositKonto(10000.0, "Admin");
+		sender.getBank().depositKonto(10000.0, "Admin",sender.getId());
 		
 		SettlementList setteList = new SettlementList(0);
 		setteList.addSettlement(sender);

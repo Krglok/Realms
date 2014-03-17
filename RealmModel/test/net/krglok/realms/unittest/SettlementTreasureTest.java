@@ -1,12 +1,19 @@
-package net.krglok.realms.core;
+package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.core.SettleType;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerTest;
-import net.krglok.realms.unittest.DataTest;
 
 import org.bukkit.block.Biome;
 import org.junit.Test;
@@ -20,7 +27,9 @@ public class SettlementTreasureTest
 	@Test
 	public void test()
 	{
-		DataTest testData = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new net.krglok.realms.data.LogList(path);
+		DataTest testData = new DataTest(logTest);
 		OwnerList ownerList =  testData.getTestOwners();
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -39,7 +48,8 @@ public class SettlementTreasureTest
 				ownerList.getOwner("NPC0").getPlayerName(), 
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS
+				Biome.PLAINS,
+				logTest
 				);
 
 		int expected = 6;

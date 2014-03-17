@@ -45,6 +45,7 @@ import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 
 /**
@@ -72,10 +73,12 @@ public class DataTest implements DataInterface
 
 	private SettlementData settleData;
     private ItemPriceList priceList ;
-	
-	public DataTest()
+	private LogList logList;
+    
+	public DataTest(LogList logList)
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		this.logList = logList;
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		settleData = new SettlementData(path);
 		initTestData();
 	}
@@ -151,7 +154,7 @@ public class DataTest implements DataInterface
 		settlements.getSettlements().clear();
 		for (String sName : sList)
 		{
-			settlements.addSettlement(sData.readSettledata(Integer.valueOf(sName),this.getPriceList()));
+			settlements.addSettlement(sData.readSettledata(Integer.valueOf(sName),this.getPriceList(), this.logList));
 		}
 		this.testSettlements= settlements; 
 		
@@ -167,7 +170,7 @@ public class DataTest implements DataInterface
 		Warehouse warehouse = new Warehouse(6912);
 		BuildingList buildingList = new BuildingList(); 
 		Townhall townhall = new Townhall(true);
-		Bank bank = new Bank();
+		Bank bank = new Bank(this.logList);
 		Resident resident = new Resident();
 		resident.setSettlerCount(13);
 		Settlement settle =  new Settlement(
@@ -552,7 +555,7 @@ public class DataTest implements DataInterface
 	 */
 	public Settlement defaultPlot()
 	{
-		Settlement plot = new Settlement();
+		Settlement plot = new Settlement(this.logList);
 		
 		plot.setOwner(testOwners.getOwner(NPC_0).getPlayerName());
 		plot.getWarehouse().setItemList(defaultWarehouseItems());
@@ -645,9 +648,9 @@ public class DataTest implements DataInterface
 		// TODO Auto-generated method stub
 		
 	}
-	public Settlement readSettlement(int id, ItemPriceList priceList)
+	public Settlement readSettlement(int id, ItemPriceList priceList, LogList logList)
 	{
-		return settleData.readSettledata(id, priceList);
+		return settleData.readSettledata(id, priceList, logList);
 	}
 	
 	/**

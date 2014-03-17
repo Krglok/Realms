@@ -1,79 +1,132 @@
 package net.krglok.realms;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
+/**
+ * This class is a barebones example of how to use the BukkitDev ServerMods API to check for file updates.
+ * <br>
+ * See the README file for further information of use.
+ */
 public class Update
 {
-	public static boolean msg = false;
-	public static boolean outdated = false;
-	public static byte v = -1;
+    // The project's unique ID
+    private final int projectID;
 
-	@SuppressWarnings("unused")
-	private static String vOnline;
-	@SuppressWarnings("unused")
-	private static String vThis;
-	private static Plugin plugin;
+    // An optional API key to use, will be null if not submitted
+    private final String apiKey;
 
-	public Update()
-	{
-		
-	}
-	/**
-	 * check for updates, update variables
-	 */
-	public static void updateCheck(Plugin instance) 
-	{
-		plugin = instance;
-		String pluginUrlString = "http://dev.bukkit.org/server-mods/classranks/files.rss";
-		try 
-		{
-			URL url = new URL(pluginUrlString);
-			Document doc = DocumentBuilderFactory.newInstance()
-					.newDocumentBuilder()
-					.parse(url.openConnection().getInputStream());
-			doc.getDocumentElement().normalize();
-			NodeList nodes = doc.getElementsByTagName("item");
-			Node firstNode = nodes.item(0);
-			if (firstNode.getNodeType() == 1) {
-				Element firstElement = (Element) firstNode;
-				NodeList firstElementTagName = firstElement
-						.getElementsByTagName("title");
-				Element firstNameElement = (Element) firstElementTagName
-						.item(0);
-				NodeList firstNodes = firstNameElement.getChildNodes();
+    // Keys for extracting file information from JSON response
+    private static final String API_NAME_VALUE = "name";
+    private static final String API_LINK_VALUE = "downloadUrl";
+    private static final String API_RELEASE_TYPE_VALUE = "releaseType";
+    private static final String API_FILE_NAME_VALUE = "fileName";
+    private static final String API_GAME_VERSION_VALUE = "gameVersion";
 
-				String sOnlineVersion = firstNodes.item(0).getNodeValue();
-				String sThisVersion = plugin.getDescription().getVersion();
+    // Static information for querying the API
+    private static final String API_QUERY = "/servermods/files?projectIds=";
+    private static final String API_HOST = "https://api.curseforge.com";
 
-				while (sOnlineVersion.contains(" ")) {
-					sOnlineVersion = sOnlineVersion.substring(sOnlineVersion
-							.indexOf(" ") + 1);
-				}
+    /**
+     * Check for updates anonymously (keyless)
+     *
+     * @param projectID The BukkitDev Project ID, found in the "Facts" panel on the right-side of your project page.
+     */
+    public Update(int projectID) {
+        this(projectID, null);
+    }
 
-				Update.vOnline = sOnlineVersion.replace("v", "");
-				Update.vThis = sThisVersion.replace("v", "");
+    /**
+     * Check for updates using your Curse account (with key)
+     *
+     * @param projectID The BukkitDev Project ID, found in the "Facts" panel on the right-side of your project page.
+     * @param apiKey Your ServerMods API key, found at https://dev.bukkit.org/home/servermods-apikey/
+     */
+    public Update(int projectID, String apiKey) {
+        this.projectID = projectID;
+        this.apiKey = apiKey;
 
-				return;
-			}
-		} catch (Exception localException) 
-		{
-			Bukkit.getLogger().info("Exception [ClassRanks] Update Check!");
-		}
-	}
+        query();
+    }
 
-	public static void message(Player player, String msg)
-	{
-		player.sendMessage(msg);
-	}
+    /**
+     * Query the API to find the latest approved file's details.
+     */
+    public void query() {
+        URL url = null;
 
+        try {
+            // Create the URL to query using the project's ID
+            url = new URL(API_HOST + API_QUERY + projectID);
+        } catch (MalformedURLException e) {
+            // There was an error creating the URL
+
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            // Open a connection and query the project
+            URLConnection conn = url.openConnection();
+
+            if (apiKey != null) {
+                // Add the API key to the request if present
+                conn.addRequestProperty("X-API-Key", apiKey);
+            }
+
+            // Add the user-agent to identify the program
+            conn.addRequestProperty("User-Agent", "ServerModsAPI-Example (by Gravity)");
+
+            // Read the response of the query
+            // The response will be in a JSON format, so only reading one line is necessary.
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String response = reader.readLine();
+
+            // Parse the array of files from the query's response
+            JSONArray array = (JSONArray) JSONValue.parse(response);
+
+            if (array.size() > 0) {
+                // Get the newest file's details
+                JSONObject latest = (JSONObject) array.get(array.size() - 1);
+
+                // Get the version's title
+                String versionName = (String) latest.get(API_NAME_VALUE);
+
+                // Get the version's link
+                String versionLink = (String) latest.get(API_LINK_VALUE);
+
+                // Get the version's release type
+                String versionType = (String) latest.get(API_RELEASE_TYPE_VALUE);
+
+                // Get the version's file name
+                String versionFileName = (String) latest.get(API_FILE_NAME_VALUE);
+
+                // Get the version's game version
+                String versionGameVersion = (String) latest.get(API_GAME_VERSION_VALUE);
+
+                System.out.println(
+                        "[REALMS] " + versionFileName +
+                                " is " + versionName +
+                                ", a " + versionType.toUpperCase() +
+                                " for " + versionGameVersion +
+                                ", available at: " + versionLink
+                );
+            } else {
+                System.out.println("There are no files for this project");
+            }
+        } catch (IOException e) {
+            // There was an error reading the query
+
+            e.printStackTrace();
+            return;
+        }
+    }
 }

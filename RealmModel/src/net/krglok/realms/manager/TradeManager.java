@@ -28,6 +28,7 @@ public class TradeManager
 	private final int    MAX_AMOUNT = 100;
 	private final int  SELL_DELAY   = 1200;
 	private final int  BUY_DELAY    = 1200;
+	private final int  maxCounter = 30;
 	
 	private TradeOrder buyOrder;
 	private McmdSellOrder sellOrder;
@@ -40,6 +41,9 @@ public class TradeManager
 	
 	private boolean isSellActiv;
 	private boolean isBuyActiv;
+	
+	private int sellCounter;
+	private int buyCounter;
 	
 	private ItemPriceList priceList;
 	
@@ -54,6 +58,8 @@ public class TradeManager
 		this.isSellActiv = false;
 		this.isBuyActiv  = false;
 		priceList = new ItemPriceList();
+		sellCounter = 0;
+		buyCounter = 0;
 	}
 
 	public TradeManager(ItemPriceList priceList)
@@ -67,6 +73,8 @@ public class TradeManager
 		this.isSellActiv = false;
 		this.isBuyActiv  = false;
 		this.priceList = priceList;
+		sellCounter = 0;
+		buyCounter = 0;
 	}
 	
 	
@@ -176,45 +184,60 @@ public class TradeManager
 		// work on Sell Command
 		if (sellOrder != null)
 		{
-//			System.out.println("SellOrder amount "+sellOrder.getAmount());
-			if (sellOrder.getAmount() > 0 )
+			if (sellCounter > maxCounter)
 			{
-				boolean isSellOrder = false;
-				for (TradeMarketOrder tOrder : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
+	//			System.out.println("SellOrder amount "+sellOrder.getAmount());
+				if (sellOrder.getAmount() > 0 )
 				{
-					if (tOrder.ItemRef().equalsIgnoreCase(sellOrder.getItemRef()))
+					boolean isSellOrder = false;
+					for (TradeMarketOrder tOrder : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
 					{
-						isSellOrder = true;
+						if (tOrder.ItemRef().equalsIgnoreCase(sellOrder.getItemRef()))
+						{
+							isSellOrder = true;
+						}
+					}
+					if (isSellOrder == false)
+					{
+						// make new SellOrder and give return rest 
+						int restAmount = sellValuePrice(rModel, settle, sellOrder);
+			//				System.out.println("SellOrder rest "+restAmount);
+						if (restAmount <= 0)
+						{
+							sellOrder.setAmount(0);
+						}
 					}
 				}
-				if (isSellOrder == false)
-				{
-					// make new SellOrder and give return rest 
-					int restAmount = sellValuePrice(rModel, settle, sellOrder);
-		//				System.out.println("SellOrder rest "+restAmount);
-					if (restAmount <= 0)
-					{
-						sellOrder.setAmount(0);
-					}
-				}
+				sellCounter = 0;
+			} else
+			{
+				sellCounter++;
+
 			}
 		}
 		// work on Buy Command
 		if (buyOrder != null)
 		{
-			if (checkBuyValid(rModel, settle))
+			if (buyCounter > maxCounter)
 			{
-				if (buyOrder.value() > 0)
+				if (checkBuyValid(rModel, settle))
 				{
-					isBuyActiv = true;
-					buyValuePrice(rModel, settle, buyOrder);
+					if (buyOrder.value() > 0)
+					{
+						isBuyActiv = true;
+						buyValuePrice(rModel, settle, buyOrder);
+					} else
+					{
+						isBuyActiv = false;
+					}
 				} else
 				{
 					isBuyActiv = false;
 				}
+				buyCounter = 0;
 			} else
 			{
-				isBuyActiv = false;
+				buyCounter++;
 			}
 		}
 		

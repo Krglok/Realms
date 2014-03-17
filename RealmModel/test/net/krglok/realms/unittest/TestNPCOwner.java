@@ -11,6 +11,7 @@ import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.LogList;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -39,7 +40,9 @@ public class TestNPCOwner
 	
 	public Settlement readSettledata(int id) 
 	{
-		Settlement settle = new Settlement();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		Settlement settle = new Settlement(logTest);
         String settleSec = getSettleKey(id);
 		try
 		{

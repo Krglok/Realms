@@ -733,16 +733,19 @@ public class Building  implements Serializable
 		{
 			for (Item item : slots)
 			{
-				if (item.ItemRef().equals("") == false)
+				if (item != null)
 				{
-//					System.out.println("RecipeFood "+item.ItemRef());
-					prodFactor = server.getRecipeFactor(item.ItemRef(),biome);
-					recipeList = server.getFoodRecipe(item.ItemRef());
-					iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
-					items.addItem(item.ItemRef(), iValue);
-					this.isSlot = true;
+					if (item.ItemRef().equals("") == false)
+					{
+	//					System.out.println("RecipeFood "+item.ItemRef());
+						prodFactor = server.getRecipeFactor(item.ItemRef(),biome);
+						recipeList = server.getFoodRecipe(item.ItemRef());
+						iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
+						items.addItem(item.ItemRef(), iValue);
+						this.isSlot = true;
+					}
+	//					System.out.println(iValue);
 				}
-//					System.out.println(iValue);
 			}
 		} else
 		{

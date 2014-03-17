@@ -271,7 +271,7 @@ public class Trader
 							);			
 					transport.addOrder(tto);
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() +1);
-					settle.getBank().withdrawKonto(cost, "Trader "+settle.getId());
+					settle.getBank().withdrawKonto(cost, "Trader "+settle.getId(),settle.getId());
 					tmo.setStatus(TradeStatus.WAIT);
 					foundOrder.setStatus(TradeStatus.NONE);
 				}

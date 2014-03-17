@@ -2,7 +2,7 @@ package net.krglok.realms.core;
 
 import java.io.Serializable;
 
-import net.krglok.realms.model.LogList;
+import net.krglok.realms.data.LogList;
 
 /**
  * @author oduda
@@ -24,12 +24,12 @@ public class Bank  implements Serializable
 	private Double konto;
 	private LogList transactionList;
 	
-	public Bank()
-	{
-		setIsEnabled(false);
-		konto = Double.valueOf(0.0);
-		transactionList = new LogList();
-	}
+//	public Bank(LogList LogList)
+//	{
+//		setIsEnabled(false);
+//		konto = Double.valueOf(0.0);
+//		this.transactionList = logList;
+//	}
 	
 	public Bank(LogList logList)
 	{
@@ -52,12 +52,12 @@ public class Bank  implements Serializable
 	 * initialize konto with value , overwrite
 	 * @param konto
 	 */
-	public void initKonto(Double konto)
+	public void initKonto(Double konto, int settleId)
 	{
 		this.konto = konto;
 		if (transactionList != null)
 		{
-			transactionList.addlog("Init Konto "+String.valueOf(konto), "Admin");
+			transactionList.addBank("Init Konto ", "Admin", settleId, konto);
 		}
 	}
 
@@ -66,12 +66,12 @@ public class Bank  implements Serializable
 	 * This is a administrator function 
 	 * @param value
 	 */
-	public void addKonto(Double value, String text)
+	public void addKonto(Double value, String text, int settleId)
 	{
 		konto = konto + value;
 		if (transactionList != null)
 		{
-			transactionList.addlog(ADD_KONTO+String.valueOf(value), "Admin:"+text);
+			transactionList.addBank(ADD_KONTO,"Admin", settleId, value);
 		}
 	}
 	
@@ -83,12 +83,12 @@ public class Bank  implements Serializable
 	 * @param user
 	 * @return new value of konto
 	 */
-	public double depositKonto (Double value, String user)
+	public double depositKonto (Double value, String user, int SettleId)
 	{
 		konto = konto + value;
 		if (transactionList != null)
 		{
-			transactionList.addlog(DEPOSIT+String.valueOf(value), user);
+			transactionList.addBank(DEPOSIT,user, SettleId,  value);
 		}
 		return konto;
 	}
@@ -101,20 +101,20 @@ public class Bank  implements Serializable
 	 * @param user
 	 * @return true if withdraw done otherwise false
 	 */
-	public Boolean withdrawKonto (Double value, String user)
+	public Boolean withdrawKonto (Double value, String user, int settleId)
 	{
 		if (konto >= value)
 		{
 			konto = konto - value;
 			if (transactionList != null)
 			{
-				transactionList.addlog(WITHDRAW+String.valueOf(value), user);
+				transactionList.addBank(WITHDRAW, user, settleId, value);
 			}
 			return true;
 		}
 		if (transactionList != null)
 		{
-			transactionList.addlog(KONTO_TOO_LOW+String.valueOf(konto)+ "/"+String.valueOf(value), user);
+			transactionList.addBank(user,KONTO_TOO_LOW, settleId, konto - value);
 		}
 		return false;
 	}

@@ -3,94 +3,91 @@ package net.krglok.realms.unittest;
 import static org.junit.Assert.*;
 
 import net.krglok.realms.core.Bank;
-import net.krglok.realms.model.LogList;
+import net.krglok.realms.data.LogList;
 
 import org.junit.Test;
 
 public class BankTest
 {
+	String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+	LogList logTest = new LogList(path);
 
 	@Test
 	public void testInitKonto()
 	{
-		LogList log = new LogList();
-		Bank bank = new Bank(log);
+		Bank bank = new Bank(logTest);
 		Double expected = Double.valueOf(33.3);
-		bank.initKonto(expected);
+		bank.initKonto(expected,0);
 		Double actual = bank.getKonto();
+		logTest.run();
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testDepositKonto()
 	{
-		LogList log = new LogList();
-		Bank bank = new Bank(log);
+		Bank bank = new Bank(logTest);
 		Double expected = Double.valueOf(33.3);
-		bank.depositKonto(expected,"Me");
+		bank.depositKonto(expected,"Me",0);
 		Double actual = bank.getKonto();
+		logTest.run();
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testWithdrawKonto()
 	{
-		LogList log = new LogList();
-		Bank bank = new Bank(log);
+		Bank bank = new Bank(logTest);
 		Double expected = Double.valueOf(33.3);
-		bank.initKonto(expected);
+		bank.initKonto(expected,0);
 		expected = 13.3;
-		bank.withdrawKonto(expected,"Me");
+		bank.withdrawKonto(expected,"Me",0);
 		expected = 33.3 - 13.3;
 		Double actual = bank.getKonto();
+		logTest.run();
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testWithdrawKontoNot()
 	{
-		LogList log = new LogList();
-		Bank bank = new Bank(log);
+		Bank bank = new Bank(logTest);
 		Double value = Double.valueOf(13.3);
-		bank.initKonto(value);
+		bank.initKonto(value,0);
 		value = 33.3;
 		Boolean expected = false;
-		Boolean actual = bank.withdrawKonto(value,"Me");
+		Boolean actual = bank.withdrawKonto(value,"Me",0);
+		logTest.run();
 		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void testGetTransactionList()
 	{
-		LogList logList = new LogList();
-		Bank bank = new Bank(logList);
+		Bank bank = new Bank(logTest);
 		Double value = Double.valueOf(33.3);
-		bank.initKonto(value);
+		bank.initKonto(value,0);
 		value = 13.3;
-		bank.withdrawKonto(value,"Me");
+		bank.withdrawKonto(value,"Me",0);
 		int expected = 2;
 		int actual = bank.getTransactionList().size();
+		logTest.run();
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testAddTransaction()
 	{
-		LogList logList = new LogList();
-		Bank bank = new Bank(logList);
+		Bank bank = new Bank(logTest);
 		Double value = Double.valueOf(33.3);
-		bank.initKonto(value);
+		bank.initKonto(value,0);
 		value = 13.3;
-		bank.withdrawKonto(value,"Me");
+		bank.withdrawKonto(value,"Me",0);
 		int expected = 2;
 		int actual = bank.getTransactionList().size();
+		logTest.run();
 		assertEquals(expected, actual);
 		
-//		for (String wert : bank.getTransactionList().getLogList())
-//		{
-//			System.out.println(wert);
-//			
-//		}
 	}
 
 }

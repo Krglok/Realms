@@ -3,6 +3,8 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.krglok.realms.data.LogList;
+
 import org.bukkit.block.Biome;
 
 /**
@@ -257,14 +259,15 @@ public class SettlementList
 			HashMap<String,String> regionTypes, 
 			HashMap<String,String> regionBuildings, 
 			String owner,
-			Biome biome)
+			Biome biome,
+			LogList logList)
 	{
 		SettlementList settleList = new SettlementList(0);
 		SettleType settleType = getSuperRegionSettleType(superRegionTypes);
 		if (settleType != SettleType.NONE)
 		{
 			String settleName = getSettleName(superRegionTypes); 
-			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, owner, regionTypes, regionBuildings,biome);
+			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, owner, regionTypes, regionBuildings,biome,logList);
 			settleList.addSettlement(settlement);
 		}
 		return settleList;

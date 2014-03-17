@@ -37,7 +37,7 @@ public class McmdDepositeBank implements iModelCommand
 	public void execute()
 	{
 		Settlement settle = rModel.getSettlements().getSettlement(settleId);
-		settle.getBank().depositKonto(amount, userName);
+		settle.getBank().depositKonto(amount, userName,settle.getId());
 	}
 
 	@Override

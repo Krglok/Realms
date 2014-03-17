@@ -20,6 +20,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.data.ConfigTest;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.manager.SettleManager;
@@ -45,10 +46,12 @@ public class SettleManagerTest
 	public void testSettleMgr()
 	{
 		ServerTest server = new ServerTest();
-		DataTest     data = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		ConfigTest config = new ConfigTest();
 		MessageTest   msg = new MessageTest();
-		RealmModel rModel = new RealmModel(0, 0, server, config, data, msg);
+		RealmModel rModel = new RealmModel(0, 0, server, config, testData, msg, logTest);
 		// read Settlements form File
 //		data.initSettleDate();
 		//start RealmOdel
@@ -334,11 +337,13 @@ public class SettleManagerTest
 	public void testSettleMgrModel()
 	{
 		ServerTest server = new ServerTest();
-		DataTest     data = new DataTest();
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		LogList logTest = new LogList(path);
+		DataTest testData = new DataTest(logTest);
 		ConfigTest config = new ConfigTest();
 		MessageTest   msg = new MessageTest();
 		
-		RealmModel rModel = new RealmModel(0, 0, server, config, data, msg);
+		RealmModel rModel = new RealmModel(0, 0, server, config, testData, msg, logTest);
     	rModel.OnEnable();
 
 		int settleId = 1;
@@ -356,19 +361,19 @@ public class SettleManagerTest
 
 		String itemRef = "WHEAT";
 		int value = 500;
-		double price = data.getPriceList().getBasePrice(itemRef);
+		double price = testData.getPriceList().getBasePrice(itemRef);
 		int delayDays = 10;
 		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
 
 		itemRef = "LOG";
 		value = 500;
-		price = data.getPriceList().getBasePrice(itemRef);
+		price = testData.getPriceList().getBasePrice(itemRef);
 		delayDays = 10;
 		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
 
 		itemRef = "WOOL";
 		value = 500;
-		price = data.getPriceList().getBasePrice(itemRef);
+		price = testData.getPriceList().getBasePrice(itemRef);
 		delayDays = 10;
 		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
 		
