@@ -376,7 +376,7 @@ public class SettleBreedingTest
 		
 		ItemPriceList priceList = readPriceData(); 
 		
-		logTest.addText("TestUser", "testSettlementBreed");
+//		logTest.addText("TestUser", "testSettlementBreed");
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	

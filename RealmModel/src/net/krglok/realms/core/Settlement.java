@@ -758,6 +758,11 @@ public class Settlement //implements Serializable
 		return taxOverview;
 	}
 	
+	public LogList getLogList()
+	{
+		return logList;
+	}
+
 	/**
 	 * Create a new settlement by SettleType 
 	 * and regionTypes List <String, String>  for building list
@@ -1082,7 +1087,7 @@ public class Settlement //implements Serializable
 		logList.addHappiness("CYCLE", getId(), sumDif, EntertainFactor, SettlerFactor, FoodFactor, "CraftManager", getAge());
 		resident.setHappiness(sumDif);
 		resident.settlerCalculation();
-		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
+//		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
 
 	}
 	
@@ -1500,12 +1505,12 @@ public class Settlement //implements Serializable
 							// setze Ertrag auf Building .. der Ertrag wird versteuert !!
 								account = (sale-cost) * (double) iValue / 2;
 								building.addSales(account); //-cost);
-								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
 							} else
 							{
 								account =  1.0 * (double) iValue;
 								building.addSales(account); //-cost);
-								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
 							}
 							consumStock(prodFactor, ingredients);
 //							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());

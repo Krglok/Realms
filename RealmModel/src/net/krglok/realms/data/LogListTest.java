@@ -13,7 +13,7 @@ public class LogListTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logTest = new LogList(path);
 		
-		logTest.addText("TestUser","\"TESTDATA1\";\"TESTDATA2\"");
+//		logTest.addText("TestUser","\"TESTDATA1\";\"TESTDATA2\"");
 		logTest.addBank("TestUser", "add", 0, 1000 );
 
 		logTest.run();

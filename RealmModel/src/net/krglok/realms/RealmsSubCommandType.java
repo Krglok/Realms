@@ -32,6 +32,7 @@ public enum RealmsSubCommandType
 	MARKET,
 	MEMBER,
 	MOVE,
+	OWNER,
 	PRICE,
 	PRICELIST,
 	PRODUCTION ,

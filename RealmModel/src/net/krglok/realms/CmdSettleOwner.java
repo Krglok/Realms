@@ -6,25 +6,21 @@ import java.util.List;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdSettleAddMember extends RealmsCommand
+public class CmdSettleOwner extends RealmsCommand
 {
-	private String playername;
-	private int settleId ;
-
-	public CmdSettleAddMember( )
+	public CmdSettleOwner()
 	{
-		super(RealmsCommandType.SETTLE, RealmsSubCommandType.MEMBER);
+		super(RealmsCommandType.SETTLE, RealmsSubCommandType.OWNER);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle MEMBER [ID] [playername]",
-				"Set the playername as member to every building ",
+				ChatColor.YELLOW+"/settle OWNER [ID] [playername]",
+				"Set the playername as owner to settlement ",
+				"Set the playername as owner to every building ",
 		    	"expect the HOME and HOUSE ",
 		    	"  "
 		};
@@ -32,6 +28,9 @@ public class CmdSettleAddMember extends RealmsCommand
 		this.playername = "";
 		this.settleId = 0;
 	}
+
+	private String playername;
+	private int settleId ;
 
 	@Override
 	public void setPara(int index, String value)
@@ -80,8 +79,6 @@ public class CmdSettleAddMember extends RealmsCommand
 				, String.class.getName()
 				};
 	}
-	
-	
 
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
@@ -108,6 +105,8 @@ public class CmdSettleAddMember extends RealmsCommand
 					List<String> members = new ArrayList<String>();
 					members.add(playername);
 					plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
+					plugin.stronghold.getRegionManager().setOwner(sRegion, playername);
+					settle.setOwner(playername);
 //					sRegion.addMember(playername, perms );
 					for (Building building : settle.getBuildingList().getBuildingList().values())
 					{
@@ -115,11 +114,15 @@ public class CmdSettleAddMember extends RealmsCommand
 								&& (building.getBuildingType() != BuildPlanType.HOUSE)
 								&& (building.getBuildingType() != BuildPlanType.MANSION)
 								)
-						plugin.stronghold.getRegionManager().setMember(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
+						{
+							plugin.stronghold.getRegionManager().setMember(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
+							plugin.stronghold.getRegionManager().setOwner(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
+						}
 					}
-					msg.add("Member added to "+settle.getName());
+					plugin.getData().writeSettlement(settle);
+					msg.add("Owner added to "+settle.getName());
 					msg.add("Player "+playername+" now can use every Building in the Area");
-					msg.add("Player "+playername+" now can rearrange the settlement area");
+					msg.add("Player "+playername+" now owner of the settlement");
 					msg.add("They now look at you. Dont disappoint them !");
 					msg.add("Notice you are not the membet of the houses !");
 					msg.add("");
@@ -134,6 +137,7 @@ public class CmdSettleAddMember extends RealmsCommand
 					{
 						sender.sendMessage(s);
 					}
+
 				} else
 				{
 					msg.add("Superregion not found !");
@@ -150,7 +154,7 @@ public class CmdSettleAddMember extends RealmsCommand
 			msg.add("");
 		}
 		plugin.getMessageData().printPage(sender, msg, 1);
-		
+
 	}
 
 	@Override
@@ -185,7 +189,6 @@ public class CmdSettleAddMember extends RealmsCommand
 			return false;
 			
 		}
-			
 		return false;
 	}
 

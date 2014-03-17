@@ -82,7 +82,7 @@ public class ServerListener implements Listener
 		{
 			
 			String msg = "[Realms] Updatecheck : "+plugin.getConfigData().getPluginName()+" Vers.: "+plugin.getConfigData().getVersion();
-			UpdateOld.message(event.getPlayer(),msg);
+//			UpdateOld.message(event.getPlayer(),msg);
 		}
 		return; // no OP => OUT
 	}

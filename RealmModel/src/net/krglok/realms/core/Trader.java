@@ -274,6 +274,7 @@ public class Trader
 					settle.getBank().withdrawKonto(cost, "Trader "+settle.getId(),settle.getId());
 					tmo.setStatus(TradeStatus.WAIT);
 					foundOrder.setStatus(TradeStatus.NONE);
+					settle.getLogList().addOrder("TRANSPORT", tmo.getSettleID(), settle.getId(), foundOrder.ItemRef(), amount, tmo.getBasePrice(), travelTime, "Trader");
 				}
 			}	
 		}

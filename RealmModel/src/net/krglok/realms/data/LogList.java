@@ -24,53 +24,115 @@ import net.krglok.realms.core.LocationData;
  */
 public class LogList
 {
-	private ArrayList<String> logList;
-    File logFile;
-    FileWriter logWrite;
+	private ArrayList<String> prodList;
+	private ArrayList<String> happyList;
+	private ArrayList<String> orderList;
+    FileWriter prodWrite;
+    FileWriter happyWrite;
+    FileWriter orderWrite;
 
+    private int index;
+    
 	public LogList(String path )
 	{
+		index = 0;
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy_HH");
 		String formattedDate = sdf.format(date);
-		logList = new ArrayList<String>();
-	    File logFile = new File(path, "protocol_"+formattedDate+".csv");
-	    if (logFile.exists()== false) 
+		prodList = new ArrayList<String>();
+		happyList = new ArrayList<String>();
+		orderList = new ArrayList<String>();
+	    File prodFile = new File(path, "production_"+formattedDate+".csv");
+	    if (prodFile.exists()== false) 
 	    {
-			System.out.println("NEW protocol.csv : "+path+":"+"protocol_"+formattedDate+".csv");
+			System.out.println("NEW production.csv : "+path+":"+"production_"+formattedDate+".csv");
 	    	try
 			{
-				logFile.createNewFile();
-			    logWrite = new FileWriter(logFile);
+				prodFile.createNewFile();
+			    prodWrite = new FileWriter(prodFile);
 			} catch (IOException e)
 			{
-				System.out.println("Exeption LogList : "+path+":"+"protocol_"+formattedDate+".csv");
+				System.out.println("Exeption LogList : "+path+":"+"production_"+formattedDate+".csv");
 				e.printStackTrace();
-				logFile = null;
-				logWrite = null;
+				prodFile = null;
+				prodWrite = null;
 			}
 	    } else
 	    {
 		    try
 			{
-				logWrite = new FileWriter(logFile,true);
+				prodWrite = new FileWriter(prodFile,true);
 			} catch (IOException e)
 			{
 				e.printStackTrace();
-				logWrite = null;
+				prodWrite = null;
+			}
+	    }
+	    
+	    File happyFile = new File(path, "happy_"+formattedDate+".csv");
+	    if (happyFile.exists()== false) 
+	    {
+			System.out.println("NEW happy.csv : "+path+":"+"happy_"+formattedDate+".csv");
+	    	try
+			{
+	    		happyFile.createNewFile();
+			    happyWrite = new FileWriter(happyFile);
+			} catch (IOException e)
+			{
+				System.out.println("Exeption LogList : "+path+":"+"happy_"+formattedDate+".csv");
+				e.printStackTrace();
+				happyFile = null;
+				happyWrite = null;
+			}
+	    } else
+	    {
+		    try
+			{
+		    	happyWrite = new FileWriter(happyFile,true);
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+				happyWrite = null;
 			}
 	    }
 
+	    File orderFile = new File(path, "order_"+formattedDate+".csv");
+	    if (orderFile.exists()== false) 
+	    {
+			System.out.println("NEW order.csv : "+path+":"+"order_"+formattedDate+".csv");
+	    	try
+			{
+	    		orderFile.createNewFile();
+			    orderWrite = new FileWriter(orderFile);
+			} catch (IOException e)
+			{
+				System.out.println("Exeption LogList : "+path+":"+"order_"+formattedDate+".csv");
+				e.printStackTrace();
+				orderFile = null;
+				orderWrite = null;
+			}
+	    } else
+	    {
+		    try
+			{
+		    	orderWrite = new FileWriter(orderFile,true);
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+				orderWrite = null;
+			}
+	    }
+	    
 	}
 
 	public ArrayList<String> getLogList()
 	{
-		return logList;
+		return prodList;
 	}
 
 	public void setLogList(ArrayList<String> logList)
 	{
-		this.logList = logList;
+		this.prodList = logList;
 	}
 
 	/**
@@ -78,14 +140,14 @@ public class LogList
 	 * date / time / user / text
 	 * @param text
 	 */
-	public void addText( String user, String text)
+	private void addText( String user, String text)
 	{
 		String DataType = "TEXT";
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		String formattedDate = sdf.format(date);
 		String transaction = formattedDate + ";"+DataType+ ";" + user + ";" + text;
-		this.logList.add(transaction);
+//		this.prodList.add(transaction);
 	}
 
 	public void addBank(String user, String text, int SettleId,double value)
@@ -100,7 +162,7 @@ public class LogList
 				+ ";" + text
 				+";" + String.valueOf(SettleId) 
 				+ ";" + String.valueOf(value);
-		this.logList.add(transaction);
+//		this.prodList.add(transaction);
 	}
 
 	public void addProduction(String text,int SettleId, int buildingId, String itemRef, int value , String user, long age)
@@ -119,10 +181,10 @@ public class LogList
 				+";" + String.valueOf(value)
 				+";" + String.valueOf(age)
 				;
-		this.logList.add(transaction);
+		this.prodList.add(transaction);
 	}
 
-	public void addProductionSale(String text,int SettleId, int buildingId,  double value , String user, long age)
+	private void addProductionSale(String text,int SettleId, int buildingId,  double value , String user, long age)
 	{
 		String DataType = "SALE";
 		Date date = new Date();
@@ -137,7 +199,7 @@ public class LogList
 				+";" + String.valueOf(value)
 				+";" + String.valueOf(age)
 				;
-		this.logList.add(transaction);
+//		this.prodList.add(transaction);
 	}
 
 	public void addHappiness(String text,int SettleId, double happiness, double entertainFactor, double settlerFactor, double foodFactor , String user, long age)
@@ -157,9 +219,9 @@ public class LogList
 				+";" + String.valueOf(foodFactor)
 				+";" + String.valueOf(age)
 				;
-		this.logList.add(transaction);
+		this.happyList.add(transaction);
 	}
-	public void addSettler(String text,int SettleId, int settlerCount, int settlerBirthrate, int settlerDeathrate, String user, long age)
+	private void addSettler(String text,int SettleId, int settlerCount, int settlerBirthrate, int settlerDeathrate, String user, long age)
 	{
 //		settlerCount + settlerBirthrate - settlerDeathrate;
 
@@ -177,10 +239,10 @@ public class LogList
 				+";" + String.valueOf(settlerDeathrate)
 				+";" + String.valueOf(age)
 				;
-		this.logList.add(transaction);
+//		this.prodList.add(transaction);
 	}
 	
-	public void addOrder(String text,int SettleId, int buildingId, String itemRef, int value , double price, int timeOut ,String user)
+	public void addOrder(String text,int SettleId, int TargetId, String itemRef, int value , double price, long timeOut ,String user)
 	{
 		String DataType = "ORDER";
 		Date date = new Date();
@@ -191,16 +253,16 @@ public class LogList
 				+";" + user  
 				+";" + text  
 				+";" + String.valueOf(SettleId) 
-				+";" + String.valueOf(buildingId) 
+				+";" + String.valueOf(TargetId) 
 				+";" + itemRef 
 				+";" + String.valueOf(value) 
 				+";" + String.valueOf(price) 
 				+";" + String.valueOf(timeOut)
 				;
-		this.logList.add(transaction);
+		this.orderList.add(transaction);
 	}
 	
-	public void addLocation(String text,int SettleId, LocationData position , String user)
+	private void addLocation(String text,int SettleId, LocationData position , String user)
 	{
 		String DataType = "POSITION";
 		Date date = new Date();
@@ -216,13 +278,13 @@ public class LogList
 				+";" + String.valueOf(position.getY()) 
 				+";" + String.valueOf(position.getZ())
 				;
-		this.logList.add(transaction);
+		this.prodList.add(transaction);
 	}
 	
 	
 	public int size()
 	{
-		return logList.size();
+		return prodList.size();
 	}
 	
 	/**
@@ -231,25 +293,77 @@ public class LogList
 	 */
 	public void run ()
 	{
-		for (String line : logList)
+		switch(index)
 		{
+		case 1:
+			for (String line : prodList)
+			{
+				try
+				{
+					prodWrite.append(line);
+					prodWrite.append("\n");
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			prodList.clear();
 			try
 			{
-				logWrite.append(line);
-				logWrite.append("\n");
+				prodWrite.flush();
 			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
+			break;
+		case 2:
+			for (String line : happyList)
+			{
+				try
+				{
+					happyWrite.append(line);
+					happyWrite.append("\n");
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			happyList.clear();
+			try
+			{
+				happyWrite.flush();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			for (String line : orderList)
+			{
+				try
+				{
+					orderWrite.append(line);
+					orderWrite.append("\n");
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			orderList.clear();
+			try
+			{
+				orderWrite.flush();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			break;
+		default:
+			if (index > 3)
+			{
+				index = 0;
+			}
 		}
-		logList.clear();
-		try
-		{
-			logWrite.flush();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-
+		index++;
 	}
 }
