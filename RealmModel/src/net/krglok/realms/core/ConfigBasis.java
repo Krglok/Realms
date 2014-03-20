@@ -634,6 +634,20 @@ public class ConfigBasis implements ConfigInterface
 		return null;
 	}
 
+	@Override
+	public boolean isUpdateCheck()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAutoUpdate()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 	
 }

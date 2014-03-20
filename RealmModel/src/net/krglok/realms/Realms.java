@@ -137,7 +137,6 @@ public final class Realms extends JavaPlugin
 //		log = Logger.getLogger("Minecraft"); 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(serverListener, this);
-		update = new Update(projectId, apiKey);		
         Plugin currentPlugin = pm.getPlugin("HeroStronghold");
         if (currentPlugin != null) {
             log.info("[Realms] found HeroStronghold !");
@@ -177,6 +176,13 @@ public final class Realms extends JavaPlugin
     		log.info("[Realms] Data not properly read !");
         }
 
+        if (config.isUpdateCheck())
+        {
+        	update = new Update(projectId, apiKey);
+        } else
+        {
+        	update = null;
+        }
         
 
         realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData, logList);

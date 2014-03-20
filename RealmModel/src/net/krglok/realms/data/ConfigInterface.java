@@ -35,5 +35,8 @@ public interface ConfigInterface
 	public ItemList getRawItems();
 	
 	public ItemList getFoodItems();
-
+	
+	public boolean isUpdateCheck();
+	
+	public boolean isAutoUpdate();
 }

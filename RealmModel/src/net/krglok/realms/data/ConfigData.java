@@ -43,6 +43,11 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private int settlementCounter ;
 	private int buildingCounter;
 	
+	private boolean isUpdateCheck;
+	
+	private boolean isAutoUpdate;
+
+	
 	protected FileConfiguration configFile;
 	
 	public ConfigData(Realms plugin )
@@ -68,6 +73,8 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		realmCounter = configFile.getInt(CONFIG_REALM_COUNTER, 0);
 		settlementCounter = configFile.getInt(CONFIG_SETTLEMENT_COUNTER, 0);
 		setBuildingCounter(configFile.getInt("buildingCounter", 0));
+		isUpdateCheck = configFile.getBoolean("updatecheck", false);
+		isAutoUpdate  = configFile.getBoolean("autoupdate", false);
 //		configFile.options().copyDefaults(true);
 	
 	}
@@ -491,5 +498,15 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		this.buildingCounter = buildingCounter;
 	}
 		
+	public boolean isUpdateCheck()
+	{
+		return isUpdateCheck;
+	}
+	
+	public boolean isAutoUpdate()
+	{
+		return isAutoUpdate;
+	}
+
 
 }

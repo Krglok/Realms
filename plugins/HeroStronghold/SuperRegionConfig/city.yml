@@ -19,9 +19,9 @@ requirements:
 - BAKERY.1
 central-structure: TOWNHALL
 money-requirement: 450000.0
-money-output-daily: -15.0
+money-output-daily: 0.0
 max-power: 10000
-daily-power-increase: 150
+daily-power-increase: 50
 charter: 4
 child-regions:
 - Hamlet

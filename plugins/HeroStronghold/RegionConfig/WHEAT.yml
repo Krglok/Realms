@@ -8,7 +8,7 @@ effects:
 radius: 4
 requirements:
 - LOG.10
-- DIRT.10
+- SOIL.10
 reagents:
 - GOLD_NUGGET.1
 upkeep: []

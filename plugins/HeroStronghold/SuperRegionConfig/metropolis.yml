@@ -19,9 +19,9 @@ requirements:
 - WATCHTOWER.2
 central-structure: TOWNHALL
 money-requirement: 1200000.0
-money-output-daily: -100.0
+money-output-daily: 0.0
 max-power: 30000
-daily-power-increase: 500
+daily-power-increase: 50
 charter: 5
 child-regions:
 - City

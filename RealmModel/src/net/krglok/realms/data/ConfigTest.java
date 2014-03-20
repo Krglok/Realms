@@ -395,4 +395,18 @@ public class ConfigTest implements ConfigInterface
 		return BuildPlanType.getBuildPlanType(superRegionTypeName);
 	}
 
+	@Override
+	public boolean isUpdateCheck()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isAutoUpdate()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

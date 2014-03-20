@@ -2,7 +2,7 @@
 # General Settings #
 #------------------#
 # updatecheck, check for new version and give a message to the server console #
-updatecheck: false
+updatecheck: true
 # autoupdate, is not implemented now and should always false #
 autoupdate: false
 # 

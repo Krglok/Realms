@@ -17,9 +17,9 @@ requirements:
 - FARMHOUSE.3
 central-structure: HALL
 money-requirement: 150000.0
-money-output-daily: -10.0
+money-output-daily: 0.0
 max-power: 1500
-daily-power-increase: 50
+daily-power-increase: 20
 charter: 2
 child-super-regions: 
 - Hamlet

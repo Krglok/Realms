@@ -9,11 +9,11 @@ requirements:
 - GUARDHOUSE.1
 - DEFENSETOWER.1
 - WATCHTOWER.2
-central-structure: tower
+central-structure: TOWER
 money-requirement: 300000.0
-money-output-daily: -15.0
+money-output-daily: 0.0
 max-power: 5000
-daily-power-increase: 150
+daily-power-increase: 50
 charter: 0
 child-super-regions: 
 - Hamlet

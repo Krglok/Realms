@@ -2,7 +2,9 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.Util;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionCondition;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
@@ -15,15 +17,20 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerEditBookEvent;
@@ -75,6 +82,50 @@ public class ServerListener implements Listener
 ////		inventorycrafting.b(i, itemstack)
 //    }
 
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onEntityExplode(EntityExplodeEvent event) {
+        /*if (event.isCancelled() || !(event.getEntity() instanceof Creeper || event.getEntity() instanceof EnderDragon
+                || event.getEntity() instanceof TNTPrimed || event.getEntity() instanceof Fireball)) {
+            return;
+        }*/
+        System.out.println("Get Explosion!");
+    	
+        ArrayList<RegionCondition> conditions = new ArrayList<RegionCondition>();
+        conditions.add(new RegionCondition("denyexplosion", true, 4));
+        conditions.add(new RegionCondition("denyexplosionnoreagent", false, 4));
+        conditions.add(new RegionCondition("powershield", true, 0));
+        if (event.getEntity() == null) 
+        {
+            
+        } else if (event.getEntity().getClass().equals(Creeper.class)) 
+        {
+            conditions.add(new RegionCondition("denycreeperexplosion", true, 4));
+            conditions.add(new RegionCondition("denycreeperexplosionnoreagent", false, 4));
+        } else if (event.getEntity().getClass().equals(TNTPrimed.class)) 
+        {
+            conditions.add(new RegionCondition("denytntexplosion", true, 4));
+            conditions.add(new RegionCondition("denytntexplosionnoreagent", false, 4));
+        } else if (event.getEntity().getClass().equals(Fireball.class)) 
+        {
+            conditions.add(new RegionCondition("denyghastexplosion", true, 4));
+            conditions.add(new RegionCondition("denyghastexplosionnoreagent", false, 4));
+        }
+        if (plugin.stronghold.getRegionManager().shouldTakeAction(event.getLocation(), null, conditions)) 
+        {
+            for (SuperRegion sr : plugin.stronghold.getRegionManager().getContainingSuperRegions(event.getLocation())) 
+            {
+                if (sr.getPower() > 0 ) 
+                {
+//                	plugin.stronghold.getRegionManager().reduceRegion(sr);
+                  System.out.println("DenyShield active!");
+                }
+                event.setCancelled(true);
+            }
+            return;
+        }
+        
+    }
+	
     @EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event) 
     {
