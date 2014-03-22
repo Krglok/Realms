@@ -196,7 +196,7 @@ public class ConfigTest implements ConfigInterface
 		regionBuildingTypes.put("watchtower",BuildPlanType.WATCHTOWER.name());
 		regionBuildingTypes.put("stadtwache",BuildPlanType.GUARDHOUSE.name());
 		regionBuildingTypes.put("smith",BuildPlanType.BLACKSMITH.name());
-		regionBuildingTypes.put("tanner",BuildPlanType.TANNARY.name());
+		regionBuildingTypes.put("tanner",BuildPlanType.TANNERY.name());
 		
 	}
 

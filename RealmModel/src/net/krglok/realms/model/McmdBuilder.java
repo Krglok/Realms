@@ -87,7 +87,7 @@ public class McmdBuilder implements iModelCommand
 			}
 		} else
 		{
-			System.out.println();
+//			System.out.println();
 		}
 		return false;
 	}

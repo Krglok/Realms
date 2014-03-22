@@ -47,6 +47,8 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	
 	private boolean isAutoUpdate;
 
+	private boolean isLogList;
+
 	
 	protected FileConfiguration configFile;
 	
@@ -75,6 +77,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		setBuildingCounter(configFile.getInt("buildingCounter", 0));
 		isUpdateCheck = configFile.getBoolean("updatecheck", false);
 		isAutoUpdate  = configFile.getBoolean("autoupdate", false);
+		isLogList  = configFile.getBoolean("loglist", false);
 //		configFile.options().copyDefaults(true);
 	
 	}
@@ -212,7 +215,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		regionBuildingTypes.put("stadtwache",BuildPlanType.GUARDHOUSE.name());
 		regionBuildingTypes.put("steinbruch", BuildPlanType.QUARRY.name());
 		regionBuildingTypes.put("steinmine",BuildPlanType.STONEMINE.name());
-		regionBuildingTypes.put("tanner",BuildPlanType.TANNARY.name());
+		regionBuildingTypes.put("tanner",BuildPlanType.TANNERY.name());
 		regionBuildingTypes.put("taverne", BuildPlanType.TAVERNE.name());
 		regionBuildingTypes.put("tischler",BuildPlanType.CABINETMAKER.name());
 		regionBuildingTypes.put("tower", BuildPlanType.TOWER.name());
@@ -506,6 +509,22 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	public boolean isAutoUpdate()
 	{
 		return isAutoUpdate;
+	}
+
+	/**
+	 * @return the isLogList
+	 */
+	public boolean isLogList()
+	{
+		return isLogList;
+	}
+
+	/**
+	 * @param isLogList the isLogList to set
+	 */
+	public void setLogList(boolean isLogList)
+	{
+		this.isLogList = isLogList;
 	}
 
 

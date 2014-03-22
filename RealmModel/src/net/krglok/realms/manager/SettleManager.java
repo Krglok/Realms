@@ -112,7 +112,7 @@ public class SettleManager
 			} else
 			{	
 				buyBuildMaterials(rModel, settle);
-				checkCounter = 25;
+				checkCounter = 100;
 			}
 		} else
 		{
@@ -204,6 +204,7 @@ public class SettleManager
 				{
 					cmdBuilder.get(0).execute();
 					cmdBuilder.remove(0);
+					System.out.println("Settle send build order");
 				}
 			}
 		}
@@ -501,6 +502,7 @@ public class SettleManager
 //					System.out.println(item.ItemRef()+":"+item.value());
 					cmdBuy.add(new McmdBuyOrder(rModel, settle.getId(), item.ItemRef(), item.value(), 0.0, 5));
 					dontSell.addItem(new Item(item.ItemRef(), item.value()));
+					System.out.println("Settle send buy order for build : "+item.ItemRef());
 				}
 			}
 		}

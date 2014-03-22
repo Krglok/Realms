@@ -31,10 +31,13 @@ public class LogList
     FileWriter happyWrite;
     FileWriter orderWrite;
 
+	private boolean isLogList;
+    
     private int index;
     
 	public LogList(String path )
 	{
+		isLogList = false;
 		index = 0;
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("MMddyyyy_HH");
@@ -133,6 +136,16 @@ public class LogList
 	public void setLogList(ArrayList<String> logList)
 	{
 		this.prodList = logList;
+	}
+
+	public boolean isLogList()
+	{
+		return isLogList;
+	}
+
+	public void setIsLogList(boolean isLogList)
+	{
+		this.isLogList = isLogList;
 	}
 
 	/**
@@ -293,77 +306,80 @@ public class LogList
 	 */
 	public void run ()
 	{
-		switch(index)
+		if (isLogList)
 		{
-		case 1:
-			for (String line : prodList)
+			switch(index)
 			{
+			case 1:
+				for (String line : prodList)
+				{
+					try
+					{
+						prodWrite.append(line);
+						prodWrite.append("\n");
+					} catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				prodList.clear();
 				try
 				{
-					prodWrite.append(line);
-					prodWrite.append("\n");
+					prodWrite.flush();
 				} catch (IOException e)
 				{
 					e.printStackTrace();
 				}
-			}
-			prodList.clear();
-			try
-			{
-				prodWrite.flush();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			break;
-		case 2:
-			for (String line : happyList)
-			{
+				break;
+			case 2:
+				for (String line : happyList)
+				{
+					try
+					{
+						happyWrite.append(line);
+						happyWrite.append("\n");
+					} catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				happyList.clear();
 				try
 				{
-					happyWrite.append(line);
-					happyWrite.append("\n");
+					happyWrite.flush();
 				} catch (IOException e)
 				{
 					e.printStackTrace();
 				}
-			}
-			happyList.clear();
-			try
-			{
-				happyWrite.flush();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			break;
-		case 3:
-			for (String line : orderList)
-			{
+				break;
+			case 3:
+				for (String line : orderList)
+				{
+					try
+					{
+						orderWrite.append(line);
+						orderWrite.append("\n");
+					} catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				orderList.clear();
 				try
 				{
-					orderWrite.append(line);
-					orderWrite.append("\n");
+					orderWrite.flush();
 				} catch (IOException e)
 				{
 					e.printStackTrace();
 				}
+				break;
+			default:
+				if (index > 3)
+				{
+					index = 0;
+				}
 			}
-			orderList.clear();
-			try
-			{
-				orderWrite.flush();
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			break;
-		default:
-			if (index > 3)
-			{
-				index = 0;
-			}
+			index++;
 		}
-		index++;
 	}
 }

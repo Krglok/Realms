@@ -179,12 +179,12 @@ public class ServerListener implements Listener
 		    	    	} else
 		    	    	{
 			    			System.out.println("BuildAt");
-			    			sign.setLine(0, "");
-			    			sign.update();
 			    			if (buildAt( pos, l1, event.getPlayer(), msg))
 			    			{
 						    	msg.add("Build startet  ");
 						    	msg.add(" ");
+				    			sign.setLine(0, "");
+				    			sign.update();
 			    			} else
 			    			{
 						    	msg.add("Building NOT Build : "+l1);
@@ -511,14 +511,14 @@ public class ServerListener implements Listener
 							if (itemStack != null)
 							{
 								String name = itemStack.getType().name();
-								if (name.equalsIgnoreCase(Material.WATER_BUCKET.name()))
-								{
-									name = Material.WATER.name();
-								}
-								if (name.equalsIgnoreCase(Material.DIRT.name()))
-								{
-									name = Material.SOIL.name();
-								}
+//								if (name.equalsIgnoreCase(Material.WATER_BUCKET.name()))
+//								{
+//									name = Material.WATER.name();
+//								}
+//								if (name.equalsIgnoreCase(Material.DIRT.name()))
+//								{
+//									name = Material.SOIL.name();
+//								}
 								settle.getWarehouse().depositItemValue(name, itemStack.getAmount());
 								System.out.println("Warehouse : "+itemStack.getType().name()+":"+itemStack.getAmount());
 							}

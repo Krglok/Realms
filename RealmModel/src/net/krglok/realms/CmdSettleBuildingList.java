@@ -7,6 +7,7 @@ import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
@@ -78,13 +79,38 @@ public class CmdSettleBuildingList extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add("Item           |Region    |");
+		msg.add(ChatColor.YELLOW+"Item           |Region    |");
 		for (BuildPlanType bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().keySet())
 		{
-			String name = ConfigBasis.setStrleft(bItem.name(), 15);
+			String name = ConfigBasis.setStrleft(bItem.name()+"__________", 15);
 			String settler = ConfigBasis.setStrright(String.valueOf(plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().get(bItem)), 3);
 			String product = "";
 			msg.add(name +"|"+settler+" |");
+		}
+		
+		msg.add(ChatColor.YELLOW+"BuildManager : ");
+		String sBuilding = "";
+		String status = "";
+		if (plugin.getRealmModel().getSettlements().getSettlement(settleId).buildManager().getActualBuild() != null)
+		{
+			sBuilding = ChatColor.GREEN+plugin.getRealmModel().getSettlements().getSettlement(settleId).buildManager().getActualBuild().getBuildingType().name();
+			status = plugin.getRealmModel().getSettlements().getSettlement(settleId).buildManager().getStatus().name();
+		} else
+		{
+			sBuilding = ChatColor.YELLOW+"NO Build";
+			status = plugin.getRealmModel().getSettlements().getSettlement(settleId).buildManager().getStatus().name();
+		}
+		msg.add(sBuilding +"|"+status+" |");
+		
+		msg.add("Cmd          |Position        |");
+		msg.add(ChatColor.YELLOW+"Build command in queue : ");
+		for (McmdBuilder buildOrder : plugin.getRealmModel().getSettlements().getSettlement(settleId).settleManager().getCmdBuilder())
+		{
+			String name = ConfigBasis.setStrleft(buildOrder.getbType().name(), 15);
+			String product = ""+ConfigBasis.setStrright(buildOrder.getPosition().getX(), 7);
+			product = product+":"+ConfigBasis.setStrright(buildOrder.getPosition().getY(), 5);
+			product = product+":"+ConfigBasis.setStrright(buildOrder.getPosition().getZ(), 7);
+			msg.add(name +"|"+product+" |");
 		}
 		msg.add("");
 		plugin.getMessageData().printPage(sender, msg, page);

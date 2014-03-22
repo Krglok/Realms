@@ -175,6 +175,7 @@ public final class Realms extends JavaPlugin
         	isReady = false;
     		log.info("[Realms] Data not properly read !");
         }
+        logList.setIsLogList(config.isLogList());
 
         if (config.isUpdateCheck())
         {

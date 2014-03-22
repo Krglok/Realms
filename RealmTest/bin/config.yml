@@ -5,7 +5,9 @@
 updatecheck: true
 # autoupdate, is not implemented now and should always false #
 autoupdate: false
-# 
+# logList, if true all production and orders and happiness on every production cycle will be stored
+loglist: false 
+
 plugin_name: "Realms"
 plugin_ver : "0.2.0"
 realmCounter: 0
@@ -18,23 +20,23 @@ buildingCounter: 0
 # every SettlementTypes are unique in this list
 #
 superSettleTypes:
-    SETTLE_HAMLET: "Mine"
-    SETTLE_CASTLE: "Burg"
-    SETTLE_HAMLET: "Siedlung"
-    SETTLE_TOWN: "Dorf"
-    SETTLE_CITY: "Stadt"
-    SETTLE_METRO: "Metropole"
+    HAMLET: "Mine"
+    CASTLE: "Burg"
+    HAMLET: "Siedlung"
+    TOWN: "Dorf"
+    CITY: "Stadt"
+    METRO: "Metropole"
 #---------------------------------------------
 #   regions / BuildingType
 # the BuildungTypes are predefined
 # the regions are unique in this list
 #
 regionBuildingTypes:
-    haus_einfach: "BUILDING_HOME"
-    haus_gross: "BUILDING_HOME"
-    haupthaus: "BUILDING_HALL"
-    taverne: "BUILDING_ENTERTAIN"
-    markt: "BUILDING_WAREHOUSE"
-    kornfeld: "BUILDING_PROD"
-    holzfaeller: "BUILDING_PROD"
+    haus_einfach: "HOME"
+    haus_gross: "HOUSE"
+    haupthaus: "HALL"
+    taverne: "ENTERTAIN"
+    markt: "WAREHOUSE"
+    kornfeld: "WHEAT"
+    holzfaeller: "WOODCUTTER"
 

@@ -213,7 +213,7 @@ public class DataStorage implements DataInterface
 		case 28: return Material.GRAVEL;
 		case 29: return Material.LOG;
 		case 30: return Material.LOG;
-		case 31: return Material.WOOL;
+		case 31: return Material.IRON_BLOCK;
 		case 32: return Material.GOLD_BLOCK;
 		case 33: return Material.DIAMOND_BLOCK;
 		case 34: return Material.EMERALD_BLOCK;
