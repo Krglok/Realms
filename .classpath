@@ -4,9 +4,9 @@
 	<classpathentry kind="src" path="RealmModel/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="I:/GIT/OwnPlugins/Realms/forms-1.3.0.jar"/>
-	<classpathentry kind="lib" path="I:/GIT/OwnPlugins/RefPlugin/craftbukkit-1.7.2-R0.1-20131205.042212-19.jar"/>
-	<classpathentry kind="lib" path="I:/GIT/OwnPlugins/RefPlugin/HeroStronghold.jar"/>
-	<classpathentry kind="lib" path="I:/GIT/OwnPlugins/RefPlugin/Vault.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.7.2-R0.3-20140202.061600-29.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/HeroStronghold.jar" sourcepath="/HeroStronghold/src"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/Vault.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/OwnPlugins/Realms/forms-1.3.0.jar"/>
 	<classpathentry kind="output" path="RealmTest/bin"/>
 </classpath>

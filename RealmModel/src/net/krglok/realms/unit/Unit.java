@@ -13,7 +13,7 @@ import net.krglok.realms.core.LocationData;
  * @author oduda
  *
  */
-public class UnitItem
+public class Unit
 {
 	private UnitType unitType;
 	private int ID;
@@ -21,7 +21,7 @@ public class UnitItem
 	private LocationData position;
 	private ItemList itemList;
 
-	public UnitItem(UnitType uType, int value)
+	public Unit(UnitType uType, int value)
 	{
 		this.unitType = uType;
 	}

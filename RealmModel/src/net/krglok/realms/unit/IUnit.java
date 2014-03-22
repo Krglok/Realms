@@ -47,7 +47,7 @@ public interface IUnit
 
 	public abstract ItemList getRequiredItems();
 
-	public abstract UnitTypeList getRequiredUnits();
+	public abstract UnitList getRequiredUnits();
 
 	public abstract ItemList getConsumItems();
 

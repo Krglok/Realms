@@ -2,7 +2,7 @@ package net.krglok.realms.core;
 
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.IUnit;
-import net.krglok.realms.unit.UnitList;
+import net.krglok.realms.unit.UnitTypeList;
 
 /**
  * not yet implemented
@@ -14,13 +14,13 @@ public class Barrack
 	private static final long serialVersionUID = 3574102060452319954L;
 	private Boolean isEnabled;
 	private int unitMax;
-	private UnitList unitList;
+	private UnitTypeList unitList;
 
 	public Barrack(int unitMax)
 	{
 		isEnabled=false;
 		this.unitMax  = unitMax;
-		unitList = new UnitList();
+		unitList = new UnitTypeList();
 	}
 
 	public Boolean getIsEnabled()
@@ -49,12 +49,12 @@ public class Barrack
 		this.unitMax = unitMax;
 	}
 
-	public UnitList getUnitList()
+	public UnitTypeList getUnitList()
 	{
 		return unitList;
 	}
 
-	public void setUnitList(UnitList unitList)
+	public void setUnitList(UnitTypeList unitList)
 	{
 		this.unitList = unitList;
 	}

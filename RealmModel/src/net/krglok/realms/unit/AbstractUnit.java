@@ -35,7 +35,7 @@ public abstract class AbstractUnit implements IUnit
 	protected ItemList requiredItems;
 	protected double requiredCost;
 	protected long requiredTime;
-	protected UnitTypeList requiredUnits;
+	protected UnitList requiredUnits;
 	
 	//consum
 	protected ItemList consumItems;
@@ -63,7 +63,7 @@ public abstract class AbstractUnit implements IUnit
 		this.requiredItems = new ItemList();
 		this.requiredCost = 0.0;
 		this.requiredTime = 10;
-		this.requiredUnits = new UnitTypeList();
+		this.requiredUnits = new UnitList();
 		
 		//consum
 		this.consumItems = new ItemList();
@@ -267,7 +267,7 @@ public abstract class AbstractUnit implements IUnit
 	 * @see net.krglok.realms.unit.iUnitData#getRequiredUnits()
 	 */
 	@Override
-	public UnitTypeList getRequiredUnits()
+	public UnitList getRequiredUnits()
 	{
 		return requiredUnits;
 	}

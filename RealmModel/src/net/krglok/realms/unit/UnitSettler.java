@@ -21,7 +21,7 @@ public class UnitSettler extends AbstractUnit
 		requiredItems = new ItemList();
 		requiredCost = 0.0;
 		requiredTime = 10;
-		requiredUnits = new UnitTypeList();
+		requiredUnits = new UnitList();
 		
 		//consum
 		consumItems = new ItemList();

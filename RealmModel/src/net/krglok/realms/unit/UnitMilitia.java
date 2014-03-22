@@ -24,10 +24,10 @@ public class UnitMilitia extends AbstractUnit
 		requiredItems = new ItemList();
 		requiredCost = 0.0;
 		requiredTime = 10;
-		requiredUnits = new UnitTypeList();
+		requiredUnits = new UnitList();
 		
 		//consum
-		consumItems = new ItemList();
+		consumItems = initConsum();
 		consumCost  = 0.0;
 		consumTime  = 10;
 		
@@ -46,11 +46,16 @@ public class UnitMilitia extends AbstractUnit
 		return subList;
 	}
 	
-	public UnitTypeList initUnits()
+	public UnitList initUnits(UnitList units)
 	{
-		UnitTypeList units = new UnitTypeList();
-		
-		units.put(UnitType.SETTLER, 1);
+//		UnitList units = new UnitList();
+		if (units.containsKey(UnitType.MILITIA))
+		{
+			units.put(UnitType.MILITIA,units.get(UnitType.MILITIA)+ 1);
+		} else
+		{
+			units.put(UnitType.MILITIA, 1);
+		}
 		
 		return units;
 	}

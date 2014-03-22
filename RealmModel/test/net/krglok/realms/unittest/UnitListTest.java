@@ -6,7 +6,7 @@ package net.krglok.realms.unittest;
 import static org.junit.Assert.assertEquals;
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.IUnit;
-import net.krglok.realms.unit.UnitList;
+import net.krglok.realms.unit.UnitTypeList;
 import net.krglok.realms.unit.UnitType;
 
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class UnitListTest
 	@Test
 	public void testUnitList()
 	{
-		UnitList unitList = new UnitList();
+		UnitTypeList unitList = new UnitTypeList();
 //		unitList.initUnitList();
 		int expected = 11;
 		int actual = unitList.size();
@@ -42,7 +42,7 @@ public class UnitListTest
 	@Test
 	public void testAddUnitCount()
 	{
-		UnitList unitList = new UnitList();
+		UnitTypeList unitList = new UnitTypeList();
 //		unitList.initUnitList();
 //		int expected = 5;
 //		unitList.put(UnitType.UNIT_WORKER.name(),new Unit(UnitType.UNIT_WORKER));
