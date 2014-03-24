@@ -10,17 +10,17 @@ import net.krglok.realms.model.ModelStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdSettleWarehouse extends RealmsCommand
+public class CmdSettleRequired extends RealmsCommand
 {
 	int settleID;
 	Integer page ;
 
-	public CmdSettleWarehouse( )
+	public CmdSettleRequired()
 	{
-		super(RealmsCommandType.SETTLE, RealmsSubCommandType.WAREHOUSE);
+		super(RealmsCommandType.SETTLE, RealmsSubCommandType.REQUIRE);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle WAREHOUSE [SettleID] [page] ",
-		    	"List all Items in the Warehouse ",
+				ChatColor.YELLOW+"/settle REQUIRE [SettleID] [page] ",
+		    	"List of required Items for the settlement",
 		    	"  "
 			};
 			requiredArgs = 0;
@@ -33,7 +33,7 @@ public class CmdSettleWarehouse extends RealmsCommand
 	{
 		return page;
 	}
-	
+
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -83,8 +83,8 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    if (settle != null)
 	    {
 			msg.add("Settlement ["+settle.getId()+"] : "+settle.getName());
-			msg.add(settle.getName()+" Warehouse  [ "+settle.getWarehouse().getUsedCapacity() +" ]");
-		    for (Item item : settle.getWarehouse().getItemList().values())
+			msg.add(settle.getName()+" Required  [ "+settle.getRequiredProduction().size() +" ]");
+		    for (Item item : settle.getRequiredProduction().values())
 		    {
 	    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",15)+" : "+ChatColor.YELLOW+item.value());
 		    }

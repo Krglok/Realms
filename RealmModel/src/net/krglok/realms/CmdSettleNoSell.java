@@ -10,30 +10,32 @@ import net.krglok.realms.model.ModelStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdSettleWarehouse extends RealmsCommand
+public class CmdSettleNoSell extends RealmsCommand
 {
+
 	int settleID;
 	Integer page ;
 
-	public CmdSettleWarehouse( )
+	public CmdSettleNoSell()
 	{
-		super(RealmsCommandType.SETTLE, RealmsSubCommandType.WAREHOUSE);
+		super(RealmsCommandType.SETTLE, RealmsSubCommandType.NOSELL);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle WAREHOUSE [SettleID] [page] ",
-		    	"List all Items in the Warehouse ",
+				ChatColor.YELLOW+"/settle NOSELL [SettleID] [page] ",
+		    	"List of required Items for the settlement",
 		    	"  "
 			};
 			requiredArgs = 0;
 			requiredArgs = 1;
 			this.settleID = 0;
-			this.page = 0;  //default value
+			this.page = 1;  //default value
 	}
+
 
 	public int getPage()
 	{
 		return page;
 	}
-	
+
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -83,8 +85,8 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    if (settle != null)
 	    {
 			msg.add("Settlement ["+settle.getId()+"] : "+settle.getName());
-			msg.add(settle.getName()+" Warehouse  [ "+settle.getWarehouse().getUsedCapacity() +" ]");
-		    for (Item item : settle.getWarehouse().getItemList().values())
+			msg.add(settle.getName()+" No sell  [ "+settle.settleManager().getDontSell().size() +" ]");
+		    for (Item item : settle.settleManager().getDontSell().values())
 		    {
 	    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",15)+" : "+ChatColor.YELLOW+item.value());
 		    }
@@ -94,6 +96,7 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    	page = 1;
 	    }
 	    page = plugin.getMessageData().printPage(sender, msg, page);
+
 	}
 
 	@Override

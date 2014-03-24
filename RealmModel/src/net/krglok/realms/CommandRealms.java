@@ -61,6 +61,7 @@ public class CommandRealms
 			new CmdSettleInfo(),
 			new CmdSettleList(),
 			new CmdSettleMarket(),
+			new CmdSettleNoSell(),
 			new CmdSettleOwner(),
 			new CmdSettleProduction(),
 			new CmdSettleSell(),

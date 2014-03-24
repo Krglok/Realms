@@ -8,6 +8,8 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionConditio
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
@@ -18,6 +20,7 @@ import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -157,7 +160,14 @@ public class ServerListener implements Listener
         	ArrayList<String> msg = new ArrayList<String>();
 	    	if (b.getType() == Material.WALL_SIGN)
 	    	{
-	    		cmdWallSign(event, b);
+	    		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+	    		{
+	    			cmdWallSign(event, b);
+	    		}
+	    		if (event.getAction() == Action.LEFT_CLICK_BLOCK)
+	    		{
+	    			cmdLeftWallSign(event,b);
+	    		}
 	    	}
 	    	if (b.getType() == Material.SIGN_POST)
 	    	{
@@ -271,6 +281,7 @@ public class ServerListener implements Listener
     
     private void cmdRequiredBook(PlayerInteractEvent event)
     {
+    	
 
     }
     
@@ -300,6 +311,20 @@ public class ServerListener implements Listener
 	    	}
 	    }
 		return "";
+	}
+
+	private Integer findRegionIdAtLocation(Realms plugin, Player player)
+	{
+		Location position = player.getLocation();
+	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
+	    {
+	    	BuildPlanType bType = plugin.getConfigData().regionToBuildingType(region.getType());
+	    	if (bType != BuildPlanType.NONE)
+	    	{
+	    		return region.getID();
+	    	}
+	    }
+		return -1;
 	}
 	
     @EventHandler(priority = EventPriority.NORMAL)
@@ -535,6 +560,8 @@ public class ServerListener implements Listener
 		Sign sign = (Sign) b.getState();
 		String l0 = sign.getLine(0);
 		String l1 = sign.getLine(1);
+		String l2 = sign.getLine(2);
+		String l3 = sign.getLine(3);
 		if (l0.contains("[WAREHOUSE]"))
 		{
 //			cmdBuildPlanBook(event);
@@ -620,13 +647,250 @@ public class ServerListener implements Listener
 			}
 			return;
 		}
-		
-		if (l0.contains("[Required]"))
+
+		if (l0.contains("[NOSELL]"))
 		{
-			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
-			cmdRequiredBook(event);
+//			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				CmdSettleNoSell  cmd = new CmdSettleNoSell();
+				cmd.setPara(0, settle.getId());
+				cmd.setPara(1, this.lastPage);
+				cmd.execute(plugin, event.getPlayer());
+				lastPage = cmd.getPage()+1;
+				
+			}
+//			cmdRequiredBook(event);
+		}
+
+		if (l0.contains("[SELL]"))
+		{
+//			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				String itemRef = l1.toUpperCase();
+				System.out.println("Sell :"+itemRef);
+				if (settle.settleManager().getDontSell().containsKey(itemRef))
+				{
+					l3 = "NO SELL";
+					sign.update();
+					event.getPlayer().sendMessage("No sell of "+itemRef);
+				} else
+				{
+					int amount = 1;
+					try
+					{
+						amount = Integer.valueOf(l2);
+						if (amount < 1 )
+						{
+							amount = 1;
+						}
+						
+					} catch (Exception e)
+					{
+						System.out.println("Sell amount exeption! ");
+						amount = 1;
+					}
+					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
+					price = price * amount;
+					l3 = ConfigBasis.setStrformat2(price,7);
+					sign.update();
+					int stock = settle.getWarehouse().getItemList().getValue(itemRef);
+					if (stock > (amount * 2))
+					{
+						if (Realms.economy != null)
+						{
+							if (Realms.economy.has(event.getPlayer().getName(),price))
+							{
+								ItemStack item = new ItemStack(Material.getMaterial(itemRef), amount);
+								event.getPlayer().getInventory().addItem(item);
+								Realms.economy.withdrawPlayer(event.getPlayer().getName(), price);
+								settle.getWarehouse().withdrawItemValue(itemRef, amount);
+								System.out.println("Settle SELL :"+itemRef+":"+amount+":"+price);
+								event.getPlayer().sendMessage("You bought "+itemRef+":"+amount+ConfigBasis.setStrformat2(price,9));
+								event.getPlayer().updateInventory();
+							}
+						} else
+						{
+							event.getPlayer().sendMessage("NO economy !");
+						}
+					} else
+					{
+						System.out.println("No Stock");
+						event.getPlayer().sendMessage("No Stock of "+itemRef);
+					}
+				}
+				
+			}
+//			cmdRequiredBook(event);
+		}
+
+		if (l0.contains("[BUY]"))
+		{
+//			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				String itemRef = l1.toUpperCase();
+				System.out.println("Buy :"+itemRef);
+				if ((settle.getWarehouse().getItemList().getValue(itemRef)/64) > (settle.getWarehouse().getItemMax() / 64 / 5))
+				{
+					l3 = "NO BUY";
+					sign.update();
+					event.getPlayer().sendMessage("No buy of "+itemRef);
+					
+				} else
+				{
+					int amount = 1;
+					try
+					{
+						amount = Integer.valueOf(l2);
+						if (amount < 1 )
+						{
+							amount = 1;
+						}
+						if (amount > 64 )
+						{
+							amount = 64;
+						}
+						
+					} catch (Exception e)
+					{
+						System.out.println("Buy amount exeption! ");
+						amount = 1;
+					}
+					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
+					price = price * amount;
+					l3 = ConfigBasis.setStrformat2(price,7);
+					sign.update();
+//					int stock = settle.getWarehouse().getItemList().getValue(itemRef);
+					if (Realms.economy != null)
+					{
+						if (settle.getBank().getKonto() > price)
+						{
+							ItemStack itemStack = new ItemStack(Material.getMaterial(itemRef), amount);
+							if (event.getPlayer().getInventory().contains(Material.getMaterial(itemRef), amount) == true)
+							{
+								event.getPlayer().getInventory().removeItem(itemStack);
+								Realms.economy.depositPlayer(event.getPlayer().getName(), price);
+								settle.getWarehouse().depositItemValue(itemRef, amount);
+								settle.getBank().withdrawKonto(price, event.getPlayer().getName(), settle.getId());
+								event.getPlayer().sendMessage("You sold "+itemRef+":"+amount+ConfigBasis.setStrformat2(price,9));
+								System.out.println("Settle BUY "+itemRef+":"+amount);
+								event.getPlayer().updateInventory();
+							} else
+							{
+								event.getPlayer().sendMessage("You have not enough items:"+itemRef+":"+amount);
+							}
+						} else
+						{
+							event.getPlayer().sendMessage("The settlement has not enough money");
+						}
+					} else
+					{
+						event.getPlayer().sendMessage("NO economy !");
+					}
+				}
+				
+			}
+//			cmdRequiredBook(event);
+		}
+		
+		if (l0.contains("[REQUIRE]"))
+		{
+//			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				CmdSettleRequired  cmd = new CmdSettleRequired();
+				cmd.setPara(0, settle.getId());
+				cmd.setPara(1, this.lastPage);
+				cmd.execute(plugin, event.getPlayer());
+				lastPage = cmd.getPage()+1;
+				
+			}
+//			cmdRequiredBook(event);
+		}
+
+		if (l0.contains("[WORKSHOP]"))
+		{
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				if (regionId == building.getHsRegion())
+				{
+					sign.setLine(1, "id:"+String.valueOf(building.getId()));
+					sign.update();
+			    	ArrayList<String> msg = new ArrayList<String>();
+					msg.add("Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName());
+					int index = 0;
+					for (Item item :  building.getSlots())
+					{
+						if (item != null)
+						{
+							msg.add(ChatColor.YELLOW+"Slot"+index+": "+ChatColor.GREEN+item.ItemRef()+":"+item.value());
+						}
+						index++;
+					}
+					msg.add(" ");
+					plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+				}
+			}
 		}
     	
     }
-    
+
+    private void cmdLeftWallSign(PlayerInteractEvent event, Block b)
+    {
+		Sign sign = (Sign) b.getState();
+		String l0 = sign.getLine(0);
+		String l1 = sign.getLine(1);
+		String l2 = sign.getLine(2);
+		String l3 = sign.getLine(3);
+
+		if (l0.contains("[SELL]"))
+		{
+//			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				String itemRef = l1.toUpperCase();
+				System.out.println("Check Sell :"+itemRef);
+				if (settle.settleManager().getDontSell().containsKey(itemRef))
+				{
+					l3 = "NO SELL";
+				} else
+				{
+					int amount = 1;
+					try
+					{
+						amount = Integer.valueOf(l2);
+						if (amount < 1 )
+						{
+							amount = 1;
+						}
+						
+					} catch (Exception e)
+					{
+						amount = 1;
+					}
+					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
+					price = price * amount;
+					l3 = ConfigBasis.setStrformat2(price,7);
+				}
+				sign.update();
+			}
+//			cmdRequiredBook(event);
+		}
+
+    }
 }

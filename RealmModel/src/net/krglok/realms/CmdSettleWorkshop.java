@@ -94,8 +94,11 @@ public class CmdSettleWorkshop extends RealmsCommand
 		int index = 0;
 		for (Item item : plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuilding(buildingId).getSlots())
 		{
-			msg.add(index +" : "+ConfigBasis.setStrleft(item.ItemRef()+"________", 12));
-			index ++;
+			if (item != null)
+			{
+				msg.add(index +" : "+ConfigBasis.setStrleft(item.ItemRef()+"________", 12));
+				index ++;
+			}
 		}
     	msg.add("");
 		plugin.getMessageData().printPage(sender, msg, 1);

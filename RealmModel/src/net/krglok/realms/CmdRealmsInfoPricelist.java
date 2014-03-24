@@ -72,21 +72,21 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 	{
     	ArrayList<String> msg = new ArrayList<String>();
 		msg.add("== Pricelist size :"+plugin.getData().getPriceList().size());
-		for (ItemPrice item : plugin.getData().getPriceList().values())
-		{
-			msg.add(item.ItemRef()+ " : "+item.getFormatedBasePrice());
-		}
-		if (msg.size() < 2)
-		{
-			msg.add("== ");
-		}
+//		for (ItemPrice item : plugin.getData().getPriceList().values())
+//		{
+//			msg.add( ConfigBasis.setStrleft(item.ItemRef()+"________",9)+ " : "+item.getFormatedBasePrice());
+//		}
+//		if (msg.size() < 2)
+//		{
+//			msg.add("== ");
+//		}
 		Player player = (Player) sender;
 		PlayerInventory inventory = player.getInventory();
 		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 
 		final BookMeta bm = (BookMeta) book.getItemMeta();
-		msg.add(ConfigBasis.setStrleft("Trade  Pricelist ", 19));
-		msg.add(ConfigBasis.setStrleft("of the Settlements ", 19));
+		msg.add(ConfigBasis.setStrleft(" Trade  Pricelist ", 19));
+		msg.add(ConfigBasis.setStrleft(" of the Settlements ", 19));
 		for (ItemPrice item : plugin.getData().getPriceList().values())
 		{
 			String sLine = "";
@@ -96,6 +96,7 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);
+		
 		if (sender instanceof Player)
 		{
 			String sPage = "";

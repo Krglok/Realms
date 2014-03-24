@@ -715,10 +715,13 @@ public class Building  implements Serializable
 		double prodFactor = 1;
 		for (Item item : slots)
 		{
-			prodFactor = server.getRecipeFactor(item.ItemRef(), biome);
-			recipeList = server.getRecipe(item.ItemRef());
-			iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
-			items.addItem(item.ItemRef(), iValue);
+			if (item != null)
+			{
+				prodFactor = server.getRecipeFactor(item.ItemRef(), biome);
+				recipeList = server.getRecipe(item.ItemRef());
+				iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
+				items.addItem(item.ItemRef(), iValue);
+			}
 		}
 		return items;
 	}
