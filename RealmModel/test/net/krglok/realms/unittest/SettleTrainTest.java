@@ -1,4 +1,4 @@
-package net.krglok.realms.core;
+package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
@@ -8,10 +8,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.BoardItem;
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.core.SettleType;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.unit.IUnit;
-import net.krglok.realms.unittest.DataTest;
+import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -438,7 +449,7 @@ public class SettleTrainTest
 			System.out.println("==Settlement Breed  Start: "+settle.getResident().getSettlerCount());
 		}
 
-		BreedingLoop(settle, server, 1500, priceList);
+		BreedingLoop(settle, server, 1, priceList);
 
 //		BreedingLoop(settle, server, 410, priceList);
 
@@ -490,18 +501,18 @@ public class SettleTrainTest
 				System.out.println("Warehouse balance = "+balance);
 				System.out.println("=============================");
 			}
-			boolean isCapacityList = false;
+			boolean isCapacityList = true;
 			if (isCapacityList)
 			{
 				System.out.println("==Barack Capacity ==");
 				System.out.print("UnitType         "+" : "+"Stack");
 				System.out.println("");
-				for (IUnit uItem : settle.getBarrack().get)
+				for (IUnit uItem : settle.getBarrack().getUnitList().getTypeUnits(UnitType.MILITIA))
 				{
 					System.out.print(ConfigBasis.setStrleft(uItem.getUnitType().name(),10)
-							+" : "+uItem.
-					+ " | "
-					+""
+							+" : "+uItem.getArmor()
+					);
+				
 					System.out.println("");
 					
 				}
