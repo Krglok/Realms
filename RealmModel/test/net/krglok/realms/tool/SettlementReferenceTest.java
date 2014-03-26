@@ -1,4 +1,4 @@
-package net.krglok.realms.unittest;
+package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 
@@ -6,10 +6,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildPosition;
 import net.krglok.realms.builder.SettleSchema;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -20,16 +22,17 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.unittest.DataTest;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
+import net.krglok.realms.data.StrongholdTools;
 
-public class SettlementDataTest
+public class SettlementReferenceTest
 {
 	private ItemPriceList readPriceData() 
 	{
@@ -260,19 +263,105 @@ public class SettlementDataTest
 		return notFound;
 	}
 	
+	private RegionData getRegion(int id, ArrayList<RegionData> regions)
+	{
+		for (RegionData region : regions)
+		{
+			if (region.getId() == id)
+			{
+				return region;
+			}
+		}
+		
+		return null;
+	}
+	
+	private void showBuildingList(SettlementList settleList, DataTest data)
+	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+		ArrayList<RegionData> regions = StrongholdTools.getRegionData(path);
+		System.out.println("  ");
+		System.out.println("BuildingList Settlement ");
+		for (Settlement settle : settleList.getSettlements().values())
+		{
+			System.out.println("-------------------------------------------------");
+			System.out.print(settle.getId());
+			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
+			System.out.print("|"+ConfigBasis.setStrright(settle.getPosition().getX(),7));
+			System.out.print("|"+ConfigBasis.setStrright(settle.getPosition().getY(),7));
+			System.out.print("|"+ConfigBasis.setStrright(settle.getPosition().getZ(),7));
+			System.out.println(" ");
+
+
+			System.out.print("  |"+"Building/Region ");
+			System.out.println(" ");
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				if (building.getBuildingType() == BuildPlanType.WHEAT)
+				{
+					System.out.print("  |"+ConfigBasis.setStrright(building.getId(),2));
+					System.out.print("|"+ConfigBasis.setStrright(" >",2));
+					System.out.print(" : "+ConfigBasis.setStrleft(building.getBuildingType().name(), 12));
+					System.out.print("|"+ConfigBasis.setStrright(building.getPosition().getX(),7));
+					System.out.print("|"+ConfigBasis.setStrright(building.getPosition().getY(),7));
+					System.out.print("|"+ConfigBasis.setStrright(building.getPosition().getZ(),7));
+					System.out.println(" ");
+					RegionData region = getRegion(building.getHsRegion(), regions);
+					if (region != null)
+					{
+						System.out.print("  |"+ConfigBasis.setStrright(" ",2));
+						System.out.print("|"+ConfigBasis.setStrright(building.getHsRegion(),2));
+						System.out.print(" : "+ConfigBasis.setStrleft(region.getType(), 12));
+						System.out.print("|"+ConfigBasis.setStrright(region.getPosX(),7));
+						System.out.print("|"+ConfigBasis.setStrright(region.getPosY(),7));
+						System.out.print("|"+ConfigBasis.setStrright(region.getPosZ(),7));
+						System.out.println(" ");
+					} else
+					{
+						System.out.println("Region not found  "+ building.getHsRegion());
+					}
+				}
+			}
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				if (building.getBuildingType() != BuildPlanType.WHEAT)
+				{
+					System.out.print("  |"+ConfigBasis.setStrright(building.getId(),2));
+					System.out.print("|"+ConfigBasis.setStrright(" >",2));
+					System.out.print(" : "+ConfigBasis.setStrleft(building.getBuildingType().name(), 12));
+					System.out.print("|"+ConfigBasis.setStrright(building.getPosition().getX(),7));
+					System.out.print("|"+ConfigBasis.setStrright(building.getPosition().getY(),7));
+					System.out.print("|"+ConfigBasis.setStrright(building.getPosition().getZ(),7));
+					System.out.println(" ");
+					RegionData region = getRegion(building.getHsRegion(), regions);
+					if (region != null)
+					{
+						System.out.print("  |"+ConfigBasis.setStrright(" ",2));
+						System.out.print("|"+ConfigBasis.setStrright(building.getHsRegion(),2));
+						System.out.print(" : "+ConfigBasis.setStrleft(region.getType(), 12));
+						System.out.print("|"+ConfigBasis.setStrright(region.getPosX(),7));
+						System.out.print("|"+ConfigBasis.setStrright(region.getPosY(),7));
+						System.out.print("|"+ConfigBasis.setStrright(region.getPosZ(),7));
+						System.out.println(" ");
+					} else
+					{
+						System.out.println("Region not found  "+ building.getHsRegion());
+					}
+				}
+			}
+		}
+
+	}
+	
 	@Test
 	public void testReadSettledata()
 	{
 		final double MIN_MONEY_FACTOR = 50.0; 
 		ConfigTest config = new ConfigTest();
-		
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
-		
+		DataTest data     = new DataTest();
 		ItemPriceList priceList = readPriceData();
-
-		File DataFile = new File(path, "Realms");
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+        File DataFile = new File(path, "Realms");
 		SettlementData sData = new SettlementData(path);
 		SettlementList settleList = new SettlementList(0);
 
@@ -280,7 +369,7 @@ public class SettlementDataTest
 		ArrayList<String> sList = sData.readSettleList(null);
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList(), logTest));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList()));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");
@@ -391,6 +480,31 @@ public class SettlementDataTest
 			sellValuePrice(settle, priceList);
 		}
 
+//		System.out.println("  ");
+//		System.out.println("Needed Buildings / Resources");
+//		for (Settlement settle : settleList.getSettlements().values())
+//		{
+//			System.out.print(settle.getId());
+//			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
+//			System.out.println(" ");
+//			BuildPlanType neededBuilding = checkNeededBuilding(settle);
+//			System.out.print("   |"+"Building needed ");
+//			System.out.print("   |"+neededBuilding);
+//			
+//			System.out.println(" ");
+//			BuildPlanMap buildPlan = data.readTMXBuildPlan(neededBuilding, 4, -1);
+//			
+//			ItemList required = BuildManager.makeMaterialList(buildPlan);
+//			System.out.print("   |"+"Items needed ");
+//			System.out.println(" ");
+//			for (Item item : required.values())
+//			{
+//				System.out.print("    |"+item.ItemRef());
+//				System.out.print(" : "+item.value());
+//				System.out.println(" ");
+//				
+//			}
+//		}
 
 		System.out.println("  ");
 		System.out.println("Buy Request ");
@@ -401,7 +515,7 @@ public class SettlementDataTest
 			System.out.println(" ");
 
 			BuildPlanType neededBuilding = checkNeededBuilding(settle);
-			BuildPlanMap buildPlan = testData.readTMXBuildPlan(neededBuilding, 4, -1);
+			BuildPlanMap buildPlan = data.readTMXBuildPlan(neededBuilding, 4, -1);
 			ItemList buyRequest = checkRequiredInWarehouse(settle, BuildManager.makeMaterialList(buildPlan));
 			System.out.print("  |"+"Buy order ");
 			System.out.println(" ");
@@ -412,7 +526,8 @@ public class SettlementDataTest
 				System.out.println(" ");
 			}
 		}
-		
+	
+		showBuildingList( settleList,  data);
 	}
 
 

@@ -20,8 +20,9 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.ConfigTest;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerTest;
+import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -29,8 +30,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
-public class SettleBreedingTest
+public class SettleTrainTest
 {
+
 	private Boolean isOutput = false; // set this to false to suppress println
 	private boolean isMonth = false;
 	private String sb = "";
@@ -367,17 +369,15 @@ public class SettleBreedingTest
 	
 	
 	@Test
-	public void testSettlementBreed()
+	public void testSettlementTrain()
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
-		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		
+		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
 		ItemPriceList priceList = readPriceData(); 
 		
-//		logTest.addText("TestUser", "testSettlementBreed");
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
@@ -400,14 +400,15 @@ public class SettleBreedingTest
 //		regionTypes.put("14","HOME");
 		regionTypes.put("65","WHEAT");
 		regionTypes.put("66","WHEAT");
-//		regionTypes.put("67","BAKERY");
-//		regionTypes.put("68","BAKERY");
-//		regionTypes.put("69","WHEAT");
-//		regionTypes.put("70","WHEAT");
-//		regionTypes.put("71","WHEAT");
-//		regionTypes.put("72","WHEAT");
+		regionTypes.put("67","BAKERY");
+		regionTypes.put("68","BAKERY");
+		regionTypes.put("69","WHEAT");
+		regionTypes.put("70","WHEAT");
+		regionTypes.put("71","WHEAT");
+		regionTypes.put("72","WHEAT");
 		regionTypes.put("80","WOODCUTTER");
 		regionTypes.put("90","QUARRY");
+		regionTypes.put("100","GUARDHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.HAMLET;
@@ -421,8 +422,7 @@ public class SettleBreedingTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.HELL,
-				logTest
+				Biome.HELL
 				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
@@ -431,9 +431,10 @@ public class SettleBreedingTest
 		settle.getWarehouse().depositItemValue("WOOD_AXE",settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("WOOD_PICKAXE",settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("LOG",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue(Material.STICK.name(),settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue(Material.WOOD.name(),settle.getResident().getSettlerMax());
+		settle.getWarehouse().depositItemValue(Material.STICK.name(),200);
+		settle.getWarehouse().depositItemValue(Material.WOOD.name(),200);
 		settle.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),settle.getResident().getSettlerMax());
+		settle.getWarehouse().depositItemValue(Material.STONE_SWORD.name(),100);
 		
 		settle.getResident().setSettlerCount(5);
 		settle.setSettlerMax();
@@ -448,7 +449,7 @@ public class SettleBreedingTest
 			System.out.println("==Settlement Breed  Start: "+settle.getResident().getSettlerCount());
 		}
 
-		BreedingLoop(settle, server, 1500, priceList);
+		BreedingLoop(settle, server, 1, priceList);
 
 //		BreedingLoop(settle, server, 410, priceList);
 
@@ -463,27 +464,27 @@ public class SettleBreedingTest
 			makeSettleAnalysis(settle, month, priceList);
 			System.out.println(" ");
 
-			boolean isTreasueList = false;
-			if (isTreasueList)
+			boolean isTrainList = true;
+			if (isTrainList)
 			{
 				System.out.println(" ");
-				System.out.println("Treasure balance = "+settle.getBiome());
+				System.out.println("Train balance = ");
 				ItemList items = new ItemList();
-				for (Item item : settle.getTreasureList())
+				for (Building building : settle.getBuildingList().getBuildingList().values())
 				{
-					items.addItem( new Item(item.ItemRef(),settle.getWarehouse().getItemList().getValue(item.ItemRef())));
-				}
-				for (Item item : items.values())
-				{
-					double price = priceList.getBasePrice(item.ItemRef());
+					if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
+					{
 					System.out.println(
-							ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
-							item.value()
+							ConfigBasis.setStrleft(building.getBuildingType().name(),13)
+							+": "+building.getUnitSpace()
+							+": "+building.getTrainType()
+							+": "+building.getTrainCounter()
 							);
+					}
 				}
 			}
-			boolean isWarehouseList = false;
-			if (isWarehouseList)
+			boolean isBarackList = true;
+			if (isBarackList)
 			{
 				System.out.println("Warehouse");
 				double price = 0.0;
@@ -500,27 +501,27 @@ public class SettleBreedingTest
 				System.out.println("Warehouse balance = "+balance);
 				System.out.println("=============================");
 			}
-			boolean isCapacityList = false;
+			boolean isCapacityList = true;
 			if (isCapacityList)
 			{
-				System.out.println("==Store Capacity ==");
-				System.out.print("Item            "+" : "+"Stack");
+				System.out.println("==Barack Capacity ==");
+				System.out.print("UnitType         "+" : "+"Stack");
 				System.out.println("");
-				for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
+				for (IUnit uItem : settle.getBarrack().getUnitList().getTypeUnits(UnitType.MILITIA))
 				{
-					System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
-					System.out.print(settle.getWarehouse().getTypeCapacityList().get(bItem).value()+ " | ");
-					System.out.print("");
+					System.out.print(ConfigBasis.setStrleft(uItem.getUnitType().name(),10)
+							+" : "+uItem.getArmor()
+					);
+				
 					System.out.println("");
 					
 				}
 			}
 			
 		}
-		logTest.run();
+		
 		assertEquals(expected, actual);
 
 	}
-
 
 }

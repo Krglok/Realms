@@ -430,7 +430,12 @@ public class StrongholdConfigTest
 //        sList = setNetherList();
 //        sList = setBasisList();
 //        sList = setErweitertList();
-        sList = setEnhancedList();
+//        sList = setEnhancedList();
+        sList = new String[]
+        		{
+        		"MUSHROOM",
+        		};
+
         System.out.println("[Stronghold] Building              cost" );
         for (File RegionFile : regionFolder.listFiles()) 
         {

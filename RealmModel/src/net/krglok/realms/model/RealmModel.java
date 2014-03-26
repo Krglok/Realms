@@ -19,14 +19,19 @@ import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
+<<<<<<< HEAD
+=======
+import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.unit.UnitFactory;
+>>>>>>> origin/PHASE2
 
 /**
  * the realmModel is the top Class of the realm handling.
  * all functions and algorithm of the settlements and realm will be executed inside the model.
  * all rules are implemented here.
- * all storage, textoutput, commandhandling we be done outside of the model
+ * all storage, textoutput, commandhandling will be done outside of the model
  * the model represent a abstract realisation of an ancient political and economic feudalsystem
- * (Lehensystem oder Feudalismus).
+ * (Lehensystem oder Feudalism).
  * the real objects in the game are realized and representent by a different plugin, HeroStronghold.
  * the aspects and parameters of HeroStronghold are imported in the realmModel
  * the instances of the regions and superregions are used as Buildings and Areas
@@ -36,7 +41,7 @@ import net.krglok.realms.data.ServerInterface;
  * the RealmModel are controlled by the ModelStatus.
  * the RealmModel get Commands from outside over Event Methods.
  * the Model use queues for commands and other actions. 
- * so only one single action will be done thru one cycle.s
+ * so only one single action will be done thru one cycle.
  * 
  *    
  * @author oduda    19.12.2013
@@ -45,7 +50,7 @@ import net.krglok.realms.data.ServerInterface;
 public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
-	private static final String REALM_MODEL_VER = "0.8.2";
+	private static final String REALM_MODEL_VER = "0.8.3";
 	private static int garbageCounterLimit = 57;
 	
 	private ModelStatus modelStatus;
@@ -69,6 +74,8 @@ public class RealmModel
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
 	private ColonyList colonys;				// List of colonys in game
+	
+	private UnitFactory unitFactory = new UnitFactory();
 	
 	private boolean isInit = false;
 	private int garbageCounter;
@@ -676,7 +683,10 @@ public class RealmModel
 		messageData.log("happiness");
 		settle.doProduce(server);
 		messageData.log("produce");
+		settle.doUnitTrain(unitFactory);
+		
 		data.writeSettlement(settle);
+		
 //		storeQueue.put(settle.getId(), settle.getId());
 		productionQueue.remove(0);
 //		System.out.println("remove 0");

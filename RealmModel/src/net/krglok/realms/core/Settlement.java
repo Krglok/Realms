@@ -1,20 +1,24 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.Material;
-import org.bukkit.block.Biome;
-
 import net.krglok.realms.builder.BuildPlanType;
+<<<<<<< HEAD
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageText;
+=======
+>>>>>>> origin/PHASE2
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
+import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.UnitFactory;
+
+import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 /**
  * <pre>
@@ -51,7 +55,7 @@ public class Settlement //implements Serializable
 	private String name;
 	private String owner;
 	private Boolean isCapital;
-//	private Barrack barrack ;
+	private Barrack barrack ;
 	private Warehouse warehouse ;
 	private BuildingList buildingList;
 	private Townhall townhall;
@@ -101,7 +105,7 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -124,7 +128,15 @@ public class Settlement //implements Serializable
 		treasureList =  new ArrayList<Item>();
 	}
 
+<<<<<<< HEAD
 	public Settlement(ItemPriceList priceList, LogList logList)
+=======
+	/**
+	 * used by read from file
+	 * @param priceList
+	 */
+	public Settlement(ItemPriceList priceList)
+>>>>>>> origin/PHASE2
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -134,8 +146,12 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
+<<<<<<< HEAD
 		this.logList = logList;
 //		barrack		= new Barrack(defaultUnitMax(settleType));
+=======
+		barrack		= new Barrack(defaultUnitMax(settleType));
+>>>>>>> origin/PHASE2
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -175,7 +191,7 @@ public class Settlement //implements Serializable
 		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -218,7 +234,7 @@ public class Settlement //implements Serializable
 		this.position 	= position;
 		this.owner = owner;
 		isCapital	= false;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack		= new Barrack(defaultUnitMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -274,7 +290,7 @@ public class Settlement //implements Serializable
 		this.owner = owner;
 		this.isCapital = isCapital;
 		this.position = position;
-//		this.barrack = barrack;
+		this.barrack = barrack;
 		this.warehouse = warehouse;
 		this.buildingList = buildingList;
 		this.townhall = townhall;
@@ -438,12 +454,12 @@ public class Settlement //implements Serializable
 
 	public Barrack getBarrack()
 	{
-		return null; //barrack;
+		return barrack;
 	}
 
 	public void setBarrack(Barrack barrack)
 	{
-//		this.barrack = barrack;
+		this.barrack = barrack;
 	}
 
 	public Warehouse getWarehouse()
@@ -1520,6 +1536,42 @@ public class Settlement //implements Serializable
 					}
 					building.addSales(sale);
 				}
+				
+				// unit production
+				if (BuildPlanType.getBuildGroup(building.getBuildingType())== 5)
+				{
+					if (building.isEnabled())
+					{
+						switch(building.getBuildingType())
+						{
+						case GUARDHOUSE:
+							if (building.getTrainCounter() == 0)
+							{
+								if (resident.getSettlerCount() > townhall.getWorkerCount())
+								{
+									ingredients = building.militaryProduction();
+									prodFactor  = 1.0;
+									if (checkStock(prodFactor, ingredients))
+									{
+										// ausrüstung abbuchen
+										consumStock(prodFactor, ingredients);
+										// Siedler aus vorrat nehmen
+										resident.depositSettler(-1);
+										// Counter starten
+										building.addTrainCounter(1);
+									}
+								}
+		//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							} else
+							{
+								building.addTrainCounter(1);
+							}
+							break;
+						default:
+							break;
+						}
+					}
+				}
 			} else
 			{
 //				System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
@@ -1546,6 +1598,36 @@ public class Settlement //implements Serializable
 		bank.depositKonto(taxSum, "TAX_COLLECTOR", getId());
 		//  Kingdom tax are an open item
 		
+	}
+	
+	
+	public void doUnitTrain(UnitFactory unitFactory)
+	{
+		for (Building building : buildingList.getBuildingList().values())
+		{
+			// unit production
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())== 5)
+			{
+				if (building.isEnabled())
+				{
+					switch(building.getBuildingType())
+					{
+					case GUARDHOUSE:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							IUnit unit = unitFactory.erzeugeAbstractUnit(building.getTrainType());
+							barrack.getUnitList().add(unit);
+						} else
+						{
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	/**

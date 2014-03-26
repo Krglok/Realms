@@ -227,11 +227,16 @@ public class BuildPlanTools
         String sRegionFile = "";
         
         String[] sList;
-        sList = setStandardList();
+//        sList = setStandardList();
 //        sList = setNetherList();
 //        sList = setBasisList();
 //        sList = setErweitertList();
-        sList = setEbene1();
+//        sList = setEbene1();
+        sList = new String[]
+        		{
+        		"WOODCUTTER",
+        		};
+
         System.out.println("[Stronghold] Building              cost" );
         for (String sType : sList) 
         {

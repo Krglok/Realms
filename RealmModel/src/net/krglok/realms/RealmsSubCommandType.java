@@ -47,6 +47,8 @@ public enum RealmsSubCommandType
 	TAX,
 	TEST ,
 	TRADER,
+	TRAIN,
+	TRAINING,
 	WAREHOUSE,
 	WRITE,
 	DEBUG,
