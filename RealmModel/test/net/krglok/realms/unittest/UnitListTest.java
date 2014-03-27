@@ -3,15 +3,15 @@
  */
 package net.krglok.realms.unittest;
 
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 import static org.junit.Assert.assertEquals;
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.UnitTypeList;
 import net.krglok.realms.unit.UnitType;
 
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ public class UnitListTest
 	@Test
 	public void testUnitList()
 	{
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //		UnitList unitList = new UnitList();
 ////		unitList.initUnitList();
 //		int expected = 11;
@@ -41,7 +41,7 @@ public class UnitListTest
 //			}
 //			assertEquals("UnitList",expected,actual);
 //		}
-=======
+//=======
 		UnitTypeList unitList = new UnitTypeList();
 //		unitList.initUnitList();
 		int expected = 11;
@@ -57,19 +57,19 @@ public class UnitListTest
 			}
 			assertEquals("UnitList",expected,actual);
 		}
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 	}
 	
 	@Test
 	public void testAddUnitCount()
 	{
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //		UnitList unitList = new UnitList();
 ////		unitList.initUnitList();
-=======
+//=======
 		UnitTypeList unitList = new UnitTypeList();
 //		unitList.initUnitList();
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 //		int expected = 5;
 //		unitList.put(UnitType.UNIT_WORKER.name(),new Unit(UnitType.UNIT_WORKER));
 //		unitList.addUnitCount(UnitType.UNIT_WORKER, expected);

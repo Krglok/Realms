@@ -1,11 +1,11 @@
 package net.krglok.realms.core;
 
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.UnitTypeList;
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 
 /**
  * not yet implemented
@@ -17,21 +17,21 @@ public class Barrack
 	private static final long serialVersionUID = 3574102060452319954L;
 	private Boolean isEnabled;
 	private int unitMax;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //	private UnitList unitList;
-=======
+//=======
 	private UnitTypeList unitList;
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 
 	public Barrack(int unitMax)
 	{
 		isEnabled=false;
 		this.unitMax  = unitMax;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //		unitList = new UnitList();
-=======
+//=======
 		unitList = new UnitTypeList();
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 	}
 
 	public Boolean getIsEnabled()
@@ -60,7 +60,7 @@ public class Barrack
 		this.unitMax = unitMax;
 	}
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //	public UnitList getUnitList()
 //	{
 //		return unitList;
@@ -75,7 +75,7 @@ public class Barrack
 //	{
 //		unitList.put(unitItem.getID(),unitItem);
 //	}
-=======
+//=======
 	public UnitTypeList getUnitList()
 	{
 		return unitList;
@@ -90,6 +90,6 @@ public class Barrack
 	{
 		unitList.add(unit);
 	}
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 
 }

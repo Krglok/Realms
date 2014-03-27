@@ -11,6 +11,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.unit.IUnit;
@@ -119,11 +120,14 @@ public class SettlementWriteTest
 	@Test
 	public void testWriteSettledata()
 	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+		LogList logList = new LogList(path);
+//		DataTest data     = new DataTest(logList);
 		ItemPriceList priceList = getPriceList();
-		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins";
-		SettlementData settleData = new SettlementData(dataFolder);
+//		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins";
+		SettlementData settleData = new SettlementData(path);
 		int id = 2;
-		Settlement settle = settleData.readSettledata(id , priceList);
+		Settlement settle = settleData.readSettledata(id , priceList,logList);
 		showSettleInfo(settle);
 		
 //		fillBarrack(settle);
@@ -134,13 +138,16 @@ public class SettlementWriteTest
 	@Test
 	public void testReadSettledata()
 	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+		LogList logList = new LogList(path);
+//		DataTest data     = new DataTest(logList);
 		ItemPriceList priceList = getPriceList();
-		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins";
-		SettlementData settleData = new SettlementData(dataFolder);
+//		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins";
+		SettlementData settleData = new SettlementData(path);
 		
 		
 		int id = 2;
-		Settlement settle = settleData.readSettledata(id , priceList);
+		Settlement settle = settleData.readSettledata(id , priceList,logList);
 		showSettleInfo(settle);
 		
 //		fillBarrack(settle);

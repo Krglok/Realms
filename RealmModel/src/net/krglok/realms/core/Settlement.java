@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanType;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageText;
-=======
->>>>>>> origin/PHASE2
+//=======
+//>>>>>>> origin/PHASE2
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
@@ -128,15 +128,15 @@ public class Settlement //implements Serializable
 		treasureList =  new ArrayList<Item>();
 	}
 
-<<<<<<< HEAD
-	public Settlement(ItemPriceList priceList, LogList logList)
-=======
+//<<<<<<< HEAD
 	/**
 	 * used by read from file
 	 * @param priceList
 	 */
-	public Settlement(ItemPriceList priceList)
->>>>>>> origin/PHASE2
+	public Settlement(ItemPriceList priceList, LogList logList)
+//=======
+//	public Settlement(ItemPriceList priceList)
+//>>>>>>> origin/PHASE2
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -146,12 +146,12 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		this.logList = logList;
 //		barrack		= new Barrack(defaultUnitMax(settleType));
-=======
+//=======
 		barrack		= new Barrack(defaultUnitMax(settleType));
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();

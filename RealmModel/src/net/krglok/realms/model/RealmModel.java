@@ -19,11 +19,11 @@ import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.unit.UnitFactory;
->>>>>>> origin/PHASE2
+//>>>>>>> origin/PHASE2
 
 /**
  * the realmModel is the top Class of the realm handling.
