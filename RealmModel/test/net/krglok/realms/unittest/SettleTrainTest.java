@@ -23,6 +23,8 @@ import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerTest;
 import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.Unit;
+import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
@@ -188,6 +190,7 @@ public class SettleTrainTest
 			ItemPriceList priceList
 			)
 	{
+		UnitFactory unitFactory = new UnitFactory();
 		for (int i = 0; i < MaxLoop; i++)
 		{
 			dayCounter++;
@@ -197,6 +200,7 @@ public class SettleTrainTest
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.setHappiness();
 			settle.doProduce(server);
+			settle.doUnitTrain(unitFactory);
 			if (dayCounter == 30)
 			{
 				settle.doCalcTax();
@@ -378,7 +382,7 @@ public class SettleTrainTest
 		DataTest data     = new DataTest(logList);
 		OwnerList ownerList =  data.getTestOwners();
 		ServerTest server = new ServerTest();
-		
+		UnitFactory unitFactory = new UnitFactory();
 		ItemPriceList priceList = readPriceData(); 
 		
 		ConfigTest config = new ConfigTest();
@@ -438,7 +442,11 @@ public class SettleTrainTest
 		settle.getWarehouse().depositItemValue(Material.STICK.name(),200);
 		settle.getWarehouse().depositItemValue(Material.WOOD.name(),200);
 		settle.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue(Material.STONE_SWORD.name(),100);
+		settle.getWarehouse().depositItemValue(Material.STONE_SWORD.name(),1);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_BOOTS.name(),1);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_CHESTPLATE.name(),1);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_HELMET.name(),1);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_LEGGINGS.name(),1);
 		
 		settle.getResident().setSettlerCount(5);
 		settle.setSettlerMax();
@@ -446,6 +454,13 @@ public class SettleTrainTest
 		settle.expandTreasureList(settle.getBiome(), server);
 		settle.getWarehouse().setStoreCapacity();
 
+		for (Building building : settle.getBuildingList().getBuildingList().values())
+		{
+			if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
+			{
+				building.setMaxTrain(1);
+			}
+		}
 		isOutput =   false; //(expected != actual);
 
 		if (isOutput)
@@ -453,7 +468,7 @@ public class SettleTrainTest
 			System.out.println("==Settlement Breed  Start: "+settle.getResident().getSettlerCount());
 		}
 
-		BreedingLoop(settle, server, 1, priceList);
+		BreedingLoop(settle, server, 6, priceList);
 
 //		BreedingLoop(settle, server, 410, priceList);
 
@@ -478,11 +493,14 @@ public class SettleTrainTest
 				{
 					if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
 					{
+						IUnit iUnit = unitFactory.erzeugeUnitConfig(building.getTrainType());
 					System.out.println(
 							ConfigBasis.setStrleft(building.getBuildingType().name(),13)
 							+": "+building.getUnitSpace()
 							+": "+building.getTrainType()
 							+": "+building.getTrainCounter()
+							+": "+building.getTrainTime()
+							+": "+building.getMaxTrain()
 							);
 					}
 				}
@@ -511,10 +529,10 @@ public class SettleTrainTest
 				System.out.println("==Barack Capacity ==");
 				System.out.print("UnitType         "+" : "+"Stack");
 				System.out.println("");
-				for (IUnit uItem : settle.getBarrack().getUnitList().getTypeUnits(UnitType.MILITIA))
+				for (Unit unit : settle.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA))
 				{
-					System.out.print(ConfigBasis.setStrleft(uItem.getUnitType().name(),10)
-							+" : "+uItem.getArmor()
+					System.out.print(ConfigBasis.setStrleft(unit.getUnitType().name(),10)
+							+" : "+unit.getHealth()
 					);
 				
 					System.out.println("");

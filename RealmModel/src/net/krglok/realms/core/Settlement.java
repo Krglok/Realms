@@ -15,6 +15,7 @@ import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
 import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 
 import org.bukkit.Material;
@@ -576,11 +577,11 @@ public class Settlement //implements Serializable
 		treasureList.add(new Item(Material.LOG.name(),1));
 		treasureList.add(new Item(Material.SEEDS.name(),1));
 		treasureList.add(new Item(Material.DIRT.name(),1));
-		treasureList.add(new Item(Material.CARROT.name(),1));
+//		treasureList.add(new Item(Material.CARROT.name(),1));
 		treasureList.add(new Item(Material.BREAD.name(),1));
 		treasureList.add(new Item(Material.WATER.name(),1));
 		treasureList.add(new Item(Material.WOOL.name(),1));
-		treasureList.add(new Item(Material.EMERALD.name(),1));
+//		treasureList.add(new Item(Material.EMERALD.name(),1));
 		treasureList.add(new Item(Material.SAND.name(),1));
 		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
 		treasureList.add(new Item(Material.WOOD.name(),1));
@@ -590,11 +591,11 @@ public class Settlement //implements Serializable
 		treasureList.add(new Item(Material.LOG.name(),1));
 		treasureList.add(new Item(Material.SEEDS.name(),1));
 		treasureList.add(new Item(Material.DIRT.name(),1));
-		treasureList.add(new Item(Material.CARROT.name(),1));
+//		treasureList.add(new Item(Material.CARROT.name(),1));
 		treasureList.add(new Item(Material.BREAD.name(),1));
 		treasureList.add(new Item(Material.WATER.name(),1));
 		treasureList.add(new Item(Material.WOOL.name(),1));
-		treasureList.add(new Item(Material.EMERALD.name(),1));
+//		treasureList.add(new Item(Material.EMERALD.name(),1));
 		treasureList.add(new Item(Material.SAND.name(),1));
 		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
 		treasureList.add(new Item(Material.WOOD.name(),1));
@@ -604,11 +605,11 @@ public class Settlement //implements Serializable
 		treasureList.add(new Item(Material.LOG.name(),1));
 		treasureList.add(new Item(Material.SEEDS.name(),1));
 		treasureList.add(new Item(Material.DIRT.name(),1));
-		treasureList.add(new Item(Material.CARROT.name(),1));
+//		treasureList.add(new Item(Material.CARROT.name(),1));
 		treasureList.add(new Item(Material.BREAD.name(),1));
 		treasureList.add(new Item(Material.WATER.name(),1));
 		treasureList.add(new Item(Material.WOOL.name(),1));
-		treasureList.add(new Item(Material.EMERALD.name(),1));
+//		treasureList.add(new Item(Material.EMERALD.name(),1));
 		treasureList.add(new Item(Material.SAND.name(),1));
 		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
 		treasureList.add(new Item(Material.WOOD.name(),1));
@@ -618,11 +619,11 @@ public class Settlement //implements Serializable
 		treasureList.add(new Item(Material.LOG.name(),1));
 		treasureList.add(new Item(Material.SEEDS.name(),1));
 		treasureList.add(new Item(Material.DIRT.name(),1));
-		treasureList.add(new Item(Material.CARROT.name(),1));
+//		treasureList.add(new Item(Material.CARROT.name(),1));
 		treasureList.add(new Item(Material.BREAD.name(),1));
 		treasureList.add(new Item(Material.WATER.name(),1));
 		treasureList.add(new Item(Material.WOOL.name(),1));
-		treasureList.add(new Item(Material.EMERALD.name(),1));
+//		treasureList.add(new Item(Material.EMERALD.name(),1));
 		treasureList.add(new Item(Material.SAND.name(),1));
 		treasureList.add(new Item(Material.GOLD_NUGGET.name(),1));
 	}
@@ -950,13 +951,13 @@ public class Settlement //implements Serializable
 		addTreasure2List(server, biome, Material.RAW_CHICKEN );
 		addTreasure2List(server, biome, Material.FEATHER );
 		addTreasure2List(server, biome, Material.RAW_FISH );
-		addTreasure2List(server, biome, Material.EMERALD );
+//		addTreasure2List(server, biome, Material.EMERALD );
 		addTreasure2List(server, biome, Material.RED_MUSHROOM ); 
 		addTreasure2List(server, biome, Material.BROWN_MUSHROOM ); 
 		addTreasure2List(server, biome, Material.IRON_ORE );
 		addTreasure2List(server, biome, Material.COAL_ORE );
 		addTreasure2List(server, biome, Material.DIAMOND_ORE );
-		addTreasure2List(server, biome, Material.EMERALD_ORE );
+//		addTreasure2List(server, biome, Material.EMERALD_ORE );
 		addTreasure2List(server, biome, Material.REDSTONE_ORE );
 		addTreasure2List(server, biome, Material.LAPIS_ORE );
 		addTreasure2List(server, biome, Material.GOLD_ORE );
@@ -1388,15 +1389,32 @@ public class Settlement //implements Serializable
 				if (building.isActive())
 				{
 					// Pruefe ob StorageCapacitaet des Types ausgelastet ist
-					if (checkStoreCapacity(server, building))
+					switch (BuildPlanType.getBuildGroup(building.getBuildingType()))
 					{
-						building.setIsEnabled(true);
-					} else
-					{
-						building.setIsEnabled(false);
+						case 2 : // normal production
+							if (checkStoreCapacity(server, building))
+							{
+								building.setIsEnabled(true);
+							} else
+							{
+								building.setIsEnabled(false);
+							}
+							// pruefe ob Stronghold region enabled sind
+							server.checkRegionEnabled(building.getHsRegion());
+							break;
+						case 5: //unit production
+							if (building.getMaxTrain() > 0)
+							{
+								building.setIsEnabled(true);
+							} else
+							{
+								building.setIsEnabled(false);
+							}
+
+							break;
+						default:  // other buildings are not effected
+						break;	
 					}
-					// pruefe ob Stronghold region enabled sind
-					server.checkRegionEnabled(building.getHsRegion());
 				}
 			} else
 			{
@@ -1600,7 +1618,10 @@ public class Settlement //implements Serializable
 		
 	}
 	
-	
+	/**
+	 * give trained units to barrack
+	 * @param unitFactory
+	 */
 	public void doUnitTrain(UnitFactory unitFactory)
 	{
 		for (Building building : buildingList.getBuildingList().values())
@@ -1616,8 +1637,12 @@ public class Settlement //implements Serializable
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							IUnit unit = unitFactory.erzeugeAbstractUnit(building.getTrainType());
+							Unit unit = unitFactory.erzeugeUnit(building.getTrainType());
+							unit.setSettleId(this.id);
 							barrack.getUnitList().add(unit);
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
 						} else
 						{
 						}

@@ -53,6 +53,7 @@ public class Building  implements Serializable
 	private UnitType trainType;
 	private int trainCounter;
 	private int trainTime;
+	private int maxProduction;
 	
 	public Building()
 	{
@@ -76,6 +77,7 @@ public class Building  implements Serializable
 		biome = null;
 		trainType = UnitType.NONE;
 		trainTime = 1;
+		maxProduction = 0;
 	}
 	
 	public Building(BuildPlanType buildingType, String regionType, boolean isRegion)
@@ -98,6 +100,7 @@ public class Building  implements Serializable
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		biome = null;
 		trainType = setDefaultTrainingType(buildingType);
+		maxProduction = 0;
 	}
 
 
@@ -122,6 +125,7 @@ public class Building  implements Serializable
 		this.position = position; //new LocationData("", 0.0, 0.0, 0.0);
 		biome = null;
 		trainType = setDefaultTrainingType(buildingType);
+		maxProduction = 0;
 	}
 	
 	public Building(int id, BuildPlanType buildingType, int settler,
@@ -148,6 +152,7 @@ public class Building  implements Serializable
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		biome = null;
 		trainType = setDefaultTrainingType(buildingType);
+		maxProduction = 0;
 	}
 	
 	public Building(int id, BuildPlanType buildingType, int settler,
@@ -202,6 +207,7 @@ public class Building  implements Serializable
 		this.position = position;
 		biome = null;
 		trainType = setDefaultTrainingType(buildingType);
+		maxProduction = 0;
 
 	}
 
@@ -1008,5 +1014,25 @@ public class Building  implements Serializable
 	{
 		this.trainTime = trainTime;
 	}
+
+	/**
+	 * set Max Units to train
+	 * @param value
+	 */
+	public void setMaxTrain(int value)
+	{
+		maxProduction = value;
+	}
+
+	public void addMaxTrain(int value)
+	{
+		maxProduction = maxProduction + value;
+	}
+
+	public int getMaxTrain()
+	{
+		return maxProduction;
+	}
 	
 }
+

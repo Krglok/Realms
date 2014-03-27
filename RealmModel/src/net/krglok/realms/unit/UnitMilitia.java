@@ -21,7 +21,7 @@ public class UnitMilitia extends AbstractUnit
 		maxStorage = 27;
 		
 		// required
-		requiredItems = new ItemList();
+		requiredItems = initRequired();
 		requiredCost = 0.0;
 		requiredTime = 10;
 		requiredUnits = new UnitList();
@@ -46,25 +46,12 @@ public class UnitMilitia extends AbstractUnit
 		return subList;
 	}
 	
-	public UnitList initUnits(UnitList units)
-	{
-//		UnitList units = new UnitList();
-		if (units.containsKey(UnitType.MILITIA))
-		{
-			units.put(UnitType.MILITIA,units.get(UnitType.MILITIA)+ 1);
-		} else
-		{
-			units.put(UnitType.MILITIA, 1);
-		}
-		
-		return units;
-	}
 	
 	public ItemList initConsum()
 	{
 		ItemList subList = new ItemList();
 		
-		subList.addItem(Material.BREAD.name(),0);
+		subList.addItem(Material.BREAD.name(),1);
 		
 		return subList;
 	}

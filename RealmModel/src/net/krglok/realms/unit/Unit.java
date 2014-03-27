@@ -15,17 +15,42 @@ import net.krglok.realms.core.LocationData;
  */
 public class Unit
 {
+	private static int lfdID = 0; 
 	private UnitType unitType;
-	private int ID;
+	private int id;
 	private int health;
 	private LocationData position;
 	private ItemList itemList;
+	private Integer settleId;
+	private int regimentId;
 
-	public Unit(UnitType uType, int value)
+	public Unit(UnitType uType)
 	{
 		this.unitType = uType;
+		id = -1;
+		health = 1;
+		settleId = -1;
+		regimentId = -1;
+		position = null;
+		itemList = new ItemList();
 	}
 
+	public void initlfdID(int value)
+	{
+		lfdID = value;
+	}
+	
+	public int getLfdID()
+	{
+		return lfdID;
+	}
+	
+	public int addID()
+	{
+		lfdID++;
+		return lfdID;
+	}
+	
 	public UnitType getUnitType()
 	{
 		return unitType;
@@ -37,14 +62,14 @@ public class Unit
 	}
 
 	
-	public int getID()
+	public int getId()
 	{
-		return ID;
+		return id;
 	}
 
-	public void setID(int iD)
+	public void setId(int iD)
 	{
-		ID = iD;
+		id = iD;
 	}
 
 	public int getHealth()
@@ -77,6 +102,26 @@ public class Unit
 		this.itemList = itemList;
 	}
 
+	public int getSettleId() {
+		return settleId;
+	}
+
+	public void setSettleId(int settleId) {
+		this.settleId = settleId;
+	}
+
+	public int getRegimentId() {
+		return regimentId;
+	}
+
+	public void setRegimentId(int regimentId) {
+		this.regimentId = regimentId;
+	}
+
+	/**
+	 * for Healing
+	 * @param value
+	 */
 	public void addHealth(int value)
 	{
 		this.health = this.health + value;

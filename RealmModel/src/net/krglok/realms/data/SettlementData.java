@@ -21,6 +21,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
@@ -158,7 +159,7 @@ public class SettlementData
 //	            System.out.println("SAVE : "+settle.getId()+": "+fileName);
 	            values = new HashMap<String,String>();
 	            int index = 0;
-            	for (IUnit unit : settle.getBarrack().getUnitList())
+            	for (Unit unit : settle.getBarrack().getUnitList())
             	{
             		values.put(String.valueOf(index), unit.getUnitType().name());
             		index++;
@@ -301,7 +302,7 @@ public class SettlementData
         	for (Object ref : uList.values())
         	{
         		String uType = (String) ref;
-        		settle.getBarrack().getUnitList().add(uFactory.erzeugeAbstractUnit(UnitType.getBuildPlanType(uType)));
+        		settle.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
                 System.out.println(ref+":");
         	}    
 		} catch (Exception e)

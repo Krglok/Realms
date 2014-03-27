@@ -1,11 +1,7 @@
 package net.krglok.realms.core;
 
-//<<<<<<< HEAD
-//=======
-import net.krglok.realms.unit.AbstractUnit;
-import net.krglok.realms.unit.IUnit;
-import net.krglok.realms.unit.UnitTypeList;
-//>>>>>>> origin/PHASE2
+import net.krglok.realms.unit.Unit;
+import net.krglok.realms.unit.UnitList;
 
 /**
  * not yet implemented
@@ -17,21 +13,13 @@ public class Barrack
 	private static final long serialVersionUID = 3574102060452319954L;
 	private Boolean isEnabled;
 	private int unitMax;
-//<<<<<<< HEAD
-//	private UnitList unitList;
-//=======
-	private UnitTypeList unitList;
-//>>>>>>> origin/PHASE2
+	private UnitList unitList;
 
 	public Barrack(int unitMax)
 	{
 		isEnabled=false;
 		this.unitMax  = unitMax;
-//<<<<<<< HEAD
-//		unitList = new UnitList();
-//=======
-		unitList = new UnitTypeList();
-//>>>>>>> origin/PHASE2
+		unitList = new UnitList();
 	}
 
 	public Boolean getIsEnabled()
@@ -60,36 +48,24 @@ public class Barrack
 		this.unitMax = unitMax;
 	}
 
-//<<<<<<< HEAD
-//	public UnitList getUnitList()
-//	{
-//		return unitList;
-//	}
-//
-//	public void setUnitList(UnitList unitList)
-//	{
-//		this.unitList = unitList;
-//	}
-//
-//	public void addUnit(UnitItem unitItem)
-//	{
-//		unitList.put(unitItem.getID(),unitItem);
-//	}
-//=======
-	public UnitTypeList getUnitList()
+	public UnitList getUnitList()
 	{
 		return unitList;
 	}
 
-	public void setUnitList(UnitTypeList unitList)
+	public void setUnitList(UnitList unitList)
 	{
 		this.unitList = unitList;
 	}
 
-	public void addUnit(IUnit unit)
+	public boolean addUnit(Unit unit)
 	{
-		unitList.add(unit);
+		if (unitList.size()+1 < unitMax)
+		{
+			unitList.add(unit);
+			return true;
+		}
+		return false;
 	}
-//>>>>>>> origin/PHASE2
 
 }

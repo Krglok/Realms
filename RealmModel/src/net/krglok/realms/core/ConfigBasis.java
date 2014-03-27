@@ -449,7 +449,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.STONE.name(),0);
 		subList.addItem(Material.BRICK.name(),0);
 		subList.addItem(Material.NETHER_BRICK.name(),0);
-		subList.addItem(Material.WOOD_STEP.name(),0);
+//		subList.addItem(Material.WOOD_STEP.name(),0);
 		subList.addItem(Material.STEP.name(),0);
 		subList.addItem(Material.DIRT.name(),0);
 		subList.addItem(Material.GRASS.name(),0);
@@ -475,9 +475,9 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.FENCE_GATE.name(),0);
 		subList.addItem(Material.BED.name(),0);
 		subList.addItem(Material.TORCH.name(),0);
-		subList.addItem(Material.ANVIL.name(),0);
+//		subList.addItem(Material.ANVIL.name(),0);
 		subList.addItem(Material.BOOKSHELF.name(),0);
-		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
+//		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
 		subList.addItem(Material.WOOD_DOOR.name(),0);
 		subList.addItem(Material.CHEST.name(),0);
 		subList.addItem(Material.WORKBENCH.name(),0);
@@ -500,9 +500,9 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.GOLD_ORE.name(),0);
 		subList.addItem(Material.DIAMOND_ORE.name(),0);
 		subList.addItem(Material.REDSTONE_ORE.name(),0);
-		subList.addItem(Material.EMERALD_ORE.name(),0);
+//		subList.addItem(Material.EMERALD_ORE.name(),0);
 		subList.addItem(Material.LAPIS_ORE.name(),0);
-		subList.addItem(Material.QUARTZ_ORE.name(),0);
+//		subList.addItem(Material.QUARTZ_ORE.name(),0);
 //		subList.addItem(Material..name(),0);
 			
 		return subList;
@@ -513,7 +513,7 @@ public class ConfigBasis implements ConfigInterface
 		ItemList subList = new ItemList();
 
 		subList.addItem(Material.GOLD_NUGGET.name(),0);
-		subList.addItem(Material.EMERALD.name(),0);
+//		subList.addItem(Material.EMERALD.name(),0);
 		subList.addItem(Material.DIAMOND.name(),0);
 		subList.addItem(Material.GOLD_INGOT.name(),0);
 //		subList.addItem(Material..name(),0);
@@ -537,7 +537,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.SAND.name(),0);
 		subList.addItem(Material.LAVA.name(),0);
 		subList.addItem(Material.LEAVES.name(),0);
-		subList.addItem(Material.LEAVES_2.name(),0);
+//		subList.addItem(Material.LEAVES_2.name(),0);
 		subList.addItem(Material.SANDSTONE.name(),0);
 		subList.addItem(Material.SNOW.name(),0);
 		subList.addItem(Material.ICE.name(),0);
