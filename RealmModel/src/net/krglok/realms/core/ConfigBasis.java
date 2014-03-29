@@ -21,6 +21,7 @@ public class ConfigBasis implements ConfigInterface
 	protected static final String PLUGIN_NAME = "Realms";
 	protected static String PLUGIN_VER = "0.1.0";
 
+	
 	public final static long dayNight = 24000; //2400 for test ; // serverTicks 
 	public final static long RealmTick = 20L; 
 	public final static long DelayTick = 20L; 
@@ -39,6 +40,12 @@ public class ConfigBasis implements ConfigInterface
 	public static final int CHEST_STORE = 1728;
 	
 	public static final int HALL_Settler = 5; 
+	public static final int HALL_Power = 100; 
+	public static final int TOWN_Power = 1500; 
+	public static final int CITY_Power = 10000;
+	public static final int METROPOL_Power = 30000;
+	public static final int CASTLE_Power = 5000;
+	
 	
 	public static final String LINE = "=============================== ";
 

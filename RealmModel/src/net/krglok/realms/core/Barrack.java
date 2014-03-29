@@ -14,12 +14,18 @@ public class Barrack
 	private Boolean isEnabled;
 	private int unitMax;
 	private UnitList unitList;
+	private int power;
+	private int powerMax;
+	private int powerPool;
 
 	public Barrack(int unitMax)
 	{
 		isEnabled=false;
 		this.unitMax  = unitMax;
 		unitList = new UnitList();
+		setPower(10);
+		setPowerMax(100);
+		setPowerPool(0);
 	}
 
 	public Boolean getIsEnabled()
@@ -66,6 +72,46 @@ public class Barrack
 			return true;
 		}
 		return false;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) 
+	{
+		this.power = power;
+	}
+
+	public void addPower(int value) 
+	{
+		if (power < powerMax)
+		{
+			this.power = this.power + value;
+		}
+	}
+
+	public int getPowerMax() {
+		return powerMax;
+	}
+
+	public void setPowerMax(int powerMax) 
+	{
+		this.powerMax = powerMax;
+	}
+
+	public int getPowerPool() {
+		return powerPool;
+	}
+
+	public void setPowerPool(int powerPool) 
+	{
+		this.powerPool = powerPool;
+	}
+
+	public void addPowerPool(int value) 
+	{
+		this.powerPool = this.powerPool + value;
 	}
 
 }

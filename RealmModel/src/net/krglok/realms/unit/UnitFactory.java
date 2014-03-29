@@ -1,5 +1,8 @@
 package net.krglok.realms.unit;
 
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
+
 public class UnitFactory
 {
 
@@ -49,5 +52,27 @@ public class UnitFactory
 		}
 		return iUnit;
 	}
+	
+	/**
+	 * liefert die consum Items für die Unit
+	 * @return
+	 */
+	public ItemList militaryConsum(UnitType uType)
+	{
+		ItemList outValues = new ItemList();
+		switch (uType)
+		{
+		case MILITIA:
+			UnitMilitia militia = new UnitMilitia();
+			for (Item item : militia.getConsumItems().values())
+			{
+				outValues.put(item.ItemRef() ,new Item(item.ItemRef(),item.value()));
+			}
+			break;
+		default :
+		}
+		return outValues;
+	}
+
 
 }

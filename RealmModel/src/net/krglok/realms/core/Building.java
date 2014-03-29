@@ -865,6 +865,28 @@ public class Building  implements Serializable
 	}
 	
 	/**
+	 * liefert die consum Items für die Unit
+	 * @return
+	 */
+	public ItemList militaryConsum()
+	{
+		ItemList outValues = new ItemList();
+		switch (trainType)
+		{
+		case MILITIA:
+			UnitMilitia militia = new UnitMilitia();
+			for (Item item : militia.getConsumItems().values())
+			{
+				outValues.put(item.ItemRef() ,new Item(item.ItemRef(),item.value()));
+			}
+			break;
+		default :
+		}
+		return outValues;
+	}
+	
+	
+	/**
 	 * get produced items from stronghold chest
 	 * will calculate the amount that will be produced when enough stock is available
 	 * dont set the production to storage, this will be done by settlement 

@@ -23,6 +23,9 @@ public class Unit
 	private ItemList itemList;
 	private Integer settleId;
 	private int regimentId;
+	private double happiness;
+	private int power;
+	
 
 	public Unit(UnitType uType)
 	{
@@ -33,6 +36,8 @@ public class Unit
 		regimentId = -1;
 		position = null;
 		itemList = new ItemList();
+		happiness = 1.0;
+		power = 0;
 	}
 
 	public void initlfdID(int value)
@@ -120,6 +125,8 @@ public class Unit
 
 	/**
 	 * for Healing
+	 * limit health >= 0
+	 * limit health <= 20
 	 * @param value
 	 */
 	public void addHealth(int value)
@@ -129,6 +136,35 @@ public class Unit
 		{
 			this.health = 0;
 		}
+		if (this.health > 20)
+		{
+			this.health = 20;
+		}
+	}
+
+	public double getHappiness() {
+		return happiness;
+	}
+
+	public void setHappiness(double happiness) {
+		this.happiness = happiness ;
+	}
+
+	public void addHappiness(double value) {
+		this.happiness = this.happiness + value;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		this.power = power;
 	}
 	
+	public void addPower(int value) 
+	{
+		this.power = this.power + value;
+	}
+
 }

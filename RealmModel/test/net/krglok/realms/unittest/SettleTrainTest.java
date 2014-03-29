@@ -282,6 +282,8 @@ public class SettleTrainTest
 		msg.add("freie Siedler : "+(settle.getResident().getSettlerCount()-settle.getTownhall().getWorkerCount()));
 		msg.add("Betten        : "+settle.getResident().getSettlerMax());
 		msg.add("Bankkonto     : "+(int) settle.getBank().getKonto());
+		msg.add("Power         : "+ settle.getPower());
+		msg.add("Anzahl Units  : "+settle.getBarrack().getUnitList().size()+ ":"+settle.getBarrack().getUnitMax());
 		msg.add("Anzahl Gebäude: "+(int) settle.getBuildingList().size());
 		msg.add("Items im Lager: "+(int) settle.getWarehouse().getItemCount());
 		msg.add("fehlende Items: "+(int) settle.getRequiredProduction().size());
@@ -306,7 +308,7 @@ public class SettleTrainTest
 		}
 		if (settle.getEntertainFactor() < 0.9)
 		{
-			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhltung macht sie glücklicher!");
+			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhaltung macht sie glücklicher!");
 		}
 		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
 		{
@@ -429,12 +431,12 @@ public class SettleTrainTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.HELL,
+				Biome.PLAINS,
 				logList
 				);
 
-		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
-		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*2 );
+		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*10 );
+		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*10);
 		settle.getWarehouse().depositItemValue("WOOD_HOE",settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("WOOD_AXE",settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("WOOD_PICKAXE",settle.getResident().getSettlerMax());
@@ -442,13 +444,13 @@ public class SettleTrainTest
 		settle.getWarehouse().depositItemValue(Material.STICK.name(),200);
 		settle.getWarehouse().depositItemValue(Material.WOOD.name(),200);
 		settle.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue(Material.STONE_SWORD.name(),1);
-		settle.getWarehouse().depositItemValue(Material.LEATHER_BOOTS.name(),1);
-		settle.getWarehouse().depositItemValue(Material.LEATHER_CHESTPLATE.name(),1);
-		settle.getWarehouse().depositItemValue(Material.LEATHER_HELMET.name(),1);
-		settle.getWarehouse().depositItemValue(Material.LEATHER_LEGGINGS.name(),1);
+		settle.getWarehouse().depositItemValue(Material.STONE_SWORD.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_BOOTS.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_CHESTPLATE.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_HELMET.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_LEGGINGS.name(),2);
 		
-		settle.getResident().setSettlerCount(5);
+		settle.getResident().setSettlerCount(15);
 		settle.setSettlerMax();
 		settle.initTreasureList();
 		settle.expandTreasureList(settle.getBiome(), server);
@@ -458,7 +460,7 @@ public class SettleTrainTest
 		{
 			if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
 			{
-				building.setMaxTrain(1);
+				building.setMaxTrain(2);
 			}
 		}
 		isOutput =   false; //(expected != actual);
@@ -468,7 +470,7 @@ public class SettleTrainTest
 			System.out.println("==Settlement Breed  Start: "+settle.getResident().getSettlerCount());
 		}
 
-		BreedingLoop(settle, server, 6, priceList);
+		BreedingLoop(settle, server, 12, priceList);
 
 //		BreedingLoop(settle, server, 410, priceList);
 
@@ -527,12 +529,13 @@ public class SettleTrainTest
 			if (isCapacityList)
 			{
 				System.out.println("==Barack Capacity ==");
-				System.out.print("UnitType         "+" : "+"Stack");
+				System.out.print("UnitType  "+" :"+"Health"+" : "+"Power");
 				System.out.println("");
 				for (Unit unit : settle.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA))
 				{
 					System.out.print(ConfigBasis.setStrleft(unit.getUnitType().name(),10)
 							+" : "+unit.getHealth()
+							+"    : "+unit.getPower()
 					);
 				
 					System.out.println("");

@@ -107,6 +107,7 @@ public class Settlement //implements Serializable
 		owner 		= "";
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack.setPowerMax(defaultPowerMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -147,12 +148,9 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		owner 		= "";
 		isCapital	= false;
-//<<<<<<< HEAD
 		this.logList = logList;
-//		barrack		= new Barrack(defaultUnitMax(settleType));
-//=======
 		barrack		= new Barrack(defaultUnitMax(settleType));
-//>>>>>>> origin/PHASE2
+		barrack.setPowerMax(defaultPowerMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -193,6 +191,7 @@ public class Settlement //implements Serializable
 		this.owner = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack.setPowerMax(defaultPowerMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -236,6 +235,7 @@ public class Settlement //implements Serializable
 		this.owner = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
+		barrack.setPowerMax(defaultPowerMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
@@ -292,6 +292,7 @@ public class Settlement //implements Serializable
 		this.isCapital = isCapital;
 		this.position = position;
 		this.barrack = barrack;
+		this.barrack.setPowerMax(defaultPowerMax(settleType));
 		this.warehouse = warehouse;
 		this.buildingList = buildingList;
 		this.townhall = townhall;
@@ -386,6 +387,20 @@ public class Settlement //implements Serializable
 			return 0;
 		}
 	}
+
+	private static int defaultPowerMax(SettleType settleType)
+	{
+		switch (settleType)
+		{
+		case HAMLET : return ConfigBasis.HALL_Power;
+		case TOWN   : return ConfigBasis.TOWN_Power;
+		case CITY   : return ConfigBasis.CITY_Power;
+		case METROPOLIS  : return ConfigBasis.METROPOL_Power;
+		case CASTLE : return ConfigBasis.CASTLE_Power;
+		default :
+			return 100;
+		}
+	}
 	
 	public void initSettlement()
 	{
@@ -463,6 +478,21 @@ public class Settlement //implements Serializable
 		this.barrack = barrack;
 	}
 
+	/**
+	 * give power of settlement = sum of barrack and units
+	 * @return
+	 */
+	public int getPower()
+	{
+		int power = barrack.getPower();
+		for (Unit unit : barrack.getUnitList())
+		{
+			power = power + unit.getPower();
+		}
+		
+		return power;
+	}
+	
 	public Warehouse getWarehouse()
 	{
 		return warehouse;
@@ -1105,7 +1135,28 @@ public class Settlement //implements Serializable
 		resident.setHappiness(sumDif);
 		resident.settlerCalculation();
 //		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
-
+		UnitFactory unitFactory = new UnitFactory();
+		for (Unit unit : barrack.getUnitList())
+		{
+			ItemList ingredients = unitFactory.militaryConsum(unit.getUnitType());
+			double prodFactor  = 1.0;
+			if (checkStock(prodFactor, ingredients))
+			{
+				consumStock(prodFactor, ingredients);
+				if (unit.getHappiness() < 1.0)
+				{
+					unit.addHappiness(0.1);
+				}
+			} else
+			{
+				if (unit.getHappiness() > -1.0)
+				{
+					unit.addHappiness(-0.1);
+				}
+			}
+		}
+		int value = (int) (resident.getSettlerCount() * resident.getHappiness()); 
+		barrack.addPower(value);
 	}
 	
 	
@@ -1582,7 +1633,16 @@ public class Settlement //implements Serializable
 		//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							} else
 							{
-								building.addTrainCounter(1);
+								ingredients = building.militaryConsum();
+								prodFactor  = 1.0;
+								if (checkStock(prodFactor, ingredients))
+								{
+									consumStock(prodFactor, ingredients);
+									building.addTrainCounter(1);
+								} else
+								{
+									
+								}
 							}
 							break;
 						default:
