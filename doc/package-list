@@ -6,6 +6,7 @@ net.krglok.realms.core
 net.krglok.realms.data
 net.krglok.realms.manager
 net.krglok.realms.model
+net.krglok.realms.unit
 tiled.core
 tiled.io
 tiled.io.xml
