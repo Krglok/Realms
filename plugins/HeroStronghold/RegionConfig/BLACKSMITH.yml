@@ -8,7 +8,6 @@ effects:
 - denyfriendlyfire.1
 radius: 5
 requirements:
-- WOODEN_DOOR.1
 - WORKBENCH.1
 - CHEST.2
 - FURNACE.1
@@ -26,12 +25,4 @@ output:
 - STONE_SWORD.5
 money-requirement: 2000.0
 upkeep-money-output: 0.0
-super-regions:
-- Mine
-- Lager
-- Hauptlager
-- Werkstatt
-- Siedlung
-- Dorf
-- Stadt
-- Metropole
+description: Produce stonesword for simple military units

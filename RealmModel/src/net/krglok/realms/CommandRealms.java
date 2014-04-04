@@ -67,6 +67,7 @@ public class CommandRealms
 			new CmdSettleSell(),
 			new CmdSettleSetItem(),
 			new CmdSettleTrader(),
+			new CmdSettleTrain(),
 			new CmdSettleWarehouse(),
 			new CmdSettleWorkshop(),
 			new CmdColonistCreate(),

@@ -2,6 +2,7 @@ package net.krglok.realms.core;
 
 import java.io.Serializable;
 
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
 import net.krglok.realms.builder.BuildPlanType;
@@ -160,7 +161,12 @@ public class Building  implements Serializable
 			int hsRegion, String hsRegionType, String hsSuperRegion, 
 			Boolean isEnabled, String slot1, String slot2, String slot3, 
 			String slot4, String slot5,Double sales,
-			LocationData position)
+			LocationData position,
+//			UnitType trainType,
+			int trainCounter,
+			int trainTime,
+			int maxProduction
+			)
 	{
 		super();
 		this.id = id;
@@ -207,7 +213,9 @@ public class Building  implements Serializable
 		this.position = position;
 		biome = null;
 		trainType = setDefaultTrainingType(buildingType);
-		maxProduction = 0;
+		this.trainCounter = trainCounter;
+		this.trainTime = trainTime;
+		this.maxProduction = maxProduction;
 
 	}
 
@@ -293,6 +301,8 @@ public class Building  implements Serializable
 		break;
 		case TRADER : setWorkerNeeded(5);
 		break;
+		case GARRISON : setWorkerNeeded(5);
+		break;
 		default :
 			setWorkerNeeded(0);
 			break;
@@ -337,6 +347,17 @@ public class Building  implements Serializable
 		case TAVERNE : return 0;
 		case WALL : return 0;
 		case PILLAR : return 0;
+		case GUARDHOUSE : return 5;
+		case ARCHERY : return 5;
+		case WATCHTOWER : return 5;
+		case DEFENSETOWER: return 15;
+		case BARRACK : return 10;
+		case TOWER : return 20;
+		case CASERN : return 50;
+		case GARRISON : return 100;
+		case HEADQUARTER : return 10;
+		case KEEP : return 20;
+
 		default :
 			return 0;
 		}

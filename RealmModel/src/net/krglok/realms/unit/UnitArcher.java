@@ -2,22 +2,22 @@ package net.krglok.realms.unit;
 
 import org.bukkit.Material;
 
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 
-public class UnitMilitia extends AbstractUnit
+public class UnitArcher extends AbstractUnit 
 {
 
-
-	public UnitMilitia()
+	
+	
+	public UnitArcher() 
 	{
 		super();
-		unitType = UnitType.MILITIA;
+		unitType = UnitType.ARCHER ;
 		armor = 3;
 		speed = 4;
-		offense = 6;
+		offense = 9;
 		defense = 3;
-		offenseRange = 1;
+		offenseRange = 2;
 		maxStorage = 27;
 		
 		// required
@@ -30,31 +30,30 @@ public class UnitMilitia extends AbstractUnit
 		consumItems = initConsum();
 		consumCost  = 0.0;
 		consumTime  = 10;
-		
 	}
-	
-	public ItemList initRequired()
-	{
+
+
+	@Override
+	public ItemList initRequired() {
 		ItemList subList = new ItemList();
 		
 		subList.addItem(Material.LEATHER_BOOTS.name(),1);
 		subList.addItem(Material.LEATHER_CHESTPLATE.name(),1);
 		subList.addItem(Material.LEATHER_HELMET.name(),1);
 		subList.addItem(Material.LEATHER_LEGGINGS.name(),1);
-		subList.addItem(Material.STONE_SWORD.name(),1);
+		subList.addItem(Material.BOW.name(),1);
+		subList.addItem(Material.ARROW.name(),32);
 		
 		return subList;
 	}
-	
-	
-	public ItemList initConsum()
-	{
+
+	@Override
+	public ItemList initConsum() {
 		ItemList subList = new ItemList();
 		
 		subList.addItem(Material.BREAD.name(),1);
 		
 		return subList;
 	}
-
 
 }

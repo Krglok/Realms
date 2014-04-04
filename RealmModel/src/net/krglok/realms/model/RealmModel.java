@@ -3,8 +3,10 @@ package net.krglok.realms.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.colonist.ColonyList;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
@@ -80,6 +82,9 @@ public class RealmModel
 	private boolean isInit = false;
 	private int garbageCounter;
 	private int colonyCounter = 0;
+	
+	private boolean isDay = false;
+	private boolean isNight = false;
 	
 	/**
 	 * instances an empty Model , must be initialize external !
@@ -510,7 +515,7 @@ public class RealmModel
 			}
 		} catch (Exception e)
 		{
-			messageData.log("[Realms] exception "+ e.getMessage());
+			messageData.log("[Realms] OnTick exception "+ e.getMessage());
 			messageData.log("[Realms] Model Disabled ! ");
 			System.out.println("[Realms] ERROR exception "+ e.getMessage());
 			e.printStackTrace(System.out);
@@ -518,6 +523,56 @@ public class RealmModel
 			modelStatus = ModelStatus.MODEL_DISABLED;
 		}
 		return;
+	}
+
+	public void OnNight(long dayTime)
+	{
+		try 
+		{
+			switch (modelStatus)
+			{
+			case MODEL_ENABLED :
+				doHunter();
+				break;
+			default :
+				break;
+			}
+			if (isNight == false)
+			{
+				System.out.println("Shut Down Gate");
+			}
+			isNight = true; 
+		} catch (Exception e) {
+			messageData.log("[Realms] OnNight exception "+ e.getMessage());
+			System.out.println("[Realms] ERROR exception "+ e.getMessage());
+			e.printStackTrace(System.out);
+			System.out.println("[Realms] Model Disabled ! ");
+		}
+	}
+	
+	public void OnDay(long dayTime)
+	{
+		try 
+		{
+			switch (modelStatus)
+			{
+			case MODEL_ENABLED :
+				doTrap();
+				break;
+			default :
+				break;
+			}
+			if (isDay == false)
+			{
+				System.out.println("Pull Up Gate");
+			}
+			isDay = true;
+		} catch (Exception e) {
+			messageData.log("[Realms] OnNight exception "+ e.getMessage());
+			System.out.println("[Realms] ERROR exception "+ e.getMessage());
+			e.printStackTrace(System.out);
+			System.out.println("[Realms] Model Disabled ! ");
+		}
 	}
 
 	/**
@@ -804,7 +859,44 @@ public class RealmModel
 			modelStatus = ModelStatus.MODEL_DISABLED;
 		}
 	}
+	
+	/**
+	 * Hunters only work at night.
+	 */
+	private void doHunter()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+			
+		}
+	}
 
+	
+	private void doTrap()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+			
+		}
+	}
+	
+	/**
+	 * not in use now 
+	 */
+	private void doGateClose()
+	{
+		for (Settlement settle : settlements.getSettlements().values())
+		{
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				if (building.getBuildingType() == BuildPlanType.GATE)
+				{
+					
+				}
+			}
+		}
+	}
+	
 //	/**
 //	 * @return the buildManager
 //	 */

@@ -1,5 +1,10 @@
 package net.krglok.realms.data;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import org.bukkit.entity.EntityType;
+
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ItemList;
 
@@ -39,4 +44,6 @@ public interface ConfigInterface
 	public boolean isUpdateCheck();
 	
 	public boolean isAutoUpdate();
+	
+	public ArrayList<EntityType> getMobsToRepel();
 }

@@ -1,8 +1,11 @@
 package net.krglok.realms.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
@@ -407,6 +410,12 @@ public class ConfigTest implements ConfigInterface
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public ArrayList<EntityType> getMobsToRepel() 
+	{
+		ArrayList<EntityType> mobList = new ArrayList<EntityType>();
+		return mobList;
 	}
 
 }

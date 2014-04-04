@@ -13,9 +13,9 @@ requirements:
 - WALL_SIGN.1
 - COBBLESTONE.61
 reagents:
-- GOLD_NUGGET.1
-- IRON_INGOT.8
-- BREAD.4
+- GOLD_NUGGET.10
+- IRON_INGOT.10
+- BREAD.5
 upkeep: []
 upkeep-chance: 0.001
 output: []

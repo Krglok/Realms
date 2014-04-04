@@ -24,7 +24,12 @@ public class UnitFactory
 			unit.setHealth(HUMAN_HEALTH);
 			unit.setItemList(iUnit.getRequiredItems());
 			break;
-
+		case ARCHER:
+			iUnit = erzeugeUnitConfig(uType);
+			unit.setHealth(HUMAN_HEALTH);
+			unit.setItemList(iUnit.getRequiredItems());
+			break;
+			
 		case SETTLER:
 		default:
 			iUnit = erzeugeUnitConfig(uType);

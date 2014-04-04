@@ -219,4 +219,16 @@ public class BuildingList
 		return buildTypeList;
 	}
 
+	public Building getBuildingByRegion(int regionId)
+	{
+		Building building = null;
+		for (Building b : buildingList.values())
+		{
+			if (b.getHsRegion() == regionId)
+			{
+				return b;
+			}
+		}
+		return building;
+	}
 }

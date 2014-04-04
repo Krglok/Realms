@@ -137,6 +137,11 @@ public class SettlementData
 	            			}
 	            		}
 					}
+//	            	values.put("trainType", building.getTrainType().name());
+	            	values.put("trainCounter", String.valueOf(building.getTrainCounter()));
+	            	values.put("trainTime", String.valueOf(building.getTrainTime()));
+	            	values.put("maxProduction", String.valueOf(building.getMaxTrain()));
+
 	            	buildings.put(String.valueOf(building.getId()), values ); 
 		            config.set((MemorySection.createPath(settleSec,"buildinglist")), buildings);
 	            }
@@ -245,6 +250,11 @@ public class SettlementData
         			String hsSuperRegion = config.getString(settleSec+".buildinglist."+ref+".hsSuperRegion","");
         			Boolean isEnabled = Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isEnabled","false"));
         			Boolean.valueOf(config.getString(settleSec+".buildinglist."+ref+".isActiv","false"));
+
+//        			UnitType trainType= UnitType.getBuildPlanType(config.getString(settleSec+".buildinglist."+ref+".trainType", "NONE"));
+        			int trainCounter = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".trainCounter", "0"));
+        			int trainTime = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".trainTime", "0"));
+        			int maxProduction = Integer.valueOf(config.getString(settleSec+".buildinglist."+ref+".maxProduction", "0"));
         			String slot1 = "";
         			String slot2 = "";
         			String slot3 = "";
@@ -278,7 +288,11 @@ public class SettlementData
         							slot4, 
         							slot5,
         							sale,
-        							position
+        							position,
+//        							trainType,
+        							trainCounter,
+        							trainTime,
+        							maxProduction
         							), 
         					settle
         					);

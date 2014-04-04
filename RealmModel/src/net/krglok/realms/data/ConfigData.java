@@ -1,6 +1,8 @@
 package net.krglok.realms.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
@@ -9,6 +11,7 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 
 /**
  * read Data from YML file 
@@ -49,6 +52,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 
 	private boolean isLogList;
 
+	private ArrayList<EntityType> mobList;
 	
 	protected FileConfiguration configFile;
 	
@@ -58,7 +62,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		superBuildingTypes = new HashMap<String, String>();
 		superSettleTypes = new HashMap<String, String>();
 		buildPlanRegions  = new HashMap<String, String>();
-		
+		mobList = new ArrayList<EntityType>();
 		setRealmCounter(0);
 		setSettlementCounter(0);
 		
@@ -168,6 +172,18 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		return foodItems;
 	}
 	
+	public  void initMobsToRepel() 
+	{
+		this.mobList.add(EntityType.SPIDER);
+//		return mobList;
+	}
+
+	
+	public  ArrayList<EntityType> getMobsToRepel() 
+	{
+		return mobList;
+	}
+
 	/**
 	 * erzeugt eine List von superRegiontypen mit SettlementTypen
 	 */

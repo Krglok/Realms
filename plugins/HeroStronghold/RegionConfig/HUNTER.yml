@@ -1,0 +1,26 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- WOODEN_DOOR.1
+- WALL_SIGN.1
+- GRASS.49
+- LOG.12
+- WOOD.49
+- CHEST.1
+reagents:
+- GOLD_NUGGET.1
+- BOW.1
+upkeep:
+- WOOD_SWORD.1
+- ARROW.2
+upkeep-chance: 0.001
+output:
+- BONE.1
+- ROTTEN_FLESH.1
+- SULPHUR.1
+- SPIDER_EYE.1
+money-requirement: 500.0
+upkeep-money-output: 0.0

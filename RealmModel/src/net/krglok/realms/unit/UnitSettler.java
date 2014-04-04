@@ -1,5 +1,7 @@
 package net.krglok.realms.unit;
 
+import org.bukkit.Material;
+
 import net.krglok.realms.core.ItemList;
 
 public class UnitSettler extends AbstractUnit
@@ -29,32 +31,23 @@ public class UnitSettler extends AbstractUnit
 		consumTime  = 10;
 	}
 
-	@Override
-	public void train()
-	{
-		// TODO Auto-generated method stub
 
+	@Override
+	public ItemList initRequired() 
+	{
+		ItemList subList = new ItemList();
+		
+		return subList;
 	}
 
 	@Override
-	public void upgrade()
+	public ItemList initConsum() 
 	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void attack()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void defend()
-	{
-		// TODO Auto-generated method stub
-
+		ItemList subList = new ItemList();
+		
+		subList.addItem(Material.BREAD.name(),1);
+		
+		return subList;
 	}
 
 }

@@ -1,6 +1,16 @@
 package net.krglok.realms;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Settlement;
+import net.minecraft.server.v1_7_R1.Facing;
 
 /**
  * <pre>
@@ -21,6 +31,15 @@ public class TickTask implements Runnable
     private static int taxLimit = prodLimit * 10;
     private static int buildMin = prodLimit * 4 / 10;
     private static int buildMax = prodLimit * 7 / 10;
+
+	private static final long DAYTIME = 0;
+	private static final long SUNSET = 12000;
+	private static final long NIGHTTIME = 14000;
+	private static final long SUNRISE = 22000;
+	private static final long TOMORROW = 24000;
+    
+	private boolean isGateClose = false;
+	private boolean isGateOpen = false;
 	
     public static int getProdCounter()
 	{
@@ -79,6 +98,32 @@ public class TickTask implements Runnable
 			plugin.onCleanRequest();
 //		}
 		
+		// startt night Event
+		if ((plugin.getServer().getWorlds().get(0).getFullTime() > NIGHTTIME)
+			&& (plugin.getServer().getWorlds().get(0).getFullTime() < SUNRISE))
+		{
+			if (isGateClose == false)
+			{
+				doGateClose();
+				isGateClose = true;
+				isGateOpen = false;
+			}
+			plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getFullTime());
+			
+		}
+		// start Day Event
+		if ((plugin.getServer().getWorlds().get(0).getFullTime() < NIGHTTIME)
+			&& (plugin.getServer().getWorlds().get(0).getFullTime() > DAYTIME))
+		{
+			if (isGateOpen == false)
+			{
+				
+				isGateOpen = true;
+				isGateClose = false;
+			}
+			plugin.getRealmModel().OnDay(plugin.getServer().getWorlds().get(0).getFullTime());
+		}
+			
 		if (counter == (prodLimit/2))
 		{
 			if (isProduction)
@@ -116,4 +161,64 @@ public class TickTask implements Runnable
 		}
 	}
 
+	/**
+	 * not in use now 
+	 */
+	private void doGateClose()
+	{
+		for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
+		{
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				if (building.getBuildingType() == BuildPlanType.GATE)
+				{
+					Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
+					if (region != null)
+					{
+						System.out.println("[REALMS] Close gate");
+						setGateFrame(region.getLocation(), Material.FENCE);
+					}
+				}
+			}
+		}
+	}
+
+	private void setGateFrame(Location pos, Material gateMat)
+	{
+		Block base = pos.getBlock();
+		Block gate;
+		gate = base.getRelative(BlockFace.DOWN, 1);
+		gate.setType(gateMat);
+		base.getRelative(BlockFace.EAST, 1).setType(gateMat);
+		base.getRelative(BlockFace.WEST , 1).setType(gateMat);
+		gate = base.getRelative(BlockFace.DOWN, 2);
+		gate.setType(gateMat);
+		base.getRelative(BlockFace.EAST, 1).setType(gateMat);
+		base.getRelative(BlockFace.WEST, 1).setType(gateMat);
+		
+	}
+	
+	
+	/**
+	 * not in use now 
+	 */
+	private void doGateOpen()
+	{
+		for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
+		{
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				if (building.getBuildingType() == BuildPlanType.GATE)
+				{
+					Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
+					if (region != null)
+					{
+						System.out.println("[REALMS] Open gate");
+						setGateFrame(region.getLocation(), Material.AIR);
+					}
+				}
+			}
+		}
+	}
+	
 }

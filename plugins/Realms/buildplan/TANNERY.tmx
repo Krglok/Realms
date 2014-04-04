@@ -4,7 +4,7 @@
   <property name="offset" value="-1"/>
  </properties>
  <tileset firstgid="1" source="MC Realms.tsx"/>
- <layer name="Ebene 0" width="9" height="9" visible="0">
+ <layer name="Ebene 0" width="9" height="9">
   <data>
    <tile gid="25"/>
    <tile gid="25"/>
@@ -72,9 +72,9 @@
    <tile gid="25"/>
    <tile gid="25"/>
    <tile gid="25"/>
-   <tile gid="5"/>
    <tile gid="25"/>
-   <tile gid="5"/>
+   <tile gid="25"/>
+   <tile gid="25"/>
    <tile gid="25"/>
    <tile gid="25"/>
    <tile gid="25"/>
@@ -89,7 +89,7 @@
    <tile gid="25"/>
   </data>
  </layer>
- <layer name="Ebene 1" width="9" height="9" visible="0">
+ <layer name="Ebene 1" width="9" height="9">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -158,7 +158,7 @@
    <tile gid="30"/>
    <tile gid="5"/>
    <tile gid="0"/>
-   <tile gid="146"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="5"/>
    <tile gid="30"/>
@@ -169,12 +169,12 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="91"/>
    <tile gid="0"/>
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 2" width="9" height="9" visible="0">
+ <layer name="Ebene 2" width="9" height="9">
   <data>
    <tile gid="2"/>
    <tile gid="0"/>
@@ -209,30 +209,30 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="5"/>
+   <tile gid="2"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="2"/>
+   <tile gid="5"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="5"/>
+   <tile gid="2"/>
+   <tile gid="2"/>
+   <tile gid="5"/>
    <tile gid="69"/>
-   <tile gid="5"/>
-   <tile gid="2"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="2"/>
-   <tile gid="5"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="5"/>
-   <tile gid="2"/>
-   <tile gid="2"/>
-   <tile gid="5"/>
-   <tile gid="91"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -255,7 +255,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="91"/>
+   <tile gid="0"/>
    <tile gid="2"/>
   </data>
  </layer>

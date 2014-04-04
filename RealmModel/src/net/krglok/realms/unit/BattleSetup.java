@@ -67,10 +67,12 @@ public class BattleSetup
 			switch(battleStatus)
 			{
 			case PRE_BATTLE :
+				preBattle( attackers,  defenders);
 				battleStatus = BattleStatus.DISTANT;
 				break;
 			case DISTANT:
 				fightDistant( attackers,  defenders);
+				fightDistant( defenders,  attackers);
 				battleStatus = BattleStatus.SCOUT_ATTACK;
 				break;
 			case SCOUT_ATTACK:
@@ -90,6 +92,53 @@ public class BattleSetup
 				battleStatus = BattleStatus.NONE;
 			}
 		}
+	}
+	
+	private void preBattle(BattlePlacement attacker, BattlePlacement defender)
+	{
+		for (BattleFieldPosition bPos : attacker.getUnitPlacement().keySet())
+		{
+			switch (bPos)
+			{
+			case CENTERBACK:
+				if ((attacker.getUnitPlacement().get(BattleFieldPosition.CENTER) == null))
+				{
+					attacker.getUnitPlacement().put(BattleFieldPosition.CENTER, new UnitList());
+				}
+				if ((attacker.getUnitPlacement().get(BattleFieldPosition.CENTER).size() == 0))
+				{
+					for (Unit unit : attacker.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
+					{
+						attacker.getUnitPlacement().get(BattleFieldPosition.CENTER).add(unit);
+					}
+				}
+			default:
+				break;
+			}
+		}
+		for (BattleFieldPosition bPos : defender.getUnitPlacement().keySet())
+		{
+			switch (bPos)
+			{
+			case CENTERBACK:
+				if ((defender.getUnitPlacement().get(BattleFieldPosition.CENTER) == null))
+				{
+					defender.getUnitPlacement().put(BattleFieldPosition.CENTER, new UnitList());
+				}
+				if ((defender.getUnitPlacement().get(BattleFieldPosition.CENTER).size() == 0))
+				{
+					for (Unit unit : defender.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
+					{
+						defender.getUnitPlacement().get(BattleFieldPosition.CENTER).add(unit);
+					}
+					defender.getUnitPlacement().put(BattleFieldPosition.CENTERBACK,null);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		
 	}
 	
 	private void fightDistant(BattlePlacement attacker, BattlePlacement defender)

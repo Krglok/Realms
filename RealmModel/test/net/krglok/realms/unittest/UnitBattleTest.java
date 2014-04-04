@@ -81,11 +81,14 @@ public class UnitBattleTest {
 		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
 		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
 		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
-		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
-		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
-		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
 		units.setPlaceUnit(BattleFieldPosition.CENTER, unitList);
-		
+
+		UnitList unitDist = new UnitList();
+		unitDist.add(unitFactory.erzeugeUnit(UnitType.ARCHER));
+		unitDist.add(unitFactory.erzeugeUnit(UnitType.ARCHER));
+		unitDist.add(unitFactory.erzeugeUnit(UnitType.ARCHER));
+		units.setPlaceUnit(BattleFieldPosition.CENTERBACK, unitDist);
+
 		return units;
 	}
 
@@ -111,8 +114,8 @@ public class UnitBattleTest {
 		showBattleStatus(battle);
 		battle.run();
 		showBattleStatus(battle);
-		battle.run();
-		showBattleStatus(battle);
+//		battle.run();
+//		showBattleStatus(battle);
 		
 		fail("Not yet implemented");
 	}

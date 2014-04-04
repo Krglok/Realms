@@ -47,6 +47,7 @@ import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
+import net.krglok.realms.unit.UnitType;
 
 /**
  * Simuliert die eingelesenen des Realms
@@ -390,7 +391,11 @@ public class DataTest implements DataInterface
 						slot4,
 						slot5,
 						0.0,
-						new LocationData("SteamHaven", 0.0, 0.0, 0.0)
+						new LocationData("SteamHaven", 0.0, 0.0, 0.0),
+//						UnitType.NONE,
+						0,
+						0,
+						0
 						);
 		
 	}
@@ -415,7 +420,11 @@ public class DataTest implements DataInterface
 						slot4,
 						slot5,
 						0.0,
-						new LocationData("SteamHaven", 0.0, 0.0, 0.0)
+						new LocationData("SteamHaven", 0.0, 0.0, 0.0),
+//						UnitType.NONE,
+						0,
+						0,
+						0
 						);
 		
 	}

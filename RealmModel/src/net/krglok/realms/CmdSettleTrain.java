@@ -12,22 +12,24 @@ import org.bukkit.command.CommandSender;
 
 public class CmdSettleTrain extends RealmsCommand
 {
-	int settleID;
-	int buildingId;
-	int page;
+	private int settleID;
+	private int buildingId;
+	private int amount;
+	private int page;
 
 	public CmdSettleTrain()
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.TRAIN);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle TRAIN [SettleID] [BuildingId] ",
-				"Show Infomation about the Settlement ",
-		    	"and show the analysis report ",
+				ChatColor.YELLOW+"/settle TRAIN [SettleID] [BuildingId] [amount]",
+				"Start training of units for the building ",
+				"train up to amount number of units",
 		    	"  "
 		};
 		requiredArgs = 2;
 		this.settleID = 0;
 		this.buildingId = 0;
+		this.amount = 1;
 		this.page = 1;  //default value
 	}
 
@@ -48,6 +50,9 @@ public class CmdSettleTrain extends RealmsCommand
 			break;
 		case 1 :
 			buildingId = value;
+			break;
+		case 2 :
+			amount = value;
 			break;
 		default:
 			break;
@@ -70,7 +75,7 @@ public class CmdSettleTrain extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] { int.class.getName(), int.class.getName()  };
+		return new String[] { int.class.getName(), int.class.getName(), int.class.getName()  };
 	}
 
 	@Override
@@ -80,8 +85,9 @@ public class CmdSettleTrain extends RealmsCommand
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
 		{
-			Building building = plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuilding(buildingId);
+			Building building = plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuildingByRegion(buildingId);
 			building.setIsEnabled(true);
+			building.setMaxTrain(amount);
 			msg.add("Settlement ["+settle.getId()+"] : "
 					+ChatColor.YELLOW+settle.getName()
 					+ChatColor.GREEN+" Age: "+settle.getAge()
@@ -96,6 +102,7 @@ public class CmdSettleTrain extends RealmsCommand
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		page = 1;
+		amount = 1;
 	}
 
 	@Override
@@ -105,7 +112,7 @@ public class CmdSettleTrain extends RealmsCommand
 		{
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
-				if (plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuilding(buildingId) != null)
+				if (plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuildingByRegion(buildingId)  != null)
 				{
 					return true;
 				} else

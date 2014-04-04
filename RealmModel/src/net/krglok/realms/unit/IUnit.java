@@ -1,5 +1,7 @@
 package net.krglok.realms.unit;
 
+import org.bukkit.Material;
+
 import net.krglok.realms.core.ItemList;
 
 /**
@@ -9,6 +11,11 @@ import net.krglok.realms.core.ItemList;
  */
 public interface IUnit
 {
+	
+	public ItemList initRequired();
+	
+	public ItemList initConsum();
+
 	public abstract int getSpeed();
 
 	public abstract void setSpeed(int speed);
@@ -53,12 +60,5 @@ public interface IUnit
 
 	public abstract UnitType getUnitType();
 
-	public void train();
-	
-	public void upgrade();
-	
-	public void attack();
-	
-	public void defend();
 	
 }

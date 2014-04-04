@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="9" height="9" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="BlockCSS" tilewidth="16" tileheight="16">
+  <image source="mc_tileset.png" width="384" height="512"/>
+  <tile id="0">
+   <properties>
+    <property name="ID" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Kachelebene 0 boden" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJyTZGBgkBzFFGEAEtMH6g==
+  </data>
+ </layer>
+ <layer name="Kachelebene 1" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkMSD5aC0CBAvQaJhoAZJLT5AjBo5ItRMItEcERw0zD0wv6DTMDVyDITDBwDuvAfM
+  </data>
+ </layer>
+ <layer name="Kachelebene 2" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkETCDGh8OSRxdBANxDVoevEBQmrw2TUQ5iD7H1/4AACk3gOZ
+  </data>
+ </layer>
+ <layer name="Kachelebene 3" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkMSD5aA0LlCDpBYfIEYNIbuoqYZYN8sxEA4fAJVOA8A=
+  </data>
+ </layer>
+ <layer name="Kachelebene 4 oben" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkMSD5ZBobLgGTS0uPFTVIKvFFT4AHB4JUQ==
+  </data>
+ </layer>
+ <layer name="Kachelebene 5" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkMSD5aC0CBAvQaJhoAZJLT5AjBo5ItSQao4IDhpmDswv6DRMjRwD4fABAKjIB1M=
+  </data>
+ </layer>
+ <layer name="Kachelebene 6" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkETCDGh8OSRxbKAGTS8+QEjNYDQH5n984QMAQT4DNA==
+  </data>
+ </layer>
+ <layer name="Kachelebene 7" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkMSD5aA0LlCDpBYfGKpq5BgIhw8AjKIDsQ==
+  </data>
+ </layer>
+ <layer name="Kachelebene 8 dach" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJyTY2BgkMSD5ZBobLgGTS0uTIwaQnZRUw2xbkZWiyt8ACTKCWA=
+  </data>
+ </layer>
+</map>

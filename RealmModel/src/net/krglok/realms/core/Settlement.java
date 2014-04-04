@@ -384,7 +384,7 @@ public class Settlement //implements Serializable
 		case METROPOLIS  : return 4 * ConfigBasis.HALL_Settler*4;
 		case CASTLE : return 4 * ConfigBasis.HALL_Settler;
 		default :
-			return 0;
+			return ConfigBasis.HALL_Settler;
 		}
 	}
 
@@ -687,13 +687,21 @@ public class Settlement //implements Serializable
 					settlement.trader.setOrderMax(settlement.trader.getOrderMax()+5);
 					break;
 				case GUARDHOUSE :
+					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
+					break;
+				case CASERN :
+					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
+					break;
+				case GARRISON :
+					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
+					break;
 				case WATCHTOWER :
 				case DEFENSETOWER :
 				case BARRACK :
 				case TOWER :
 				case HEADQUARTER :
 				case KEEP :
-//					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
+					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
 					break;
 				default :
 					break;
@@ -1628,7 +1636,13 @@ public class Settlement //implements Serializable
 										resident.depositSettler(-1);
 										// Counter starten
 										building.addTrainCounter(1);
+									} else
+									{
+										System.out.println("No Traning Start due to Stock");
 									}
+								} else
+								{
+									System.out.println("No Traning Start due to Resident");
 								}
 		//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							} else
@@ -1641,7 +1655,7 @@ public class Settlement //implements Serializable
 									building.addTrainCounter(1);
 								} else
 								{
-									
+									System.out.println("No Traning Consum");
 								}
 							}
 							break;

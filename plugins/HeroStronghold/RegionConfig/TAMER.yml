@@ -1,0 +1,21 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- WOODEN_DOOR.1
+- WALL_SIGN.1
+- GRASS.49
+- LOG.12
+- FENCE.24
+- CHEST.1
+reagents:
+- GOLD_NUGGET.1
+upkeep:
+- BREAD.1
+- BOWL.1
+upkeep-chance: 0.001
+output: []
+money-requirement: 500.0
+upkeep-money-output: 0.0

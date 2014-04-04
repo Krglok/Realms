@@ -1,7 +1,11 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
@@ -227,43 +231,36 @@ public class ConfigBasis implements ConfigInterface
 	@Override
 	public Boolean initConfigData()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public String getVersion()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public String getPluginName()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public ItemList getToolItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public ItemList getWeaponItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public ItemList getArmorItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override
 	public BuildPlanType regionToBuildingType(String regionTypeName)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -492,6 +489,8 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.WALL_SIGN.name(),0);
 		subList.addItem(Material.SIGN.name(),0);
 		subList.addItem(Material.SIGN_POST.name(),0);
+		subList.addItem(Material.LEATHER.name(),0);
+		subList.addItem(Material.IRON_INGOT.name(),0);
 
 //		subList.addItem(Material..name(),0);
 		
@@ -653,6 +652,12 @@ public class ConfigBasis implements ConfigInterface
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public  ArrayList<EntityType> getMobsToRepel() 
+	{
+		return null;
 	}
 
 	

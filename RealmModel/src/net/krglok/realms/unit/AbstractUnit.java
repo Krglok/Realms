@@ -80,17 +80,6 @@ public abstract class AbstractUnit implements IUnit
 	}
 	
 
-	@Override
-	public abstract void train();
-
-	@Override
-	public abstract void upgrade();
-
-	@Override
-	public abstract void attack();
-
-	@Override
-	public abstract void defend();
 	
 	/* (non-Javadoc)
 	 * @see net.krglok.realms.unit.iUnitData#getSpeed()
