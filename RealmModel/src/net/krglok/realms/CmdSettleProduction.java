@@ -79,14 +79,14 @@ public class CmdSettleProduction extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add("Item              | Last | Month | Store ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().getPeriodCount()+"]");
+		msg.add("Item              |    Day  |    Month |  Store ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().getPeriodCount()+"]");
 		for (BoardItem bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().values())
 		{
 			String name = ConfigBasis.setStrleft(bItem.getName()+"__________", 12);
-			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getLastValue()), 4);
-			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getCycleSum()), 4);
-			String period = ConfigBasis.setStrright(String.valueOf((int)  plugin.getRealmModel().getSettlements().getSettlement(settleId).getWarehouse().getItemList().getValue(bItem.getName())), 5);
-			msg.add(name +"|"+last+"|"+cycle+"|"+period+"|"+String.valueOf(plugin.getRealmModel().getSettlements().getSettlement(settleId).getWarehouse().getItemMax() / 5));
+			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getCycleSum()), 9);
+			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getPeriodSum()), 9);
+			String period = ConfigBasis.setStrright(String.valueOf((int)  plugin.getRealmModel().getSettlements().getSettlement(settleId).getWarehouse().getItemList().getValue(bItem.getName())), 6);
+			msg.add(name +"|"+last+"|"+cycle+"|"+period+"|");
 		}
 		msg.add("");
 		page = plugin.getMessageData().printPage(sender, msg, page);

@@ -1585,6 +1585,7 @@ public class Settlement //implements Serializable
 						
 						if (checkStock(prodFactor, ingredients))
 						{
+//							System.out.println("Prod " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 	//						iValue = item.value();
 							iValue = (int)((double) item.value() *prodFactor);
 							// berechne Verkaufpreis der Produktion

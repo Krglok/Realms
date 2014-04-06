@@ -390,7 +390,7 @@ public class SettleBreedingTest
 		regionTypes.put("4","HOME");
 		regionTypes.put("5","HOME");
 		regionTypes.put("6","HOME");
-//		regionTypes.put("7","HOME");
+		regionTypes.put("7","HOME");
 //		regionTypes.put("8","HOME");
 //		regionTypes.put("9","HOME");
 //		regionTypes.put("10","HOME");
@@ -398,14 +398,18 @@ public class SettleBreedingTest
 //		regionTypes.put("12","HOME");
 //		regionTypes.put("13","HOME");
 //		regionTypes.put("14","HOME");
+		regionTypes.put("61","WHEAT");
+		regionTypes.put("62","WHEAT");
+		regionTypes.put("63","WHEAT");
+		regionTypes.put("64","WHEAT");
 		regionTypes.put("65","WHEAT");
 		regionTypes.put("66","WHEAT");
-//		regionTypes.put("67","BAKERY");
-//		regionTypes.put("68","BAKERY");
-//		regionTypes.put("69","WHEAT");
-//		regionTypes.put("70","WHEAT");
-//		regionTypes.put("71","WHEAT");
-//		regionTypes.put("72","WHEAT");
+		regionTypes.put("67","BAKERY");
+		regionTypes.put("68","BAKERY");
+		regionTypes.put("69","WHEAT");
+		regionTypes.put("70","IRONMINE");
+		regionTypes.put("71","COALMINE");
+		regionTypes.put("72","SMELTER");
 		regionTypes.put("80","WOODCUTTER");
 		regionTypes.put("90","QUARRY");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
@@ -434,6 +438,10 @@ public class SettleBreedingTest
 		settle.getWarehouse().depositItemValue(Material.STICK.name(),settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue(Material.WOOD.name(),settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),settle.getResident().getSettlerMax());
+		settle.getWarehouse().depositItemValue(Material.COAL.name(),10);
+		settle.getWarehouse().depositItemValue(Material.BREAD.name(),1000);
+		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(),10);
+		settle.getWarehouse().depositItemValue("WOOD_PICKAXE",200);
 		
 		settle.getResident().setSettlerCount(5);
 		settle.setSettlerMax();

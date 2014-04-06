@@ -2,7 +2,7 @@ package net.krglok.realms.builder;
 
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
-import net.krglok.realms.manager.PlanMap;
+import net.krglok.realms.maps.PlanMap;
 
 /**
  * <pre>
@@ -29,7 +29,7 @@ public class SettleSchema
 	{
 		this.settleType = settleType;
 		this.radius = radius;
-		this.settlePlan = new PlanMap(settleType.name(), radius);
+		this.settlePlan = new PlanMap(settleType.name());
 		this.setbPositions(new BuildPositionList());
 	}
 	

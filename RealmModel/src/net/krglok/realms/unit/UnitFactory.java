@@ -22,14 +22,18 @@ public class UnitFactory
 		case MILITIA:
 			iUnit = erzeugeUnitConfig(uType);
 			unit.setHealth(HUMAN_HEALTH);
+			unit.setPower(10);
 			unit.setItemList(iUnit.getRequiredItems());
 			break;
 		case ARCHER:
 			iUnit = erzeugeUnitConfig(uType);
 			unit.setHealth(HUMAN_HEALTH);
+			unit.setPower(10);
 			unit.setItemList(iUnit.getRequiredItems());
 			break;
+		case COMMANDER:
 			
+			break;
 		case SETTLER:
 		default:
 			iUnit = erzeugeUnitConfig(uType);
@@ -49,7 +53,8 @@ public class UnitFactory
 		case MILITIA:
 			iUnit = new UnitMilitia();
 			break;
-
+		case COMMANDER :
+			iUnit = new UnitCommander();
 		case SETTLER:
 		default:
 			iUnit = new UnitSettler();

@@ -56,6 +56,7 @@ public class CommandRealms
 			new CmdSettleBuy(),
 			new CmdSettleCheck(),
 			new CmdSettleCreate(),
+			new CmdSettleDeleteBuild(),
 			new CmdSettleGetItem(),
 			new CmdSettleHelp(),
 			new CmdSettleInfo(),

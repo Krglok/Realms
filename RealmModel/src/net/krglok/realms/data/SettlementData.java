@@ -313,12 +313,15 @@ public class SettlementData
         	
         	UnitFactory uFactory = new UnitFactory();
 			Map<String,Object> uList = config.getConfigurationSection(settleSec+".unitlist").getValues(false);
-        	for (Object ref : uList.values())
-        	{
-        		String uType = (String) ref;
-        		settle.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
-                System.out.println(ref+":");
-        	}    
+			if (uList != null)
+			{
+	        	for (Object ref : uList.values())
+	        	{
+	        		String uType = (String) ref;
+	        		settle.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
+	//                System.out.println(ref+":");
+	        	}
+			}
 		} catch (Exception e)
 		{
 			 String name = "" ;
@@ -328,7 +331,7 @@ public class SettlementData
 				 name = st[0].getClassName()+":"+st[0].getMethodName();
 			 }
 			 System.out.println(name);
-			 System.out.println(e.getMessage());
+			 System.out.println("Exception "+e.getMessage());
 // 			plugin.getMessageData().errorFileIO(name, e);
 		}
 		return settle;

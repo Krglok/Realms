@@ -2,12 +2,16 @@ package net.krglok.realms;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.manager.PlanMap;
+import net.krglok.realms.maps.PlanMap;
+import net.krglok.realms.maps.ScanData;
+import net.krglok.realms.maps.ScanResult;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
 
 public class CmdRealmsMap extends RealmsCommand
 {
@@ -85,6 +89,13 @@ public class CmdRealmsMap extends RealmsCommand
 		return  ConfigBasis.getBlockId(b); 
 	}
 	
+	private void makeMap()
+	{
+		ItemStack itemStack = new ItemStack(Material.EMPTY_MAP);
+		// need a maprenderer
+//		Map 
+	}
+	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
@@ -99,9 +110,8 @@ public class CmdRealmsMap extends RealmsCommand
 			plugin.getMessageData().errorRegion(sender, this.subCommand());
 			return;
 		}
-		int radius = 64;
-		PlanMap planMap = new PlanMap(name, radius);
-		byte[][] cMap = planMap.getPlan();
+		PlanMap planMap = new PlanMap(name);
+		ScanResult[][] cMap = planMap.getPlan();
 		Location pos = new Location(sRegion.getLocation().getWorld(), sRegion.getLocation().getX(), sRegion.getLocation().getY(), sRegion.getLocation().getZ());
 //		pos = sRegion.getLocation();
 
@@ -111,54 +121,22 @@ public class CmdRealmsMap extends RealmsCommand
 		System.out.println("World "+pos.getWorld().getName()+" / "+pos.getX()+":"+pos.getY()+":"+pos.getZ());
 		System.out.println("2D Map of "+sRegion.getName()+"  "+sRegion.getType()+ " Sektor "+sektor);
 		
-		switch (sektor)
-		{
-		case 1: // sektor NordWest
-			posX = pos.getX()-PlanMap.getPlanSize(radius);
-			posY = pos.getY();
-			posZ = pos.getZ()-PlanMap.getPlanSize(radius);
-			break;
-		case 2:	// sektor NordOst
-			posX = pos.getX();
-			posY = pos.getY();
-			posZ = pos.getZ()-PlanMap.getPlanSize(radius);
-			break;
-		case 3:	// sektor suedOst
-			posX = pos.getX();
-			posY = pos.getY()-1;
-			posZ = pos.getZ();
-			break;
-		case 4:	// sektor SudWest
-			posX = pos.getX()-PlanMap.getPlanSize(radius);
-			posY = pos.getY();
-			posZ = pos.getZ();
-			break;
-		default :
-			break;
-		}
 		pos.setY(posY);
 		System.out.println("World "+pos.getWorld().getName()+" / "+posX+":"+posY+":"+posZ);
-
-		for (int i = 0 ; i < PlanMap.getPlanSize(radius); i++)
+		ScanResult scanResult = new ScanResult();
+		ScanData data = new ScanData();
+		for (int i = 0 ; i < 16; i++)
 		{
-			for (int j = 0; j < PlanMap.getPlanSize(radius) ; j++)
+			for (int j = 0; j < 16; j++)
 			{
 				pos.setX(posX+j);
 				pos.setZ(posZ+i);
-				cMap[i][j] = getBlockIdAt(pos);
-				if ((i==radius) && (j==radius))
-				{
-					cMap[i][j] = (byte) 255;
-				}
+				
+				data.blockMat = pos.getBlock().getType();
+				scanResult.getScanArray()[i][j] = data;
 			}
 		}
 //		System.out.println("World "+pos.getWorld().getName()+" / "+pos.getX()+":"+pos.getZ());
-		for (int i = 0; i < PlanMap.getPlanSize(radius); i++)
-		{
-			System.out.print(ConfigBasis.showPlanValue(cMap[i]));
-		}
-		PlanMap.writePlanData(name, radius, cMap, path, sektor);
-		System.out.println("File "+path+":"+name);
 	}
 
 	@Override

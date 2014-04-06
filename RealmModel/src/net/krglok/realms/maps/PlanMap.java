@@ -1,7 +1,8 @@
-package net.krglok.realms.manager;
+package net.krglok.realms.maps;
 
 import java.io.File;
 import java.util.Map;
+
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
@@ -12,10 +13,11 @@ public class PlanMap
 {
 
 	private static final String DEFAULT_PLAN_NAME = "Default";
-	private static final int DEFAULT_PLAN_RADIUS = 32;
+	private static final int DEFAULT_PLAN_EDGE = 20;
 	private String name ;
-	private int radius;
-	private byte[][] plan;
+	private static int edge;
+	private ScanResult[][] plan;
+//	private plan[][] planSet;
 	private boolean isInit;
 	private int sektor;
 	
@@ -25,7 +27,7 @@ public class PlanMap
 	public PlanMap()
 	{
 		this.name = DEFAULT_PLAN_NAME;
-		this.radius = DEFAULT_PLAN_RADIUS;
+		this.edge = DEFAULT_PLAN_EDGE;
 		isInit = false;
 	}
 	
@@ -36,16 +38,16 @@ public class PlanMap
 	 * @param radius
 	 * @param plan
 	 */
-	public PlanMap(String name, int radius, byte[][] plan, int sektor)
+	public PlanMap(String name, int radius, ScanResult[][] plan, int sektor)
 	{
 		super();
 		this.name = name;
-		this.radius = radius;
+		this.edge = radius;
 		this.plan = plan;
 		this.setSektor(sektor);
 		if (plan == null)
 		{
-			plan = new byte[PlanMap.getPlanSize(radius)][PlanMap.getPlanSize(radius)];
+			plan = new ScanResult[edge][edge];
 			isInit = false;
 		} else
 		{
@@ -60,14 +62,13 @@ public class PlanMap
 	 * @param name
 	 * @param radius
 	 */
-	public PlanMap(String name, int radius)
+	public PlanMap(String name)
 	{
 		super();
 		this.name = name;
-		this.radius = radius;
 		if (plan == null)
 		{
-			plan = new byte[PlanMap.getPlanSize(radius)][PlanMap.getPlanSize(radius)];
+			plan = new ScanResult[edge][edge];
 			isInit = false;
 		} else
 		{
@@ -76,11 +77,7 @@ public class PlanMap
 	}
 	
 	
-	public static int getPlanSize(int radius)
-	{
-		return (2 * radius);
-	}
-	
+
 	public String getName()
 	{
 		return name;
@@ -91,22 +88,18 @@ public class PlanMap
 		this.name = name;
 	}
 
-	public int getRadius()
+	public static int getEdge()
 	{
-		return radius;
+		return edge;
 	}
 
-	public void setRadius(int radius)
-	{
-		this.radius = radius;
-	}
 
-	public byte[][] getPlan()
+	public ScanResult[][] getPlan()
 	{
 		return plan;
 	}
 
-	public void setPlan(byte[][] plan)
+	public void setPlan(ScanResult[][] plan)
 	{
 		this.plan = plan;
 	}
@@ -152,7 +145,7 @@ public class PlanMap
             config.set(MemorySection.createPath(headerSec, "radius"),radius);
             config.set(MemorySection.createPath(headerSec, "name"),name);
             ConfigurationSection planSec = config.createSection(base);
-            for (int i = 0; i < getPlanSize(radius); i++)
+            for (int i = 0; i < edge; i++)
 			{
             	config.set(MemorySection.createPath(planSec, String.valueOf(i)),planMap[i]);
             }
@@ -171,18 +164,6 @@ public class PlanMap
 
 	}
 	
-//	private byte[] getStroreString(String sRow, int radius)
-//	{
-//		byte[] planRow = new byte[radius];
-//		char[] charRow = new char[radius];
-//		
-//		charRow = sRow.toCharArray();
-//		for (int i = 0; i < charRow.length; i++)
-//		{
-//			planRow[i] = (byte) charRow[i];
-//		}
-//		return planRow;
-//	}
 
 	private static int readPlanRadius(String name, String path, int sektor)  
 	{
@@ -209,7 +190,7 @@ public class PlanMap
 		return  0;
 	}
 	
-	private static byte[][] readPlanData(String name, String path , int sektor)  
+	private static ScanResult[][] readPlanData(String name, String path , int sektor)  
 	{
 //        String base = "PLAN";
         String base = String.valueOf(sektor);
@@ -232,13 +213,13 @@ public class PlanMap
             	int radius = config.getInt("HEADER"+"."+"radius",0);
 //            	this.name = config.getString("HEADER"+"."+"name","");
             	
-            	byte[][] planMap = new byte[getPlanSize(radius)][getPlanSize(radius)];
+            	ScanResult[][] planMap = new ScanResult[edge][edge];
 	            if (config.isConfigurationSection(base))
 	            {
 	    			Map<String,Object> buildings = config.getConfigurationSection(base).getValues(false);
 	            	for (String ref : buildings.keySet())
 	            	{
-	            		planMap[Integer.valueOf(ref)] = (byte[]) config.get(base+"."+ref);
+	            		planMap[Integer.valueOf(ref)] = (ScanResult[]) config.get(base+"."+ref);
 	            	}
 	            }
 	    		return planMap;
@@ -252,11 +233,7 @@ public class PlanMap
 	public static PlanMap readPlanMap(String path, String name, int sektor)
 	{
 		int radius = readPlanRadius(name, path, sektor);
-		byte[][] plan = readPlanData(name, path, sektor );
-		if (radius == 0)
-		{
-			radius = DEFAULT_PLAN_RADIUS;
-		}
+		ScanResult[][] plan = readPlanData(name, path, sektor );
 		return new PlanMap(name, radius,plan, sektor);
 	}
 	

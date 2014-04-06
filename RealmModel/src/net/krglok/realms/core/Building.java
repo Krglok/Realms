@@ -761,6 +761,7 @@ public class Building  implements Serializable
 		for (String itemRef : outValues.keySet())
 		{
 			items.addItem(itemRef, outValues.getValue(itemRef));
+//			System.out.println("Buildng: " +itemRef+":"+outValues.getValue(itemRef));
 		}
 		return items;
 	}

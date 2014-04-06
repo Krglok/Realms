@@ -3,13 +3,16 @@
 #------------------#
 # updatecheck, check for new version and give a message to the server console #
 updatecheck: true
+#
 # autoupdate, is not implemented now and should always false #
 autoupdate: false
+#
+# new option for protokoll files 
 # logList, if true all production and orders and happiness on every production cycle will be stored
 loglist: false 
 
 plugin_name: "Realms"
-plugin_ver : "0.2.0"
+plugin_ver : "0.8.4"
 realmCounter: 0
 settlementCounter: 0
 buildingCounter: 0

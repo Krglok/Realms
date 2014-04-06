@@ -1,7 +1,7 @@
 package net.krglok.realms.tool;
 
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.manager.PlanMap;
+import net.krglok.realms.maps.PlanMap;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -280,7 +280,7 @@ public class SettlePlanTest
 
 		System.out.println("Read File : "+name);
 		PlanMap planMap = PlanMap.readPlanMap(path, name, sektor);
-		mapPlan = planMap.getPlan();
+//		mapPlan = planMap.getPlan();
 		if (mapPlan == null)
 		{
 			System.out.println("Error Read File : "+name);

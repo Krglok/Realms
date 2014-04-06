@@ -40,7 +40,13 @@ public class UnitBattleTest {
  
 		}
 		System.out.println("|");
-		System.out.println("-");
+		if (battle.isNextAttack() == false)
+		{
+			System.out.println("|> ESCAPE  |");
+		} else
+		{
+			System.out.println("|> ATTACK  |");
+		}
 	}
 
 	private void showBattleHeader(BattleSetup battle)
@@ -51,6 +57,30 @@ public class UnitBattleTest {
 			System.out.print("|"+ConfigBasis.setStrright(bPos.name(), 10));
 		}
 		System.out.println("|");
+		for (BattleFieldPosition bPos : BattleFieldPosition.values())
+		{
+			if (battle.getAttacker().getUnitPlacement().get(bPos) != null)
+			{
+				System.out.print("|"+ConfigBasis.setStrright(battle.getAttacker().getUnitPlacement().get(bPos).size(), 10));
+			} else
+			{
+				System.out.print("|"+ConfigBasis.setStrleft(" ", 10));
+			}
+		}
+		System.out.println("|");
+		for (BattleFieldPosition bPos : BattleFieldPosition.values())
+		{
+			if (battle.getDefender().getUnitPlacement().get(bPos) != null)
+			{
+				System.out.print("|"+ConfigBasis.setStrright(battle.getDefender().getUnitPlacement().get(bPos).size(),10));
+			} else
+			{
+				System.out.print("|"+ConfigBasis.setStrleft(" ", 10));
+			}
+ 
+		}
+		System.out.println("|");
+		System.out.println(">");
 	}
 
 	private BattlePlacement getAttackers()
@@ -60,6 +90,8 @@ public class UnitBattleTest {
 	
 		
 		UnitList unitList = new UnitList();
+		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
 		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
 		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
 		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
@@ -101,11 +133,7 @@ public class UnitBattleTest {
 		battle.setDefender(getDefenders());
 		System.out.print("BattleStatus");
 		showBattleHeader(battle);
-//		battle.startBattle();
-		showBattleStatus(battle);
-		battle.run();
-		showBattleStatus(battle);
-//		battle.startBattle();
+		battle.startBattle();
 		battle.run();
 		showBattleStatus(battle);
 		battle.run();
@@ -114,9 +142,10 @@ public class UnitBattleTest {
 		showBattleStatus(battle);
 		battle.run();
 		showBattleStatus(battle);
-//		battle.run();
-//		showBattleStatus(battle);
-		
+		battle.run();
+		showBattleStatus(battle);
+		battle.run();
+		showBattleStatus(battle);
 		fail("Not yet implemented");
 	}
 

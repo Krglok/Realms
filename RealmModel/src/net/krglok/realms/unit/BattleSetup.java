@@ -8,6 +8,7 @@ public class BattleSetup
 	private BattleStatus battleStatus;
 	private BattlePlacement attackers;
 	private BattlePlacement defenders;
+	private boolean isNextAttack = false;
 	
 	
 	public BattleSetup()
@@ -61,6 +62,7 @@ public class BattleSetup
 	
 	public void run()
 	{
+		setNextAttack(false);
 		battleStatus = BattleStatus.PRE_BATTLE;
 		for (int i= 0; i < BattleStatus.values().length; i++)
 		{
@@ -86,11 +88,47 @@ public class BattleSetup
 				battleStatus = BattleStatus.POST_BATTLE;
 				break;
 			case POST_BATTLE:
+				postBattle( attackers,  defenders);
 				battleStatus = BattleStatus.NONE;
 				break;
 			default:
 				battleStatus = BattleStatus.NONE;
 			}
+		}
+	}
+	
+	private void postBattle(BattlePlacement attacker, BattlePlacement defender)
+	{
+		int attackPower = 0;
+		int defendPower = 0;
+		for (BattleFieldPosition bPos : attacker.getUnitPlacement().keySet())
+		{
+			if ((attacker.getUnitPlacement().get(bPos) != null))
+			{
+				for (Unit unit : attacker.getUnitPlacement().get(bPos))
+				{
+					attackPower = attackPower + unit.getPower();
+				}
+			}			
+		}
+		for (BattleFieldPosition bPos : defender.getUnitPlacement().keySet())
+		{
+			if ((defender.getUnitPlacement().get(bPos) != null))
+			{
+				for (Unit unit : defender.getUnitPlacement().get(bPos))
+				{
+					defendPower = defendPower + unit.getPower();
+				}
+			}			
+		}
+		if(attackPower < defendPower)
+		{
+//			System.out.println("Attacker "+attackPower+ " :"+"DefendPower "+defendPower);
+			setNextAttack(false);
+		} else
+		{
+//			System.out.println("Attacker "+attackPower+ " :"+"DefendPower "+defendPower);
+			setNextAttack(true);
 		}
 	}
 	
@@ -148,8 +186,11 @@ public class BattleSetup
 		{
 			if (attacker.getUnitPlacement().get(bPos) != null)
 			{
-				targetPos = BattleFieldPosition.getDistanceTargetPos(bPos);
-				calcDistant( attacker.getUnitPlacement().get(bPos),  defender, targetPos);
+				if (attacker.getUnitPlacement().get(bPos).get(0).getUnitType() == UnitType.ARCHER)
+				{
+					targetPos = BattleFieldPosition.getDistanceTargetPos(bPos);
+					calcDistant( attacker.getUnitPlacement().get(bPos),  defender, targetPos);
+				}
 			}
 		}
 	}
@@ -261,6 +302,10 @@ public class BattleSetup
 
 	private void calcLoss(int damage , UnitList defendUnits)
 	{
+		if (damage == 0)
+		{
+			return;
+		}
 		for (int i = 0; i < defendUnits.size(); i++) 
 		{
 			if (damage > HUMAN_HEALTH)
@@ -280,6 +325,16 @@ public class BattleSetup
 				defendUnits.remove(i);
 			}
 		}
+	}
+
+
+	public boolean isNextAttack() {
+		return isNextAttack;
+	}
+
+
+	public void setNextAttack(boolean isNextAttack) {
+		this.isNextAttack = isNextAttack;
 	}
 
 }

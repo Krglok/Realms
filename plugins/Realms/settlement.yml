@@ -340,7 +340,7 @@ SETTLEMENT:
     id: 1
     settleType: HAMLET
     position: Draskoriascraft:-260.0:77.0:-102.0
-    biome: MEGA_TAIGA
+    biome: PLAINS
     age: 92
     name: NewHeaven
     isCapital: false
@@ -785,7 +785,7 @@ SETTLEMENT:
     id: 3
     settleType: HAMLET
     position: Draskoriascraft:-221.0:63.0:563.0
-    biome: ROOFED_FOREST
+    biome: FOREST
     age: 92
     name: WaldHeim
     isCapital: false

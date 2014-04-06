@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
@@ -21,7 +22,7 @@ import org.junit.Test;
 public class SettlementBaeckerTest
 {
 
-	private Boolean isOutput = false; // set this to false to suppress println
+	private Boolean isOutput = true; // set this to false to suppress println
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
 	@Test
@@ -38,14 +39,30 @@ public class SettlementBaeckerTest
 	
 		HashMap<String,String> regionTypes = new HashMap<String,String>();   //testData.defaultRegionList();
 		regionTypes.put("1","HALL");
-		regionTypes.put("2","HOME");
+		regionTypes.put("2","WAREHOUSE");
+		regionTypes.put("3","HOME");
+		regionTypes.put("4","HOME");
+		regionTypes.put("5","HOME");
 		regionTypes.put("6","HOME");
 		regionTypes.put("7","HOME");
+		regionTypes.put("10","WHEAT");
+		regionTypes.put("11","WHEAT");
+		regionTypes.put("12","WHEAT");
+		regionTypes.put("13","WHEAT");
+		regionTypes.put("14","WHEAT");
+		regionTypes.put("15","WHEAT");
 		regionTypes.put("16","WHEAT");
-		regionTypes.put("9","WAREHOUSE");
-//		regionTypes.put("31","bauern_haus");
-		regionTypes.put("51","BAKERY");
-//		regionTypes.put("52","haus_baecker");
+		regionTypes.put("20","BAKERY");
+		regionTypes.put("30","WOODCUTTER");
+		regionTypes.put("31","WOODCUTTER");
+		regionTypes.put("32","WOODCUTTER");
+		regionTypes.put("33","WOODCUTTER");
+		regionTypes.put("34","WOODCUTTER");
+		regionTypes.put("35","CARPENTER");
+		regionTypes.put("40","PICKAXESHOP");
+		regionTypes.put("50","COALMINE");
+		regionTypes.put("51","IRONMINE");
+		regionTypes.put("52","SMELTER");
 		
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
@@ -87,10 +104,13 @@ public class SettlementBaeckerTest
 		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 256);
 		
 		settle.doProduce(server);
-//		settle.doProduce(server);
-//		settle.doProduce(server);
+		settle.doProduce(server);
+		settle.doProduce(server);
+		settle.doProduce(server);
+		settle.doProduce(server);
+		settle.doProduce(server);
 		
-		int expected = 21;
+		int expected = 2;
 		int actual = settle.getWarehouse().getItemList().getValue(Material.BREAD.name()); 
 		isOutput = (expected !=  actual);
 		if (isOutput)
@@ -109,7 +129,11 @@ public class SettlementBaeckerTest
 			System.out.println("=Production Overview =");
 			for (BoardItem bItem : settle.getProductionOverview().values())
 			{
-				System.out.println(bItem.getName()+":"+bItem.getLastValue());
+				System.out.print(ConfigBasis.setStrleft(bItem.getName(),12));
+				System.out.print("|"+ConfigBasis.setStrright(bItem.getLastValue(),9));
+				System.out.print("|"+ConfigBasis.setStrright(bItem.getCycleSum(),9));
+				System.out.print("|"+ConfigBasis.setStrright(settle.getWarehouse().getItemList().getValue(bItem.getName()),7));
+				System.out.println("");
 			}
 		}
 		

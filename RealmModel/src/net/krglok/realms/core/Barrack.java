@@ -64,6 +64,14 @@ public class Barrack
 		this.unitList = unitList;
 	}
 
+	public void addUnitList(UnitList addList)
+	{
+		for (Unit unit : addList)
+		{
+			this.unitList.add(unit); 
+		}
+	}
+
 	public boolean addUnit(Unit unit)
 	{
 		if (unitList.size()+1 < unitMax)

@@ -6,22 +6,24 @@ effects:
 - denyblockbreak.1
 - denyplayerinteract.1
 - denyfriendlyfire.1
-radius: 4
+radius: 9
 requirements:
-- FURNACE.3
-- CHEST.3
-- LOG.16
-- STONE.49
+- LADDER.17
+- CHEST.2
+- LOG.22
+- STONE.50
+- IRON_ORE.25
 - WALL_SIGN.1
 reagents:
-- GOLD_NUGGET.1
-- STONE_PICKAXE.1
+- GOLD_NUGGET.10
 upkeep:
-- BREAD.1
-- COAL.5
-- IRON_ORE.32
+- BREAD.5
+- WOOD_PICKAXE.5
 upkeep-chance: 0.001
 output:
-- IRON_INGOT.32
-money-requirement: 5000.0
+- COBBLESTONE.10
+- IRON_ORE.16
+- FLINT.2
+- COAL.2
+money-requirement: 1000000.0
 upkeep-money-output: 0.0
