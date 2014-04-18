@@ -1,10 +1,12 @@
-package net.krglok.realms.data;
+package net.krglok.realms.unittest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 //import java.util.logging.Logger;
 
 import net.krglok.realms.RealmsSubCommandType;
+import net.krglok.realms.data.MessageInterface;
+import net.krglok.realms.data.MessageText;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

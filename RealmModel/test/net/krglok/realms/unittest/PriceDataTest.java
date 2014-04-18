@@ -6,7 +6,6 @@ import java.util.Map;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;

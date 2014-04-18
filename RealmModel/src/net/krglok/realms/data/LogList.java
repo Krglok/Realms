@@ -3,10 +3,18 @@ package net.krglok.realms.data;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
 
+import org.apache.logging.log4j.core.LoggerContext;
+
+import lib.PatPeter.SQLibrary.Database;
+import lib.PatPeter.SQLibrary.SQLite;
+
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 
 /**
@@ -24,6 +32,7 @@ import net.krglok.realms.core.LocationData;
  */
 public class LogList
 {
+	private Database sql;
 	private ArrayList<String> prodList;
 	private ArrayList<String> happyList;
 	private ArrayList<String> orderList;
@@ -35,8 +44,18 @@ public class LogList
     
     private int index;
     
+    private boolean isSql = false;
+    
 	public LogList(String path )
 	{
+//		public SQLite(Logger log, String prefix, String directory, String filename) 
+//		Logger logger = Logger.getAnonymousLogger();
+//		sql = new SQLite(logger, 
+//	             "[Realms] ", 
+//	             path, 
+//	             "realms" 
+//	             );
+
 		isLogList = false;
 		index = 0;
 		Date date = new Date();
@@ -45,6 +64,16 @@ public class LogList
 		prodList = new ArrayList<String>();
 		happyList = new ArrayList<String>();
 		orderList = new ArrayList<String>();
+//		if (sql.isOpen() == false)
+//		{
+//			isSql = true;
+//			if (sql.open() == false)
+//			{
+//				isSql = false;
+//				System.out.println("[REALMS] No Database found !");
+//			}
+//		}
+		
 	    File prodFile = new File(path, "production_"+formattedDate+".csv");
 	    if (prodFile.exists()== false) 
 	    {
@@ -194,9 +223,44 @@ public class LogList
 				+";" + String.valueOf(value)
 				+";" + String.valueOf(age)
 				;
-		this.prodList.add(transaction);
+		if (isSql == false)
+		{
+			this.prodList.add(transaction);
+		} else
+		{
+			transaction = ConfigBasis.makeSqlString(formattedDate)  
+					+"," + ConfigBasis.makeSqlString(DataType)
+					+"," + ConfigBasis.makeSqlString(user )
+					+"," + ConfigBasis.makeSqlString(text )
+					+"," + ConfigBasis.makeSqlString(String.valueOf(SettleId)) 
+					+"," + ConfigBasis.makeSqlString(String.valueOf(buildingId)) 
+					+"," + ConfigBasis.makeSqlString(itemRef )
+					+"," + ConfigBasis.makeSqlString(String.valueOf(value))
+					+"," + ConfigBasis.makeSqlString(String.valueOf(age))
+					;
+			String tablename = "production";
+			String fields = "(date,context,user,building, building_id,region_id,item,amount,age) ";
+			String values = " VALUES ("+transaction +")";
+			String query = "INSERT INTO "+tablename+fields + values;
+			try {
+				if (sql.isTable(tablename) == true)
+				{
+					sql.insert(query);
+				} else
+				{
+					System.out.println("[REALMS] tablle not found "+tablename);
+				}
+				
+			} catch (SQLException e) 
+			{
+				System.out.println(e.getMessage());
+				System.out.println("[REALMS] Loglist addProduction");
+			}
+			
+		}
 	}
 
+	
 	private void addProductionSale(String text,int SettleId, int buildingId,  double value , String user, long age)
 	{
 		String DataType = "SALE";
@@ -300,6 +364,11 @@ public class LogList
 		return prodList.size();
 	}
 	
+		
+	public boolean isSql() {
+		return isSql;
+	}
+
 	/**
 	 * Write LogDat to File
 	 * normally used by onTick;

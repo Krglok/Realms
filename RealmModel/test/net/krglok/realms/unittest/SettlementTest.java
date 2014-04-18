@@ -21,9 +21,7 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.LogList;
-import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;

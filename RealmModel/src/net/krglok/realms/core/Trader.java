@@ -305,6 +305,8 @@ public class Trader
 	
 	/**
 	 * Versucht eine sellOrder zu finden fuer seine buyOrder
+	 * hierbei wird die Distanz als Sort kriterium genommen, so dass die nächsten
+	 * Settlements als erste berücksichtigt werden.
 	 * prueft Anzahl der Caravan
 	 * prueft Verkaufpreis <= Kaufpreis
 	 * prueft VerkaufMenge >= Kaufmenge 
@@ -312,16 +314,18 @@ public class Trader
 	 * @param tradeTransport
 	 * @param settle
 	 */
-	public void checkMarket(TradeMarket tradeMarket, TradeTransport tradeTransport, Settlement settle,SettlementList settlements )
+	public void checkMarket(TradeMarket tm, TradeTransport tradeTransport, Settlement settle,SettlementList settlements )
 	{
 		double distance = 0.0;
+		TradeMarket tradeMarket = tm.getDistantOrders(settlements, settle.getId());
 		TradeOrder foundOrder = null;
 		if (tradeMarket.isEmpty())
 		{
 			return;
 		}
-		for (TradeMarketOrder tmo : tradeMarket.values())
+		for (String sRef : tradeMarket.sortItems())
 		{
+			TradeMarketOrder tmo = tradeMarket.get(Integer.valueOf(sRef));
 			foundOrder = checkBuyOrder(tmo.ItemRef(), tmo.value(), tmo.getBasePrice());
 			if ( foundOrder != null)
 			{

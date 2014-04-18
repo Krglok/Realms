@@ -2,6 +2,7 @@ package net.krglok.realms.unit;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.Bank;
 import net.krglok.realms.core.Barrack;
 import net.krglok.realms.core.BoardItemList;
@@ -15,6 +16,7 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Trader;
 import net.krglok.realms.core.Warehouse;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
@@ -67,14 +69,14 @@ public class Regiment {
 	private String world;
 	private Biome biome;
 	private long age;
-	private BuildManager buildManager;
+	private Colony colonist;
 	private BattleSetup battle;
 	private Unit commander = null;
 	
 	private int settleId = -1;
 	
 	
-	public Regiment() 
+	public Regiment(LogList logList) 
 	{
 		super();
 		lfdID++;
@@ -90,14 +92,14 @@ public class Regiment {
 		this.isEnabled  = true;
 		this.isActive   = true;
 		this.battleOverview = new BoardItemList();
-		this.buildManager = new BuildManager();
+		this.colonist =  Colony.newCamp(this.name, this.owner, logList);
 		this.battle 	= new BattleSetup();
 
 	}
 
-	public static Regiment makeRaider()
+	public static Regiment makeRaider(LogList logList)
 	{
-		Regiment regiment = new Regiment();
+		Regiment regiment = new Regiment(logList);
 		UnitList militiaList = makeMilitia(10);
 		regiment.getBarrack().addUnitList(militiaList);
 		UnitList settlerList = makeSettler(10);
@@ -210,6 +212,7 @@ public class Regiment {
 
 	public void setName(String name) {
 		this.name = name;
+		this.colonist.setName(name);
 	}
 
 
@@ -222,6 +225,7 @@ public class Regiment {
 
 	public void setOwner(String owner) {
 		this.owner = owner;
+		this.colonist.setOwner(owner);
 	}
 
 
@@ -382,14 +386,8 @@ public class Regiment {
 
 
 
-	public BuildManager getBuildManager() {
-		return buildManager;
-	}
-
-
-
-	public void setBuildManager(BuildManager buildManager) {
-		this.buildManager = buildManager;
+	public Colony getColonist() {
+		return colonist;
 	}
 
 
@@ -423,7 +421,10 @@ public class Regiment {
 			
 			break;
 		case CAMP :
-			
+			doCamp(rModel);
+			break;
+		case UNCAMP:
+			colonist.run(rModel, warehouse);
 			break;
 		case MOVE :
 			
@@ -447,6 +448,6 @@ public class Regiment {
 	
 	private void doCamp(RealmModel rModel)
 	{
-		
+		colonist.run(rModel, warehouse);
 	}
 }

@@ -2,6 +2,7 @@ package net.krglok.realms.manager;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.maps.ScanResult;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unit.Regiment;
@@ -36,11 +37,14 @@ public class RegimentManager {
 			if (regiment.getPosition().getWorld() == "")
 			{
 				getNewPosition(rModel, regiment, targetId);
-				
+				regiment.setRegStatus(RegimentStatus.SEARCHPOS);
 				
 			}
 		}
-		
+		if (regiment.getRegStatus() ==  RegimentStatus.SEARCHPOS)
+		{
+			doSearchPos( rModel,  regiment);
+		}
 	}
 	
 	private void getNewPosition(RealmModel rModel, Regiment regiment, int targetId)
@@ -59,6 +63,17 @@ public class RegimentManager {
 					targetId = maxPos;
 				}
 			}
+			LocationData settlePos = rModel.getSettlements().getSettlement(targetId).getPosition();
+			settlePos.setX(settlePos.getX()+120);
+			settlePos.setZ(settlePos.getZ()+120);
+			regiment.setPosition(settlePos);
 		}
+		
 	}
+	
+	private void doSearchPos(RealmModel rModel, Regiment regiment)
+	{
+		
+	}
+	
 }

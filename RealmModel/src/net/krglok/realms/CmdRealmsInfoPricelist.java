@@ -87,8 +87,10 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 		final BookMeta bm = (BookMeta) book.getItemMeta();
 		msg.add(ConfigBasis.setStrleft(" Trade  Pricelist ", 19));
 		msg.add(ConfigBasis.setStrleft(" of the Settlements ", 19));
-		for (ItemPrice item : plugin.getData().getPriceList().values())
+		ArrayList<String> sortItems = plugin.getData().getPriceList().sortItems();
+		for (String itemRef : sortItems)
 		{
+			ItemPrice item = plugin.getData().getPriceList().get(itemRef);
 			String sLine = "";
 			sLine = ConfigBasis.setStrleft(item.ItemRef()+"________",9)+":§a "+item.getFormatedBasePrice()+"§0 ";
 			msg.add(sLine);

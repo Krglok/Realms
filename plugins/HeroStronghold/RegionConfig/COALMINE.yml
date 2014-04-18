@@ -10,6 +10,7 @@ radius: 9
 requirements:
 - LADDER.17
 - CHEST.2
+- BEDROCK.1
 - LOG.22
 - STONE.50
 - COAL_ORE.50
@@ -25,5 +26,5 @@ output:
 - IRON_ORE.1
 - FLINT.2
 - COAL.32
-money-requirement: 500000.0
+money-requirement: 10000.0
 upkeep-money-output: 0.0

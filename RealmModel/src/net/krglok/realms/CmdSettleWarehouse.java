@@ -84,8 +84,9 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    {
 			msg.add("Settlement ["+settle.getId()+"] : "+settle.getName());
 			msg.add(settle.getName()+" Warehouse  [ "+settle.getWarehouse().getUsedCapacity() +" ]");
-		    for (Item item : settle.getWarehouse().getItemList().values())
+		    for (String itemref : settle.getWarehouse().sortItems())
 		    {
+		    	Item item = settle.getWarehouse().getItemList().get(itemref);
 	    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",15)+" : "+ChatColor.YELLOW+item.value());
 		    }
 	    }

@@ -1,4 +1,4 @@
-package net.krglok.realms.data;
+package net.krglok.realms.unittest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +9,10 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.data.RecipeData;
+import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.data.StrongholdTools;
 import net.krglok.realms.tool.SuperRegionData;
-import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -13,7 +13,8 @@ public enum SettleType
 	TOWN (100),
 	CITY (200),
 	CASTLE (250),
-	METROPOLIS (300)
+	METROPOLIS (300),
+	CAMP (500)
 	;
 	
 	private final int value;

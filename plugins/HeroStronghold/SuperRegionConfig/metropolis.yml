@@ -27,4 +27,6 @@ child-regions:
 - City
 - Hamlet
 - Town
+- Camp
+- Castle
 exp: 25000

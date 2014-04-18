@@ -23,7 +23,6 @@ import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.core.TradeType;
 import net.krglok.realms.core.Trader;
-import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.LogList;
 
 import org.bukkit.block.Biome;
@@ -222,4 +221,84 @@ public class TraderTest
 		assertEquals(expected, actual);
 	}
 	
+	@Test
+	public void testcheckDistanceOrder()
+	{
+//		ServerTest server = new ServerTest();
+		Settlement sender = createSettlement();
+		Settlement target = createSettlement();
+		Settlement second = createSettlement();
+		sender.setId(0);
+		target.setId(1);
+		second.setId(2);
+		target.getBank().depositKonto(10000.0, "Admin",target.getId());
+		sender.getBank().depositKonto(10000.0, "Admin",sender.getId());
+		second.getBank().depositKonto(10000.0, "Admin",second.getId());
+		
+		SettlementList setteList = new SettlementList(0);
+		setteList.addSettlement(sender);
+		setteList.addSettlement(target);
+		setteList.addSettlement(second);
+		sender.setPosition(new LocationData("SteamHaven", -469.51819223615206, 72, -1236.6592548015324));
+		target.setPosition(new LocationData("SteamHaven", -121.6704984377348, 103, -1320.300000011921));
+		second.setPosition(new LocationData("SteamHaven", 121.6704984377348, 103, -132.300000011921));
+
+		sender.getWarehouse().depositItemValue("WOOD", 1000);
+		sender.getWarehouse().depositItemValue("WHEAT", 1000);
+		sender.getWarehouse().depositItemValue("LOG", 1000);
+		
+		second.getWarehouse().depositItemValue("WOOD", 1000);
+		second.getWarehouse().depositItemValue("WHEAT", 1000);
+		second.getWarehouse().depositItemValue("LOG", 1000);
+		
+		TradeTransport tpo = new TradeTransport();
+		TradeMarket tm = new TradeMarket();
+		int orderId = -1;
+		TradeOrder sellOrder = new TradeOrder(orderId, TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		sender.getTrader().makeSellOrder(tm, sender, sellOrder);
+		TradeOrder sellOrder1 = new TradeOrder(orderId, TradeType.SELL, "WHEAT", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		sender.getTrader().makeSellOrder(tm, sender, sellOrder1);
+		TradeOrder sellOrder2 = new TradeOrder(orderId, TradeType.SELL, "LOG", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		sender.getTrader().makeSellOrder(tm, sender, sellOrder2);
+
+		TradeOrder sellOrder4 = new TradeOrder(orderId, TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		second.getTrader().makeSellOrder(tm, second, sellOrder4);
+		TradeOrder sellOrder5 = new TradeOrder(orderId, TradeType.SELL, "WHEAT", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		second.getTrader().makeSellOrder(tm, second, sellOrder5);
+		TradeOrder sellOrder6 = new TradeOrder(orderId, TradeType.SELL, "LOG", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		second.getTrader().makeSellOrder(tm, second, sellOrder6);
+
+//		target.getTrader().getBuyOrders().put(3, new TradeOrder(3, TradeType.BUY, "WOOD", 64 , 0.5 , ConfigBasis.GameDay, 0L, TradeStatus.STARTED, "",0));
+
+		
+
+		TradeStatus expected = TradeStatus.NONE;
+		TradeStatus actual = TradeStatus.DECLINE;
+		
+		
+		if (expected != actual)
+		{
+			System.out.println("---makeDistantOrder----["+tm.size()+"]");
+			for (int ref : tm.keySet())
+			{
+				TradeMarketOrder tmo = tm.get(ref);
+				System.out.println(ref+"|"+tmo.getSettleID() +"|"+tmo.getStatus()+"|"+tmo.ItemRef()+": "+tmo.value()+" : "+tmo.getBasePrice()+" -:"+tmo.getTickCount()+"/"+tmo.getMaxTicks());
+			}
+
+			TradeMarket distTm = tm.getDistantOrders(setteList, target.getId());
+
+		
+			System.out.println("---makeDistantOrder----["+distTm.size()+"]");
+			for (String sRef : distTm.sortItems())
+			{
+				int ref = Integer.valueOf(sRef);
+				TradeMarketOrder tmo = distTm.get(ref);
+				System.out.println(ref+"|"+tmo.getSettleID() +"|"+tmo.getStatus()+"|"+tmo.ItemRef()+": "+tmo.value()+" : "+tmo.getBasePrice()+" -:"+tmo.getTickCount()+"/"+tmo.getMaxTicks());
+			}
+		
+			
+		}
+		assertEquals(expected, actual);
+	}
+
 }

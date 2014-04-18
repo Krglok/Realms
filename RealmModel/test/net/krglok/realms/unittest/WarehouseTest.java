@@ -6,7 +6,6 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.data.ConfigTest;
 import org.junit.Test;
 
 public class WarehouseTest
@@ -113,7 +112,7 @@ public class WarehouseTest
 			warehouse.depositItemValue(itemRef, value);
 			lastRef = itemRef;
 		}
-		Boolean expected = true;
+		Boolean expected = false;
 		Boolean actual = warehouse.depositItemValue(lastRef, i);
 		if (expected != actual)
 		{
@@ -129,12 +128,13 @@ public class WarehouseTest
 		}
 		String[][] dataRows = new String[warehouse.getItemList().size()][3];
 		int index = 0;
-		for (Item item : warehouse.getItemList().values())
+		for (String Ref : warehouse.getItemList().sortItems())
 		{
+			Item item = warehouse.getItemList().get(Ref);
 			if (index <100)
 			{
 				dataRows[index][0] = ConfigBasis.setStrleft(item.ItemRef(),15);
-				dataRows[index][1] = ConfigBasis.setStrright(item.value(),4);
+				dataRows[index][1] = ConfigBasis.setStrright(item.value(),7);
 				dataRows[index][2] = ConfigBasis.setStrright(0.0,5);
 			}
 			index ++;

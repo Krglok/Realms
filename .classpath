@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="C:/Users/Windu/Documents/GitHub/PluginRef/Vault.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Windu/Documents/GitHub/Realms/forms-1.3.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Windu/Documents/GitHub/PluginRef/craftbukkit-1.7.2-R0.4-20140316.221310-4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Windu/Documents/GitHub/PluginRef/SQLibrary.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

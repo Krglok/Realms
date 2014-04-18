@@ -73,6 +73,13 @@ public class SettleSchema
 	}
 	
 
+	public static SettleSchema initCamp()
+	{
+		SettleSchema schema = new SettleSchema(SettleType.CAMP, 7);
+		return schema;
+	}
+	
+	
 	/**
 	 * 
 	 * @return  list BuildPlans with position for Hamlet

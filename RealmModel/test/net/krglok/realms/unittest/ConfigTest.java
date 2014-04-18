@@ -1,4 +1,4 @@
-package net.krglok.realms.data;
+package net.krglok.realms.unittest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.data.ConfigInterface;
 
 public class ConfigTest implements ConfigInterface
 {

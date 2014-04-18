@@ -7,7 +7,6 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.data.ServerTest;
 
 import org.junit.Test;
 

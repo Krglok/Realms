@@ -80,8 +80,9 @@ public class CmdSettleProduction extends RealmsCommand
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
 		msg.add("Item              |    Day  |    Month |  Store ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().getPeriodCount()+"]");
-		for (BoardItem bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().values())
+		for (String ref : plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().sortItems())
 		{
+			BoardItem bItem = plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().get(ref);
 			String name = ConfigBasis.setStrleft(bItem.getName()+"__________", 12);
 			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getCycleSum()), 9);
 			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getPeriodSum()), 9);

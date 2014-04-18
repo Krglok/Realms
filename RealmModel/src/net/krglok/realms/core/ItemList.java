@@ -1,7 +1,12 @@
 package net.krglok.realms.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 
 /**
  * list of items, hold each item type unique
@@ -158,6 +163,7 @@ public class ItemList  extends  HashMap<String, Item>
 		putItem(itemRef, value);
 	}
 	
+	
 //	public int size()
 //	{
 //		return itemList.size();
@@ -199,4 +205,19 @@ public class ItemList  extends  HashMap<String, Item>
 		}
 	}
 	
+	public ArrayList<String> sortItems()
+	{
+		ArrayList<String> sortedItems = new ArrayList<String>();
+		for (String s : this.keySet())
+		{
+			sortedItems.add(s);
+		}
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  String.CASE_INSENSITIVE_ORDER);
+		}
+		return sortedItems;
+	}
+
 }

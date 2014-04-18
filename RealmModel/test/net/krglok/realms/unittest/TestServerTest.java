@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.data.ServerTest;
 
 import org.junit.Test;
 

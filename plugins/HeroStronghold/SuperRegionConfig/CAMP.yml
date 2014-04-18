@@ -1,0 +1,29 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denypvpnoreagent
+- denybucketusenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+- denyblockbuild
+- denyblockbreak
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 7
+requirements: []
+money-requirement: 500.0
+money-output-daily: 0.0
+max-power: 100.0
+daily-power-increase: 10
+charter: 0
+child-regions:
+- hamlet
+- town
+- city
+- metropol
+exp: 500

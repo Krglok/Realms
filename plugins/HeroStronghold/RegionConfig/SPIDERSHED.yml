@@ -17,7 +17,6 @@ upkeep:
 - WOOD_SWORD.1
 upkeep-chance: 0.001
 output:
-- COOKED_BEEF.2
-- LEATHER.1
+- STRING.2
 money-requirement: 500.0
 upkeep-money-output: -2.0

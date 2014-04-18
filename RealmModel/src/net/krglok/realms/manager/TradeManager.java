@@ -24,8 +24,8 @@ import net.krglok.realms.model.RealmModel;
  */
 public class TradeManager
 {
-	private final double MAX_VALUE  = 100.0;
-	private final int    MAX_AMOUNT = 100;
+	private final double MAX_VALUE  = 200.0;
+	private final int    MAX_AMOUNT = 200;
 	private final int  SELL_DELAY   = 1200;
 	private final int  BUY_DELAY    = 1200;
 	private final int  maxCounter = 30;

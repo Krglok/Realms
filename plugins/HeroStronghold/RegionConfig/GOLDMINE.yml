@@ -9,22 +9,24 @@ effects:
 radius: 9
 requirements:
 - LADDER.17
-- CHEST.2
-- BEDROCK.2
+- CHEST.1
+- WORKBENCH.1
+- BEDROCK.4
 - LOG.22
 - STONE.50
-- IRON_ORE.25
+- GOLD_ORE.25
 - WALL_SIGN.1
 reagents:
 - GOLD_NUGGET.10
 upkeep:
 - BREAD.5
-- WOOD_PICKAXE.5
+- IRON_INGOT.6
+- STICK.4
 upkeep-chance: 0.001
 output:
 - COBBLESTONE.10
-- IRON_ORE.16
+- GOLD_ORE.16
 - FLINT.2
 - COAL.2
-money-requirement: 50000.0
+money-requirement: 100000.0
 upkeep-money-output: 0.0

@@ -1,6 +1,9 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * list of items with prices , used as central pricelist  
@@ -67,4 +70,20 @@ public class ItemPriceList extends HashMap<String,ItemPrice>
 		
 		return sum;
 	}
+	
+	public ArrayList<String> sortItems()
+	{
+		ArrayList<String> sortedItems = new ArrayList<String>();
+		for (String s : this.keySet())
+		{
+			sortedItems.add(s);
+		}
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  String.CASE_INSENSITIVE_ORDER);
+		}
+		return sortedItems;
+	}
+
 }

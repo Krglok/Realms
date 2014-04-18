@@ -21,10 +21,10 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
-import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.unittest.ConfigTest;
 import net.krglok.realms.unittest.DataTest;
 
 import org.bukkit.Material;

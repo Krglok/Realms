@@ -9,9 +9,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.data.ConfigTest;
 import net.krglok.realms.data.LogList;
-import net.krglok.realms.data.ServerTest;
 
 import org.bukkit.block.Biome;
 import org.junit.Test;

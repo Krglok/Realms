@@ -934,10 +934,7 @@ public class Building  implements Serializable
 			outValues = baeckerProd(server,hsRegionType);
 			break;
 		default :
-			if (BuildPlanType.getBuildGroup(buildingType) == 2)
-			{
 				outValues = buildingProd(server,hsRegionType);
-			}
 			break;
 		}
 

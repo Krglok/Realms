@@ -299,26 +299,40 @@ public class ConfigBasis implements ConfigInterface
 	{
 		value = format2(value);
 		String in = String.valueOf(value);
-		return setStrright(in, len);
+		return setCharright(in, len,' ');
 	}
 
 	public static String setStrright(double value, int len)
 	{
 		String in = String.valueOf(value);
-		return setStrright(in, len);
+		return setCharright(in, len,' ');
+	}
+
+
+	public static String set0right(int value, int len)
+	{
+		String in = String.valueOf(value);
+		return setCharright(in, len, '0');
 	}
 	
 	public static String setStrright(int value, int len)
 	{
 		String in = String.valueOf(value);
-		return setStrright(in, len);
+		return setCharright(in, len, ' ');
 	}
-	public static String setStrright(String in, int len)
+
+	public static String setStrright(String value, int len)
+	{
+		String in = String.valueOf(value);
+		return setCharright(in, len, ' ');
+	}
+
+	private static String setCharright(String in, int len, char c)
 	{
 		char[] out = new char[len];
 		for (int i = 0; i < out.length; i++)
 		{
-			out[i] = ' ';
+			out[i] = c;
 		}
 		if (len >= in.length())
 		{
@@ -582,6 +596,11 @@ public class ConfigBasis implements ConfigInterface
 //		subList.addItem(Material..name(),0);
 
 		return subList;
+	}
+	
+	public static String makeSqlString(String value)
+	{
+		return "'"+value+"'";
 	}
 	
 	@Override

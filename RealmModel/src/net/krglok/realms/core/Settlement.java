@@ -1260,6 +1260,54 @@ public class Settlement //implements Serializable
 				factor = factor + checkConsume(foodItem, amount, amount, 0.3);
 			}
 		}
+		// Mushroom Soup consume before wheat or mushroom consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "MUSHROOM_SOUP";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required,0.3);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount,0.3);
+			}
+		}
+		// Mushroom consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "RED_MUSHROOM";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required, 0.0);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
+			}
+		}
+		// Mushroom consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "BROWN_MUSHROOM";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			if (amount > required)
+			{
+				factor = factor + checkConsume(foodItem, amount, required, 0.0);
+				
+			} else
+			{
+				required = required - amount;
+				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
+			}
+		}
 		// Bread consume before wheat consum
 		// if not enough bread then the rest will try to consum wheat
 		foodItem = "BREAD";
@@ -1276,54 +1324,9 @@ public class Settlement //implements Serializable
 				factor = factor + checkConsume(foodItem, amount, amount, 0.5);
 			}
 		}
-		// Bread consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "MUSHROOM_SOUP";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			if (amount > required)
-			{
-				factor = factor + checkConsume(foodItem, amount, required,0.3);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount,0.3);
-			}
-		}
-		// Bread consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "RED_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			if (amount > required)
-			{
-				factor = factor + checkConsume(foodItem, amount, required, 0.0);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
-			}
-		}
-		// Bread consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "BROWN_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			if (amount > required)
-			{
-				factor = factor + checkConsume(foodItem, amount, required, 0.0);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
-			}
-		}
+		
+		//  Wheat is the last consum item
+		//  without wheat the residents are very unhappy
 		foodItem = "WHEAT";
 		amount = warehouse.getItemList().getValue(foodItem);
 		if (amount > required)
@@ -1525,7 +1528,8 @@ public class Settlement //implements Serializable
 			}
 			if (building.isEnabled())
 			{
-				if (BuildPlanType.getBuildGroup(building.getBuildingType())== 2)
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 2)
+					|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 3))
 				{
 					sale = 0.0;
 					products = building.produce(server);
@@ -1573,12 +1577,9 @@ public class Settlement //implements Serializable
 						default :
 	//						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
 							ingredients = new ItemList();
-							if (BuildPlanType.getBuildGroup(building.getBuildingType())== 2)
-							{
-								ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-								prodFactor = 1;
+							ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
+							prodFactor = 1;
 //								System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+ingredients.size());
-							}
 							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
 							break;
 						}

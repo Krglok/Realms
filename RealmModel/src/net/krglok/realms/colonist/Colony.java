@@ -135,7 +135,7 @@ public class Colony
 		this.netherSchema = SettleSchema.initHellHamlet();
 		this.markUpStep = 0;
 		this.buildPosIndex = 0;
-		this.newSuperRegion = new RegionLocation("HAMLET", position, owner, name);
+		this.newSuperRegion = new RegionLocation("", position, owner, name);
 		this.superRequest = null;
 		this.isPrepared = false;
 		this.prepareLevel = 41;
@@ -161,6 +161,8 @@ public class Colony
 	{
 		
 		Colony colony = new Colony ( name,  position,  owner, logList);
+		colony.newSuperRegion = new RegionLocation("HAMLET", position, owner, name);
+
 		colony.getWarehouse().depositItemValue(Material.BED.name(), 5);
 		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
 		colony.getWarehouse().depositItemValue(Material.LOG.name(), 250);
@@ -182,6 +184,38 @@ public class Colony
 		
 	}
 	
+	public static Colony newCamp(String name,  String owner, LogList logList)
+	{
+		LocationData position = new LocationData("", 0.0, 0.0,0.0);
+
+		Colony colony = new Colony ( name,  position,  owner, logList);
+		colony.newSuperRegion = new RegionLocation("CAMP", position, owner, name);
+		colony.settleSchema = SettleSchema.initCamp();
+		colony.netherSchema = SettleSchema.initCamp();
+		colony.prepareRow = 0;
+		colony.prepareCol = 0;
+		colony.prepareRadius= 7;
+		colony.prepareOffset= 0;
+		colony.prepareMaxLevel = 8;
+
+		colony.getWarehouse().depositItemValue(Material.BED.name(), 1);
+		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
+		colony.getWarehouse().depositItemValue(Material.LOG.name(), 250);
+		colony.getWarehouse().depositItemValue(Material.WHEAT.name(), 100);
+		colony.getWarehouse().depositItemValue(Material.TORCH.name(), 10);
+		colony.getWarehouse().depositItemValue(Material.STONE.name(), 100);
+		colony.getWarehouse().depositItemValue(Material.WORKBENCH.name(), 1);
+		colony.getWarehouse().depositItemValue(Material.DIRT.name(), 100);
+		colony.getWarehouse().depositItemValue(Material.WATER.name(), 10);
+		colony.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),100);
+		colony.getWarehouse().depositItemValue(Material.WOOD_DOOR.name(), 1);
+		colony.getWarehouse().depositItemValue(Material.BEDROCK.name(), 1);
+		colony.getWarehouse().depositItemValue(Material.CHEST.name(), 4);
+		colony.getWarehouse().depositItemValue(Material.WOOD.name(), 100);
+		colony.getWarehouse().depositItemValue(Material.RED_MUSHROOM.name(), 50);
+		colony.getWarehouse().depositItemValue(Material.BROWN_MUSHROOM.name(), 50);
+		return colony;
+	}
 	
 	/**
 	 * 
@@ -467,19 +501,33 @@ public class Colony
 		case NEWSETTLE:
 			if (superRequest == null)
 			{
-				System.out.println(id+" Create Settlement  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-				McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.HAMLET,biome);
-				rModel.OnCommand(msCreate);
-				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
-				this.cStatus = ColonyStatus.REINFORCE;
-				this.isPrepared = false;
-				prepareOffset = 0; //buildPlan.getOffsetY();
-				this.prepareLevel = prepareOffset;
-				this.prepareRow = 0;
-				this.prepareCol = 0;
-				this.prepareRadius = 4;
-				this.prepareMaxLevel = 7;
-				System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+				if (newSuperRegion.getRegionType() == SettleType.HAMLET.name())
+				{
+					System.out.println(id+" Create Settlement  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+					McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.HAMLET,biome);
+					rModel.OnCommand(msCreate);
+					buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
+					this.cStatus = ColonyStatus.REINFORCE;
+					this.isPrepared = false;
+					prepareOffset = 0; //buildPlan.getOffsetY();
+					this.prepareLevel = prepareOffset;
+					this.prepareRow = 0;
+					this.prepareCol = 0;
+					this.prepareRadius = 4;
+					this.prepareMaxLevel = 7;
+					System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+				} else
+				{
+					this.cStatus = ColonyStatus.DONE;
+					this.isPrepared = false;
+					prepareOffset = 0; //buildPlan.getOffsetY();
+					this.prepareLevel = prepareOffset;
+					this.prepareRow = 0;
+					this.prepareCol = 0;
+					this.prepareRadius = 4;
+					this.prepareMaxLevel = 7;
+					System.out.println("No Reinforce build CAMP "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+				}
 			}
 			break;
 		case REINFORCE:
@@ -496,26 +544,35 @@ public class Colony
 			}
 			break;
 		case DONE:			// der Builder beendet den Auftrag.
-			Settlement settle = rModel.getSettlements().findName(name);
-			if (settle != null)
+			
+			if (newSuperRegion.getRegionType() == SettleType.HAMLET.name())
 			{
-				for (Item item : warehouse.getItemList().values())
+				Settlement settle = rModel.getSettlements().findName(name);
+				if (settle != null)
 				{
-					settle.getWarehouse().depositItemValue(item.ItemRef(), item.value());
+					for (Item item : warehouse.getItemList().values())
+					{
+						settle.getWarehouse().depositItemValue(item.ItemRef(), item.value());
+					}
+					settle.getBank().depositKonto(1000.0, "Colonist",settle.getId());
+					System.out.println("Build FULLFILL ");
+					this.cStatus = ColonyStatus.FULFILL;
+				} else
+				{
+					System.out.println("Wait for Create Settlement");
+					timeout++;
+					if (timeout > 100)
+					{
+						this.cStatus = ColonyStatus.FULFILL;
+						System.out.println("Colonist ended abnormal ");
+					}
 				}
-				settle.getBank().depositKonto(1000.0, "Colonist",settle.getId());
-				System.out.println("Build FULLFILL ");
-				this.cStatus = ColonyStatus.FULFILL;
 			} else
 			{
-				System.out.println("Wait for Create Settlement");
-				timeout++;
-				if (timeout > 100)
-				{
-					this.cStatus = ColonyStatus.FULFILL;
-					System.out.println("Colonist ended abnormal ");
-				}
+				this.cStatus = ColonyStatus.FULFILL;
+				System.out.println("CAMP ended ormal ");
 			}
+			
 			break;
 		case WAIT:			// der Builder wartet auf Material
 			this.cStatus = ColonyStatus.NONE;

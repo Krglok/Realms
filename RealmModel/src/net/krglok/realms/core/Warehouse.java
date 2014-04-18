@@ -1,5 +1,11 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
 
 /**
  * <pre>
@@ -219,5 +225,21 @@ public class Warehouse
 		
 		return resultList;
 	}
+	
+	public ArrayList<String> sortItems()
+	{
+		ArrayList<String> sortedItems = new ArrayList<String>();
+		for (String s : this.itemList.keySet())
+		{
+			sortedItems.add(s);
+		}
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  String.CASE_INSENSITIVE_ORDER);
+		}
+		return sortedItems;
+	}
+
 
 }

@@ -1,6 +1,11 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 
 /**
  * <pre>
@@ -136,6 +141,10 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 			lastNumber++;
 			tmo.setId(lastNumber);
 		}
+		if (lastNumber > 9000)
+		{
+			lastNumber = 1;
+		}
 		tmo.setId(lastNumber);
 		this.put(lastNumber, tmo);
 		return tmo;
@@ -186,5 +195,95 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		return subList;
 	}
 	
+	public ArrayList<String> sortItems()
+	{
+		ArrayList<String> sortedItems = new ArrayList<String>();
+		for (Integer i : this.keySet())
+		{
+			String s = ConfigBasis.set0right(i, 5);
+			sortedItems.add(s);
+//			System.out.print(s+"|");
+		}
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  String.CASE_INSENSITIVE_ORDER);
+		}
+		return sortedItems;
+	}
+
 	
+	
+	public ArrayList<Integer> sortInteger()
+	{
+		ArrayList<Integer> sortedItems = new ArrayList<Integer>();
+		Comparator<Integer> iComp = new Comparator<Integer>() 
+		{
+
+            @Override
+            public int compare(Integer o1, Integer o2) 
+            {
+            	if (o1 == o2)
+            	{
+            		return 0;
+            	}
+            	if (o1 < o2)
+            	{
+            		return +1;
+            	} else
+            	{
+            		return -1;
+            	}
+            }
+		};
+		for (Integer s : this.keySet())
+		{
+			sortedItems.add(s);
+		}
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  iComp);
+		}
+		return sortedItems;
+	}
+
+	public  TradeMarket getDistantOrders(SettlementList settleList, int settleId)
+	{
+		TradeMarket subList = new TradeMarket();
+		
+		Settlement settlement = settleList.getSettlement(settleId);
+		LocationData sourceLoc = settlement.getPosition();
+		int index = 0;
+		
+		for (TradeMarketOrder tradeOrder : this.values())
+		{
+			int targetId = tradeOrder.getSettleID();
+			Settlement settle = settleList.getSettlements().get(targetId);
+			if (settleId != targetId)
+			{
+				LocationData targetLoc = settle.getPosition();
+				double dist = sourceLoc.distance(targetLoc);
+				if (sourceLoc.getWorld().equalsIgnoreCase(targetLoc.getWorld()) != true)
+				{
+					dist = dist + (10 * ConfigBasis.DISTANCE_1_DAY);
+				}
+				Integer iKey = (int) dist;
+				if(subList.containsKey(iKey) == false)
+				{
+					index ++;
+					dist = dist + index;
+				}
+				iKey = (int) dist;
+				subList.put(iKey, tradeOrder);
+			}
+		}
+		TradeMarket sortList = new TradeMarket();
+		for (String sRef :subList.sortItems())
+		{
+			int ref = Integer.valueOf(sRef);
+			sortList.put(ref, subList.get(ref));
+		}
+		return sortList;
+	}
 }
