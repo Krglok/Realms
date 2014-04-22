@@ -598,10 +598,6 @@ public class ConfigBasis implements ConfigInterface
 		return subList;
 	}
 	
-	public static String makeSqlString(String value)
-	{
-		return "'"+value+"'";
-	}
 	
 	@Override
 	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)

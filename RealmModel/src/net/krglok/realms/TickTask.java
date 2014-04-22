@@ -97,33 +97,43 @@ public class TickTask implements Runnable
 			plugin.onBuildRequest();
 			plugin.onCleanRequest();
 //		}
-		
+			plugin.onSignRequest();
 		// startt night Event
-		if ((plugin.getServer().getWorlds().get(0).getFullTime() > NIGHTTIME)
-			&& (plugin.getServer().getWorlds().get(0).getFullTime() < SUNRISE))
+		if( (plugin.getServer().getWorlds().get(0).getTime() >= 13000 )
+			&& (plugin.getServer().getWorlds().get(0).getTime() < 17000 ))
 		{
+//			System.out.print("Night:"+plugin.getServer().getWorlds().get(0).getTime());
 			if (isGateClose == false)
 			{
+				plugin.getLog().info("[Realms] Gate Night Event");
 				doGateClose();
 				isGateClose = true;
 				isGateOpen = false;
 			}
-			plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getFullTime());
+			plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getTime());
 			
+		} else
+		{
+			isGateClose = false;
 		}
 		// start Day Event
-		if ((plugin.getServer().getWorlds().get(0).getFullTime() < NIGHTTIME)
-			&& (plugin.getServer().getWorlds().get(0).getFullTime() > DAYTIME))
+		if( (plugin.getServer().getWorlds().get(0).getTime() >= 23000))
 		{
+//			System.out.print("Day:"+plugin.getServer().getWorlds().get(0).getTime());
 			if (isGateOpen == false)
 			{
-				
+				plugin.getLog().info("[Realms] Gate DAY Event");
+				doGateOpen();
 				isGateOpen = true;
 				isGateClose = false;
 			}
-			plugin.getRealmModel().OnDay(plugin.getServer().getWorlds().get(0).getFullTime());
+			plugin.getRealmModel().OnDay(plugin.getServer().getWorlds().get(0).getTime());
+		} else
+		{
+			isGateOpen = false;
 		}
 			
+		// trader run
 		if (counter == (prodLimit/2))
 		{
 			if (isProduction)
@@ -133,6 +143,8 @@ public class TickTask implements Runnable
 			}
 
 		}
+		
+		//production run
 		if (counter == prodLimit)
 		{
 			counter = 0;
@@ -149,6 +161,8 @@ public class TickTask implements Runnable
 			}
 			
 		} 
+		
+		//Tax run
 		if(taxCounter >= taxLimit)
 		{
 			taxCounter = 0;
@@ -189,12 +203,16 @@ public class TickTask implements Runnable
 		Block gate;
 		gate = base.getRelative(BlockFace.DOWN, 1);
 		gate.setType(gateMat);
-		base.getRelative(BlockFace.EAST, 1).setType(gateMat);
-		base.getRelative(BlockFace.WEST , 1).setType(gateMat);
+		gate.getRelative(BlockFace.EAST, 1).setType(gateMat);
+		gate.getRelative(BlockFace.WEST , 1).setType(gateMat);
+		gate.getRelative(BlockFace.NORTH, 1).setType(gateMat);
+		gate.getRelative(BlockFace.SOUTH, 1).setType(gateMat);
 		gate = base.getRelative(BlockFace.DOWN, 2);
 		gate.setType(gateMat);
-		base.getRelative(BlockFace.EAST, 1).setType(gateMat);
-		base.getRelative(BlockFace.WEST, 1).setType(gateMat);
+		gate.getRelative(BlockFace.EAST, 1).setType(gateMat);
+		gate.getRelative(BlockFace.WEST, 1).setType(gateMat);
+		gate.getRelative(BlockFace.NORTH, 1).setType(gateMat);
+		gate.getRelative(BlockFace.SOUTH, 1).setType(gateMat);
 		
 	}
 	

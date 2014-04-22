@@ -1,20 +1,23 @@
 friendly-classes: []
 enemy-classes: []
 effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
 - periodicupkeep.1
-radius: 4
+- denyfriendlyfire.1
+radius: 7
 requirements:
-- WOODEN_DOOR.1
 - WALL_SIGN.1
-- GRASS.49
-- LOG.12
-- FENCE.24
-- CHEST.1
+- GRASS.161
+- WOOD.49
+- FENCE.48
 reagents:
 - GOLD_NUGGET.1
+- LEATHER_HELMET.1
 upkeep:
 - BREAD.1
-- BOWL.1
+- LEASH.1
 upkeep-chance: 0.001
 output: []
 money-requirement: 500.0

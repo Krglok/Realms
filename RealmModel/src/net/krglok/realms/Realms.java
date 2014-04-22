@@ -7,14 +7,18 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.colonist.Colony;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SignPos;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.data.ConfigData;
 import net.krglok.realms.data.DataStorage;
@@ -264,44 +268,37 @@ public final class Realms extends JavaPlugin
 		
 	}
 
+	protected void setSignText(Location position, String[] signText)
+	{
+		Block bs = position.getWorld().getBlockAt(position);
+		  if ((bs.getType() == Material.WALL_SIGN) || (bs.getType() == Material.SIGN_POST))
+		  {
+				Sign sBlock =	((Sign) bs.getState());
+				for (int i=0; i < 4; i++)
+				{
+					String text = signText[i];
+					text = text.replaceAll("[_]", " ");
+					sBlock.setLine(i, text);
+					sBlock.update(true);
+//					for (int k = 0; k < signText.length; k++)
+//					{
+//						System.out.println(sBlock.getLines()[k]);
+//					}
+				}		  
+		  } else
+		  {
+			  System.out.println("No Sign found !");
+		  }
+
+	}
+	
 	protected void setSign(World world, ItemLocation iLoc, String[] signText )
 	{
 	  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
 	  {
-		
-		  Block bs = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()-1);
-		  if ((bs.getType() != Material.WALL_SIGN) && (bs.getType() != Material.SIGN_POST))
-		  {
-			  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
-			  {
-				  if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
-				  {
-					  bs.setType(iLoc.itemRef());
-				  } else
-				  {
-					  if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
-					  {
-						  bs.setType(Material.WALL_SIGN);
-					  }
-				  }
-			  }
-			  if ((iLoc.itemRef() == Material.SIGN_POST))
-			  {
-				  bs.setType(Material.SIGN_POST);
-			  }
-		  }
-			Sign sBlock =	((Sign) bs.getState());
-			for (int i=0; i < 4; i++)
-			{
-				String text = signText[i];
-				text = text.replaceAll("[_]", " ");
-				sBlock.setLine(i, text);
-				sBlock.update(true);
-				for (int k = 0; k < signText.length; k++)
-				{
-					System.out.println(sBlock.getLines()[k]);
-				}
-			}		  
+		  System.out.println("Set Sign !");
+		  Location position = new Location(world,(int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()-1);
+		  setSignText( position,  signText);
 	  }		
 	}
 	
@@ -858,7 +855,7 @@ public final class Realms extends JavaPlugin
 			}
 			if (checkEntityinRange(entity, position, EntityType.SHEEP, 71.0))
 			{
-				
+				//teletport entity to BuildibgPos
 			}
 		}
 	}
@@ -910,6 +907,66 @@ public final class Realms extends JavaPlugin
 			}
 		}
 
+	}
+	
+	/**
+	 * run an update on the registered signs of an settlement
+	 * @param settle
+	 */
+	public void doSignUpdate(Settlement settle)
+	{
+		for (SignPos signPos : settle.getSignList().values())
+		{
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+			    if (signPos.getText()[0].equalsIgnoreCase(building.getBuildingType().name()))
+			    {
+				    if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
+				    {
+				    	signPos.getText()[1] = building.isEnabled().toString();
+				    	signPos.getText()[2] = building.getTrainType().name();
+				    	signPos.getText()[3] = String.valueOf(building.getMaxTrain());
+				    } else
+				    {
+					    if (building.getBuildingType() == BuildPlanType.HALL)
+					    {
+					    	signPos.getText()[1] = "S: "+String.valueOf(settle.getResident().getSettlerCount())+"/"+String.valueOf(settle.getResident().getSettlerMax());
+					    	signPos.getText()[2] = "B: "+String.valueOf((int) settle.getBank().getKonto());
+					    	signPos.getText()[3] = "U: "+String.valueOf(settle.getBarrack().getUnitList().size())+"/"+String.valueOf(settle.getBarrack().getUnitMax());
+					    } else
+					    {
+					    	signPos.getText()[1] = building.isEnabled().toString();
+					    	int index = 2;
+					    	ItemList output = server.getRegionOutput(building.getHsRegionType());
+					    	for (Item item : output.values())
+					    	{
+					    		if (index < 4)
+					    		{
+					    			signPos.getText()[index] = item.ItemRef();
+					    			index++;
+					    		}
+					    	}
+					    }
+				    }
+			    }
+
+			}
+			World world = this.getServer().getWorld(signPos.getPosition().getWorld());
+			Location position = new Location(world,(int)signPos.getPosition().getX(), (int)signPos.getPosition().getY(), (int)signPos.getPosition().getZ());
+			setSignText( position,  signPos.getText());
+		}		
+	}
+	
+	/**
+	 * set Sign text of registered Sign of a Settlement
+	 * will be called on each from TickTask 
+	 */
+	public void onSignRequest()
+	{
+		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
+		{
+			doSignUpdate(settle);
+		}
 	}
 	
      

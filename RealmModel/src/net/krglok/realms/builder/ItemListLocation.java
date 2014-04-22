@@ -5,7 +5,11 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 
-
+/**
+ * hold the items for a setChest Request
+ * @author Windu
+ *
+ */
 public class ItemListLocation 
 {
 	private ArrayList<Item> itemList;

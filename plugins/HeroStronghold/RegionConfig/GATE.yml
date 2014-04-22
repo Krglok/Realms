@@ -4,7 +4,6 @@ effects:
 - denyblockbuild.1
 - denyblockbreak.1
 - denyplayerinteract.1
-- periodicupkeep.1
 - denyfriendlyfire.1
 radius: 4
 requirements:
@@ -14,8 +13,8 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 1000.0
-upkeep-money-output: 1.0
+money-requirement: 500.0
+upkeep-money-output: 0.0
 housing: 0
 power-drain: 0.0
 biome: [] 

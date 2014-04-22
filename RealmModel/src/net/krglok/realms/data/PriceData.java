@@ -14,14 +14,7 @@ import net.krglok.realms.core.ItemPriceList;
 
 public class PriceData
 {
-	public class PriceTable
-	{
-		protected String tablename = "baseprice";
-		protected String[] fieldnames = new String[] { "valuename, value" };
-		protected String[] fieldtypes = new String[] { String.class.getName(), Double.class.getName() };
-		protected String[] indexname = new String[] {"baseprice_idx1"  };
-	}
-	
+
 	private Realms plugin;
 
 	public PriceData(Realms plugin)

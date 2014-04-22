@@ -90,6 +90,7 @@ public class Settlement //implements Serializable
 	
 	private ArrayList<Item> treasureList;
 	
+	private SignPosList signList;
 	private LogList logList;
 	
 	/**
@@ -128,6 +129,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		setSignList(new SignPosList());
 	}
 
 //<<<<<<< HEAD
@@ -171,6 +173,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager (priceList);
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		setSignList(new SignPosList());
 	}
 	
 	/**
@@ -213,6 +216,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		setSignList(new SignPosList());
 }
 
 	/**
@@ -257,6 +261,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		setSignList(new SignPosList());
 }
 	
 	
@@ -313,6 +318,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager (priceList);
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		setSignList(new SignPosList());
 }
 
 	/**
@@ -1798,6 +1804,16 @@ public class Settlement //implements Serializable
 	public void setAge(long value)
 	{
 		this.age = value;
+	}
+
+	public SignPosList getSignList() 
+	{
+		return signList;
+	}
+
+	public void setSignList(SignPosList signList) 
+	{
+		this.signList = signList;
 	}
 
 }

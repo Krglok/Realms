@@ -1,13 +1,17 @@
 friendly-classes: []
 enemy-classes: []
 effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
 - periodicupkeep.1
-radius: 4
+- denyfriendlyfire.1
+radius: 5
 requirements:
 - WOODEN_DOOR.1
 - WALL_SIGN.1
-- GRASS.49
-- LOG.12
+- COBBLESTONE.49
+- LOG.24
 - WOOD.49
 - CHEST.1
 reagents:

@@ -32,6 +32,11 @@ public class CmdSettleBuildingList extends RealmsCommand
 		settleId = 0;
 	}
 
+	public int getPage()
+	{
+		return page;
+	}
+
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -79,7 +84,7 @@ public class CmdSettleBuildingList extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add(ChatColor.YELLOW+"Item           |Region    |");
+		msg.add(ChatColor.YELLOW+"BuildingType___|count|");
 		for (BuildPlanType bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().keySet())
 		{
 			String name = ConfigBasis.setStrleft(bItem.name()+"__________", 15);
@@ -113,8 +118,8 @@ public class CmdSettleBuildingList extends RealmsCommand
 			msg.add(name +"|"+product+" |");
 		}
 		msg.add("");
-		plugin.getMessageData().printPage(sender, msg, page);
-		page = 1;
+		page = plugin.getMessageData().printPage(sender, msg, page);
+//		page = 1;
 
 	}
 

@@ -16,6 +16,7 @@ import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SignPos;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 
@@ -24,6 +25,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Egg;
@@ -203,12 +205,25 @@ public class ServerListener implements Listener
 	    	{
 	    		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
 	    		{
-	    			cmdWallSign(event, b);
+	    	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
+	    	    	{
+	    	    		cmdRegisterSign(event, b);
+	    	    	} else
+	    	    	{
+	    	    		cmdWallSign(event, b);
+	    	    	}
 	    		}
 	    		if (event.getAction() == Action.LEFT_CLICK_BLOCK)
 	    		{
-	    			cmdLeftWallSign(event,b);
+	    	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
+	    	    	{
+	    	    		cmdSignUpdate(event, b);
+	    	    	} else
+	    	    	{
+	    	    		cmdLeftWallSign(event,b);
+	    	    	}
 	    		}
+	    		return;
 	    	}
 	    	if (b.getType() == Material.SIGN_POST)
 	    	{
@@ -217,7 +232,7 @@ public class ServerListener implements Listener
 	    		String l1 = sign.getLine(1);
 	    		if (l0.contains("[BUILD]"))
 	    		{
-	    			System.out.println("SignPost");
+//	    			System.out.println("SignPost");
 		    		if (l1 != "")
 		    		{
 		    			Location pos = b.getLocation();
@@ -229,223 +244,40 @@ public class ServerListener implements Listener
 		    	    		return;
 		    	    	} else
 		    	    	{
-			    			System.out.println("BuildAt");
-			    			if (buildAt( pos, l1, event.getPlayer(), msg))
-			    			{
-						    	msg.add("Build startet  ");
+		    	    		// start Build with empty hand on RightClick
+			    	    	if (
+			    	    		(event.getPlayer().getItemInHand().getType() == Material.AIR)
+			    	    		&& (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+			    	    		)
+			    	    	{
+				    			System.out.println("BuildAt");
+				    			if (buildAt( pos, l1, event.getPlayer(), msg))
+				    			{
+							    	msg.add("Build startet  ");
+							    	msg.add(" ");
+					    			sign.setLine(0, "");
+					    			sign.update();
+				    			} else
+				    			{
+							    	msg.add("Build NOT started : "+l1);
+							    	msg.add(" ");
+				    			}
+				    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+				    			return;
+			    	    	} else
+			    	    	{
+						    	msg.add("Use empty hand for startup build: "+l1);
 						    	msg.add(" ");
-				    			sign.setLine(0, "");
-				    			sign.update();
-			    			} else
-			    			{
-						    	msg.add("Building NOT Build : "+l1);
-						    	msg.add(" ");
-			    			}
+			    	    	}
 			    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 			    			return;
 		    	    	}
 		    		}
+		    		return;
 	    		}
-	    		if (l0.contains("[HUNT]"))
-	    		{
-//	    			if (plugin.getServ)
-	    			Location pos = b.getLocation();
-	    			for(Entity entity : pos.getWorld().getEntities()) 
-	    			{
-	    				EntityType eType = entity.getType(); 
-                        if( eType== EntityType.SPIDER) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Spider hunt ");
-                            	ItemStack itemStack = new ItemStack(Material.SPIDER_EYE,1,(short) 0);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-}								return;
-                        }
-                        if( eType== EntityType.SKELETON) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Skeleton hunt ");
-                            	ItemStack itemStack = new ItemStack(Material.BONE,2,(short) 0);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.ZOMBIE) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("ZOMBIE hunt ");
-                            	ItemStack itemStack = new ItemStack(Material.ROTTEN_FLESH,2,(short) 0);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.CREEPER) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Creeper hunt ");
-                            	ItemStack itemStack = new ItemStack(Material.SULPHUR,2,(short) 0);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                    }
-	    				
-	    		}
-	    		if (l0.contains("[TRAP]"))
-	    		{
-//	    			if (plugin.getServ)
-	    			Location pos = b.getLocation();
-	    			for(Entity entity : pos.getWorld().getEntities()) 
-	    			{
-	    				EntityType eType = entity.getType(); 
-                        if( eType== EntityType.SPIDER) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Spider trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 52);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.PIG) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Pig trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 90);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.SHEEP) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Sheep trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 91);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.COW) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Cow trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 92);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.HORSE) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Horse trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 100);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.OCELOT) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Spider trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 98);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.WOLF) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Spider trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 95);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-                        if( eType== EntityType.VILLAGER) 
-                        {
-                            double distance = entity.getLocation().distance(pos);
- 
-                            if(distance <= 100) 
-                            {
-                            	entity.remove();
-                            	System.out.println("Spider trap ");
-                            	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 120);
-//                            	Egg spiderEgg = 
-                            	event.getPlayer().getInventory().addItem(itemStack);
-								event.getPlayer().updateInventory();
-								return;
-                            }
-                        }
-
-	    			}
-	    				
-	    		}
+	    		// other signpost Commands
+	    		cmdSignPost(event, b);
+	    		return;
 	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
 	    	{
@@ -551,8 +383,9 @@ public class ServerListener implements Listener
 	private String findSuperRegionAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
-	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
-	    {
+		SuperRegion sRegion =  findSuperRegionAtPosition( plugin,  position);
+		if (sRegion != null)
+		{
 	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
 	    	if (settleType != SettleType.NONE)
 	    	{
@@ -562,10 +395,29 @@ public class ServerListener implements Listener
 		return "";
 	}
 
+	/**
+	 * give first superregion at position
+	 * @param plugin
+	 * @param position
+	 * @return
+	 */
+	private SuperRegion findSuperRegionAtPosition(Realms plugin, Location position)
+	{
+	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+	    {
+	    	if (sRegion != null)
+	    	{
+	    		return sRegion;
+	    	}
+	    }
+		return null;
+	}
+
 	private String findRegionAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
-	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
+		Region region = findRegionAtPosition( plugin, position);
+	    if ( region != null)
 	    {
 	    	BuildPlanType bType = plugin.getConfigData().regionToBuildingType(region.getType());
 	    	if (bType != BuildPlanType.NONE)
@@ -579,7 +431,8 @@ public class ServerListener implements Listener
 	private Integer findRegionIdAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
-	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
+		Region region = findRegionAtPosition( plugin, position);
+	    if ( region != null)
 	    {
 	    	BuildPlanType bType = plugin.getConfigData().regionToBuildingType(region.getType());
 	    	if (bType != BuildPlanType.NONE)
@@ -589,6 +442,25 @@ public class ServerListener implements Listener
 	    }
 		return -1;
 	}
+	
+	/**
+	 * give first region at position
+	 * @param plugin
+	 * @param position
+	 * @return
+	 */
+	private Region findRegionAtPosition(Realms plugin,Location position)
+	{
+	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
+	    {
+	    	if (region != null)
+	    	{
+	    		return region;
+	    	}
+	    }
+		return null;
+	}
+
 	
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerPlayerEditBookEvent(PlayerEditBookEvent event)
@@ -825,6 +697,16 @@ public class ServerListener implements Listener
 		String l1 = sign.getLine(1);
 		String l2 = sign.getLine(2);
 		String l3 = sign.getLine(3);
+		
+		if (l0.contains("[TRAP]"))
+		{
+			cmdSignPost(event,b);
+		}		
+		if (l0.contains("[HUNT]"))
+		{
+			cmdSignPost(event,b);
+		}		
+		
 		if (l0.contains("[WAREHOUSE]"))
 		{
 //			cmdBuildPlanBook(event);
@@ -876,9 +758,10 @@ public class ServerListener implements Listener
 			{
 				CmdSettleBuildingList cmd = new CmdSettleBuildingList();
 				cmd.setPara(0, settle.getId());
-				cmd.setPara(1, 1);
+				cmd.setPara(1, marketPage);
 				cmd.execute(plugin, event.getPlayer());
-			}
+				marketPage = cmd.getPage()+1;
+		}
 			return;
 		}
 		if (l0.contains("[PRODUCTION]"))
@@ -1156,4 +1039,352 @@ public class ServerListener implements Listener
 		}
 
     }
+    
+    
+    private void cmdSignPost(PlayerInteractEvent event, Block b)
+    {
+		Sign sign = (Sign) b.getState();
+		String l0 = sign.getLine(0);
+		String l1 = sign.getLine(1);
+    	
+		if (l0.contains("[HUNT]"))
+		{
+//			if (plugin.getServ)
+			Location pos = b.getLocation();
+			// find required region
+			Region region = findRegionAtPosition( plugin, pos);
+			if (region == null)
+			{
+				System.out.println("NO Region found");
+				return;
+			}
+			if (region.getType().equalsIgnoreCase("HUNTER") == false)
+			{
+				System.out.println("WRONG Region found");
+				return;
+			}
+			for(Entity entity : pos.getWorld().getEntities()) 
+			{
+				EntityType eType = entity.getType(); 
+                if( eType== EntityType.SPIDER) 
+                {
+                    double distance = entity.getLocation().distance(pos);
+
+                    if(distance <= 100) 
+                    {
+                    	entity.remove();
+                    	System.out.println("Spider hunt ");
+                    	ItemStack itemStack = new ItemStack(Material.SPIDER_EYE,1,(short) 0);
+//                    	Egg spiderEgg = 
+                    	event.getPlayer().getInventory().addItem(itemStack);
+						event.getPlayer().updateInventory();
+}						return;
+                }
+                if( eType== EntityType.SKELETON) 
+                {
+                    double distance = entity.getLocation().distance(pos);
+
+                    if(distance <= 100) 
+                    {
+                    	entity.remove();
+                    	System.out.println("Skeleton hunt ");
+                    	ItemStack itemStack = new ItemStack(Material.BONE,2,(short) 0);
+//                    	Egg spiderEgg = 
+                    	event.getPlayer().getInventory().addItem(itemStack);
+						event.getPlayer().updateInventory();
+						return;
+                    }
+                }
+                if( eType== EntityType.ZOMBIE) 
+                {
+                    double distance = entity.getLocation().distance(pos);
+
+                    if(distance <= 100) 
+                    {
+                    	entity.remove();
+                    	System.out.println("ZOMBIE hunt ");
+                    	ItemStack itemStack = new ItemStack(Material.ROTTEN_FLESH,2,(short) 0);
+//                    	Egg spiderEgg = 
+                    	event.getPlayer().getInventory().addItem(itemStack);
+						event.getPlayer().updateInventory();
+						return;
+                    }
+                }
+                if( eType== EntityType.CREEPER) 
+                {
+                    double distance = entity.getLocation().distance(pos);
+
+                    if(distance <= 100) 
+                    {
+                    	entity.remove();
+                    	System.out.println("Creeper hunt ");
+                    	ItemStack itemStack = new ItemStack(Material.SULPHUR,2,(short) 0);
+//                    	Egg spiderEgg = 
+                    	event.getPlayer().getInventory().addItem(itemStack);
+						event.getPlayer().updateInventory();
+						return;
+                    }
+                }
+            }
+			return;
+		}
+		
+		if (l0.contains("[TRAP]"))
+		{
+//			if (plugin.getServ)
+			Location pos = b.getLocation();
+			// find required region
+			Region region = findRegionAtPosition( plugin, pos);
+			if (region == null)
+			{
+				System.out.println("NO Region found");
+				return;
+			}
+			if (region.getType().equalsIgnoreCase("TAMER") == false)
+			{
+				System.out.println("Wrong Region found");
+				return;
+			}
+        	Location tele = new Location(region.getLocation().getWorld(),region.getLocation().getX(),region.getLocation().getY(),region.getLocation().getZ());
+        	tele.setY(tele.getY()-2);
+
+			for(Entity entity : pos.getWorld().getEntities()) 
+			{
+				if (tele.distance(entity.getLocation()) > 7.5)
+				{
+					EntityType eType = entity.getType(); 
+	                if( eType== EntityType.PIG) 
+	                {
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Pig trap ");
+	//                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 90);
+	//                    	event.getPlayer().getInventory().addItem(itemStack);
+	//						event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+	                if( eType== EntityType.SHEEP) 
+	                {
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Sheep trap ");
+	//                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 91);
+	////                    	Egg spiderEgg = 
+	//                    	event.getPlayer().getInventory().addItem(itemStack);
+	//						event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+	                if( eType== EntityType.COW) 
+	                {
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Cow trap ");
+	//                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 92);
+	////                    	Egg spiderEgg = 
+	//                    	event.getPlayer().getInventory().addItem(itemStack);
+	//						event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+	                if( eType== EntityType.HORSE) 
+	                {
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Horse trap ");
+	//                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 100);
+	////                    	Egg spiderEgg = 
+	//                    	event.getPlayer().getInventory().addItem(itemStack);
+	//						event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+	                if( eType== EntityType.OCELOT) 
+	                {
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Ocelot trap ");
+	//                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 98);
+	////                    	Egg spiderEgg = 
+	//                    	event.getPlayer().getInventory().addItem(itemStack);
+	//						event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+	                if( eType== EntityType.WOLF) 
+	                {
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Wolf trap ");
+	//                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 95);
+	////                    	Egg spiderEgg = 
+	//                    	event.getPlayer().getInventory().addItem(itemStack);
+	//						event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+	                if( eType== EntityType.VILLAGER) 
+	                {
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Villager trap ");
+	//                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 120);
+	////                    	Egg spiderEgg = 
+	//                    	event.getPlayer().getInventory().addItem(itemStack);
+	//						event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+				}
+			}
+			return;	
+		}
+		if (l0.contains("[SPIDERSHED]"))
+		{
+//			if (plugin.getServ)
+			Location pos = b.getLocation();
+			// find required region
+			Region region = findRegionAtPosition( plugin, pos);
+			if (region.getType().equalsIgnoreCase("SPIDERSHED") == false)
+			{
+				return;
+			}
+        	Location tele = new Location(region.getLocation().getWorld(),region.getLocation().getX(),region.getLocation().getY(),region.getLocation().getZ());
+        	tele.setY(tele.getY()-1);
+
+			for(Entity entity : pos.getWorld().getEntities()) 
+			{
+				if (tele.distance(entity.getLocation()) > 7.5)
+				{
+					EntityType eType = entity.getType(); 
+	                if( eType== EntityType.SPIDER) 
+	                {
+	                	
+	                    double distance = entity.getLocation().distance(pos);
+	
+	                    if(distance <= 100) 
+	                    {
+	                    	entity.teleport(tele);
+	                    	System.out.println("Spider trap ");
+//	                    	ItemStack itemStack = new ItemStack(Material.MONSTER_EGG,1,(short) 52);
+//	//                    	Egg spiderEgg = 
+//	                    	event.getPlayer().getInventory().addItem(itemStack);
+//							event.getPlayer().updateInventory();
+							return;
+	                    }
+	                }
+				}
+			}
+		}
+    }
+    
+    
+    private Location getSignBase(Block b)
+    {
+    	Location position = b.getLocation();
+    	if (b.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+    	{
+    		return b.getRelative(BlockFace.NORTH).getLocation();
+    	}
+    	if (b.getRelative(BlockFace.EAST).getType() != Material.AIR)
+    	{
+    		return b.getRelative(BlockFace.EAST).getLocation();
+    	}
+    	if (b.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
+    	{
+    		return b.getRelative(BlockFace.SOUTH).getLocation();
+    	}
+    	if (b.getRelative(BlockFace.WEST).getType() != Material.AIR)
+    	{
+    		return b.getRelative(BlockFace.WEST).getLocation();
+    	}
+    	
+    	return position;
+    }
+
+    /**
+     * check a sign if registered.
+     * when not registered write to sign list of the settlement
+     * @param event
+     * @param b 
+     */
+    private void cmdRegisterSign(PlayerInteractEvent event, Block b)
+    {
+    	Location pos = getSignBase(b);
+    	Region region = findRegionAtPosition(plugin, pos );
+    	if (region != null)
+    	{
+    		SuperRegion sRegion = findSuperRegionAtPosition(plugin, b.getLocation());
+    		if (sRegion != null)
+    		{
+    			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
+    			if (settle != null)
+    			{
+    				event.getPlayer().sendMessage("Register Sign to Settlement: "+settle.getName());
+    				if (settle.getBuildingList().containRegion(region.getID()) == true)
+    				{
+	    				int BuildingId = settle.getBuildingList().getBuildingByRegion(region.getID()).getId();
+	    				if (settle.getSignList().containsKey(BuildingId) == false)
+	    				{
+	    					Sign sBlock =	((Sign) b.getState());
+	    					String[] text = sBlock.getLines();
+	    					settle.getSignList().put
+	    					(
+	    						BuildingId, 
+	    						new SignPos
+	    						(
+	    							BuildingId,
+	    							new LocationData(
+		    							b.getLocation().getWorld().getName(),
+		    							b.getLocation().getX(),
+		    							b.getLocation().getY(),
+		    							b.getLocation().getZ()
+	    							),
+	    							text
+	    						)
+	    					);
+	    				}
+    				}
+    			}
+    		}
+    	}
+    	
+    }
+    
+    private void cmdSignUpdate(PlayerInteractEvent event, Block b)
+    {
+		SuperRegion sRegion = findSuperRegionAtPosition(plugin, b.getLocation());
+		if (sRegion != null)
+		{
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
+			if (settle != null)
+			{
+				event.getPlayer().sendMessage("Update Sign on Settlement: "+settle.getName());
+				plugin.doSignUpdate(settle);
+			}
+		}
+    }
+
 }

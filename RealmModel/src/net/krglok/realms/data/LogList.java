@@ -228,16 +228,16 @@ public class LogList
 			this.prodList.add(transaction);
 		} else
 		{
-			transaction = ConfigBasis.makeSqlString(formattedDate)  
-					+"," + ConfigBasis.makeSqlString(DataType)
-					+"," + ConfigBasis.makeSqlString(user )
-					+"," + ConfigBasis.makeSqlString(text )
-					+"," + ConfigBasis.makeSqlString(String.valueOf(SettleId)) 
-					+"," + ConfigBasis.makeSqlString(String.valueOf(buildingId)) 
-					+"," + ConfigBasis.makeSqlString(itemRef )
-					+"," + ConfigBasis.makeSqlString(String.valueOf(value))
-					+"," + ConfigBasis.makeSqlString(String.valueOf(age))
-					;
+//			transaction = ConfigBasis.makeSqlString(formattedDate)  
+//					+"," + ConfigBasis.makeSqlString(DataType)
+//					+"," + ConfigBasis.makeSqlString(user )
+//					+"," + ConfigBasis.makeSqlString(text )
+//					+"," + ConfigBasis.makeSqlString(String.valueOf(SettleId)) 
+//					+"," + ConfigBasis.makeSqlString(String.valueOf(buildingId)) 
+//					+"," + ConfigBasis.makeSqlString(itemRef )
+//					+"," + ConfigBasis.makeSqlString(String.valueOf(value))
+//					+"," + ConfigBasis.makeSqlString(String.valueOf(age))
+//					;
 			String tablename = "production";
 			String fields = "(date,context,user,building, building_id,region_id,item,amount,age) ";
 			String values = " VALUES ("+transaction +")";
