@@ -17,7 +17,7 @@ public class CmdRealmsPrice extends RealmsCommand
 		super(RealmsCommandType.REALMS,RealmsSubCommandType.PRICE);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms PRICE [ITEM] [PRICE],   ",
-		    	"Set teh prive of <Item> in the central pricelist ",
+		    	"Set the price of <Item> in the central pricelist ",
 		    	"Item must be uppercase, MATERIAL.NAME ",
 		    	"price <0.00> ",
 		    	" "
@@ -58,7 +58,7 @@ public class CmdRealmsPrice extends RealmsCommand
 	{
 		switch (index)
 		{
-		case 0 :
+		case 1 :
 				price = value;
 			break;
 		default:
@@ -81,10 +81,13 @@ public class CmdRealmsPrice extends RealmsCommand
 		itemRef = itemRef.toUpperCase();
 		String sPrice = ConfigBasis.setStrformat2(plugin.getData().getPriceList().getBasePrice(itemRef),7);
 		msg.add("Old Price : "+sPrice);
+		// Set new price
 		plugin.getData().getPriceList().add(itemRef, price);
+		plugin.getData().writePriceList();
 		String newPrice = ConfigBasis.setStrformat2(price,7);
 		msg.add("New Price : "+newPrice);
 		msg.add(" ");
+		plugin.getMessageData().printPage(sender, msg, 1);
 	}
 
 	@Override
@@ -99,8 +102,8 @@ public class CmdRealmsPrice extends RealmsCommand
 			}
 			if (price <= 0.0)
 			{
-				errorMsg.add("[Realm Model] NOT enabled or too busy");
-				errorMsg.add("Try later again");
+				errorMsg.add("Price must greater than 0.0");
+				errorMsg.add("");
 			}
 			
 		} else

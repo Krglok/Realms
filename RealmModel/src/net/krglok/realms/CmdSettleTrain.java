@@ -87,7 +87,7 @@ public class CmdSettleTrain extends RealmsCommand
 		{
 			Building building = plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuildingByRegion(buildingId);
 			building.setIsEnabled(true);
-			building.setMaxTrain(amount);
+			building.addMaxTrain(amount);
 			msg.add("Settlement ["+settle.getId()+"] : "
 					+ChatColor.YELLOW+settle.getName()
 					+ChatColor.GREEN+" Age: "+settle.getAge()

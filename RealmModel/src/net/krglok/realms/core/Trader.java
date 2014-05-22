@@ -209,7 +209,7 @@ public class Trader
 
 
 
-	public long  getTransportDelay(double distance)
+	public static long  getTransportDelay(double distance)
 	{
 		
 		if (distance > ConfigBasis.DISTANCE_1_DAY )

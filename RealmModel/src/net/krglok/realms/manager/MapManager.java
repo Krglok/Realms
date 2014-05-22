@@ -23,9 +23,9 @@ public class MapManager
 	private ArrayList<BiomeLocation> biomeList;
 	private ArrayList<BiomeLocation> biomeRequest;
 	
-	public MapManager(SettleType settleType, int radius)
+	public MapManager(SettleType settleType, int radius, boolean markup)
 	{
-		this.settleSchema = new SettleSchema(settleType, radius);
+		this.settleSchema = new SettleSchema(settleType, radius,markup);
 		this.biomeRequest = new ArrayList<BiomeLocation>();
 	}
 

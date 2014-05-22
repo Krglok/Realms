@@ -37,8 +37,7 @@ public class SettlementData
 
 //	private Realms plugin;
 	private String dataFolder; 
-//	private ItemList requiredProduction;
-//
+    private FileConfiguration config = new YamlConfiguration();
 	
 	public SettlementData(String dataFolder)		//Realms plugin)
 	{
@@ -56,6 +55,8 @@ public class SettlementData
 	{
 		try
 		{ 
+				long time1 = System.nanoTime();
+
 	            File settleFile = new File(dataFolder, "settlement.yml");
 	            if (!settleFile.exists()) 
 	            {
@@ -64,11 +65,13 @@ public class SettlementData
 	            }
 //            	settleFile.setWritable(true);
 //	            
-	            System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+":"+"settlement.yml");
+//	            System.out.println("WRITE :  "+settle.getId()+":"+dataFolder+":"+"settlement.yml");
 				HashMap<String,String> values; // = new HashMap<String,String>();
-	            FileConfiguration config = new YamlConfiguration();
-//	            String fileName = dataFolder+"//settlement.yml";
-	            config.load(settleFile);
+
+				// common config load
+//	            FileConfiguration config = new YamlConfiguration();
+//	            config.load(settleFile);
+
 //	            System.out.println("LOAD : "+settle.getId()+": "+fileName);
             
 	            String base = getSettleKey(settle.getId());
@@ -178,6 +181,9 @@ public class SettlementData
 				{
 		            System.out.println("ECXEPTION : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
 				}
+			    long time2 = System.nanoTime();
+			    System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
+
 //	            System.out.println("WRITTEN : "+settle.getId()+": "+dataFolder+""+"settlement.yml");
 			
 		} catch (Exception e)
@@ -201,10 +207,12 @@ public class SettlementData
 		try
 		{
             File settleFile = new File( dataFolder, "settlement.yml");
-            FileConfiguration config = new YamlConfiguration();
-            config.load(settleFile);
+            // common config load
+//            FileConfiguration config = new YamlConfiguration();
+//            config.load(settleFile);
+            
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
-            System.out.println("READ : "+id+":"+dataFolder+":"+"settlement.yml");
+            System.out.println("READ : "+id+":"+dataFolder+" : "+"settlement.yml");
             if (config.isConfigurationSection(settleSec))
             {
 //                System.out.println(settleSec);
@@ -303,14 +311,16 @@ public class SettlementData
             
             ItemList iList = new ItemList();
 			Map<String,Object> itemList = config.getConfigurationSection(settleSec+".itemList").getValues(false);
-        	for (String ref : itemList.keySet())
-        	{
-        		int value = Integer.valueOf(config.getString(settleSec+".itemList."+ref,"0"));
-//                System.out.println(ref+":"+value);
-                iList.addItem(ref, value);
-        	}    
-        	settle.getWarehouse().setItemList(iList);
-        	
+			if (itemList != null)
+			{
+	        	for (String ref : itemList.keySet())
+	        	{
+	        		int value = Integer.valueOf(config.getString(settleSec+".itemList."+ref,"0"));
+	//                System.out.println(ref+":"+value);
+	                iList.addItem(ref, value);
+	        	}    
+	        	settle.getWarehouse().setItemList(iList);
+			}
         	UnitFactory uFactory = new UnitFactory();
 			Map<String,Object> uList = config.getConfigurationSection(settleSec+".unitlist").getValues(false);
 			if (uList != null)
@@ -337,22 +347,22 @@ public class SettlementData
 		return settle;
 	}
 	
-	public ArrayList<String> readSettleList(Realms plugin) 
+	public ArrayList<String> readSettleList() 
 	{
-		String path = "";
-		if (plugin == null)
-		{
-			path = dataFolder;
-		} else
-		{
-			path = plugin.getDataFolder().getPath(); //+"buildplan";
-			dataFolder = path;
-		}
+//		String path = "";
+//		if (plugin == null)
+//		{
+//			path = dataFolder;
+//		} else
+//		{
+//			path = plugin.getDataFolder().getPath(); //+"buildplan";
+//			dataFolder = path;
+//		}
         String settleSec = "SETTLEMENT"; // getSettleKey(settle.getId());
 		ArrayList<String> msg = new ArrayList<String>();
 		try
 		{
-            File settleFile = new File(path, "settlement.yml");
+            File settleFile = new File(dataFolder, "settlement.yml");
             if (!settleFile.exists()) 
             {
             	settleFile.createNewFile();
@@ -360,7 +370,6 @@ public class SettlementData
             }
 //            System.out.println("READLIST : "+dataFolder+":"+"settlement.yml");
             
-            FileConfiguration config = new YamlConfiguration();
             config.load(settleFile);
 //            System.out.println(settleFile.getName()+":"+settleFile.length());
 //            System.out.println(settleSec);

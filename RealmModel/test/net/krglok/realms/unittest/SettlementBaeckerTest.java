@@ -135,7 +135,10 @@ public class SettlementBaeckerTest
 		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 256);
 		settle.getWarehouse().depositItemValue(Material.LEATHER.name(), 50);
 		
+       long time1 = System.nanoTime();
 		settle.doProduce(server);
+       long time2 = System.nanoTime();
+       System.out.println("Update Time [ms]: "+(time2 - time1)/1000000);
 		settle.doProduce(server);
 		settle.doProduce(server);
 		settle.doProduce(server);

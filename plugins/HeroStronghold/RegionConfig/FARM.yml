@@ -27,7 +27,7 @@ upkeep:
 - WOOD_HOE.1
 upkeep-chance: 0.001
 output:
-- WHEAT.64 
+- WHEAT.128
 - SEEDS.15
 - CARROT.15
 money-requirement: 5000.0

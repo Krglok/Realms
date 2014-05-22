@@ -180,6 +180,7 @@ public class TickTask implements Runnable
 	 */
 	private void doGateClose()
 	{
+		plugin.getServer().broadcastMessage("Gates now Closed");
 		for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
 		{
 			for (Building building : settle.getBuildingList().getBuildingList().values())
@@ -222,6 +223,7 @@ public class TickTask implements Runnable
 	 */
 	private void doGateOpen()
 	{
+		plugin.getServer().broadcastMessage("Gates now Open");
 		for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
 		{
 			for (Building building : settle.getBuildingList().getBuildingList().values())

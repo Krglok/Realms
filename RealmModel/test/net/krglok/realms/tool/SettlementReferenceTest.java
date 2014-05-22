@@ -368,7 +368,7 @@ public class SettlementReferenceTest
 		SettlementList settleList = new SettlementList(0);
 
 		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = sData.readSettleList(null);
+		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
 			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList(), logList));

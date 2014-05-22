@@ -125,7 +125,7 @@ public class Settlement //implements Serializable
 		setBiome(Biome.SKY);
 		trader = new Trader();
 		buildManager = new BuildManager();
-		mapManager  = new MapManager(settleType,70);
+		mapManager  = new MapManager(settleType,70,true);
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
@@ -169,7 +169,7 @@ public class Settlement //implements Serializable
 		setBiome(Biome.SKY);
 		trader = new Trader();
 		buildManager = new BuildManager();
-		mapManager  = new MapManager(settleType,70);
+		mapManager  = new MapManager(settleType,70,true);
 		tradeManager = new TradeManager (priceList);
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
@@ -212,7 +212,7 @@ public class Settlement //implements Serializable
 		trader = new Trader();
 		setBiome(Biome.SKY);
 		buildManager = new BuildManager();
-		mapManager  = new MapManager(settleType,70);
+		mapManager  = new MapManager(settleType,70,true);
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
@@ -257,7 +257,7 @@ public class Settlement //implements Serializable
 		this.biome = biome;
 		trader = new Trader();
 		buildManager = new BuildManager();
-		mapManager  = new MapManager(settleType,70);
+		mapManager  = new MapManager(settleType,70,true);
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
@@ -314,7 +314,7 @@ public class Settlement //implements Serializable
 		this.setBiome(biome);
 		trader = new Trader();
 		buildManager = new BuildManager();
-		mapManager  = new MapManager(settleType,70);
+		mapManager  = new MapManager(settleType,70,true);
 		tradeManager = new TradeManager (priceList);
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();

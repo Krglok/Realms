@@ -87,9 +87,9 @@ public class ServerData implements ServerInterface
 	}
 
 	@Override
-	public SuperRegion getSuperRegion(String SuperregionName)
+	public SuperRegion getSuperRegion(String superregionName)
 	{
-		return plugin.stronghold.getRegionManager().getSuperRegion(SuperregionName);
+		return plugin.stronghold.getRegionManager().getSuperRegion(superregionName);
 	}
 
 	@Override
@@ -103,6 +103,11 @@ public class ServerData implements ServerInterface
 		{
 			return 0;
 		}
+	}
+	
+	public void destroySuperRegion(String superRegionName)
+	{
+		plugin.stronghold.getRegionManager().destroySuperRegion(superRegionName, true);
 	}
 	
 	@Override

@@ -70,6 +70,8 @@ public class ServerListener implements Listener
 	private Realms plugin;
 	private int lastPage;
 	private int marketPage;
+	private long lastHunt = 0;
+	private long lastTame = 0; 
 	
 	public ServerListener(Realms plugin)
 	{
@@ -991,6 +993,38 @@ public class ServerListener implements Listener
 				}
 			}
 		}
+
+		if (l0.contains("[TRAIN]"))
+		{
+	    	ArrayList<String> msg = new ArrayList<String>();
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
+			for (Building building : settle.getBuildingList().getBuildingList().values())
+			{
+				if (regionId == building.getHsRegion())
+				{
+					if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 5 )
+					{
+						sign.setLine(1, String.valueOf(building.getTrainType().name()));
+						sign.update();
+						building.addMaxTrain(1);
+						msg.add("Settlement ["+settle.getId()+"] : "
+								+ChatColor.YELLOW+settle.getName()
+								+ChatColor.GREEN+" Age: "+settle.getAge()
+								+":"+settle.getProductionOverview().getCycleCount());
+						msg.add("Building: "+building.getBuildingType().name());
+						msg.add("Train   : "+ChatColor.YELLOW+building.getTrainType().name());
+						msg.add("Need    : "+ChatColor.YELLOW+ConfigBasis.setStrright(building.getTrainTime(),4)+" Cycles");
+					} else
+					{
+						msg.add("Building: "+building.getBuildingType().name());
+						msg.add("Train   : "+ChatColor.RED+"not possible !");
+					}
+					plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+				}
+			}
+		}
     	
     }
 
@@ -1049,7 +1083,17 @@ public class ServerListener implements Listener
     	
 		if (l0.contains("[HUNT]"))
 		{
-//			if (plugin.getServ)
+			long actTime = plugin.getServer().getWorlds().get(0).getTime();
+			if (Math.abs(actTime - lastHunt)< 1000)
+			{
+		    	ArrayList<String> msg = new ArrayList<String>();
+				msg.add("[REALMS] Timeout hunt 1 h");
+				msg.add(" ");
+    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+				System.out.println("[REALMS] Timeout hunt");
+				return;
+			}
+			lastHunt = plugin.getServer().getWorlds().get(0).getTime();
 			Location pos = b.getLocation();
 			// find required region
 			Region region = findRegionAtPosition( plugin, pos);
@@ -1069,7 +1113,6 @@ public class ServerListener implements Listener
                 if( eType== EntityType.SPIDER) 
                 {
                     double distance = entity.getLocation().distance(pos);
-
                     if(distance <= 100) 
                     {
                     	entity.remove();
@@ -1131,7 +1174,17 @@ public class ServerListener implements Listener
 		
 		if (l0.contains("[TRAP]"))
 		{
-//			if (plugin.getServ)
+			long actTime = plugin.getServer().getWorlds().get(0).getTime();
+			if (Math.abs(actTime - lastTame)< 1000)
+			{
+		    	ArrayList<String> msg = new ArrayList<String>();
+				msg.add("[REALMS] Timeout hunt 1 h");
+				msg.add(" ");
+    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+				System.out.println("[REALMS] Timeout hunt");
+				return;
+			}
+			lastTame = plugin.getServer().getWorlds().get(0).getTime();
 			Location pos = b.getLocation();
 			// find required region
 			Region region = findRegionAtPosition( plugin, pos);
@@ -1387,4 +1440,5 @@ public class ServerListener implements Listener
 		}
     }
 
+    
 }

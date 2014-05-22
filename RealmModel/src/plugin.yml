@@ -1,12 +1,13 @@
 name: Realms
 database: false
 main: net.krglok.realms.Realms
-version: 0.8.4.4
+version: 0.8.5.0
 description: Allows you to create settlements based on herostronghold regions. Expand the settlement with buildings. Trade with other settlements.
 author: krglok
 startup: postworld
 website: http://dev.bukkit.org/bukkit-plugins/realms/
 depend: [Vault,HeroStronghold]
+softdepend: [SignChestShop]
 commands:
     realms:
         description: Basic command only show version and commandlist
@@ -15,26 +16,23 @@ commands:
  /kingdom player command for realm management
  /settle player command for settlement management
  /colonist player command for control colonists
+ /regiment player command for control regiments
  "
-    model:
-        description: only for ops to control model setup 
-        usage: "/model [subCommand] 
-        "
     owner: 
         description: only for ops for managing owners
-        usage: " /owner [subCommand] [ownerId] 
-        "
+        usage: /owner [subCommand] [ownerId] 
     kingdom:
-        description: player command for realm management 
-        usage: " /realm [subCommand] [realmId]  
-        "
+        description: player command for kingdom management 
+        usage: /realm [subCommand] [realmId]  
     settle:
         description: player command for settlement management
-        usage: " /settle [subCommand] [settlementId] 
-        "
+        usage: /settle [subCommand] [settlementId] 
     colonist:
-        description: show data from HeroStronghold
+        description: player command for colonist managment
         usage: /colonist [subCommand] {parameter}
+    regiment:
+        description: player command for regiment managment
+        usage: /regiment [subCommand] {parameter}
 permissions:
     realms.admin:
         description: Gives access to admin commands

@@ -2,12 +2,12 @@ package net.krglok.realms.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.mysql.jdbc.PreparedStatement;
 
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import lib.PatPeter.SQLibrary.Database;
 
 public class PriceTable extends TableData 
 {
@@ -15,7 +15,7 @@ public class PriceTable extends TableData
 	 * check the table and make a create if false;
 	 * @param sql
 	 */
-	public PriceTable(Database sql)
+	public PriceTable(SQliteConnection sql)
 	{
 		super(sql,"baseprice");
 		makeTableDefinitions(tablename);
@@ -30,8 +30,8 @@ public class PriceTable extends TableData
 		this.tablename = tablename;
 		this.fieldnames = new String[] { "objectname","valuename", "value" };
 		this.fieldtypes = new String[] { "String",  "String", "Double" };
-		this.indexnames = new String[] { tablename+"_idx1", tablename+"_idx2"  };
-		this.indexnames = new String[] { "objectname", "objectname,valuename" };
+		this.indexnames = new String[] {  tablename+"_idx2"  };
+		this.indexfields = new String[] { "objectname,valuename" };
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class PriceTable extends TableData
 	public void replaceItemValue(String basekey, String itemRef, double price)
 	{
 		
-		String query = "SELECT rowid FROM "+tablename
+		String query = "SELECT rowid, * FROM "+tablename
 				+" WHERE "+fieldnames[0]+"="+makeSqlString(basekey)
 				+" AND "+fieldnames[1]+"="+makeSqlString(itemRef)
 				;
@@ -61,13 +61,17 @@ public class PriceTable extends TableData
 				;
 		try 
 		{
-			ResultSet result = this.sql.query(query);
-			if (result.getRow() == 0)
+//			ResultSet result  = this.sql.query(query);
+//			if ((result.next() == false))
+//			{
+//				this.sql.insert(insert);
+//			} else
+//			{
+//				this.sql.update(update);
+//			}
+			if (this.sql.update(update) == false)
 			{
-				this.sql.query(insert);
-			} else
-			{
-				this.sql.query(update);
+				this.sql.insert(insert);
 			}
 		} catch (SQLException e) 
 		{
@@ -78,30 +82,76 @@ public class PriceTable extends TableData
 //		return this.readObjectSection(basekey, itemRef);
 	}
 	
+	public void insertItem(String basekey, String itemRef, double price) 
+	{
+		String insert = "INSERT INTO "+tablename
+				+" ("+ getFieldNames() +") "
+				+" VALUES ("+makeSqlString(basekey)+", "+makeSqlString(itemRef)+", "+String.valueOf(price)+" ) "
+				;
+		try
+		{
+			this.sql.insert(insert);
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("[REALMS] Insert Error on "+tablename+":"+itemRef);
+		}
+		
+	}
+	
+	public void updateItem(String basekey, String itemRef, double price)
+	{
+		String update = "UPDATE "+tablename
+				+" SET "+fieldnames[2]+"="+String.valueOf(price)
+				+" WHERE "+fieldnames[0]+"="+makeSqlString(basekey)
+				+" AND "+fieldnames[1]+"="+makeSqlString(itemRef)
+				;
+		try
+		{
+			this.sql.update(update);
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("[REALMS] Insert Error on "+tablename+":"+itemRef);
+		}
+		
+	}
+	
 	/**
 	 * make a direct replace for every item in the priclist
 	 * @param items
 	 * @param basekey
 	 */
-	public void writePriceData(ItemPriceList items, String basekey)
+	public void writePriceData(ItemPriceList items, String basekey, boolean isNew)
 	{
-		resultSet = this.readObject(basekey);
-		for (ItemPrice item : items.values())
+		if (isNew == true)
 		{
-			replaceItemValue( basekey, item.ItemRef(), item.getFormatedBasePrice());
+			String query = "DELETE FROM "+tablename+" WHERE objectname="+makeSqlString(basekey);
+			delete(query);
+			for (ItemPrice item : items.values())
+			{
+				insertItem(basekey, item.ItemRef(), item.getFormatedBasePrice());
+			}
+		} else
+		{
+			for (ItemPrice item : items.values())
+			{
+				updateItem(basekey, item.ItemRef(), item.getFormatedBasePrice());
+			}
+			
 		}
 	}
 	
 	public ResultSet selectPricedata()
 	{
-		String query = "SELECT rowid,* FROM "+tablename
+		String query = "SELECT rowid,* FROM "+tablename + " ORDER BY "+fieldnames[1];
 //				+" WHERE "+fieldnames[0]+"="+makeSqlString(basekey)
 //				+" AND "+fieldnames[1]+"="+makeSqlString(itemRef)
 				;
 		try 
 		{
-			java.sql.PreparedStatement pQuery = sql.prepare(query);
-			return this.sql.query(pQuery);
+			ResultSet resultSet = this.sql.query(query);
+			return resultSet;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("[REALMS] Select Error on "+tablename);

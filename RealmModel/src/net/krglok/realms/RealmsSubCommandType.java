@@ -20,6 +20,7 @@ public enum RealmsSubCommandType
 	BUY,
 	CREATE ,
 	CHECK,
+	CREDIT,
 	DEACTIVATE ,
 	DELETE ,
 	DEPOSIT ,

@@ -57,11 +57,11 @@ public class DataStorage implements DataInterface
 	public DataStorage(Realms plugin)
 	{
 		this.plugin = plugin;
-		settleData = new SettlementData("");
+		settleData = new SettlementData(plugin.getDataFolder().getPath());
 		owners = new OwnerList();
 		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
-		priceData = new PriceData(plugin);
+		priceData = new PriceData(plugin.getDataFolder().getPath());
 		priceList = new ItemPriceList();
 	}
 	
@@ -71,9 +71,14 @@ public class DataStorage implements DataInterface
 		priceList = priceData.readPriceData();
 		npcOwners();
 		npcRealms(owners.getOwner(NPC_0));
-		ArrayList<String> settleInit = settleData.readSettleList(plugin);
+		ArrayList<String> settleInit = settleData.readSettleList();
 		isReady = initSettlements(settleInit);
 		return isReady;
+	}
+	
+	public void writePriceList()
+	{
+		priceData.writePriceData(priceList);
 	}
 	
 	/**

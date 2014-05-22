@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
 /**
  * <pre>
@@ -314,5 +316,34 @@ public abstract class RealmsCommand implements iRealmsCommand
     	}
 		return msg;
 
+	}
+	
+	public ItemStack writeBook(ItemStack book, ArrayList<String> msg, String author, String title)
+	{
+		final BookMeta bm = (BookMeta) book.getItemMeta();
+		String sPage = "";
+		int line = 0;
+		int bookPage = 0;
+		for (int i=0; i < msg.size(); i++)
+		{
+			line++;
+			sPage = sPage+msg.get(i);
+			if ((line > 12) && (bookPage < 50))
+			{
+				bm.addPage(sPage);
+				sPage = "";
+				line = 0;
+				bookPage++;
+			}
+		}
+		if ((sPage != "") && (bookPage < 50))
+		{
+			bm.addPage(sPage);
+		}
+		bm.setAuthor(author);
+		bm.setTitle(title);
+		book.setItemMeta(bm);
+
+		return book;
 	}
 }

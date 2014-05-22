@@ -31,11 +31,10 @@ import org.bukkit.block.Biome;
 /**
  * <pre>
  * the colony has the special task to buildup a settlement 
- * this is a reduced settlement with a warehouse and a BuildManager
+ * ths is a automatic settlement builder, the configuration is read from the settleSchema
  * the colony can be moved
  * the colony has a command to start the build
- * then the colony buildup the given settlement schema and destroid afterward.
- * the colony will be stored in a YML file for persistence
+ * the colony work as a  finite state machine 
  * </pre>
  * @author Windu
  *
@@ -258,6 +257,25 @@ public class Colony
 	}
 	
 	/**
+	 * Set Status of Colony to Reinforce a Camp
+	 * will be done on Colony.run() 
+	 * @param rModel
+	 * @param radius
+	 */
+	public void startReinforce(int radius)
+	{
+		System.out.println(id+" Reinforce Camp "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+		this.cStatus = ColonyStatus.REINFORCE;
+		this.isPrepared = false;
+		prepareOffset = 0; //buildPlan.getOffsetY();
+		this.prepareLevel = prepareOffset;
+		this.prepareRow = 0;
+		this.prepareCol = 0;
+		this.prepareRadius = radius;
+		this.prepareMaxLevel = radius + 2;
+	}
+	
+	/**
 	 * 
 	 * @param position
 	 */
@@ -397,7 +415,13 @@ public class Colony
 				this.prepareMaxLevel = 21;
 				this.cStatus = ColonyStatus.PREPARE;
 				System.out.println(id+" Prepare  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-
+				if (biome == Biome.HELL)
+				{
+					if (settleSchema.getSettleType() == SettleType.HAMLET)
+					{
+						settleSchema = netherSchema;
+					}
+				}
 			} else
 			{
 				System.out.println("Colonist Build canceled");
@@ -426,33 +450,38 @@ public class Colony
 			}
 			break;
 		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
-			System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-			buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
-			buildManager.newBuild(buildPlan, this.position, owner);
-			nextStatus = ColonyStatus.READY;
-			this.cStatus = ColonyStatus.WAITBUILD;
+			if (settleSchema.isRegiment() == false)
+			{
+				System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
+				buildManager.newBuild(buildPlan, this.position, owner);
+				nextStatus = ColonyStatus.READY;
+				this.cStatus = ColonyStatus.WAITBUILD;
+			}
 			break;
 		case READY :		// der Builder bereitet das Materiallager vor
-			if (markUpStep < 5)
+			if (settleSchema.isMarkUp())
 			{
-				if (biomeRequest.isEmpty() == false)
+				if (markUpStep < 5)
 				{
-					if (biomeRequest.get(0).getBiome() == null)
+					if (biomeRequest.isEmpty() == false)
 					{
-						biome = Biome.SKY;
-					} else
-					{
-						biome = biomeRequest.get(0).getBiome(); 
-						biomeRequest.remove(0);
+						if (biomeRequest.get(0).getBiome() == null)
+						{
+							biome = Biome.SKY;
+						} else
+						{
+							biome = biomeRequest.get(0).getBiome(); 
+							biomeRequest.remove(0);
+						}
 					}
+					markUpSettleSchema(rModel);
+				} else
+				{
+					this.cStatus = ColonyStatus.STARTLIST;
 				}
-				markUpSettleSchema(rModel);
 			} else
 			{
-				if (biome == Biome.HELL)
-				{
-					settleSchema = netherSchema;
-				}
 				this.cStatus = ColonyStatus.STARTLIST;
 			}
 			break;
@@ -499,9 +528,9 @@ public class Colony
 			this.cStatus = ColonyStatus.NEWSETTLE;
 			break;
 		case NEWSETTLE:
-			if (superRequest == null)
+			if (settleSchema.isRegiment() == false)
 			{
-				if (newSuperRegion.getRegionType() == SettleType.HAMLET.name())
+				if (superRequest == null)
 				{
 					System.out.println(id+" Create Settlement  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 					McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.HAMLET,biome);
@@ -516,21 +545,21 @@ public class Colony
 					this.prepareRadius = 4;
 					this.prepareMaxLevel = 7;
 					System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-				} else
-				{
-					this.cStatus = ColonyStatus.DONE;
-					this.isPrepared = false;
-					prepareOffset = 0; //buildPlan.getOffsetY();
-					this.prepareLevel = prepareOffset;
-					this.prepareRow = 0;
-					this.prepareCol = 0;
-					this.prepareRadius = 4;
-					this.prepareMaxLevel = 7;
-					System.out.println("No Reinforce build CAMP "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 				}
+			} else
+			{
+				this.cStatus = ColonyStatus.DONE;
+				this.isPrepared = false;
+				prepareOffset = 0; //buildPlan.getOffsetY();
+				this.prepareLevel = prepareOffset;
+				this.prepareRow = 0;
+				this.prepareCol = 0;
+				this.prepareRadius = 4;
+				this.prepareMaxLevel = 7;
+				System.out.println("No Reinforce build CAMP "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 			}
 			break;
-		case REINFORCE:
+		case REINFORCE:  // removal of Colony in the center 
 			doPrepareArea();
 			if ((prepareLevel > prepareMaxLevel) && (buildManager.getCleanRequest().isEmpty()))
 			{
@@ -544,8 +573,7 @@ public class Colony
 			}
 			break;
 		case DONE:			// der Builder beendet den Auftrag.
-			
-			if (newSuperRegion.getRegionType() == SettleType.HAMLET.name())
+			if (settleSchema.isRegiment() == false)
 			{
 				Settlement settle = rModel.getSettlements().findName(name);
 				if (settle != null)
@@ -572,7 +600,6 @@ public class Colony
 				this.cStatus = ColonyStatus.FULFILL;
 				System.out.println("CAMP ended ormal ");
 			}
-			
 			break;
 		case WAIT:			// der Builder wartet auf Material
 			this.cStatus = ColonyStatus.NONE;

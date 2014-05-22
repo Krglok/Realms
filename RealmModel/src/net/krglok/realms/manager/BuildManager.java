@@ -278,6 +278,9 @@ public class BuildManager
 			doCleanStep();
 			doCleanStep();
 			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
 		}
 		// ein level oberhalb mit abraeumen
 		int edge = (buildPlan.getRadius()+1) * 2 -1; 
@@ -415,7 +418,7 @@ public class BuildManager
 		// region erzeugen 
 		if (buildRequest.isEmpty() )
 		{
-			if ((buildPlan.getBuildingType() != BuildPlanType.PILLAR) && (buildPlan.getBuildingType() != BuildPlanType.COLONY))
+			if (buildPlan.getBuildingType().getValue() >= 50)
 			{
 				String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
 				if (regionType != "")

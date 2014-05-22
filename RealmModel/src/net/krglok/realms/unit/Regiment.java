@@ -14,6 +14,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Resident;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Townhall;
+import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.Trader;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.LogList;
@@ -27,7 +28,7 @@ import net.krglok.realms.model.RealmModel;
 import org.bukkit.block.Biome;
 
 /**
- * Das Privateer hat folgende Eigenschaften
+ * Das Regiment hat folgende Eigenschaften
   Einen Namen
   Eine aktuelle Position
   Einen Status
@@ -49,6 +50,7 @@ public class Regiment {
 	private RegimentType regimentType = RegimentType.PRIVATEER;
 	private RegimentStatus regStatus = RegimentStatus.NONE;
 	private LocationData position;
+	private LocationData target;
 	private String name;
 	private String owner;
 	private Barrack barrack ;
@@ -58,6 +60,7 @@ public class Regiment {
 	
 	private Boolean isEnabled;
 	private Boolean isActive;
+	private boolean isUncamp;
 	
 	private double hungerCounter = 0.0;
 	private double foodConsumCounter = 0.0;
@@ -72,6 +75,9 @@ public class Regiment {
 	private Colony colonist;
 	private BattleSetup battle;
 	private Unit commander = null;
+
+	private int tickCount;
+	private int maxTicks;
 	
 	private int settleId = -1;
 	
@@ -83,6 +89,7 @@ public class Regiment {
 		this.id			= lfdID;
 		this.age         = 0;
 		this.position 	= new LocationData("", 0.0, 0.0, 0.0);
+		this.target 	= new LocationData("", 0.0, 0.0, 0.0);
 		this.world 		= "";
 		this.biome		= null;
 		this.name		= "Regiment";
@@ -91,9 +98,12 @@ public class Regiment {
 		this.warehouse		= new Warehouse(REGIMENT_ITEM_MAX);
 		this.isEnabled  = true;
 		this.isActive   = true;
+		this.isUncamp 	= true;
 		this.battleOverview = new BoardItemList();
 		this.colonist =  Colony.newCamp(this.name, this.owner, logList);
 		this.battle 	= new BattleSetup();
+		this.tickCount  = 0;
+		this.maxTicks	= 0;
 
 	}
 
@@ -107,7 +117,7 @@ public class Regiment {
 		regiment.name		= "Privateer";
 		regiment.owner		= "Raider";
 		regiment.commander 	= new Unit(UnitType.COMMANDER);
-		
+		regiment.getColonist().setPosition(regiment.getPosition());
 		return regiment;
 	}
 	
@@ -203,6 +213,16 @@ public class Regiment {
 	}
 
 
+
+	public LocationData getTarget()
+	{
+		return target;
+	}
+
+	public void setTarget(LocationData target)
+	{
+		this.target = target;
+	}
 
 	public String getName() {
 		return name;
@@ -415,6 +435,7 @@ public class Regiment {
 	
 	public void run(RealmModel rModel)
 	{
+//		System.out.println("Regiment: "+regStatus.name());
 		switch (regStatus)
 		{
 		case NONE :
@@ -423,23 +444,23 @@ public class Regiment {
 		case CAMP :
 			doCamp(rModel);
 			break;
-		case UNCAMP:
-			colonist.run(rModel, warehouse);
+		case UNCAMP :
+			doUncamp(rModel);
 			break;
 		case MOVE :
-			
+			doMove(rModel);
 			break;
 		case BATTLE :
-			
+			doBattle(rModel);
 			break;
 		case RAID :
-			
+			doRaid(rModel);
 			break;
 		case HIDE :
-			
+			doHide(rModel);
 			break;
 		case WAIT :
-			
+			doWait(rModel);
 			break;
 		default :
 			break;
@@ -448,6 +469,101 @@ public class Regiment {
 	
 	private void doCamp(RealmModel rModel)
 	{
-		colonist.run(rModel, warehouse);
+		if ((colonist.getStatus().equalsIgnoreCase("FULFILL"))
+			|| (colonist.getStatus().equalsIgnoreCase("NONE")))
+		{
+			System.out.println("Regiment start Wait");
+			regStatus = RegimentStatus.WAIT;
+		} else
+		{
+			colonist.run(rModel, warehouse);
+		}
 	}
+	
+	private void doUncamp(RealmModel rModel)
+	{
+		if ((colonist.getStatus().equalsIgnoreCase("FULFILL"))
+			|| (colonist.getStatus().equalsIgnoreCase("NONE")))
+		{
+			System.out.println("Regiment start Move");
+			rModel.getServer().destroySuperRegion(name);
+			isUncamp =true;
+			regStatus = RegimentStatus.MOVE;
+		} else
+		{
+//		System.out.println("Regiment colonist: "+colonist.getStatus());
+		  colonist.run(rModel, warehouse);
+		}
+	}
+	
+	private void doMove(RealmModel rModel)
+	{
+		if (position.distance(target) > 120)
+		{	
+			runTick();
+		} else
+		{
+			System.out.println("Regiment start Camp");
+			colonist.startUpBuild(this.name, true); 
+			regStatus = RegimentStatus.CAMP;
+		}
+	}
+	
+	private void runTick()
+	{
+		if (regStatus == RegimentStatus.MOVE)
+		{
+			this.tickCount++;
+			if (this.tickCount >= this.maxTicks)
+			{
+				tickCount 	= 0;
+				maxTicks 	= 0;
+				position 	= target;
+				colonist.setPosition(position);
+				regStatus = RegimentStatus.CAMP;
+			}
+		}
+	}
+
+	
+	public void startMove()
+	{
+		
+		double distance = position.distance(target);
+		
+		long travelTime = 20; //Trader.getTransportDelay(distance);
+		if (position.getWorld().equalsIgnoreCase(target.getWorld()) == true)
+		{
+			System.out.println("Regiment Start Uncamp!");
+			regStatus = RegimentStatus.UNCAMP;
+//			colonist.startReinforce(colonist.getSettleSchema().getRadius());
+			
+		} else
+		{
+			System.out.println("Regiment cant move to other Kontinent!");
+		}
+		
+	}
+
+	private void doHide(RealmModel rModel)
+	{
+		
+	}
+
+	private void doWait(RealmModel rModel)
+	{
+		
+	}
+
+	private void doBattle(RealmModel rModel)
+	{
+		
+	}
+
+	private void doRaid(RealmModel rModel)
+	{
+		
+	}
+
 }
+

@@ -265,7 +265,7 @@ public class SettlementDataTest
 		final double MIN_MONEY_FACTOR = 50.0; 
 		ConfigTest config = new ConfigTest();
 		
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
 		
@@ -276,10 +276,14 @@ public class SettlementDataTest
 		SettlementList settleList = new SettlementList(0);
 
 		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = sData.readSettleList(null);
+		ArrayList<String> sList = sData.readSettleList();
+
 		for (String sName : sList)
 		{
+			long time1 = System.nanoTime();
 			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList(), logTest));
+		    long time2 = System.nanoTime();
+		    System.out.println("Read Time [ms]: "+(time2 - time1)/1000000);
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");
@@ -301,7 +305,7 @@ public class SettlementDataTest
 			System.out.print(" | "+ConfigBasis.setStrleft(getHighPrice(settle, priceList),10));
 			System.out.print(" | "+ConfigBasis.setStrleft(getHighValue(settle),10));
 			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(Material.GOLD_NUGGET.name())),3));
-			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(Material.EMERALD.name())),2));
+//			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(Material.EMERALD.name())),2));
 			System.out.print(" | "+ ConfigBasis.setStrleft(getRequired(settle, 0),10));
 			System.out.println(" ");
 		}
@@ -411,8 +415,12 @@ public class SettlementDataTest
 				System.out.println(" ");
 			}
 		}
+
+		for (Settlement settle : settleList.getSettlements().values())
+		{
+			sData.writeSettledata(settle);
+		}
 		
 	}
-
 
 }

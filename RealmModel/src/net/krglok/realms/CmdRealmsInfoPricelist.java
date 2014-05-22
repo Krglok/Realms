@@ -72,23 +72,13 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 	{
     	ArrayList<String> msg = new ArrayList<String>();
 		msg.add("== Pricelist size :"+plugin.getData().getPriceList().size());
-//		for (ItemPrice item : plugin.getData().getPriceList().values())
-//		{
-//			msg.add( ConfigBasis.setStrleft(item.ItemRef()+"________",9)+ " : "+item.getFormatedBasePrice());
-//		}
-//		if (msg.size() < 2)
-//		{
-//			msg.add("== ");
-//		}
 		Player player = (Player) sender;
 		PlayerInventory inventory = player.getInventory();
 		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 
-		final BookMeta bm = (BookMeta) book.getItemMeta();
-		msg.add(ConfigBasis.setStrleft(" Trade  Pricelist ", 19));
-		msg.add(ConfigBasis.setStrleft(" of the Settlements ", 19));
-		ArrayList<String> sortItems = plugin.getData().getPriceList().sortItems();
-		for (String itemRef : sortItems)
+		msg.add(ConfigBasis.setStrleft(" Pricelist for ", 19));
+		msg.add(ConfigBasis.setStrleft(" Settlements : §0", 19));
+		for (String itemRef : plugin.getData().getPriceList().sortItems())
 		{
 			ItemPrice item = plugin.getData().getPriceList().get(itemRef);
 			String sLine = "";
@@ -101,28 +91,7 @@ public class CmdRealmsInfoPricelist extends RealmsCommand
 		
 		if (sender instanceof Player)
 		{
-			String sPage = "";
-			int line = 0;
-			int bookPage = 0;
-			for (int i=0; i < msg.size(); i++)
-			{
-				line++;
-				sPage = sPage+msg.get(i);
-				if ((line > 12) && (bookPage < 50))
-				{
-					bm.addPage(sPage);
-					sPage = "";
-					line = 0;
-					bookPage++;
-				}
-			}
-			if ((sPage != "") && (bookPage < 50))
-			{
-				bm.addPage(sPage);
-			}
-			bm.setAuthor("Realm Admin");
-			bm.setTitle("The Pricelist");
-			book.setItemMeta(bm);
+			writeBook(book, msg, "Realm Admin","The Pricelist");
 			inventory.addItem(book);
 		}
 		

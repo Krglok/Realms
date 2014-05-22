@@ -49,6 +49,8 @@ public interface ServerInterface
 
 	public SuperRegion getSuperRegion(String SuperregionName);
 	
+	public void destroySuperRegion(String superRegionName);
+
 	public int getSuperRegionPower(String superRegionName);
 	
 	public double getSuperRegionbank(String superRegionName);

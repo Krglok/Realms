@@ -24,13 +24,22 @@ public class SettleSchema
 	private int radius;
 	private int edge = radius * 2 -1;
 	private BuildPositionList bPositions;
+	private boolean markUp = false;
+	private boolean regiment = false;
 
-	public SettleSchema(SettleType settleType,  int radius)
+	/**
+	 * Create settleSchema  for Colonist
+	 * @param settleType
+	 * @param radius
+	 * @param markup
+	 */
+	public SettleSchema(SettleType settleType,  int radius, boolean markup)
 	{
 		this.settleType = settleType;
 		this.radius = radius;
 		this.settlePlan = new PlanMap(settleType.name());
 		this.setbPositions(new BuildPositionList());
+		this.markUp = markup;
 	}
 	
 	/**
@@ -39,7 +48,8 @@ public class SettleSchema
 	 */
 	public static SettleSchema initDefaultHamlet()
 	{
-		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40);
+		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40,true);
+		schema.setRegiment(false); 
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HALL, new LocationData("", -10.0, 0.0, -10.0)));
 		
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("", -7.0, 0.0, 7.0)));
@@ -57,7 +67,8 @@ public class SettleSchema
 	
 	public static SettleSchema initBasicHamlet()
 	{
-		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40);
+		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40,true);
+		schema.setRegiment(false); 
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.SHEPHERD,     new LocationData("", 16.0, 0.0, 16.0)));
 		
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.CARPENTER,    new LocationData("", -25.0, 0.0, 7.0)));
@@ -75,7 +86,9 @@ public class SettleSchema
 
 	public static SettleSchema initCamp()
 	{
-		SettleSchema schema = new SettleSchema(SettleType.CAMP, 7);
+		SettleSchema schema = new SettleSchema(SettleType.CAMP, 10,false);
+		schema.setRegiment(true); 
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.FORT, new LocationData("", 0.0, 0.0, 0.0)));
 		return schema;
 	}
 	
@@ -86,7 +99,8 @@ public class SettleSchema
 	 */
 	public static SettleSchema initHellHamlet()
 	{
-		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40);
+		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40,true);
+		schema.setRegiment(false); 
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HALL, new LocationData("", -10.0, 0.0, -10.0)));
 		
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.HOME, new LocationData("", -7.0, 0.0, 7.0)));
@@ -146,6 +160,38 @@ public class SettleSchema
 	public void setbPositions(BuildPositionList bPositions)
 	{
 		this.bPositions = bPositions;
+	}
+
+	/**
+	 * @return the markUp
+	 */
+	public boolean isMarkUp()
+	{
+		return markUp;
+	}
+
+	/**
+	 * @param markUp the markUp to set
+	 */
+	public void setMarkUp(boolean markUp)
+	{
+		this.markUp = markUp;
+	}
+
+	/**
+	 * @return the regiment
+	 */
+	public boolean isRegiment()
+	{
+		return regiment;
+	}
+
+	/**
+	 * @param regiment the regiment to set
+	 */
+	public void setRegiment(boolean regiment)
+	{
+		this.regiment = regiment;
 	}
 
 	

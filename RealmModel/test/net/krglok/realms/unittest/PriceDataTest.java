@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import lib.PatPeter.SQLibrary.Database;
-import lib.PatPeter.SQLibrary.SQLite;
-
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.data.PriceData;
 import net.krglok.realms.data.PriceTable;
+import net.krglok.realms.data.SQliteConnection;
 
 import org.bukkit.Material;
 import org.junit.Test;
@@ -20,23 +21,11 @@ public class PriceDataTest {
 	@Test
 	public void testWritePriceData()
 	{
-       String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
-       String basekey = "BASEPRICE";
-       Logger logger = Logger.getAnonymousLogger();
-//		SQLite(Logger logger, String prefix, String directory, String filename) 
-       Database sql = new SQLite(logger, 
-	             "[Realms] ", 
-	             path, 
-	             "realms" 
-	             );
-       if (sql.open() == false)
-       {
-           System.out.println("Database NOT open !");
-    	   return;
-       }
-       System.out.println("Database open !");
-       PriceTable priceTable = new PriceTable(sql);
-       System.out.println("Table open !");
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+		String basekey = "BASEPRICE";
+		Logger logger = Logger.getAnonymousLogger();
+		//		SQLite(Logger logger, String prefix, String directory, String filename) 
+		 PriceData priceData = new PriceData(path);
 		
        ItemPriceList items = new ItemPriceList();
        for (Material mat : Material.values())
@@ -63,23 +52,25 @@ public class PriceDataTest {
        items.add("COAL", 3.0);
        items.add("IRON_ORE", 15.0);
        items.add("IRON_SWORD", 235.0);
-	//	writePriceData(items);
-//       priceTable.replaceItemValue(basekey, "WHEAT", 0.20);
+       long time1 = System.nanoTime();
+       priceData.writePriceData(items);
+//       priceData.replaceItemValue(basekey, "WHEAT", 0.20);
 //       priceTable.replaceItemValue(basekey, "LOG", 0.50);
-       ResultSet result = priceTable.selectPricedata();
-       try 
-       {
-    	   if (result.getRow() == 0)
-    	   {
-		       System.out.println("ResulSet empty");
-    	   } else
-    	   {
-    		   System.out.println("ResulSet "+result.getRow());
-    	   }
-       } catch (SQLException e) {
-			e.printStackTrace();
-       }
-       System.out.print("ENDE");
+       long time2 = System.nanoTime();
+       System.out.println("Update Time [ms]: "+(time2 - time1)/1000000);
+
+       time1 = System.nanoTime();
+       ItemPriceList result = priceData.readPriceData();
+       time2 = System.nanoTime();
+       System.out.println("Select Time [us]: "+(time2 - time1)/1000);
+       int row = 1;
+       for (ItemPrice item : result.values())
+	   {
+		   System.out.print(ConfigBasis.setStrright(row,2)+":");
+		   System.out.print(ConfigBasis.setStrleft(item.ItemRef(),13));
+		   System.out.print(":"+ConfigBasis.setStrright(item.getBasePrice(),7));
+		   System.out.println();
+	   }
 		
 	}
 

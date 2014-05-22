@@ -7,8 +7,11 @@ import java.util.Collection;
 import java.util.List;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.Settlement;
+import net.skycraftmc.SignChestShop.Shop;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -24,6 +27,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
@@ -45,7 +49,7 @@ public class CmdRealmsTest extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms TEST [page]   ",
-		    	" test all region for center chest  ",
+		    	" fill Shop with items  ",
 		    	"  ",
 		    	"  ",
 		    	" "
@@ -109,14 +113,63 @@ public class CmdRealmsTest extends RealmsCommand
 		}
 	}
 	
+	private SuperRegion findSuperRegionAtPosition(Realms plugin, Location position)
+	{
+	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+	    {
+	    	if (sRegion != null)
+	    	{
+	    		return sRegion;
+	    	}
+	    }
+		return null;
+	}
+
+    private void cmdSignShop(Realms plugin, Block b)
+    {
+    	Location pos = b.getLocation();
+		SuperRegion sRegion = findSuperRegionAtPosition(plugin, b.getLocation());
+		if (sRegion != null)
+		{
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
+			if (settle != null)
+			{
+    	    	System.out.println("Realms setSHop");
+    	    	plugin.setShop(b.getLocation(), settle);
+//    	    	plugin.setShopPrice(pos);
+    	    }
+		}
+    }
+
+	
+    
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-    	ArrayList<String> msg = new ArrayList<String>();
-//		Player player = (Player) sender;
-		checkRegionChest(plugin, msg);
-		plugin.getMessageData().printPage(sender, msg, page);
-
+		System.out.println("Look for Signs ");
+		int radius = 5;
+		int edge = radius * 2 -1;
+		Player player = (Player) sender;
+		Location pos = new Location(player.getLocation().getWorld(), player.getLocation().getX()-radius, player.getLocation().getY(), player.getLocation().getZ()-radius);
+		Block lookAt =  player.getTargetBlock(null, 6);   
+		if (lookAt.getType()!= Material.AIR)
+		{
+			System.out.println("pos "+(int) lookAt.getX()+":"+(int) lookAt.getY()+"."+lookAt.getType());
+		}
+		switch (lookAt.getType())
+		{
+		case WALL_SIGN:  // sign on the wall
+			Sign sBlock =	((Sign) lookAt.getState());
+    		String l0 = sBlock.getLine(0);
+			if (l0.contains("Shop"))
+			{
+				cmdSignShop(plugin, lookAt);
+			}
+			break;
+			
+		default:
+		}
+		page = 0;
 	}
 
 	@Override

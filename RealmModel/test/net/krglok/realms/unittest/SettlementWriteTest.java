@@ -121,40 +121,41 @@ public class SettlementWriteTest
 	@Test
 	public void testWriteSettledata()
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logList = new LogList(path);
-//		DataTest data     = new DataTest(logList);
 		ItemPriceList priceList = getPriceList();
-//		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins";
 		SettlementData settleData = new SettlementData(path);
-		int id = 2;
+		int id = 27;
 		Settlement settle = settleData.readSettledata(id , priceList,logList);
 		showSettleInfo(settle);
 		
 //		fillBarrack(settle);
 		showBarrack(settle);
-//		settleData.writeSettledata(settle);
+	       long time1 = System.nanoTime();
+		settleData.writeSettledata(settle);
+	       long time2 = System.nanoTime();
+	       System.out.println("Update Time [ms]: "+(time2 - time1)/1000000);
 	}
 
-	@Test
-	public void testReadSettledata()
-	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
-		LogList logList = new LogList(path);
-//		DataTest data     = new DataTest(logList);
-		ItemPriceList priceList = getPriceList();
-//		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins";
-		SettlementData settleData = new SettlementData(path);
-		
-		
-		int id = 2;
-		Settlement settle = settleData.readSettledata(id , priceList,logList);
-		showSettleInfo(settle);
-		
-//		fillBarrack(settle);
-		showBarrack(settle);
-		showTraining(settle);
-
-	}
+//	@Test
+//	public void testReadSettledata()
+//	{
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+//		LogList logList = new LogList(path);
+////		DataTest data     = new DataTest(logList);
+//		ItemPriceList priceList = getPriceList();
+////		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins";
+//		SettlementData settleData = new SettlementData(path);
+//		
+//		
+//		int id = 2;
+//		Settlement settle = settleData.readSettledata(id , priceList,logList);
+//		showSettleInfo(settle);
+//		
+////		fillBarrack(settle);
+//		showBarrack(settle);
+//		showTraining(settle);
+//
+//	}
 
 }

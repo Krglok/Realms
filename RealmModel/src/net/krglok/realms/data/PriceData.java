@@ -15,11 +15,11 @@ import net.krglok.realms.core.ItemPriceList;
 public class PriceData
 {
 
-	private Realms plugin;
+	private String path;
 
-	public PriceData(Realms plugin)
+	public PriceData(String path)
 	{
-		this.plugin = plugin;
+		this.path = path;
 	}
 
 	private String getBaseKey()
@@ -31,11 +31,11 @@ public class PriceData
 	{
 		try
 		{
-            File DataFile = new File(plugin.getDataFolder(), "baseprice.yml");
-//            if (!DataFile.exists()) 
-//            {
-//            	//DataFile.createNewFile();
-//            }
+            File DataFile = new File(this.path, "baseprice.yml");
+            if (!DataFile.exists()) 
+            {
+            	DataFile.createNewFile();
+            }
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
@@ -50,8 +50,7 @@ public class PriceData
 			
 		} catch (Exception e)
 		{
-			// TODO: handle exception
-			plugin.getMessageData().errorFileIO("writeSettledata", e);
+			System.out.println("writeSettledata"+ e.getMessage());
 		}
 	
 
@@ -63,31 +62,31 @@ public class PriceData
         ItemPriceList items = new ItemPriceList();
 		try
 		{
-            File DataFile = new File(plugin.getDataFolder(), "baseprice.yml");
-//            if (!DataFile.exists()) 
-//            {
-//            	DataFile.createNewFile();
-//            }
+            File DataFile = new File(this.path, "baseprice.yml");
+            if (!DataFile.exists()) 
+            {
+            	DataFile.createNewFile();
+            }
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
-            plugin.getMessageData().log("Read Pricelist");
+            System.out.println("Read Pricelist");
             
             if (config.isConfigurationSection(base))
             {
     			Map<String,Object> buildings = config.getConfigurationSection(base).getValues(false);
-    			plugin.getMessageData().log("Read "+base+" : "+buildings.size());
+//    			System.out.println("Read "+base+" : "+buildings.size());
             	for (String ref : buildings.keySet())
             	{
             		Double price = config.getDouble(base+"."+ref,0.0);
             		ItemPrice item = new ItemPrice(ref, price);
             		items.add(item);
-            		plugin.getMessageData().log(item.ItemRef());
+//            		System.out.println(item.ItemRef());
             	}
             }
 		} catch (Exception e)
 		{
-			plugin.getMessageData().errorFileIO("readSettledata", e);
+			System.out.println("readSettledata"+ e.getMessage());
 		}
 		return items;
 	}

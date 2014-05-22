@@ -533,7 +533,7 @@ public class ConfigBasis implements ConfigInterface
 		ItemList subList = new ItemList();
 
 		subList.addItem(Material.GOLD_NUGGET.name(),0);
-//		subList.addItem(Material.EMERALD.name(),0);
+		subList.addItem("EMERALD",0);
 		subList.addItem(Material.DIAMOND.name(),0);
 		subList.addItem(Material.GOLD_INGOT.name(),0);
 //		subList.addItem(Material..name(),0);

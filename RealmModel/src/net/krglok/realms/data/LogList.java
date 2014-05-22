@@ -11,9 +11,6 @@ import java.util.logging.Logger;
 
 import org.apache.logging.log4j.core.LoggerContext;
 
-import lib.PatPeter.SQLibrary.Database;
-import lib.PatPeter.SQLibrary.SQLite;
-
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 
@@ -32,7 +29,7 @@ import net.krglok.realms.core.LocationData;
  */
 public class LogList
 {
-	private Database sql;
+	private SQliteConnection sql;
 	private ArrayList<String> prodList;
 	private ArrayList<String> happyList;
 	private ArrayList<String> orderList;

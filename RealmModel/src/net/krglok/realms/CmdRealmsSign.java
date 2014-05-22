@@ -80,8 +80,6 @@ public class CmdRealmsSign extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		System.out.println("Look for Signs ");
-//		String path = plugin.getDataFolder().getAbsolutePath();
-//		path = "D:Program FilesBuckitTestpluginsRealms";
 		int radius = 5;
 		int edge = radius * 2 -1;
 		Player player = (Player) sender;

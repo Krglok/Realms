@@ -5,8 +5,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import lib.PatPeter.SQLibrary.Database;
-import lib.PatPeter.SQLibrary.SQLite;
 //import java.util.Map;
 
 import org.bukkit.Material;
@@ -156,7 +154,7 @@ public class DataTest implements DataInterface
 		SettlementData sData = new SettlementData(path);
 		
 //		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = sData.readSettleList(null);
+		ArrayList<String> sList = sData.readSettleList();
 		settlements.getSettlements().clear();
 		for (String sName : sList)
 		{

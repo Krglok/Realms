@@ -170,6 +170,12 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		
 		return null;
 	}
+	
+	public void destroySuperRegion(String superRegionName)
+	{
+		
+	}
+
 
 	@Override
 	public int getSuperRegionRadius(String superRegionType)

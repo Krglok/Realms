@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import net.krglok.realms.data.LogList;
 
@@ -23,6 +24,7 @@ public class Bank  implements Serializable
 	private Boolean isEnabled;
 	private Double konto;
 	private LogList transactionList;
+	private ItemList valuables;
 	
 //	public Bank(LogList LogList)
 //	{
@@ -36,8 +38,34 @@ public class Bank  implements Serializable
 		setIsEnabled(false);
 		konto = Double.valueOf(0.0);
 		transactionList = logList;
+		valuables = ConfigBasis.initValuables();
 	}
-	
+
+	public ArrayList<String> setKredit(String itemRef, int amount, ItemPriceList pricelist, ItemList inventory, int settleId)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+
+		double price = pricelist.getBasePrice(itemRef);
+		if( price > 0.0)
+		{
+			int stock = inventory.getValue(itemRef);
+			if (stock >= amount)
+			{
+				double value = amount * price;
+				addKonto(value, "Credit with "+itemRef, settleId);
+				inventory.withdrawItem(itemRef, amount);
+				msg.add("Credit to Bank "+itemRef+"with Value: "+value);
+				msg.add("");
+				return msg;
+			}
+			msg.add("No stock for Item "+itemRef+" max: "+stock);
+			msg.add("");
+			return msg;
+		}
+		msg.add("No price for Item "+itemRef);
+		msg.add("");
+		return msg;
+	}
 
 	/**
 	 * 

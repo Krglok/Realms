@@ -3,7 +3,6 @@ package net.krglok.realms.data;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import lib.PatPeter.SQLibrary.Database;
 
 /**
  * Abstract class for storage of YML data in SQLite Database
@@ -23,19 +22,19 @@ import lib.PatPeter.SQLibrary.Database;
  */
 public abstract class TableData 
 {
-	protected Database sql;
+	protected SQliteConnection sql;
 	public String tablename ;
 	public String[] fieldnames; 
 	public String[] fieldtypes; 
 	public String[] indexnames; 
 	public String[] indexfields;
-	public ResultSet resultSet;
+//	public ResultSet resultSet;
 	
 	/**
 	 * the Database must be given to make automatic access
 	 * @param sql
 	 */
-	public TableData(Database sql, String tableName)
+	public TableData(SQliteConnection sql, String tableName)
 	{
 		super();
 		this.sql = sql;
@@ -44,7 +43,6 @@ public abstract class TableData
 		fieldtypes = null;
 		indexnames = null;
 		indexfields = null;
-		resultSet = null;
 	}
 
 	/**
@@ -101,7 +99,14 @@ public abstract class TableData
 	{
 		if (this.tablename != "")
 		{
-			return sql.checkTable(tablename);
+			try
+			{
+				return sql.isTable(tablename);
+			} catch (SQLException e)
+			{
+				e.printStackTrace();
+				System.out.println("[REALMS] SQL table not found "+tablename);
+			}
 		}
 		System.out.println("[REALMS] SQL table not found "+tablename);
 		return false;
@@ -146,6 +151,7 @@ public abstract class TableData
 		String query = "CREATE TABLE IF NOT EXISTS "+tablename+ " ("+fielddefs+") ";
 		try {
 			sql.query(query);
+			System.out.println("[REALMS] SQL TABLE created "+this.tablename);
 			if (sql.isTable(this.tablename) == true)
 			{
 				// make the indexes
@@ -169,9 +175,10 @@ public abstract class TableData
 	{
 		if (index < this.indexfields.length)
 		{
-			String query = "CREATE INDEX IF NOT EXISTS "+this.indexnames[index] +" ("+this.indexfields[index]+") ";
+			String query = "CREATE INDEX IF NOT EXISTS "+this.indexnames[index] +" ON "+ this.tablename + " ("+this.indexfields[index]+") ";
 			try {
 				sql.query(query);
+				System.out.println("[REALMS] SQL INDEX created "+this.tablename+":"+this.indexnames[index]);
 			} catch (SQLException e) {
 				e.printStackTrace();
 				System.out.println("[REALMS] SQL INDEX not created "+this.tablename+":"+this.indexnames[index]);
@@ -285,12 +292,12 @@ public abstract class TableData
 //		this.resultSet = null;
 		String query = "SELECT rowid, * FROM "+tablename+ "WHERE "+fieldnames[0]+"="+makeSqlString(objectName);
 		try {
-			this.resultSet = sql.query(query);
+			return sql.query(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("[REALMS] Select Error on "+tablename);
+			return null;
 		}
-		return this.resultSet;
 	}
 
 	public ResultSet readObjectSection(String objectName, String sectionName)
@@ -300,12 +307,12 @@ public abstract class TableData
 				+" WHERE "+fieldnames[0]+"="+makeSqlString(objectName)
 				+" AND "+fieldnames[1]+"="+makeSqlString(sectionName);
 		try {
-			this.resultSet = sql.query(query);
+			return sql.query(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("[REALMS] Select Error on "+tablename);
+			return null;
 		}
-		return this.resultSet;
 	}
 	
 	
@@ -316,13 +323,11 @@ public abstract class TableData
 	 * @param values
 	 * @return  true if insert succesful
 	 */
-	public boolean insert(String[] values)
+	public boolean insert(String query)
 	{
-		String query = "";
 		try {
-			resultSet = sql.query(query);
+			return sql.insert(query);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("[REALMS] Insert Error on "+tablename);
 		}
@@ -330,5 +335,28 @@ public abstract class TableData
 		return false;
 	}
 
+	public boolean update(String query)
+	{
+		try {
+			return sql.update(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("[REALMS] Update Error on "+tablename);
+		}
+		
+		return false;
+	}
+
+	public boolean delete(String query)
+	{
+		try {
+			return sql.delete(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("[REALMS] Delete Error on "+tablename);
+		}
+		
+		return false;
+	}
 	
 }

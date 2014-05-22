@@ -24,6 +24,8 @@ import net.krglok.realms.data.ServerInterface;
 //<<<<<<< HEAD
 //=======
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.RegimentList;
 import net.krglok.realms.unit.UnitFactory;
 //>>>>>>> origin/PHASE2
 
@@ -76,6 +78,7 @@ public class RealmModel
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
 	private ColonyList colonys;				// List of colonys in game
+	private RegimentList regiments; 		// List of Regiments in game 
 	
 	private UnitFactory unitFactory = new UnitFactory();
 	
@@ -115,6 +118,7 @@ public class RealmModel
 		realms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
 		colonys     = new ColonyList(colonyCounter);
+		regiments	= new RegimentList();
 		this.server = server;
 		this.config = config;
 		this.data   = data;
@@ -259,6 +263,11 @@ public class RealmModel
 	public ColonyList getColonys()
 	{
 		return colonys;
+	}
+
+	public RegimentList getRegiments()
+	{
+		return regiments;
 	}
 
 	public void OnEnable()
@@ -446,6 +455,7 @@ public class RealmModel
 			colonyManagersRun();
 			managersRun();
 			colonyRun();
+			regimentRun();
 			switch (modelStatus)
 			{
 			case MODEL_ENABLED :
@@ -618,6 +628,14 @@ public class RealmModel
 			
 		}
 		
+	}
+	
+	private void regimentRun()
+	{
+		for (Regiment regiment : regiments.values())
+		{
+			regiment.run(this);
+		}
 	}
 	
 	private ModelStatus addCommandQueue(iModelCommand command)

@@ -366,7 +366,7 @@ public class SettleManager
 		}
 	}
 	
-	private ItemList getOverStock (RealmModel rModel, Settlement settle)
+	public ItemList getOverStock (RealmModel rModel, Settlement settle)
 	{
 		ItemList items = new ItemList();
 		

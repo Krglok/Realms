@@ -16,7 +16,8 @@ public enum RealmsCommandType
 	SETTLE ,
 	COLONIST,
 	OWNER,
-	REALMS
+	REALMS,
+	REGIMENT
 	;
 	
 //	 RealmCommandType() 

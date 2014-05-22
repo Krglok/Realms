@@ -16,6 +16,7 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
@@ -30,6 +31,9 @@ import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.model.RealmModel;
 import net.milkbowl.vault.economy.Economy;
+import net.skycraftmc.SignChestShop.Shop;
+import net.skycraftmc.SignChestShop.SignChestShopAPI;
+import net.skycraftmc.SignChestShop.SignChestShopPlugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -46,6 +50,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
@@ -53,6 +58,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
 
 /**
  * <pre>
@@ -84,7 +90,7 @@ public final class Realms extends JavaPlugin
 
 	private ConfigData config; // = new ConfigData(this);
 	private final ServerData server = new ServerData(this);
-	private final DataStorage data  = new DataStorage(this);
+	private DataStorage data;
 
 	private RealmModel realmModel;
 	
@@ -92,11 +98,13 @@ public final class Realms extends JavaPlugin
 	private TaxTask taxTask = null;
 	
 	private final MessageData messageData = new MessageData(log);
-	private ServerListener serverListener = new ServerListener(this);
+	public ServerListener serverListener = new ServerListener(this);
 	@SuppressWarnings("unused")
 	private Update update; // = new Update(projectId, apiKey);
 
     public HeroStronghold stronghold = null;
+    public SignChestShopPlugin scs = null;
+    public SignChestShopAPI scsAPI = null;
 //    public Vault vault = null;
     public static Economy economy = null;
     
@@ -138,6 +146,7 @@ public final class Realms extends JavaPlugin
 	public void onEnable()
 	{
 		logList = new LogList(this.getDataFolder().getPath());
+		data = new DataStorage(this);
 //		log = Logger.getLogger("Minecraft"); 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(serverListener, this);
@@ -147,7 +156,7 @@ public final class Realms extends JavaPlugin
             stronghold = ((HeroStronghold) currentPlugin);
         } else {
             log.warning("[Realms] didnt find HeroStronghold.");
-            log.info("[Realms] please install the plugin HerStronghold .");
+            log.info("[Realms] please install the plugin HeroStronghold .");
             log.info("[Realms] will NOT be Enabled");
             this.setEnabled(false);
             return;
@@ -166,6 +175,18 @@ public final class Realms extends JavaPlugin
             this.setEnabled(false);
             return;
         }
+        currentPlugin = pm.getPlugin("SignChestShop");
+        if(currentPlugin != null && currentPlugin.isEnabled())
+        {
+            log.info("[Realms] found SignChestShop !");
+            scs = (SignChestShopPlugin) currentPlugin; //You may never need to use this
+            scsAPI = scs.getAPI(); //This returns the API object that will have everything you will ever need
+        } else {
+            log.warning("[Realms] didnt find SignChestShop.");
+            log.info("[Realms] please install the plugin SignChestShop .");
+            log.info("[Realms] will be Enabled without Shops");
+        }
+
         boolean isReady = true; // flag for Init contrll
 		// Vault economy
         config = new ConfigData(this);
@@ -235,6 +256,67 @@ public final class Realms extends JavaPlugin
 		commandRealms.run(sender, command, args);
 		return true;
     }
+	
+	public void setShopPrice(Location position)
+	{
+		if (scsAPI == null) return;
+		Block bs = position.getWorld().getBlockAt(position);
+		if (scsAPI.getShop(bs) != null)
+		{
+	    	System.out.println("Realms found shop");
+			for (int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
+			{
+				ItemStack item = scsAPI.getShopInventory(bs, true).getItem(index);
+				if (item != null)
+				{
+					String itemRef = item.getType().name();
+					double price = getData().getPriceList().getBasePrice(itemRef);
+					if (price < 0.1)
+					{
+						price = 0.1;
+					}
+			        scsAPI.getShop(bs).setPrice(index, price);
+			    	System.out.println("Realms Price "+index+":"+itemRef+":"+price);
+				}
+			}
+			
+		}
+	}
+	
+	public void setShop(Location position, Settlement settle)
+	{
+		if (scsAPI == null) return;
+		Block bs = position.getWorld().getBlockAt(position);
+    	Shop shop = scsAPI.getShop(bs);
+		if (shop != null)
+		{
+	    	System.out.println("Realms found shop");
+	    	ItemList overStock = settle.settleManager().getOverStock(realmModel, settle);
+			int index = 0;
+			for (Item stock : overStock.values())
+			{
+		    	System.out.println("Realms Stock "+stock.ItemRef());
+				//(int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
+				if (index < shop.getStorage().getSize() )
+				{
+					int amount = stock.value();
+					if (amount > 64)
+					{
+						amount = 64;
+					}
+					ItemStack item = new ItemStack(Material.getMaterial(stock.ItemRef()),amount);
+					if (item != null)
+					{  
+						shop.setItem(index, item);
+				    	System.out.println("Realms Price "+stock.ItemRef()+":"+amount);
+					}
+					index++;
+				}
+			}
+			
+		}
+	}
+
 	
 	/**
 	 * Fill chest at position with items in itemList
@@ -551,6 +633,16 @@ public final class Realms extends JavaPlugin
 	}
 	
 
+	private void getDoorBlock(Block block,  BuildManager buildManager, Material mat, Material resulMat)
+	{
+		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
+			block.getRelative(BlockFace.UP, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+	}
+	
 	private void getFluid(Block block,  BuildManager buildManager, Material mat, Material resulMat)
 	{
 		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
@@ -596,6 +688,52 @@ public final class Realms extends JavaPlugin
 		if (block.getRelative(BlockFace.WEST, 1).getType() == mat)
 		{
 			block.getRelative(BlockFace.WEST, 1).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+
+		if (block.getRelative(BlockFace.UP, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.UP, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.NORTH, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.NORTH, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.NORTH_EAST, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.NORTH_EAST, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.NORTH_WEST, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.NORTH_WEST, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.SOUTH, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH_EAST, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.SOUTH_EAST, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH_WEST, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.SOUTH_WEST, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.EAST, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.EAST, 2).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.WEST, 2).getType() == mat)
+		{
+			block.getRelative(BlockFace.WEST, 2).setType(Material.AIR);
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 		
@@ -738,6 +876,7 @@ public final class Realms extends JavaPlugin
 				return Material.AIR;
 			}
 		}
+		getDoorBlock(block,  buildManager, Material.WOOD_DOOR, Material.WOODEN_DOOR);
 		// lava suchen 
 		getFluid(block,  buildManager, Material.LAVA, Material.LAVA_BUCKET);
 		// wasser suchen 
@@ -747,7 +886,9 @@ public final class Realms extends JavaPlugin
 		// Sand suchen 
 		getFluid(block,  buildManager, Material.SAND, Material.SAND);
 		// Torch suchen
-		getTorchBlock( block, buildManager, Material .TORCH, Material.TORCH);
+		getTorchBlock( block, buildManager, Material.TORCH, Material.TORCH);
+		// Sign suchen
+		getTorchBlock( block, buildManager, Material.SIGN_POST, Material.SIGN);
 		//Wallsign suchen
 		getWallBlock(block, buildManager, Material.WALL_SIGN, Material.SIGN);
 		// leietern suchen

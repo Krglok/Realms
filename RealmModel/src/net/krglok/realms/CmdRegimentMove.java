@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.model.McmdColonistCreate;
-import net.krglok.realms.model.McmdColonyBuild;
+import net.krglok.realms.unit.Regiment;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,24 +13,25 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdColonistMove extends RealmsCommand
+public class CmdRegimentMove extends RealmsCommand
 {
-	private int colonyId;
+	private int regimentId;
 	LocationData position;
 
-	public CmdColonistMove( )
+	public CmdRegimentMove()
 	{
-		super(RealmsCommandType.COLONIST, RealmsSubCommandType.MOVE);
+		super(RealmsCommandType.REGIMENT, RealmsSubCommandType.MOVE);
 		description = new String[] {
-				ChatColor.YELLOW+"/colonist MOVE [ID] [X] [Y] [Z] ",
+				ChatColor.YELLOW+"/regiment MOVE [ID] [X] [Y] [Z] ",
 				"Move a Colonist with <ID> to the position ",
 		    	"positioning a sign at the position ",
 		    	" You cannot change the World !!! "
 		};
 		requiredArgs = 4;
 		position = new LocationData("", 0.0, 0.0, 0.0);
-		this.colonyId = 0;
+		this.regimentId = 0;
 	}
+
 
 	@Override
 	public void setPara(int index, String value)
@@ -45,7 +45,7 @@ public class CmdColonistMove extends RealmsCommand
 		switch (index)
 		{
 		case 0 :
-				colonyId = value;
+			regimentId = value;
 			break;
 		default:
 			break;
@@ -91,24 +91,25 @@ public class CmdColonistMove extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
 		World worldMap = player.getLocation().getWorld();
-		Colony colony = plugin.getRealmModel().getColonys().get(colonyId);
-		LocationData center = colony.getPosition();
-		plugin.setBlock(worldMap, new ItemLocation(Material.AIR,center));
-
+		Regiment regiment = plugin.getRealmModel().getRegiments().get(regimentId);
+		LocationData center = regiment.getTarget();
+		// set new position
 		center.setX(position.getX());
 		center.setY(position.getY());
 		center.setZ(position.getZ());
-		
-		String[] signText = new String[] {"COLONIST", colony.getName(), colony.getOwner(), "[MOVED]" };
+		regiment.startMove();
+
+		String[] signText = new String[] {"REGIMENT", regiment.getName(), regiment.getOwner(), "[MOVED]" };
 		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
-		msg.add("[Realm] Colony moved to "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
+		msg.add("[Realm] Regiment move at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
+
 		position.setX(0);
 		position.setY(0);
 		position.setZ(0);
-		colonyId = 0;
-		msg.add("The Colony moved "+colonyId);
+		regimentId = 0;
+		msg.add("The Colony moved "+regimentId);
     	msg.add("Set new Sign  ");
     	plugin.getMessageData().printPage(sender, msg, 1);
 
@@ -123,8 +124,8 @@ public class CmdColonistMove extends RealmsCommand
 			errorMsg.add("The command can NOT be send from console");
 			return false;
 		}
-		Colony colony = plugin.getRealmModel().getColonys().get(colonyId);
-		if (colony == null)
+		Regiment regiment = plugin.getRealmModel().getRegiments().get(regimentId);
+		if (regiment == null)
 		{
 			errorMsg.add("Colony ID not found !");
 			errorMsg.add(" ");
@@ -135,7 +136,7 @@ public class CmdColonistMove extends RealmsCommand
 			return true;
 		} else
 		{
-			if (sender.getName().equalsIgnoreCase(colony.getOwner()))
+			if (sender.getName().equalsIgnoreCase(regiment.getOwner()))
 			{
 				return true;
 			}

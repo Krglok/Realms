@@ -33,8 +33,16 @@ public class CmdRealmsVersion extends RealmsCommand implements iRealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
+    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getDescription().getVersion()+" ");
     	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+"["+plugin.getRealmModel().getModelStatus()+"]");
+    	msg.add(ChatColor.YELLOW+"Settlements: "+ChatColor.GREEN+"["+plugin.getRealmModel().getSettlements().count()+"]");
+    	msg.add(ChatColor.YELLOW+"Colonist: "+ChatColor.GREEN+"["+plugin.getRealmModel().getColonys().size()+"]");
+    	if (plugin.getRealmModel().getSettlements().getSettlement(0) != null)
+    	{
+    	msg.add(ChatColor.YELLOW+"Age of Realms: "+ChatColor.GREEN+"["+plugin.getRealmModel().getSettlements().getSettlement(0).getAge()+"] Days");
+    	}
+		msg.add(" ");
+		plugin.getMessageData().printPage(sender, msg, 1);
 	}
 
 
