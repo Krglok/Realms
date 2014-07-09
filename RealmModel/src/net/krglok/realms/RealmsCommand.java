@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.unit.Regiment;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -217,7 +218,27 @@ public abstract class RealmsCommand implements iRealmsCommand
 		
 		return true;
 	}
-	
+
+	public boolean isRegimentOwner(Realms plugin, CommandSender sender, int regID)
+	{
+		if (isOpOrAdmin(sender))
+		{
+			return true;
+		}
+		Regiment regiment = plugin.getRealmModel().getRegiments().get(regID);
+		if (regiment.getOwner() == "")
+		{
+			return true;
+		}
+		if (sender.getName().equalsIgnoreCase(regiment.getOwner()) == false)
+		{
+			errorMsg.add("You are NOT the owner of the Regiment !");
+			return false;
+		}
+		
+		return true;
+	}
+
 	public boolean hasItem( CommandSender sender, String itemRef, int amount)
 	{
 		if ((sender instanceof Player) == false)

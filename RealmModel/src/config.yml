@@ -12,13 +12,13 @@ autoupdate: false
 loglist: false 
 
 plugin_name: "Realms"
-plugin_ver : "0.8.4"
+plugin_ver : "0.9.0"
 realmCounter: 0
 settlementCounter: 0
 buildingCounter: 0
 
 #---------------------------------------------
-#     Settlement /superregions
+# Settlement /superregions for older versions of your superregions to get into realms
 # the SettlementTypes are predefined
 # every SettlementTypes are unique in this list
 #
@@ -28,9 +28,9 @@ superSettleTypes:
     HAMLET: "Siedlung"
     TOWN: "Dorf"
     CITY: "Stadt"
-    METRO: "Metropole"
+    METROPOLIS: "Metropole"
 #---------------------------------------------
-#   regions / BuildingType
+# regions / BuildingType for older versions of your regions to get into realms
 # the BuildungTypes are predefined
 # the regions are unique in this list
 #

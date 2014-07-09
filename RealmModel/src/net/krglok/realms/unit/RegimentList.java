@@ -6,7 +6,16 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.model.RealmModel;
 
-
+/**
+ * <pre>
+ * the regimentList hold all regiments of the Model,
+ * the regiments are the basic for battles
+ * based on the list the regiments run on the ModelTicks 
+ * 
+ * @author Windu
+ *
+ *</pre>
+ */
 
 public class RegimentList extends HashMap <Integer, Regiment>
 {
@@ -14,10 +23,11 @@ public class RegimentList extends HashMap <Integer, Regiment>
 
 	private  int lastNumber;
 
-	public RegimentList()
+	public RegimentList(int initCounter )
 	{
 		super();
 		lastNumber = 0;
+		Regiment.initLfdID(initCounter);
 	}
 	
 	
@@ -44,7 +54,34 @@ public class RegimentList extends HashMap <Integer, Regiment>
 			regiment.run(rModel);
 		}
 	}
+	
+	/**
+	 * add regiment to the list 
+	 * set lastNumber of the list to highest regimentId
+	 * @param regiment
+	 */
+	public void addRegiment(Regiment regiment)
+	{
+		int key = regiment.getId();
+		this.put(key, regiment);
+		if (this.lastNumber < key)
+		{
+			lastNumber = key;
+			Regiment.initLfdID(key);
+		}
+	}
 
+	/**
+	 * <pre>
+	 * create new Regiment of the given type. the regiment is initialized when it is a NPC type 
+	 * if type not found a Raider will create as default
+	 *  
+	 * @param typ , RegimentType
+	 * @param name , name of regiment must not unique
+	 * @param settleId , reference to owner settlement
+	 * @param logList  
+	 * </pre>
+	 */
 	public void createRegiment(String typ, String name, int settleId, LogList logList)
 	{
 		Regiment regiment;
@@ -53,12 +90,18 @@ public class RegimentList extends HashMap <Integer, Regiment>
 		
 		default :
 			regiment = Regiment.makeRaider(logList);
+			regiment.setName(name);
 			break;
 		}
 		int key = nextLastNumber();
 		this.put(key, regiment);
 	}
 	
+	/**
+	 * set the target postion and start move action
+	 * @param regId
+	 * @param pos , new position
+	 */
 	public void regimentMove(int regId, LocationData pos)
 	{
 		Regiment regiment = this.get(regId);

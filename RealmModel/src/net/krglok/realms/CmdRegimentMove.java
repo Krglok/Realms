@@ -94,7 +94,8 @@ public class CmdRegimentMove extends RealmsCommand
 		Regiment regiment = plugin.getRealmModel().getRegiments().get(regimentId);
 		LocationData center = regiment.getTarget();
 		// set new position
-		center.setX(position.getX());
+		center.setWorld(worldMap.getName());
+		center.setX(position.getX()-1);
 		center.setY(position.getY());
 		center.setZ(position.getZ());
 		regiment.startMove();

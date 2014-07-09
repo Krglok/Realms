@@ -80,6 +80,11 @@ public class CommandRealms
 			new CmdColonistMove(),
 			new CmdRegimentCreate(),
 			new CmdRegimentMove(),
+			new CmdRegimentList(),
+			new CmdRegimentWarehouse(),
+			new CmdRegimentRaid(),
+			new CmdRegimentInfo(),
+			new CmdRegimentHelp(),
 			new CmdRealmsTest()
 			
 		};

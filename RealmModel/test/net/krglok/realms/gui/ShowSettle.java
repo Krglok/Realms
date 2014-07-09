@@ -397,6 +397,7 @@ public class ShowSettle extends JDialog
 			}
 		}
 		String[] colHeader = new String[] {	"Items", "Amount","Required"};		
+		@SuppressWarnings("rawtypes")
 		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
 		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
 	}
@@ -418,6 +419,7 @@ public class ShowSettle extends JDialog
 			index ++;
 		}
 		String[] colHeader = new String[] {	"Items", "Last","Month","Year"," "};		
+		@SuppressWarnings("rawtypes")
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, String.class};
 		OverviewList.showMe(dataRows, columnTypes, colHeader, "Production Overview");
 		

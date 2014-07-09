@@ -9,15 +9,19 @@ public class BattleSetup
 	private BattlePlacement attackers;
 	private BattlePlacement defenders;
 	private boolean isNextAttack = false;
+	private int attackPower;
+	private int defendPower;
+	private boolean isBattleEnd;
 	
 	
 	public BattleSetup()
 	{
 		battleStatus = BattleStatus.NONE;
-
 		attackers = new BattlePlacement();
-		
 		defenders = new BattlePlacement();
+		attackPower = 0;
+		defendPower = 0;
+		setBattleEnd(false);
 	}
 	
 
@@ -48,6 +52,52 @@ public class BattleSetup
 		this.battleStatus = battleStatus;
 	}
 
+	public int getAttackPower()
+	{
+		return attackPower;
+	}
+
+
+	public void setAttackPower(int attackPower)
+	{
+		this.attackPower = attackPower;
+	}
+
+
+	public int getDefendPower()
+	{
+		return defendPower;
+	}
+
+
+	public void setDefendPower(int defendPower)
+	{
+		this.defendPower = defendPower;
+	}
+
+
+	/**
+	 * @return the isBattleEnd
+	 */
+	public boolean isBattleEnd()
+	{
+		return isBattleEnd;
+	}
+
+
+	/**
+	 * @param isBattleEnd the isBattleEnd to set
+	 */
+	public void setBattleEnd(boolean isBattleEnd)
+	{
+		this.isBattleEnd = isBattleEnd;
+	}
+
+
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean startBattle()
 	{
 		if (battleStatus == BattleStatus.NONE)
@@ -58,6 +108,26 @@ public class BattleSetup
 		{
 			return false;
 		}
+	}
+	
+	/**
+	 * check is next attack possible for attacker
+	 * if so, check is defendPower lower than attackPower
+	 * if defendPower lower than the battle is win 
+	 * the defender dont fight to death
+	 * 
+	 * @return
+	 */
+	public boolean winBattle()
+	{
+//		if (this.isNextAttack() == true)
+//		{
+			if(defendPower  < (attackPower *3/5))
+			{
+				return true;
+			}
+//		}
+		return false;
 	}
 	
 	public void run()
@@ -99,8 +169,6 @@ public class BattleSetup
 	
 	private void postBattle(BattlePlacement attacker, BattlePlacement defender)
 	{
-		int attackPower = 0;
-		int defendPower = 0;
 		for (BattleFieldPosition bPos : attacker.getUnitPlacement().keySet())
 		{
 			if ((attacker.getUnitPlacement().get(bPos) != null))
@@ -186,10 +254,13 @@ public class BattleSetup
 		{
 			if (attacker.getUnitPlacement().get(bPos) != null)
 			{
-				if (attacker.getUnitPlacement().get(bPos).get(0).getUnitType() == UnitType.ARCHER)
+				if (attacker.getUnitPlacement().get(bPos).size() > 0)
 				{
-					targetPos = BattleFieldPosition.getDistanceTargetPos(bPos);
-					calcDistant( attacker.getUnitPlacement().get(bPos),  defender, targetPos);
+					if (attacker.getUnitPlacement().get(bPos).get(0).getUnitType() == UnitType.ARCHER)
+					{
+						targetPos = BattleFieldPosition.getDistanceTargetPos(bPos);
+						calcDistant( attacker.getUnitPlacement().get(bPos),  defender, targetPos);
+					}
 				}
 			}
 		}
@@ -253,7 +324,8 @@ public class BattleSetup
 					damage = calcDamage( attacker,  defender.getUnitPlacement().get(targetPos[i]));
 					damage = damage - calcDefendModifier(defender, targetPos[i]); // + calcAttackModifier(attacker, BattleFieldPosition.LEFT);
 //					System.out.println(":"+damage);
-					calcLoss(damage , attacker); //defender.getUnitPlacement().get(targetPos[i]));
+					calcLoss(damage , defender.getUnitPlacement().get(targetPos[i]));
+//					calcLoss(damage , attacker); //defender.getUnitPlacement().get(targetPos[i]));
 				}
 			}
 		}
@@ -273,9 +345,10 @@ public class BattleSetup
 			IUnit unitDefender = unitFactory.erzeugeUnitConfig(attackUnits.get(0).getUnitType());
 			int sumArmor = defendUnits.size() * unitDefender.getArmor();
 	
-			damage = sumOffense - sumArmor;
+//			damage = sumOffense - sumArmor;
+			damage = (unitAttacker.getOffense() - unitDefender.getArmor())*attackUnits.size();
 			
-			if (damage < 0)
+			if (unitDefender.getArmor() > unitAttacker.getOffense())
 			{
 				damage = 0;
 			}

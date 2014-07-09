@@ -38,6 +38,7 @@ public enum RealmsSubCommandType
 	PRICE,
 	PRICELIST,
 	PRODUCTION ,
+	RAID,
 	READ,
 	REQUIRE,
 	SET ,

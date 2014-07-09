@@ -7,6 +7,8 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.RegimentList;
 
 /**
  * definiert das Interace fuer den import von Daten
@@ -32,10 +34,20 @@ public interface DataInterface
 	/**
 	 * initialize the SettlementList
 	 * must be done after initOwners and initRealms
+	 * @return SettlementList from datafile
 	 */
 	public SettlementList initSettlements();
 	
+	/**
+	 * initialize the RegimentList
+	 * must be done after initSettlements
+	 * @return RegimentList from datafile
+	 */
+	public RegimentList initRegiments();
+	
 	public void writeSettlement(Settlement settle);
+	
+	public void writeRegiment(Regiment regiment);
 
 	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet);
 	

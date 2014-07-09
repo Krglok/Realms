@@ -43,7 +43,12 @@ public class SettleSchema
 	}
 	
 	/**
-	 * 
+	 * set the settle paramter for a default HAMLET
+	 * 1 HALL 
+	 * 4 HOME
+	 * 2 WHEAT
+	 * 1 WOODCUTTER
+	 * 1 QUARRY
 	 * @return  list BuildPlans with position for Hamlet
 	 */
 	public static SettleSchema initDefaultHamlet()
@@ -84,10 +89,16 @@ public class SettleSchema
 	}
 	
 
+	/**
+	 * set the setlle parameter for a CAMP
+	 * 1 building from type fort in the center
+	 * @return
+	 */
 	public static SettleSchema initCamp()
 	{
 		SettleSchema schema = new SettleSchema(SettleType.CAMP, 10,false);
 		schema.setRegiment(true); 
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.FORT, new LocationData("", 0.0, 0.0, 0.0)));
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.FORT, new LocationData("", 0.0, 0.0, 0.0)));
 		return schema;
 	}

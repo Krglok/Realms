@@ -19,7 +19,7 @@ public class RegimentListTest
 		LogList logList = new LogList(path);
 		String world = ""; 
 		LocationData position = new LocationData("", 0.0, 0.0, 0.0);
-		RegimentList regiments = new RegimentList();
+		RegimentList regiments = new RegimentList(1);
 		
 		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0, logList);
 		

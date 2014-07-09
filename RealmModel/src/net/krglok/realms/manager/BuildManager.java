@@ -125,20 +125,20 @@ public class BuildManager
 	 * Set new Building parameter and start building
 	 * @param bType
 	 * @param centerPos
-	 * @return
+	 * @return true if build is started
 	 */
-	public boolean newBuild(BuildPlan bType, LocationData centerPos, String owner)
+	public boolean newBuild(BuildPlan bPlan, LocationData centerPos, String owner)
 	{
 //		System.out.println("new Build : "+":"+bType.getBuildingType().name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
-		if (bStatus == BuildStatus.NONE)
+//		if (bStatus == BuildStatus.NONE)
 		{
 			h = 0;
 			r = 0;
 			c = -1;  // for iteration start
 			String sPos = "";
-			this.buildPlan = bType;
+			this.buildPlan = bPlan;
 			this.buildLocation = centerPos;
-			signText[2] = bType.getBuildingType().name().toCharArray();
+			signText[2] = bPlan.getBuildingType().name().toCharArray();
 			sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
 			signText[2] = sPos.toCharArray();
 			bStatus = BuildStatus.PREBUILD;
@@ -146,11 +146,34 @@ public class BuildManager
 			if (buildPlan == null)
 			{
 				bStatus = BuildStatus.NONE;
-				System.out.println("Build Cancelled "+bStatus.name()+":"+bType.getBuildingType().name());
+				System.out.println("Build Cancelled "+bStatus.name()+":"+bPlan.getBuildingType().name());
 			}
 		}
 		return false;
 	}
+	
+
+	public void runClean(RealmModel rModel, Warehouse warehouse, Settlement settle)
+	{
+		switch (bStatus)
+		{
+		case  PREBUILD: 
+//			System.out.println("run : "+bStatus.name());
+			preBuild(warehouse);
+			break;
+		case READY : 
+//			System.out.println("run : "+bStatus.name());
+			bStatus = BuildStatus.DONE;
+			
+			break;
+		default :
+//			System.out.println(bStatus.name());
+			bStatus = BuildStatus.NONE;
+		
+		}
+		signText[1] = bStatus.toString().toCharArray(); 
+	}
+	
 	
 	/**
 	 * run on TickTask to build one block tick
@@ -261,7 +284,7 @@ public class BuildManager
 //		System.out.println("pre : "+bStatus.name());
 		if (buildPlan == null)
 		{
-//			System.out.println("No Plan"+bStatus.name());
+			System.out.println("No Plan"+bStatus.name());
 			return;
 		}
 		if (buildLocation.getWorld() == "")
@@ -274,6 +297,8 @@ public class BuildManager
 		if (bStatus == BuildStatus.PREBUILD)
 		{
 //			System.out.println("BuildManager Clean "+h);
+			doCleanStep();
+			doCleanStep();
 			doCleanStep();
 			doCleanStep();
 			doCleanStep();
@@ -391,7 +416,7 @@ public class BuildManager
 			int edge = buildPlan.getRadius() * 2 -1; 
 			if (bStatus == BuildStatus.STARTED)
 			{
-	//			System.out.println("h:"+h+" r: "+r+" c: "+c);
+//				System.out.println("h:"+h+" r: "+r+" c: "+c);
 				doAddStep();
 				doAddStep();
 				doAddStep();
@@ -535,6 +560,11 @@ public class BuildManager
 		return true;
 	}
 	
+	public int getH()
+	{
+		return h;
+	}
+
 	public ArrayList<ItemLocation> getBuildRequest()
 	{
 		return buildRequest;

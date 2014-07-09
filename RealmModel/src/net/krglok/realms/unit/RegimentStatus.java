@@ -10,7 +10,7 @@ public enum RegimentStatus {
 	BATTLE,
 	RAID,
 	HIDE,
-	WAIT;
+	IDLE;
 	
 	
 	public static RegimentStatus getSettleType(String name)

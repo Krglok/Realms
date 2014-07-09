@@ -164,10 +164,12 @@ public class TMXMapReader
         }
     }
 
-    private Object unmarshalClass(Class reflector, Node node)
+    @SuppressWarnings("unchecked")
+	private Object unmarshalClass(@SuppressWarnings("rawtypes") Class reflector, Node node)
         throws InstantiationException, IllegalAccessException,
                InvocationTargetException {
-        Constructor cons = null;
+        @SuppressWarnings("rawtypes")
+		Constructor cons = null;
         try {
             cons = reflector.getConstructor((Class[]) null);
         } catch (SecurityException e1) {

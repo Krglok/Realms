@@ -9,11 +9,11 @@ import org.bukkit.block.Biome;
 
 /**
  * <pre>
- * realize a list of all settlements in the model
- * Settlements are the basic elements of the model
- * </pre>
+ * the settlementList hold all settlements in the model
+ * settlements are the basic elements of the model, realize the urban object
+ * 
  * @author oduda
- *
+ * </pre>
  */
 public class SettlementList
 {
@@ -44,7 +44,7 @@ public class SettlementList
 	}
 
 	/**
-	 * replace settlementListt
+	 * replace settlementList
 	 * @param settlements <id, Settlement>
 	 */
 	public void setSettlements(Map<Integer,Settlement> settlements)

@@ -27,18 +27,18 @@ import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 import net.krglok.realms.unit.UnitFactory;
-//>>>>>>> origin/PHASE2
 
 /**
- * the realmModel is the top Class of the realm handling.
+ * <pre>
+ * the realmModel is the central Class of the realm handling.
  * all functions and algorithm of the settlements and realm will be executed inside the model.
  * all rules are implemented here.
- * all storage, textoutput, commandhandling will be done outside of the model
- * the model represent a abstract realisation of an ancient political and economic feudalsystem
- * (Lehensystem oder Feudalism).
- * the real objects in the game are realized and representent by a different plugin, HeroStronghold.
+ * all storage, textoutput, command handling will be done outside of the model
+ * the model represent a abstract realization of an ancient political and economic feudal system
+ * (Lehensystem or Feudalism).
+ * the building and urban objects in the game are realized and represented by a different plugin, HeroStronghold.
  * the aspects and parameters of HeroStronghold are imported in the realmModel
- * the instances of the regions and superregions are used as Buildings and Areas
+ * the instances of the regions and superregions are used as buildings and urban areas
  * the aspects and parameters of the HeroStronghold are abstracted in the realmModel the real value 
  * and connection to the HeroStronghold objects are done outside the realmModel by the plugin that 
  * use this realmModel.
@@ -49,12 +49,12 @@ import net.krglok.realms.unit.UnitFactory;
  * 
  *    
  * @author oduda    19.12.2013
- *
+ *</pre>
  */
 public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
-	private static final String REALM_MODEL_VER = "0.8.3";
+	private static final String REALM_MODEL_VER = "0.9.0";
 	private static int garbageCounterLimit = 57;
 	
 	private ModelStatus modelStatus;
@@ -97,8 +97,12 @@ public class RealmModel
 	 * @param server
 	 * @param config
 	 * @param data
+	 * @param messageData
+	 * @param logList
 	 */
-	public RealmModel(int realmCounter, int settlementCounter,
+	public RealmModel(
+			int realmCounter, 
+			int settlementCounter,
 			ServerInterface server,
 			ConfigInterface config,
 			DataInterface data,
@@ -118,7 +122,7 @@ public class RealmModel
 		realms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
 		colonys     = new ColonyList(colonyCounter);
-		regiments	= new RegimentList();
+		regiments	= new RegimentList(0);
 		this.server = server;
 		this.config = config;
 		this.data   = data;
@@ -291,6 +295,7 @@ public class RealmModel
 		owners = data.initOwners();
 		realms = data.initKingdoms();
 		settlements = data.initSettlements();
+		regiments = data.initRegiments();
 		isInit = isDone;
 		return isInit;
 	}
@@ -392,16 +397,16 @@ public class RealmModel
 		
 	}
 
-	public void OnMove()
-	{
-		switch (modelStatus)
-		{
-		case MODEL_ENABLED :
-			break;
-		default :
-			break;
-		}
-	}
+//	public void OnMove()
+//	{
+//		switch (modelStatus)
+//		{
+//		case MODEL_ENABLED :
+//			break;
+//		default :
+//			break;
+//		}
+//	}
 
 	public void OnTrade()
 	{
@@ -419,28 +424,28 @@ public class RealmModel
 		}
 	}
 
-	public void OnAttack()
-	{
-		switch (modelStatus)
-		{
-		case MODEL_ENABLED :
-			break;
-		default :
-			break;
-		}
-	}
+//	public void OnAttack()
+//	{
+//		switch (modelStatus)
+//		{
+//		case MODEL_ENABLED :
+//			break;
+//		default :
+//			break;
+//		}
+//	}
 
-	public void OnTrain()
-	{
-		switch (modelStatus)
-		{
-		case MODEL_ENABLED :
-			break;
-		default :
-			break;
-		}
-		return;
-	}
+//	public void OnTrain()
+//	{
+//		switch (modelStatus)
+//		{
+//		case MODEL_ENABLED :
+//			break;
+//		default :
+//			break;
+//		}
+//		return;
+//	}
 	
 	public void OnTick()
 	{
@@ -709,7 +714,7 @@ public class RealmModel
 		{
 			return ModelStatus.MODEL_ENABLED;
 		}
-		Settlement settle = tradeQueue.get(0);
+//		Settlement settle = tradeQueue.get(0);
 
 		
 		tradeQueue.remove(0);

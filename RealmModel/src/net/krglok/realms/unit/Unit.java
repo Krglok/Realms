@@ -6,7 +6,7 @@ import net.krglok.realms.core.LocationData;
 
 /**
  * <pre>
- * UnitType Item
+ * UnitType 
  * value has a range of (0..maxInt)
  * no value < 0 are allowed
  * </pre>

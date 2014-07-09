@@ -30,6 +30,7 @@ import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.unit.Regiment;
 import net.milkbowl.vault.economy.Economy;
 import net.skycraftmc.SignChestShop.Shop;
 import net.skycraftmc.SignChestShop.SignChestShopAPI;
@@ -66,8 +67,12 @@ import org.bukkit.plugin.java.JavaPlugin;
  * create Task for Tick Handling of the RealmModel. 
  * check interface to HeroStronghold
  * check interface to Vault
+ * check Interface to SignChestShop
  * realize onEnable and make initialization
  * realize onDisable and make storage of settlements
+ * create Listener for ServerEvents
+ * 
+ * the use not an automatic update service , only make a message for new versions
  * 
  * @author Windu
  *</pre>
@@ -183,8 +188,8 @@ public final class Realms extends JavaPlugin
             scsAPI = scs.getAPI(); //This returns the API object that will have everything you will ever need
         } else {
             log.warning("[Realms] didnt find SignChestShop.");
-            log.info("[Realms] please install the plugin SignChestShop .");
-            log.info("[Realms] will be Enabled without Shops");
+            log.warning("[Realms] please install the plugin SignChestShop .");
+            log.warning("[Realms] will be Enabled without Shops");
         }
 
         boolean isReady = true; // flag for Init contrll
@@ -614,6 +619,47 @@ public final class Realms extends JavaPlugin
 			}
 		}
 
+		for (Regiment regiment : realmModel.getRegiments().values())
+		{
+			for (int i=0; i<regiment.buildManager().getBuildRequest().size(); i++)
+			{
+//				System.out.println("Colony Build request");
+				ItemLocation iLoc =  regiment.buildManager().getBuildRequest().get(i);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				setBlock(world, iLoc);
+//				colony.buildManager().getBuildRequest().remove(0);
+			}
+			regiment.buildManager().getBuildRequest().clear();
+			
+			// Abarbeiten der Region Request zum erstellen von Herostronghold Regions
+			if (regiment.buildManager().getRegionRequest().size() != 0)
+			{
+				World world = getServer().getWorld(regiment.buildManager().getRegionRequest().get(0).getPosition().getWorld());
+				RegionLocation rLoc = regiment.buildManager().getRegionRequest().get(0);
+				doRegionRequest( world, rLoc );
+				regiment.buildManager().getRegionRequest().remove(0);
+			}
+			//Abarbeiten der SetChestRequest zum configurieren der Region
+			if (regiment.buildManager().getChestSetRequest().size() != 0)
+			{
+				System.out.println("do Regiment Chest Set");
+				World world = getServer().getWorld(regiment.buildManager().getChestSetRequest().get(0).position().getWorld());
+				setChest(world, regiment.buildManager().getChestSetRequest().get(0));
+				regiment.buildManager().getChestSetRequest().remove(0);
+			}
+			// Abarbeiten der SuperRegionRequest zum create der Superregions
+			if (regiment.getSuperRequest() != null)
+			{
+//				System.out.println("SuperRequest");
+				World world = getServer().getWorld(regiment.getSuperRequest().getPosition().getWorld());
+				doSuperRequest(world, regiment.getSuperRequest() );
+				regiment.setSuperRequest(null);
+			}
+//			if (regiment.getBiomeRequest().size() > 0)
+//			{
+//				getBiome (regiment.getBiomeRequest().get(0));
+//			}
+		}
 		
 	}
 	
@@ -1046,6 +1092,24 @@ public final class Realms extends JavaPlugin
 				getBiome(colony.getBiomeRequest().get(0));
 //				System.out.println("Biome request "+colony.getBiomeRequest().get(0).getBiome());
 			}
+		}
+		for (Regiment regiment : realmModel.getRegiments().values())
+		{
+//			System.out.println(settle.getId()+": cleanRequest "+settle.buildManager().getCleanRequest().size());
+			for (int i=0; i < regiment.buildManager().getCleanRequest().size(); i++)
+			{
+//				System.out.println("Colony Clean request");
+				ItemLocation iLoc =  regiment.buildManager().getCleanRequest().get(i);
+				World world = getServer().getWorld(iLoc.position().getWorld());
+				Material mat = getBlock(world, iLoc,regiment.buildManager());
+				regiment.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+			}
+			regiment.buildManager().getCleanRequest().clear();
+//			if (regiment.getBiomeRequest().size() > 0)
+//			{
+//				getBiome(regiment.getBiomeRequest().get(0));
+////				System.out.println("Biome request "+colony.getBiomeRequest().get(0).getBiome());
+//			}
 		}
 
 	}

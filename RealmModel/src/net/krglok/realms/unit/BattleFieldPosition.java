@@ -57,6 +57,8 @@ public enum BattleFieldPosition {
 		case RIGHT:
 			targetPos = new BattleFieldPosition[] {LEFT, CENTER };
 			break;
+		default:
+			break;
 		}
 		return targetPos;
 	}

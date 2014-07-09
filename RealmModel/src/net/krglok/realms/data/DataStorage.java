@@ -26,11 +26,17 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.RegimentList;
 
 /**
+ * <pre>
+ * read and write model data to data file. make the model data persistent. 
+ * the data are stored in object list. this lists are read from the model to fill with data.
+ * the data must be read before initialize the model
  * 
  * @author Windu
- *
+ *</pre>
  */
 public class DataStorage implements DataInterface
 {
@@ -46,11 +52,13 @@ public class DataStorage implements DataInterface
 	private OwnerList owners ;
 	private KingdomList kingdoms ;
 	private SettlementList settlements;
+	private RegimentList regiments; 		 
 	
 	private PriceData priceData;
 	private ItemPriceList priceList ;
 	
 	private SettlementData settleData;
+	private RegimentData regData;
 	
 	private Realms plugin;
 	
@@ -58,24 +66,43 @@ public class DataStorage implements DataInterface
 	{
 		this.plugin = plugin;
 		settleData = new SettlementData(plugin.getDataFolder().getPath());
+		regData    = new RegimentData(plugin.getDataFolder().getPath());
 		owners = new OwnerList();
 		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
+		regiments  = new RegimentList(0);
 		priceData = new PriceData(plugin.getDataFolder().getPath());
 		priceList = new ItemPriceList();
 	}
 	
+	/**
+	 * read data from file and store them in the appropriate object list
+	 * 
+	 * @return  true when all data read
+	 */
 	public boolean initData()
 	{
-		Boolean isReady = false;
+		Boolean isReady = true;
 		priceList = priceData.readPriceData();
 		npcOwners();
 		npcRealms(owners.getOwner(NPC_0));
 		ArrayList<String> settleInit = settleData.readSettleList();
-		isReady = initSettlements(settleInit);
+		if (initSettlements(settleInit) == false)
+		{
+			isReady = false;
+		}
+		ArrayList<String> regInit = regData.readRegimentList();
+		if (initRegiments(regInit) == false)
+		{
+			isReady = false;
+		}
 		return isReady;
 	}
 	
+	/**
+	 * write pricelist to datafile
+	 * 
+	 */
 	public void writePriceList()
 	{
 		priceData.writePriceData(priceList);
@@ -83,6 +110,7 @@ public class DataStorage implements DataInterface
 	
 	/**
 	 * must be done at first init for realmModel
+	 * here are the NPC owner will be defined
 	 */
 	public OwnerList npcOwners()
 	{
@@ -100,6 +128,7 @@ public class DataStorage implements DataInterface
 	
 	/**
 	 * must be done after initOwners
+	 * here are the NPC kingdoms are defined
 	 */
 	public KingdomList npcRealms(Owner owner)
 	{
@@ -133,23 +162,59 @@ public class DataStorage implements DataInterface
 	}
 
 	/**
+	 * <pre>
 	 * Read Settlement from File
-	 * normaly not used !!
+	 * always return a settlement. if id not found a empty settlement are returned
+	 *  
 	 * @param id
-	 * @return
+	 * @return the settlement
+	 * </pre>
 	 */
 	private Settlement readSettlement(int id, ItemPriceList priceList)
 	{
 		return settleData.readSettledata(id, priceList, plugin.getLogList());
 	}
 	
-//	private Settlement initSettlement()
-//	{
-//		Settlement settle = new Settlement();
-//		settle = settleData.readSettledata(id)
-//		return settle;
-//	}
+	/**
+	 * write regiment to Datafile
+	 * @param regiment
+	 */
+	public void writeRegiment(Regiment regiment)
+	{
+		regData.writeRegimentData(regiment);
+	}
+	
+	/**
+	 * <pre>
+	 * read the single Regiment from datafile
+	 * read buildPlan from file
+	 * always return a regiment. 
+	 * if id not found a empty settlement are returned 
+	 * @param id
+	 * @return the settlement
+	 * </pre>
+	 */
+	private Regiment readRegiment(int id)
+	{
+		Regiment regiment = regData.readRegimentData(id, plugin.getLogList()); 
+		regiment.setBuildPlan(readTMXBuildPlan(BuildPlanType.FORT, 4, 0));
+		return regiment; 
+	}
 
+	/**
+	 * read the regiment list from datafile
+	 * @param regInit
+	 * @return
+	 */
+	public boolean initRegiments(ArrayList<String> regInit)
+	{
+		for (String regId : regInit)
+		{
+			plugin.getMessageData().log("RegimentRead: "+regId );
+			regiments.addRegiment(readRegiment(Integer.valueOf(regId)));
+		}
+		return true;
+	}
 	
 	@Override
 	public KingdomList initKingdoms()
@@ -157,6 +222,7 @@ public class DataStorage implements DataInterface
 		// TODO Auto-generated method stub
 		return kingdoms;
 	}
+	
 
 	@Override
 	public OwnerList initOwners()
@@ -181,10 +247,17 @@ public class DataStorage implements DataInterface
 	@Override
 	public SettlementList initSettlements()
 	{
-		// TODO Auto-generated method stub
 		plugin.getMessageData().log("SettleInit: ");
 		return settlements;
 	}
+	
+	@Override
+	public RegimentList initRegiments()
+	{
+		plugin.getMessageData().log("RegimentInit: ");
+		return regiments;
+	}
+
 	
 	/**
 	 * not all tile ids will converted
@@ -393,5 +466,6 @@ public class DataStorage implements DataInterface
 		}
 		return buildPlan;
 	}
+
 
 }

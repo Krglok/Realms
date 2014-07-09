@@ -14,9 +14,13 @@ import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
+import net.krglok.realms.unit.BattleFieldPosition;
+import net.krglok.realms.unit.BattlePlacement;
 import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
+import net.krglok.realms.unit.UnitList;
+import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -499,6 +503,32 @@ public class Settlement //implements Serializable
 		return power;
 	}
 	
+	/**
+	 * setup a standard defender BattlePlacement
+	 * @return
+	 */
+	public BattlePlacement getDefenders()
+	{
+		UnitFactory unitFactory = new UnitFactory();
+		BattlePlacement units = new BattlePlacement();
+
+		UnitList unitList = new UnitList();
+		for (Unit unit : barrack.getUnitList())
+		{
+			unitList.add(unitFactory.erzeugeUnit(unit.getUnitType()));
+		}
+//		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+//		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+//		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+//		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+//		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+//		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+//		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+		units.setPlaceUnit(BattleFieldPosition.CENTER, unitList);
+
+		return units;
+	}
+
 	public Warehouse getWarehouse()
 	{
 		return warehouse;

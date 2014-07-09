@@ -5,6 +5,7 @@ net.krglok.realms.colonist
 net.krglok.realms.core
 net.krglok.realms.data
 net.krglok.realms.manager
+net.krglok.realms.maps
 net.krglok.realms.model
 net.krglok.realms.unit
 tiled.core

@@ -48,6 +48,8 @@ import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.RegimentList;
 import net.krglok.realms.unit.UnitType;
 
 /**
@@ -933,6 +935,20 @@ public class DataTest implements DataInterface
 			System.out.println(e.getStackTrace());
 		}
 	
+	}
+
+	@Override
+	public RegimentList initRegiments()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void writeRegiment(Regiment regiment)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

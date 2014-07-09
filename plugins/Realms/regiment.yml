@@ -1,0 +1,67 @@
+REGIMENT:
+  '1':
+    id: 1
+    regimentType: PRIVATEER
+    regStatus: NONE
+    position: :0.0:0.0:0.0
+    target: :0.0:0.0:0.0
+    name: Privateer
+    owner: Raider
+    bank: 0.0
+    isActiv: true
+    settleId: -1
+    MaxUnit: 60
+    unitlist:
+      '19': SETTLER
+      '17': SETTLER
+      '18': SETTLER
+      '15': SETTLER
+      '16': SETTLER
+      '13': SETTLER
+      '14': SETTLER
+      '11': SETTLER
+      '12': SETTLER
+      '3': MILITIA
+      '2': MILITIA
+      '1': MILITIA
+      '10': SETTLER
+      '0': MILITIA
+      '7': MILITIA
+      '6': MILITIA
+      '5': MILITIA
+      '4': MILITIA
+      '9': MILITIA
+      '8': MILITIA
+  '2':
+    id: 2
+    regimentType: PRIVATEER
+    regStatus: NONE
+    position: :0.0:0.0:0.0
+    target: :0.0:0.0:0.0
+    name: Privateer
+    owner: Raider
+    bank: 0.0
+    isActiv: true
+    settleId: -1
+    MaxUnit: 60
+    unitlist:
+      '19': SETTLER
+      '17': SETTLER
+      '18': SETTLER
+      '15': SETTLER
+      '16': SETTLER
+      '13': SETTLER
+      '14': SETTLER
+      '11': SETTLER
+      '12': SETTLER
+      '3': MILITIA
+      '2': MILITIA
+      '1': MILITIA
+      '10': SETTLER
+      '0': MILITIA
+      '7': MILITIA
+      '6': MILITIA
+      '5': MILITIA
+      '4': MILITIA
+      '9': MILITIA
+      '8': MILITIA

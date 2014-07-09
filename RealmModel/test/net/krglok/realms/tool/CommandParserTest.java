@@ -87,14 +87,12 @@ public class CommandParserTest
 			@Override
 			public PermissionAttachment addAttachment(Plugin arg0)
 			{
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public PermissionAttachment addAttachment(Plugin arg0, int arg1)
 			{
-				// TODO Auto-generated method stub
 				return null;
 			}
 
@@ -102,7 +100,6 @@ public class CommandParserTest
 			public PermissionAttachment addAttachment(Plugin arg0, String arg1,
 					boolean arg2)
 			{
-				// TODO Auto-generated method stub
 				return null;
 			}
 
@@ -110,98 +107,84 @@ public class CommandParserTest
 			public PermissionAttachment addAttachment(Plugin arg0, String arg1,
 					boolean arg2, int arg3)
 			{
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public Set<PermissionAttachmentInfo> getEffectivePermissions()
 			{
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public boolean hasPermission(String arg0)
 			{
-				// TODO Auto-generated method stub
 				return true;
 			}
 
 			@Override
 			public boolean hasPermission(Permission arg0)
 			{
-				// TODO Auto-generated method stub
 				return true;
 			}
 
 			@Override
 			public boolean isPermissionSet(String arg0)
 			{
-				// TODO Auto-generated method stub
 				return true;
 			}
 
 			@Override
 			public boolean isPermissionSet(Permission arg0)
 			{
-				// TODO Auto-generated method stub
 				return true;
 			}
 
 			@Override
 			public void recalculatePermissions()
 			{
-				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void removeAttachment(PermissionAttachment arg0)
 			{
-				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public boolean isOp()
 			{
-				// TODO Auto-generated method stub
 				return true;
 			}
 
 			@Override
 			public void setOp(boolean arg0)
 			{
-				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public String getName()
 			{
-				// TODO Auto-generated method stub
 				return "Test User";
 			}
 
 			@Override
 			public Server getServer()
 			{
-				// TODO Auto-generated method stub
 				return null;
 			}
 
 			@Override
 			public void sendMessage(String arg0)
 			{
-				// TODO Auto-generated method stub
 				System.out.println(arg0);
 			}
 
 			@Override
 			public void sendMessage(String[] arg0)
 			{
-				// TODO Auto-generated method stub
 				for (int i = 0; i < arg0.length; i++)
 				{
 					System.out.println(arg0[i]);

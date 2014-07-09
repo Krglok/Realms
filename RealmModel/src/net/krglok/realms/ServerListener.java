@@ -98,6 +98,10 @@ public class ServerListener implements Listener
 ////		inventorycrafting.b(i, itemstack)
 //    }
 
+	/**
+	 * suppress mob spawn in a range of a settlement. 
+	 * @param event
+	 */
 	@EventHandler( priority = EventPriority.HIGHEST )
 	public void onCreatureSpawn( CreatureSpawnEvent event )
 	{
@@ -130,7 +134,13 @@ public class ServerListener implements Listener
 		}
 	}
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+	/**
+	 * Handle explosion on settlements.
+	 * Suppress destruction and reduce power instead 
+	 * Work with herostronghold functions and conditions for regions
+	 * @param event
+	 */
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onEntityExplode(EntityExplodeEvent event) {
         /*if (event.isCancelled() || !(event.getEntity() instanceof Creeper || event.getEntity() instanceof EnderDragon
                 || event.getEntity() instanceof TNTPrimed || event.getEntity() instanceof Fireball)) {
@@ -174,6 +184,10 @@ public class ServerListener implements Listener
         
     }
 	
+	/**
+	 * send update check message to ops
+	 * @param event
+	 */
     @EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event) 
     {
@@ -186,6 +200,10 @@ public class ServerListener implements Listener
 		return; // no OP => OUT
 	}
 	
+    /**
+     * do special action on chest in settlement
+     * @param event
+     */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClose(InventoryCloseEvent event)
     {
@@ -195,7 +213,11 @@ public class ServerListener implements Listener
     	}
     }
     
-    
+    /**
+     * handle action on WALL_SIGN, SIGN_POST
+     * BLAZEROD and Books
+     * @param event
+     */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteractEvent(PlayerInteractEvent event)
     {
@@ -300,6 +322,10 @@ public class ServerListener implements Listener
     	}
     }
     
+    /**
+     * do action with BLAZEROD in settlements
+     * @param event
+     */
     private void cmdBlazeRod(PlayerInteractEvent event)
     {
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
@@ -349,17 +375,26 @@ public class ServerListener implements Listener
 		}    	
     }
 
+    /**
+     * unused at this time
+     * @param event
+     */
     private void cmdBuildPlanBook(PlayerInteractEvent event)
     {
 
     }
     
+    /**
+     * unused at this time
+     * @param event
+     */
     private void cmdRequiredBook(PlayerInteractEvent event)
     {
     	
 
     }
 
+    
 	private boolean findStrongholdAtLocation(Realms plugin,Location position)
 	{
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
@@ -381,7 +416,12 @@ public class ServerListener implements Listener
 		return false;
 	}
 
-    
+    /**
+     * give first superegion at player position
+     * @param plugin
+     * @param player
+     * @return superregion name
+     */
 	private String findSuperRegionAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
@@ -401,7 +441,7 @@ public class ServerListener implements Listener
 	 * give first superregion at position
 	 * @param plugin
 	 * @param position
-	 * @return
+	 * @return superregion object  or null
 	 */
 	private SuperRegion findSuperRegionAtPosition(Realms plugin, Location position)
 	{
@@ -415,6 +455,12 @@ public class ServerListener implements Listener
 		return null;
 	}
 
+	/**
+	 * give first building at player position
+	 * @param plugin
+	 * @param player
+	 * @return buildungtype as string
+	 */
 	private String findRegionAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
@@ -430,6 +476,12 @@ public class ServerListener implements Listener
 		return "";
 	}
 
+	/**
+	 * give region id at player position
+	 * @param plugin
+	 * @param player
+	 * @return region id
+	 */
 	private Integer findRegionIdAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
@@ -449,7 +501,7 @@ public class ServerListener implements Listener
 	 * give first region at position
 	 * @param plugin
 	 * @param position
-	 * @return
+	 * @return  region object
 	 */
 	private Region findRegionAtPosition(Realms plugin,Location position)
 	{

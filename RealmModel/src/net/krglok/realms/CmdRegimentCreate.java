@@ -27,9 +27,10 @@ public class CmdRegimentCreate extends RealmsCommand
 		description = new String[] {
 				ChatColor.YELLOW+"/regiment CREATE [Name]  ",
 				"Create a Regiment with <Name> ",
-				"The regiment is not linked to a settlement",
-		    	"The position is 0 0 0 , and the the ",
-		    	"regiment is hidden  "
+				"The regiment is a Raider ",
+		    	"The position is 0 0 0 , and the ",
+		    	"regiment is hidden  ",
+		    	"Move it to the rogth position  "
 		};
 		requiredArgs = 1;
 		position = new LocationData("", 0.0, 0.0, 0.0);
@@ -87,10 +88,10 @@ public class CmdRegimentCreate extends RealmsCommand
 		String world = player.getLocation().getWorld().getName();
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
-		plugin.getRealmModel().getRegiments().createRegiment(RegimentType.RAIDER.name(), world, 0, plugin.getLogList());
+		plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0, plugin.getLogList());
 		
 		msg.add("[Realm] Regiment created ");
-		msg.add("positio 0 0 0  ");
+		msg.add("position 0 0 0  ");
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
 		name = "";

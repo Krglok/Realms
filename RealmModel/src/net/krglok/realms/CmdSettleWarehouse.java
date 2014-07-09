@@ -23,7 +23,6 @@ public class CmdSettleWarehouse extends RealmsCommand
 		    	"List all Items in the Warehouse ",
 		    	"  "
 			};
-			requiredArgs = 0;
 			requiredArgs = 1;
 			this.settleID = 0;
 			this.page = 0;  //default value

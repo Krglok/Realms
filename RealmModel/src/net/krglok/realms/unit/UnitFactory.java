@@ -53,6 +53,9 @@ public class UnitFactory
 		case MILITIA:
 			iUnit = new UnitMilitia();
 			break;
+		case ARCHER:
+			iUnit = new UnitArcher();
+			break;
 		case COMMANDER :
 			iUnit = new UnitCommander();
 		case SETTLER:

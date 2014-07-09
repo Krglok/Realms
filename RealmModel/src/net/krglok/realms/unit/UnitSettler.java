@@ -14,7 +14,7 @@ public class UnitSettler extends AbstractUnit
 		unitType = UnitType.SETTLER;
 		armor = 1;
 		speed = 5;
-		offense = 1;
+		offense = 2;
 		defense = 3;
 		offenseRange = 1;
 		maxStorage = 27;

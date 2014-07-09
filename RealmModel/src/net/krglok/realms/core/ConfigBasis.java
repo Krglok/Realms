@@ -23,7 +23,7 @@ public class ConfigBasis implements ConfigInterface
 	protected static final String CONFIG_PLUGIN_VER = "plugin_ver";
 	protected static final String CONFIG_PLUGIN_NAME = "plugin_name";
 	protected static final String PLUGIN_NAME = "Realms";
-	protected static String PLUGIN_VER = "0.1.0";
+	protected static String PLUGIN_VER = "0.3.0";
 
 	
 	public final static long dayNight = 24000; //2400 for test ; // serverTicks 
@@ -602,70 +602,60 @@ public class ConfigBasis implements ConfigInterface
 	@Override
 	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getRegionType(BuildPlanType bType)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ItemList getBuildMaterialItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ItemList getMaterialItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ItemList getOreItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ItemList getValuables()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ItemList getRawItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ItemList getFoodItems()
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isUpdateCheck()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isAutoUpdate()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 

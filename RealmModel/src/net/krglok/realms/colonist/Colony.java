@@ -183,39 +183,6 @@ public class Colony
 		
 	}
 	
-	public static Colony newCamp(String name,  String owner, LogList logList)
-	{
-		LocationData position = new LocationData("", 0.0, 0.0,0.0);
-
-		Colony colony = new Colony ( name,  position,  owner, logList);
-		colony.newSuperRegion = new RegionLocation("CAMP", position, owner, name);
-		colony.settleSchema = SettleSchema.initCamp();
-		colony.netherSchema = SettleSchema.initCamp();
-		colony.prepareRow = 0;
-		colony.prepareCol = 0;
-		colony.prepareRadius= 7;
-		colony.prepareOffset= 0;
-		colony.prepareMaxLevel = 8;
-
-		colony.getWarehouse().depositItemValue(Material.BED.name(), 1);
-		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
-		colony.getWarehouse().depositItemValue(Material.LOG.name(), 250);
-		colony.getWarehouse().depositItemValue(Material.WHEAT.name(), 100);
-		colony.getWarehouse().depositItemValue(Material.TORCH.name(), 10);
-		colony.getWarehouse().depositItemValue(Material.STONE.name(), 100);
-		colony.getWarehouse().depositItemValue(Material.WORKBENCH.name(), 1);
-		colony.getWarehouse().depositItemValue(Material.DIRT.name(), 100);
-		colony.getWarehouse().depositItemValue(Material.WATER.name(), 10);
-		colony.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),100);
-		colony.getWarehouse().depositItemValue(Material.WOOD_DOOR.name(), 1);
-		colony.getWarehouse().depositItemValue(Material.BEDROCK.name(), 1);
-		colony.getWarehouse().depositItemValue(Material.CHEST.name(), 4);
-		colony.getWarehouse().depositItemValue(Material.WOOD.name(), 100);
-		colony.getWarehouse().depositItemValue(Material.RED_MUSHROOM.name(), 50);
-		colony.getWarehouse().depositItemValue(Material.BROWN_MUSHROOM.name(), 50);
-		return colony;
-	}
-	
 	/**
 	 * 
 	 * @return
@@ -250,6 +217,7 @@ public class Colony
 			  aPos.getPosition().setWorld(this.position.getWorld());
 			}
 			biomeRequest.add(new BiomeLocation(null, position));
+			System.out.println(id+" StartupBuild "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 		} else
 		{
 			System.out.println("Colonist Command Build , disabled, Colonist is already working !!! ");
@@ -273,6 +241,13 @@ public class Colony
 		this.prepareCol = 0;
 		this.prepareRadius = radius;
 		this.prepareMaxLevel = radius + 2;
+	}
+	
+	public void noReinforce()
+	{
+		System.out.println(id+" No Reinforce, Done  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
+		this.cStatus = ColonyStatus.NONE;
+		
 	}
 	
 	/**
@@ -450,14 +425,11 @@ public class Colony
 			}
 			break;
 		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
-			if (settleSchema.isRegiment() == false)
-			{
 				System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
 				buildManager.newBuild(buildPlan, this.position, owner);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
-			}
 			break;
 		case READY :		// der Builder bereitet das Materiallager vor
 			if (settleSchema.isMarkUp())
@@ -528,8 +500,6 @@ public class Colony
 			this.cStatus = ColonyStatus.NEWSETTLE;
 			break;
 		case NEWSETTLE:
-			if (settleSchema.isRegiment() == false)
-			{
 				if (superRequest == null)
 				{
 					System.out.println(id+" Create Settlement  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
@@ -546,18 +516,6 @@ public class Colony
 					this.prepareMaxLevel = 7;
 					System.out.println(id+" Reinforce Colony  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 				}
-			} else
-			{
-				this.cStatus = ColonyStatus.DONE;
-				this.isPrepared = false;
-				prepareOffset = 0; //buildPlan.getOffsetY();
-				this.prepareLevel = prepareOffset;
-				this.prepareRow = 0;
-				this.prepareCol = 0;
-				this.prepareRadius = 4;
-				this.prepareMaxLevel = 7;
-				System.out.println("No Reinforce build CAMP "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-			}
 			break;
 		case REINFORCE:  // removal of Colony in the center 
 			doPrepareArea();
@@ -573,8 +531,6 @@ public class Colony
 			}
 			break;
 		case DONE:			// der Builder beendet den Auftrag.
-			if (settleSchema.isRegiment() == false)
-			{
 				Settlement settle = rModel.getSettlements().findName(name);
 				if (settle != null)
 				{
@@ -595,11 +551,6 @@ public class Colony
 						System.out.println("Colonist ended abnormal ");
 					}
 				}
-			} else
-			{
-				this.cStatus = ColonyStatus.FULFILL;
-				System.out.println("CAMP ended ormal ");
-			}
 			break;
 		case WAIT:			// der Builder wartet auf Material
 			this.cStatus = ColonyStatus.NONE;
