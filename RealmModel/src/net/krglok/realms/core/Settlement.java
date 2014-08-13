@@ -1112,6 +1112,7 @@ public class Settlement //implements Serializable
 		}
 		taxSum = taxSum + townhall.getWorkerCount() * ConfigBasis.SETTLER_TAXE;
 //		taxSum = resident.getSettlerCount() * SETTLER_TAXE;
+		System.out.println("Tax Sum : "+String.valueOf(taxSum));
 		bank.addKonto(taxSum,"TAX", getId());
 	}
 	
@@ -1562,6 +1563,7 @@ public class Settlement //implements Serializable
 			{
 				building.setBiome(biome);
 			}
+			building.setSales(0.0);
 			if (building.isEnabled())
 			{
 				if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 2)
@@ -1635,21 +1637,22 @@ public class Settlement //implements Serializable
 							{
 							// setze Ertrag auf Building .. der Ertrag wird versteuert !!
 								account = (sale-cost) * (double) iValue / 2;
-								building.addSales(account); //-cost);
 //								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
 							} else
 							{
 								account =  1.0 * (double) iValue;
-								building.addSales(account); //-cost);
 //								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
 							}
+							building.addSales(account); //-cost);
+							bank.depositKonto(account, "ProdSale ", getId());
+							System.out.println("ProdSale "+this.getId()+" : "+building.getHsRegionType() +" : "+account);
 							consumStock(prodFactor, ingredients);
 //							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
 							warehouse.depositItemValue(item.ItemRef(),iValue);
 							productionOverview.addCycleValue(item.ItemRef(), iValue);
 						}
 					}
-					building.addSales(sale);
+//					building.addSales(sale);
 				}
 				
 				// unit production
@@ -1714,18 +1717,22 @@ public class Settlement //implements Serializable
 	{
 		double taxSum = 0.0;
 		double value = 0.0; 
-		for (Building building : buildingList.getBuildingList().values())
-		{
-//			System.out.println("doCalcTax"+building.getSales());
-			value = (building.getSales() * BASE_TAX_FACTOR/ 100.0);
-			if (value > 0.0)
-			{
-				taxOverview.addCycleValue(building.getId()+"."+building.getHsRegionType() , value);
-			}
-			taxSum = taxSum + value;
-				// pruefe ob Stronghold region enabled sind
-		}
+//		for (Building building : buildingList.getBuildingList().values())
+//		{
+//			value = (building.getSales() * BASE_TAX_FACTOR/ 100.0);
+////			System.out.println("doCalcTax"+building.getSales()+":"+value);
+//			if (value > 0.0)
+//			{
+//				taxOverview.addCycleValue(building.getId()+"."+building.getHsRegionType() , value);
+//			}
+//			taxSum = taxSum + value;
+//			// reset building.sale
+//			building.setSales(0.0);
+//		}
+//		taxSum = taxSum + (townhall.getWorkerCount()  * ConfigBasis.SETTLER_TAXE);
+		taxSum = taxSum + (resident.getSettlerCount() * ConfigBasis.SETTLER_TAXE);
 		bank.depositKonto(taxSum, "TAX_COLLECTOR", getId());
+		System.out.println("doCalcTax "+this.getId()+" : "+taxSum);
 		//  Kingdom tax are an open item
 		
 	}

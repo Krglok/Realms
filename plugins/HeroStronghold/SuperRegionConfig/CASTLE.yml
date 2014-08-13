@@ -1,0 +1,23 @@
+effects:
+- denyblockbuild
+- denybucketuse
+- denyfire
+- denyfriendlyfire
+radius: 30
+requirements:
+- TOWER.1
+- GUARDHOUSE.1
+- DEFENSETOWER.1
+- WATCHTOWER.2
+central-structure: TOWER
+money-requirement: 100000.0
+money-output-daily: 0.0
+max-power: 5000
+daily-power-increase: 50
+charter: 0
+child-super-regions: 
+- HAMLET
+- TOWN
+- CITY
+exp: 2500
+description: Central building of a feud/lehen level 2

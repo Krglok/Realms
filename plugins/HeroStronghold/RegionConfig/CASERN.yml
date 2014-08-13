@@ -1,0 +1,30 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 15
+requirements:
+- WOODEN_DOOR.6
+- BED_BLOCK.50
+- CHEST.50
+- WALL_SIGN.1
+- COBBLESTONE.841
+- WOOD.25
+- LOG.160
+reagents:
+- GOLD_NUGGET.50
+- IRON_INGOT.50
+upkeep:
+- BREAD.1
+upkeep-chance: 0.001
+output: []
+money-requirement: 5000.0
+upkeep-money-output: 0.0
+housing: 0
+power-drain: 0.0
+biome: [] 
+description: Hold millitary Units in a settlement

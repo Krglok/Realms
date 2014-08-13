@@ -87,40 +87,53 @@ public class SettleManager
 	
 	public void run(RealmModel rModel, Settlement settle)
 	{
-		getModelCommands(rModel, settle);
-		// check for hunger
-		checkHunger ( rModel,  settle);
-		//check for money
-		checkMoneyLevel( rModel,  settle);
-		// check for Required Items
-		if (checkRequiredMaterials(rModel,  settle))
-		{
-			buyRequiredMaterials(rModel, settle);
-		}
-
-		// check for overstocking
-		checkOverStockSell( rModel,  settle);
-		// check for overpopulation
-		
 		// check for optional actions
 		if (checkCounter <= 0)
 		{
-			if (checkBuildMaterials(rModel, settle))
+		
+//			System.out.println("1");
+			getModelCommands(rModel, settle);
+			// check for hunger
+//			System.out.println("2");
+			checkHunger ( rModel,  settle);
+			//check for money
+//			System.out.println("3");
+			checkMoneyLevel( rModel,  settle);
+			// check for Required Items
+//			System.out.println("4");
+			if (checkRequiredMaterials(rModel,  settle))
 			{
-				buildOrder(settle);
-				checkCounter = 0;
-			} else
-			{	
-				buyBuildMaterials(rModel, settle);
-				checkCounter = 100;
+//				System.out.println("4.1");
+				buyRequiredMaterials(rModel, settle);
 			}
+	
+			// check for overstocking
+//			System.out.println("5");
+			checkOverStockSell( rModel,  settle);
+			// check for overpopulation
+			
+//				System.out.println("6");
+				if (checkBuildMaterials(rModel, settle))
+				{
+//					System.out.println("6.1");
+					buildOrder(rModel,settle);
+					checkCounter = 0;
+				} else
+				{	
+//					System.out.println("6.2");
+					buyBuildMaterials(rModel, settle);
+					checkCounter = 100;
+				}
+//			System.out.println("7");
+			checkSellOrder(rModel, settle);
+//			System.out.println("8");
+			sellOrder(rModel,settle);
+//			System.out.println("9");
+			buyOrder( rModel, settle);
 		} else
 		{
 			checkCounter--;
 		}
-		checkSellOrder(rModel, settle);
-		sellOrder(rModel,settle);
-		buyOrder( rModel, settle);
 	}
 	
 	private void getModelCommands(RealmModel rModel, Settlement settle)
@@ -194,7 +207,7 @@ public class SettleManager
 	 * prueft ob BuildManager den naechsten Auftrag erledigen kann
 	 * @param settle
 	 */
-	private void buildOrder(Settlement settle)
+	private void buildOrder(RealmModel rModel,Settlement settle)
 	{
 		if (settle.buildManager().getStatus() == BuildStatus.NONE)
 		{
@@ -202,6 +215,7 @@ public class SettleManager
 			{
 				if (cmdBuilder.get(0).canExecute())
 				{
+					takeBuildingMaterials(rModel,  settle, cmdBuilder.get(0).getbType());
 					cmdBuilder.get(0).execute();
 					cmdBuilder.remove(0);
 					System.out.println("Settle send build order");
@@ -430,6 +444,15 @@ public class SettleManager
 		
 	}
 	
+	/**
+	 * check for material and reagents of new building in warehouse
+	 * true = all available take the the material and start building
+	 * false = none
+	 * else 
+	 * @param rModel
+	 * @param settle
+	 * @return
+	 */
 	private boolean checkBuildMaterials(RealmModel rModel, Settlement settle)
 	{
 		if (cmdBuilder.size() > 0)
@@ -447,6 +470,26 @@ public class SettleManager
 		}
 		
 		return false;
+	}
+
+	/**
+	 * take material of building from warehouse
+	 * @param rModel
+	 * @param settle
+	 * @param bType
+	 */
+	public void takeBuildingMaterials(RealmModel rModel, Settlement settle, BuildPlanType bType)
+	{
+		ItemList needMat = new ItemList();
+		BuildPlanMap buildPLan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
+		ItemList buildMat = BuildManager.makeMaterialList(buildPLan);
+		needMat = settle.getWarehouse().searchItemsNotInWarehouse(buildMat);
+		buildMat = rModel.getServer().getRegionReagents(bType.name());
+		for (Item item : buildMat.values())
+		{
+			System.out.println("Take Material from Warehouse");
+			settle.getWarehouse().getItemList().withdrawItem(item.ItemRef(), item.value());
+		}
 	}
 	
 	/**

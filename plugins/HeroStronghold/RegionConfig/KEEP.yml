@@ -1,0 +1,29 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 9
+requirements:
+- WOODEN_DOOR.1
+- IRON_DOOR.2
+- WORKBENCH.1
+- FURNACE.1
+- CHEST.12
+- WALL_SIGN.1
+- COBBLESTONE.300
+- WOOD.196
+- LOG.50
+- STONE.100
+reagents:
+- GOLD_NUGGET.20
+upkeep: []
+upkeep-chance: 0.001
+output: []
+money-requirement: 20000.0
+upkeep-money-output: -10.0
+daily.power-increase: 20.0
+description: This is a feud/lehen building. Is required for a lehn level 1

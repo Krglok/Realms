@@ -1,0 +1,33 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 5
+requirements:
+- WORKBENCH.1
+- CHEST.2
+- WALL_SIGN.1
+- STONE.81
+- COBBLESTONE.81
+reagents:
+- GOLD_NUGGET.2
+upkeep:
+- BREAD.1
+- LEATHER.6
+upkeep-chance: 0.001
+output:
+- LEATHER_BOOTS.1
+- LEATHER_CHESTPLATE.1
+- LEATHER_HELMET.1
+- LEATHER_LEGGINGS.1
+money-requirement: 2000.0
+upkeep-money-output: 0.0
+housing: 0
+power-drain: 0.0
+group: production
+biome: [] 
+description: Produce leather armor for militia

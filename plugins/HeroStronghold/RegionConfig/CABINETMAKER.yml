@@ -1,0 +1,30 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- WOODEN_DOOR.1
+- BED_BLOCK.2
+- WORKBENCH.1
+- CHEST.1
+- WALL_SIGN.1
+- COBBLESTONE.49
+reagents:
+- GOLD_NUGGET.1
+upkeep:
+- WHEAT.1
+- COBBLESTONE.8
+- WOOL.3
+- LOG.32
+upkeep-chance: 0.001
+output:
+- WOODEN_DOOR.1
+- BED.1
+- WORKBENCH.1
+- FURNACE.1
+- CHEST.1
+- WALL_SIGN.1
+money-requirement: 500.0
+upkeep-money-output: -5.0
+description: produce equipment for houses like door, bed, workbench, furnace, chest, wallsign

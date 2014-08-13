@@ -1,0 +1,30 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- WOODEN_DOOR.1
+- WALL_SIGN.1
+- COBBLESTONE.49
+- WORKBENCH.1
+- CHEST.1
+reagents:
+- GOLD_NUGGET.1
+upkeep:
+- BREAD.1
+- STICK.3
+- FEATHER.3
+- FLINT.3
+upkeep-chance: 0.001
+output:
+- ARROW.12
+money-requirement: 500.0
+upkeep-money-output: 0.0
+super-regions:
+- HAMLET
+- TOWN
+- CITY
+- METROPOL
+- CASTLE
+description: produce arrows. needed for your archer.

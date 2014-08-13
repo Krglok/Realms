@@ -1,0 +1,20 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+- denyblockbuild.1
+- denyblockbreak.1
+radius: 7
+requirements:
+- CHEST.9
+- WALL_SIGN.1
+- WOODEN_DOOR.2
+- WOOD.32
+- COBBLESTONE.169
+reagents: []
+upkeep: []
+upkeep-chance: 0.001
+output: []
+money-requirement: 15000.0
+upkeep-money-output: 5.0
+description: Hold a lot of chest. This is a extension for your warehouse.

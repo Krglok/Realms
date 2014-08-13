@@ -69,18 +69,18 @@ public class CmdSettleList extends RealmsCommand
 		SettlementList  rList = plugin.getRealmModel().getSettlements();
 	    if (rList.count() > 0)
 	    {
-			msg.add("ID |Settlement | Active | Owner [ "+rList.getSettlements().size()+" ]");
+			msg.add("ID |Settlement | Active | Owner     |  [ "+rList.getSettlements().size()+" ]");
 		    for (Settlement settle : rList.getSettlements().values())
 		    {
 	    		msg.add(settle.getId()
-	    				+" : "+ChatColor.YELLOW+settle.getName()
-	    				+" : "+ChatColor.GOLD+settle.isEnabled()
+	    				+" | "+ChatColor.YELLOW+settle.getName()
+	    				+" | "+ChatColor.GOLD+settle.getSettleType().name()
 	    				+" Owner: "+settle.getOwner()
 	    				+" in "+settle.getPosition().getWorld());
 		    }
 	    } else
 	    {
-			msg.add("ID |Settlement | Active | Owner [ null ]");
+			msg.add("ID |Settlement | TYPE | Owner [ World ]");
 	    	msg.add("/settle LIST [page] ");
 	    	msg.add("NO settlements found !!");
 	    }

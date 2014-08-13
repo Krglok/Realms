@@ -35,6 +35,12 @@ public class Update
     private static final String API_QUERY = "/servermods/files?projectIds=";
     private static final String API_HOST = "https://api.curseforge.com";
 
+    public String versionName = "";
+    public String versionLink = "";
+    public String versionType = "";
+    public String versionFileName = ""; 
+    public String versionGameVersion = "";
+
     /**
      * Check for updates anonymously (keyless)
      *
@@ -98,27 +104,19 @@ public class Update
                 JSONObject latest = (JSONObject) array.get(array.size() - 1);
 
                 // Get the version's title
-                String versionName = (String) latest.get(API_NAME_VALUE);
+                versionName = (String) latest.get(API_NAME_VALUE);
 
                 // Get the version's link
-                String versionLink = (String) latest.get(API_LINK_VALUE);
+                versionLink = (String) latest.get(API_LINK_VALUE);
 
                 // Get the version's release type
-                String versionType = (String) latest.get(API_RELEASE_TYPE_VALUE);
+                versionType = (String) latest.get(API_RELEASE_TYPE_VALUE);
 
                 // Get the version's file name
-                String versionFileName = (String) latest.get(API_FILE_NAME_VALUE);
+                versionFileName = (String) latest.get(API_FILE_NAME_VALUE);
 
                 // Get the version's game version
-                String versionGameVersion = (String) latest.get(API_GAME_VERSION_VALUE);
-
-                System.out.println(
-                        "[REALMS] " + versionFileName +
-                                " is " + versionName +
-                                ", a " + versionType.toUpperCase() +
-                                " for " + versionGameVersion +
-                                ", available at: " + versionLink
-                );
+                versionGameVersion = (String) latest.get(API_GAME_VERSION_VALUE);
             } else {
                 System.out.println("There are no files for this project");
             }
@@ -129,4 +127,17 @@ public class Update
             return;
         }
     }
+    public String getUpdateInfo(String pluginName)
+    {
+    	String result = pluginName +  
+                versionFileName +
+                " is " + versionName +
+                ", a " + versionType.toUpperCase() +
+                " for " + versionGameVersion +
+                ", available at: " + versionLink;
+    			
+    	System.out.println(result);
+    	return result;
+    }
+
 }

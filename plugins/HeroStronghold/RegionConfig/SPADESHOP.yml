@@ -1,0 +1,23 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 4
+requirements:
+- WOODEN_DOOR.1
+- WALL_SIGN.1
+- COBBLESTONE.49
+- WORKBENCH.1
+- CHEST.1
+reagents:
+- GOLD_NUGGET.1
+upkeep:
+- BREAD.1
+- STICK.20
+- WOOD.40
+upkeep-chance: 0.001
+output:
+- WOOD_SPADE.10
+money-requirement: 500.0
+upkeep-money-output: 0.0
+description: Produce wood_spade. 

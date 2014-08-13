@@ -736,6 +736,7 @@ public class Building  implements Serializable
 
 	public void addSales(Double value)
 	{
+//		System.out.println("addSales "+value);
 		this.sales = this.sales + value;
 	}
 
@@ -1012,7 +1013,7 @@ public class Building  implements Serializable
 		switch(buildingType)
 		{
 		case TAVERNE :
-			value = TAVERNE_TAXE;
+			value = TAVERNE_TAXE * workerInstalled; 
 			break;
 		case FARM :
 			value = SETTLER_TAXE * workerInstalled; 
@@ -1021,6 +1022,7 @@ public class Building  implements Serializable
 			value = SETTLER_TAXE * workerInstalled; 
 			break;
 		default :
+			value = SETTLER_TAXE * workerInstalled; 
 			break;
 		}
 		return value;

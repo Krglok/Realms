@@ -1,0 +1,32 @@
+effects:
+- denyblockbuild
+- denyblockbreak
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 220
+requirements:
+- TOWNHALL.1
+- HOUSE.20
+- HOME.10
+- WAREHOUSE.2
+- TAVERNE.4
+- HOSPITAL.1
+- GUARDHOUSE.4
+- DEFENSETOWER.2
+- WATCHTOWER.2
+central-structure: TOWNHALL
+money-requirement: 1200000.0
+money-output-daily: 0.0
+max-power: 15000
+daily-power-increase: 50
+charter: 5
+child-regions:
+- City
+- Hamlet
+- Town
+- Camp
+- Castle
+exp: 25000

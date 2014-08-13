@@ -1,0 +1,23 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbreak.1
+- denyblockbuild.1
+- denyfriendlyfire.1
+radius: 7
+requirements:
+- CHEST.6
+- BED_BLOCK.2
+- WOODEN_DOOR.3
+- WOOD.32
+- WALL_SIGN.1
+- COBBLESTONE.16
+reagents:
+- BREAD.8
+- COOKED_BEEF.8
+upkeep: []
+upkeep-chance: 0.001
+output: []
+money-requirement: 16000.0
+upkeep-money-output: 7.0
+description: Produce entertaiment for your settlers (happiness)  and give taxe to the settlement.

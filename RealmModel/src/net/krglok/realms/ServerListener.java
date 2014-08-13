@@ -587,29 +587,32 @@ public class ServerListener implements Listener
 			{
 				BuildPlanMap buildPLan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.getBuildPlanType(name), 4, -1);
 				
+
 				if (checkBuild(pos, name, player, msg))
 				{
 					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
 					McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settle.getId(), bType, iLoc,player);
 					plugin.getRealmModel().OnCommand(modelCommand);
-			    	msg.add("BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
+			    	msg.add(ChatColor.GREEN+"BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
 			    	msg.add(" ");
 			    	return true;
 				} else
 				{
-			    	msg.add("Some Material is not available");
+			    	msg.add(" ");
+			    	msg.add(ChatColor.RED+"Above material is not available");
 			    	msg.add("Give Items to warehouse ! ");
+			    	msg.add(" ");
 					return false;
 				}
 			} else
 			{
-		    	msg.add("No BuildPlan set in Line 1");
+		    	msg.add(ChatColor.RED+"No buildPlan set in Line 1");
 		    	msg.add(" ");
 		    	return false;
 			}
 		} else
 		{
-	    	msg.add("Not in Range of a Settlement ");
+	    	msg.add("ChatColor.RED+Not in Range of a Settlement ");
 	    	msg.add(" ");
 	    	return false;
 		}

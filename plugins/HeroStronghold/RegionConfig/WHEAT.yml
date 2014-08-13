@@ -1,0 +1,21 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+radius: 4
+requirements:
+- LOG.10
+- SOIL.10
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output:
+- WHEAT.16
+- SOIL.1
+money-requirement: 500.0
+upkeep-money-output: -1.0
+description: Produce wheat for your settlers. This is a basic building.

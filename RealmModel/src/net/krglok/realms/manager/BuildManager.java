@@ -121,6 +121,7 @@ public class BuildManager
 	}
 	
 	
+	
 	/**
 	 * Set new Building parameter and start building
 	 * @param bType

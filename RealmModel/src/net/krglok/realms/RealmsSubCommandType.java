@@ -25,6 +25,7 @@ public enum RealmsSubCommandType
 	DELETE ,
 	DEPOSIT ,
 	DESTROY ,
+	EVOLVE,
 	GETITEM,
 	GET,
 	INFO ,

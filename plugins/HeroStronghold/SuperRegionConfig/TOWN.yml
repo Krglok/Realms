@@ -1,0 +1,26 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+radius: 70
+requirements:
+- HALL.1
+- WAREHOUSE.1
+- TAVERNE.1
+- HOME.3
+- WHEAT.2
+- WOODCUTTER.1
+- QUARRY.1
+- FARMHOUSE.3
+central-structure: HALL
+money-requirement: 150000.0
+money-output-daily: 0.0
+max-power: 1500
+daily-power-increase: 20
+charter: 2
+child-super-regions: 
+- Hamlet
+exp: 5000

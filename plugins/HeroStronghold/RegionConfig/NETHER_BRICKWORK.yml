@@ -1,0 +1,22 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 2
+requirements:
+- WORKBENCH.1
+- CHEST.1
+reagents:
+- GOLD_NUGGET.1
+upkeep:
+- BREAD.1
+- NETHERRACK.64
+- COAL.8
+upkeep-chance: 0.01
+output:
+- NETHER_BRICK.64
+money-requirement: 1000.0
+upkeep-money-output: 0.0
+biome:
+- HELL
+description: Special building for nether.

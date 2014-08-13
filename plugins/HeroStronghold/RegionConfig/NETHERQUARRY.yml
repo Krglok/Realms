@@ -1,0 +1,25 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
+radius: 4
+requirements:
+- CHEST.1
+- COBBLESTONE.10
+- NETHERRACK.49
+- WALL_SIGN.1
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output:
+- NETHERRACK.8
+money-requirement: 500.0
+upkeep-money-output: 0.0
+biome:
+- HELL
+description: Special building for nether.

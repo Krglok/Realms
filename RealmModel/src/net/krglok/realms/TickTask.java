@@ -28,7 +28,7 @@ public class TickTask implements Runnable
     private static boolean isProduction = false;
     private static int prodLimit = (int) ConfigBasis.GameDay;
     private static int taxCounter = 0;
-    private static int taxLimit = prodLimit * 10;
+    private static int taxLimit = 30;
     private static int buildMin = prodLimit * 4 / 10;
     private static int buildMax = prodLimit * 7 / 10;
 
@@ -82,7 +82,7 @@ public class TickTask implements Runnable
 	public void run()
 	{
 		counter++;
-		taxCounter++;
+//		taxCounter++;
 		// starte speichern der Settlement vor onTick
 		if (counter > prodLimit)
 		{
@@ -109,6 +109,18 @@ public class TickTask implements Runnable
 				doGateClose();
 				isGateClose = true;
 				isGateOpen = false;
+				if (isProduction)
+				{
+					taxCounter++;
+					plugin.getRealmModel().OnProduction();
+					plugin.getLog().info("[Realms] production calculation");
+//					System.out.println("[Realms] Production");
+//					plugin.getLog().info("Tax counter "+taxCounter);
+				} else
+				{
+					System.out.println("[Realms] Production "+isProduction);
+					
+				}
 			}
 			plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getTime());
 			
@@ -126,6 +138,11 @@ public class TickTask implements Runnable
 				doGateOpen();
 				isGateOpen = true;
 				isGateClose = false;
+				if (isProduction)
+				{
+					plugin.getRealmModel().OnTrade();
+					plugin.getLog().info("[Realms] Trader calculation");
+				}
 			}
 			plugin.getRealmModel().OnDay(plugin.getServer().getWorlds().get(0).getTime());
 		} else
@@ -134,33 +151,33 @@ public class TickTask implements Runnable
 		}
 			
 		// trader run
-		if (counter == (prodLimit/2))
-		{
-			if (isProduction)
-			{
-				plugin.getRealmModel().OnTrade();
-				plugin.getLog().info("[Realms] Trader calculation");
-			}
-
-		}
+//		if (counter == (prodLimit/2))
+//		{
+//			if (isProduction)
+//			{
+//				plugin.getRealmModel().OnTrade();
+//				plugin.getLog().info("[Realms] Trader calculation");
+//			}
+//
+//		}
 		
 		//production run
-		if (counter == prodLimit)
-		{
-			counter = 0;
-			if (isProduction)
-			{
-				plugin.getRealmModel().OnProduction();
-				plugin.getLog().info("[Realms] production calculation");
-//				System.out.println("[Realms] Production");
-//				plugin.getLog().info("Tax counter "+taxCounter);
-			} else
-			{
-				System.out.println("[Realms] Production "+isProduction);
-				
-			}
-			
-		} 
+//		if (counter == prodLimit)
+//		{
+//			counter = 0;
+//			if (isProduction)
+//			{
+//				plugin.getRealmModel().OnProduction();
+//				plugin.getLog().info("[Realms] production calculation");
+////				System.out.println("[Realms] Production");
+////				plugin.getLog().info("Tax counter "+taxCounter);
+//			} else
+//			{
+//				System.out.println("[Realms] Production "+isProduction);
+//				
+//			}
+//			
+//		} 
 		
 		//Tax run
 		if(taxCounter >= taxLimit)

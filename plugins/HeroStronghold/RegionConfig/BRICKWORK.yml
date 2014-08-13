@@ -1,0 +1,25 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- periodicupkeep.1
+radius: 5
+requirements:
+- WOODEN_DOOR.1
+- WALL_SIGN.1
+- COBBLESTONE.49
+- LOG.6
+- WOOD.9
+- FURNACE.2
+- CHEST.1
+reagents:
+- GOLD_NUGGET.1
+upkeep:
+- BREAD.1
+- COBBLESTONE.64
+- COAL.4
+upkeep-chance: 0.01
+output:
+- BRICK.64
+money-requirement: 1000.0
+upkeep-money-output: 0.0
+description: produce stone from cobblestone

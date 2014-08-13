@@ -1,0 +1,21 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- denyfriendlyfire.1
+radius: 4
+requirements:
+- COBBLESTONE.49
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output: []
+money-requirement: 500.0
+upkeep-money-output: 0.0
+housing: 0
+power-drain: 0.0
+biome: [] 
+description: automatic open/close a towngate in the morning and evening.

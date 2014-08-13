@@ -1,0 +1,24 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denypvpnoreagent
+- denybucketusenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyblockbuild
+- denyblockbreak
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- powershield
+radius: 40
+money-requirement: 500.0
+money-output-daily: 0.0
+max-power: 1000.0
+daily-power-increase: 10
+charter: 0
+child-regions:
+- Hamlet
+exp: 500

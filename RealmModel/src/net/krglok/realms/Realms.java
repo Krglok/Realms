@@ -479,32 +479,33 @@ public final class Realms extends JavaPlugin
 
 	private void doSuperRequest(World world, RegionLocation rLoc )
 	{
-		Location currentLocation = new Location (
-				world,
-				rLoc.getPosition().getX(),
-				rLoc.getPosition().getY(),
-				rLoc.getPosition().getZ()
-				);
-		String arg2 = rLoc.getRegionType();
-		String arg0 = rLoc.getName();
-		ArrayList<String> arg3= new ArrayList<String>();
-		arg3.add(rLoc.getOwner());
-		Map<String,List<String>> arg4= new HashMap<String,List<String>>();
-//public boolean addSuperRegion(String name, Location loc, String type, List<String> owners, Map<String, List<String>> members, int power, double balance) {
-		int arg5 = 10;
-		double arg6 = 10000.0;
-		if (stronghold.getRegionManager().addSuperRegion(arg0, currentLocation, arg2, arg3, arg4,arg5 , arg6))
-		{
-			System.out.println("create SuperRegion"+arg0+" at : "+
-				 (int)currentLocation.getX()+":"+
-				 (int)currentLocation.getY()+":"+
-				 (int)currentLocation.getZ()
-				 );
-			
-		} else
-		{
-			System.out.println("Error on Create SuperRegion "+arg0);
-		}
+		server.createSuperRegion(world, rLoc);
+//		Location currentLocation = new Location (
+//				world,
+//				rLoc.getPosition().getX(),
+//				rLoc.getPosition().getY(),
+//				rLoc.getPosition().getZ()
+//				);
+//		String arg2 = rLoc.getRegionType();
+//		String arg0 = rLoc.getName();
+//		ArrayList<String> arg3= new ArrayList<String>();
+//		arg3.add(rLoc.getOwner());
+//		Map<String,List<String>> arg4= new HashMap<String,List<String>>();
+////public boolean addSuperRegion(String name, Location loc, String type, List<String> owners, Map<String, List<String>> members, int power, double balance) {
+//		int arg5 = 10;
+//		double arg6 = 10000.0;
+//		if (stronghold.getRegionManager().addSuperRegion(arg0, currentLocation, arg2, arg3, arg4,arg5 , arg6))
+//		{
+//			System.out.println("create SuperRegion"+arg0+" at : "+
+//				 (int)currentLocation.getX()+":"+
+//				 (int)currentLocation.getY()+":"+
+//				 (int)currentLocation.getZ()
+//				 );
+//			
+//		} else
+//		{
+//			System.out.println("Error on Create SuperRegion "+arg0);
+//		}
 	}
 
 	/**

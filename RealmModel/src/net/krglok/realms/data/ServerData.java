@@ -2,6 +2,9 @@ package net.krglok.realms.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,6 +19,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
@@ -105,6 +109,36 @@ public class ServerData implements ServerInterface
 		}
 	}
 	
+	public void createSuperRegion(World world, RegionLocation rLoc)
+	{
+		Location currentLocation = new Location (
+				world,
+				rLoc.getPosition().getX(),
+				rLoc.getPosition().getY(),
+				rLoc.getPosition().getZ()
+				);
+		String arg2 = rLoc.getRegionType();
+		String arg0 = rLoc.getName();
+		ArrayList<String> arg3= new ArrayList<String>();
+		arg3.add(rLoc.getOwner());
+		Map<String,List<String>> arg4= new HashMap<String,List<String>>();
+//public boolean addSuperRegion(String name, Location loc, String type, List<String> owners, Map<String, List<String>> members, int power, double balance) {
+		int arg5 = 10;
+		double arg6 = 10000.0;
+		if (plugin.stronghold.getRegionManager().addSuperRegion(arg0, currentLocation, arg2, arg3, arg4,arg5 , arg6))
+		{
+			System.out.println("create SuperRegion"+arg0+" at : "+
+				 (int)currentLocation.getX()+":"+
+				 (int)currentLocation.getY()+":"+
+				 (int)currentLocation.getZ()
+				 );
+			
+		} else
+		{
+			System.out.println("Error on Create SuperRegion "+arg0);
+		}
+	}
+	
 	public void destroySuperRegion(String superRegionName)
 	{
 		plugin.stronghold.getRegionManager().destroySuperRegion(superRegionName, true);
@@ -135,6 +169,22 @@ public class ServerData implements ServerInterface
 		{
 			return 0;
 		}
+	}
+	
+	public HashMap<String, Integer> getSuperTypeRequirements(String regionType)
+	{
+		HashMap<String, Integer> required = new HashMap<String, Integer>();
+		
+		for (Entry<String, Integer> entry : plugin.stronghold.getRegionManager().getSuperRegionType(regionType).getRequirements().entrySet())
+		{
+			required.put(entry.getKey(), entry.getValue());
+		}
+		return required;
+	}
+	
+	public double getSuperTypeCost(String regionType)
+	{
+		return plugin.stronghold.getRegionManager().getSuperRegionType(regionType).getMoneyRequirement();
 	}
 
 	@Override
