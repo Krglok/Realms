@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import net.krglok.realms.core.MemberLevel;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Kingdom;
+import net.krglok.realms.kingdom.Kingdom;
 
 import org.junit.Test;
 

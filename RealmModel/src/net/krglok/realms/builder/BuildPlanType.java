@@ -104,7 +104,10 @@ public enum BuildPlanType
 	GARRISON (531),
 	HEADQUARTER(550),
 	TAVERNE(601),
-	KEEP (901)
+	KEEP (901),
+	CASTLE(902),
+	STRONGHOLD(903),
+	PALACE(904)
 	;
 	
 	private final int value;

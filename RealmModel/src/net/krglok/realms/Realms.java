@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
+import net.citizensnpcs.Citizens;
+import net.citizensnpcs.api.CitizensAPI;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
@@ -29,6 +31,7 @@ import net.krglok.realms.data.ServerData;
 import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
+import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unit.Regiment;
 import net.milkbowl.vault.economy.Economy;
@@ -104,15 +107,17 @@ public final class Realms extends JavaPlugin
 	
 	private final MessageData messageData = new MessageData(log);
 	public ServerListener serverListener = new ServerListener(this);
+	public NpcManager npcManager = new NpcManager(this);
 	@SuppressWarnings("unused")
 	private Update update; // = new Update(projectId, apiKey);
 
     public HeroStronghold stronghold = null;
     public SignChestShopPlugin scs = null;
     public SignChestShopAPI scsAPI = null;
+//    public CitizensAPI npcAPI = null;
+    public Citizens npc = null;
 //    public Vault vault = null;
     public static Economy economy = null;
-    
     
 	
 	@Override
@@ -155,6 +160,7 @@ public final class Realms extends JavaPlugin
 //		log = Logger.getLogger("Minecraft"); 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(serverListener, this);
+		
         Plugin currentPlugin = pm.getPlugin("HeroStronghold");
         if (currentPlugin != null) {
             log.info("[Realms] found HeroStronghold !");
@@ -180,11 +186,23 @@ public final class Realms extends JavaPlugin
             this.setEnabled(false);
             return;
         }
-        currentPlugin = pm.getPlugin("SignChestShop");
-        if(currentPlugin != null && currentPlugin.isEnabled())
+        Plugin npc = pm.getPlugin("Citizens");
+        if (npc != null) {
+            log.info("[Realms] found Citizens !");
+            npc = ((Citizens) npc);
+            this.npcManager.setEnabled(true);
+        } else {
+            log.warning("[Realms] didnt find Citizens.");
+            log.info("[Realms] please install the plugin Citizens 2 .");
+            log.info("[Realms] will disable NPC Manager");
+            this.npcManager.setEnabled(false);
+            return;
+        }
+        Plugin shop = pm.getPlugin("SignChestShop");
+        if(shop != null && shop.isEnabled())
         {
             log.info("[Realms] found SignChestShop !");
-            scs = (SignChestShopPlugin) currentPlugin; //You may never need to use this
+            scs = (SignChestShopPlugin) shop; //You may never need to use this
             scsAPI = scs.getAPI(); //This returns the API object that will have everything you will ever need
         } else {
             log.warning("[Realms] didnt find SignChestShop.");

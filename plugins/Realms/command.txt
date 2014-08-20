@@ -1,0 +1,215 @@
+**Commands for User and Ops** 
+
+
+There are different commands for the parts of the plugin:
+* realms , for admin and op to control the plugin
+* settle , for managing the settlements
+* colonist, for the automatic build settlements
+* regiment , for managing  regiments and raiders
+* feud , for managing the feudal regions (Lehen) 
+* kingdom, for managing the realms and feudal structure
+
+
+
+=== Command Realms ===
+The command  **//realms//** control the plugin and the settlement model. In this area also the maintenance and configuration commands are available. 
+
+Permission: OP , realms.admin
+
+**/realms HELP** [page] {WORD} 
+
+**/realms VERSION** 
+  Show the plugin and model Version
+ 
+ 
+**/realms PRICELIST** {page}, show the pricelist  
+  All items are listed in the central pricelist  
+  The list has many pages. 
+ 
+**/realms ACTIVATE** 
+  Set the RealmsModel to Enable and make initialization.  
+  Only when enabled, the Settlement produce  
+  Only when enabled commands are accepted  
+  TickTask start running  
+  
+**/realms DEACTIVATE** 
+  Set the RealmsModel to Disable, stop the RealmModel.  
+  Only when enabled, the Realm Model is stoped  
+  in any other status the RealmModel is busy  
+  TickTask stop  
+  
+**/realms PRODUCTION **
+  Set a production in the command queue  
+  Do it only for test case !!  
+  Only for Admins and OPs  
+  
+**/realms CHECK** [page]
+  Show region statistik of the world  
+  Show superregions of the world  
+  Show distance of the superregions  
+  
+**/realms SETITEM** [SettleID] [item] [amount] 
+  Set the amount of item into the warehouse 
+  of Settlement <ID> 
+  This is an Admin & OP command 
+  
+**/realms GETITEM** [SettleID] [item] [amount] 
+  Get the amount of item from the warehouse 
+  of Settlement <ID> 
+  This is an Admin & OP command 
+  
+**/realms PRODUCE  **
+  Start and Stop production of the settlement , (only for Admin)
+
+**/realms SETITEM [SettleID] [item] [amount] **, 
+  Set the amount of item into the warehouse ,
+  of Settlement <ID> ,  This is an Admin & OP command 
+
+**/realms Sign [line] Text,**
+  set a Text to SIGN you look at ,  
+  lines form 0-3 ,  
+  the <_> is replaced with a blank ,
+
+**/realms VERSION ",**  Show the plugin and model Version,
+
+=== Command Settle ===
+  The command **//settle//** is for managing the settlement. You can only manage where you are the owner. The most commands requires the ID of the settlement. All Ops and admin have also the rights to use this command.
+
+Permission : realms.user
+
+**/settle HELP** [page] {WORD} 
+ 
+**/settle CHECK** [SuperRegionName] [page] 
+  Check to create a Settlement from the supereregion 
+  and show the analysis report 
+  
+**/settle CREATE** [SuperRegionName] 
+  Create a Settlement from the supereregion <NAME> 
+  You must be the Owner or an OP
+  show a status report 
+  
+**/settle LIST** [page] 
+  List all Settlements 
+  
+**/settle INFO** [SettleID] [page] 
+  Show Infomation about the Settlement 
+  and show the analysis report 
+  
+**/settle WAREHOUSE** [SettleID] [page] 
+  List all Items in the Warehouse 
+  
+**/settle BANK **[SettleID] [amount] 
+  Set the amount of item into the warehouse 
+  of Settlement <ID> 
+  If amount (+) deposit  to bank
+  If amount (-) withdraw from bank
+  
+**/settle BUY** [ID] [item] [amount] [prive] [days]
+  Set an buy ordr for te amount of item to the trader 
+  of Settlement <ID>, the decline after day(s) 
+  
+**/settle SELL** [ID] [item] [amount] [prive] [days]
+  Set an buy ordr for te amount of item to the trader 
+  of Settlement <ID>, the decline after day(s) 
+  
+**/settle SETITEM** [SettleID] [item] [amount] 
+  Set the amount of item into the warehouse 
+  of the Settlement  
+  The amount must available in your inventory ! 
+  
+**/setlle GETITEM** [SettleID] [item] [amount] 
+  Get the amount of item from the warehouse 
+  of the Settlement  
+  Put the item in your inventory 
+  
+**/settle TRADER** [SettleID] [page] 
+  Show Infomation about the trade orders 
+  of the settlement 
+  
+
+
+**/settle BUILD** [ID] [x] [Y] [Z] {BUILDING}
+  Build a new Building {BUILDING_TYPE}  
+   Size = 7 x 7 , height Offset -1 
+   X = East/West 
+   Y = Height
+   Z = North/South
+ 
+**/settle ADD** [SettleID] [RegionID] 
+  Add a region to a Settlement  
+  You must NOT be the Owner of the region ! 
+  You must  be the Owner of the Settlement ! 
+  The region must be exist
+
+ 
+
+=== Command Colonist ===
+The colonist has the main task to create new settlements with an automatic build manager. He can create  at a specific position or can be moved to a position after creation. But when you start up the build process you cannot stop this process, he will build to the end and create a settlement with the given name.
+
+//Hint: When you stop the server the colonist will not be stored. So he cannot start again after restart the server! //
+
+//Hint : Be careful to build twice on the same position. First destroy the regions from foregoing build process! //
+
+Permission : realms.user
+
+**/colonist HELP** [page] {WORD} 
+  
+**/colonist CREATE [Name] [X] [Y] [Z]** 
+  Create a Colonist with <Name> 
+  The colonist is not linked to a settlement
+
+**/colonist MOVE** [colonyID] [X] [Y] [Z] 
+  Move a Colonist to the given position
+  
+**/colonist BUILD** [colonyID] [clean true/false] 
+  Startup Building of Hamlet 
+  clean true clean up build area with R=21  ,
+  clean false no clean start with colony house  ,
+  
+**/colonist LIST** [page]
+  Show the colonist list. 
+
+
+**/colonist WAREHOUSE** [colonyID] [page]
+  Show the the Items of the colonist warehouse. 
+
+=== Command Regiment ===
+The regiment has the main task to create and control regiments and raiders. 
+* the regiments are user controlled
+* the raiders are op controlled and somewhat automatic (mini AI)
+
+Permission : realms.user
+
+**/regiment CREATE [Name]  ,
+  Create a Regiment with <Name> ,
+  The regiment is a Raider ,
+  The position is 0 0 0 , and the regiment is hidden  ,
+  Move it to the rigth position and it build a FORT and is visible  
+
+
+**/regiment HELP [page] {WORD} **,
+  show the help text of the regiment c ommands
+  
+**/regiment INFO [RegD] [page] **,
+  Show information of the regiment ,
+  only the owner or op can use the command  ,
+
+**/regiment LIST [page] **
+  List all regiments  
+ 
+**/regiment MOVE [ID] [X] [Y] [Z] **
+  Move a Colonist with <ID> to the position ,
+  positioning a sign at the position ,
+  You cannot change the World !!! 
+		    	 
+ **/regiment RAID [RegID] [SettleID]**
+  Start a Raid of the Settlement ,
+  Fight with the Guards and steal 
+  some Items from the Warehouse ,
+  After the raid the regiment go away ,
+  and search for a new target
+
+**/regiment WAREHOUSE [RegD] [page]** ,
+  List all Items in the Warehouse
+
+

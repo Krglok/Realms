@@ -19,8 +19,8 @@ public class CmdRegimentList extends RealmsCommand
 	{
 		super(RealmsCommandType.REGIMENT, RealmsSubCommandType.LIST);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle LIST [page] ",
-				"List all Settlements ",
+				ChatColor.YELLOW+"/regiment LIST [page] ",
+				"List all regiments ",
 		    	"  ",
 		};
 		requiredArgs = 0;

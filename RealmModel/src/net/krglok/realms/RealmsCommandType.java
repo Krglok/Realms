@@ -13,6 +13,7 @@ public enum RealmsCommandType
 
 	NONE ,
 	KINGDOM ,
+	FEUD,
 	SETTLE ,
 	COLONIST,
 	OWNER,

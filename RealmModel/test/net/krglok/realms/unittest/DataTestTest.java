@@ -12,10 +12,10 @@ import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.LogList;
+import net.krglok.realms.kingdom.KingdomList;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

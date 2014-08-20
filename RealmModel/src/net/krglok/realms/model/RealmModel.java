@@ -7,7 +7,6 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.colonist.ColonyList;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.KingdomList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
@@ -21,6 +20,7 @@ import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.kingdom.KingdomList;
 //<<<<<<< HEAD
 //=======
 import net.krglok.realms.manager.BuildManager;

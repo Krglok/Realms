@@ -6,7 +6,7 @@ description: Allows you to create settlements based on herostronghold regions. E
 author: krglok
 startup: postworld
 website: http://dev.bukkit.org/bukkit-plugins/realms/
-depend: [Vault,HeroStronghold]
+depend: [Vault,HeroStronghold,Citizens]
 softdepend: [SignChestShop]
 commands:
     realms:

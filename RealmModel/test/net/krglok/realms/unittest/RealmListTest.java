@@ -2,8 +2,8 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.core.Kingdom;
-import net.krglok.realms.core.KingdomList;
+import net.krglok.realms.kingdom.Kingdom;
+import net.krglok.realms.kingdom.KingdomList;
 
 import org.junit.Test;
 
