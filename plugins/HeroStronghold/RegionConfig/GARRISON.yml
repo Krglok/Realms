@@ -22,9 +22,9 @@ upkeep:
 - BREAD.1
 upkeep-chance: 0.001
 output: []
-money-requirement: 5000.0
+money-requirement: 50000.0
 upkeep-money-output: 0.0
-housing: 0
+housing: 50
 power-drain: 0.0
 biome: [] 
 description: Hold millitary Units.

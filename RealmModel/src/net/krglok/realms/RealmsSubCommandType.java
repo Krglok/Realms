@@ -14,6 +14,8 @@ public enum RealmsSubCommandType
 	ADD ,
 	BANK,
 	BIOME,
+	BOOK,
+	BOOKLIST,
 	BUILDING,
 	BUILDINGLIST,
 	BUILD,

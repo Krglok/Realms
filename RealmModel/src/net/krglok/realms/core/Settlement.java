@@ -1645,7 +1645,7 @@ public class Settlement //implements Serializable
 							}
 							building.addSales(account); //-cost);
 							bank.depositKonto(account, "ProdSale ", getId());
-							System.out.println("ProdSale "+this.getId()+" : "+building.getHsRegionType() +" : "+account);
+//							System.out.println("ProdSale "+this.getId()+" : "+building.getHsRegionType() +" : "+account);
 							consumStock(prodFactor, ingredients);
 //							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
 							warehouse.depositItemValue(item.ItemRef(),iValue);

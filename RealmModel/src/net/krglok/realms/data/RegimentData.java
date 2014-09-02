@@ -41,6 +41,9 @@ public class RegimentData
 	private String dataFolder; 
     private FileConfiguration config = new YamlConfiguration();
 
+    private static String section = "REGIMENT"; 
+    private static String fileName = "regiment";
+
     public RegimentData(String dataFolder)
     {
 		this.dataFolder = dataFolder; //+"Realms";
@@ -48,7 +51,7 @@ public class RegimentData
 
     private String getRegimentKey(int id)
 	{
-		return "REGIMENT."+String.valueOf(id);
+		return section +"."+String.valueOf(id);
 	}
 
     /**
@@ -64,7 +67,7 @@ public class RegimentData
 		try
 		{ 
 			long time1 = System.nanoTime();
-            File regFile = new File(dataFolder, "regiment.yml");
+            File regFile = new File(dataFolder, fileName+".yml");
             if (!regFile.exists()) 
             {
             	System.out.println("WRITE :  "+regiment.getId()+":"+dataFolder+""+" not Exist !!!");
@@ -229,11 +232,10 @@ public class RegimentData
 	 */
 	public ArrayList<String> readRegimentList() 
 	{
-        String section = "REGIMENT"; 
 		ArrayList<String> msg = new ArrayList<String>();
 		try
 		{
-            File regFile = new File(dataFolder, "regiment.yml");
+            File regFile = new File(dataFolder, fileName+".yml");
             if (!regFile.exists()) 
             {
             	regFile.createNewFile();
@@ -268,7 +270,7 @@ public class RegimentData
 			 }
 			 System.out.println(name);
 			 System.out.println(e.getMessage());
-	}
+		}
 		return msg;
 	}
 

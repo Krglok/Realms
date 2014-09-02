@@ -20,9 +20,9 @@ public class CmdRealmsMap extends RealmsCommand
 	
 	public CmdRealmsMap()
 	{
-		super (RealmsCommandType.REALMS, RealmsSubCommandType.BUILD);
+		super (RealmsCommandType.REALMS, RealmsSubCommandType.MAP);
 		description = new String[] {
-				ChatColor.YELLOW+"/realms TEST [sektor]   ",
+				ChatColor.YELLOW+"/realms MAP [sektor]   ",
 		    	" Make a 2D map of Settlement Region  ",
 		    	" Characters are used as Block Identifyer ",
 		    	" the Map is stored under the Settle Name ",

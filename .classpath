@@ -9,8 +9,9 @@
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.7.2-R0.3-20140202.061600-29.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/HeroStronghold.jar" sourcepath="/HeroStronghold/src"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Vault.jar"/>
-	<classpathentry kind="lib" path="D:/GIT/PluginRef/SignChestShop.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Citizens.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/citizensapi-2.0.11-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/Shopkeepers.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/ChestShop.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

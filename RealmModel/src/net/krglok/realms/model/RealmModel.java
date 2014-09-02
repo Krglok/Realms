@@ -24,6 +24,7 @@ import net.krglok.realms.kingdom.KingdomList;
 //<<<<<<< HEAD
 //=======
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 import net.krglok.realms.unit.UnitFactory;
@@ -79,6 +80,7 @@ public class RealmModel
 	private TradeMarket tradeMarket = new TradeMarket();
 	private ColonyList colonys;				// List of colonys in game
 	private RegimentList regiments; 		// List of Regiments in game 
+	private CaseBookList caseBooks;			// List of Books in game
 	
 	private UnitFactory unitFactory = new UnitFactory();
 	
@@ -123,6 +125,7 @@ public class RealmModel
 		settlements = new SettlementList(settlementCounter);
 		colonys     = new ColonyList(colonyCounter);
 		regiments	= new RegimentList(0);
+		caseBooks	= new CaseBookList();
 		this.server = server;
 		this.config = config;
 		this.data   = data;
@@ -274,6 +277,15 @@ public class RealmModel
 		return regiments;
 	}
 
+	/**
+	 * @return the caseBooks
+	 */
+	public CaseBookList getCaseBooks()
+	{
+		return caseBooks;
+	}
+
+
 	public void OnEnable()
 	{
 		switch (modelStatus)
@@ -289,6 +301,11 @@ public class RealmModel
 		}
 	}
 	
+	/**
+	 * read the persistent data from the dateStorage
+	 * 
+	 * @return
+	 */
 	public boolean initModel()
 	{
 		boolean isDone = config.initConfigData();
@@ -296,6 +313,7 @@ public class RealmModel
 		realms = data.initKingdoms();
 		settlements = data.initSettlements();
 		regiments = data.initRegiments();
+		caseBooks = data.initCaseBooks();
 		isInit = isDone;
 		return isInit;
 	}

@@ -13,7 +13,7 @@ import net.krglok.realms.CmdRealmsCheck;
 import net.krglok.realms.CmdRealmsDeactivate;
 import net.krglok.realms.CmdRealmsGetItem;
 import net.krglok.realms.CmdRealmsHelp;
-import net.krglok.realms.CmdRealmsInfoPricelist;
+import net.krglok.realms.CmdRealmsPricelistInfo;
 import net.krglok.realms.CmdRealmsProduce;
 import net.krglok.realms.CmdRealmsSetItem;
 import net.krglok.realms.CmdRealmsMap;
@@ -45,7 +45,7 @@ public class CmdRealmsHelpTest
 				new CmdRealmNone(),
 				new CmdRealmsVersion(),
 				new CmdRealmsHelp(),
-				new CmdRealmsInfoPricelist(),
+				new CmdRealmsPricelistInfo(),
 				new CmdRealmsActivate(),
 				new CmdRealmsDeactivate(),
 				new CmdRealmsProduce(),

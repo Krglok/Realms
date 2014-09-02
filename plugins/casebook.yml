@@ -1,0 +1,117 @@
+CASEBOOK:
+  '1':
+    id: 1
+    refId: '0'
+    titel: TestBook 1
+    author: Windu
+    isEnabled: true
+    pages: {}
+  '2':
+    id: 2
+    refId: '0'
+    titel: TestBook 2
+    author: Windu
+    isEnabled: true
+    pages: {}
+  '3':
+    id: 3
+    refId: '0'
+    titel: TestBook 3
+    author: Windu
+    isEnabled: true
+    pages: {}
+  '4':
+    id: 4
+    refId: '0'
+    titel: TestBook 4
+    author: Windu
+    isEnabled: true
+    pages: {}
+  '5':
+    id: 5
+    refId: '0'
+    titel: TestBook 5
+    author: Windu
+    isEnabled: true
+    pages: {}
+  '6':
+    id: 6
+    refId: '0'
+    titel: TestBook 6
+    author: Windu
+    isEnabled: true
+    pages:
+      '3': 'Seite 3            '
+      '2': Seite 2            Es enthält ein paar Tesseiten
+      '1': Seite 1            Dies ist das Testbuch
+      '5': 'Seite 5            '
+      '4': 'Seite 4            '
+  '7':
+    id: 7
+    refId: '0'
+    titel: TestBook 7
+    author: Windu
+    isEnabled: true
+    pages:
+      '3': 'Seite 3            '
+      '2': Seite 2            Es enthält ein paar Tesseiten
+      '1': Seite 1            Dies ist das Testbuch
+      '6': 'Seite 6            '
+      '5': 'Seite 5            '
+      '4': 'Seite 4            '
+  '8':
+    id: 8
+    refId: '0'
+    titel: TestBook 8
+    author: Windu
+    isEnabled: true
+    pages:
+      '3': 'Seite 3            '
+      '2': Seite 2            Es enthält ein paar Tesseiten
+      '1': Seite 1            Dies ist das Testbuch
+      '7': 'Seite 7            '
+      '6': 'Seite 6            '
+      '5': 'Seite 5            '
+      '4': 'Seite 4            '
+  '9':
+    id: 9
+    refId: '0'
+    titel: TestBook 9
+    author: Windu
+    isEnabled: false
+    pages:
+      '3': 'Seite 3            '
+      '2': Seite 2            Es enthält ein paar Tesseiten
+      '1': Seite 1            Dies ist das Testbuch
+      '7': 'Seite 7            '
+      '6': 'Seite 6            '
+      '5': 'Seite 5            '
+      '4': 'Seite 4            '
+  '10':
+    id: 10
+    refId: '0'
+    titel: TestBook 10
+    author: Windu
+    isEnabled: false
+    pages:
+      '3': 'Seite 3            '
+      '2': Seite 2            Es enthält ein paar Tesseiten
+      '1': Seite 1            Dies ist das Testbuch
+      '7': 'Seite 7            '
+      '6': 'Seite 6            '
+      '5': 'Seite 5            '
+      '4': 'Seite 4            '
+  '11':
+    id: 11
+    refId: '0'
+    titel: TestBook 11
+    author: Windu
+    isEnabled: false
+    pages:
+      '3': 'Seite 3            '
+      '2': Seite 2            Es enthält ein paar Tesseiten
+      '1': Seite 1            Dies ist das Testbuch
+      '7': 'Seite 7            '
+      '6': 'Seite 6            '
+      '5': 'Seite 5            '
+      '4': 'Seite 4            '

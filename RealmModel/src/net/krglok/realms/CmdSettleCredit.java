@@ -26,7 +26,8 @@ public class CmdSettleCredit extends RealmsCommand
 				ChatColor.YELLOW+"/settle CREDIT [SettleID] [item] [amount] ",
 				"Set the price  of item into Bank ",
 		    	"of Settlement <ID> ",
-		    	"the item must be a valuable",
+		    	"the item must be a valuable ",
+		    	"EMERALD|GOLD_NUGGET|GOLD_INGOT|DIAMOND",
 		    	"the amount must be in your inventory",
 		    	"  "
 		};

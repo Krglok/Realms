@@ -19,6 +19,8 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.science.CaseBook;
+import net.minecraft.server.v1_7_R1.InventoryEnderChest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -45,12 +47,15 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
@@ -70,6 +75,8 @@ public class ServerListener implements Listener
 	private Realms plugin;
 	private int lastPage;
 	private int marketPage;
+	private int bookPage;
+	private int bookId;
 	private long lastHunt = 0;
 	private long lastTame = 0; 
 	
@@ -78,6 +85,8 @@ public class ServerListener implements Listener
 		this.plugin = plugin;
 		this.lastPage = 0;
 		this.marketPage = 0;
+		this.bookPage =0;
+		this.bookId = 0;
 	}
 
 //    @EventHandler(priority = EventPriority.NORMAL)
@@ -301,6 +310,15 @@ public class ServerListener implements Listener
 	    		}
 	    		// other signpost Commands
 	    		cmdSignPost(event, b);
+	    		return;
+	    	}
+
+	    	if (b.getType() == Material.BOOKSHELF)
+	    	{
+	    		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+	    		{
+	    			cmdBookList(event,b);
+	    		}
 	    		return;
 	    	}
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
@@ -1080,6 +1098,61 @@ public class ServerListener implements Listener
 				}
 			}
 		}
+		if (l0.contains("[BOOK]"))
+		{
+	    	System.out.println("Book Sign "+bookId);
+	    	Region region = findRegionAtPosition(plugin, event.getPlayer().getLocation());
+	    	if (event.getPlayer().isOp() == false)
+	    	{
+				if ((region.getType().equalsIgnoreCase(BuildPlanType.LIBRARY.name()) == false)
+					&&  (region.getType().equalsIgnoreCase("BIBLIOTHEK") == false))
+				{
+					return;
+				}
+	    	}
+			if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
+			{
+		    	System.out.println("Book in Hand "+bookId);
+		    	if (bookId > 0)
+		    	{
+					CaseBook cBook = plugin.getRealmModel().getCaseBooks().get(bookId);
+	    			if (cBook.isEnabled())
+	    			{
+	    				event.getPlayer().sendMessage("You get a new Book");
+	    	    		PlayerInventory inventory = event.getPlayer().getInventory();
+	    	    		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+	    	    		book = CaseBook.writeBook(book, cBook);
+	    	    		event.getPlayer().sendMessage("Create Book "+cBook.getId()+" : "+cBook.getAuthor()+" | "+cBook.getTitel());
+//	    				inventory.addItem(book);
+	    				event.getPlayer().setItemInHand(book);
+	    			} else
+	    			{
+	    				event.getPlayer().sendMessage(ChatColor.RED+"The book is not Enabled");
+	    			}
+					
+		    	} else
+		    	{
+					event.getPlayer().sendMessage(ChatColor.RED+"Book Id not valid !");
+		    	}
+			} else
+			{
+		    	System.out.println("Book List "+bookId);
+		    	// toogle id from 1 to size 
+				if ((bookId+1) <= plugin.getRealmModel().getCaseBooks().size()  )
+				{
+					bookId++;
+				} else
+				{
+					bookId = 1;
+				}
+				CaseBook cBook = plugin.getRealmModel().getCaseBooks().get(bookId);
+	    		sign.setLine(1, String.valueOf(bookId));
+	    		sign.setLine(2, cBook.getTitel());
+	    		sign.setLine(3, "Enable: "+cBook.isEnabled());
+				sign.update(true);
+			}
+			
+		}
     	
     }
 
@@ -1494,6 +1567,24 @@ public class ServerListener implements Listener
 			}
 		}
     }
-
     
+    private void cmdBookList(PlayerInteractEvent event, Block b)
+    {
+    	Region region = findRegionAtPosition(plugin, b.getLocation());
+    	if (event.getPlayer().isOp() == false)
+    	{
+    		if ((region.getType().equalsIgnoreCase(BuildPlanType.LIBRARY.name()) == false)
+    			&&  (region.getType().equalsIgnoreCase("BIBLIOTHEK") == false))
+    		{
+    			return;
+    		}
+    	}
+		CmdRealmsBookList cmd = new CmdRealmsBookList();
+		cmd.setPara(0, marketPage);
+		cmd.execute(plugin, event.getPlayer());
+		bookPage = cmd.getPage()+1;
+    	
+    }
+
+
 }

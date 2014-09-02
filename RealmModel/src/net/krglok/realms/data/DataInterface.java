@@ -7,6 +7,8 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.science.CaseBook;
+import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 
@@ -45,9 +47,13 @@ public interface DataInterface
 	 */
 	public RegimentList initRegiments();
 	
+	public CaseBookList initCaseBooks();
+	
 	public void writeSettlement(Settlement settle);
 	
 	public void writeRegiment(Regiment regiment);
+	
+	public void writeCaseBook(CaseBook caseBook);
 
 	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet);
 	

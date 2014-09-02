@@ -26,6 +26,8 @@ import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.science.CaseBook;
+import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 
@@ -33,7 +35,11 @@ import net.krglok.realms.unit.RegimentList;
  * <pre>
  * read and write model data to data file. make the model data persistent. 
  * the data are stored in object list. this lists are read from the model to fill with data.
- * the data must be read before initialize the model
+ * the data must be read before initialize the model.
+ * Each datalist has a separate data handler.
+ * Some write data periodically some only once. 
+ * 
+ * the initData must be done before initialize the realmModel
  * 
  * @author Windu
  *</pre>
@@ -51,26 +57,32 @@ public class DataStorage implements DataInterface
 
 	private OwnerList owners ;
 	private KingdomList kingdoms ;
-	private SettlementList settlements;
-	private RegimentList regiments; 		 
+	private SettlementList settlements;		// data readed from file
+	private RegimentList regiments; 		// data readed from file
+	private CaseBookList caseBooks;
 	
 	private PriceData priceData;
 	private ItemPriceList priceList ;
 	
 	private SettlementData settleData;
 	private RegimentData regData;
+	private CaseBookData caseBookData;
 	
 	private Realms plugin;
 	
 	public DataStorage(Realms plugin)
 	{
 		this.plugin = plugin;
+		// Datafile Handler
 		settleData = new SettlementData(plugin.getDataFolder().getPath());
 		regData    = new RegimentData(plugin.getDataFolder().getPath());
+		caseBookData = new CaseBookData(plugin.getDataFolder().getPath());
+		//DataLists
 		owners = new OwnerList();
 		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
-		regiments  = new RegimentList(0);
+		regiments   = new RegimentList(0);
+		caseBooks   = new CaseBookList();
 		priceData = new PriceData(plugin.getDataFolder().getPath());
 		priceList = new ItemPriceList();
 	}
@@ -87,15 +99,24 @@ public class DataStorage implements DataInterface
 		npcOwners();
 		npcRealms(owners.getOwner(NPC_0));
 		ArrayList<String> settleInit = settleData.readSettleList();
-		if (initSettlements(settleInit) == false)
+		if (initSettlementData(settleInit) == false)
 		{
+			System.out.println("Settlement Read FALSE: ");
 			isReady = false;
 		}
 		ArrayList<String> regInit = regData.readRegimentList();
-		if (initRegiments(regInit) == false)
+		if (initRegimentData(regInit) == false)
 		{
+			System.out.println("Regiment Read FALSE: ");
 			isReady = false;
 		}
+		ArrayList<String> bookInit = caseBookData.readCaseBookList();
+		if (initCaseBookData(bookInit) == false)
+		{
+			System.out.println("CaseBook Read FALSE: ");
+			isReady = false;
+		}
+		
 		return isReady;
 	}
 	
@@ -142,7 +163,7 @@ public class DataStorage implements DataInterface
 	 * initialize the SettlementList
 	 * must be done after initOwners and initRealms
 	 */
-	private boolean initSettlements(ArrayList<String> settleInit)
+	private boolean initSettlementData(ArrayList<String> settleInit)
 	{
 		for (String settleId : settleInit)
 		{
@@ -206,7 +227,7 @@ public class DataStorage implements DataInterface
 	 * @param regInit
 	 * @return
 	 */
-	public boolean initRegiments(ArrayList<String> regInit)
+	public boolean initRegimentData(ArrayList<String> regInit)
 	{
 		for (String regId : regInit)
 		{
@@ -258,6 +279,7 @@ public class DataStorage implements DataInterface
 		return regiments;
 	}
 
+	
 	
 	/**
 	 * not all tile ids will converted
@@ -465,6 +487,43 @@ public class DataStorage implements DataInterface
 //			e.printStackTrace();
 		}
 		return buildPlan;
+	}
+	
+	private CaseBook readCaseBook(int id)
+	{
+		return caseBookData.readCaseBook(id);
+	}
+	
+	private boolean initCaseBookData(ArrayList<String> bookInit)
+	{
+		if (bookInit.size() == 0)
+		{
+			return true;
+		}
+		for (String bookId : bookInit)
+		{
+			System.out.println("READ : "+bookId);
+			plugin.getMessageData().log("CaseBookRead: "+bookId );
+			caseBooks.addBook(readCaseBook(Integer.valueOf(bookId)));
+			if (Integer.valueOf(bookId) > CaseBook.getCounter())
+			{
+				CaseBook.initCounter(Integer.valueOf(bookId));
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public CaseBookList initCaseBooks()
+	{
+		plugin.getMessageData().log("CaseBook Init: " );
+		return caseBooks;
+	}
+
+	@Override
+	public void writeCaseBook(CaseBook caseBook)
+	{
+		caseBookData.writeCaseBook(caseBook);
 	}
 
 

@@ -222,13 +222,19 @@ public class DataTestTest
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
         ItemPriceList itemPrices = testData.getPriceList();
+		SettlementList settleList; // = new SettlementList(0);
 
-		SettlementList settleList = new SettlementList(0);
-		settleList.addSettlement(testData.readSettlement(1,itemPrices, logTest));
-		settleList.addSettlement(testData.readSettlement(2,itemPrices, logTest));
-		settleList.addSettlement(testData.readSettlement(3,itemPrices, logTest));
-		settleList.addSettlement(testData.readSettlement(4,itemPrices, logTest));
-		ItemPriceList priceList = readPriceData(); 
+        if (testData.initSettlements().count() > 0)
+        {
+        	settleList = testData.initSettlements();
+        } else
+        {
+        	settleList = new SettlementList(0);
+    		settleList.addSettlement(testData.readSettlement(1,itemPrices, logTest));
+    		settleList.addSettlement(testData.readSettlement(2,itemPrices, logTest));
+    		settleList.addSettlement(testData.readSettlement(3,itemPrices, logTest));
+    		settleList.addSettlement(testData.readSettlement(4,itemPrices, logTest));
+        }
 		
 		int expected = 4; 
 		int actual = settleList.getSettlements().size();
@@ -256,7 +262,7 @@ public class DataTestTest
 			{
 				System.out.println(ConfigBasis.setStrleft(item.ItemRef(), 15)
 						+":"+ConfigBasis.setStrright(String.valueOf(item.value()),5)
-						+":"+ConfigBasis.setStrright(String.valueOf(priceList.getBasePrice(item.ItemRef())), 6)
+						+":"+ConfigBasis.setStrright(String.valueOf(itemPrices.getBasePrice(item.ItemRef())), 6)
 						); 
 			}
 			for (Settlement settle : settleList.getSettlements().values())
@@ -264,10 +270,10 @@ public class DataTestTest
 				System.out.println(settle.getName()+"== HighPrice ==["+items.size()+"]");
 				for (Item item : settle.getWarehouse().getItemList().values())
 				{
-					if (priceList.getBasePrice(item.ItemRef()) >= 10.0)
+					if (itemPrices.getBasePrice(item.ItemRef()) >= 10.0)
 						System.out.println(ConfigBasis.setStrleft(item.ItemRef(), 15)
 								+":"+ConfigBasis.setStrright(String.valueOf(item.value()),5)
-								+":"+ConfigBasis.setStrright(String.valueOf(priceList.getBasePrice(item.ItemRef())), 6)
+								+":"+ConfigBasis.setStrright(String.valueOf(itemPrices.getBasePrice(item.ItemRef())), 6)
 								); 
 				}
 			}
@@ -280,7 +286,7 @@ public class DataTestTest
 					{
 						System.out.println(ConfigBasis.setStrleft(item.ItemRef(), 15)
 								+":"+ConfigBasis.setStrright(String.valueOf(item.value()),5)
-								+":"+ConfigBasis.setStrright(String.valueOf(priceList.getBasePrice(item.ItemRef())), 6)
+								+":"+ConfigBasis.setStrright(String.valueOf(itemPrices.getBasePrice(item.ItemRef())), 6)
 								);
 					}
 				}
@@ -290,7 +296,7 @@ public class DataTestTest
 				double sum = 0.0;
 				for (Item item : settle.getWarehouse().getItemList().values())
 				{
-					sum = sum + (item.value() * priceList.getBasePrice(item.ItemRef()));
+					sum = sum + (item.value() * itemPrices.getBasePrice(item.ItemRef()));
 				}
 				sum = ConfigBasis.format2(sum);
 				System.out.println(settle.getName()+" Warenwert = "+ConfigBasis.setStrright(String.valueOf(sum), 12)+"");

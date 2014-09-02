@@ -11,7 +11,6 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.Settlement;
-import net.skycraftmc.SignChestShop.Shop;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -125,7 +124,7 @@ public class CmdRealmsTest extends RealmsCommand
 		return null;
 	}
 
-    private void cmdSignShop(Realms plugin, Block b)
+    private void cmdSignShop(Realms plugin, Block b, Player player)
     {
     	Location pos = b.getLocation();
 		SuperRegion sRegion = findSuperRegionAtPosition(plugin, b.getLocation());
@@ -134,8 +133,9 @@ public class CmdRealmsTest extends RealmsCommand
 			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
 			if (settle != null)
 			{
-    	    	System.out.println("Realms setSHop");
-    	    	plugin.setShop(b.getLocation(), settle);
+    	    	System.out.println("Realms setShop");
+    	    	plugin.setShopPrice(b.getLocation());
+//    	    	plugin.setShop(player,b.getLocation(), settle);
 //    	    	plugin.setShopPrice(pos);
     	    }
 		}
@@ -158,15 +158,14 @@ public class CmdRealmsTest extends RealmsCommand
 		}
 		switch (lookAt.getType())
 		{
-		case WALL_SIGN:  // sign on the wall
+		case SIGN_POST:  // sign standing on ground
 			Sign sBlock =	((Sign) lookAt.getState());
     		String l0 = sBlock.getLine(0);
 			if (l0.contains("Shop"))
 			{
-				cmdSignShop(plugin, lookAt);
+				cmdSignShop(plugin, lookAt, player );
 			}
 			break;
-			
 		default:
 		}
 		page = 0;

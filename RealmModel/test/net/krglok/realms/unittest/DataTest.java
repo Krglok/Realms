@@ -43,11 +43,15 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
+import net.krglok.realms.data.CaseBookData;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.LogList;
+import net.krglok.realms.data.RegimentData;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.science.CaseBook;
+import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 import net.krglok.realms.unit.UnitType;
@@ -75,11 +79,15 @@ public class DataTest implements DataInterface
 	private KingdomList testRealms ;
 	private SettlementList testSettlements;
 	private BuildingList testBuildings; 
+	private RegimentList regiments; 		// data readed from file
+	private CaseBookList caseBooks;
 
 	private SettlementData settleData;
     private ItemPriceList priceList ;
 	private LogList logList;
-    
+	private RegimentData regData;
+	private CaseBookData caseBookData;
+
 	public DataTest(LogList logList)
 	{
 		this.logList = logList;
@@ -97,7 +105,7 @@ public class DataTest implements DataInterface
 		initBuildingList();
 //		initSettlementList ();  // read predefined Settlement
 		initSettleDate();		// read Settlements from Datafile
-		
+		this.caseBooks = initCaseBookData();
 	}
 	
 	/**
@@ -950,5 +958,38 @@ public class DataTest implements DataInterface
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public CaseBookList initCaseBooks()
+	{
+		return caseBooks;
+	}
+
+	@Override
+	public void writeCaseBook(CaseBook caseBook)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * @return the caseBookData
+	 */
+	public CaseBookList initCaseBookData()
+	{
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+        CaseBookList caseBooks = new CaseBookList();
+		CaseBookData sData = new CaseBookData(path);
+		
+		ArrayList<String> sList = sData.readCaseBookList();
+		caseBooks.clear();
+		for (String sName : sList)
+		{
+			CaseBook caseBook = sData.readCaseBook(Integer.valueOf(sName));
+			caseBooks.addBook(caseBook); 
+		}
+		return caseBooks;
+	}
+
 
 }

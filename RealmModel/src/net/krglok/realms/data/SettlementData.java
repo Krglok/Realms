@@ -201,7 +201,7 @@ public class SettlementData
         String section = getSettleKey(id);
 		try
 		{
-            System.out.println("READ : "+id+":"+dataFolder+" : "+"settlement.yml");
+//            System.out.println("READ : "+id+":"+dataFolder+" : "+"settlement.yml");
             if (config.isConfigurationSection(section))
             {
 //                System.out.println(settleSec);

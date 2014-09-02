@@ -1,5 +1,6 @@
 package net.krglok.realms;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +36,6 @@ import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unit.Regiment;
 import net.milkbowl.vault.economy.Economy;
-import net.skycraftmc.SignChestShop.Shop;
-import net.skycraftmc.SignChestShop.SignChestShopAPI;
-import net.skycraftmc.SignChestShop.SignChestShopPlugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -54,6 +52,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Door;
@@ -62,6 +61,13 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.nisovin.shopkeepers.*;
+import com.nisovin.shopkeepers.shopobjects.DefaultShopObjectTypes;
+import com.nisovin.shopkeepers.shopobjects.living.LivingEntityType;
+import com.nisovin.shopkeepers.shoptypes.DefaultShopTypes;
+import com.nisovin.shopkeepers.shoptypes.NormalPlayerShopkeeper;
+import com.nisovin.shopkeepers.shoptypes.NormalPlayerShopkeeper.Cost;
 
 
 /**
@@ -112,8 +118,7 @@ public final class Realms extends JavaPlugin
 	private Update update; // = new Update(projectId, apiKey);
 
     public HeroStronghold stronghold = null;
-    public SignChestShopPlugin scs = null;
-    public SignChestShopAPI scsAPI = null;
+    public ShopkeepersPlugin sk = null;
 //    public CitizensAPI npcAPI = null;
     public Citizens npc = null;
 //    public Vault vault = null;
@@ -198,15 +203,14 @@ public final class Realms extends JavaPlugin
             this.npcManager.setEnabled(false);
             return;
         }
-        Plugin shop = pm.getPlugin("SignChestShop");
+        Plugin shop = pm.getPlugin("Shopkeepers");
         if(shop != null && shop.isEnabled())
         {
-            log.info("[Realms] found SignChestShop !");
-            scs = (SignChestShopPlugin) shop; //You may never need to use this
-            scsAPI = scs.getAPI(); //This returns the API object that will have everything you will ever need
+            log.info("[Realms] found Shopkeeper !");
+            sk = (ShopkeepersPlugin) shop; //You may never need to use this
         } else {
-            log.warning("[Realms] didnt find SignChestShop.");
-            log.warning("[Realms] please install the plugin SignChestShop .");
+            log.warning("[Realms] didnt find Shopkeeper.");
+            log.warning("[Realms] please install the plugin Shopkeeper .");
             log.warning("[Realms] will be Enabled without Shops");
         }
 
@@ -218,7 +222,7 @@ public final class Realms extends JavaPlugin
         	isReady = false;
     		log.info("[Realms] Config not properly read !");
         }
-        if (!data.initData())
+        if (data.initData() == false)
         {
         	isReady = false;
     		log.info("[Realms] Data not properly read !");
@@ -282,60 +286,128 @@ public final class Realms extends JavaPlugin
 	
 	public void setShopPrice(Location position)
 	{
-		if (scsAPI == null) return;
+//		double chestx = -521.0;
+//		double chesty = 67.0;
+//		double chestz = -1355.0;
+//		position.setX(chestx);
+//		position.setY(chesty);
+//		position.setZ(chestz);
 		Block bs = position.getWorld().getBlockAt(position);
-		if (scsAPI.getShop(bs) != null)
+		String shopkeeperId = "73a11c97-b21c-4c3c-b7fe-d4e6053edc14";
+		String shopName = "Test";
+		Shopkeeper shop = null;
+		
+		for (Shopkeeper  obj : sk.getActiveShopkeepers() )
 		{
-	    	System.out.println("Realms found shop");
-			for (int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
+			System.out.println("SHopName: "+obj.getName()); 
+			if (obj.getName().equalsIgnoreCase(shopName))
 			{
-				ItemStack item = scsAPI.getShopInventory(bs, true).getItem(index);
-				if (item != null)
+				shop = obj;
+			}
+		}
+		
+		
+		if ( shop != null)
+		{
+			if (shop.getType().isPlayerShopType())
+			{
+				NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
+		    	System.out.println("PlayerShop found :"+nShop.getCosts().size());
+				ItemStack item ;
+				Cost cost; 
+				ItemStack stock;
+
+				if (nShop != null)
 				{
-					String itemRef = item.getType().name();
-					double price = getData().getPriceList().getBasePrice(itemRef);
-					if (price < 0.1)
-					{
-						price = 0.1;
-					}
-			        scsAPI.getShop(bs).setPrice(index, price);
-			    	System.out.println("Realms Price "+index+":"+itemRef+":"+price);
+					nShop.setName("NewShop");
+			    	System.out.println("Realms New shop");
+					int index = 0;
+					int maxRecipe = 8;
+					
+					Map<ItemStack, Cost> costs =  nShop.getCosts();
+					
+					System.out.println("Costs size: "+nShop.getCosts().size());
+					item = new ItemStack(Material.COBBLESTONE);
+					
+					stock = new ItemStack(Material.COBBLESTONE);
+					stock.setAmount(128);
+	    	
 				}
 			}
-			
 		}
 	}
 	
-	public void setShop(Location position, Settlement settle)
+	public void setShop(Player player, Location position, Settlement settle)
 	{
-		if (scsAPI == null) return;
 		Block bs = position.getWorld().getBlockAt(position);
-    	Shop shop = scsAPI.getShop(bs);
+		Block cs = bs.getRelative(BlockFace.DOWN);
+		cs.setType(Material.CHEST);
+		Chest chest = (Chest) cs.getState();
+		bs.setType(Material.AIR);
+		if (sk == null) {System.out.println("Shop not loaded isnull");  return; }
+//		sk.getShopTypeRegistry().register(DefaultShopTypes.PLAYER_NORMAL);
+//		sk.getShopObjectTypeRegistry().register(LivingEntityType.VILLAGER.getObjectType());
+//		System.out.println("Costs size: "+sk.getShopTypeRegistry().numberOfRegisteredTypes());
+		ShopType<?> shopType =  sk.getShopTypeRegistry().get("PLAYER_NORMAL");   //getDefaultSelection(player);
+		ShopObjectType shopObjType = sk.getShopObjectTypeRegistry().get("VILLAGER");  //getDefaultSelection(player);
+
+		if (player == null) {System.out.println("Player isnull"); }
+		if (cs == null ) {System.out.println("CS isnull"); }
+		if (position == null ) {System.out.println("CS isnull"); }
+
+		ShopCreationData shopCreationData = new ShopCreationData(player, shopType, cs, position, shopObjType);
+		Shopkeeper shop = ShopkeepersPlugin.getInstance().createNewPlayerShopkeeper(shopCreationData ); 
+		//(player, cs, position, shopType,shopObjectType);    
+
+		ItemStack item ;
+		Cost cost; 
+		ItemStack stock;
+
 		if (shop != null)
 		{
-	    	System.out.println("Realms found shop");
+			shop.setName("NewShop");
+			NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
+	    	System.out.println("Realms New shop");
 	    	ItemList overStock = settle.settleManager().getOverStock(realmModel, settle);
 			int index = 0;
-			for (Item stock : overStock.values())
-			{
-		    	System.out.println("Realms Stock "+stock.ItemRef());
-				//(int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
-				if (index < shop.getStorage().getSize() )
-				{
-					int amount = stock.value();
-					if (amount > 64)
-					{
-						amount = 64;
-					}
-					ItemStack item = new ItemStack(Material.getMaterial(stock.ItemRef()),amount);
-					if (item != null)
-					{  
-						shop.setItem(index, item);
-				    	System.out.println("Realms Price "+stock.ItemRef()+":"+amount);
-					}
-					index++;
-				}
-			}
+			int maxRecipe = 8;
+			
+			Map<ItemStack, Cost> costs =  nShop.getCosts();
+			
+			System.out.println("Costs size: "+nShop.getCosts().size());
+//			item = new ItemStack(Material.COBBLESTONE);
+//			nShop.getCosts().put(item, new NormalPlayerShopkeeper.Cost(64,1)); 
+			
+			stock = new ItemStack(Material.COBBLESTONE);
+			stock.setAmount(128);
+//			
+//			
+//			item = new ItemStack(Material.LOG);
+//			
+//			stock = new ItemStack(Material.LOG);
+//			stock.setAmount(128);
+//			chest.getInventory().addItem(stock);
+			
+//			for (Item stock : overStock.values())
+//			{
+//		    	System.out.println("Realms Stock "+stock.ItemRef());
+//				//(int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
+//				if (index < shop.getStorage().getSize() )
+//				{
+//					int amount = stock.value();
+//					if (amount > 64)
+//					{
+//						amount = 64;
+//					}
+//					ItemStack item = new ItemStack(Material.getMaterial(stock.ItemRef()),amount);
+//					if (item != null)
+//					{  
+//						shop.setItem(index, item);
+//				    	System.out.println("Realms Price "+stock.ItemRef()+":"+amount);
+//					}
+//					index++;
+//				}
+//			}
 			
 		}
 	}
