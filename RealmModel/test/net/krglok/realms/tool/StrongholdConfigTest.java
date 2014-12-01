@@ -3,7 +3,6 @@ package net.krglok.realms.tool;
 import java.io.File;
 import java.util.HashMap;
 
-import net.krglok.realms.data.StrongholdTools;
 import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.inventory.ItemStack;

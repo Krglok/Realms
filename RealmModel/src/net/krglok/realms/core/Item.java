@@ -5,9 +5,12 @@ package net.krglok.realms.core;
  * <pre>
  * Independent type for blocks and items
  * make it possible to separate the model from the minecraft server
- * </pre>
- * @author oduda
+ * property:
+ *  String sRef;
+ *  Integer iValue;
+ * @author krglok
  *
+ * </pre>
  */
 public class Item 
 {

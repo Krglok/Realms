@@ -1,6 +1,7 @@
 package net.krglok.realms;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.Util;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
@@ -8,6 +9,15 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionConditio
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.command.CmdRealmsBookList;
+import net.krglok.realms.command.CmdSettleBuildingList;
+import net.krglok.realms.command.CmdSettleInfo;
+import net.krglok.realms.command.CmdSettleMarket;
+import net.krglok.realms.command.CmdSettleNoSell;
+import net.krglok.realms.command.CmdSettleProduction;
+import net.krglok.realms.command.CmdSettleRequired;
+import net.krglok.realms.command.CmdSettleTrader;
+import net.krglok.realms.command.CmdSettleWarehouse;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
@@ -20,6 +30,7 @@ import net.krglok.realms.core.SignPos;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.science.CaseBook;
+import net.minecraft.server.v1_7_R1.IInventory;
 import net.minecraft.server.v1_7_R1.InventoryEnderChest;
 
 import org.bukkit.Bukkit;
@@ -28,6 +39,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Egg;
@@ -46,6 +58,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -59,6 +72,8 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 /**
  * <pre>
@@ -218,8 +233,16 @@ public class ServerListener implements Listener
     {
     	if (event.getPlayer() instanceof Player)
     	{
+    		System.out.println(event.getInventory().getTitle());
+    		System.out.println(event.getPlayer().getOpenInventory().getTitle());
     		checkSettleChest(event);
     	}
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onInventoryOpen(InventoryOpenEvent event)
+    {
+    	return;
     }
     
     /**
@@ -886,6 +909,7 @@ public class ServerListener implements Listener
 //			cmdRequiredBook(event);
 		}
 
+		
 		if (l0.contains("[SELL]"))
 		{
 //			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
@@ -1152,6 +1176,20 @@ public class ServerListener implements Listener
 				sign.update(true);
 			}
 			
+		}
+		if (l0.contains("[DONATE]"))
+		{
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
+			System.out.println("Donate "+settle.getName()+" : "+event.getPlayer().getItemInHand().getType());
+			if (settle.getBuildingList().getBuilding(regionId).getBuildingType() == BuildPlanType.HALL)
+			{
+				ItemStack item = event.getPlayer().getItemInHand();
+				settle.getWarehouse().depositItemValue(item.getType().name(), item.getAmount());
+				event.getPlayer().getInventory().remove(item);
+//				event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
+			}
 		}
     	
     }
@@ -1586,5 +1624,11 @@ public class ServerListener implements Listener
     	
     }
 
+	@EventHandler( priority = EventPriority.HIGHEST, ignoreCancelled = true )
+    private void onNPC(EntityInteractEvent event)
+    {
+    	System.out.println("[REALMS] NPC EntityInteractEvent");
+    	event.setCancelled(true);
+    }
 
 }

@@ -74,7 +74,8 @@ public class TestMain
 	public static void main(String[] args)
 	{
 
-		EventQueue.invokeLater(new Runnable()
+		EventQueue.invokeLater(
+		new Runnable()
 		{
 			public void run()
 			{
@@ -87,10 +88,11 @@ public class TestMain
 				{
 					e.printStackTrace();
 				}
-		        redirectSystemStreams();
+//		        redirectSystemStreams();
 		        System.out.println("THIS IS A DEMO FOR REDIRECTING OUTPUT TO GUI");
 			}
-		});
+		}
+		);
 	}
 
 	
@@ -250,11 +252,15 @@ public class TestMain
 		
 		JButton btnLoop = new JButton("Loop 35  ");
 		btnLoop.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
-		btnLoop.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				managerTest.doLoop35(1);
-			}
-		});
+		btnLoop.addActionListener(
+				new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						managerTest.doLoop35(1);
+					}
+				}
+		);
 		btnLoop.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		toolBar.add(btnLoop);
 		
@@ -298,11 +304,17 @@ public class TestMain
 				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
 		JButton btnNewButton_1 = new JButton("Init Test SettleManager");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				managerTest.testSettleMgrModel(1);
-			}
-		});
+		btnNewButton_1.addActionListener(
+				new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						managerTest.testSettleMgrModel(1);
+						int l = e.getActionCommand().length();
+						System.out.println("Action "+e.getActionCommand()+":"+l);
+					}
+				}
+		);
 		btnNewButton_1.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
 		panel.add(btnNewButton_1, "2, 2");
 		

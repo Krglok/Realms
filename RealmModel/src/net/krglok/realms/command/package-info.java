@@ -5,4 +5,4 @@
  * @author Windu
  *
  */
-package net.krglok.realms.admin;
+package net.krglok.realms.command;

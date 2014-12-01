@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.ConfigBasis;
@@ -43,40 +42,40 @@ public class SettleManagerTest
 	private int month;
 	
 	@Test
-	public void testSettleMgr()
-	{
-		ServerTest server = new ServerTest();
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
-		ConfigTest config = new ConfigTest();
-		MessageTest   msg = new MessageTest();
-		RealmModel rModel = new RealmModel(0, 0, server, config, testData, msg, logTest);
-		// read Settlements form File
-//		data.initSettleDate();
-		//start RealmOdel
-    	rModel.OnEnable();
-		
-		SettleManager settleMgr;
-		AdminStatus expected = AdminStatus.NONE;
-		AdminStatus actual = rModel.getSettlements().getSettlement(1).settleManager().getStatus();
-		if (expected != actual)
-		{
-			System.out.println("");
-			System.out.println("testSettleMgr");
-			System.out.println("Anzahl Settlements : "+rModel.getSettlements().getSettlements().size());
-			for (Settlement settle : rModel.getSettlements().getSettlements().values())
-			{
-				settleMgr = settle.settleManager();
-				System.out.print("Settlement     : "+settle.getId()+" : "+settle.getName());
-				System.out.print("  Manager Mode   : "+settleMgr.getAdminMode());
-				System.out.print("  Status : "+settleMgr.getStatus());
-				System.out.println("");
-			}
-		}
-		assertEquals(expected, actual);
-		
-	}
+//	public void testSettleMgr()
+//	{
+//		ServerTest server = new ServerTest();
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+//		LogList logTest = new LogList(path);
+//		DataTest testData = new DataTest(logTest);
+//		ConfigTest config = new ConfigTest();
+//		MessageTest   msg = new MessageTest();
+//		RealmModel rModel = new RealmModel(0, 0, server, config, testData, msg, logTest);
+//		// read Settlements form File
+////		data.initSettleDate();
+//		//start RealmOdel
+//    	rModel.OnEnable();
+//		
+//		SettleManager settleMgr;
+////		AdminStatus expected = AdminStatus.NONE;
+////		AdminStatus actual = rModel.getSettlements().getSettlement(1).settleManager().getStatus();
+//		if (expected != actual)
+//		{
+//			System.out.println("");
+//			System.out.println("testSettleMgr");
+//			System.out.println("Anzahl Settlements : "+rModel.getSettlements().getSettlements().size());
+//			for (Settlement settle : rModel.getSettlements().getSettlements().values())
+//			{
+//				settleMgr = settle.settleManager();
+//				System.out.print("Settlement     : "+settle.getId()+" : "+settle.getName());
+//				System.out.print("  Manager Mode   : "+settleMgr.getAdminMode());
+//				System.out.print("  Status : "+settleMgr.getStatus());
+//				System.out.println("");
+//			}
+//		}
+//		assertEquals(expected, actual);
+//		
+//	}
 	
 
 	private void makeSettleAnalysis(Settlement settle, ItemPriceList priceList)

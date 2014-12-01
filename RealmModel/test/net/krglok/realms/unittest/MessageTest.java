@@ -1,10 +1,11 @@
 package net.krglok.realms.unittest;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 //import java.util.logging.Logger;
 
-import net.krglok.realms.RealmsSubCommandType;
+import net.krglok.realms.command.RealmsSubCommandType;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.MessageText;
 
@@ -13,8 +14,12 @@ import org.bukkit.command.CommandSender;
 
 public class MessageTest implements MessageInterface
 {
+	
+	private PrintStream console;
+	
 	public MessageTest()
 	{
+		console = System.out;
 	}
 
 	public Boolean isLogAll()
@@ -41,16 +46,16 @@ public class MessageTest implements MessageInterface
 		{
 			for (String line : page)
 			{
-				System.out.println(line);
+				console.println(line);
 				if (MessageText.isLogAll)
 				{
-					System.out.println(line);
+					console.println(line);
 				}
 			}
 		} else
 		{
-			System.out.println(MessageText.NO_PAGE);
-			System.out.println(MessageText.NO_PAGE);
+			console.println(MessageText.NO_PAGE);
+			console.println(MessageText.NO_PAGE);
 		}
 	}
 	
@@ -132,7 +137,7 @@ public class MessageTest implements MessageInterface
 			sendPage(page);
 		} else
 		{
-			System.out.println("NO data in message !");
+			console.println("NO data in message !");
 		}
 	}
 	
@@ -159,46 +164,46 @@ public class MessageTest implements MessageInterface
 	public void errorPermission(CommandSender sender)
 	{
 		sender.sendMessage(ChatColor.RED+MessageText.NO_PERMISSION);
-		System.out.println(MessageText.NO_PERMISSION);
+		console.println(MessageText.NO_PERMISSION);
 	}
 
 	public void errorArgs(RealmsSubCommandType subCommand)
 	{
-		System.out.println(ChatColor.RED+MessageText.NOT_ENOUGH_ARGUMENTS_FOR+" "+subCommand);
+		console.println(ChatColor.RED+MessageText.NOT_ENOUGH_ARGUMENTS_FOR+" "+subCommand);
 	}
 
 	public void errorArgWrong(  RealmsSubCommandType subCommand)
 	{
-		System.out.println(ChatColor.RED+MessageText.WRONG_ARGUMENTS+" "+subCommand);
+		console.println(ChatColor.RED+MessageText.WRONG_ARGUMENTS+" "+subCommand);
 	}
 
 	public void errorSettleID(  RealmsSubCommandType subCommand)
 	{
-		System.out.println(ChatColor.RED+MessageText.WRONG_SETTLEMNET_ID+" "+subCommand);
+		console.println(ChatColor.RED+MessageText.WRONG_SETTLEMNET_ID+" "+subCommand);
 		
 	}
 
 	public void errorRegion(  RealmsSubCommandType subCommand)
 	{
-		System.out.println(ChatColor.RED+MessageText.REGION_NOT_FOUND+" "+subCommand);
+		console.println(ChatColor.RED+MessageText.REGION_NOT_FOUND+" "+subCommand);
 	}
 
 	public void errorItem(  RealmsSubCommandType subCommand)
 	{
-		System.out.println(ChatColor.RED+MessageText.WRONG_ITEMNAME+" "+subCommand);
+		console.println(ChatColor.RED+MessageText.WRONG_ITEMNAME+" "+subCommand);
 	}
 	
 	public void errorFileIO(String name, Exception e)
 	{
-		System.out.println(name+ MessageText.FILE_IO_ERROR);
-		System.out.println(e.getMessage());
+		console.println(name+ MessageText.FILE_IO_ERROR);
+		console.println(e.getMessage());
 	}
 	
 	public void log(String msg)
 	{
 		if (MessageText.isLogAll)
 		{
-			System.out.println(msg);
+			console.println(msg);
 		}
 	}
 

@@ -2,6 +2,69 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.command.CmdColonistCreate;
+import net.krglok.realms.command.CmdColonistList;
+import net.krglok.realms.command.CmdColonistMove;
+import net.krglok.realms.command.CmdColonyBuild;
+import net.krglok.realms.command.CmdColonyHelp;
+import net.krglok.realms.command.CmdColonyWarehouse;
+import net.krglok.realms.command.CmdRealmNone;
+import net.krglok.realms.command.CmdRealmsActivate;
+import net.krglok.realms.command.CmdRealmsBook;
+import net.krglok.realms.command.CmdRealmsBookList;
+import net.krglok.realms.command.CmdRealmsBookRead;
+import net.krglok.realms.command.CmdRealmsBuildingList;
+import net.krglok.realms.command.CmdRealmsCheck;
+import net.krglok.realms.command.CmdRealmsDeactivate;
+import net.krglok.realms.command.CmdRealmsGetItem;
+import net.krglok.realms.command.CmdRealmsHelp;
+import net.krglok.realms.command.CmdRealmsMap;
+import net.krglok.realms.command.CmdRealmsPrice;
+import net.krglok.realms.command.CmdRealmsPricelistInfo;
+import net.krglok.realms.command.CmdRealmsProduce;
+import net.krglok.realms.command.CmdRealmsSetItem;
+import net.krglok.realms.command.CmdRealmsSettler;
+import net.krglok.realms.command.CmdRealmsShop;
+import net.krglok.realms.command.CmdRealmsSign;
+import net.krglok.realms.command.CmdRealmsTest;
+import net.krglok.realms.command.CmdRealmsVersion;
+import net.krglok.realms.command.CmdRegimentCreate;
+import net.krglok.realms.command.CmdRegimentHelp;
+import net.krglok.realms.command.CmdRegimentInfo;
+import net.krglok.realms.command.CmdRegimentList;
+import net.krglok.realms.command.CmdRegimentMove;
+import net.krglok.realms.command.CmdRegimentRaid;
+import net.krglok.realms.command.CmdRegimentWarehouse;
+import net.krglok.realms.command.CmdSettleAddBuilding;
+import net.krglok.realms.command.CmdSettleAddMember;
+import net.krglok.realms.command.CmdSettleBank;
+import net.krglok.realms.command.CmdSettleBiome;
+import net.krglok.realms.command.CmdSettleBuild;
+import net.krglok.realms.command.CmdSettleBuildingList;
+import net.krglok.realms.command.CmdSettleBuy;
+import net.krglok.realms.command.CmdSettleCheck;
+import net.krglok.realms.command.CmdSettleCreate;
+import net.krglok.realms.command.CmdSettleCredit;
+import net.krglok.realms.command.CmdSettleDeleteBuild;
+import net.krglok.realms.command.CmdSettleEvolve;
+import net.krglok.realms.command.CmdSettleGetItem;
+import net.krglok.realms.command.CmdSettleHelp;
+import net.krglok.realms.command.CmdSettleInfo;
+import net.krglok.realms.command.CmdSettleList;
+import net.krglok.realms.command.CmdSettleMarket;
+import net.krglok.realms.command.CmdSettleNoSell;
+import net.krglok.realms.command.CmdSettleOwner;
+import net.krglok.realms.command.CmdSettleProduction;
+import net.krglok.realms.command.CmdSettleSell;
+import net.krglok.realms.command.CmdSettleSetItem;
+import net.krglok.realms.command.CmdSettleTrader;
+import net.krglok.realms.command.CmdSettleTrain;
+import net.krglok.realms.command.CmdSettleWarehouse;
+import net.krglok.realms.command.CmdSettleWorkshop;
+import net.krglok.realms.command.CommandParser;
+import net.krglok.realms.command.RealmsCommand;
+import net.krglok.realms.command.RealmsCommandType;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -10,7 +73,7 @@ import org.bukkit.command.CommandSender;
  * 
  * Command handling for the command registered to the plugin
  * every subCommand is a separate instance of abstract class  RealmsCommand
- * allactive commands must be in the cmdList
+ * all active commands must be in the cmdList
  * Basic help for no SubCommand are handled in the parser.  
  * 
  * @author Windu
@@ -19,7 +82,7 @@ import org.bukkit.command.CommandSender;
 public class CommandRealms
 {
 	private Realms plugin;
-	RealmsCommand[] cmdList ;
+	private RealmsCommand[] cmdList ;
 	CommandParser parser ;
 	
 	public CommandRealms(Realms plugin)
@@ -46,7 +109,9 @@ public class CommandRealms
 			new CmdRealmsMap(),
 			new CmdRealmsProduce(),
 			new CmdRealmsPrice(),
+			new CmdRealmsSettler(),
 			new CmdRealmsSetItem(),
+			new CmdRealmsShop(),
 			new CmdRealmsSign(),
 			new CmdRealmsVersion(),
 			new CmdRealmNone(),

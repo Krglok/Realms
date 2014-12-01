@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.citizensnpcs.Citizens;
 import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.npc.CitizensNPC;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
@@ -34,10 +36,14 @@ import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.SettlerTrait;
 import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.UnitType;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -50,11 +56,15 @@ import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
@@ -95,6 +105,7 @@ public final class Realms extends JavaPlugin
 	private Logger log = Logger.getLogger("Minecraft"); 
 	///This is a separate logfile, data stored as CSV values
 	private LogList logList; // = new LogList(this.getDataFolder().getPath());
+	protected FileConfiguration configFile;
 
 //	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
 //	private final CommandModel commandModel  = new CommandModel(this);
@@ -112,13 +123,13 @@ public final class Realms extends JavaPlugin
 	private TaxTask taxTask = null;
 	
 	private final MessageData messageData = new MessageData(log);
-	public ServerListener serverListener = new ServerListener(this);
+	public ServerListener serverListener; // = new ServerListener(this);
 	public NpcManager npcManager = new NpcManager(this);
 	@SuppressWarnings("unused")
 	private Update update; // = new Update(projectId, apiKey);
 
     public HeroStronghold stronghold = null;
-    public ShopkeepersPlugin sk = null;
+//    public ShopkeepersPlugin sk = null;
 //    public CitizensAPI npcAPI = null;
     public Citizens npc = null;
 //    public Vault vault = null;
@@ -150,6 +161,8 @@ public final class Realms extends JavaPlugin
 		{
 			data.writeSettlement(settle);
 		}
+		// write NPCData/Trait to file
+		data.writeNpc(npcManager.getNpcList());
 		// write special Logdata to File
         log.info("[Realms] Save Transacton List");
 		logList.run();
@@ -161,7 +174,9 @@ public final class Realms extends JavaPlugin
 	public void onEnable()
 	{
 		logList = new LogList(this.getDataFolder().getPath());
-		data = new DataStorage(this);
+		data = new DataStorage(this.getDataFolder().getPath());
+        serverListener = new ServerListener(this);
+
 //		log = Logger.getLogger("Minecraft"); 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(serverListener, this);
@@ -195,6 +210,8 @@ public final class Realms extends JavaPlugin
         if (npc != null) {
             log.info("[Realms] found Citizens !");
             npc = ((Citizens) npc);
+    		//Register your trait with Citizens.        
+    		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(SettlerTrait.class).withName("settler"));	
             this.npcManager.setEnabled(true);
         } else {
             log.warning("[Realms] didnt find Citizens.");
@@ -203,20 +220,30 @@ public final class Realms extends JavaPlugin
             this.npcManager.setEnabled(false);
             return;
         }
-        Plugin shop = pm.getPlugin("Shopkeepers");
-        if(shop != null && shop.isEnabled())
+        
+        // read the npc list from file
+        if (this.npcManager.isEnabled() == true)
         {
-            log.info("[Realms] found Shopkeeper !");
-            sk = (ShopkeepersPlugin) shop; //You may never need to use this
-        } else {
-            log.warning("[Realms] didnt find Shopkeeper.");
-            log.warning("[Realms] please install the plugin Shopkeeper .");
-            log.warning("[Realms] will be Enabled without Shops");
+            log.info("[Realms] Init Trait for Settler");
+        	npcManager.setNpcList(data.readNpcList());
+        } else
+        {
+            log.warning("[Realms] NPC Manger not enabled");
         }
+//        Plugin shop = pm.getPlugin("Shopkeepers");
+//        if(shop != null && shop.isEnabled())
+//        {
+//            log.info("[Realms] found Shopkeeper !");
+//            sk = (ShopkeepersPlugin) shop; //You may never need to use this
+//        } else {
+//            log.warning("[Realms] didnt find Shopkeeper.");
+//            log.warning("[Realms] please install the plugin Shopkeeper .");
+//            log.warning("[Realms] will be Enabled without Shops");
+//        }
 
         boolean isReady = true; // flag for Init contrll
 		// Vault economy
-        config = new ConfigData(this);
+        config = new ConfigData(this.configFile);
         if (!config.initConfigData())
         {
         	isReady = false;
@@ -237,7 +264,7 @@ public final class Realms extends JavaPlugin
         	update = null;
         }
         
-
+        // realm model instance
         realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData, logList);
         
         //Setup repeating sync task for calculating model
@@ -251,6 +278,7 @@ public final class Realms extends JavaPlugin
         TaxTask taxTask = new TaxTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
 
+        // realm model init
         if (isReady)
         {
         	// Enables automatic production cycles 
@@ -265,6 +293,7 @@ public final class Realms extends JavaPlugin
     		log.info("[Realms] You must manually activate the model");
         	log.info("[Realms] is now ready !");
         }
+        
 	}
 	
 	
@@ -286,130 +315,122 @@ public final class Realms extends JavaPlugin
 	
 	public void setShopPrice(Location position)
 	{
-//		double chestx = -521.0;
-//		double chesty = 67.0;
-//		double chestz = -1355.0;
-//		position.setX(chestx);
-//		position.setY(chesty);
-//		position.setZ(chestz);
-		Block bs = position.getWorld().getBlockAt(position);
-		String shopkeeperId = "73a11c97-b21c-4c3c-b7fe-d4e6053edc14";
-		String shopName = "Test";
-		Shopkeeper shop = null;
-		
-		for (Shopkeeper  obj : sk.getActiveShopkeepers() )
-		{
-			System.out.println("SHopName: "+obj.getName()); 
-			if (obj.getName().equalsIgnoreCase(shopName))
-			{
-				shop = obj;
-			}
-		}
-		
-		
-		if ( shop != null)
-		{
-			if (shop.getType().isPlayerShopType())
-			{
-				NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
-		    	System.out.println("PlayerShop found :"+nShop.getCosts().size());
-				ItemStack item ;
-				Cost cost; 
-				ItemStack stock;
-
-				if (nShop != null)
-				{
-					nShop.setName("NewShop");
-			    	System.out.println("Realms New shop");
-					int index = 0;
-					int maxRecipe = 8;
-					
-					Map<ItemStack, Cost> costs =  nShop.getCosts();
-					
-					System.out.println("Costs size: "+nShop.getCosts().size());
-					item = new ItemStack(Material.COBBLESTONE);
-					
-					stock = new ItemStack(Material.COBBLESTONE);
-					stock.setAmount(128);
-	    	
-				}
-			}
-		}
+//		Block bs = position.getWorld().getBlockAt(position);
+//		String shopkeeperId = "73a11c97-b21c-4c3c-b7fe-d4e6053edc14";
+//		String shopName = "Test";
+//		Shopkeeper shop = null;
+//		
+//		for (Shopkeeper  obj : sk.getActiveShopkeepers() )
+//		{
+//			System.out.println("SHopName: "+obj.getName()); 
+//			if (obj.getName().equalsIgnoreCase(shopName))
+//			{
+//				shop = obj;
+//			}
+//		}
+//		
+//		
+//		if ( shop != null)
+//		{
+//			if (shop.getType().isPlayerShopType())
+//			{
+//				NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
+//		    	System.out.println("PlayerShop found :"+nShop.getCosts().size());
+//				ItemStack item ;
+//				Cost cost; 
+//				ItemStack stock;
+//
+//				if (nShop != null)
+//				{
+//					nShop.setName("NewShop");
+//			    	System.out.println("Realms New shop");
+//					int index = 0;
+//					int maxRecipe = 8;
+//					
+//					Map<ItemStack, Cost> costs =  nShop.getCosts();
+//					
+//					System.out.println("Costs size: "+nShop.getCosts().size());
+//					item = new ItemStack(Material.COBBLESTONE);
+//					
+//					stock = new ItemStack(Material.COBBLESTONE);
+//					stock.setAmount(128);
+//	    	
+//				}
+//			}
+//		}
 	}
 	
 	public void setShop(Player player, Location position, Settlement settle)
 	{
-		Block bs = position.getWorld().getBlockAt(position);
-		Block cs = bs.getRelative(BlockFace.DOWN);
-		cs.setType(Material.CHEST);
-		Chest chest = (Chest) cs.getState();
-		bs.setType(Material.AIR);
-		if (sk == null) {System.out.println("Shop not loaded isnull");  return; }
-//		sk.getShopTypeRegistry().register(DefaultShopTypes.PLAYER_NORMAL);
-//		sk.getShopObjectTypeRegistry().register(LivingEntityType.VILLAGER.getObjectType());
-//		System.out.println("Costs size: "+sk.getShopTypeRegistry().numberOfRegisteredTypes());
-		ShopType<?> shopType =  sk.getShopTypeRegistry().get("PLAYER_NORMAL");   //getDefaultSelection(player);
-		ShopObjectType shopObjType = sk.getShopObjectTypeRegistry().get("VILLAGER");  //getDefaultSelection(player);
-
-		if (player == null) {System.out.println("Player isnull"); }
-		if (cs == null ) {System.out.println("CS isnull"); }
-		if (position == null ) {System.out.println("CS isnull"); }
-
-		ShopCreationData shopCreationData = new ShopCreationData(player, shopType, cs, position, shopObjType);
-		Shopkeeper shop = ShopkeepersPlugin.getInstance().createNewPlayerShopkeeper(shopCreationData ); 
-		//(player, cs, position, shopType,shopObjectType);    
-
-		ItemStack item ;
-		Cost cost; 
-		ItemStack stock;
-
-		if (shop != null)
-		{
-			shop.setName("NewShop");
-			NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
-	    	System.out.println("Realms New shop");
-	    	ItemList overStock = settle.settleManager().getOverStock(realmModel, settle);
-			int index = 0;
-			int maxRecipe = 8;
-			
-			Map<ItemStack, Cost> costs =  nShop.getCosts();
-			
-			System.out.println("Costs size: "+nShop.getCosts().size());
-//			item = new ItemStack(Material.COBBLESTONE);
-//			nShop.getCosts().put(item, new NormalPlayerShopkeeper.Cost(64,1)); 
-			
-			stock = new ItemStack(Material.COBBLESTONE);
-			stock.setAmount(128);
+//		Block bs = position.getWorld().getBlockAt(position);
+//		Block cs = bs.getRelative(BlockFace.DOWN);
+//		cs.setType(Material.CHEST);
+//		Chest chest = (Chest) cs.getState();
+//		bs.setType(Material.AIR);
+//		if (sk == null) {System.out.println("Shop not loaded isnull");  return; }
+////		sk.getShopTypeRegistry().register(DefaultShopTypes.PLAYER_NORMAL);
+////		sk.getShopObjectTypeRegistry().register(LivingEntityType.VILLAGER.getObjectType());
+////		System.out.println("Costs size: "+sk.getShopTypeRegistry().numberOfRegisteredTypes());
+//		ShopType<?> shopType =  sk.getShopTypeRegistry().get("PLAYER_NORMAL");   //getDefaultSelection(player);
+//		ShopObjectType shopObjType = sk.getShopObjectTypeRegistry().get("VILLAGER");  //getDefaultSelection(player);
+//
+//		if (player == null) {System.out.println("Player isnull"); }
+//
+//		ShopCreationData shopCreationData = new ShopCreationData(player, shopType, cs, position, shopObjType);
+//		Shopkeeper shop = ShopkeepersPlugin.getInstance().createNewPlayerShopkeeper(shopCreationData ); 
+//		//(player, cs, position, shopType,shopObjectType);    
+//
+//		ItemStack item ;
+//		Cost cost; 
+//		ItemStack stock;
+//
+//		if (shop != null)
+//		{
+//			shop.setName("NewShop");
+//			NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
+//	    	System.out.println("Realms New shop");
+//	    	ItemList overStock = settle.settleManager().getOverStock(realmModel, settle);
+//			int index = 0;
+//			int maxRecipe = 8;
 //			
+//			Map<ItemStack, Cost> costs =  nShop.getCosts();
 //			
-//			item = new ItemStack(Material.LOG);
+//			System.out.println("Costs size: "+nShop.getCosts().size());
+////			item = new ItemStack(Material.COBBLESTONE);
+////			nShop.getCosts().put(item, new NormalPlayerShopkeeper.Cost(64,1)); 
 //			
-//			stock = new ItemStack(Material.LOG);
+//			stock = new ItemStack(Material.COBBLESTONE);
 //			stock.setAmount(128);
-//			chest.getInventory().addItem(stock);
-			
-//			for (Item stock : overStock.values())
-//			{
-//		    	System.out.println("Realms Stock "+stock.ItemRef());
-//				//(int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
-//				if (index < shop.getStorage().getSize() )
-//				{
-//					int amount = stock.value();
-//					if (amount > 64)
-//					{
-//						amount = 64;
-//					}
-//					ItemStack item = new ItemStack(Material.getMaterial(stock.ItemRef()),amount);
-//					if (item != null)
-//					{  
-//						shop.setItem(index, item);
-//				    	System.out.println("Realms Price "+stock.ItemRef()+":"+amount);
-//					}
-//					index++;
-//				}
-//			}
-			
-		}
+////			
+////			
+////			item = new ItemStack(Material.LOG);
+////			
+////			stock = new ItemStack(Material.LOG);
+////			stock.setAmount(128);
+////			chest.getInventory().addItem(stock);
+//			
+////			for (Item stock : overStock.values())
+////			{
+////		    	System.out.println("Realms Stock "+stock.ItemRef());
+////				//(int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
+////				if (index < shop.getStorage().getSize() )
+////				{
+////					int amount = stock.value();
+////					if (amount > 64)
+////					{
+////						amount = 64;
+////					}
+////					ItemStack item = new ItemStack(Material.getMaterial(stock.ItemRef()),amount);
+////					if (item != null)
+////					{  
+////						shop.setItem(index, item);
+////				    	System.out.println("Realms Price "+stock.ItemRef()+":"+amount);
+////					}
+////					index++;
+////				}
+////			}
+//			
+//		}
 	}
 
 	
@@ -469,7 +490,7 @@ public final class Realms extends JavaPlugin
 
 	}
 	
-	protected void setSign(World world, ItemLocation iLoc, String[] signText )
+	public void setSign(World world, ItemLocation iLoc, String[] signText )
 	{
 	  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
 	  {
@@ -485,7 +506,7 @@ public final class Realms extends JavaPlugin
 	 * @param world
 	 * @param iLoc
 	 */
-	protected void setBlock(World world, ItemLocation iLoc)
+	public void setBlock(World world, ItemLocation iLoc)
 	{
 //		System.out.println(iLoc.itemRef());
 //		if (iLoc.itemRef() != Material.AIR)
@@ -1264,7 +1285,27 @@ public final class Realms extends JavaPlugin
 			doSignUpdate(settle);
 		}
 	}
+
 	
+	
+	public Entity doVillagerSpawn(World world, Location position, Profession profession)
+	{
+		Entity e = 	world.spawnEntity(position, EntityType.VILLAGER);
+		Villager v = (Villager) e;
+		v.setProfession(profession);
+		v.setRemoveWhenFarAway(false);
+		switch(profession)
+		{
+		case LIBRARIAN:
+			v.setCustomName("Verwalter");
+			break;
+		default:
+			v.setCustomName("Settler");
+			break;
+		}
+		v.setCustomNameVisible(true);
+		return e;
+	}
      
     public ConfigData getConfigData()
     {
@@ -1345,6 +1386,18 @@ public final class Realms extends JavaPlugin
 		return logList;
 	}
 
-	
+	private void getPluginConfig()
+	{
+		this.configFile = configFile;
+		String nameValue = configFile.getString(ConfigBasis.CONFIG_PLUGIN_NAME,"");
+		if (!nameValue.equalsIgnoreCase(ConfigBasis.PLUGIN_NAME))
+		{
+			this.getConfig().options().copyDefaults(true);
+			this.saveConfig();
+			nameValue = configFile.getString(ConfigBasis.CONFIG_PLUGIN_NAME,"");
+		}
+		this.getLog().info("[realms] configname : "+nameValue);
+		
+	}
 
 }

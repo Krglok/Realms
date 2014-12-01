@@ -31,7 +31,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
-import net.krglok.realms.data.StrongholdTools;
 
 public class SettlementReferenceTest
 {
@@ -371,7 +370,7 @@ public class SettlementReferenceTest
 		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList(), logList));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList()));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");

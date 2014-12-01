@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.bukkit.Material;
 
-import net.krglok.realms.admin.AdminModus;
-import net.krglok.realms.admin.AdminStatus;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
@@ -38,8 +36,8 @@ import net.krglok.realms.model.iModelCommand;
  */
 public class SettleManager
 {
-	private AdminModus adminMode;
-	private AdminStatus status;
+//	private AdminModus adminMode;
+//	private AdminStatus status;
 	
 	private ArrayList<McmdBuilder> cmdBuilder;
 	private ArrayList<McmdBuyOrder> cmdBuy;
@@ -54,8 +52,8 @@ public class SettleManager
 		this.cmdBuilder = new  ArrayList<McmdBuilder>();
 		this.cmdBuy = new ArrayList<McmdBuyOrder>();
 		this.cmdSell = new ArrayList<McmdSellOrder>();
-		this.adminMode = AdminModus.PLAYER;
-		this.status    = AdminStatus.NONE;
+//		this.adminMode = AdminModus.PLAYER;
+//		this.status    = AdminStatus.NONE;
 		this.buyList = new ItemList();
 		this.dontSell = new ItemList();
 	}
@@ -266,20 +264,20 @@ public class SettleManager
 	}
 	
 	
-	public AdminModus getAdminMode()
-	{
-		return adminMode;
-	}
-
-	public void setAdminMode(AdminModus adminMode)
-	{
-		this.adminMode = adminMode;
-	}
-
-	public AdminStatus getStatus()
-	{
-		return status;
-	}
+//	public AdminModus getAdminMode()
+//	{
+//		return adminMode;
+//	}
+//
+//	public void setAdminMode(AdminModus adminMode)
+//	{
+//		this.adminMode = adminMode;
+//	}
+//
+//	public AdminStatus getStatus()
+//	{
+//		return status;
+//	}
 
 	public ArrayList<McmdBuilder> getCmdBuilder()
 	{

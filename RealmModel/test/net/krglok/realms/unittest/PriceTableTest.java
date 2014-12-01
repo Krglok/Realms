@@ -7,9 +7,11 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.data.DataStorePrice;
 import net.krglok.realms.data.PriceTable;
-import net.krglok.realms.data.SQliteConnection;
+import net.krglok.realms.tool.SQliteConnection;
 
 import org.bukkit.Material;
 import org.junit.Test;
@@ -22,23 +24,10 @@ public class PriceTableTest
 	{
 	       String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 	       String basekey = "BASEPRICE";
+	       String fileName = "pricetest";
 	       Logger logger = Logger.getAnonymousLogger();
 //			SQLite(Logger logger, String prefix, String directory, String filename) 
-	       SQliteConnection sql = new SQliteConnection( path );
-	       try
-		{
-			if (sql.open() == false)
-			   {
-			       System.out.println("Database NOT open !");
-				   return;
-			   }
-		} catch (SQLException e1)
-		{
-			e1.printStackTrace();
-		}
-	       System.out.println("Database open !");
-	       PriceTable priceTable = new PriceTable(sql);
-	       System.out.println("Table open !");
+	       DataStorePrice dPrice = new DataStorePrice(path, fileName, basekey, true); 
 			
 	       ItemPriceList items = new ItemPriceList();
 	       for (Material mat : Material.values())
@@ -65,40 +54,20 @@ public class PriceTableTest
 	       items.add("COAL", 3.0);
 	       items.add("IRON_ORE", 15.0);
 	       items.add("IRON_SWORD", 235.0);
-	       long time1 = System.nanoTime();
-	       priceTable.writePriceData(items, basekey, true);
-//	       priceTable.replaceItemValue(basekey, "WHEAT", 0.20);
-//	       priceTable.replaceItemValue(basekey, "LOG", 0.50);
-	       long time2 = System.nanoTime();
-	       System.out.println("Update Time [ms]: "+(time2 - time1)/1000000);
+	       dPrice.writeData(items, "");
 
-	       time1 = System.nanoTime();
-	       ResultSet result = priceTable.selectPricedata();
-	       time2 = System.nanoTime();
-	       System.out.println("Select Time [us]: "+(time2 - time1)/1000);
-	       try 
-	       {
-//	    	   result.beforeFirst();
-	    	   if (result.next() == false)
-	    	   {
-			       System.out.println("ResulSet empty");
-	    	   } else
-	    	   {
-	    		   System.out.print(ConfigBasis.setStrright(result.getRow(),2)+":");
-	    		   System.out.print(ConfigBasis.setStrleft(result.getString("valuename"),13));
-	    		   System.out.print(":"+ConfigBasis.setStrright(result.getString("value"),5));
-	    		   System.out.println();
-	    		   while (result.next())
-	    		   {
-	        		   System.out.print(ConfigBasis.setStrright(result.getRow(),2)+":");
-	        		   System.out.print(ConfigBasis.setStrleft(result.getString("valuename"),13));
-	        		   System.out.print(":"+ConfigBasis.setStrright(result.getString("value"),7));
-	        		   System.out.println();
-	    		   }
-	    	   }
-	       } catch (SQLException e) {
-				e.printStackTrace();
-	       }
+	       items.clear();
+	       dPrice.readDataList();
+	       items = dPrice.readData("");
+		   System.out.print(ConfigBasis.setStrleft("ItenName",13));
+		   System.out.print(":"+ConfigBasis.setStrright("Value",5));
+		   System.out.println();
+		   for (ItemPrice item : items.values())
+		   {
+    		   System.out.print(ConfigBasis.setStrleft(item.ItemRef(),13));
+    		   System.out.print(":"+ConfigBasis.setStrright(item.getBasePrice(),7));
+    		   System.out.println();
+		   }
 	       System.out.print("ENDE");
 	}
 

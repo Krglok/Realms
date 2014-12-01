@@ -7,12 +7,9 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Logger;
 
-import org.apache.logging.log4j.core.LoggerContext;
-
-import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.tool.SQliteConnection;
 
 /**
  * <pre>

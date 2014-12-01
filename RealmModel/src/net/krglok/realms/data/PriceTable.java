@@ -8,6 +8,8 @@ import com.mysql.jdbc.PreparedStatement;
 
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.tool.SQliteConnection;
+import net.krglok.realms.tool.TableData;
 
 public class PriceTable extends TableData 
 {

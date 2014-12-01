@@ -227,14 +227,14 @@ public class TestManager
 			Item item = settle.getWarehouse().getItemList().get(id);
 			System.out.print("|"+ConfigBasis.setStrleft(item.ItemRef(),12)+"");
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(item.value()),5));
-			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(item.ItemRef()))),5));
-			System.out.print("|"+ConfigBasis.setStrright(
-					String.valueOf(
-							64 - 
-							(64 * rModel.getServer().getBioneFactor
-									( settle.getBiome(), Material.getMaterial
-											(item.ItemRef())
-											)/ 100)),5));
+//			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(item.ItemRef()))),5));
+//			System.out.print("|"+ConfigBasis.setStrright(
+//					String.valueOf(
+//							64 - 
+//							(64 * rModel.getServer().getBioneFactor
+//									( settle.getBiome(), Material.getMaterial
+//											(item.ItemRef())
+//											)/ 100)),5));
 			System.out.println("|");
 		}
 
@@ -382,11 +382,21 @@ public class TestManager
 		
 	}
 	
+	/**
+	 * Init the model ad start the test
+	 * use the settleId as settlement for test
+	 * ! the settlement must exist, this will not be checked !
+	 * 
+	 * @param settleId
+	 */
 	public void testSettleMgrModel(int settleId)
 	{
+		// load settlement for test
 		settle = rModel.getSettlements().getSettlement(settleId);
+		// do production loops
 		doLoop(rModel, 5);
 
+		// make analysis data
 		System.out.println("");
 		System.out.println("testSettleMgrModel");
 		System.out.println("Settlement     : "+settle.getId()+" : "+settle.getName());

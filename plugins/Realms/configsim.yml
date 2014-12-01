@@ -1,0 +1,5 @@
+SIMULATION:
+  dataPath: \GIT\OwnPlugins\Realms\plugins\Realms
+  strongholdPath: \GIT\OwnPlugins\Realms\plugins\HeroStronghold
+  singleStep: false
+  sequenceStep: 10

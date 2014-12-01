@@ -2,6 +2,7 @@ package net.krglok.realms.maps;
 
 import org.bukkit.Material;
 
+
 /**
  * Scanresult hold the scandata for concrete position aus an array
  * the square is chunk

@@ -3,6 +3,7 @@ package net.krglok.realms.data;
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.Material;
 
@@ -26,6 +27,7 @@ import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.npc.NPCData;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
@@ -66,25 +68,31 @@ public class DataStorage implements DataInterface
 	
 	private SettlementData settleData;
 	private RegimentData regData;
-	private CaseBookData caseBookData;
+	private DataStoreCaseBook caseBookData;
+	private NPCListData npcListData;
+
+	Boolean isReady = false;
 	
-	private Realms plugin;
+	private String path;
+//	private Realms plugin;
 	
-	public DataStorage(Realms plugin)
+	public DataStorage(String path)
 	{
-		this.plugin = plugin;
+//		this.plugin = plugin;
+		this.path = path;
 		// Datafile Handler
-		settleData = new SettlementData(plugin.getDataFolder().getPath());
-		regData    = new RegimentData(plugin.getDataFolder().getPath());
-		caseBookData = new CaseBookData(plugin.getDataFolder().getPath());
+		settleData = new SettlementData(this.path);
+		regData    = new RegimentData(this.path);
+		caseBookData = new DataStoreCaseBook(this.path);
 		//DataLists
 		owners = new OwnerList();
 		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
 		regiments   = new RegimentList(0);
 		caseBooks   = new CaseBookList();
-		priceData = new PriceData(plugin.getDataFolder().getPath());
+		priceData = new PriceData(this.path);
 		priceList = new ItemPriceList();
+		npcListData = new NPCListData(this.path, true);
 	}
 	
 	/**
@@ -94,7 +102,7 @@ public class DataStorage implements DataInterface
 	 */
 	public boolean initData()
 	{
-		Boolean isReady = true;
+		isReady = true;
 		priceList = priceData.readPriceData();
 		npcOwners();
 		npcRealms(owners.getOwner(NPC_0));
@@ -110,7 +118,7 @@ public class DataStorage implements DataInterface
 			System.out.println("Regiment Read FALSE: ");
 			isReady = false;
 		}
-		ArrayList<String> bookInit = caseBookData.readCaseBookList();
+		ArrayList<String> bookInit = caseBookData.readDataList();
 		if (initCaseBookData(bookInit) == false)
 		{
 			System.out.println("CaseBook Read FALSE: ");
@@ -158,6 +166,32 @@ public class DataStorage implements DataInterface
 		return kingdoms; 
 	}
 	
+	/**
+	 * read the npc from file 
+	 * need no init of dataStorage
+	 * 
+	 * @return list from file or new empty list
+	 */
+	public HashMap<Integer, NPCData> readNpcList()
+	{
+			return npcListData.readNpcList();
+	}
+	
+	/**
+	 * the methode write the whole npcList to the file
+	 * the npcId is the refenrenz
+	 * @param data
+	 */
+	public void writeNpc(HashMap<Integer, NPCData> dataObject)
+	{
+		String refId = "0";
+		for (NPCData npcData : dataObject.values())
+		{
+			refId = String.valueOf(npcData.getNpcId());
+			npcListData.writeNpc(npcData, refId);
+		}
+	}
+	
 	
 	/**
 	 * initialize the SettlementList
@@ -167,7 +201,7 @@ public class DataStorage implements DataInterface
 	{
 		for (String settleId : settleInit)
 		{
-			plugin.getMessageData().log("SettleRead: "+settleId );
+//			plugin.getMessageData().log("SettleRead: "+settleId );
 			settlements.addSettlement(readSettlement(Integer.valueOf(settleId),this.priceList));
 		}
 		return true;
@@ -193,7 +227,7 @@ public class DataStorage implements DataInterface
 	 */
 	private Settlement readSettlement(int id, ItemPriceList priceList)
 	{
-		return settleData.readSettledata(id, priceList, plugin.getLogList());
+		return settleData.readSettledata(id, priceList);
 	}
 	
 	/**
@@ -217,7 +251,7 @@ public class DataStorage implements DataInterface
 	 */
 	private Regiment readRegiment(int id)
 	{
-		Regiment regiment = regData.readRegimentData(id, plugin.getLogList()); 
+		Regiment regiment = regData.readRegimentData(id); 
 		regiment.setBuildPlan(readTMXBuildPlan(BuildPlanType.FORT, 4, 0));
 		return regiment; 
 	}
@@ -231,7 +265,7 @@ public class DataStorage implements DataInterface
 	{
 		for (String regId : regInit)
 		{
-			plugin.getMessageData().log("RegimentRead: "+regId );
+//			plugin.getMessageData().log("RegimentRead: "+regId );
 			regiments.addRegiment(readRegiment(Integer.valueOf(regId)));
 		}
 		return true;
@@ -268,14 +302,14 @@ public class DataStorage implements DataInterface
 	@Override
 	public SettlementList initSettlements()
 	{
-		plugin.getMessageData().log("SettleInit: ");
+//		plugin.getMessageData().log("SettleInit: ");
 		return settlements;
 	}
 	
 	@Override
 	public RegimentList initRegiments()
 	{
-		plugin.getMessageData().log("RegimentInit: ");
+//		plugin.getMessageData().log("RegimentInit: ");
 		return regiments;
 	}
 
@@ -436,7 +470,7 @@ public class DataStorage implements DataInterface
      */
 	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet)
 	{
-		String path = plugin.getDataFolder().getPath();
+//		String path = plugin.getDataFolder().getPath();
         File tmxFolder = new File(path, "buildplan");
         File tmxFile = new File(tmxFolder.getAbsoluteFile(), bType.name()+".tmx");
 		BuildPlanMap buildPlan = new BuildPlanMap(bType,radius , offSet);
@@ -489,9 +523,9 @@ public class DataStorage implements DataInterface
 		return buildPlan;
 	}
 	
-	private CaseBook readCaseBook(int id)
+	private CaseBook readCaseBook(String id)
 	{
-		return caseBookData.readCaseBook(id);
+		return caseBookData.readData(id);
 	}
 	
 	private boolean initCaseBookData(ArrayList<String> bookInit)
@@ -502,13 +536,13 @@ public class DataStorage implements DataInterface
 		}
 		for (String bookId : bookInit)
 		{
-			System.out.println("READ : "+bookId);
-			plugin.getMessageData().log("CaseBookRead: "+bookId );
-			caseBooks.addBook(readCaseBook(Integer.valueOf(bookId)));
-			if (Integer.valueOf(bookId) > CaseBook.getCounter())
-			{
-				CaseBook.initCounter(Integer.valueOf(bookId));
-			}
+			System.out.println("Init Casebook READ : "+bookId);
+//			plugin.getMessageData().log("CaseBookRead: "+bookId );
+//			caseBooks.addBook(readCaseBook(bookId));
+//			if (Integer.valueOf(bookId) > CaseBook.getCounter())
+//			{
+//				CaseBook.initCounter(Integer.valueOf(bookId));
+//			}
 		}
 		return true;
 	}
@@ -516,14 +550,14 @@ public class DataStorage implements DataInterface
 	@Override
 	public CaseBookList initCaseBooks()
 	{
-		plugin.getMessageData().log("CaseBook Init: " );
+//		plugin.getMessageData().log("CaseBook Init: " );
 		return caseBooks;
 	}
 
 	@Override
 	public void writeCaseBook(CaseBook caseBook)
 	{
-		caseBookData.writeCaseBook(caseBook);
+		caseBookData.writeData(caseBook, caseBook.getRefId());
 	}
 
 

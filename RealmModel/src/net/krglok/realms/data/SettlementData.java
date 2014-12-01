@@ -195,9 +195,9 @@ public class SettlementData
 
 	}
 	
-	public Settlement readSettledata(int id, ItemPriceList priceList, LogList logList) 
+	public Settlement readSettledata(int id, ItemPriceList priceList) 
 	{
-		Settlement settle = new Settlement(priceList, logList);
+		Settlement settle = new Settlement(priceList, null);
         String section = getSettleKey(id);
 		try
 		{

@@ -2,7 +2,6 @@ package net.krglok.realms.science;
 
 import java.util.HashMap;
 
-import net.krglok.realms.core.Item;
 
 public class CaseBookList extends  HashMap<Integer, CaseBook>  
 {

@@ -43,7 +43,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.data.CaseBookData;
+import net.krglok.realms.data.DataStoreCaseBook;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.RegimentData;
@@ -86,7 +86,7 @@ public class DataTest implements DataInterface
     private ItemPriceList priceList ;
 	private LogList logList;
 	private RegimentData regData;
-	private CaseBookData caseBookData;
+	private DataStoreCaseBook caseBookData;
 
 	public DataTest(LogList logList)
 	{
@@ -168,7 +168,7 @@ public class DataTest implements DataInterface
 		settlements.getSettlements().clear();
 		for (String sName : sList)
 		{
-			settlements.addSettlement(sData.readSettledata(Integer.valueOf(sName),this.getPriceList(), this.logList));
+			settlements.addSettlement(sData.readSettledata(Integer.valueOf(sName),this.getPriceList()));
 		}
 		this.testSettlements= settlements; 
 		
@@ -672,7 +672,7 @@ public class DataTest implements DataInterface
 	}
 	public Settlement readSettlement(int id, ItemPriceList priceList, LogList logList)
 	{
-		return settleData.readSettledata(id, priceList, logList);
+		return settleData.readSettledata(id, priceList);
 	}
 	
 	/**
@@ -979,13 +979,13 @@ public class DataTest implements DataInterface
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
         CaseBookList caseBooks = new CaseBookList();
-		CaseBookData sData = new CaseBookData(path);
+		DataStoreCaseBook sData = new DataStoreCaseBook(path);
 		
-		ArrayList<String> sList = sData.readCaseBookList();
+		ArrayList<String> sList = sData.readDataList();
 		caseBooks.clear();
-		for (String sName : sList)
+		for (String refId : sList)
 		{
-			CaseBook caseBook = sData.readCaseBook(Integer.valueOf(sName));
+			CaseBook caseBook = sData.readData(refId);
 			caseBooks.addBook(caseBook); 
 		}
 		return caseBooks;

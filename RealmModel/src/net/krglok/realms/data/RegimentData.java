@@ -151,9 +151,9 @@ public class RegimentData
 	 * @param logList
 	 * @return  regiment object, should be add to the regiment list
 	 */
-	public Regiment readRegimentData(int id, LogList logList) 
+	public Regiment readRegimentData(int id) 
 	{
-		Regiment regiment = new Regiment(logList);
+		Regiment regiment = new Regiment(null);
 		try
 		{ 
 	        String section = getRegimentKey(id);

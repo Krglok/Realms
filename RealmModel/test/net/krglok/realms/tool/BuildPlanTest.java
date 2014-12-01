@@ -13,7 +13,6 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.data.StrongholdTools;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.unittest.DataTest;
 import net.krglok.realms.unittest.RegionConfig;

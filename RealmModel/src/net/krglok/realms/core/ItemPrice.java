@@ -2,9 +2,15 @@ package net.krglok.realms.core;
 
 
 /**
+ * <pre>
  * item with a price for pricelist and tradeorder
+ * property:
+ *  String sRef;
+ *  Integer iValue;
+ *  Double basePrice;
+ *  
  * @author Windu
- *
+ *</pre>
  */
 public class ItemPrice extends Item 
 {

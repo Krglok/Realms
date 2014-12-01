@@ -2,9 +2,7 @@ package net.krglok.realms.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
-import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
@@ -16,6 +14,8 @@ import org.bukkit.entity.EntityType;
 /**
  * read Data from YML file 
  * used for initialize the Plugin and the RealmModel with data
+ * Hint: the plugin are not referenced here, so it is independant from the plugin system
+ * this is useful for test and simuation
  * 
  * @author Windu
  *
@@ -51,12 +51,14 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private boolean isAutoUpdate;
 
 	private boolean isLogList;
+	
+	private boolean isLoaded = false;
 
 	private ArrayList<EntityType> mobList;
 	
 	protected FileConfiguration configFile;
 	
-	public ConfigData(Realms plugin )
+	public ConfigData(FileConfiguration configFile )
 	{
 		regionBuildingTypes = new HashMap<String, String>();
 		superBuildingTypes = new HashMap<String, String>();
@@ -66,15 +68,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		setRealmCounter(0);
 		setSettlementCounter(0);
 		
-		configFile = plugin.getConfig();
-		String nameValue = configFile.getString(CONFIG_PLUGIN_NAME,"");
-		if (!nameValue.equalsIgnoreCase(PLUGIN_NAME))
-		{
-			plugin.getConfig().options().copyDefaults(true);
-			plugin.saveConfig();
-			nameValue = configFile.getString(CONFIG_PLUGIN_NAME,"");
-		}
-		plugin.getLog().info("[realms] configname : "+nameValue);
+		this.configFile = configFile;
 		PLUGIN_VER = configFile.getString(CONFIG_PLUGIN_VER);
 		realmCounter = configFile.getInt(CONFIG_REALM_COUNTER, 0);
 		settlementCounter = configFile.getInt(CONFIG_SETTLEMENT_COUNTER, 0);
@@ -83,7 +77,23 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		isAutoUpdate  = configFile.getBoolean("autoupdate", false);
 		isLogList  = configFile.getBoolean("loglist", false);
 //		configFile.options().copyDefaults(true);
-	
+		setLoaded(true);
+	}
+
+	/**
+	 * @return the isLoaded
+	 */
+	public boolean isLoaded()
+	{
+		return isLoaded;
+	}
+
+	/**
+	 * @param isLoaded the isLoaded to set
+	 */
+	public void setLoaded(boolean isLoaded)
+	{
+		this.isLoaded = isLoaded;
 	}
 
 	@Override

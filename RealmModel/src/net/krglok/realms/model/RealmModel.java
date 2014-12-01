@@ -24,6 +24,7 @@ import net.krglok.realms.kingdom.KingdomList;
 //<<<<<<< HEAD
 //=======
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
@@ -82,6 +83,7 @@ public class RealmModel
 	private RegimentList regiments; 		// List of Regiments in game 
 	private CaseBookList caseBooks;			// List of Books in game
 	
+	public NpcManager npcManager;
 	private UnitFactory unitFactory = new UnitFactory();
 	
 	private boolean isInit = false;
@@ -655,8 +657,13 @@ public class RealmModel
 	
 	private void regimentRun()
 	{
+		if (regiments == null)
+		{
+			return;
+		}
 		for (Regiment regiment : regiments.values())
 		{
+			
 			regiment.run(this);
 		}
 	}

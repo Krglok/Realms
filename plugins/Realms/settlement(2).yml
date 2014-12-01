@@ -1,0 +1,30 @@
+SETTLEMENT:
+  '1':
+    id: 1
+    settleType: NONE
+    position: :0.0:0.0:0.0
+    biome: SKY
+    age: 0
+    name: New Settlement
+    owner: ''
+    isCapital: false
+    isActive: true
+    bank: 0.0
+    townhall:
+      workerNeeded: '0'
+      workerCount: '0'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '0'
+      fertilityCounter: '100.0'
+      happiness: '0.6'
+      workerCount: '0'
+      settlerMax: '0'
+    warehouse:
+      itemCount: '0'
+      itemMax: '0'
+      isEnabled: 'false'
+    itemList: {}
+    unitlist: {}

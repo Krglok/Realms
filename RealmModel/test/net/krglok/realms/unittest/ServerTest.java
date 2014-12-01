@@ -11,7 +11,7 @@ import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.data.RecipeData;
 import net.krglok.realms.data.ServerInterface;
-import net.krglok.realms.data.StrongholdTools;
+import net.krglok.realms.tool.StrongholdTools;
 import net.krglok.realms.tool.SuperRegionData;
 
 import org.bukkit.Location;
@@ -558,6 +558,10 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public int getBioneFactor(Biome biome, Material mat)
 	{
+		if (mat == null)
+		{
+			mat = Material.AIR;
+		}
 		int factor = 0;
 		if (biome == null)
 		{

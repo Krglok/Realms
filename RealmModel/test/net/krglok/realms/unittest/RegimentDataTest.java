@@ -52,7 +52,7 @@ public class RegimentDataTest
 		
 		for (String ref : regList)
 		{
-			Regiment regiment = regData.readRegimentData(Integer.valueOf(ref), logList);
+			Regiment regiment = regData.readRegimentData(Integer.valueOf(ref));
 //            System.out.println("READ: "+regiment.getId()+":"+regiment.getName());
 			
 		}

@@ -21,8 +21,8 @@ public class ConfigBasis implements ConfigInterface
 	protected static final String CONFIG_SETTLEMENT_COUNTER = "settlementCounter";
 	protected static final String CONFIG_REALM_COUNTER = "realmCounter";
 	protected static final String CONFIG_PLUGIN_VER = "plugin_ver";
-	protected static final String CONFIG_PLUGIN_NAME = "plugin_name";
-	protected static final String PLUGIN_NAME = "Realms";
+	public static final String CONFIG_PLUGIN_NAME = "plugin_name";
+	public static final String PLUGIN_NAME = "Realms";
 	protected static String PLUGIN_VER = "0.3.0";
 
 	

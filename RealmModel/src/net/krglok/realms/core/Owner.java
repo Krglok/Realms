@@ -30,10 +30,7 @@ public class Owner
 		setIsNPC(true);
 	}
 
-	public Owner(			
-			String playerName,
-			Boolean isNPC)
-
+	public Owner(String playerName,	Boolean isNPC)
 	{
 		id = 0;
 		level = MemberLevel.MEMBER_NONE;
@@ -49,8 +46,8 @@ public class Owner
 			int capital,
 			String playerName,
 			int realmID,
-			Boolean isNPC)
-
+			Boolean isNPC
+			)
 	{
 		setId(id);
 		setLevel(level);

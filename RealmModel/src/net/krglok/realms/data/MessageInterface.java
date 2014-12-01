@@ -3,7 +3,7 @@ package net.krglok.realms.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.krglok.realms.RealmsSubCommandType;
+import net.krglok.realms.command.RealmsSubCommandType;
 
 import org.bukkit.command.CommandSender;
 

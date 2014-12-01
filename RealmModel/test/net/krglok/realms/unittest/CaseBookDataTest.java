@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import net.krglok.realms.data.CaseBookData;
+import net.krglok.realms.data.DataStoreCaseBook;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
@@ -42,7 +42,7 @@ public class CaseBookDataTest
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(logTest);
-		CaseBookData caseBookData = new CaseBookData(dataFolder);
+		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
 		CaseBookList bookList = data.initCaseBooks();
 		int key = bookList.size()+1;
 		bookList.addBook(makeBook(key));
@@ -56,7 +56,7 @@ public class CaseBookDataTest
 			{
 				System.out.println(book.getId()+" : "+book.getAuthor());
 				System.out.println(book.getTitel()+ " : "+book.getPages().size());
-				caseBookData.writeCaseBook(bookList.get(book.getId()));
+				caseBookData.writeData(bookList.get(book.getId()),String.valueOf(book.getId()));
 			}
 			
 		}
