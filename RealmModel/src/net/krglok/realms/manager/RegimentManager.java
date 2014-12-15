@@ -49,7 +49,7 @@ public class RegimentManager {
 	
 	private void getNewPosition(RealmModel rModel, Regiment regiment, int targetId)
 	{
-		int maxPos = rModel.getSettlements().getSettlements().size();
+		int maxPos = rModel.getSettlements().size();
 		if (maxPos > 0)
 		{
 			if (maxPos > 1)

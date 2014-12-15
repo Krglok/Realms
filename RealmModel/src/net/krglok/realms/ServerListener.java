@@ -2,6 +2,7 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.Util;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
@@ -30,9 +31,6 @@ import net.krglok.realms.core.SignPos;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.science.CaseBook;
-import net.minecraft.server.v1_7_R1.IInventory;
-import net.minecraft.server.v1_7_R1.InventoryEnderChest;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -104,34 +102,15 @@ public class ServerListener implements Listener
 		this.bookId = 0;
 	}
 
-//    @EventHandler(priority = EventPriority.NORMAL)
-//    public void Craft(CraftItemEvent event)
-//    {
-////    	Recipe recipe = event.getRecipe();
-////    	ItemStack itemStack = recipe.getResult();
-//    }
-//    
-//    //PrepareCraftItemEvent
-//    @EventHandler(priority = EventPriority.NORMAL)
-//    public void prepareCraft(PrepareItemCraftEvent event)
-//    {
-////    	Recipe recipe = event.getRecipe();
-////    	ItemStack itemStack = recipe.getResult();
-////    	Container container = null;
-////		InventoryCrafting inventorycrafting = new InventoryCrafting(container, 1, 1);
-////		inventorycrafting.b(i, itemstack)
-//    }
-
 	/**
 	 * suppress mob spawn in a range of a settlement. 
 	 * @param event
 	 */
-	@EventHandler( priority = EventPriority.HIGHEST )
+	@EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST )
 	public void onCreatureSpawn( CreatureSpawnEvent event )
 	{
 		// Check for other plugins that have cancelled the event,
 		// egg spawns, spawner spawns, and neutral mobs.
-		// TODO: this is a bit of a mess
 		if( event.isCancelled() 
 			||	( event.getSpawnReason() == SpawnReason.EGG ) 
 			||	( event.getSpawnReason() == SpawnReason.SPAWNER ) 
@@ -141,7 +120,14 @@ public class ServerListener implements Listener
 			||	( event.getEntity() instanceof Golem ) 
 //			||	( !plugin.getMobRepellentConfiguration().shouldRepelNeutralMobs() &&( event.getEntity() instanceof Animals ) ) 
 			)
+		{
 			return;
+		}
+		if (plugin.getConfigData() == null)
+		{
+			plugin.getLog().log(Level.WARNING,"[REALMS] event onCreatureSpawn, getConfig == null ");
+			return;
+		}
 		
 		ArrayList<EntityType> mobsToRepel = plugin.getConfigData().getMobsToRepel();
 		// Now check to make sure the mob is in the list
@@ -215,11 +201,17 @@ public class ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event) 
     {
+    	if (event.getPlayer()== null) return;    	
 		if (event.getPlayer().isOp()) 
 		{
+			if (plugin.getConfigData() == null)
+			{
+				plugin.getLog().log(Level.WARNING,"[REALMS] event onPlayerJoin, getConfig == null ");
+				return;
+			}
 			
 			String msg = "[Realms] Updatecheck : "+plugin.getConfigData().getPluginName()+" Vers.: "+plugin.getConfigData().getVersion();
-//			UpdateOld.message(event.getPlayer(),msg);
+			plugin.getLog().log(Level.WARNING,msg);
 		}
 		return; // no OP => OUT
 	}
@@ -231,12 +223,13 @@ public class ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClose(InventoryCloseEvent event)
     {
-    	if (event.getPlayer() instanceof Player)
-    	{
-    		System.out.println(event.getInventory().getTitle());
-    		System.out.println(event.getPlayer().getOpenInventory().getTitle());
-    		checkSettleChest(event);
-    	}
+    	return;
+//    	if (event.getPlayer() instanceof Player)
+//    	{
+//    		System.out.println(event.getInventory().getTitle());
+//    		System.out.println(event.getPlayer().getOpenInventory().getTitle());
+//    		checkSettleChest(event);
+//    	}
     }
     
     @EventHandler(priority = EventPriority.NORMAL)
@@ -1068,7 +1061,7 @@ public class ServerListener implements Listener
 			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
 			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (regionId == building.getHsRegion())
 				{
@@ -1097,7 +1090,7 @@ public class ServerListener implements Listener
 			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
 			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (regionId == building.getHsRegion())
 				{

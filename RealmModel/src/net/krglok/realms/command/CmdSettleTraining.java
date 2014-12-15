@@ -83,7 +83,7 @@ public class CmdSettleTraining extends RealmsCommand
 					+ChatColor.YELLOW+settle.getName()
 					+ChatColor.GREEN+" Age: "+settle.getAge()
 					+":"+settle.getProductionOverview().getCycleCount());
-			for (Building building : plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuildingList().values())
+			for (Building building : plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().values())
 			{
 				
 				msg.add(" "+ConfigBasis.setStrright(building.getId(),3)

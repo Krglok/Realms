@@ -90,12 +90,8 @@ public class TickTask implements Runnable
 		
 		plugin.getRealmModel().OnTick();
 //		System.out.println("[Realms] Tick "+counter);
-//		if ((counter > buildMin) && (counter < buildMax))
-//		{
-//			System.out.println("BuildRequest");
 			plugin.onBuildRequest();
 			plugin.onCleanRequest();
-//		}
 			plugin.onSignRequest();
 		// startt night Event
 		if( (plugin.getServer().getWorlds().get(0).getTime() >= 13000 )
@@ -139,7 +135,7 @@ public class TickTask implements Runnable
 				isGateClose = false;
 				if (isProduction)
 				{
-					plugin.getRealmModel().OnTrade();
+					plugin.getRealmModel().OnTrade(); 
 					plugin.getLog().info("[Realms] Trader calculation");
 				}
 			}
@@ -197,9 +193,9 @@ public class TickTask implements Runnable
 	private void doGateClose()
 	{
 		plugin.getServer().broadcastMessage("Gates now Closed");
-		for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
+		for (Settlement settle : plugin.getRealmModel().getSettlements().values())
 		{
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (building.getBuildingType() == BuildPlanType.GATE)
 				{
@@ -240,9 +236,9 @@ public class TickTask implements Runnable
 	private void doGateOpen()
 	{
 		plugin.getServer().broadcastMessage("Gates now Open");
-		for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
+		for (Settlement settle : plugin.getRealmModel().getSettlements().values())
 		{
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (building.getBuildingType() == BuildPlanType.GATE)
 				{

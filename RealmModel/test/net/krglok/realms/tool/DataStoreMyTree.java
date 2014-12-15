@@ -1,13 +1,13 @@
 package net.krglok.realms.tool;
 
 import net.krglok.realms.core.ItemPrice;
-import net.krglok.realms.data.DataStore;
+import net.krglok.realms.data.AbstractDataStore;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 
 
-public class DataStoreMyTree extends DataStore<MyTree>
+public class DataStoreMyTree extends AbstractDataStore<MyTree>
 {
 
 	public DataStoreMyTree(String dataFolder, String fileName,

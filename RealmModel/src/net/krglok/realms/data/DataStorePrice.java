@@ -8,8 +8,9 @@ import org.bukkit.configuration.MemorySection;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 
-public class DataStorePrice extends DataStore<ItemPriceList>
+public class DataStorePrice extends AbstractDataStore<ItemPriceList>
 {
+	
 
 	public DataStorePrice(String dataFolder, String fileName,
 			String sectionName, boolean timeMessure)

@@ -110,7 +110,7 @@ public class CmdSettleAddMember extends RealmsCommand
 					members.add(playername);
 					plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
 //					sRegion.addMember(playername, perms );
-					for (Building building : settle.getBuildingList().getBuildingList().values())
+					for (Building building : settle.getBuildingList().values())
 					{
 						if ((building.getBuildingType() != BuildPlanType.HOME) 
 								&& (building.getBuildingType() != BuildPlanType.HOUSE)

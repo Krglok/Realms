@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.tool.StrongholdTools;
@@ -123,7 +124,7 @@ public class CmdSettleCheck extends RealmsCommand
 		msg.add(sRegion.getType()+" Biome "+ChatColor.YELLOW+biome);
 		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
 		{
-	    	String sName = StrongholdTools.setStrleft(region.getType(), 20);
+	    	String sName = ConfigBasis.setStrleft(region.getType(), 20);
     		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getID()+" : "+" Owner: "+region.getOwners());
 		}
 		msg.add("== Superregion List");
@@ -145,7 +146,7 @@ public class CmdSettleCheck extends RealmsCommand
 					sName = region.getType() ; //StrongholdTools.setStrleft(, 15);
 					if (SettleType.getSettleType(plugin.getConfigData().getSuperSettleTypes().get(sName)) != SettleType.NONE ) //plugin.getConfigData().getSuperSettleTypes().get(sName).equalsIgnoreCase(SettleType.SETTLE_NONE.name()))
 					{
-						sName = StrongholdTools.setStrleft(sName, 15);
+						sName = ConfigBasis.setStrleft(sName, 15);
 			    		msg.add("  "+sName+" : "+ChatColor.YELLOW+region.getName()+"  at : "+d);
 					}
 				}

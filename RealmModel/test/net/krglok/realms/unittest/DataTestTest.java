@@ -237,18 +237,18 @@ public class DataTestTest
         }
 		
 		int expected = 4; 
-		int actual = settleList.getSettlements().size();
+		int actual = settleList.size();
 
 		
 		if (expected != actual)
 		{	
 			System.out.println("===SettleList Test ====");
-			for (Settlement settle : settleList.getSettlements().values())
+			for (Settlement settle : settleList.values())
 			{
 				System.out.println(settle.getId()+":"+settle.getName());
 			}
 			ItemList items = new ItemList();
-			for (Settlement settle : settleList.getSettlements().values())
+			for (Settlement settle : settleList.values())
 			{
 				for (Item item : settle.getWarehouse().getItemList().values())
 				{
@@ -265,7 +265,7 @@ public class DataTestTest
 						+":"+ConfigBasis.setStrright(String.valueOf(itemPrices.getBasePrice(item.ItemRef())), 6)
 						); 
 			}
-			for (Settlement settle : settleList.getSettlements().values())
+			for (Settlement settle : settleList.values())
 			{
 				System.out.println(settle.getName()+"== HighPrice ==["+items.size()+"]");
 				for (Item item : settle.getWarehouse().getItemList().values())
@@ -277,7 +277,7 @@ public class DataTestTest
 								); 
 				}
 			}
-			for (Settlement settle : settleList.getSettlements().values())
+			for (Settlement settle : settleList.values())
 			{
 				System.out.println(settle.getName()+"== HighValue ==["+items.size()+"]");
 				for (Item item : settle.getWarehouse().getItemList().values())
@@ -291,7 +291,7 @@ public class DataTestTest
 					}
 				}
 			}
-			for (Settlement settle : settleList.getSettlements().values())
+			for (Settlement settle : settleList.values())
 			{
 				double sum = 0.0;
 				for (Item item : settle.getWarehouse().getItemList().values())
@@ -301,7 +301,7 @@ public class DataTestTest
 				sum = ConfigBasis.format2(sum);
 				System.out.println(settle.getName()+" Warenwert = "+ConfigBasis.setStrright(String.valueOf(sum), 12)+"");
 			}
-			for (Settlement settle : settleList.getSettlements().values())
+			for (Settlement settle : settleList.values())
 			{
 				double sum = 0.0;
 				sum = (settle.getResident().getSettlerCount() * 10.0);

@@ -115,3 +115,17 @@ CASEBOOK:
       '6': 'Seite 6            '
       '5': 'Seite 5            '
       '4': 'Seite 4            '
+  '12':
+    id: 12
+    refId: '0'
+    titel: TestBook 12
+    author: Windu
+    isEnabled: false
+    pages:
+      '3': 'Seite 3            '
+      '2': Seite 2            Es enthält ein paar Tesseiten
+      '1': Seite 1            Dies ist das Testbuch
+      '7': 'Seite 7            '
+      '6': 'Seite 6            '
+      '5': 'Seite 5            '
+      '4': 'Seite 4            '

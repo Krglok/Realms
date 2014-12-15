@@ -2,9 +2,10 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.core.MemberLevel;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.data.LogList;
 
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class OwnerListTest
 	public void testAddOwnerOwner()
 	{
 		OwnerList oList = new OwnerList();
-		Owner PCOwner = new Owner(0, MemberLevel.MEMBER_NONE, 0, "PC1", 0, false);
+		Owner PCOwner = new Owner(0, NobleLevel.COMMONER, 0, "PC1", 0, false,"");
 		oList.addOwner(PCOwner);
 		int expected = 1;
 		int actual = oList.size();
@@ -35,7 +36,7 @@ public class OwnerListTest
 	public void testGetOwner()
 	{
 		OwnerList oList = new OwnerList();
-		Owner PCOwner = new Owner(0, MemberLevel.MEMBER_NONE, 0, "PC1", 0, false);
+		Owner PCOwner = new Owner(0, NobleLevel.COMMONER, 0, "PC1", 0, false,"");
 		oList.addOwner(PCOwner);
 		int expected = 0;
 		int actual = oList.getOwner("PC1").getId();
@@ -46,11 +47,11 @@ public class OwnerListTest
 	public void testSetRealm()
 	{
 		OwnerList oList = new OwnerList();
-		Owner PCOwner = new Owner(0, MemberLevel.MEMBER_NONE, 0, "PC1", 0, false);
+		Owner PCOwner = new Owner(0, NobleLevel.COMMONER, 0, "PC1", 0, false,"");
 		oList.addOwner(PCOwner);
-		oList.getOwner("PC1").setRealmID(99);
+		oList.getOwner("PC1").setKingdomId(99);
 		int expected = 99;
-		int actual = oList.getOwner("PC1").getRealmID();
+		int actual = oList.getOwner("PC1").getKingdomId();
 		assertEquals(expected, actual);
 	}
 

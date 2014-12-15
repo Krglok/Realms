@@ -93,6 +93,7 @@ public class CmdSettleOwner extends RealmsCommand
 			{
 				playername = player.getPlayerListName();
 			}
+			
 		}
 		if (playername != "")
 		{
@@ -107,9 +108,9 @@ public class CmdSettleOwner extends RealmsCommand
 					members.add(playername);
 					plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
 					plugin.stronghold.getRegionManager().setOwner(sRegion, playername);
-					settle.setOwner(playername);
+					settle.setOwnerId(playername);
 //					sRegion.addMember(playername, perms );
-					for (Building building : settle.getBuildingList().getBuildingList().values())
+					for (Building building : settle.getBuildingList().values())
 					{
 						if ((building.getBuildingType() != BuildPlanType.HOME) 
 								&& (building.getBuildingType() != BuildPlanType.HOUSE)

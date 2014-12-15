@@ -182,7 +182,7 @@ public class CmdRealmsSettler extends RealmsCommand
 			    	msg.add("");
 					break;
 				case "WOODCUTTER":
-					plugin.npcManager.createNPC("Farmer", NPCType.ARTISAN, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
+					plugin.npcManager.createNPC("Farmer", NPCType.CRAFTSMAN, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
 			    	msg.add(ChatColor.GREEN+"NPC Citizen");
 			    	msg.add("");
 					break;

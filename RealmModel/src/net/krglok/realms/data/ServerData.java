@@ -218,9 +218,12 @@ public class ServerData implements ServerInterface
 		}
 		if (plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
 		{
-			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getOutput())
+			if (plugin.stronghold.getRegionManager().getRegionType(regionType).getOutput() != null)
 			{
-				rList.addItem(item.getData().getItemType().name(), item.getAmount());
+				for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getOutput())
+				{
+					rList.addItem(item.getData().getItemType().name(), item.getAmount());
+				}
 			}
 	//			System.out.println("Out: "+regionType+":"+rList.size());
 		}

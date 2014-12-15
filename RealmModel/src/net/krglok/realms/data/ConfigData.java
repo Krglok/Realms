@@ -200,7 +200,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private void initSuperSettleTypes()
 	{
 		superSettleTypes.put("Mine", SettleType.HAMLET.name());
-		superSettleTypes.put("Burg", SettleType.CASTLE.name());
+		superSettleTypes.put("Burg", SettleType.FORTRESS.name());
 		superSettleTypes.put("Siedlung", SettleType.HAMLET.name());
 		superSettleTypes.put("Dorf", SettleType.TOWN.name());
 		superSettleTypes.put("Stadt", SettleType.CITY.name());

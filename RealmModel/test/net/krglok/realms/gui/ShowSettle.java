@@ -354,9 +354,9 @@ public class ShowSettle extends JDialog
 	
 	private void doBuildingList()
 	{
-		Object[][] dataRows = new Object[settle.getBuildingList().getBuildingList().size()][4];
+		Object[][] dataRows = new Object[settle.getBuildingList().size()][4];
 		int index = 0;
-		for (Building building : settle.getBuildingList().getBuildingList().values())
+		for (Building building : settle.getBuildingList().values())
 		{
 //			if (index <100)
 			{

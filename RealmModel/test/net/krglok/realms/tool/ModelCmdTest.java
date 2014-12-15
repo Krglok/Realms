@@ -241,7 +241,7 @@ public class ModelCmdTest
 			System.out.println("ProdQueue    : "+rModel.getProductionQueue().size());
 			System.out.println("SellOrders   : "+rModel.getTradeMarket().size());
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
-			for (Settlement settle : rModel.getSettlements().getSettlements().values())
+			for (Settlement settle : rModel.getSettlements().values())
 			{
 				makeSettleAnalysis(settle, 1);
 				getReqList(settle);

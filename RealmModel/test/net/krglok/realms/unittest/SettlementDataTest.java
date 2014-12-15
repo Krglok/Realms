@@ -1,7 +1,5 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
@@ -15,7 +13,6 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
@@ -269,7 +266,7 @@ public class SettlementDataTest
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
 		
-		ItemPriceList priceList = readPriceData();
+		ItemPriceList priceList = testData.getPriceList();
 
 		File DataFile = new File(path, "Realms");
 		SettlementData sData = new SettlementData(path);
@@ -295,7 +292,7 @@ public class SettlementDataTest
 		System.out.print(" |"+"Gold");
 		System.out.print(" |"+"Emer.");
 		System.out.println(" ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -319,7 +316,7 @@ public class SettlementDataTest
 		System.out.print(" | "+" Factor");
 		System.out.println(" ");
 		
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -337,7 +334,7 @@ public class SettlementDataTest
 		System.out.print(" | "+"Amount ");
 		System.out.print(" | "+"  Value");
 		System.out.println(" ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -354,7 +351,7 @@ public class SettlementDataTest
 		System.out.print(" | "+"Amount ");
 		System.out.print(" | "+"  Value");
 		System.out.println(" ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -363,14 +360,14 @@ public class SettlementDataTest
 			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf((int)(settle.getWarehouse().getItemList().getValue(getHighValuePrice(settle, priceList))*priceList.getBasePrice(getHighValuePrice(settle, priceList)))),7));
 			System.out.println(" ");
 		}
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			sellValuePrice(settle, priceList);
 		}
 
 		System.out.println("  ");
 		System.out.println("Warehouse Tools ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -389,7 +386,7 @@ public class SettlementDataTest
 			}
 		}
 		
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			sellValuePrice(settle, priceList);
 		}
@@ -397,7 +394,7 @@ public class SettlementDataTest
 
 		System.out.println("  ");
 		System.out.println("Buy Request ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -416,7 +413,7 @@ public class SettlementDataTest
 			}
 		}
 
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			sData.writeSettledata(settle);
 		}

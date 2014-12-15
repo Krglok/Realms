@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * <pre>
  * Der Trader ist kein Gebaeude, sondern ein Manager der Handel abwickelt. 
- * Das entsprechnde Gebaeude ist unter buildungs zu finden.
+ * Das entsprechende Gebaeude ist unter buildungs zu finden.
  * Der Trader wickelt die Handelsaktionen ab.
  * Hierzu benutzt er Karawanen. Jede Karawane hat einen Esel zum Transport der Warenkiste
  * Jeder Trader hat 5 Handelskisten. Fuer jede Handelskiste kann eine Handelstransaktion ausgeführt werden . 
@@ -14,6 +14,9 @@ import java.io.Serializable;
  * tradeOrders , sind die Transporte mit den Karawanen
  * buyOrders , sind die Einkaufsaktionen des Settlement
  * sellOrders, sind die Verkaufsaktionen des Settlements
+ * routeOrder, sind die regelmässigen Warentransporte zwischen zwei settlement des gleichen Owner
+ * 
+ * Hinweis: das building Trader erhoeht nur die Anzahl der Karawanen
  * </pre>
  * @author Windu
  *
@@ -31,6 +34,7 @@ public class Trader
 	private boolean isEnabled;
 	private boolean isActive;
 	private TradeOrderList buyOrders;
+	private RouteOrderList routeOrders;
 	private int orderMax;
 	private int orderCount;
 	
@@ -45,7 +49,7 @@ public class Trader
 		isActive  = false;
 		orderMax = 20;
 		buyOrders = new TradeOrderList();
-//		sellOrders = new TradeOrderList();
+		routeOrders = new RouteOrderList();
 		
 	}
 
@@ -97,7 +101,6 @@ public class Trader
 	{
 		this.caravanMax = caravanMax;
 	}
-
 
 
 	public int getCaravanCount()
@@ -205,6 +208,20 @@ public class Trader
 	public void setOrderCount(int orderCount)
 	{
 		this.orderCount = orderCount;
+	}
+
+
+
+	public RouteOrderList getRouteOrders()
+	{
+		return routeOrders;
+	}
+
+
+
+	public void setRouteOrders(RouteOrderList routeOrders)
+	{
+		this.routeOrders = routeOrders;
 	}
 
 
@@ -343,6 +360,15 @@ public class Trader
 		
 	}
 	
+	/**
+	 * erstellt eine SellOrder
+	 * prueft ob genug Ware im Lager ist.
+	 * und startet die TradeMarketOrder d.h. schickt die Ware los.
+	 * 
+	 * @param tradeMarket
+	 * @param settle
+	 * @param sellOrder
+	 */
 	public void makeSellOrder(TradeMarket tradeMarket, Settlement settle, TradeOrder sellOrder)
 	{
 		if (settle.getWarehouse().getItemList().getValue(sellOrder.ItemRef())>= sellOrder.value())
@@ -355,8 +381,124 @@ public class Trader
 		}
 	}
 
+	/**
+	 * erstellt eine BuyOrder und startet sie
+	 * die BuyOrder laufen nach einer bestimmten Zeit ab und werden geloescht.
+	 * 
+	 * @param buyOrder
+	 */
 	public void makeBuyOrder(TradeOrder buyOrder)
 	{
 		buyOrders.addTradeOrder(buyOrder);
+	}
+	
+	
+	/**
+	 * prueft ob eine routeOrder erstellt werden kann
+	 * @param settle
+	 * @param settlements
+	 */
+	public void checkRoutes(TradeMarket tradeMarket, TradeTransport tradeTransport, Settlement settle,SettlementList settlements)
+	{
+		// es wird eine zusätzliche Caravan erzeugt, damit der TRansport nicht vollstaendig unterdrueckt wird 
+		if (orderCount <= caravanMax)
+		{
+			for (RouteOrder rOrder : routeOrders.values())
+			{
+				if (settle.getWarehouse().getItemList().containsKey(rOrder.ItemRef()))
+				{
+					if (settle.getWarehouse().getItemList().getValue(rOrder.ItemRef()) >= rOrder.value())
+					{
+						if (settlements.containsKey(rOrder.getTargetId()))
+						{
+//							Settlement target = settlements.getSettlement(rOrder.getTargetId());
+							makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, settlements);
+						}
+					}
+				}
+			}
+		}
+		
+	}
+
+	/**
+	 * calculate the travel time in ticks for route transport order
+	 * 
+	 * @param distance
+	 * @return
+	 */
+	public static long getRouteDelay(double distance)
+	{
+		if (distance > (ConfigBasis.DISTANCE_1_DAY / 2) )
+		{
+			long way = (long) (distance / ConfigBasis.DISTANCE_1_DAY * ConfigBasis.GameDay);
+			return way; 
+		} else
+		{
+			
+//			return ConfigBasis.GameDay/2;
+			return ConfigBasis.GameDay / 24 / 60 * (int) distance;
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param tradeMarket
+	 * @param rOrder
+	 * @param settle
+	 * @param settlements
+	 */
+	public void makeRouteOrder(TradeMarket tradeMarket, RouteOrder rOrder,  TradeTransport transport, Settlement settle, SettlementList settlements)
+	{
+		Settlement targetSettle = settlements.getSettlement(rOrder.getTargetId());
+		
+		double distance = settle.getPosition().distance2D(targetSettle.getPosition());
+
+		// setze next free MarketNumber
+		String itemRef = rOrder.ItemRef();
+//		long tickCount = 0;
+//		TradeStatus status = TradeStatus.STARTED;
+		String targetWorld = targetSettle.getPosition().getWorld();
+//		int targetId = rOrder.getTargetId();
+
+		int amount = rOrder.value();
+		double cost = 0.0 ;
+
+		if (amount > 0)
+		{
+			cost = amount * rOrder.getBasePrice();
+			long travelTime = getTransportDelay(distance);
+			if (targetWorld.equalsIgnoreCase(settle.getPosition().getWorld()) == false)
+			{
+				travelTime = travelTime + (10 * ConfigBasis.GameDay);
+			}
+			if (settle.getBank().getKonto() >= cost)
+			{
+				if (caravanCount < caravanMax)
+				{
+					TradeMarketOrder tto = new TradeMarketOrder(
+							settle.getId(),			// ID des Absenders
+							0 ,				// Id der sellOrder
+							TradeType.TRANSPORT, 
+							rOrder.ItemRef(), 		// Ware
+							amount,						// gepkaufte Menge 
+							rOrder.getBasePrice(),  		// Kaufpreis
+							travelTime, // Laufzeit des Transports
+							0, 							// abgelaufene Transportzeit
+							TradeStatus.STARTED, 		// automatischer Start des Transport
+							targetWorld,				// ZielWelt
+							targetSettle.getId()					// ID des Ziel Settlement
+							);			
+					transport.addOrder(tto);
+					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() +1);
+					settle.getWarehouse().withdrawItemValue(itemRef, amount);
+					targetSettle.getBank().withdrawKonto(cost, "Trader "+settle.getId(),settle.getId());
+//					rOrder.setStatus(TradeStatus.WAIT);
+					settle.getLogList().addOrder("TRANSPORT", settle.getId(), targetSettle.getId(), rOrder.ItemRef(), amount, rOrder.getBasePrice(), travelTime, "Route");
+				}
+			}	
+		}
+		
 	}
 }

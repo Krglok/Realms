@@ -39,7 +39,7 @@ public class BuildPlanTools
         	reagents = reagents +""+sName+" ";
         	summe.put(sName, new Item(sName,0));
         }
-        System.out.println(StrongholdTools.setStrleft(" ",15)+reagents);
+        System.out.println(ConfigBasis.setStrleft(" ",15)+reagents);
         for (String sRegionFile : sList) 
         {
 	            for (String itemRef : reagent.keySet())
@@ -62,11 +62,11 @@ public class BuildPlanTools
 		        	for (int i = 0; i < (sName.length()-1); i++)
 					{
 //						sValue = sValue + " ";
-						sValue = StrongholdTools.setStrleft(sValue,sName.length());
+						sValue = ConfigBasis.setStrleft(sValue,sName.length());
 					}
 		        	reagents = reagents +""+sValue+" ";
 		        }
-		        System.out.println(StrongholdTools.setStrleft(sRegionFile.replace(".yml", ""),15) + reagents );
+		        System.out.println(ConfigBasis.setStrleft(sRegionFile.replace(".yml", ""),15) + reagents );
 		        
         }
         reagents = "";
@@ -78,11 +78,11 @@ public class BuildPlanTools
         	for (int i = 0; i < (sName.length()-1); i++)
 			{
 //				sValue = sValue + " ";
-				sValue = StrongholdTools.setStrleft(sValue,sName.length());
+				sValue = ConfigBasis.setStrleft(sValue,sName.length());
 			}
         	reagents = reagents +""+sValue+" ";
         }
-        System.out.println(StrongholdTools.setStrleft( "  Summe : ",15) + reagents );
+        System.out.println(ConfigBasis.setStrleft( "  Summe : ",15) + reagents );
 		
 	}
 	

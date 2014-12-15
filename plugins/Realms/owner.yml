@@ -1,0 +1,37 @@
+OWNER:
+  '4':
+    id: 4
+    uuid: ''
+    nobleLevel: COMMONER
+    commonLevel: MAYOR
+    capital: 0
+    playerName: sebbra
+    realmId: 0
+    isNPC: false
+  '3':
+    id: 3
+    uuid: de82315b-58b1-4ad6-becc-2a96ba2faf32
+    nobleLevel: COMMONER
+    commonLevel: COUNCILOR
+    capital: 0
+    playerName: Krglok
+    realmId: 0
+    isNPC: false
+  '2':
+    id: 2
+    uuid: 51bde8b9-bad8-4461-a375-7b0438c98271
+    nobleLevel: COMMONER
+    commonLevel: SENATOR
+    capital: 0
+    playerName: drAdmin
+    realmId: 0
+    isNPC: false
+  '1':
+    id: 1
+    uuid: NPC1
+    nobleLevel: COMMONER
+    commonLevel: COUNCILOR
+    capital: 0
+    playerName: NPC1
+    realmId: 0
+    isNPC: true

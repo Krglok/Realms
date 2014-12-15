@@ -282,7 +282,7 @@ public class SettlementReferenceTest
 		ArrayList<RegionData> regions = StrongholdTools.getRegionData(path);
 		System.out.println("  ");
 		System.out.println("BuildingList Settlement ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.println("-------------------------------------------------");
 			System.out.print(settle.getId());
@@ -295,7 +295,7 @@ public class SettlementReferenceTest
 
 			System.out.print("  |"+"Building/Region ");
 			System.out.println(" ");
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (building.getBuildingType() == BuildPlanType.WHEAT)
 				{
@@ -322,7 +322,7 @@ public class SettlementReferenceTest
 					}
 				}
 			}
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (building.getBuildingType() != BuildPlanType.WHEAT)
 				{
@@ -382,7 +382,7 @@ public class SettlementReferenceTest
 		System.out.print(" |"+"Gold");
 		System.out.print(" |"+"Emer.");
 		System.out.println(" ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -406,7 +406,7 @@ public class SettlementReferenceTest
 		System.out.print(" | "+" Factor");
 		System.out.println(" ");
 		
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -424,7 +424,7 @@ public class SettlementReferenceTest
 		System.out.print(" | "+"Amount ");
 		System.out.print(" | "+"  Value");
 		System.out.println(" ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -441,7 +441,7 @@ public class SettlementReferenceTest
 		System.out.print(" | "+"Amount ");
 		System.out.print(" | "+"  Value");
 		System.out.println(" ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -450,14 +450,14 @@ public class SettlementReferenceTest
 			System.out.print(" | "+ConfigBasis.setStrright(String.valueOf((int)(settle.getWarehouse().getItemList().getValue(getHighValuePrice(settle, priceList))*priceList.getBasePrice(getHighValuePrice(settle, priceList)))),7));
 			System.out.println(" ");
 		}
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			sellValuePrice(settle, priceList);
 		}
 
 		System.out.println("  ");
 		System.out.println("Warehouse Tools ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));
@@ -476,7 +476,7 @@ public class SettlementReferenceTest
 			}
 		}
 		
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			sellValuePrice(settle, priceList);
 		}
@@ -509,7 +509,7 @@ public class SettlementReferenceTest
 
 		System.out.println("  ");
 		System.out.println("Buy Request ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));

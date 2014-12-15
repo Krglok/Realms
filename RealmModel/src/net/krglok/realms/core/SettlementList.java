@@ -15,10 +15,20 @@ import org.bukkit.block.Biome;
  * @author oduda
  * </pre>
  */
-public class SettlementList
+public class SettlementList extends HashMap<Integer,Settlement>
 {
 
-	private Map<Integer,Settlement> settlementList;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8788396743935180527L;
+	
+//	private Map<Integer,Settlement> settlementList;
+
+	public SettlementList()
+	{
+		
+	}
 	
 
 	/**
@@ -31,46 +41,31 @@ public class SettlementList
 		{
 			Settlement.initCounter(initCounter);
 		}
-		setSettlements(new HashMap<Integer,Settlement>());
 	}
 
-	/**
-	 * 
-	 * @return settlements <id, Settlement>
-	 */
-	public Map<Integer,Settlement> getSettlements()
-	{
-		return settlementList;
-	}
 
 	/**
-	 * replace settlementList
-	 * @param settlements <id, Settlement>
-	 */
-	public void setSettlements(Map<Integer,Settlement> settlements)
-	{
-		this.settlementList = settlements;
-	}
-
-	/**
-	 * add list of newSettlements to settlementList
+	 * add list of Settlements to settlementList
 	 * caution,  overwrite existing id !
 	 * @param newList 
 	 */
 	public void addSettlements(SettlementList newList)
 	{
-		for (Settlement settlement : newList.getSettlements().values())
+		for (Settlement settlement : newList.values())
 		{
-			addSettlement(settlement);
-//			settlementList.put(String.valueOf(settlement.getId()), settlement);
-//			settlement.initSettlement();
-//			setOwner(settlement.getId(), settlement.getOwner());
+			put(settlement.getId(), settlement);
 		}
 	}
 	
+	
+	/**
+	 * 
+	 * @param ref
+	 * @return
+	 */
 	public int checkId(int ref)
 	{
-		while (settlementList.containsKey(ref))
+		while (this.containsKey(ref))
 		{
 			ref++;
 		}
@@ -81,39 +76,23 @@ public class SettlementList
 	/**
 	 * add settlement to the list
 	 * set capital for owner if necessary
+	 * set new id of the settlement
+	 * 
 	 * @param settlement
 	 */
 	public void addSettlement(Settlement settlement)
 	{
 		settlement.setId(checkId(settlement.getId()));
-		settlementList.put(settlement.getId(),settlement);
+		this.put(settlement.getId(),settlement);
 		settlement.initSettlement();
-		setOwner(settlement.getId(), settlement.getOwner());
+//		settlement.setOwner(settlement.getOwner());
 //		setOwnerCapital(settlement.getOwner(), settlement.getId());
 	}
 	
-	/**
-	 * set owner of the settlement
-	 * @param id
-	 * @param owner
-	 */
-	public void setOwner(int id, String owner)
-	{
-		Settlement settlement = settlementList.get(id);
-		settlement.setOwner(owner);
-		settlementList.put(id ,settlement);
-	}
-
-	public Settlement setOwner(Settlement settlement, String owner)
-	{
-		settlement.setOwner(owner);
-		settlementList.put(settlement.getId() ,settlement);
-		return settlement;
-	}
 	
 	public int count()
 	{
-		return settlementList.size();
+		return this.size();
 	}
 	
 	/**
@@ -123,7 +102,7 @@ public class SettlementList
 	 */
 	public Boolean containsName(String settleName)
 	{
-		for (Settlement settlement : settlementList.values())
+		for (Settlement settlement : this.values())
 		{
 			if (settlement.getName().equals(settleName))
 			{
@@ -137,7 +116,7 @@ public class SettlementList
 
 	public boolean containsID(int settleID)
 	{
-		if (settlementList.containsKey(settleID))
+		if (this.containsKey(settleID))
 		{
 			return true;
 		}
@@ -147,7 +126,7 @@ public class SettlementList
 	
 	public Settlement findName(String settleName)
 	{
-		for (Settlement settlement : settlementList.values())
+		for (Settlement settlement : this.values())
 		{
 			if (settlement.getName().equals(settleName))
 			{
@@ -166,7 +145,7 @@ public class SettlementList
 	 */
 	public Settlement getSettlement(int id)
 	{
-		return settlementList.get(id); 
+		return this.get(id); 
 	}
 	
 	
@@ -272,6 +251,35 @@ public class SettlementList
 		}
 		return settleList;
 	}
+
+	/**
+	 * remove settlement from List , do not destroy the settlement !
+	 * 
+	 * @param settleId
+	 */
+	public void removeSettlement(int settleId)
+	{
+		if (containsID(settleId))
+		{
+			this.remove(settleId);
+		}
+	}
+	
+	
+	public SettlementList getSubList(Owner owner)
+	{
+		SettlementList subList = new SettlementList();
+		for (Settlement settle : this.values())
+		{
+			if (settle.getOwner().getUuid().equals(owner.getUuid()))
+			{
+				subList.put(settle.getId(), settle);
+			}
+		}
+		return subList;
+	}
+	
+	
 	
 //	public void produce()
 //	{

@@ -247,7 +247,7 @@ public class RealmModelTest
 			System.out.println("Settler Count  : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerCount());
 			System.out.println("OnProduction Queue: "+rModel.getProductionQueue().size());
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
-			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
+			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().values())
 			{
 				if (building.getBuildingType() != BuildPlanType.HOME)
 				{
@@ -336,7 +336,7 @@ public class RealmModelTest
 			System.out.println("CommandQueue : "+rModel.getcommandQueue().size());
 			System.out.println("ProdQueue    : "+rModel.getProductionQueue().size());
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
-			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildingList().values())
+			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().values())
 			{
 				if (building.getBuildingType() != BuildPlanType.HOME)
 				{

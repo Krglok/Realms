@@ -1,0 +1,19 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+radius: 220
+requirements:
+- PALACE.1
+central-structure: KEEP
+money-requirement: 500000.0
+money-output-daily: 0.0
+max-power: 1500
+daily-power-increase: 20
+charter: 2
+child-super-regions: 
+- Hamlet
+exp: 5000

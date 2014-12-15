@@ -127,7 +127,7 @@ public class BuildingListTest
 		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
 		for (int i = 0; i < 10; i++)
 		{
-			bList.getBuildingList().put(String.valueOf(i),building);
+			bList.put(String.valueOf(i),building);
 		}
 		
 		int expected = 10;

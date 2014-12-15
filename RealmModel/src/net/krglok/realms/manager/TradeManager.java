@@ -13,9 +13,10 @@ import net.krglok.realms.model.McmdSellOrder;
 import net.krglok.realms.model.RealmModel;
 
 /**
- * the trade mnager realize the trading task for the settlement
+ * the trade manager realize the trading task for the settlement
  * - sell order
  * - buy order
+ * - route order
  * the manager can interact with the world and send commands and requests to other managers
  * the trade manager take trading requests from the settlemanager 
  * 
@@ -174,8 +175,16 @@ public class TradeManager
 		
 	}
 	
+	/**
+	 * handle the trading order and generate new orders if needed
+	 * 
+	 * @param rModel
+	 * @param settle
+	 */
 	public void run(RealmModel rModel, Settlement settle)
 	{
+		// check for RouteOrders
+		settle.getTrader().checkRoutes(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
 		// check for BuyOrders to fulfill
 		settle.getTrader().checkMarket(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
 		// check for Transport to fulfill

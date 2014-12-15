@@ -34,6 +34,8 @@ import org.bukkit.block.Biome;
  * make trading and train units for military
  * the production will be started from an external task, every ingame day 
  * there are some Managers incorporated to give the settlement the possibility to ruled by a NPC
+ * 
+ * hint: the settle dont have a kingdomId , only the owner has a kingdomId 
  * </pre>
  * @author Windu
  *
@@ -58,7 +60,8 @@ public class Settlement //implements Serializable
 	private SettleType settleType = SettleType.NONE;
 	private LocationData position;
 	private String name;
-	private String owner;
+	private String ownerId;
+	private Owner owner;
 	private Boolean isCapital;
 	private Barrack barrack ;
 	private Warehouse warehouse ;
@@ -109,7 +112,7 @@ public class Settlement //implements Serializable
 		settleType 	= SettleType.NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
-		owner 		= "";
+		ownerId 		= "";
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		barrack.setPowerMax(defaultPowerMax(settleType));
@@ -152,7 +155,7 @@ public class Settlement //implements Serializable
 		settleType 	= SettleType.NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
-		owner 		= "";
+		ownerId 		= "";
 		isCapital	= false;
 		this.logList = logList;
 		barrack		= new Barrack(defaultUnitMax(settleType));
@@ -195,7 +198,7 @@ public class Settlement //implements Serializable
 		settleType 	= SettleType.NONE;
 		name		= NEW_SETTLEMENT;
 		this.position 	= position;
-		this.owner = owner;
+		this.ownerId = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		barrack.setPowerMax(defaultPowerMax(settleType));
@@ -240,7 +243,7 @@ public class Settlement //implements Serializable
 		this.settleType = settleType;
 		this.name		= name;
 		this.position 	= position;
-		this.owner = owner;
+		this.ownerId = owner;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		barrack.setPowerMax(defaultPowerMax(settleType));
@@ -297,7 +300,7 @@ public class Settlement //implements Serializable
 		this.age        = age;
 		this.settleType = settleType;
 		this.name = name;
-		this.owner = owner;
+		this.ownerId = owner;
 		this.isCapital = isCapital;
 		this.position = position;
 		this.barrack = barrack;
@@ -373,7 +376,7 @@ public class Settlement //implements Serializable
 		case TOWN   : return 10 * ConfigBasis.CHEST_STORE;
 		case CITY   : return 4 * ConfigBasis.CHEST_STORE;
 		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
-		case CASTLE : return 4 * ConfigBasis.CHEST_STORE;
+		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
 		default :
 			return 0;
 		}
@@ -392,7 +395,7 @@ public class Settlement //implements Serializable
 		case TOWN   : return 1 * ConfigBasis.HALL_Settler*2;
 		case CITY   : return 2 * ConfigBasis.HALL_Settler*3;
 		case METROPOLIS  : return 4 * ConfigBasis.HALL_Settler*4;
-		case CASTLE : return 4 * ConfigBasis.HALL_Settler;
+		case FORTRESS : return 4 * ConfigBasis.HALL_Settler;
 		default :
 			return ConfigBasis.HALL_Settler;
 		}
@@ -406,7 +409,7 @@ public class Settlement //implements Serializable
 		case TOWN   : return ConfigBasis.TOWN_Power;
 		case CITY   : return ConfigBasis.CITY_Power;
 		case METROPOLIS  : return ConfigBasis.METROPOL_Power;
-		case CASTLE : return ConfigBasis.CASTLE_Power;
+		case FORTRESS : return ConfigBasis.CASTLE_Power;
 		default :
 			return 100;
 		}
@@ -458,14 +461,14 @@ public class Settlement //implements Serializable
 		this.name = name;
 	}
 
-	public String getOwner()
+	public String getOwnerId()
 	{
-		return owner;
+		return ownerId;
 	}
 
-	public void setOwner(String owner)
+	public void setOwnerId(String ownerId)
 	{
-		this.owner = owner;
+		this.ownerId = ownerId;
 	}
 
 	public Boolean getIsCapital()
@@ -560,7 +563,7 @@ public class Settlement //implements Serializable
 	 */
 	public void addBuildingList(BuildingList newBuildingList)
 	{
-		for (Building b : newBuildingList.getBuildingList().values())
+		for (Building b : newBuildingList.values())
 		{
 			buildingList.addBuilding(b);
 		}
@@ -612,7 +615,7 @@ public class Settlement //implements Serializable
 		int value = 0;
 		if (buildingList != null)
 		{
-			for (Building b : buildingList.getBuildingList().values())
+			for (Building b : buildingList.values())
 			{
 				switch (b.getBuildingType()) 
 				{
@@ -1103,7 +1106,7 @@ public class Settlement //implements Serializable
 	public void getTaxe(ServerInterface server)
 	{
 		double taxSum = 0;
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			if (building.isEnabled())
 			{
@@ -1122,7 +1125,7 @@ public class Settlement //implements Serializable
 	public void setSettlerMax()
 	{
 		int settlerMax = 5;
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			if (building.isEnabled())
 			{
@@ -1141,7 +1144,7 @@ public class Settlement //implements Serializable
 		int tavernNeeded = (resident.getSettlerCount() / ConfigBasis.ENTERTAIN_SETTLERS);
 		int tavernCount = 0;
 		double factor = 0.0;
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			if (building.isEnabled())
 			{
@@ -1176,7 +1179,7 @@ public class Settlement //implements Serializable
 		SettlerFactor = resident.calcResidentHappiness(SettlerFactor); //resident.getHappiness());
 		FoodFactor = consumeFood(); //SettlerFactor);
 		sumDif = EntertainFactor + SettlerFactor + FoodFactor;
-		logList.addHappiness("CYCLE", getId(), sumDif, EntertainFactor, SettlerFactor, FoodFactor, "CraftManager", getAge());
+//		logList.addHappiness("CYCLE", getId(), sumDif, EntertainFactor, SettlerFactor, FoodFactor, "CraftManager", getAge());
 		resident.setHappiness(sumDif);
 		resident.settlerCalculation();
 //		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
@@ -1384,7 +1387,7 @@ public class Settlement //implements Serializable
 	public void setWorkerNeeded()
 	{
 		int workerSum = 0;
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			if (building.isEnabled())
 			{
@@ -1446,7 +1449,7 @@ public class Settlement //implements Serializable
 	public int setWorkerToBuilding(int workerSum)
 	{
 		int workerCount = 0;
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			if ((building.isEnabled()) &&(building.getBuildingType() == BuildPlanType.WHEAT))
 			{
@@ -1460,7 +1463,7 @@ public class Settlement //implements Serializable
 				}
 			}
 		}
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			if ((building.isEnabled()) &&((building.getBuildingType() != BuildPlanType.WHEAT)))
 			{
@@ -1481,7 +1484,7 @@ public class Settlement //implements Serializable
 	
 	public void checkBuildingsEnabled(ServerInterface server)
 	{
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			if (building.getHsRegionType() != null)
 			{	
@@ -1556,7 +1559,7 @@ public class Settlement //implements Serializable
 		expandTreasureList(getBiome(), server);
 //		checkDecay();
 		checkFoundItems(server);
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			// setze defaultBiome auf Settlement Biome 
 			if (building.getBiome() == null)
@@ -1743,7 +1746,7 @@ public class Settlement //implements Serializable
 	 */
 	public void doUnitTrain(UnitFactory unitFactory)
 	{
-		for (Building building : buildingList.getBuildingList().values())
+		for (Building building : buildingList.values())
 		{
 			// unit production
 			if (BuildPlanType.getBuildGroup(building.getBuildingType())== 5)
@@ -1851,6 +1854,20 @@ public class Settlement //implements Serializable
 	public void setSignList(SignPosList signList) 
 	{
 		this.signList = signList;
+	}
+
+	/**
+	 * @param owner the owner to set
+	 */
+	public void setOwner(Owner owner)
+	{
+		this.owner = owner;
+		this.setOwnerId(owner.getPlayerName());
+	}
+
+	public Owner getOwner()
+	{
+		return owner;
 	}
 
 }

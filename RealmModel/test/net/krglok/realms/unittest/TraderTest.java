@@ -13,6 +13,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.core.RouteOrder;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
@@ -270,8 +271,6 @@ public class TraderTest
 
 //		target.getTrader().getBuyOrders().put(3, new TradeOrder(3, TradeType.BUY, "WOOD", 64 , 0.5 , ConfigBasis.GameDay, 0L, TradeStatus.STARTED, "",0));
 
-		
-
 		TradeStatus expected = TradeStatus.NONE;
 		TradeStatus actual = TradeStatus.DECLINE;
 		
@@ -298,6 +297,79 @@ public class TraderTest
 		
 			
 		}
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testcheckRouteOrder()
+	{
+		Settlement sender = createSettlement();
+		Settlement target = createSettlement();
+		Settlement second = createSettlement();
+		sender.setId(0);
+		target.setId(1);
+		second.setId(2);
+		target.getBank().depositKonto(10000.0, "Admin",target.getId());
+		sender.getBank().depositKonto(10000.0, "Admin",sender.getId());
+		second.getBank().depositKonto(10000.0, "Admin",second.getId());
+		
+		SettlementList settlements = new SettlementList(0);
+		settlements.addSettlement(sender);
+		settlements.addSettlement(target);
+		settlements.addSettlement(second);
+		sender.setPosition(new LocationData("SteamHaven", -469.51819223615206, 72, -1236.6592548015324));
+		target.setPosition(new LocationData("SteamHaven", -121.6704984377348, 103, -1320.300000011921));
+		second.setPosition(new LocationData("SteamHaven", 121.6704984377348, 103, -132.300000011921));
+
+		sender.getWarehouse().depositItemValue("WOOD", 1000);
+		sender.getWarehouse().depositItemValue("WHEAT", 1000);
+		sender.getWarehouse().depositItemValue("LOG", 1000);
+		
+		second.getWarehouse().depositItemValue("WOOD", 1000);
+		second.getWarehouse().depositItemValue("WHEAT", 1000);
+		second.getWarehouse().depositItemValue("LOG", 1000);
+
+		TradeTransport tradeTransport = new TradeTransport();
+		TradeMarket tradeMarket = new TradeMarket();
+		int orderId = 1;
+		String itemRef = "WOOD";
+		RouteOrder routeOrder = new RouteOrder(1, target.getId(), itemRef, 100, 0.1, true);
+		sender.getTrader().getRouteOrders().addRouteOrder(routeOrder);
+		sender.getTrader().checkRoutes(tradeMarket, tradeTransport, sender, settlements);
+		
+		TradeStatus expected = TradeStatus.NONE;
+		TradeStatus actual = tradeTransport.get(orderId).getStatus();
+		isOutput = true;
+		if (isOutput)
+		{
+			System.out.println("Expected: "+expected+" | "+"Actual: "+actual);
+			System.out.println("---makeRouteOrder----["+sender.getTrader().getRouteOrders().size()+"]");
+			System.out.println("---Transport     ----["+tradeTransport.size()+"]");
+
+			for (int i = 0; i < 1195; i++)
+			{
+				tradeTransport.runTick();
+			}
+			
+			for (int i = 0; i < 10; i++)
+			{
+				tradeTransport.runTick();
+				sender.getTrader().checkRoutes(tradeMarket, tradeTransport, sender, settlements);
+				System.out.println("| "+"Status:   "+tradeTransport.get(orderId).getStatus()+" | "+tradeTransport.get(orderId).getTickCount()+" : "+tradeTransport.get(orderId).getMaxTicks());
+				tradeTransport.fullfillTarget(target);
+				tradeTransport.fullfillSender(sender);
+				if (tradeTransport.get(orderId).getStatus() == TradeStatus.NONE)
+				{
+					System.out.println("---makeRouteOrder----["+sender.getTrader().getRouteOrders().size()+"]");
+					System.out.println("---Transport     ----["+tradeTransport.size()+"]");
+					System.out.println("| "+"Fullfill: "+tradeTransport.get(orderId).getStatus()+" | "+tradeTransport.get(orderId).getTickCount()+" : "+tradeTransport.get(orderId).getMaxTicks());
+					System.out.println("| "+"Sender  : "+sender.getWarehouse().getItemList().getValue(itemRef));
+					System.out.println("| "+"Target  : "+target.getWarehouse().getItemList().getValue(itemRef));
+					return;
+				}
+			}
+		}
+		actual = tradeTransport.get(orderId).getStatus();
 		assertEquals(expected, actual);
 	}
 

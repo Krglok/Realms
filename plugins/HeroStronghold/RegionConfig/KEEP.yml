@@ -15,15 +15,21 @@ requirements:
 - CHEST.12
 - WALL_SIGN.1
 - COBBLESTONE.300
+- NETHERRACK.1
 - WOOD.196
-- LOG.50
+- LOG.25
 - STONE.100
 reagents:
 - GOLD_NUGGET.20
-upkeep: []
+- IRON_INGOT.20
+upkeep: 
+- BREAD.5
+- COOKED_BEEF.5
+- LOG.5
 upkeep-chance: 0.001
 output: []
-money-requirement: 20000.0
-upkeep-money-output: -10.0
-daily.power-increase: 20.0
-description: This is a feud/lehen building. Is required for a lehn level 1
+money-requirement: 10000.0
+upkeep-money-output: 0.0
+daily.power-increase: 10.0
+power-drain: 0.0
+description: This is a feudal/lehen building. Is required for a noble level 1 . Hold noble people

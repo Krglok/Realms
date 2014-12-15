@@ -405,9 +405,9 @@ public class ShowSettle extends JDialog
 	
 	private void doBuildingList()
 	{
-		Object[][] dataRows = new Object[settle.getBuildingList().getBuildingList().size()][4];
+		Object[][] dataRows = new Object[settle.getBuildingList().size()][4];
 		int index = 0;
-		for (Building building : settle.getBuildingList().getBuildingList().values())
+		for (Building building : settle.getBuildingList().values())
 		{
 //			if (index <100)
 			{
@@ -427,7 +427,7 @@ public class ShowSettle extends JDialog
 		{
 			BrowseList.setSelected(false);
 			int id = BrowseList.getSelctedId();
-			Building building = settle.getBuildingList().getBuildingList().get(String.valueOf(id));
+			Building building = settle.getBuildingList().get(String.valueOf(id));
 			ShowBuilding.main(building);
 		}
 	}

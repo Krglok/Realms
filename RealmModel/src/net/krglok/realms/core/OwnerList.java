@@ -13,24 +13,18 @@ import java.util.Map;
  * @author oduda
  *
  */
-public class OwnerList
+public class OwnerList extends HashMap<String,Owner>
 {
 
-	private Map<String,Owner> ownerList;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5163612884108422109L;
+
 
 	public OwnerList()
 	{
-		setOwners(new HashMap<String,Owner>());
-	}
-
-	public Map<String,Owner> getOwners()
-	{
-		return ownerList;
-	}
-
-	public void setOwners(Map<String,Owner> owners)
-	{
-		this.ownerList = owners;
+		
 	}
 	
 	/**
@@ -39,38 +33,92 @@ public class OwnerList
 	 */
 	public void addOwner(Owner owner)
 	{
-		String key = owner.getPlayerName();
-		ownerList.put(key,owner);
+		String key = owner.getUuid();
+		this.put(key,owner);
 	}
 	
-	public Owner addOwner(String playerName, MemberLevel level, Boolean isNPC)
+	/**
+	 * add a new owner to the list
+	 * 
+	 * @param playerName
+	 * @param level
+	 * @param isNPC
+	 * @param uuid
+	 * @return
+	 */
+	public Owner addOwner(String playerName, NobleLevel level, Boolean isNPC, String uuid, int kingdomId)
 	{
 		Owner owner = new Owner();
 		owner.setLevel(level);
 		owner.setIsNPC(isNPC);
-		ownerList.put(playerName, owner);
+		owner.setUuid(uuid);
+		owner.setKingdomId(kingdomId);
+		owner.setNobleLevel(NobleLevel.COMMONER);
+		owner.setCommonLevel(CommonLevel.COLONIST);
+		this.put(playerName, owner);
 		return owner;
 	}
 	
-	public Owner getOwner(String playerName)
+	public Owner getOwner(String uuid)
 	{
-		return ownerList.get(playerName);
+		return this.get(uuid);
+	}
+
+	public Owner getOwner(int value)
+	{
+		for (Owner owner : this.values())
+		{
+			if (owner.getId() == value)
+			{
+				return owner;
+			}
+		}
+		return null;
 	}
 	
-	public int size()
-	{
-		return ownerList.size();
-	}
-	
+
 	/**
 	 * Set the realm reference of the owner
 	 * @param realmId
 	 */
-	public void setRealm(String playerName, int realmId)
+	public void setKingdom(String uuid, int kingdomId)
 	{
-		String key = playerName;
-		Owner owner = ownerList.get(key);
-		owner.setRealmID(realmId);
+		String key = uuid;
+		Owner owner = this.get(key);
+		owner.setKingdomId(kingdomId);
 	}
 	
+	/**
+	 * find playername in ownerlist
+	 * @param value
+	 * @return  null if not found
+	 */
+	public Owner findPlayername(String value)
+	{
+		for (Owner owner : this.values())
+		{
+			if (owner.getPlayerName().equalsIgnoreCase(value))
+			{
+				return owner;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * find uuid in playerlist
+	 * @param uuid
+	 * @return   null if not found
+	 */
+	public Owner findUuid(String uuid)
+	{
+		Owner owner = getOwner(uuid);
+		if (owner != null)
+		{
+			return owner;
+		}
+		
+		return null;
+	}
 }

@@ -173,7 +173,7 @@ public class NpcManager
 		case TRADER:
 			item = new ItemStack(Material.CHEST);
 			break;
-		case ARTISAN:
+		case CRAFTSMAN:
 			item = new ItemStack(Material.WOOD_AXE);
 			break;
 		case SETTLER:
@@ -219,7 +219,7 @@ public class NpcManager
 			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
 			equip.set(EQUIP_HAND, makeNPCTool(npcType));
 			break;
-		case ARTISAN:
+		case CRAFTSMAN:
 			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
 			equip.set(EQUIP_HAND, makeNPCTool(npcType));
 			break;
@@ -298,7 +298,7 @@ public class NpcManager
 			sTrait.setBuildingId(buildingId);
 			equipNpc(npc, npcType);
 			break;
-		case ARTISAN:
+		case CRAFTSMAN:
 			npc.addTrait(sTrait);
 			sTrait.setsNPCType(npcType);
 			sTrait.setsUnitType(UnitType.SETTLER);
@@ -358,7 +358,7 @@ public class NpcManager
 			npc.setName("Trader");
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
-		case ARTISAN:
+		case CRAFTSMAN:
 			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
 			npc.setProtected(true);
 			npc.setName("Handwerker");

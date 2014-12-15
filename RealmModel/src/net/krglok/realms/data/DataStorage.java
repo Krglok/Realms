@@ -19,7 +19,7 @@ import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.core.MemberLevel;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
@@ -144,12 +144,7 @@ public class DataStorage implements DataInterface
 	public OwnerList npcOwners()
 	{
 		
-		owners.addOwner(new Owner(0, MemberLevel.MEMBER_NONE, 0, NPC_0, 1, true));
-//		owners.addOwner(new Owner(1, MemberLevel.MEMBER_NONE, 0, NPC_1, 0, true));
-//		owners.addOwner(new Owner(2, MemberLevel.MEMBER_NONE, 0, NPC_2, 0, true));
-//		owners.addOwner(new Owner(3, MemberLevel.MEMBER_NONE, 0, PC_3, 0, false));
-//		owners.addOwner(new Owner(4, MemberLevel.MEMBER_NONE, 0, PC_4, 0, false));
-//		owners.addOwner(new Owner(5, MemberLevel.MEMBER_NONE, 0, PC_5, 0, false));
+		owners.addOwner(new Owner(0, NobleLevel.COMMONER, 0, NPC_0, 1, true,""));
 		
 		return owners; 
 	}
@@ -161,7 +156,7 @@ public class DataStorage implements DataInterface
 	 */
 	public KingdomList npcRealms(Owner owner)
 	{
-		kingdoms.addKingdom(new Kingdom(1, Realm_1_NPC, owner, new MemberList(), true));
+		kingdoms.addKingdom(new Kingdom(1, Realm_1_NPC, owner,true));
 		
 		return kingdoms; 
 	}

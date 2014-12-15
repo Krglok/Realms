@@ -207,11 +207,12 @@ public abstract class RealmsCommand implements iRealmsCommand
 			return true;
 		}
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
-		if (settle.getOwner() == "")
+		if (settle.getOwnerId() == "")
 		{
 			return true;
 		}
-		if (sender.getName().equalsIgnoreCase(settle.getOwner()) == false)
+		Player player = (Player) sender;
+		if (player.getUniqueId().toString().equalsIgnoreCase(settle.getOwner().getUuid()) == false)
 		{
 			errorMsg.add("You are NOT the owner of the Settlement !");
 			return false;

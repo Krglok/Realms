@@ -60,7 +60,7 @@ public class SettlementTreasureTest
 		if (isOutput)
 		{
 			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion());
 			}

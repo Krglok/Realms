@@ -5,63 +5,45 @@ import java.util.Map;
 
 /**
  * list of members in a kingdom
+ * key = uuid of the owner (player)
+ * 
  * @author Windu
  *
  */
-public class MemberList 
+public class MemberList extends HashMap<String, Owner>
 {
-	private Map<String, Owner> memberList;
 	
 	
-	public MemberList()
-	{
-		setMemberList(new HashMap<String, Owner>());
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7743487409334558577L;
 
-	public Map<String, Owner> getMemberList() {
-		return memberList;
-	}
-
-	public void setMemberList(Map<String, Owner> memberList) {
-		this.memberList = memberList;
-		
-	}
-
-	public int size()
-	{
-		return this.memberList.size();
-	}
-	
-	public Boolean isEmpty()
-	{
-		return this.memberList.isEmpty();
-	}
-	
 	/**
 	 * insert member in List. members are unique based on playerName
 	 * @param member
 	 */
 	public void addMember(Owner member)
 	{
-		String key = member.getPlayerName();
-		if (!memberList.containsKey(key))
+		String key = member.getUuid();
+		if (this.containsKey(key) == false)
 		{
-			memberList.put(key, member);
+			this.put(key, member);
 		}
 	}
 	
-	public Owner getMember(String playerName)
+	public Owner getMember(String uuid)
 	{
 		Owner member = null;
-		if (!memberList.containsKey(playerName))
+		if (this.containsKey(uuid) == false)
 		{
-			member = memberList.get(playerName);
+			member = this.get(uuid);
 		}
 		return member;
 	}
 	
 	public Boolean contains(String playerName)
 	{
-		return memberList.containsKey(playerName);
+		return this.containsKey(playerName);
 	}
 }

@@ -79,7 +79,7 @@ public class SettlementWriteTest
 				+ChatColor.YELLOW+settle.getName()
 				+ChatColor.GREEN+" Age: "+settle.getAge()
 				+":"+settle.getProductionOverview().getCycleCount());
-		for (Building building : settle.getBuildingList().getBuildingList().values())
+		for (Building building : settle.getBuildingList().values())
 		{
 			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 5)
 			{

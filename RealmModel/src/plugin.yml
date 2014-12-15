@@ -1,13 +1,13 @@
 name: Realms
 database: false
 main: net.krglok.realms.Realms
-version: 0.9.0.1
+version: 0.9.1.0
 description: Allows you to create settlements based on herostronghold regions. Expand the settlement with buildings. Trade with other settlements.
 author: krglok
 startup: postworld
 website: http://dev.bukkit.org/bukkit-plugins/realms/
-depend: [Vault,HeroStronghold]
-softdepend: [Shopkeekers,Citizens]
+depend: [Vault,HeroStronghold,Citizens]
+softdepend: [Shopkeekers]
 commands:
     realms:
         description: Basic command only show version and commandlist

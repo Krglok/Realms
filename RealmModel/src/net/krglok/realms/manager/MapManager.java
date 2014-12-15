@@ -41,7 +41,7 @@ public class MapManager
 	
 	public void initSettleSchema(Settlement settle)
 	{
-		for (Building building : settle.getBuildingList().getBuildingList().values())
+		for (Building building : settle.getBuildingList().values())
 		{
 			settleSchema.getbPositions().add(new BuildPosition(building.getBuildingType(), building.getPosition()));
 		}

@@ -9,12 +9,17 @@ package net.krglok.realms.core;
 public enum SettleType
 {
 	NONE (0),
-	HAMLET (10),
-	TOWN (100),
-	CITY (200),
-	CASTLE (250),
-	METROPOLIS (300),
-	CAMP (500)
+	CLAIM(10),
+	HAMLET (110),
+	TOWN (120),
+	CITY (130),
+	METROPOLIS (140),
+	CAMP (210),
+	FORTRESS (310),
+	LEHEN_1(510),
+	LEHEN_2(520),
+	LEHEN_3(530),
+	LEHEN_4(540)
 	;
 	
 	private final int value;

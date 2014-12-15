@@ -14,7 +14,7 @@ import org.bukkit.Material;
  *
  */
 
-//BUILDING_HALL (1000),
+//BUILDING_HALL (50),
 //BUILDING_HOME (100),
 //BUILDING_PROD (200),
 //BUILDING_WHEAT (200),

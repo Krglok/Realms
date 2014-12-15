@@ -111,7 +111,7 @@ public class SettlementBaeckerTest
 				);
 
 		settle.getResident().setSettlerCount(25);
-		for (Building b : settle.getBuildingList().getBuildingList().values())
+		for (Building b : settle.getBuildingList().values())
 		{
 			if (b.getHsRegion() == 51)
 			{
@@ -153,7 +153,7 @@ public class SettlementBaeckerTest
 			showSettleInfo(settle);
 			
 			System.out.println("==Settlement Baecker =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.print("id:"+ConfigBasis.setStrright(building.getHsRegion(),3));
 				System.out.print(" : "+ConfigBasis.setStrleft(building.getBuildingType().name(),12));

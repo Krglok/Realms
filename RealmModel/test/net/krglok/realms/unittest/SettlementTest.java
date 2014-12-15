@@ -55,7 +55,7 @@ public class SettlementTest
 		
 		Settlement settlement = new Settlement(logTest);
 		String expected = new Owner().getPlayerName();
-		String actual = settlement.getOwner();
+		String actual = settlement.getOwnerId();
 		assertEquals(expected, actual);
 	}
 
@@ -66,7 +66,7 @@ public class SettlementTest
 		owner.setId(5);
 		String expected =  "";
 		Settlement settlement = new Settlement(owner.getPlayerName(), position, logTest);
-		String actual = settlement.getOwner();
+		String actual = settlement.getOwnerId();
 		assertEquals(expected, actual);
 	}
 
@@ -136,7 +136,7 @@ public class SettlementTest
 			System.out.println(" ");
 			System.out.println("testSettlementCreate");
 			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion());
 			}
@@ -187,7 +187,7 @@ public class SettlementTest
 			System.out.println(" ");
 			System.out.println("testSettlementItemMax");
 			System.out.println("==Building List =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion());
 			}
@@ -245,7 +245,7 @@ public class SettlementTest
 			System.out.println(" ");
 			System.out.println("testSettlementProduce");
 			System.out.println("==Settlement Produce =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.println(building.getHsRegion()+":"+building.getBuildingType().name());
 			}
@@ -487,7 +487,7 @@ public class SettlementTest
 			System.out.println("==Settlement Settler : "+settle.getResident().getSettlerCount());
 			System.out.println("=WorkerNeeded : "+settle.getTownhall().getWorkerNeeded());
 			System.out.println("==Settlement Needed Settler : "+settle.getTownhall().getWorkerNeeded());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				
 				if (isOutput)
@@ -592,7 +592,7 @@ public class SettlementTest
 			System.out.println("=WorkerNeeded : "+settle.getTownhall().getWorkerNeeded());
 			System.out.println("=Settler free : "+freeSettler);
 			System.out.println("==Settlement Settler : "+settle.getResident().getSettlerCount());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 			
 				if (building.getBuildingType() != BuildPlanType.HOME)
@@ -671,7 +671,7 @@ public class SettlementTest
 			System.out.println("=WorkerNeeded : "+settle.getTownhall().getWorkerNeeded());
 			System.out.println("=Settler free : "+freeSettler);
 			System.out.println("=Settlement Konto : "+settle.getBank().getKonto());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 			
 				if (building.getBuildingType() != BuildPlanType.HOME)
@@ -746,7 +746,7 @@ public class SettlementTest
 			System.out.println(" ");
 			System.out.println("testSettlementBauernhof");
 			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
 			}
@@ -803,7 +803,7 @@ public class SettlementTest
 				logTest
 				);
 
-		for (Building b : settle.getBuildingList().getBuildingList().values())
+		for (Building b : settle.getBuildingList().values())
 		{
 			if (b.getHsRegion() == 41)
 			{
@@ -843,7 +843,7 @@ public class SettlementTest
 			System.out.println(" ");
 			System.out.println("testSettlementWerkstatt");
 			System.out.println("==Settlement buildings =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
 			}
@@ -900,7 +900,7 @@ public class SettlementTest
 				logTest
 				);
 
-		for (Building b : settle.getBuildingList().getBuildingList().values())
+		for (Building b : settle.getBuildingList().values())
 		{
 			if (b.getHsRegion() == 51)
 			{
@@ -941,7 +941,7 @@ public class SettlementTest
 			System.out.println(" ");
 			System.out.println("testSettlementSchmelze");
 			System.out.println("==Settlement Schmelze =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+building.getHsRegionType());
 			}
@@ -1001,7 +1001,7 @@ public class SettlementTest
 				logTest
 				);
 
-		for (Building b : settle.getBuildingList().getBuildingList().values())
+		for (Building b : settle.getBuildingList().values())
 		{
 			b.setIsActive(true);
 			if (b.getHsRegion() == 51)
@@ -1058,7 +1058,7 @@ public class SettlementTest
 		
 		int expected = 2;
 		int actual = 0; 
-		for (Building building : settle.getBuildingList().getBuildingList().values())
+		for (Building building : settle.getBuildingList().values())
 		{
 			if (building.isActive() == false)
 			{
@@ -1072,7 +1072,7 @@ public class SettlementTest
 			System.out.println(" ");
 			System.out.println("testBuildingEnabled");
 			System.out.println("==Settlement Active =="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (building.isActive() == false)
 				{
@@ -1136,7 +1136,7 @@ public class SettlementTest
 				logTest
 				);
 
-		for (Building b : settle.getBuildingList().getBuildingList().values())
+		for (Building b : settle.getBuildingList().values())
 		{
 			b.setIsActive(true);
 			if (b.getHsRegion() == 51)
@@ -1221,7 +1221,7 @@ public class SettlementTest
 	public void testAddBuilding()
 	{
 		DataTest testData = new DataTest(logTest);
-		testData.initSettleDate();
+		testData.initSettleDate(testData.initOwners());
 		OwnerList ownerList =  testData.getTestOwners();
 		ServerTest server = new ServerTest();
 		
@@ -1287,7 +1287,7 @@ public class SettlementTest
 			System.out.print(settle.getId()+":"+settle.getName());
 			System.out.println("");
 			System.out.println("Settlements ="+testData.getTestSettlements().count());
-			for (Settlement settl : testData.getTestSettlements().getSettlements().values())
+			for (Settlement settl : testData.getTestSettlements().values())
 			{
 				System.out.print("|"+ConfigBasis.setStrright(settl.getId(), 2));
 				System.out.print("|"+ConfigBasis.setStrleft(settl.getName(),12));
@@ -1295,7 +1295,7 @@ public class SettlementTest
 				System.out.println("");
 			}
 			System.out.println("Buildings ="+settle.getBuildingList().size());
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				System.out.print("|"+ConfigBasis.setStrright(building.getId(), 2));
 				System.out.print("|"+ConfigBasis.setStrleft(building.getBuildingType().name(), 10));

@@ -414,7 +414,7 @@ public class TestManager
 		showMarket(rModel);
 		System.out.println("Market Transports :"+rModel.getTradeTransport().size());
 		showTransport(rModel);
-		for (Settlement settl : rModel.getSettlements().getSettlements().values())
+		for (Settlement settl : rModel.getSettlements().values())
 		{			
 			System.out.println("");
 			System.out.println("Settlement     : "+settl.getId()+" : "+settl.getName());

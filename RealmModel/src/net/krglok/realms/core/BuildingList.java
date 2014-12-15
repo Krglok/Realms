@@ -17,13 +17,13 @@ import net.krglok.realms.builder.BuildPlanType;
  * @author Windu
  *
  */
-public class BuildingList  
+public class BuildingList  extends HashMap<String,Building>
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 259384614415396799L;
-	private Map<String,Building> buildingList;
+//	private Map<String,Building> buildingList;
 //	private ArrayList<Integer> regionList; 
 //	private ArrayList<Integer> superRegionList; 
 	private HashMap<BuildPlanType,Integer> buildTypeList;
@@ -31,27 +31,27 @@ public class BuildingList
 	
 	public BuildingList()
 	{
-		buildingList = new HashMap<String,Building>();
+//		buildingList = new HashMap<String,Building>();
 		buildTypeList = new HashMap<BuildPlanType,Integer>();
 	}
 
-	/**
-	 * default buildings is of Type BUILDING_NONE   
-	 * @return  List of Buildings
-	 */
-	public Map<String,Building> getBuildingList()
-	{
-		return buildingList;
-	}
+//	/**
+//	 * default buildings is of Type BUILDING_NONE   
+//	 * @return  List of Buildings
+//	 */
+//	public Map<String,Building> getBuildingList()
+//	{
+//		return buildingList;
+//	}
 
-	/**
-	 * Set the BuildingList without check or 
-	 * @param buildingList
-	 */
-	public void setBuildingList(Map<String,Building> buildingList)
-	{
-		this.buildingList = buildingList;
-	}
+//	/**
+//	 * Set the BuildingList without check or 
+//	 * @param buildingList
+//	 */
+//	public void setBuildingList(Map<String,Building> buildingList)
+//	{
+//		this.buildingList = buildingList;
+//	}
 	
 	/**
 	 * Clear the buildingList without checks 
@@ -60,14 +60,14 @@ public class BuildingList
 	 */
 	public void clearBuildingList()
 	{
-		this.buildingList.clear();
+		this.clear();
 //		this.regionList.clear();
 //		this.superRegionList.clear();
 	}
 	
 	public int checkId(int ref)
 	{
-		while (buildingList.containsKey(String.valueOf(ref)))
+		while (this.containsKey(String.valueOf(ref)))
 		{
 			ref++;
 		}
@@ -79,14 +79,14 @@ public class BuildingList
 	 * 
 	 * @return  true if no building in the list
 	 */
-	public Boolean isEmpty()
+	public boolean isEmpty()
 	{
-		return buildingList.isEmpty();
+		return this.isEmpty();
 	}
 	
 	public boolean containRegion(int regionId)
 	{
-		for (Building building : buildingList.values())
+		for (Building building : this.values())
 		{
 			if (building.getHsRegion() == regionId)
 			{
@@ -114,7 +114,7 @@ public class BuildingList
 			{
 				int newId = checkId(building.getId());
 				building.setId(newId);
-				buildingList.put(String.valueOf(newId),building);
+				this.put(String.valueOf(newId),building);
 				if (building.getBuildingType() == BuildPlanType.HALL)
 				{
 					isHall = true;
@@ -144,7 +144,7 @@ public class BuildingList
 	public void initBuildPlanList()
 	{
 		this.buildTypeList.clear();
-		for (Building building  : buildingList.values())
+		for (Building building  : this.values())
 		{
 			addBuildTypeList(building.getBuildingType());
 		}
@@ -174,7 +174,7 @@ public class BuildingList
 	 */
 	public int size()
 	{
-		return buildingList.size();
+		return this.size();
 	}
 	
 	/**
@@ -184,7 +184,7 @@ public class BuildingList
 	 */
 	public Building getBuilding(int id)
 	{
-		Building b = buildingList.get(String.valueOf(id)); 
+		Building b = this.get(String.valueOf(id)); 
 		return b;
 		
 	}
@@ -204,7 +204,7 @@ public class BuildingList
 	 */
 	public void setHall(boolean isHall)
 	{
-		for (Building building : buildingList.values())
+		for (Building building : this.values())
 		{
 			if (building.getBuildingType() == BuildPlanType.HALL)
 			{
@@ -222,7 +222,7 @@ public class BuildingList
 	public Building getBuildingByRegion(int regionId)
 	{
 		Building building = null;
-		for (Building b : buildingList.values())
+		for (Building b : this.values())
 		{
 			if (b.getHsRegion() == regionId)
 			{

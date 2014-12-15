@@ -23,7 +23,7 @@ public class StrongholdWorldTest
         {
         	if (sData.getL().getWorld().equalsIgnoreCase(worldName) == true)
         	{
-	        	String sName = StrongholdTools.setStrleft(sData.getName(), 20);
+	        	String sName = ConfigBasis.setStrleft(sData.getName(), 20);
 	    		System.out.println(sName+":"+sData.getL().getWorld()+" Dist: "+(int)sData.getL().distance(loc));
         	}
         }
@@ -46,7 +46,7 @@ public class StrongholdWorldTest
         }
         for (String key : buildingStat.keySet())
         {
-	    	String sName = StrongholdTools.setStrleft(key, 20);
+	    	String sName = ConfigBasis.setStrleft(key, 20);
 			System.out.println(sName+":"+buildingStat.get(key));
         }
 	
@@ -73,7 +73,7 @@ public class StrongholdWorldTest
         }
         for (String key : buildingStat.keySet())
         {
-	    	String sName = StrongholdTools.setStrleft(key, 20);
+	    	String sName = ConfigBasis.setStrleft(key, 20);
 			System.out.println(sName+":"+buildingStat.get(key));
         }
 
@@ -84,8 +84,8 @@ public class StrongholdWorldTest
         System.out.println("Building Distance for "+name+"   radius "+radius);
     	for (RegionData r : rList)
     	{
-    		String sRef = StrongholdTools.setStrleft(String.valueOf(r.getId()),3);
-  	    	String sName = StrongholdTools.setStrleft(r.getType(), 20);
+    		String sRef = ConfigBasis.setStrleft(String.valueOf(r.getId()),3);
+  	    	String sName = ConfigBasis.setStrleft(r.getType(), 20);
     		if ((int)r.getLocation().distance2D(loc) < radius)
     		System.out.println(sRef+" : "+sName +" : "+(int)r.getLocation().distance2D(loc));
     	}
@@ -246,7 +246,7 @@ public class StrongholdWorldTest
         			&&(sData.getL().distance(loc) <= 1000)
         			)
         		{
-		        	String sName = StrongholdTools.setStrleft(sData.getName(), 20);
+		        	String sName = ConfigBasis.setStrleft(sData.getName(), 20);
 		    		System.out.println(sName+":"+" Dist: "+(int)sData.getL().distance(loc));
         		}
         	}
@@ -268,7 +268,7 @@ public class StrongholdWorldTest
         			&&(sData.getL().distance(loc) > 1000)
         			)
         		{
-		        	String sName = StrongholdTools.setStrleft(sData.getName(), 20);
+		        	String sName = ConfigBasis.setStrleft(sData.getName(), 20);
 		    		System.out.println(sName+":"+" Dist: "+(int)sData.getL().distance(loc));
         		}
         	}

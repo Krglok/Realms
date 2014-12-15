@@ -183,7 +183,7 @@ public class ModelLoopTest
 		System.out.println("SettlerFactor: "+rModel.getSettlements().getSettlement(1).getSettlerFactor());
 		System.out.println("Entertain    : "+rModel.getSettlements().getSettlement(1).getEntertainFactor());
 		System.out.println("=========================== "+Settlement.getCounter());
-		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		for (Settlement settle : rModel.getSettlements().values())
 		{
 			System.out.println("Settlement : "+settle.getId()+" : "+settle.getName());
 		}

@@ -1,0 +1,36 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 20
+requirements:
+- WOODEN_DOOR.6
+- BED_BLOCK.5
+- CHEST.5
+- WALL_SIGN.1
+- COBBLESTONE.450
+- NETHERRACK.4
+- WOOD.25
+- LOG.160
+reagents:
+- GOLD_NUGGET.50
+- IRON_INGOT.50
+upkeep:
+- BREAD.5
+- COOKED_BEEF.5
+- COOKED_CHICKEN.5
+- LOG.5
+upkeep-chance: 0.001
+output: []
+money-requirement: 50000.0
+upkeep-money-output: 0.0
+upkeep-money-output: 0.0
+daily.power-increase: 50.0
+housing: 20
+power-drain: 0.0
+biome: [] 
+description: This is a feud/lehen building. Is required for a lehn level 3. Hold noble people

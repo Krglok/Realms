@@ -9,7 +9,7 @@ public enum NPCType
 	MANAGER,
 	TRADER,
 	BUILDER,
-	ARTISAN,
+	CRAFTSMAN,
 	MAPMAKER,
 	UNIT;
 

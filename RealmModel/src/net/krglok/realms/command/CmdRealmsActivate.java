@@ -68,7 +68,7 @@ public class CmdRealmsActivate extends RealmsCommand
 			msg.add(plugin.getRealmModel().getModelName()+" Vers.: "+plugin.getRealmModel().getModelVersion());
 			plugin.getTickTask();
 			msg.add("Timer Task "+TickTask.getProdCounter());
-			for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
+			for (Settlement settle : plugin.getRealmModel().getSettlements().values())
 			{
 				msg.add(settle.getId()+":"+settle.getName()+"  in "+settle.getPosition().getWorld());
 			}

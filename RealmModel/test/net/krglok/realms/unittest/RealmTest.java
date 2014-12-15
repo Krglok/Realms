@@ -2,7 +2,7 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.core.MemberLevel;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.kingdom.Kingdom;
 
@@ -60,7 +60,7 @@ public class RealmTest
 	public void testGetOwner()
 	{
 		Kingdom realm = new Kingdom();
-		Owner expected = new Owner(0, MemberLevel.MEMBER_NONE, 0, "NPC1", 0, true);//null; 
+		Owner expected = new Owner(0, NobleLevel.COMMONER, 0, "NPC1", 0, true,"");//null; 
 		Owner actual = realm.getOwner(); 
 		assertEquals("Owner test ",expected.getPlayerName(), actual.getPlayerName());
 	}
@@ -69,7 +69,7 @@ public class RealmTest
 	public void testSetOwner()
 	{
 		Kingdom realm = new Kingdom();
-		Owner expected = new Owner(0, MemberLevel.MEMBER_NONE, 0, "PC1", 0, false);
+		Owner expected = new Owner(0, NobleLevel.COMMONER, 0, "PC1", 0, false,"");
 		realm.setOwner(expected);
 		Owner actual = realm.getOwner(); 
 		assertEquals("Owner test ",expected, actual);
@@ -79,7 +79,7 @@ public class RealmTest
 	public void testGetMemberList()
 	{
 		Kingdom realm = new Kingdom();
-		Owner member = new Owner(0, MemberLevel.MEMBER_NONE, 0, "MEMBER1", 0, false);
+		Owner member = new Owner(0, NobleLevel.COMMONER, 0, "MEMBER1", 0, false,"");
 		int expected = 1;
 		realm.addMember(member);	// insert 1
 		realm.addMember(member);    // insert 1 again fails and only 1 is in list because List is unique 
@@ -91,7 +91,7 @@ public class RealmTest
 	public void testSetMemberList()
 	{
 		Kingdom realm = new Kingdom();
-		Owner member = new Owner(0, MemberLevel.MEMBER_NONE, 0, "MEMBER1", 0, false);
+		Owner member = new Owner(0, NobleLevel.COMMONER, 0, "MEMBER1", 0, false,"");
 		int expected = 1;
 		realm.addMember(member);
 		int actual = realm.getMemberList().size(); 
@@ -102,7 +102,7 @@ public class RealmTest
 	public void testAddMember()
 	{
 		Kingdom realm = new Kingdom();
-		Owner member = new Owner(0, MemberLevel.MEMBER_NONE, 0, "MEMBER1", 0, false);
+		Owner member = new Owner(0, NobleLevel.COMMONER, 0, "MEMBER1", 0, false,"");
 		int expected = 1;
 		realm.addMember(member);	// insert 1
 		int actual = realm.getMemberList().size(); 

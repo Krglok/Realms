@@ -7,7 +7,9 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.kingdom.Kingdom;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +19,7 @@ public class CmdSettleAddOwner extends RealmsCommand
 {
 	private String playername;
 	private int settleId ;
-
+	private String uuid;
 	public CmdSettleAddOwner()
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.MEMBER);
@@ -84,21 +86,35 @@ public class CmdSettleAddOwner extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		Player player;
+		Player player = null;
+		Owner owner = null;
 		if (sender instanceof Player)
 		{
 			player = (Player) sender;
-			if (playername == "")
-			{
-				playername = player.getPlayerListName();
-			}
+			owner = plugin.getRealmModel().getOwners().findPlayername(playername);
+			uuid = owner.getUuid();
+			owner = plugin.getRealmModel().getOwners().getOwner(uuid);
 		}
-		if (playername != "")
+
+		if (owner != null)
 		{
 			Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
 			if ( settle != null)
 			{
-				settle.setOwner(playername);
+				Owner oldOwner = settle.getOwner();
+				if (oldOwner != null)
+				{
+					oldOwner.getSettleList().removeSettlement(settleId);
+					plugin.getRealmModel().getKingdoms().removeSettlement(oldOwner, settleId);
+				}
+				
+				settle.setOwner(owner);
+				owner.getSettleList().addSettlement(settle);
+				Kingdom kingdom = plugin.getRealmModel().getKingdoms().getKingdom(owner.getKingdomId());
+				if (kingdom.containSettlement(settleId) == false)
+				{
+					kingdom.getSettlements().addSettlement(settle);
+				}
 				SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(settle.getName());
 				if (sRegion != null)
 				{
@@ -107,7 +123,7 @@ public class CmdSettleAddOwner extends RealmsCommand
 					members.add(playername);
 					plugin.stronghold.getRegionManager().setOwner(sRegion, playername);
 //					sRegion.addMember(playername, perms );
-					for (Building building : settle.getBuildingList().getBuildingList().values())
+					for (Building building : settle.getBuildingList().values())
 					{
 						if ((building.getBuildingType() != BuildPlanType.HOME) 
 								&& (building.getBuildingType() != BuildPlanType.HOUSE)
@@ -161,7 +177,15 @@ public class CmdSettleAddOwner extends RealmsCommand
 				}
 			} else
 			{
-				return true;
+				if (playername != "")
+				{
+					return true;
+				} else
+				{
+					errorMsg.add("Playername must be given ! ");
+					errorMsg.add(" ");
+					return false;
+				}
 			}
 			
 		} else

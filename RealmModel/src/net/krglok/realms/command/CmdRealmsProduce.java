@@ -76,7 +76,7 @@ public class CmdRealmsProduce extends RealmsCommand
 		{
 			plugin.getRealmModel().OnProduction();
 			msg.add("[Realm Model] Production");
-			for (Settlement settle : plugin.getRealmModel().getSettlements().getSettlements().values())
+			for (Settlement settle : plugin.getRealmModel().getSettlements().values())
 			{
 				msg.add(settle.getId()+" : "+settle.getName());
 				msg.add("Storage  : "+settle.getWarehouse().getItemMax());

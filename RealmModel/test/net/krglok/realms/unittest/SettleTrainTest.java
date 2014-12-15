@@ -454,7 +454,7 @@ public class SettleTrainTest
 		settle.expandTreasureList(settle.getBiome(), server);
 		settle.getWarehouse().setStoreCapacity();
 
-		for (Building building : settle.getBuildingList().getBuildingList().values())
+		for (Building building : settle.getBuildingList().values())
 		{
 			if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
 			{
@@ -489,7 +489,7 @@ public class SettleTrainTest
 				System.out.println(" ");
 				System.out.println("Train balance = ");
 				ItemList items = new ItemList();
-				for (Building building : settle.getBuildingList().getBuildingList().values())
+				for (Building building : settle.getBuildingList().values())
 				{
 					if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
 					{

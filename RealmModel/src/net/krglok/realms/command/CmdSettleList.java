@@ -70,8 +70,8 @@ public class CmdSettleList extends RealmsCommand
 		SettlementList  rList = plugin.getRealmModel().getSettlements();
 	    if (rList.count() > 0)
 	    {
-			msg.add("ID |Settlement | Active | Owner     |  [ "+rList.getSettlements().size()+" ]");
-		    for (Settlement settle : rList.getSettlements().values())
+			msg.add("ID |Settlement | Active | Owner     |  [ "+rList.size()+" ]");
+		    for (Settlement settle : rList.values())
 		    {
 	    		msg.add(settle.getId()
 	    				+" | "+ChatColor.YELLOW+settle.getName()

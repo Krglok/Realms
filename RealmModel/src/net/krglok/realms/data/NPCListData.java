@@ -11,7 +11,7 @@ import net.krglok.realms.unit.UnitType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 
-public class NPCListData extends DataStore<NPCData>
+public class NPCListData extends AbstractDataStore<NPCData>
 {
 
 	private static String fileName = "npclist";

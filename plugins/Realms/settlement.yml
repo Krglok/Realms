@@ -17,7 +17,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '125'
-      fertilityCounter: '22.88'
+      fertilityCounter: '123.47999999999999'
       happiness: '2.8781954887218046'
       workerCount: '0'
       settlerMax: '133'
@@ -805,7 +805,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '24'
-      fertilityCounter: '44.87999999999998'
+      fertilityCounter: '145.47999999999996'
       happiness: '3.529729729729731'
       workerCount: '0'
       settlerMax: '37'
@@ -1185,7 +1185,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '30'
-      fertilityCounter: '0.0'
+      fertilityCounter: '100.6'
       happiness: '0.4839080459770115'
       workerCount: '0'
       settlerMax: '29'
@@ -1449,7 +1449,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '172'
-      fertilityCounter: '39.37999999999999'
+      fertilityCounter: '139.98'
       happiness: '3.346991869918701'
       workerCount: '0'
       settlerMax: '205'
@@ -2447,7 +2447,7 @@ SETTLEMENT:
         hsRegion: '274'
         workerNeeded: '0'
       '491':
-        position: :0.0:0.0:0.0
+        position: DRASKORIA:3274.6082491634193:82.0:-1070.4945489254965
         maxProduction: '0'
         settler: '0'
         isRegion: 'true'
@@ -2463,7 +2463,7 @@ SETTLEMENT:
         hsRegion: '981'
         workerNeeded: '1'
       '492':
-        position: :0.0:0.0:0.0
+        position: DRASKORIA:3274.6082491634193:82.0:-1070.4945489254965
         maxProduction: '0'
         settler: '0'
         isRegion: 'true'
@@ -2479,7 +2479,7 @@ SETTLEMENT:
         hsRegion: '982'
         workerNeeded: '1'
       '493':
-        position: :0.0:0.0:0.0
+        position: DRASKORIA:3274.6082491634193:82.0:-1070.4945489254965
         maxProduction: '0'
         settler: '0'
         isRegion: 'true'
@@ -2604,7 +2604,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '21'
-      fertilityCounter: '43.69999999999997'
+      fertilityCounter: '144.29999999999995'
       happiness: '0.11111111111111127'
       workerCount: '0'
       settlerMax: '21'
@@ -2828,7 +2828,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '56'
-      fertilityCounter: '9.2'
+      fertilityCounter: '109.8'
       happiness: '3.598245614035091'
       workerCount: '0'
       settlerMax: '57'
@@ -3426,7 +3426,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '44'
-      fertilityCounter: '43.15999999999998'
+      fertilityCounter: '143.76'
       happiness: '3.5463999999999993'
       workerCount: '0'
       settlerMax: '125'
@@ -4083,7 +4083,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '62'
-      fertilityCounter: '19.240000000000002'
+      fertilityCounter: '119.84'
       happiness: '-0.0510928961748644'
       workerCount: '0'
       settlerMax: '61'
@@ -4761,7 +4761,7 @@ SETTLEMENT:
         hsRegion: '331'
         workerNeeded: '0'
     warehouse:
-      itemCount: '9292'
+      itemCount: '9291'
       itemMax: '32832'
       isEnabled: 'false'
     itemList:
@@ -4842,7 +4842,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '21'
-      fertilityCounter: '52.899999999999956'
+      fertilityCounter: '153.49999999999994'
       happiness: '0.21507936507936554'
       workerCount: '0'
       settlerMax: '21'
@@ -5139,7 +5139,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '37'
-      fertilityCounter: '13.969999999999997'
+      fertilityCounter: '114.57'
       happiness: '2.605405405405402'
       workerCount: '0'
       settlerMax: '37'
@@ -5525,7 +5525,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '52'
-      fertilityCounter: '0.0'
+      fertilityCounter: '100.6'
       happiness: '1.0374269005847951'
       workerCount: '0'
       settlerMax: '57'
@@ -5905,7 +5905,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '44'
-      fertilityCounter: '14.63'
+      fertilityCounter: '115.22999999999999'
       happiness: '0.36222222222222067'
       workerCount: '0'
       settlerMax: '45'
@@ -6325,7 +6325,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '16'
-      fertilityCounter: '55.80000000000002'
+      fertilityCounter: '156.4'
       happiness: '2.0470588235294067'
       workerCount: '0'
       settlerMax: '17'
@@ -6579,7 +6579,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '22'
-      fertilityCounter: '2.33'
+      fertilityCounter: '102.92999999999999'
       happiness: '1.6412698412698363'
       workerCount: '0'
       settlerMax: '21'
@@ -6886,7 +6886,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '46'
-      fertilityCounter: '16.14'
+      fertilityCounter: '116.74'
       happiness: '0.20000000000000057'
       workerCount: '0'
       settlerMax: '45'
@@ -7114,9 +7114,9 @@ SETTLEMENT:
       LOG: '6588'
       SOIL: '198'
       WHEAT: '722'
-      COBBLESTONE: '6531'
       DIRT: '82'
       WATER: '72'
+      COBBLESTONE: '6531'
       SAND: '64'
       LEATHER: '18'
       FEATHER: '8'
@@ -7146,7 +7146,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '46'
-      fertilityCounter: '13.450000000000001'
+      fertilityCounter: '114.05'
       happiness: '0.4111111111111123'
       workerCount: '0'
       settlerMax: '45'
@@ -7413,7 +7413,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '64'
-      fertilityCounter: '41.16000000000002'
+      fertilityCounter: '141.76000000000002'
       happiness: '4.033333333333333'
       workerCount: '0'
       settlerMax: '93'
@@ -8128,7 +8128,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '21'
-      fertilityCounter: '63.45999999999994'
+      fertilityCounter: '164.05999999999995'
       happiness: '0.7984126984126978'
       workerCount: '0'
       settlerMax: '21'
@@ -8409,14 +8409,14 @@ SETTLEMENT:
     isActive: true
     bank: 191125.0400000007
     townhall:
-      workerNeeded: '44'
+      workerNeeded: '48'
       workerCount: '44'
       isEnabled: 'true'
     resident:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '100'
-      fertilityCounter: '62.529999999999966'
+      fertilityCounter: '163.12999999999997'
       happiness: '2.8632183908045983'
       workerCount: '0'
       settlerMax: '261'
@@ -8646,7 +8646,7 @@ SETTLEMENT:
         hsRegion: '842'
         workerNeeded: '0'
       '503':
-        position: :0.0:0.0:0.0
+        position: DRASKORIA:-3308.3173099811893:70.0:3784.316254556179
         maxProduction: '0'
         settler: '0'
         isRegion: 'true'
@@ -8662,7 +8662,7 @@ SETTLEMENT:
         hsRegion: '986'
         workerNeeded: '1'
       '504':
-        position: :0.0:0.0:0.0
+        position: DRASKORIA:-3308.3173099811893:70.0:3784.316254556179
         maxProduction: '0'
         settler: '0'
         isRegion: 'true'
@@ -8902,7 +8902,7 @@ SETTLEMENT:
         hsRegion: '157'
         workerNeeded: '0'
       '502':
-        position: :0.0:0.0:0.0
+        position: DRASKORIA:-3308.3173099811893:70.0:3784.316254556179
         maxProduction: '0'
         settler: '0'
         isRegion: 'true'
@@ -9574,7 +9574,7 @@ SETTLEMENT:
         hsRegion: '832'
         workerNeeded: '0'
       '497':
-        position: :0.0:0.0:0.0
+        position: DRASKORIA:-3308.3173099811893:70.0:3784.316254556179
         maxProduction: '0'
         settler: '0'
         isRegion: 'true'
@@ -9670,7 +9670,7 @@ SETTLEMENT:
         hsRegion: '973'
         workerNeeded: '1'
     warehouse:
-      itemCount: '4641'
+      itemCount: '4639'
       itemMax: '38016'
       isEnabled: 'false'
     itemList:
@@ -9748,7 +9748,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '46'
-      fertilityCounter: '49.009999999999984'
+      fertilityCounter: '149.60999999999999'
       happiness: '3.5040816326530515'
       workerCount: '0'
       settlerMax: '49'
@@ -10103,7 +10103,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '19'
-      fertilityCounter: '54.30000000000002'
+      fertilityCounter: '154.9'
       happiness: '2.303174603174601'
       workerCount: '0'
       settlerMax: '21'
@@ -10429,7 +10429,7 @@ SETTLEMENT:
         hsRegion: '894'
         workerNeeded: '1'
     warehouse:
-      itemCount: '8298'
+      itemCount: '8297'
       itemMax: '32832'
       isEnabled: 'false'
     itemList:
@@ -10485,7 +10485,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '34'
-      fertilityCounter: '58.98500000000004'
+      fertilityCounter: '159.58500000000004'
       happiness: '1.235353535353537'
       workerCount: '0'
       settlerMax: '33'
@@ -10731,7 +10731,7 @@ SETTLEMENT:
         hsRegion: '913'
         workerNeeded: '1'
     warehouse:
-      itemCount: '2305'
+      itemCount: '2304'
       itemMax: '32832'
       isEnabled: 'false'
     itemList:
@@ -10789,7 +10789,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '21'
-      fertilityCounter: '63.24999999999994'
+      fertilityCounter: '163.84999999999994'
       happiness: '0.9365079365079354'
       workerCount: '0'
       settlerMax: '21'
@@ -11016,7 +11016,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '21'
-      fertilityCounter: '63.45999999999994'
+      fertilityCounter: '164.05999999999995'
       happiness: '0.7984126984126978'
       workerCount: '0'
       settlerMax: '21'
@@ -11223,7 +11223,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '47'
-      fertilityCounter: '52.38999999999998'
+      fertilityCounter: '152.98999999999998'
       happiness: '3.515789473684214'
       workerCount: '0'
       settlerMax: '57'
@@ -11388,22 +11388,6 @@ SETTLEMENT:
         workerInstalled: '0'
         hsRegion: '486'
         workerNeeded: '0'
-      '434':
-        position: DRASKORIA:-3448.6556693356483:65.0:-2208.698955063476
-        maxProduction: '0'
-        settler: '4'
-        isRegion: 'true'
-        hsRegionType: haus_einfach
-        isEnabled: 'true'
-        isActiv: 'true'
-        id: '434'
-        trainTime: '0'
-        hsSuperRegion: ''
-        trainCounter: '0'
-        buildingType: HOME
-        workerInstalled: '0'
-        hsRegion: '488'
-        workerNeeded: '0'
       '452':
         position: DRASKORIA:-3448.6556693356483:65.0:-2208.698955063476
         maxProduction: '0'
@@ -11435,6 +11419,22 @@ SETTLEMENT:
         buildingType: HALL
         workerInstalled: '0'
         hsRegion: '936'
+        workerNeeded: '0'
+      '434':
+        position: DRASKORIA:-3448.6556693356483:65.0:-2208.698955063476
+        maxProduction: '0'
+        settler: '4'
+        isRegion: 'true'
+        hsRegionType: haus_einfach
+        isEnabled: 'true'
+        isActiv: 'true'
+        id: '434'
+        trainTime: '0'
+        hsSuperRegion: ''
+        trainCounter: '0'
+        buildingType: HOME
+        workerInstalled: '0'
+        hsRegion: '488'
         workerNeeded: '0'
       '440':
         position: DRASKORIA:-3448.6556693356483:65.0:-2208.698955063476
@@ -11633,7 +11633,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '51'
-      fertilityCounter: '71.75'
+      fertilityCounter: '172.35'
       happiness: '4.010769230769231'
       workerCount: '0'
       settlerMax: '65'
@@ -12129,7 +12129,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '62'
-      fertilityCounter: '32.809999999999995'
+      fertilityCounter: '133.41'
       happiness: '4.02235294117647'
       workerCount: '0'
       settlerMax: '85'

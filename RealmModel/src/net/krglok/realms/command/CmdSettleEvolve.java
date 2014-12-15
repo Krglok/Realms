@@ -144,7 +144,7 @@ public class CmdSettleEvolve extends RealmsCommand
 				settle.getPosition().getY(), 
 				settle.getPosition().getZ()-1
 				);
-		String owner = settle.getOwner();
+		String owner = settle.getOwnerId();
 		RegionLocation rLoc = new RegionLocation(newType, position, owner,name);
 		World world = plugin.getServer().getWorld(settle.getPosition().getWorld());
 		
@@ -194,11 +194,15 @@ public class CmdSettleEvolve extends RealmsCommand
 		settleType = SettleType.getSettleType(newType);
 		if ((settleType == SettleType.NONE)
 			|| (settleType == SettleType.CAMP)
-			|| (settleType == SettleType.CASTLE)
+			|| (settleType == SettleType.FORTRESS)
+			|| (settleType == SettleType.LEHEN_1)
+			|| (settleType == SettleType.LEHEN_2)
+			|| (settleType == SettleType.LEHEN_3)
+			|| (settleType == SettleType.LEHEN_4)
 			)
 		{
 			errorMsg.add("The settleType is wrong or not allowe!");
-			errorMsg.add("get (TOWN, CITY, METROPOLIS) ");
+			errorMsg.add("get (CLAIM,HAMLET,TOWN, CITY) ");
 			errorMsg.add("");
 			return false;
 		}

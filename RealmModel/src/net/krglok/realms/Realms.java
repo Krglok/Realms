@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
@@ -57,6 +58,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -113,7 +115,7 @@ public final class Realms extends JavaPlugin
 //	private final CommandSettle commandSettle = new CommandSettle(this);
 	private final CommandRealms commandRealms = new CommandRealms(this);
 
-	private ConfigData config; // = new ConfigData(this);
+	private ConfigData configData; // = new ConfigData(this);
 	private final ServerData server = new ServerData(this);
 	private DataStorage data;
 
@@ -157,7 +159,7 @@ public final class Realms extends JavaPlugin
         }
         
         log.info("[Realms] Save Settlements .");
-		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
+		for (Settlement settle : realmModel.getSettlements().values())
 		{
 			data.writeSettlement(settle);
 		}
@@ -173,6 +175,7 @@ public final class Realms extends JavaPlugin
 	@Override
 	public void onEnable()
 	{
+		getPluginConfig();
 		logList = new LogList(this.getDataFolder().getPath());
 		data = new DataStorage(this.getDataFolder().getPath());
         serverListener = new ServerListener(this);
@@ -206,10 +209,10 @@ public final class Realms extends JavaPlugin
             this.setEnabled(false);
             return;
         }
-        Plugin npc = pm.getPlugin("Citizens");
+        Plugin citizensPlugin = pm.getPlugin("Citizens");
         if (npc != null) {
             log.info("[Realms] found Citizens !");
-            npc = ((Citizens) npc);
+            npc = ((Citizens) citizensPlugin);
     		//Register your trait with Citizens.        
     		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(SettlerTrait.class).withName("settler"));	
             this.npcManager.setEnabled(true);
@@ -218,7 +221,6 @@ public final class Realms extends JavaPlugin
             log.info("[Realms] please install the plugin Citizens 2 .");
             log.info("[Realms] will disable NPC Manager");
             this.npcManager.setEnabled(false);
-            return;
         }
         
         // read the npc list from file
@@ -243,8 +245,13 @@ public final class Realms extends JavaPlugin
 
         boolean isReady = true; // flag for Init contrll
 		// Vault economy
-        config = new ConfigData(this.configFile);
-        if (!config.initConfigData())
+        configData = new ConfigData(this.configFile);
+        if (configData == null)
+        {
+        	log.log(Level.SEVERE, "[Realms] The configData are null!!");
+        }
+        
+        if (configData.initConfigData() == false)
         {
         	isReady = false;
     		log.info("[Realms] Config not properly read !");
@@ -254,9 +261,9 @@ public final class Realms extends JavaPlugin
         	isReady = false;
     		log.info("[Realms] Data not properly read !");
         }
-        logList.setIsLogList(config.isLogList());
+        logList.setIsLogList(configData.isLogList());
 
-        if (config.isUpdateCheck())
+        if (configData.isUpdateCheck())
         {
         	update = new Update(projectId, apiKey);
         } else
@@ -265,7 +272,7 @@ public final class Realms extends JavaPlugin
         }
         
         // realm model instance
-        realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData, logList);
+        realmModel = new RealmModel(configData.getRealmCounter(), configData.getSettlementCounter(), server, configData, data, messageData, logList);
         
         //Setup repeating sync task for calculating model
         long actualTime = this.getServer().getWorlds().get(0).getTime();
@@ -657,7 +664,7 @@ public final class Realms extends JavaPlugin
 	 */
 	public void onBuildRequest()
 	{
-		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
+		for (Settlement settle : realmModel.getSettlements().values())
 		{
 			for (int i=0 ; i < settle.buildManager().getBuildRequest().size(); i++)
 			{
@@ -1173,7 +1180,7 @@ public final class Realms extends JavaPlugin
 	 */
 	public void onCleanRequest()
 	{
-		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
+		for (Settlement settle : realmModel.getSettlements().values())
 		{
 //			System.out.println(settle.getId()+": cleanRequest "+settle.buildManager().getCleanRequest().size());
 			for (int i=0; i < settle.buildManager().getCleanRequest().size(); i++)
@@ -1234,7 +1241,7 @@ public final class Realms extends JavaPlugin
 	{
 		for (SignPos signPos : settle.getSignList().values())
 		{
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 			    if (signPos.getText()[0].equalsIgnoreCase(building.getBuildingType().name()))
 			    {
@@ -1280,14 +1287,22 @@ public final class Realms extends JavaPlugin
 	 */
 	public void onSignRequest()
 	{
-		for (Settlement settle : realmModel.getSettlements().getSettlements().values())
+		for (Settlement settle : realmModel.getSettlements().values())
 		{
 			doSignUpdate(settle);
 		}
 	}
 
 	
-	
+	/**
+	 * Spawn a Model based Minecraft Villager
+	 * 
+	 * 
+	 * @param world
+	 * @param position
+	 * @param profession
+	 * @return
+	 */
 	public Entity doVillagerSpawn(World world, Location position, Profession profession)
 	{
 		Entity e = 	world.spawnEntity(position, EntityType.VILLAGER);
@@ -1307,9 +1322,13 @@ public final class Realms extends JavaPlugin
 		return e;
 	}
      
+	/**
+	 * 
+	 * @return the plugin config data
+	 */
     public ConfigData getConfigData()
     {
-    	return config;
+    	return configData;
     }
 
 //	/**
@@ -1329,6 +1348,9 @@ public final class Realms extends JavaPlugin
 //	}
 
 	/**
+	 * the message Data has special methods to printout pages
+	 * and predifined errormessages
+	 * 
 	 * @return the messageData
 	 */
 	public MessageData getMessageData()
@@ -1336,6 +1358,10 @@ public final class Realms extends JavaPlugin
 		return messageData;
 	}
 	
+	/**
+	 * the logger has status relevant out ERROR, WARNING, INFO etc. 
+	 * @return the logger 
+	 */
 	public Logger getLog()
 	{
 		return log;
@@ -1349,16 +1375,30 @@ public final class Realms extends JavaPlugin
 		return realmModel;
 	}
 
+	/**
+	 * be carefull with this object
+	 * normally used to change the task status or parameter
+	 * 
+	 * @return tickTask object
+	 */
 	public TickTask getTickTask()
 	{
 		return tick;
 	}
 
+	/**
+	 * 
+	 * @return the persistent data for the model
+	 */
 	public DataStorage getData()
 	{
 		return data;
 	}
-
+	
+	/**
+	 * 
+	 * @return the server object
+	 */
 	public ServerData getServerData()
 	{
 		return server;
@@ -1372,6 +1412,11 @@ public final class Realms extends JavaPlugin
 		return taxTask;
 	}
 
+
+	/**
+	 * 
+	 * @return the list of valid commands
+	 */
 	public CommandRealms getCommandRealms()
 	{
 		return commandRealms;
@@ -1379,6 +1424,7 @@ public final class Realms extends JavaPlugin
 
 	/**
 	 * This is a separate logfile, data stored as CSV values
+	 * hint: the logfiles are large and hold many rows, when activated
 	 * @return the logList
 	 */
 	public LogList getLogList()
@@ -1386,9 +1432,15 @@ public final class Realms extends JavaPlugin
 		return logList;
 	}
 
+	/**
+	 * read config from plugin interface 
+	 * check if valid, otherwise store default config 
+	 * 
+	 */
 	private void getPluginConfig()
 	{
-		this.configFile = configFile;
+		// read config from plugin 
+		this.configFile =  this.getConfig();
 		String nameValue = configFile.getString(ConfigBasis.CONFIG_PLUGIN_NAME,"");
 		if (!nameValue.equalsIgnoreCase(ConfigBasis.PLUGIN_NAME))
 		{
@@ -1396,7 +1448,7 @@ public final class Realms extends JavaPlugin
 			this.saveConfig();
 			nameValue = configFile.getString(ConfigBasis.CONFIG_PLUGIN_NAME,"");
 		}
-		this.getLog().info("[realms] configname : "+nameValue);
+		this.getLog().info("[Realms] new configname : "+nameValue);
 		
 	}
 

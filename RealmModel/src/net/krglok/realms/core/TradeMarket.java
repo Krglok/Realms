@@ -259,7 +259,7 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		for (TradeMarketOrder tradeOrder : this.values())
 		{
 			int targetId = tradeOrder.getSettleID();
-			Settlement settle = settleList.getSettlements().get(targetId);
+			Settlement settle = settleList.get(targetId);
 			if (settleId != targetId)
 			{
 				LocationData targetLoc = settle.getPosition();

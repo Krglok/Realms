@@ -109,7 +109,7 @@ public class SettlementData
 //	            System.out.println("SAVE : 3");
 //	            ConfigurationSection buildingSec = config.createSection(base+".buildinglist");
 	            HashMap<String,HashMap<String,String>> buildings = new HashMap<String,HashMap<String,String>>();
-	            for (Building building : settle.getBuildingList().getBuildingList().values())
+	            for (Building building : settle.getBuildingList().values())
 	            {
 		            values = new HashMap<String,String>();
 		            
@@ -213,8 +213,8 @@ public class SettlementData
 
             	//Biome.valueOf(settle.getBiome()));
             	settle.setName(config.getString(section+".name"));
-            	settle.setOwner(config.getString(section+".owner"));
-            	settle.setIsCapital(config.getBoolean(section+".isCapital"));
+            	settle.setOwnerId(config.getString(section+".owner"));
+            	settle.setIsCapital(config.getBoolean(section+".isCapital",false));
             	settle.setIsActive(config.getBoolean(section+".isActive"));
             	settle.getBank().addKonto(config.getDouble(section+".bank",0.0),"SettleRead",settle.getId());
             	

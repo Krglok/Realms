@@ -62,8 +62,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.zip.*;
 
-import net.minecraft.util.io.netty.handler.codec.compression.ZlibDecoder;
-
 public class MCRegionFile {
 
     private static final int VERSION_GZIP = 1;

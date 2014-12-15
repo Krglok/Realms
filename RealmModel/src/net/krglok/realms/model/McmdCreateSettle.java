@@ -54,7 +54,7 @@ public class McmdCreateSettle implements iModelCommand
 			isNPC = true;
 		} else
 		{
-			for (Owner fOwner : rModel.getOwners().getOwners().values())
+			for (Owner fOwner : rModel.getOwners().values())
 			{
 				if (playerName.equalsIgnoreCase(fOwner.getPlayerName()))
 				{

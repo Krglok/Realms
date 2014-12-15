@@ -97,9 +97,9 @@ public class CmdSettleCreate extends RealmsCommand
 		Owner owner; 
 		if (sRegion.getOwners().size() == 0)
 		{
-			playerName = plugin.getRealmModel().getOwners().getOwners().get(0).getPlayerName();
+			playerName = plugin.getRealmModel().getOwners().get(0).getPlayerName();
 			isNPC = true;
-			owner = plugin.getRealmModel().getOwners().getOwners().get(0);
+			owner = plugin.getRealmModel().getOwners().get(0);
 		} else
 		{
 			for (String name : sRegion.getOwners())

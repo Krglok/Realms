@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.Realms;
-import net.krglok.realms.tool.StrongholdTools;
+import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -94,7 +94,7 @@ public class CmdRealmsCheck extends RealmsCommand
         }
         for (String key : buildingStat.keySet())
         {
-	    	String sName = StrongholdTools.setStrleft(key, 20);
+	    	String sName = ConfigBasis.setStrleft(key, 20);
 	    	msg.add(sName+":"+ChatColor.YELLOW+buildingStat.get(key));
         }
 		plugin.getMessageData().printPage(sender, msg, page);

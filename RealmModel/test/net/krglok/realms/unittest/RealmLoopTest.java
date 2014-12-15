@@ -125,8 +125,8 @@ public class RealmLoopTest
 	@SuppressWarnings("unused")
 	private void showBuildings(Settlement settle)
 	{
-		System.out.println("== Buildings "+settle.getBuildingList().getBuildingList().size());
-		for (Building buildg : settle.getBuildingList().getBuildingList().values())
+		System.out.println("== Buildings "+settle.getBuildingList().size());
+		for (Building buildg : settle.getBuildingList().values())
 		{
 			System.out.println("- "+buildg.getHsRegion()+" : "+buildg.getHsRegionType()+" :W "+buildg.getWorkerInstalled()+" :E "+buildg.isEnabled());
 		}
@@ -232,7 +232,7 @@ public class RealmLoopTest
 	
 	private void doCleanRequest(RealmModel rModel)
 	{
-		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		for (Settlement settle : rModel.getSettlements().values())
 		{
 			settle.buildManager().getCleanRequest().clear();
 		}
@@ -240,7 +240,7 @@ public class RealmLoopTest
 	
 	private void doBuildRequest(RealmModel rModel)
 	{
-		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		for (Settlement settle : rModel.getSettlements().values())
 		{
 			settle.buildManager().getBuildRequest().clear();
 		}
@@ -248,7 +248,7 @@ public class RealmLoopTest
 
 	private void doRegionRequest(RealmModel rModel)
 	{
-		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		for (Settlement settle : rModel.getSettlements().values())
 		{
 			settle.buildManager().getRegionRequest().clear();
 		}
@@ -256,7 +256,7 @@ public class RealmLoopTest
 
 	private void doChestRequest(RealmModel rModel)
 	{
-		for (Settlement settle : rModel.getSettlements().getSettlements().values())
+		for (Settlement settle : rModel.getSettlements().values())
 		{
 			settle.buildManager().getChestSetRequest().clear();
 		}
@@ -336,7 +336,7 @@ public class RealmLoopTest
 			int month = days / 30;
 			System.out.println(" ");
 			System.out.println("== Laufzeit "+days+" Tage ");
-			for (Settlement settle : rModel.getSettlements().getSettlements().values())
+			for (Settlement settle : rModel.getSettlements().values())
 			{
 				makeSettleAnalysis(settle, month);
 //				showBuildings(settle);

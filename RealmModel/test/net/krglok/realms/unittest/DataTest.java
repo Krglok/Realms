@@ -32,7 +32,7 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.MemberLevel;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
@@ -45,6 +45,8 @@ import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.DataStoreCaseBook;
 import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.DataStoreKingdom;
+import net.krglok.realms.data.DataStoreOwner;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.RegimentData;
 import net.krglok.realms.data.SettlementData;
@@ -65,7 +67,6 @@ import net.krglok.realms.unit.UnitType;
 public class DataTest implements DataInterface
 {
 	
-	private static final String NPC_0 = "NPC0";
 	private static final String NPC_1 = "NPC1";
 	private static final String NPC_2 = "NPC2";
 //	private static final String NPC_4 = "NPC4";
@@ -76,143 +77,130 @@ public class DataTest implements DataInterface
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 	
 	private OwnerList testOwners ;
-	private KingdomList testRealms ;
+	private KingdomList testKingdoms ;
 	private SettlementList testSettlements;
 	private BuildingList testBuildings; 
 	private RegimentList regiments; 		// data readed from file
 	private CaseBookList caseBooks;
+    private ItemPriceList priceList ;
 
 	private SettlementData settleData;
-    private ItemPriceList priceList ;
 	private LogList logList;
 	private RegimentData regData;
 	private DataStoreCaseBook caseBookData;
+	private DataStoreOwner ownerData;
+	private DataStoreKingdom kingdomData;
+	
+	private String dataFolder;
 
 	public DataTest(LogList logList)
 	{
 		this.logList = logList;
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
-		settleData = new SettlementData(path);
+		dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		initTestData();
 
 	}
 
 	public void initTestData()
 	{
+		System.out.println("DataTest.initTestData()");
 		this.priceList = getPriceList();
-		initOwnerList();
-		initRealmList();
-		initBuildingList();
-//		initSettlementList ();  // read predefined Settlement
-		initSettleDate();		// read Settlements from Datafile
-		this.caseBooks = initCaseBookData();
-	}
-	
-	/**
-	 * erzeugt testdaten mit 6 Owner,  3 NPC und 3 PC
-	 * @return
-	 */
-	private void initOwnerList()
-	{
-		testOwners = new OwnerList();
-		testOwners.addOwner(new Owner(0, MemberLevel.MEMBER_NONE, 0, NPC_0, 1, true));
-		testOwners.addOwner(new Owner(1, MemberLevel.MEMBER_NONE, 0, NPC_1, 0, true));
-		testOwners.addOwner(new Owner(2, MemberLevel.MEMBER_NONE, 0, NPC_2, 0, true));
-		testOwners.addOwner(new Owner(3, MemberLevel.MEMBER_NONE, 0, PC_3, 0, false));
-		testOwners.addOwner(new Owner(4, MemberLevel.MEMBER_NONE, 0, PC_4, 0, false));
-		testOwners.addOwner(new Owner(5, MemberLevel.MEMBER_NONE, 0, PC_5, 0, false));
+		caseBookData = new DataStoreCaseBook(dataFolder);
+		ownerData = new DataStoreOwner(dataFolder);
+		kingdomData = new DataStoreKingdom(dataFolder); 
+		settleData = new SettlementData(dataFolder);
+		regData = new RegimentData(dataFolder);
 		
+		initOwnerList();		// read dta from data file
+		initSettleDate(testOwners);		// read Settlements from data file
+		initKingdomList(testOwners);		// read data from data file
+		initBuildingList();		// set constant list
+		
+		this.caseBooks = initCaseBookData();	// read data from data file
 	}
 	
-
-	/**
-	 * Erzeugt testdaten fuer eine Realm List mit
-	 * - NPC Realm, NPC Owner , nur ein Member
-	 * @return
-	 */
-	private void initRealmList()
-	{
-		testRealms = new KingdomList();
-		Owner owner ;
-		if (testOwners == null)
-		{
-			owner = new Owner(6, MemberLevel.MEMBER_NONE, 0, "NPC4", 0, true);
-		} else
-		{
-			owner = testOwners.getOwner(NPC_0);
-		}
-		testRealms.addKingdom(new Kingdom(1, "Realm 1 NPC", owner, new MemberList(), true));
-	}
 	
-	/**
-	 * erzeugt testdaten fuer eine SettlementList mit 
-	 * - 1 Settlement 
-	 * - buildingList fuer Settlement   
-	 */
-	private void initSettlementList ()
-	{
-		LocationData position = new LocationData("SteamHaven",1000.0,64.0,1000.0);
-		testSettlements = new SettlementList(1);
-		testSettlements.addSettlement(createSettlement(1, position));
-	}
 	
-	public void initSettleDate()
+//	/**
+//	 * erzeugt testdaten fuer eine SettlementList mit 
+//	 * - 1 Settlement 
+//	 * - buildingList fuer Settlement   
+//	 */
+//	private void initSettlementList ()
+//	{
+//		LocationData position = new LocationData("SteamHaven",1000.0,64.0,1000.0);
+//		testSettlements = new SettlementList(1);
+//		testSettlements.addSettlement(createSettlement(1, position));
+//	}
+	
+	public void initSettleDate(OwnerList owners)
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
-        File DataFile = new File(path, "Realms");
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+//        File DataFile = new File(path, "Realms");
         SettlementList settlements = new SettlementList(0);
-		SettlementData sData = new SettlementData(path);
-		
+		Settlement settle = null;
+		Owner owner = null;
 //		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = sData.readSettleList();
-		settlements.getSettlements().clear();
+		ArrayList<String> sList = settleData.readSettleList();
+		settlements.clear();
 		for (String sName : sList)
 		{
-			settlements.addSettlement(sData.readSettledata(Integer.valueOf(sName),this.getPriceList()));
+			settle = settleData.readSettledata(Integer.valueOf(sName),this.getPriceList());
+			String ref = settle.getOwnerId();
+			if (ref == null)
+			{
+				owner = owners.findPlayername(ConfigBasis.NPC_0);
+				settle.setOwner(owner);
+			} else
+			{
+				owner = owners.findPlayername(ref);
+				settle.setOwner(owner);
+			}
+			settlements.addSettlement(settle);
 		}
 		this.testSettlements= settlements; 
 		
 	}
 
-	private Settlement createSettlement(int id, LocationData position)
-	{
-		
-//		Position position = position; //new Position(0.0, 0.0, 0.0);
-		this.priceList = getPriceList();
-		Owner owner = testOwners.getOwner(NPC_0);
-		Barrack barrack = new Barrack(5);
-		Warehouse warehouse = new Warehouse(6912);
-		BuildingList buildingList = new BuildingList(); 
-		Townhall townhall = new Townhall(true);
-		Bank bank = new Bank(this.logList);
-		Resident resident = new Resident();
-		resident.setSettlerCount(13);
-		Settlement settle =  new Settlement(
-				id, 
-				SettleType.HAMLET, 
-				"TestSiedlung", 
-				position, 
-				owner.getPlayerName(),
-				true, 
-				barrack, 
-				warehouse,
-				buildingList, 
-				townhall, 
-				bank,
-				resident,
-				"",
-				Biome.PLAINS,
-				0,
-				priceList
-				);
-		
-		for (Building b : testBuildings.getBuildingList().values())
-		{
-			Settlement.addBuilding(b, settle);
-		}
-		
-		return settle;
-	}
+//	private Settlement createSettlement(int id, LocationData position)
+//	{
+//		
+////		Position position = position; //new Position(0.0, 0.0, 0.0);
+//		this.priceList = getPriceList();
+//		Owner owner = testOwners.getOwner(ConfigBasis.NPC_0);
+//		Barrack barrack = new Barrack(5);
+//		Warehouse warehouse = new Warehouse(6912);
+//		BuildingList buildingList = new BuildingList(); 
+//		Townhall townhall = new Townhall(true);
+//		Bank bank = new Bank(this.logList);
+//		Resident resident = new Resident();
+//		resident.setSettlerCount(13);
+//		Settlement settle =  new Settlement(
+//				id, 
+//				SettleType.HAMLET, 
+//				"TestSiedlung", 
+//				position, 
+//				owner.getPlayerName(),
+//				true, 
+//				barrack, 
+//				warehouse,
+//				buildingList, 
+//				townhall, 
+//				bank,
+//				resident,
+//				"",
+//				Biome.PLAINS,
+//				0,
+//				priceList
+//				);
+//		
+//		for (Building b : testBuildings.values())
+//		{
+//			Settlement.addBuilding(b, settle);
+//		}
+//		
+//		return settle;
+//	}
 	
 	/**
 	 * create a test Home, id and settler are configurable
@@ -579,7 +567,8 @@ public class DataTest implements DataInterface
 	{
 		Settlement plot = new Settlement(this.logList);
 		
-		plot.setOwner(testOwners.getOwner(NPC_0).getPlayerName());
+		plot.setOwnerId(testOwners.getOwner(ConfigBasis.NPC_0).getPlayerName());
+		plot.setOwner(testOwners.getOwner(ConfigBasis.NPC_0));
 		plot.getWarehouse().setItemList(defaultWarehouseItems());
 		return plot;
 	}
@@ -630,11 +619,6 @@ public class DataTest implements DataInterface
 		return testOwners;
 	}
 
-	public KingdomList initRealms()
-	{
-		return testRealms;
-		
-	}
 
 	@Override
 	public SettlementList initSettlements()
@@ -649,7 +633,7 @@ public class DataTest implements DataInterface
 
 	public KingdomList getTestRealms()
 	{
-		return testRealms;
+		return testKingdoms;
 	}
 
 	public SettlementList getTestSettlements()
@@ -660,8 +644,7 @@ public class DataTest implements DataInterface
 	@Override
 	public KingdomList initKingdoms()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return testKingdoms;
 	}
 
 	@Override
@@ -978,18 +961,87 @@ public class DataTest implements DataInterface
 	public CaseBookList initCaseBookData()
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
-        CaseBookList caseBooks = new CaseBookList();
-		DataStoreCaseBook sData = new DataStoreCaseBook(path);
-		
-		ArrayList<String> sList = sData.readDataList();
-		caseBooks.clear();
+		CaseBookList caseBooks = new CaseBookList(); 
+		ArrayList<String> sList = caseBookData.readDataList();
 		for (String refId : sList)
 		{
-			CaseBook caseBook = sData.readData(refId);
+			CaseBook caseBook = caseBookData.readData(refId);
 			caseBooks.addBook(caseBook); 
 		}
 		return caseBooks;
 	}
 
+	public void writeOwner(Owner owner)
+	{
+		String refId = String.valueOf(owner.getId());
+		ownerData.writeData(owner, refId);
+	}
+	
+	
+	/**
+	 * erzeugt testdaten mit 6 Owner,  3 NPC und 3 PC
+	 * @return
+	 */
+	public void initOwnerList()
+	{
+		testOwners = new OwnerList();
+		Owner owner ;
+		
+		ArrayList<String> refList = ownerData.readDataList();
+		
+		for (String ref : refList)
+		{
+			owner = ownerData.readData(ref);
+			testOwners.addOwner(owner);
+		}
+		
+		if (testOwners.getOwner("NPC_0") == null)
+		{
+			testOwners.addOwner(Owner.initDefaultOwner());
+		}
+		
+//		testOwners.addOwner(new Owner(0, NobleLevel.COMMONER, 0, NPC_0, 1, true,""));
+//		testOwners.addOwner(new Owner(1, NobleLevel.COMMONER, 0, NPC_1, 0, true,""));
+//		testOwners.addOwner(new Owner(2, NobleLevel.COMMONER, 0, NPC_2, 0, true,""));
+//		testOwners.addOwner(new Owner(3, NobleLevel.COMMONER, 0, PC_3, 0, false,""));
+//		testOwners.addOwner(new Owner(4, NobleLevel.COMMONER, 0, PC_4, 0, false,""));
+//		testOwners.addOwner(new Owner(5, NobleLevel.COMMONER, 0, PC_5, 0, false,""));
+		
+	}
 
+	public void writeKingdom(Kingdom kingdom)
+	{
+		String refId = String.valueOf(kingdom.getId());
+		kingdomData.writeData(kingdom, refId);
+	}
+
+	/**
+	 * Erzeugt testdaten fuer eine Realm List mit
+	 * - NPC Realm, NPC Owner , nur ein Member
+	 * @return
+	 */
+	private void initKingdomList(OwnerList owners)
+	{
+		testKingdoms = new KingdomList();
+		Kingdom kingdom;
+		
+		ArrayList<String> refList = kingdomData.readDataList();
+		
+		for (String ref : refList)
+		{
+			kingdom = kingdomData.readData(ref);
+			testKingdoms.addKingdom(kingdom);
+		}
+		
+		if (testKingdoms.getKingdom(0) == null)
+		{
+			testKingdoms.addKingdom(Kingdom.initDefaultKingdom(testOwners));
+		}
+		
+		for (Owner owner : owners.values())
+		{
+			testKingdoms.addMember(owner.getKingdomId(), owner);
+		}
+	}
+	
 }

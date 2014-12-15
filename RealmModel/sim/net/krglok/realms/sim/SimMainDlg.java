@@ -358,7 +358,7 @@ public class SimMainDlg
 		
 		realmModel = new RealmModel(
 				simServer.getDataStorage().initKingdoms().size(), 
-				simServer.getDataStorage().initSettlements().getSettlements().size(), 
+				simServer.getDataStorage().initSettlements().size(), 
 				simServer, 
 				configData, 
 				simServer.getDataStorage(), 
@@ -451,9 +451,9 @@ public class SimMainDlg
 		{
 			int id = 1;
 			SettlementList settlements = simServer.getDataStorage().initSettlements();
-			Object[][] dataRows = new Object[settlements.getSettlements().size()][3];
+			Object[][] dataRows = new Object[settlements.size()][3];
 			int index = 0;
-			for (Settlement settle : settlements.getSettlements().values())
+			for (Settlement settle : settlements.values())
 			{
 //				if (index <100)
 				{

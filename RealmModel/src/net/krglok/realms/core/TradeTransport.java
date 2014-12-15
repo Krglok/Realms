@@ -91,6 +91,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 	 * berechnet Kaufpreis und bucht das Geld auf das Settlement
 	 * SettleId , ist derjenige, der das Geld erhaelt
 	 * TargetId , ist derjenige der die Ware erhaelt
+	 * the fullfillSender mark order for delete, when targetId = 0 
 	 * 
 	 * @param settle der Absender der Ware 
 	 */
@@ -116,6 +117,13 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 		}
 	}
 	
+	/**
+	 * deposit amount in warehouse
+	 * set targetId = 0 , when order is DECLINE
+	 * the fullfillSender mark order for delete, when targetId = 0 
+	 * 
+	 * @param settle
+	 */
 	public void fullfillTarget(Settlement settle)
 	{
 		for (TradeMarketOrder to : this.values())

@@ -39,7 +39,7 @@ public class CaseBookDataTest
 	@Test
 	public void testCaseBookWrite()
 	{
-		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(logTest);
 		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
@@ -63,4 +63,26 @@ public class CaseBookDataTest
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void testCaseBookRead()
+	{
+		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
+		LogList logTest = new LogList(dataFolder);
+		DataTest data = new DataTest(logTest);
+		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
+		CaseBookList bookList = data.initCaseBooks();
+		
+		for (CaseBook caseBook : bookList.values())
+		{
+			System.out.println("Book List "+bookList.size());
+			System.out.print(caseBook.getId());
+			System.out.print(" | ");
+			System.out.print(caseBook.getTitel());
+			System.out.print(" | ");
+			System.out.print(caseBook.getAuthor());
+			System.out.print(" | ");
+			System.out.print(caseBook.getPages().size());
+			System.out.println("");
+		}
+	}
 }

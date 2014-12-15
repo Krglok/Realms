@@ -49,7 +49,7 @@ public class RegimentManagerTest {
 //		System.out.print(" |"+"Gold");
 //		System.out.print(" |"+"Emer.");
 		System.out.println(" ");
-		for (Settlement settle : settleList.getSettlements().values())
+		for (Settlement settle : settleList.values())
 		{
 			System.out.print(settle.getId());
 			System.out.print(" | "+ConfigBasis.setStrleft(settle.getName(),12));

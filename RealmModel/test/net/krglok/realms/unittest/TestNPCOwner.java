@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.MemberLevel;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -24,7 +24,7 @@ public class TestNPCOwner
 	public void testOwnerNPC()
 	{
 		//  NPC Owner
-		Owner NPCOwner = new Owner(0, MemberLevel.MEMBER_NONE, 0, "NPC1", 0, true);
+		Owner NPCOwner = new Owner(0, NobleLevel.COMMONER, 0, "NPC1", 0, true, "");
 		boolean expected = true;
 		boolean actual = NPCOwner.isNPC();
 //		readSettledata(1);

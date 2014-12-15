@@ -123,10 +123,10 @@ public class SettlementListTest
 		if (isOutput)
 		{
 			System.out.println("==Settlements :"+sList.count());
-			for (Settlement settle : sList.getSettlements().values())
+			for (Settlement settle : sList.values())
 			{
 				System.out.println(settle.getId()+":"+settle.getName()+":"+settle.getBuildingList().size());
-				for (Building building : settle.getBuildingList().getBuildingList().values())
+				for (Building building : settle.getBuildingList().values())
 				{
 					System.out.println("  "+building.getBuildingType().name()+":"+building.getHsRegion());
 				}
@@ -175,7 +175,7 @@ public class SettlementListTest
 		int actual = sList.count();
 		int dayCounter = 0;
 
-		for (Settlement settle : sList.getSettlements().values())
+		for (Settlement settle : sList.values())
 		{
 			dayCounter++;
 			settle.doProduce(server);
@@ -190,10 +190,10 @@ public class SettlementListTest
 		if (isOutput)
 		{
 			System.out.println("==Settlements :"+sList.count());
-			for (Settlement settle : sList.getSettlements().values())
+			for (Settlement settle : sList.values())
 			{
 				System.out.println(settle.getId()+":"+settle.getName()+":"+settle.getBuildingList().size());
-				for (Building building : settle.getBuildingList().getBuildingList().values())
+				for (Building building : settle.getBuildingList().values())
 				{
 					System.out.println("  "+building.getBuildingType().name()+":"+building.getHsRegion());
 				}

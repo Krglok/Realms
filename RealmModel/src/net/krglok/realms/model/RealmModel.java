@@ -67,7 +67,6 @@ public class RealmModel
 	private LogList logList;
 	
 	private OwnerList owners;
-	private KingdomList realms;
 	private SettlementList settlements;
 	private CommandQueue commandQueue;				// List von Commands , die abgearbeitet werden muessen
 	private ArrayList<Settlement> tradeQueue;		// List von Settlements , die abgearbeitet werden muessen
@@ -82,6 +81,7 @@ public class RealmModel
 	private ColonyList colonys;				// List of colonys in game
 	private RegimentList regiments; 		// List of Regiments in game 
 	private CaseBookList caseBooks;			// List of Books in game
+	private KingdomList kingdoms;
 	
 	public NpcManager npcManager;
 	private UnitFactory unitFactory = new UnitFactory();
@@ -123,7 +123,7 @@ public class RealmModel
 		
 		this.logList = logList;
 		owners = new OwnerList();
-		realms = new KingdomList(realmCounter);
+		kingdoms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
 		colonys     = new ColonyList(colonyCounter);
 		regiments	= new RegimentList(0);
@@ -190,25 +190,6 @@ public class RealmModel
 	{
 		isInit = true;
 		this.owners = owners;
-	}
-
-	/**
-	 * 
-	 * @return RealmList
-	 */
-	public KingdomList getRealms()
-	{
-		return realms;
-	}
-
-	/**
-	 * replace RealmList
-	 * @param realms
-	 */
-	@SuppressWarnings("unused")
-	private void setRealms(KingdomList kingdoms)
-	{
-		this.realms = kingdoms;
 	}
 
 	/**
@@ -288,6 +269,15 @@ public class RealmModel
 	}
 
 
+	/**
+	 * @return the kingdoms
+	 */
+	public KingdomList getKingdoms()
+	{
+		return kingdoms;
+	}
+
+
 	public void OnEnable()
 	{
 		switch (modelStatus)
@@ -311,11 +301,11 @@ public class RealmModel
 	public boolean initModel()
 	{
 		boolean isDone = config.initConfigData();
+		caseBooks = data.initCaseBooks();
 		owners = data.initOwners();
-		realms = data.initKingdoms();
 		settlements = data.initSettlements();
 		regiments = data.initRegiments();
-		caseBooks = data.initCaseBooks();
+		kingdoms = data.initKingdoms();
 		isInit = isDone;
 		return isInit;
 	}
@@ -645,7 +635,7 @@ public class RealmModel
 	 */
 	private void managersRun()
 	{
-		for (Settlement settle : settlements.getSettlements().values())
+		for (Settlement settle : settlements.values())
 		{
 			settle.settleManager().run(this, settle);
 			settle.buildManager().run(this, settle.getWarehouse(),settle);
@@ -723,7 +713,7 @@ public class RealmModel
 
 	private ModelStatus initTradeQueue()
 	{
-		for (Settlement settle : settlements.getSettlements().values())
+		for (Settlement settle : settlements.values())
 		{
 			if (settle.isEnabled())
 			{
@@ -756,7 +746,7 @@ public class RealmModel
 	private ModelStatus initProductionQueue()
 	{
 //		System.out.println("Init Production");
-		for (Settlement settle : settlements.getSettlements().values())
+		for (Settlement settle : settlements.values())
 		{
 			if (settle.isEnabled())
 			{
@@ -805,7 +795,7 @@ public class RealmModel
 	
 	private ModelStatus initTaxQueue()
 	{
-		for (Settlement settle : settlements.getSettlements().values())
+		for (Settlement settle : settlements.values())
 		{
 			if (settle.isEnabled())
 			{
@@ -913,7 +903,7 @@ public class RealmModel
 	 */
 	private void doHunter()
 	{
-		for (Settlement settle : settlements.getSettlements().values())
+		for (Settlement settle : settlements.values())
 		{
 			
 		}
@@ -922,7 +912,7 @@ public class RealmModel
 	
 	private void doTrap()
 	{
-		for (Settlement settle : settlements.getSettlements().values())
+		for (Settlement settle : settlements.values())
 		{
 			
 		}
@@ -933,9 +923,9 @@ public class RealmModel
 	 */
 	private void doGateClose()
 	{
-		for (Settlement settle : settlements.getSettlements().values())
+		for (Settlement settle : settlements.values())
 		{
-			for (Building building : settle.getBuildingList().getBuildingList().values())
+			for (Building building : settle.getBuildingList().values())
 			{
 				if (building.getBuildingType() == BuildPlanType.GATE)
 				{

@@ -1,0 +1,19 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+radius: 220
+requirements:
+- STRONGHOLD.1
+central-structure: STRONGHOLD
+money-requirement: 250000.0
+money-output-daily: 0.0
+max-power: 1500
+daily-power-increase: 20
+charter: 2
+child-super-regions: 
+- Hamlet
+exp: 5000
