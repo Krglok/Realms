@@ -18,5 +18,10 @@ money-output-daily: 0.0
 max-power: 100.0
 daily-power-increase: 10
 charter: 0
-child-regions: []
+child-regions: 
+- LEHEN_1
+- LEHEN_2
+- LEHEN_3
+- LEHEN_4
 exp: 500
+description: Small movable settlement for millitary use

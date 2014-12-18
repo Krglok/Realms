@@ -5,29 +5,25 @@ effects:
 - denyfirenoreagent
 - denyliquidnoreagent
 - denyexplosionnoreagent
-radius: 70
+radius: 220
 requirements:
-- HALL.1
-- WAREHOUSE.1
-- TAVERNE.1
-- HOME.3
-- WHEAT.2
-- WOODCUTTER.1
-- QUARRY.1
-- FARMHOUSE.3
-central-structure: HALL
-money-requirement: 150000.0
+- PALACE.1
+central-structure: KEEP
+money-requirement: 500000.0
 money-output-daily: 0.0
 max-power: 1500
 daily-power-increase: 20
 charter: 2
 child-super-regions: 
+- CAMP
 - CLAIM
 - HAMLET
+- TOWN
+- CITY
+- METROPOL
 - FORTRESS
 - LEHEN_1
 - LEHEN_2
 - LEHEN_3
-- LEHEN_4
 exp: 5000
-description: Small settlement for commoner (none noble)
+description: Highest settlement for noble (only for the king)

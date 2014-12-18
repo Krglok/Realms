@@ -1859,11 +1859,15 @@ public class Settlement //implements Serializable
 	/**
 	 * @param owner the owner to set
 	 */
-	public void setOwner(Owner owner)
+	public void setOwner(Owner nOwner)
 	{
-		this.owner = owner;
-		this.setOwnerId(owner.getPlayerName());
+		if (nOwner == null)
+		{
+			this.owner = nOwner;
+			this.setOwnerId(nOwner.getPlayerName());
+		}
 	}
+		
 
 	public Owner getOwner()
 	{

@@ -2,7 +2,12 @@ package net.krglok.realms.tool;
 
 import static org.junit.Assert.*;
 
+import net.krglok.realms.data.KnowledgeData;
 import net.krglok.realms.science.Achivement;
+import net.krglok.realms.science.AchivementName;
+import net.krglok.realms.science.AchivementType;
+import net.krglok.realms.science.KnowledgeNode;
+import net.krglok.realms.science.KnowledgeType;
 import net.krglok.realms.tool.MyTree.Node;
 
 import org.junit.Test;
@@ -78,7 +83,7 @@ public class MyTreeTest
 		/// implicite parent
 		String key1 = "Child_1";
 		MyTree.Node<String> child = root.addChild(new MyTree.Node<String>(key1));
-		Achivement data = new Achivement("BASE0","Basisgebäude");
+		Achivement data = new Achivement(AchivementType.BUILD,AchivementName.HOME);
 		if (tree.addData(root, data) == false)
 		{
 			System.out.println("OOPS ein node oder data ist NULL");
@@ -87,7 +92,7 @@ public class MyTreeTest
 		boolean actual  = (tree.getData(tree.getRoots().get(0)) != null ? true : false);
 		MyTree.Node<String> node =  tree.getRoots().get(0);
 		Achivement achiv = (Achivement) tree.getData(node);
-		System.out.println(achiv.getId());
+		System.out.println(achiv.getName());
 		assertEquals(expected, actual);
 	}
 
@@ -95,13 +100,16 @@ public class MyTreeTest
 	@Test
 	public void testGetDataList()
 	{
+		KnowledgeData knData = new KnowledgeData();
 		MyTree tree = new MyTree();
-		MyTree.Node<String> root = new MyTree.Node<String>("ROOT");
+		String rootName = "TECH_0"; 
+		
+		MyTree.Node<String> root = new MyTree.Node<String>(rootName);
 		tree.getRoots().add(root);
 		/// implicite parent
-		String key1 = "Child_1";
+		String key1 = "TECH_1";
 		MyTree.Node<String> child = root.addChild(new MyTree.Node<String>(key1));
-		Achivement data = new Achivement("BASE0","Basisgebäude");
+		KnowledgeNode data = knData.getKnowledgeList().get(rootName);
 		if (tree.addData(root, data) == false)
 		{
 			System.out.println("OOPS ein node oder data ist NULL");

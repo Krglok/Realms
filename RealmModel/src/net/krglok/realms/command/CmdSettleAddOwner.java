@@ -102,19 +102,8 @@ public class CmdSettleAddOwner extends RealmsCommand
 			if ( settle != null)
 			{
 				Owner oldOwner = settle.getOwner();
-				if (oldOwner != null)
-				{
-					oldOwner.getSettleList().removeSettlement(settleId);
-					plugin.getRealmModel().getKingdoms().removeSettlement(oldOwner, settleId);
-				}
-				
 				settle.setOwner(owner);
-				owner.getSettleList().addSettlement(settle);
 				Kingdom kingdom = plugin.getRealmModel().getKingdoms().getKingdom(owner.getKingdomId());
-				if (kingdom.containSettlement(settleId) == false)
-				{
-					kingdom.getSettlements().addSettlement(settle);
-				}
 				SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(settle.getName());
 				if (sRegion != null)
 				{

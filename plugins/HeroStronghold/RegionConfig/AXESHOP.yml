@@ -20,4 +20,4 @@ output:
 - WOOD_AXE.10
 money-requirement: 500.0
 upkeep-money-output: 0.0
-description: produce wood_axe 
+description: produce wood_axe , for COWSHED

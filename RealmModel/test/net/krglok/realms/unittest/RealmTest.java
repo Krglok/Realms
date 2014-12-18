@@ -75,39 +75,8 @@ public class RealmTest
 		assertEquals("Owner test ",expected, actual);
 	}
 
-	@Test
-	public void testGetMemberList()
-	{
-		Kingdom realm = new Kingdom();
-		Owner member = new Owner(0, NobleLevel.COMMONER, 0, "MEMBER1", 0, false,"");
-		int expected = 1;
-		realm.addMember(member);	// insert 1
-		realm.addMember(member);    // insert 1 again fails and only 1 is in list because List is unique 
-		int actual = realm.getMemberList().size(); 
-		assertEquals("MemberList test ",expected, actual);
-	}
 
-	@Test
-	public void testSetMemberList()
-	{
-		Kingdom realm = new Kingdom();
-		Owner member = new Owner(0, NobleLevel.COMMONER, 0, "MEMBER1", 0, false,"");
-		int expected = 1;
-		realm.addMember(member);
-		int actual = realm.getMemberList().size(); 
-		assertEquals("MemberList test ",expected, actual);
-	}
 
-	@Test
-	public void testAddMember()
-	{
-		Kingdom realm = new Kingdom();
-		Owner member = new Owner(0, NobleLevel.COMMONER, 0, "MEMBER1", 0, false,"");
-		int expected = 1;
-		realm.addMember(member);	// insert 1
-		int actual = realm.getMemberList().size(); 
-		assertEquals("MemberList test ",expected, actual);
-	}
 
 	@Test
 	public void testIsNPCRealm()

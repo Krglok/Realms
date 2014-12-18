@@ -1,60 +1,96 @@
 package net.krglok.realms.science;
 
+
+/**
+ * Der Name ist absichtlicht falsch geschrieben damit eine relevance zu den MC achievements besteht 
+ * aber doch ein Unterschied besteht, der klar macht, dass dies ICHT die gleichen ojeekte sind.
+ *    
+ * @author Windu
+ *
+ */
 public class Achivement
 {
-	private String id;
-	private String name;
-	private String material;
+	private AchivementType achiveType;
+	private AchivementName achiveName;
+	private boolean isEnaled;
 	
-	public Achivement()
+	/**
+	 * create new Achievement with new ID
+	 */
+	public Achivement(AchivementType achiveType,AchivementName achiveName )
 	{
-		this.id = "";
-		this.name = "";
-		this.material = "";
-	}
-	
-	public Achivement(String id, String name)
-	{
-		this.id = id;
-		this.name = name;
-		this.material = "";
+		this.achiveName = achiveName;
+		this.achiveType = achiveType;
+		this.setEnaled(false);
 	}
 
-	public Achivement(String id, String name, String materialName)
+	public Achivement(AchivementType achivementType, AchivementName achivementName, boolean isEnabled)
 	{
-		this.id = id;
-		this.name = name;
-		this.material = materialName;
+		this.achiveName = achivementName;
+		this.achiveType = achivementType;
+		this.setEnaled(isEnabled);
 	}
 	
-	public String getId()
+
+
+	public AchivementType getAchiveType()
 	{
-		return id;
+		return achiveType;
 	}
 
-	public void setId(String id)
+	public AchivementName getAchiveName()
 	{
-		this.id = id;
+		return achiveName;
+	}
+
+	public static String makeName(AchivementType achiveType,AchivementName achiveName)
+	{
+		return achiveType+"_"+achiveName;
 	}
 
 	public String getName()
 	{
-		return name;
+		return makeName(this.achiveType,this.achiveName);
 	}
 
-	public void setName(String name)
+	public static String splitNameTyp(String value)
 	{
-		this.name = name;
+        String[] params = value.split("_");
+
+		return params[0];
 	}
 
-	public String getMaterial()
+	public static String splitNameName(String value)
 	{
-		return material;
+        String[] params = value.split("_");
+
+		return params[1];
 	}
 
-	public void setMaterial(String material)
+	public String getTypeName()
 	{
-		this.material = material;
+		return setTypeName();
+	}
+
+	private String setTypeName()
+	{
+		return  achiveType.name()+"_"+achiveName.name();
+	}
+
+	/**
+	 * @return the isEnaled
+	 */
+	public boolean isEnaled()
+	{
+		return isEnaled;
+	}
+
+	/**
+	 * @param isEnaled the isEnaled to set
+	 */
+	public void setEnaled(boolean isEnaled)
+	{
+		this.isEnaled = isEnaled;
 	}
 
 }

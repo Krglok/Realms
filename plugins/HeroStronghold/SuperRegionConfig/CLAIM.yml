@@ -20,5 +20,6 @@ max-power: 1000.0
 daily-power-increase: 10
 charter: 0
 child-regions:
-- Hamlet
+- HAMLET
 exp: 500
+description: Smallest settlement for noble, only register area for a kingdom. No buildings needed.

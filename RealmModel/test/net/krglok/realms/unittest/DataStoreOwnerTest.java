@@ -8,6 +8,10 @@ import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.data.DataStoreOwner;
 import net.krglok.realms.data.LogList;
+import net.krglok.realms.science.Achivement;
+import net.krglok.realms.science.AchivementList;
+import net.krglok.realms.science.AchivementName;
+import net.krglok.realms.science.AchivementType;
 
 import org.junit.Test;
 
@@ -15,7 +19,7 @@ public class DataStoreOwnerTest
 {
 
 	@Test
-	public void testDataStoreOwner()
+	public void testDataWriteOwner()
 	{
 		String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
 		String fileName    = "owner";
@@ -54,6 +58,8 @@ public class DataStoreOwnerTest
 		ownerNPC.setCapital(0);
 		ownerNPC.setKingdomId(0);
 		ownerNPC.setIsNPC(true);
+		Achivement achiv = new Achivement(AchivementType.BOOK, AchivementName.HOME, true);
+		ownerNPC.getAchivList().put(achiv.getName(), achiv);
 
 		dataOwner.writeData(owner, String.valueOf(owner.getId()));
 		dataOwner.writeData(ownerNPC, String.valueOf(ownerNPC.getId()));
@@ -96,18 +102,26 @@ public class DataStoreOwnerTest
 		DataTest data = new DataTest(logTest);
 		
 		OwnerList ownerList = data.initOwners();
+
+		int expected = 3;
+		int actual = ownerList.size();
 		
-		for (Owner owner : ownerList.values())
+		if (expected != actual)
 		{
 			System.out.println("OwnerList "+"["+ownerList.size()+"]");
-			System.out.print(owner.getId());
-			System.out.print(" | ");
-			System.out.println(owner.getPlayerName());
-			System.out.print(" | ");
-			System.out.println(owner.getUuid());
-			System.out.print(" | ");
-			System.out.println("");
+			for (Owner owner : ownerList.values())
+			{
+				System.out.print(owner.getId());
+				System.out.print(" | ");
+				System.out.println(owner.getPlayerName());
+				System.out.print(" | ");
+				System.out.println(owner.getUuid());
+				System.out.print(" | ");
+				System.out.println("");
+			}
 		}
+		assertEquals(expected, actual);
+
 	}
 	
 	

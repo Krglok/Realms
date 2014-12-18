@@ -1,0 +1,33 @@
+LEHEN:
+  '1':
+    id: 1
+    name: Freie Soeldner
+    nobleLevel: KING
+    settleType: LEHEN_4
+    owner: 1
+    kingdomId: 1
+    parentId: 0
+  '2':
+    id: 2
+    name: Steingau Mine
+    nobleLevel: COMMONER
+    settleType: CLAIM
+    owner: 3
+    kingdomId: 1
+    parentId: 0
+  '3':
+    id: 3
+    name: Steingau
+    nobleLevel: LORD
+    settleType: LEHEN_3
+    owner: 3
+    kingdomId: 1
+    parentId: 0
+  '4':
+    id: 4
+    name: Nordweg
+    nobleLevel: LORD
+    settleType: LEHEN_2
+    owner: 3
+    kingdomId: 1
+    parentId: 0

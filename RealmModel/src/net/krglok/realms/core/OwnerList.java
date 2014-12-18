@@ -3,6 +3,8 @@ package net.krglok.realms.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.krglok.realms.kingdom.Kingdom;
+
 /**
  * <pre>
  * realize a list of all owners in the model.
@@ -13,7 +15,7 @@ import java.util.Map;
  * @author oduda
  *
  */
-public class OwnerList extends HashMap<String,Owner>
+public class OwnerList extends HashMap<Integer,Owner>
 {
 
 	/**
@@ -27,13 +29,25 @@ public class OwnerList extends HashMap<String,Owner>
 		
 	}
 	
+	public int checkID(int ref)
+	{
+		while (this.containsKey(ref))
+		{
+			ref++;
+		}
+		Owner.initID(ref);
+		return Owner.getID();
+	}
+	
 	/**
 	 * owner are unique in the ownerlist.
+	 * give a new ID
 	 * @param owner
 	 */
 	public void addOwner(Owner owner)
 	{
-		String key = owner.getUuid();
+		int key = checkID(owner.getId());
+		owner.setId(key);
 		this.put(key,owner);
 	}
 	
@@ -49,26 +63,27 @@ public class OwnerList extends HashMap<String,Owner>
 	public Owner addOwner(String playerName, NobleLevel level, Boolean isNPC, String uuid, int kingdomId)
 	{
 		Owner owner = new Owner();
+		owner.setId(checkID(0));
 		owner.setLevel(level);
 		owner.setIsNPC(isNPC);
 		owner.setUuid(uuid);
 		owner.setKingdomId(kingdomId);
 		owner.setNobleLevel(NobleLevel.COMMONER);
 		owner.setCommonLevel(CommonLevel.COLONIST);
-		this.put(playerName, owner);
+		this.put(owner.getId(), owner);
 		return owner;
 	}
 	
-	public Owner getOwner(String uuid)
+	public Owner getOwner(int id)
 	{
-		return this.get(uuid);
+		return this.get(id);
 	}
 
-	public Owner getOwner(int value)
+	public Owner getOwner(String uuid)
 	{
 		for (Owner owner : this.values())
 		{
-			if (owner.getId() == value)
+			if (owner.getUuid().equals(uuid))
 			{
 				return owner;
 			}
@@ -106,19 +121,17 @@ public class OwnerList extends HashMap<String,Owner>
 		return null;
 	}
 	
-	/**
-	 * find uuid in playerlist
-	 * @param uuid
-	 * @return   null if not found
-	 */
-	public Owner findUuid(String uuid)
+	
+	public OwnerList getSubList(Kingdom kingdom)
 	{
-		Owner owner = getOwner(uuid);
-		if (owner != null)
+		OwnerList subList = new OwnerList();
+		for (Owner owner : this.values())
 		{
-			return owner;
+			if (owner.getKingdomId() == kingdom.getId())
+			{
+				subList.put(owner.getId(), owner);
+			}
 		}
-		
-		return null;
+		return subList;
 	}
 }

@@ -29,7 +29,7 @@ public class LehenList extends HashMap<Integer,Lehen>
 		int key = lehen.getId();
 		if (key > 0)
 		{
-			while (this.containsKey(key) == false)
+			while (this.containsKey(key) == true)
 			{
 				key++;
 			}
@@ -131,12 +131,12 @@ public class LehenList extends HashMap<Integer,Lehen>
 	}
 	
 
-	public LehenList getChildList(int parentId)
+	public LehenList getChildList(int Id)
 	{
 		LehenList subList = new LehenList();
 		for (Lehen lehen : this.values())
 		{
-			if (lehen.getParentId() == parentId)
+			if (lehen.getParentId() == Id)
 			{
 				subList.put(lehen.getId(), lehen);
 			}

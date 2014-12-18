@@ -87,53 +87,6 @@ public class DataFile
      */
     public void writeCaseBook(Object obj)
     {
-		try
-		{ 
-			long time1 = System.nanoTime();
-            File dataFile = new File(dataFolder, fileName+".yml");
-            if (dataFile.exists() == false) 
-            {
-            	System.out.println("WRITE File: "+dataFolder+":"+fileName+" not Exist !!!");
-    			System.out.println("NEW File  : "+dataFolder+":"+fileName);
-            	dataFile.createNewFile();
-	            return;
-            }
-            dataFile.setWritable(true);
-            
-            String base = getKey(1); // hier id einsetzen
-            
-            
-//            ConfigurationSection section = config.createSection(base);
-////            System.out.println("SECTION: "+caseBook.getId()+": "+base);
-//        
-//            config.set(MemorySection.createPath(section, "id"), caseBook.getId());
-//            config.set(MemorySection.createPath(section, "refId"), caseBook.getRefId());
-//            config.set(MemorySection.createPath(section, "titel"), caseBook.getTitel());
-//            config.set(MemorySection.createPath(section, "author"), caseBook.getAuthor());
-//            config.set(MemorySection.createPath(section, "isEnalbled"), caseBook.isEnabled());
-//            //write pages		
-//			HashMap<String,String> values; // = new HashMap<String,String>();
-//            values = new HashMap<String,String>();
-//            int index = 0;
-//        	for (String page : caseBook.getPages())
-//        	{
-////                System.out.println("UNITLIST: "+index+": "+unit.getUnitType().name());
-//        		values.put(String.valueOf(index), page);
-//        		index++;
-//        	}
-//            config.set(MemorySection.createPath(section,"pages"), values);
-
-		} catch (Exception e)
-		{
-			 @SuppressWarnings("unused")
-			String name = "" ;
-			 StackTraceElement[] st = new Throwable().getStackTrace();
-			 if (st.length > 0)
-			 {
-				 name = st[0].getClassName()+":"+st[0].getMethodName()+": FileName"+fileName;
-			 }
-			 System.out.println("Exception: "+name+" / "+e.getMessage());
-		}
     	
     }
     

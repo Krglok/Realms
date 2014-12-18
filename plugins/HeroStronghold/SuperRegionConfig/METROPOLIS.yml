@@ -24,9 +24,11 @@ max-power: 15000
 daily-power-increase: 50
 charter: 5
 child-regions:
-- City
-- Hamlet
-- Town
-- Camp
-- Castle
+- CLAIM
+- HAMLET
+- TOWN
+- CITY
+- FORTRESS
+- LEHEN_4
 exp: 25000
+description: Largest possible settlement for commoner (none noble)

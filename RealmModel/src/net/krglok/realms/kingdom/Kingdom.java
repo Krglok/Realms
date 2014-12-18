@@ -29,19 +29,13 @@ public class Kingdom
 	private String name;
 	private int ownerId; 
 	private Owner owner;
-	private MemberList memberList;
-	private SettlementList settlements;
 	private Boolean isNPCkingdom;
-	private LehenList lehenList;
 	
 	public Kingdom()
 	{
 		ID++;
 		id = ID;
 		name = NEW_REALM;
-		memberList = new MemberList();
-		settlements = new SettlementList();
-		lehenList = new LehenList();
 		owner = new Owner(0, NobleLevel.COMMONER, 0, "NPC1", 0, true, ""); //null;  //new Owner());
 		isNPCkingdom = owner.isNPC();
 	}
@@ -54,9 +48,6 @@ public class Kingdom
 		this.id = id;
 		this.name = name;
 		this.owner = owner;
-		memberList = new MemberList();
-		settlements = new SettlementList();
-		lehenList = new LehenList();
 		this.isNPCkingdom = isNPCkingdom;
 	}
 
@@ -115,27 +106,8 @@ public class Kingdom
 	{
 		this.owner = owner;
 		this.owner.setLevel(NobleLevel.KING);
-		if (!memberList.contains(this.owner.getPlayerName()))
-		{
-			memberList.addMember(this.owner);
-		}
 	}
 
-	public MemberList getMemberList() 
-	{
-		return memberList;
-	}
-
-	public void setMemberList(MemberList arrayList) 
-	{
-		this.memberList = arrayList;
-	}
-
-	public void addMember(Owner member)
-	{
-		memberList.addMember(member);
-	}
-	
 	
 
 	public Boolean isNPCkingdom() {
@@ -168,53 +140,5 @@ public class Kingdom
 
 
 
-	/**
-	 * @return the settlements
-	 */
-	public SettlementList getSettlements()
-	{
-		return settlements;
-	}
-
-
-
-	/**
-	 * 
-	 * @param the settlementList for this kingdom 
-	 */
-	public void setSettlements(SettlementList settlements)
-	{
-		this.settlements = settlements;
-	}
-
-	/**
-	 * normally the global SettlementList are given as source
-	 * hint: only useful is memberList are set
-	 * 
-	 * @param source
-	 */
-	public void initSettleList(SettlementList source)
-	{
-		settlements.clear();
-		if (this.owner != null)
-		{
-			settlements .addSettlements(source.getSubList(this.owner));
-		}
-		for (Owner member : memberList.values())
-		{
-			settlements.addSettlements(source.getSubList(member));
-		}
-		
-	}
-	
-	/**
-	 * 
-	 * @param settleId
-	 * @return
-	 */
-	public boolean containSettlement(int settleId)
-	{
-		return getSettlements().containsID(settleId);
-	}
 	
 }

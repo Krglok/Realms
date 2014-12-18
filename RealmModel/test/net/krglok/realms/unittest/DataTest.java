@@ -46,12 +46,15 @@ import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.DataStoreCaseBook;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.DataStoreKingdom;
+import net.krglok.realms.data.DataStoreLehen;
 import net.krglok.realms.data.DataStoreOwner;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.RegimentData;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.kingdom.LehenList;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
@@ -83,6 +86,7 @@ public class DataTest implements DataInterface
 	private RegimentList regiments; 		// data readed from file
 	private CaseBookList caseBooks;
     private ItemPriceList priceList ;
+    private LehenList lehenList;
 
 	private SettlementData settleData;
 	private LogList logList;
@@ -90,6 +94,7 @@ public class DataTest implements DataInterface
 	private DataStoreCaseBook caseBookData;
 	private DataStoreOwner ownerData;
 	private DataStoreKingdom kingdomData;
+	private DataStoreLehen lehenData;
 	
 	private String dataFolder;
 
@@ -110,11 +115,13 @@ public class DataTest implements DataInterface
 		kingdomData = new DataStoreKingdom(dataFolder); 
 		settleData = new SettlementData(dataFolder);
 		regData = new RegimentData(dataFolder);
+		lehenData = new DataStoreLehen(dataFolder);
 		
 		initOwnerList();		// read dta from data file
 		initSettleDate(testOwners);		// read Settlements from data file
 		initKingdomList(testOwners);		// read data from data file
 		initBuildingList();		// set constant list
+		initLehenList(testOwners);
 		
 		this.caseBooks = initCaseBookData();	// read data from data file
 	}
@@ -147,14 +154,17 @@ public class DataTest implements DataInterface
 		{
 			settle = settleData.readSettledata(Integer.valueOf(sName),this.getPriceList());
 			String ref = settle.getOwnerId();
-			if (ref == null)
+			if (ref == "")
 			{
 				owner = owners.findPlayername(ConfigBasis.NPC_0);
 				settle.setOwner(owner);
 			} else
 			{
 				owner = owners.findPlayername(ref);
-				settle.setOwner(owner);
+				if (owner != null)
+				{
+					settle.setOwner(owner);
+				}
 			}
 			settlements.addSettlement(settle);
 		}
@@ -995,7 +1005,7 @@ public class DataTest implements DataInterface
 			testOwners.addOwner(owner);
 		}
 		
-		if (testOwners.getOwner("NPC_0") == null)
+		if (testOwners.getOwner(ConfigBasis.NPC_0) == null)
 		{
 			testOwners.addOwner(Owner.initDefaultOwner());
 		}
@@ -1030,6 +1040,7 @@ public class DataTest implements DataInterface
 		for (String ref : refList)
 		{
 			kingdom = kingdomData.readData(ref);
+			kingdom.setOwner(owners.getOwner(kingdom.getOwnerId()));
 			testKingdoms.addKingdom(kingdom);
 		}
 		
@@ -1037,11 +1048,31 @@ public class DataTest implements DataInterface
 		{
 			testKingdoms.addKingdom(Kingdom.initDefaultKingdom(testOwners));
 		}
-		
-		for (Owner owner : owners.values())
+	}
+
+	public void writeLehen(Lehen lehen)
+	{
+		String refId = String.valueOf(lehen.getId());
+		lehenData.writeData(lehen, refId);
+	}
+	
+	
+	public void initLehenList(OwnerList owners)
+	{
+		lehenList = new LehenList();
+		Lehen lehen;
+		ArrayList<String> refList = lehenData.readDataList();
+		for (String ref : refList)
 		{
-			testKingdoms.addMember(owner.getKingdomId(), owner);
+			lehen = lehenData.readData(ref);
+			lehen.setOwner(owners.getOwner(lehen.getOwnerId()));
+			lehenList.addLehen(lehen);
 		}
+	}
+	
+	public LehenList initLehen()
+	{
+		return lehenList;
 	}
 	
 }

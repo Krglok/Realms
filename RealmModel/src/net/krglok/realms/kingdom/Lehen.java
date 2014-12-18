@@ -1,17 +1,17 @@
 package net.krglok.realms.kingdom;
 
-import java.util.HashMap;
-
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 
 
 /**
+ * <pre>
  * the Lehen is the Basic object of of a feudal system.
+ * The id= 0 is not allowed , because no should have id=0 !
  * 
  * @author Windu
- *
+ * </pre>
  */
 
 public class Lehen

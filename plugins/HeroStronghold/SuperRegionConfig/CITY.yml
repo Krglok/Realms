@@ -24,6 +24,9 @@ max-power: 3000
 daily-power-increase: 50
 charter: 4
 child-regions:
-- Hamlet
-- Town
+- CLAIM
+- HAMLET
+- TOWN
+- FORTRESS
 exp: 10000
+description: Large settlement for commoner (none noble)

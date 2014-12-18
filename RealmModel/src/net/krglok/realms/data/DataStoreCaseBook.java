@@ -39,7 +39,7 @@ public class DataStoreCaseBook extends AbstractDataStore<CaseBook>
     public DataStoreCaseBook(String dataFolder)
     {
     	
-		super(dataFolder, fileName, sectionName, true);
+		super(dataFolder, fileName, sectionName, false);
     }
     
 	@Override

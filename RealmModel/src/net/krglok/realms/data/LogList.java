@@ -39,6 +39,7 @@ public class LogList
     private int index;
     
     private boolean isSql = false;
+    private boolean defaultCreate = false;
     
 	public LogList(String path )
 	{
@@ -58,6 +59,9 @@ public class LogList
 		prodList = new ArrayList<String>();
 		happyList = new ArrayList<String>();
 		orderList = new ArrayList<String>();
+		
+		if (defaultCreate == true)
+		{
 //		if (sql.isOpen() == false)
 //		{
 //			isSql = true;
@@ -68,87 +72,87 @@ public class LogList
 //			}
 //		}
 		
-	    File prodFile = new File(path, "production_"+formattedDate+".csv");
-	    if (prodFile.exists()== false) 
-	    {
-			System.out.println("NEW production.csv : "+path+":"+"production_"+formattedDate+".csv");
-	    	try
-			{
-				prodFile.createNewFile();
-			    prodWrite = new FileWriter(prodFile);
-			} catch (IOException e)
-			{
-				System.out.println("Exeption LogList : "+path+":"+"production_"+formattedDate+".csv");
-				e.printStackTrace();
-				prodFile = null;
-				prodWrite = null;
-			}
-	    } else
-	    {
-		    try
-			{
-				prodWrite = new FileWriter(prodFile,true);
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-				prodWrite = null;
-			}
-	    }
-	    
-	    File happyFile = new File(path, "happy_"+formattedDate+".csv");
-	    if (happyFile.exists()== false) 
-	    {
-			System.out.println("NEW happy.csv : "+path+":"+"happy_"+formattedDate+".csv");
-	    	try
-			{
-	    		happyFile.createNewFile();
-			    happyWrite = new FileWriter(happyFile);
-			} catch (IOException e)
-			{
-				System.out.println("Exeption LogList : "+path+":"+"happy_"+formattedDate+".csv");
-				e.printStackTrace();
-				happyFile = null;
-				happyWrite = null;
-			}
-	    } else
-	    {
-		    try
-			{
-		    	happyWrite = new FileWriter(happyFile,true);
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-				happyWrite = null;
-			}
-	    }
-
-	    File orderFile = new File(path, "order_"+formattedDate+".csv");
-	    if (orderFile.exists()== false) 
-	    {
-			System.out.println("NEW order.csv : "+path+":"+"order_"+formattedDate+".csv");
-	    	try
-			{
-	    		orderFile.createNewFile();
-			    orderWrite = new FileWriter(orderFile);
-			} catch (IOException e)
-			{
-				System.out.println("Exeption LogList : "+path+":"+"order_"+formattedDate+".csv");
-				e.printStackTrace();
-				orderFile = null;
-				orderWrite = null;
-			}
-	    } else
-	    {
-		    try
-			{
-		    	orderWrite = new FileWriter(orderFile,true);
-			} catch (IOException e)
-			{
-				e.printStackTrace();
-				orderWrite = null;
-			}
-	    }
-	    
+		    File prodFile = new File(path, "production_"+formattedDate+".csv");
+		    if (prodFile.exists()== false) 
+		    {
+				System.out.println("NEW production.csv : "+path+":"+"production_"+formattedDate+".csv");
+		    	try
+				{
+					prodFile.createNewFile();
+				    prodWrite = new FileWriter(prodFile);
+				} catch (IOException e)
+				{
+					System.out.println("Exeption LogList : "+path+":"+"production_"+formattedDate+".csv");
+					e.printStackTrace();
+					prodFile = null;
+					prodWrite = null;
+				}
+		    } else
+		    {
+			    try
+				{
+					prodWrite = new FileWriter(prodFile,true);
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					prodWrite = null;
+				}
+		    }
+		    
+		    File happyFile = new File(path, "happy_"+formattedDate+".csv");
+		    if (happyFile.exists()== false) 
+		    {
+				System.out.println("NEW happy.csv : "+path+":"+"happy_"+formattedDate+".csv");
+		    	try
+				{
+		    		happyFile.createNewFile();
+				    happyWrite = new FileWriter(happyFile);
+				} catch (IOException e)
+				{
+					System.out.println("Exeption LogList : "+path+":"+"happy_"+formattedDate+".csv");
+					e.printStackTrace();
+					happyFile = null;
+					happyWrite = null;
+				}
+		    } else
+		    {
+			    try
+				{
+			    	happyWrite = new FileWriter(happyFile,true);
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					happyWrite = null;
+				}
+		    }
+	
+		    File orderFile = new File(path, "order_"+formattedDate+".csv");
+		    if (orderFile.exists()== false) 
+		    {
+				System.out.println("NEW order.csv : "+path+":"+"order_"+formattedDate+".csv");
+		    	try
+				{
+		    		orderFile.createNewFile();
+				    orderWrite = new FileWriter(orderFile);
+				} catch (IOException e)
+				{
+					System.out.println("Exeption LogList : "+path+":"+"order_"+formattedDate+".csv");
+					e.printStackTrace();
+					orderFile = null;
+					orderWrite = null;
+				}
+		    } else
+		    {
+			    try
+				{
+			    	orderWrite = new FileWriter(orderFile,true);
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+					orderWrite = null;
+				}
+		    }
+		}
 	}
 
 	public ArrayList<String> getLogList()

@@ -3,6 +3,10 @@ package net.krglok.realms.core;
 import java.util.ArrayList;
 
 import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.science.Achivement;
+import net.krglok.realms.science.AchivementList;
+import net.krglok.realms.science.AchivementName;
+import net.krglok.realms.science.AchivementType;
 
 
 /**
@@ -18,7 +22,8 @@ import net.krglok.realms.kingdom.LehenList;
  */
 public class Owner
 {
-
+	private static int ID = 0; 
+	
 	private int id;
 	private String uuid;
 	private NobleLevel nobleLevel;
@@ -28,8 +33,7 @@ public class Owner
 	private String playerName;
 	private Boolean isNPC;
 	private ArrayList<String> msg;
-	private SettlementList settleList;
-	private LehenList lehenList;
+	private AchivementList achivList;
 
 	/**
 	 * instanziert einen owner als NPC durch.
@@ -46,8 +50,7 @@ public class Owner
 		setIsNPC(true);
 		setUuid("");
 		msg = new ArrayList<String>();
-		settleList = new SettlementList();
-		lehenList = new LehenList();
+		achivList = new AchivementList();
 	}
 
 	public Owner(String playerName,	Boolean isNPC)
@@ -60,8 +63,7 @@ public class Owner
 		setIsNPC(isNPC);
 		setUuid("");
 		msg = new ArrayList<String>();
-		settleList = new SettlementList();
-		lehenList = new LehenList();
+		achivList = new AchivementList();
 	}
 	
 	public Owner(			
@@ -82,16 +84,60 @@ public class Owner
 		setIsNPC(isNPC);
 		setUuid(uuid);
 		msg = new ArrayList<String>();
-		settleList = new SettlementList();
-		lehenList = new LehenList();
+		achivList = new AchivementList();
 	}
 	
 	public static Owner initDefaultOwner()
 	{
 		return new Owner(0, NobleLevel.COMMONER, 0, ConfigBasis.NPC_0, 0, true,ConfigBasis.NPC_0);
-		
 	}
 
+	public void initColonist()
+	{
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_0, true));
+	}
+
+	public void initSettler()
+	{
+		initColonist();
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_1, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_2, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_3, true));
+	}
+	
+	public void initMayor()
+	{
+		initColonist();
+		initSettler();
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_4, true));
+	}	
+
+	public void initCouncilor()
+	{
+		initColonist();
+		initSettler();
+		initMayor();
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_5, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_6, true));
+	}	
+	
+	/**
+	 * @return the iD
+	 */
+	public static int getID()
+	{
+		return ID;
+	}
+
+	/**
+	 * @param iD the iD to set
+	 */
+	public static void initID(int iD)
+	{
+		ID = iD;
+	}
+	
+	
 
 	public int getId()
 	{
@@ -282,39 +328,26 @@ public class Owner
 		this.nobleLevel = nobleLevel;
 	}
 
-	public SettlementList getSettleList()
-	{
-		return settleList;
-	}
-
-	public void setSettleList(SettlementList settleList)
-	{
-		this.settleList = settleList;
-	}
-
-	public LehenList getLehenList()
-	{
-		return lehenList;
-	}
-
-	public void setLehenList(LehenList lehenList)
-	{
-		this.lehenList = lehenList;
-	}
 
 	public Boolean getIsNPC()
 	{
 		return isNPC;
 	}
-	
+
 	/**
-	 * normally the global SettlementList are given as source
-	 * 
-	 * @param source
+	 * @return the achivList
 	 */
-	public void initSettleList(SettlementList source)
+	public AchivementList getAchivList()
 	{
-		this.settleList.clear();
-		this.settleList.addSettlements(source.getSubList(this));
+		return achivList;
 	}
+
+	/**
+	 * @param achivList the achivList to set
+	 */
+	public void setAchivList(AchivementList achivList)
+	{
+		this.achivList = achivList;
+	}
+	
 }

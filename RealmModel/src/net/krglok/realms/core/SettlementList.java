@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.data.LogList;
+import net.krglok.realms.kingdom.Kingdom;
 
 import org.bukkit.block.Biome;
 
@@ -274,6 +275,26 @@ public class SettlementList extends HashMap<Integer,Settlement>
 			if (settle.getOwner().getUuid().equals(owner.getUuid()))
 			{
 				subList.put(settle.getId(), settle);
+			}
+		}
+		return subList;
+	}
+	
+	/**
+	 * scan settlement list for kingdom id and add settlement to settlement list of kingdom
+	 * hint: the settle dont have a kingdomId , only the owner has a kingdomId 
+	 * 
+	 * @param kingdom
+	 * @param settlements
+	 */
+	public SettlementList getSubList(Kingdom kingdom)
+	{
+		SettlementList subList = new SettlementList(); 
+		for (Settlement settle : this.values())
+		{
+			if (kingdom.getId() == settle.getOwner().getKingdomId())
+			{
+				subList.addSettlement(settle);
 			}
 		}
 		return subList;

@@ -33,14 +33,25 @@ public class KingdomList extends HashMap<Integer,Kingdom>
 //		this.addRealm(new Realm());
 	}
 
+	public int checkID(int ref)
+	{
+		while (this.containsKey(ref))
+		{
+			ref++;
+		}
+		Kingdom.initID(ref);
+		return Kingdom.getID();
+	}
 	
 	/**
 	 * realmId are unique in the realmList.
+	 * give a new Id
 	 * @param kingdom
 	 */
 	public void addKingdom(Kingdom kingdom)
 	{
-		Integer key = kingdom.getId();
+		Integer key = checkID(kingdom.getId());
+		kingdom.setId(key);
 		this.put(key, kingdom);
 	}
 	
@@ -55,11 +66,7 @@ public class KingdomList extends HashMap<Integer,Kingdom>
 		Kingdom kingdom = this.get(kingdomId);
 		if (kingdom != null)
 		{
-			if (this.isMember(owner, kingdom) == false)
-			{
-				owner.setKingdomId(kingdomId);
-				kingdom.addMember(owner);
-			}
+			owner.setKingdomId(kingdomId);
 		}
 		return false;
 	}
@@ -87,7 +94,7 @@ public class KingdomList extends HashMap<Integer,Kingdom>
 	{
 		if (this.containsKey(kingdomId))
 		{
-			return this.get(String.valueOf(kingdomId));
+			return this.get(kingdomId);
 		} else
 		{
 			return null;
@@ -144,12 +151,9 @@ public class KingdomList extends HashMap<Integer,Kingdom>
 		{
 			for (Kingdom kingdom : this.values())
 			{
-				for (Owner member : kingdom.getMemberList().values())
+				if (kingdom.getOwner().getKingdomId() == kingdom.getId())
 				{
-					if (kingdom.getOwner().getUuid() == member.getUuid())
-					{
-						return kingdom;
-					}
+					return kingdom;
 				}
 			}
 		}
@@ -165,77 +169,14 @@ public class KingdomList extends HashMap<Integer,Kingdom>
 	 */
 	public boolean isMember(Owner owner, Kingdom kingdom)
 	{
-		if (kingdom.getOwner() == null)
-		{
-			return false;
-		}
-		if (kingdom.getOwner().getId() == owner.getId())
+		if (owner == null) { return false; }
+		if (kingdom == null) { return false; }
+		if (kingdom.getId() == owner.getKingdomId())
 		{
 			return true;
 		}
-		for (Owner member : kingdom.getMemberList().values())
-		{
-			if (kingdom.getOwner().getId() == member.getId())
-			{
-				return true;
-			}
-		}
-		
 		return false;
 	}
-	
-	
-	/**
-	 * scan ownerlist for for kingdom id and add owner to member list of kingdom
-	 * 
-	 * @param kingdom
-	 * @param owners
-	 */
-	public void initMember(Kingdom kingdom, OwnerList owners)
-	{
-		for (Owner owner : owners.values())
-		{
-			if (kingdom.getId() == owner.getKingdomId())
-			{
-				kingdom.getMemberList().addMember(owner);
-			}
-		}
 		
-	}
-	
-	/**
-	 * scan settlement list for kingdom id and add settlement to settlement list of kingdom
-	 * hint: the settle dont have a kingdomId , only the owner has a kingdomId 
-	 * 
-	 * @param kingdom
-	 * @param settlements
-	 */
-	public void initSettlement(Kingdom kingdom, SettlementList settlements)
-	{
-		for (Settlement settle : settlements.values())
-		{
-			if (kingdom.getId() == settle.getOwner().getKingdomId())
-			{
-				kingdom.getSettlements().addSettlement(settle);
-			}
-		}
-	}
 
-	/**
-	 * remove settleId from kingdom of the owner
-	 * 
-	 * @param oldOwner
-	 * @param settleId
-	 */
-	public void removeSettlement(Owner oldOwner, int settleId)
-	{
-		Kingdom kingdom = this.get(oldOwner.getKingdomId());
-		if (kingdom != null)
-		{
-			if (kingdom.getSettlements().containsID(settleId))
-			{
-				kingdom.getSettlements().remove(settleId);
-			}
-		}
-	}
 }

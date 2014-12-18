@@ -1,15 +1,22 @@
 package net.krglok.realms.data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.CommonLevel;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.science.Achivement;
+import net.krglok.realms.science.AchivementName;
+import net.krglok.realms.science.AchivementType;
 
 /**
  * read Data from YML file 
@@ -56,6 +63,14 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
         config.set(MemorySection.createPath(section, "realmId"), dataObject.getKingdomId());
         config.set(MemorySection.createPath(section, "isNPC"), dataObject.isNPC());
 
+        HashMap<String,String> values = new HashMap<String,String>();
+        for (Achivement achiv : dataObject.getAchivList().values())
+        {
+            
+        	values.put(achiv.getName(),String.valueOf(achiv.isEnaled()));
+        }
+        config.set((MemorySection.createPath(section,"Achivement")), values);
+        
 	}
 
 	@Override
@@ -64,14 +79,21 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
 		Owner owner = new Owner();
 		owner.setId(data.getInt("id"));
 		owner.setUuid(data.getString("uuid"));
-		String ref = data.getString("nobleLevel");
+		String ref = data.getString("nobleLevel","COMMONER");
 		owner.setNobleLevel(NobleLevel.valueOf(ref));
-		owner.setCommonLevel(CommonLevel.valueOf(data.getString("commonLevel")));
+		owner.setCommonLevel(CommonLevel.valueOf(data.getString("commonLevel","COLONIST")));
 		owner.setCapital(data.getInt("capital"));
 		owner.setPlayerName(data.getString("playerName"));
 		owner.setKingdomId(data.getInt("realmId"));
 		owner.setIsNPC(data.getBoolean("isNPC"));
 
+		Map<String,Object> values = data.getConfigurationSection("Achivement").getValues(false);
+		for (String key : values.keySet())
+		{
+			boolean isEnabled = data.getBoolean("Achivement,"+key);
+			Achivement achiv = new Achivement(AchivementType.valueOf(Achivement.splitNameTyp(key)), AchivementName.valueOf(Achivement.splitNameName(key)), isEnabled);
+		}
+		
 		return owner;
 	}
 	

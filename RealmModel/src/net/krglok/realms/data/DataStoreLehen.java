@@ -38,7 +38,7 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 		section.set("name", dataObject.getName());
 		section.set("nobleLevel", dataObject.getNobleLevel().name());
 		section.set("settleType", dataObject.getSettleType().name());
-		section.set("owner", dataObject.getOwner().getId());
+		section.set("owner", dataObject.getOwnerId());
 		section.set("kingdomId", dataObject.getKingdomId());
 		section.set("parentId", dataObject.getParentId());
 		
