@@ -1,13 +1,15 @@
 net.krglok.realms
-net.krglok.realms.admin
 net.krglok.realms.builder
 net.krglok.realms.colonist
+net.krglok.realms.command
 net.krglok.realms.core
 net.krglok.realms.data
+net.krglok.realms.kingdom
 net.krglok.realms.manager
 net.krglok.realms.maps
 net.krglok.realms.model
 net.krglok.realms.npc
+net.krglok.realms.science
 net.krglok.realms.unit
 tiled.core
 tiled.io
