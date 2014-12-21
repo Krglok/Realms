@@ -1,12 +1,7 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
@@ -14,17 +9,14 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.data.LogList;
-import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdDepositeBank;
-import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.McmdSellOrder;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.ConfigTest;
@@ -351,7 +343,7 @@ public class SettleManagerTest
 		double expected = settle.getBank().getKonto();
 		double amount = 1000;
 		String userName = "TestUser";
-		McmdDepositeBank bankCommand = new McmdDepositeBank(rModel, settleId, amount , userName );
+//		McmdDepositeBank bankCommand = new McmdDepositeBank(rModel, settleId, amount , userName );
 		
 		BuildPlanType bType = BuildPlanType.HOME;
 		LocationData position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
@@ -362,25 +354,25 @@ public class SettleManagerTest
 		int value = 500;
 		double price = testData.getPriceList().getBasePrice(itemRef);
 		int delayDays = 10;
-		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
+//		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
 
 		itemRef = "LOG";
 		value = 500;
 		price = testData.getPriceList().getBasePrice(itemRef);
 		delayDays = 10;
-		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
+//		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
 
 		itemRef = "WOOL";
 		value = 500;
 		price = testData.getPriceList().getBasePrice(itemRef);
 		delayDays = 10;
-		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
+//		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
 		
 		String name = "NewColonist";
-		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
+//		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
 		String owner = "NPC1";
 		
-		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
+//		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
 		
 //		doLoop(rModel, 5);
 //		rModel.OnCommand(bankCommand);

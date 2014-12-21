@@ -90,17 +90,17 @@ public class McmdCreateSettle implements iModelCommand
 			Building building = new Building(
 					buildingType, 
 					hsRegion, 
-					hsRegionType, 
-					true,
 					new LocationData(
-							region.getLocation().getWorld().getName(),
-							region.getLocation().getX(), 
-							region.getLocation().getY(),
-							region.getLocation().getZ())
+					region.getLocation().getWorld().getName(),
+					region.getLocation().getX(), 
+					region.getLocation().getY(),
+					region.getLocation().getZ()),
+					settlement.getId()
 					);
-			Settlement.addBuilding(building, settlement);
+			rModel.getBuildings().addBuilding(building);
 		}
 		// make not dynamic initialization
+		settlement.setBuildingList(rModel.getBuildings().getSubList(settlement.getId()));
 		settlement.setSettlerMax();
 		settlement.setWorkerNeeded();
 

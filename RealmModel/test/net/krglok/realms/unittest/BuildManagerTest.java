@@ -22,8 +22,8 @@ public class BuildManagerTest
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
 		
-		BuildManager bManager = new BuildManager();
-		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
+//		BuildManager bManager = new BuildManager();
+//		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
 		BuildPlanMap buildPlan = testData.readTMXBuildPlan(BuildPlanType.HALL, 4, -1);
 //		bManager.newBuild(buildPlan, centerPos);
 

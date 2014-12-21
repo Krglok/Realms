@@ -493,7 +493,7 @@ public class BuildManager
 					if (region != null)
 					{
 						System.out.println("Settle Building added : "+buildPlan.getBuildingType()+":"+region.getID());
-						Building building = new Building(buildPlan.getBuildingType(), regionType, true);
+						Building building = new Building(buildPlan.getBuildingType());
 						building.setHsRegion(region.getID());
 						if (settle.getBuildingList().addBuilding(building))
 						{

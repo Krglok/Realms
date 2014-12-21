@@ -25,7 +25,6 @@ import net.krglok.realms.unittest.DataTest;
 import net.krglok.realms.unittest.MessageTest;
 import net.krglok.realms.unittest.ServerTest;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class TestManager

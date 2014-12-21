@@ -177,7 +177,7 @@ public final class Realms extends JavaPlugin
 	{
 		getPluginConfig();
 		logList = new LogList(this.getDataFolder().getPath());
-		data = new DataStorage(this.getDataFolder().getPath());
+		data = new DataStorage(this.getDataFolder().getPath(),logList);
         serverListener = new ServerListener(this);
 
 //		log = Logger.getLogger("Minecraft"); 

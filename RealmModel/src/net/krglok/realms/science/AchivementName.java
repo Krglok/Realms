@@ -6,6 +6,8 @@ package net.krglok.realms.science;
  * the names will be combined with a type for a individual achievement
  * not all are necessary for techlevel rankup
  * 
+ * Hint: the underscore <_> is not allowed in AchivementName
+ * 
  * @author Windu
  * </pre>
  */
@@ -36,19 +38,19 @@ public enum AchivementName
 	METROPOL,
 	HEADQUARTER,
 	KINGDOM,
-	TECH_0,
-	TECH_1,
-	TECH_2,
-	TECH_3,
-	TECH_4,
-	TECH_5,
-	TECH_6,
-	TECH_7,
-	NOBLE_0,
-	NOBLE_1,
-	NOBLE_2,
-	NOBLE_3,
-	NOBLE_4
+	TECH0,
+	TECH1,
+	TECH2,
+	TECH3,
+	TECH4,
+	TECH5,
+	TECH6,
+	TECH7,
+	NOBLE0,
+	NOBLE1,
+	NOBLE2,
+	NOBLE3,
+	NOBLE4
 	;
 	
 	public static boolean contains(String value)

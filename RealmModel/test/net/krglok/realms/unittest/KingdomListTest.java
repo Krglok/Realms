@@ -12,7 +12,7 @@ import net.krglok.realms.kingdom.KingdomList;
 
 import org.junit.Test;
 
-public class RealmListTest
+public class KingdomListTest
 {
 
 	@Test
@@ -89,7 +89,10 @@ public class RealmListTest
 				System.out.print("null");
 			}
 			System.out.print(" | ");
-			System.out.print(settle.getOwner().getKingdomId());
+			if (settle.getOwner() != null)
+			{
+				System.out.print(settle.getOwner().getKingdomId());
+			}
 			System.out.print(" | ");
 			System.out.println("");
 	}
@@ -102,11 +105,11 @@ public class RealmListTest
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(logTest);
 
-		KingdomList kingdomList = data.initKingdoms();
+		KingdomList kingdomList = data.getKingdoms();
 		
 		System.out.println("");
-		System.out.println("OwnerList "+"["+data.initOwners().size()+"]");
-		for (Owner owner : data.initOwners().values())
+		System.out.println("OwnerList "+"["+data.getOwners().size()+"]");
+		for (Owner owner : data.getOwners().values())
 		{
 			System.out.print(owner.getId());
 			System.out.print(" | ");
@@ -125,7 +128,7 @@ public class RealmListTest
 		OwnerList kMembers;
 		for (Kingdom kingdom : kingdomList.values())
 		{
-			kSettles = data.initSettlements().getSubList(kingdom);
+			kSettles = data.getSettlements().getSubList(kingdom);
 			System.out.print(kingdom.getId());
 			System.out.print(" | ");
 			System.out.print(kingdom.getName());
@@ -135,9 +138,9 @@ public class RealmListTest
 			System.out.print(kSettles.size());
 			System.out.print(" | ");
 			System.out.println("");
-			kMembers = data.initOwners().getSubList(kingdom);
-			System.out.println(" | MemberList "+"["+kMembers.size()+"]");
-			for (Owner member : kMembers.values())
+//			kMembers = data.getOwners().getSubList(kingdom);
+			System.out.println(" | MemberList "+"["+kingdom.getMembers().size()+"]");
+			for (Owner member : kingdom.getMembers().values())
 			{
 				System.out.print(" | ");
 				System.out.print(member.getId());
@@ -151,16 +154,16 @@ public class RealmListTest
 		
 		// print all settlements		
 		System.out.println("");
-		System.out.println("Settlement "+"["+data.initSettlements().size()+"]");
-		for (Settlement settle : data.initSettlements().values())
+		System.out.println("Settlement "+"["+data.getSettlements().size()+"]");
+		for (Settlement settle : data.getSettlements().values())
 		{
 		  printSettleListRow(settle);
 		}
 
 
-		for (Owner owner1 : data.initOwners().values())
+		for (Owner owner1 : data.getOwners().values())
 		{
-			SettlementList oSettels = data.initSettlements().getSubList(owner1);
+			SettlementList oSettels = data.getSettlements().getSubList(owner1);
 			System.out.println("");
 			System.out.println("=="+owner1.getPlayerName()+" Settlements "+"["+oSettels.size()+"]");
 			for (Settlement settle : oSettels.values())

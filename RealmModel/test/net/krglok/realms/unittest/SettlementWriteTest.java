@@ -126,7 +126,7 @@ public class SettlementWriteTest
 		ItemPriceList priceList = getPriceList();
 		SettlementData settleData = new SettlementData(path);
 		int id = 27;
-		Settlement settle = settleData.readSettledata(id , priceList);
+		Settlement settle = settleData.readSettledata(id , priceList,logList);
 		showSettleInfo(settle);
 		
 //		fillBarrack(settle);

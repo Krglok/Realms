@@ -1,9 +1,7 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import net.krglok.realms.core.NobleLevel;
-import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStoreLehen;
@@ -119,8 +117,11 @@ public class DataStoreLehenTest
 		System.out.print(" | ");
 		System.out.print(lehen.getName());
 		System.out.print(" | ");
-		System.out.print(lehen.getOwner().getPlayerName());
-		System.out.print(" | ");
+		if (lehen.getOwner() != null)
+		{
+			System.out.print(lehen.getOwner().getPlayerName());
+			System.out.print(" | ");
+		}
 		System.out.println("");
 		
 	}
@@ -133,15 +134,15 @@ public class DataStoreLehenTest
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(logTest);
 
-		LehenList lList = data.initLehen();
+		LehenList lList = data.getLehen();
 
 		lList.get(2).setParentId(3);
 		lList.get(4).setParentId(3);
 		lList.get(3).setParentId(1);
 		
 		System.out.println("");
-		System.out.println("LehenList "+"["+data.initOwners().size()+"]");
-		for (Lehen lehen : data.initLehen().values())
+		System.out.println("LehenList "+"["+data.getOwners().size()+"]");
+		for (Lehen lehen : data.getLehen().values())
 		{
 			System.out.print(lehen.getId());
 			System.out.print(" | ");
@@ -160,35 +161,44 @@ public class DataStoreLehenTest
 		}
 
 		System.out.println("");
-		System.out.println("LehenTree "+"["+data.initOwners().size()+"]");
-		for (Lehen lehen : data.initLehen().values())
+		System.out.println("LehenTree "+"["+data.getOwners().size()+"]");
+		for (Lehen lehen : data.getLehen().values())
 		{
 			if (lehen.getParentId() == 0)
 			{
 				printLehenNode(lehen);
-				for (Lehen sub1 : data.initLehen().getChildList(lehen.getId()).values())
+				for (Lehen sub1 : data.getLehen().getChildList(lehen.getId()).values())
 				{
 					System.out.print(" + ");
 					printLehenNode(sub1);
-					for (Lehen sub2 : data.initLehen().getChildList(sub1.getId()).values())
+					for (Lehen sub2 : data.getLehen().getChildList(sub1.getId()).values())
 					{
 						System.out.print(" | ");
 						System.out.print(" + ");
 						printLehenNode(sub2);
 					}
-					for (Settlement settle : data.initSettlements().values())
+					for (Settlement settle : data.getSettlements().values())
 					{
-						if (settle.getOwnerId() == sub1.getOwner().getPlayerName())
+						if (sub1.getOwner() != null)
 						{
-							System.out.print(" | ");
-							System.out.print(" + ");
-							System.out.print(NobleLevel.COMMONER);
-							System.out.print(" | ");
-							System.out.print(settle.getId()+" | "+settle.getName());
-							System.out.print(" | ");
-							System.out.print(settle.getOwnerId());
-							System.out.print(" | ");
-							System.out.println("");
+							if (settle.getOwnerId() == sub1.getOwner().getPlayerName())
+							{
+								System.out.print(" | ");
+								System.out.print(" + ");
+								System.out.print(NobleLevel.COMMONER);
+								System.out.print(" | ");
+								System.out.print(settle.getId()+" | "+settle.getName());
+								System.out.print(" | ");
+								System.out.print(settle.getOwnerId());
+								System.out.print(" | ");
+								System.out.println("");
+							}
+						} else
+						{
+//							System.out.print(" | ");
+//							System.out.print(" + ");
+//							System.out.print("NULL");
+//							System.out.println(" | ");
 						}
 					}
 				}

@@ -136,7 +136,8 @@ public class MessageData implements MessageInterface
 			return pageNumber;
 		} else
 		{
-			sender.sendMessage("NO data in message !");
+			sender.sendMessage(" ");
+//			sender.sendMessage("NO data in message !");
 			return 0;
 		}
 	}

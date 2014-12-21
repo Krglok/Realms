@@ -347,6 +347,11 @@ public class Settlement //implements Serializable
 		COUNTER = iD;
 	}
 	
+	public void setLogList(LogList logList)
+	{
+		this.logList = logList;
+	}
+	
 	public Boolean isEnabled()
 	{
 		return isEnabled;
@@ -554,6 +559,7 @@ public class Settlement //implements Serializable
 	public void setBuildingList(BuildingList buildingList)
 	{
 		this.buildingList = buildingList;
+		this.checkBuildingType();
 	}
 
 	/**
@@ -567,6 +573,7 @@ public class Settlement //implements Serializable
 		{
 			buildingList.addBuilding(b);
 		}
+		this.checkBuildingType();
 	}
 	
 	/**
@@ -699,56 +706,57 @@ public class Settlement //implements Serializable
 	
 	
 	/**
-	 * Add building to buildingList and recalculate settlement parameter
-	 * @param building
-	 * @param settlement
-	 * @return
+	 * recalculate settlement parameter based on buildings
+	 * - Warehouse.maxItem
+	 * - Barrack.maxUnit
+	 * - Trader.maxOrder
 	 */
-	public static Boolean addBuilding(Building building, Settlement settlement)
+	public void checkBuildingType()
 	{
-		if (settlement != null)
+		this.barrack.setUnitMax(0);
+		this.warehouse.setItemMax(0);
+		this.trader.setOrderMax(5);
+		for(Building building : this.buildingList.values())
 		{
-			if(settlement.buildingList.addBuilding(building))
+			switch(building.getBuildingType())
 			{
-				switch(building.getBuildingType())
-				{
-				case HALL: 
-					settlement.townhall.setIsEnabled(true);
-					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-					break;
-				case WAREHOUSE :
-					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-					break;
-				case TRADER :
-					settlement.trader.setActive(true);
-					settlement.trader.setEnabled(true);
-					settlement.warehouse.setItemMax(calcItemMax(settlement.buildingList, settlement.warehouse, settlement.getSettleType()));
-					settlement.trader.setOrderMax(settlement.trader.getOrderMax()+5);
-					break;
-				case GUARDHOUSE :
-					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
-					break;
-				case CASERN :
-					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
-					break;
-				case GARRISON :
-					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
-					break;
-				case WATCHTOWER :
-				case DEFENSETOWER :
-				case BARRACK :
-				case TOWER :
-				case HEADQUARTER :
-				case KEEP :
-					settlement.barrack.setUnitMax(settlement.barrack.getUnitMax() + building.getUnitSpace());
-					break;
-				default :
-					break;
-				}
-				return true;
+			case HALL: 
+				this.townhall.setIsEnabled(true);
+				this.warehouse.setItemMax(calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
+				break;
+			case WAREHOUSE :
+				this.warehouse.setItemMax(calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
+				break;
+			case TRADER :
+				this.trader.setActive(true);
+				this.trader.setEnabled(true);
+				this.warehouse.setItemMax(calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
+				this.trader.setOrderMax(this.trader.getOrderMax()+5);
+				break;
+			case GUARDHOUSE :
+				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+				break;
+			case CASERN :
+				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+				break;
+			case GARRISON :
+				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+				break;
+			case WATCHTOWER :
+			case DEFENSETOWER :
+			case BARRACK :
+			case TOWER :
+			case HEADQUARTER :
+			case KEEP:
+			case CASTLE:
+			case STRONGHOLD :
+			case PALACE:
+				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+				break;
+			default :
+				break;
 			}
 		}
-		return false;
 	}
 	
 
@@ -881,6 +889,7 @@ public class Settlement //implements Serializable
 			String BuildingTypeName = "";
 			String regionType = "";
 			boolean isRegion = false;
+			BuildingList bList = new BuildingList();
 			for (String region : regionTypes.keySet())
 			{
 				regionId = Integer.valueOf(region);
@@ -889,8 +898,10 @@ public class Settlement //implements Serializable
 				
 				BuildingTypeName   = regionBuildings.get(region);
 				isRegion = true;
-				addBuilding(Building.createRegionBuilding(BuildingTypeName, regionId, regionType, isRegion),settlement);
+				bList.addBuilding(Building.createRegionBuilding(BuildingTypeName, regionId, regionType, isRegion));
 			}
+			settlement.setBuildingList(bList);
+			settlement.checkBuildingType();
 			settlement.setStoreCapacity();
 
 //			settlement.setBuildingList(buildingList);
@@ -1861,7 +1872,7 @@ public class Settlement //implements Serializable
 	 */
 	public void setOwner(Owner nOwner)
 	{
-		if (nOwner == null)
+		if (nOwner != null)
 		{
 			this.owner = nOwner;
 			this.setOwnerId(nOwner.getPlayerName());

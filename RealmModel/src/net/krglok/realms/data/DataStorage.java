@@ -17,16 +17,20 @@ import tiled.io.TMXMapReader;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.NobleLevel;
-import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.kingdom.MemberList;
 import net.krglok.realms.npc.NPCData;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
@@ -57,11 +61,15 @@ public class DataStorage implements DataInterface
 //	private static final String PC_5 = "NPC5";
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 
+	private LogList logList;
+	
 	private OwnerList owners ;
 	private KingdomList kingdoms ;
 	private SettlementList settlements;		// data readed from file
 	private RegimentList regiments; 		// data readed from file
 	private CaseBookList caseBooks;
+    private LehenList lehenList;
+    private BuildingList buildings;
 	
 	private PriceData priceData;
 	private ItemPriceList priceList ;
@@ -70,23 +78,32 @@ public class DataStorage implements DataInterface
 	private RegimentData regData;
 	private DataStoreCaseBook caseBookData;
 	private NPCListData npcListData;
+	private DataStoreOwner ownerData;
+	private DataStoreKingdom kingdomData;
+	private DataStoreLehen lehenData;
+	private DataStoreBuilding buildingData;
+	private DataStoreSettlement settlementData;
 
 	Boolean isReady = false;
 	
 	private String path;
 //	private Realms plugin;
 	
-	public DataStorage(String path)
+	public DataStorage(String path, LogList logList)
 	{
 //		this.plugin = plugin;
+		this.logList = logList;
 		this.path = path;
 		// Datafile Handler
 		settleData = new SettlementData(this.path);
 		regData    = new RegimentData(this.path);
 		caseBookData = new DataStoreCaseBook(this.path);
+		ownerData = new DataStoreOwner(this.path);
+		kingdomData = new DataStoreKingdom(path);
+		lehenData = new DataStoreLehen(path);
+		buildingData = new DataStoreBuilding(path);
+		settlementData = new DataStoreSettlement(path);
 		//DataLists
-		owners = new OwnerList();
-		kingdoms = new KingdomList();
 		settlements = new SettlementList(0);
 		regiments   = new RegimentList(0);
 		caseBooks   = new CaseBookList();
@@ -104,26 +121,24 @@ public class DataStorage implements DataInterface
 	{
 		isReady = true;
 		priceList = priceData.readPriceData();
-		npcOwners();
-		npcRealms(owners.getOwner(NPC_0));
-		ArrayList<String> settleInit = settleData.readSettleList();
-		if (initSettlementData(settleInit) == false)
+//		npcOwners();
+		initOwnerList();
+		initBuildingList();
+		initKingdomList(owners);		//		npcRealms(owners.getOwner(NPC_0));
+		initLehenList(owners);
+		
+		// converter settlements / buildings
+		if (settlementData.checkSettlements() == false)
 		{
-			System.out.println("Settlement Read FALSE: ");
-			isReady = false;
-		}
-		ArrayList<String> regInit = regData.readRegimentList();
-		if (initRegimentData(regInit) == false)
+			initSettleData();
+			settlementData.convertSettlements(settlements);
+			buildingData.convertBuildings(settlements);
+		} else
 		{
-			System.out.println("Regiment Read FALSE: ");
-			isReady = false;
+			initSettlementList();
 		}
-		ArrayList<String> bookInit = caseBookData.readDataList();
-		if (initCaseBookData(bookInit) == false)
-		{
-			System.out.println("CaseBook Read FALSE: ");
-			isReady = false;
-		}
+		initRegimentData();
+		initCaseBookData(); 
 		
 		return isReady;
 	}
@@ -150,16 +165,16 @@ public class DataStorage implements DataInterface
 	}
 	
 	
-	/**
-	 * must be done after initOwners
-	 * here are the NPC kingdoms are defined
-	 */
-	public KingdomList npcRealms(Owner owner)
-	{
-		kingdoms.addKingdom(new Kingdom(1, Realm_1_NPC, owner,true));
-		
-		return kingdoms; 
-	}
+//	/**
+//	 * must be done after initOwners
+//	 * here are the NPC kingdoms are defined
+//	 */
+//	public KingdomList npcRealms(Owner owner)
+//	{
+//		kingdoms.addKingdom(new Kingdom(1, Realm_1_NPC, owner,true));
+//		
+//		return kingdoms; 
+//	}
 	
 	/**
 	 * read the npc from file 
@@ -188,18 +203,60 @@ public class DataStorage implements DataInterface
 	}
 	
 	
-	/**
-	 * initialize the SettlementList
-	 * must be done after initOwners and initRealms
-	 */
-	private boolean initSettlementData(ArrayList<String> settleInit)
+	private void initSettlementList()
 	{
+		settlements = new SettlementList();
+		ArrayList<String> refList = settlementData.readDataList();
+		Settlement settle;
+		for (String ref : refList)
+		{
+			settle = settlementData.readData(ref);
+			settle.setLogList(logList);
+			settlements.putSettlement(settle);
+			settle.setBuildingList(buildings.getSubList(settle.getId()));
+		}
+		
+	}
+
+	
+	/**
+	 * initialize the SettlementList (old version)
+	 * must be done after initOwners 
+	 * and before initRealms
+	 * initialize missed owners in ownerList
+	 */
+	private void initSettleData()
+	{
+		ArrayList<String> settleInit = settleData.readSettleList();
+		Settlement settle;
+		Owner owner;
 		for (String settleId : settleInit)
 		{
+			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
 //			plugin.getMessageData().log("SettleRead: "+settleId );
-			settlements.addSettlement(readSettlement(Integer.valueOf(settleId),this.priceList));
+			String ref = settle.getOwnerId();
+			if ((ref == null))
+			{
+				System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
+				owner = owners.findPlayername(ConfigBasis.NPC_0);
+				settle.setOwner(owner);
+			} else
+			{
+				owner = owners.findPlayername(ref);
+				if (owner == null)
+				{
+					// make a default Owner
+					owner = Owner.initDefaultOwner();
+					owner.setOwnerPlayer(ref, ref);
+					owner.initColonist();
+					owners.addOwner(owner);
+					System.out.println("[REALMS] new owner"+ ref);
+				}
+				settle.setOwner(owner);
+//				System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
+			}
+			settlements.addSettlement(settle);
 		}
-		return true;
 	}
 
 	/**
@@ -222,7 +279,7 @@ public class DataStorage implements DataInterface
 	 */
 	private Settlement readSettlement(int id, ItemPriceList priceList)
 	{
-		return settleData.readSettledata(id, priceList);
+		return settleData.readSettledata(id, priceList, logList);
 	}
 	
 	/**
@@ -256,18 +313,18 @@ public class DataStorage implements DataInterface
 	 * @param regInit
 	 * @return
 	 */
-	public boolean initRegimentData(ArrayList<String> regInit)
+	public void initRegimentData()
 	{
+		ArrayList<String> regInit = regData.readRegimentList();
 		for (String regId : regInit)
 		{
 //			plugin.getMessageData().log("RegimentRead: "+regId );
 			regiments.addRegiment(readRegiment(Integer.valueOf(regId)));
 		}
-		return true;
 	}
 	
 	@Override
-	public KingdomList initKingdoms()
+	public KingdomList getKingdoms()
 	{
 		// TODO Auto-generated method stub
 		return kingdoms;
@@ -275,7 +332,7 @@ public class DataStorage implements DataInterface
 	
 
 	@Override
-	public OwnerList initOwners()
+	public OwnerList getOwners()
 	{
 		// TODO Auto-generated method stub
 		return owners;
@@ -295,14 +352,14 @@ public class DataStorage implements DataInterface
 	}
 
 	@Override
-	public SettlementList initSettlements()
+	public SettlementList getSettlements()
 	{
 //		plugin.getMessageData().log("SettleInit: ");
 		return settlements;
 	}
 	
 	@Override
-	public RegimentList initRegiments()
+	public RegimentList getRegiments()
 	{
 //		plugin.getMessageData().log("RegimentInit: ");
 		return regiments;
@@ -523,27 +580,88 @@ public class DataStorage implements DataInterface
 		return caseBookData.readData(id);
 	}
 	
-	private boolean initCaseBookData(ArrayList<String> bookInit)
+	private void initCaseBookData()
 	{
-		if (bookInit.size() == 0)
+		
+		CaseBookList caseBooks = new CaseBookList(); 
+		ArrayList<String> sList = caseBookData.readDataList();
+		for (String refId : sList)
 		{
-			return true;
+			CaseBook caseBook = caseBookData.readData(refId);
+			caseBooks.addBook(caseBook); 
 		}
-		for (String bookId : bookInit)
+	}
+	
+	private void initBuildingList()
+	{
+		buildings = new BuildingList();
+		ArrayList<String> refList = buildingData.readDataList();
+		Building building;
+		for (String ref : refList)
 		{
-			System.out.println("Init Casebook READ : "+bookId);
-//			plugin.getMessageData().log("CaseBookRead: "+bookId );
-//			caseBooks.addBook(readCaseBook(bookId));
-//			if (Integer.valueOf(bookId) > CaseBook.getCounter())
-//			{
-//				CaseBook.initCounter(Integer.valueOf(bookId));
-//			}
+			building = buildingData.readData(ref);
+			buildings.putBuilding(building);
 		}
-		return true;
+		
+	}
+
+	private void initOwnerList()
+	{
+		owners = new OwnerList();
+		Owner owner ;
+		
+		ArrayList<String> refList = ownerData.readDataList();
+		
+		for (String ref : refList)
+		{
+			owner = ownerData.readData(ref);
+			owners.addOwner(owner);
+		}
+		if (owners.getOwner(ConfigBasis.NPC_0) == null)
+		{
+			owner = Owner.initDefaultOwner();
+			owner.initMayor();
+			owners.addOwner(owner);
+		}
+	}
+
+	public void initLehenList(OwnerList owners)
+	{
+		lehenList = new LehenList();
+		Lehen lehen;
+		ArrayList<String> refList = lehenData.readDataList();
+		for (String ref : refList)
+		{
+			lehen = lehenData.readData(ref);
+			lehen.setOwner(owners.getOwner(lehen.getOwnerId()));
+			lehenList.addLehen(lehen);
+		}
+	}
+
+
+	private void initKingdomList(OwnerList owners)
+	{
+		kingdoms = new KingdomList();
+		Kingdom kingdom;
+		
+		ArrayList<String> refList = kingdomData.readDataList();
+		
+		for (String ref : refList)
+		{
+			kingdom = kingdomData.readData(ref);
+			kingdom.setOwner(owners.getOwner(kingdom.getOwnerId()));
+			kingdom.initMembers(owners);
+			kingdoms.addKingdom(kingdom);
+		}
+		
+		if (kingdoms.getKingdom(0) == null)
+		{
+			kingdoms.addKingdom(Kingdom.initDefaultKingdom(owners));
+		}
 	}
 
 	@Override
-	public CaseBookList initCaseBooks()
+	public CaseBookList getCaseBooks()
 	{
 //		plugin.getMessageData().log("CaseBook Init: " );
 		return caseBooks;
@@ -553,6 +671,42 @@ public class DataStorage implements DataInterface
 	public void writeCaseBook(CaseBook caseBook)
 	{
 		caseBookData.writeData(caseBook, caseBook.getRefId());
+	}
+
+	@Override
+	public BuildingList getBuildings()
+	{
+		return buildings;
+	}
+
+	@Override
+	public LehenList getLehen()
+	{
+		return lehenList;
+	}
+
+	@Override
+	public void writeBuilding(Building building)
+	{
+		buildingData.writeData(building, String.valueOf(building.getId()));
+	}
+
+	@Override
+	public void writeKingdom(Kingdom kingdom)
+	{
+		kingdomData.writeData(kingdom, String.valueOf(kingdom.getId()));
+	}
+
+	@Override
+	public void writeLehen(Lehen lehen)
+	{
+		lehenData.writeData(lehen, String.valueOf(Kingdom.getID()));
+	}
+
+	@Override
+	public void writeOwner(Owner owner)
+	{
+		ownerData.writeData(owner, String.valueOf(owner.getId()));
 	}
 
 

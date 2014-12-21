@@ -1,6 +1,6 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,7 +12,6 @@ import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 
-import org.bukkit.Material;
 import org.junit.Test;
 
 public class RegimentManagerTest {
@@ -21,15 +20,15 @@ public class RegimentManagerTest {
 	public void testNewPosition() 
 	{
 		final double MIN_MONEY_FACTOR = 50.0; 
-		ConfigTest config = new ConfigTest();
+//		ConfigTest config = new ConfigTest();
 		
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
 		
-		ItemPriceList priceList = testData.getPriceList();
+//		ItemPriceList priceList = testData.getPriceList();
 
-		File DataFile = new File(path, "Realms");
+//		File DataFile = new File(path, "Realms");
 		SettlementData sData = new SettlementData(path);
 		SettlementList settleList = new SettlementList(0);
 
@@ -37,7 +36,7 @@ public class RegimentManagerTest {
 		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList()));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList(),logTest));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");

@@ -93,50 +93,49 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	{
 		HashMap<String, String> rList = new HashMap<String, String>();
 		
-		rList.put("0", "markt");
-		rList.put("1", "taverne");
-		rList.put("2", "haus_einfach");
-		rList.put("3", "arrowturret1");
-		rList.put("4", "stadtwache");
-		rList.put("5", "haendler");
-		rList.put("6", "haus_einfach");
-		rList.put("7", "haus_einfach");
-		rList.put("8", "taverne");
-		rList.put("9", "markt");
-		rList.put("10", "haus_einfach");
-		rList.put("11", "haus_einfach");
-		rList.put("12", "haus_einfach");
-		rList.put("13", "haus_einfach");
-		rList.put("14", "haus_einfach");
-		rList.put("15", "haus_stadt");
-		rList.put("16", "kornfeld");
-		rList.put("17", "taverne");
-		rList.put("18", "kornfeld");
+		rList.put("0", "WAREHOUSE");
+		rList.put("1", "TAVERNE");
+		rList.put("2", "HOME");
+		rList.put("3", "HOME");
+		rList.put("4", "GUARDHOUSE");
+		rList.put("6", "HOME");
+		rList.put("7", "HOME");
+		rList.put("8", "TAVERNE");
+		rList.put("9", "WAREHOUSE");
+		rList.put("10", "HOME");
+		rList.put("11", "HOME");
+		rList.put("12", "HOME");
+		rList.put("13", "HOME");
+		rList.put("14", "HOME");
+		rList.put("15", "HOUSE");
+		rList.put("16", "WHEAT");
+		rList.put("17", "TAVERNE");
+		rList.put("18", "WHEAT");
 		rList.put("19", "heiler_haus");
-		rList.put("20", "markt");
-		rList.put("21", "taverne");
-		rList.put("22", "taverne");
-		rList.put("23", "markt");
-		rList.put("24", "haus_einfach");
-		rList.put("25", "haus_einfach");
+		rList.put("20", "WAREHOUSE");
+		rList.put("21", "TAVERNE");
+		rList.put("22", "TAVERNE");
+		rList.put("23", "WAREHOUSE");
+		rList.put("24", "HOME");
+		rList.put("25", "HOME");
 		rList.put("26", "heiler_haus");
-		rList.put("27", "taverne");
-		rList.put("28", "haus_einfach");
-		rList.put("29", "haus_einfach");
-		rList.put("30", "haus_einfach");
+		rList.put("27", "TAVERNE");
+		rList.put("28", "HOME");
+		rList.put("29", "HOME");
+		rList.put("30", "HOME");
 
-		rList.put("31", "bauern_haus");
-		rList.put("32", "bauern_haus");
-		rList.put("33", "bauern_haus");
-		rList.put("34", "haupthaus");
-		rList.put("35", "bibliothek");
-		rList.put("36", "schreiner");
-		rList.put("37", "tischler");
-		rList.put("38", "schaefer");
-		rList.put("39", "haus_gross");
-		rList.put("41", "werkstatt_haus");
-		rList.put("42", "werkstatt_haus");
-		rList.put("43", "werkstatt_haus");
+		rList.put("31", "FARMHOUSE");
+		rList.put("32", "FARMHOUSE");
+		rList.put("33", "FARMHOUSE");
+		rList.put("34", "HALL");
+		rList.put("35", "BIBLIOTHEK");
+		rList.put("36", "CARPENTER");
+		rList.put("37", "CABINETMAKER");
+		rList.put("38", "SHEPHERD");
+		rList.put("39", "HAOUSE");
+		rList.put("41", "WORKSHOP");
+		rList.put("42", "WORKSHOP");
+		rList.put("43", "WORKSHOP");
 		
 		return rList;
 	}
@@ -147,9 +146,9 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	{
 		switch(superRegionName)
 		{
-		case "Dunjar" : return "Siedlung";
-		case "NewHaven" : return "Stadt";
-		case "Helnrau" : return "Dorf";
+		case "Dunjar" : return "HAMLET";
+		case "NewHaven" : return "CITY";
+		case "Helnrau" : return "TOWN";
 		default :
 			return "";
 		}

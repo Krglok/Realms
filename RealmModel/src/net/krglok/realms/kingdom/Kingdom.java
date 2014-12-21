@@ -1,7 +1,6 @@
 package net.krglok.realms.kingdom;
 
 import net.krglok.realms.core.NobleLevel;
-import net.krglok.realms.core.MemberList;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettlementList;
@@ -30,6 +29,7 @@ public class Kingdom
 	private int ownerId; 
 	private Owner owner;
 	private Boolean isNPCkingdom;
+	private MemberList members;
 	
 	public Kingdom()
 	{
@@ -38,6 +38,7 @@ public class Kingdom
 		name = NEW_REALM;
 		owner = new Owner(0, NobleLevel.COMMONER, 0, "NPC1", 0, true, ""); //null;  //new Owner());
 		isNPCkingdom = owner.isNPC();
+		members = new MemberList();
 	}
 
 	
@@ -49,6 +50,7 @@ public class Kingdom
 		this.name = name;
 		this.owner = owner;
 		this.isNPCkingdom = isNPCkingdom;
+		members = new MemberList();
 	}
 
 	public static Kingdom initDefaultKingdom(OwnerList owners)
@@ -138,7 +140,23 @@ public class Kingdom
 		this.ownerId = ownerId;
 	}
 
+	public void initMembers(OwnerList owners)
+	{
+		for (Owner owner : owners.values())
+		{
+			if(this.id == owner.getKingdomId())
+			{
+				this.members.addMember(owner);
+			}
+		}
+	}
 
+
+
+	public MemberList getMembers()
+	{
+		return members;
+	}
 
 	
 }

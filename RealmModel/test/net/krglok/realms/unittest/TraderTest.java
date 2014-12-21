@@ -2,7 +2,6 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
@@ -27,7 +26,6 @@ import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.LogList;
 
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.libs.jline.console.history.FileHistory;
 import org.junit.Test;
 
 public class TraderTest
@@ -62,7 +60,7 @@ public class TraderTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -166,7 +164,8 @@ public class TraderTest
 			System.out.println("Sender Bank : "+sender.getBank().getKonto());
 			System.out.println("Target Bank : "+target.getBank().getKonto());
 			System.out.println("Distance    : "+ (int)sender.getPosition().distance(setteList.getSettlement(1).getPosition()));
-			System.out.println("Delay(ticks): "+ target.getTrader().getTransportDelay(sender.getPosition().distance((setteList.getSettlement(1).getPosition()))));
+			target.getTrader();
+			System.out.println("Delay(ticks): "+ Trader.getTransportDelay(sender.getPosition().distance((setteList.getSettlement(1).getPosition()))));
 	//		System.out.println((settlements.getSettlement(tmo.getSettleID()).getPosition());
 		}
 		sender.getTrader().makeSellOrder(tm, sender, sellOrder);

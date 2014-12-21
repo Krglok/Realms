@@ -1,8 +1,7 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.krglok.realms.data.DataStoreCaseBook;
@@ -43,7 +42,7 @@ public class CaseBookDataTest
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(logTest);
 		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
-		CaseBookList bookList = data.initCaseBooks();
+		CaseBookList bookList = data.getCaseBooks();
 		int key = bookList.size()+1;
 		bookList.addBook(makeBook(key));
 		
@@ -69,8 +68,8 @@ public class CaseBookDataTest
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(logTest);
-		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
-		CaseBookList bookList = data.initCaseBooks();
+//		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
+		CaseBookList bookList = data.getCaseBooks();
 		
 		for (CaseBook caseBook : bookList.values())
 		{

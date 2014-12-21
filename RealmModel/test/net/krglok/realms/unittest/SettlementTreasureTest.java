@@ -28,7 +28,7 @@ public class SettlementTreasureTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new net.krglok.realms.data.LogList(path);
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 		ServerTest server = new ServerTest();

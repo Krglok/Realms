@@ -90,6 +90,13 @@ public class SettlementList extends HashMap<Integer,Settlement>
 //		setOwnerCapital(settlement.getOwner(), settlement.getId());
 	}
 	
+	public void putSettlement(Settlement settlement)
+	{
+		if (settlement != null)
+		{
+			this.put(settlement.getId(),settlement);
+		}
+	}
 	
 	public int count()
 	{
@@ -224,6 +231,7 @@ public class SettlementList extends HashMap<Integer,Settlement>
 	
 	
 	/**
+	 * Used for testing 
 	 * create a new settlementList based on 
 	 * - superRegion list , <superegionName , settleTypeName>  
 	 * - region list <regionId, regionTypeName>
@@ -272,9 +280,12 @@ public class SettlementList extends HashMap<Integer,Settlement>
 		SettlementList subList = new SettlementList();
 		for (Settlement settle : this.values())
 		{
-			if (settle.getOwner().getUuid().equals(owner.getUuid()))
+			if (settle.getOwner() != null) 
 			{
-				subList.put(settle.getId(), settle);
+				if ((settle.getOwner().getUuid().equals(owner.getUuid())) && settle.getOwnerId().equalsIgnoreCase(owner.getPlayerName())) 
+				{
+					subList.put(settle.getId(), settle);
+				}
 			}
 		}
 		return subList;
@@ -292,9 +303,15 @@ public class SettlementList extends HashMap<Integer,Settlement>
 		SettlementList subList = new SettlementList(); 
 		for (Settlement settle : this.values())
 		{
-			if (kingdom.getId() == settle.getOwner().getKingdomId())
+			if (settle.getOwner() != null)
 			{
-				subList.addSettlement(settle);
+				int ki = kingdom.getId();
+				int soi = settle.getOwner().getKingdomId();
+				if(ki == soi)
+//				if (kingdom.getId() == settle.getOwner().getKingdomId())
+				{
+					subList.addSettlement(settle);
+				}
 			}
 		}
 		return subList;

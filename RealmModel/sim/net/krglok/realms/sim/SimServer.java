@@ -12,17 +12,19 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerInterface;
 
 public class SimServer implements ServerInterface
 {
 	private String path;
 	private DataStorage dataStorage;
+	private LogList logList = new LogList(path); 
 	
 	public SimServer(String path)
 	{
 		this.path = path; 
-		dataStorage = new DataStorage(path);
+		dataStorage = new DataStorage(path,logList);
 	}
 
 	/**

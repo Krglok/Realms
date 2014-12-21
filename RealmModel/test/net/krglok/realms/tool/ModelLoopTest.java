@@ -231,99 +231,81 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.WOODCUTTER, hsRegion, "WOODCUTTER", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.WOODCUTTER, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 
 	private void cmdAddProdWaxe(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.AXESHOP, hsRegion, "AXESHOP", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.AXESHOP, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 
 	private void cmdAddProdWhoe(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.HOESHOP, hsRegion, "HOESHOP", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.HOESHOP, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 
 	private void cmdAddSchreiner(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.CARPENTER, hsRegion, "CARPENTER", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.CARPENTER, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 
 	private void cmdAddKornfeld(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.WHEAT, hsRegion, "WHEAT", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.WHEAT, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 	
 	private void cmdAddBauernhaus(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.FARMHOUSE, hsRegion, "FARMHOUSE", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.FARMHOUSE, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 
 	private void cmdAddBaecker(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.BAKERY, hsRegion, "BAKERY", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.BAKERY, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 
 	private void cmdAddHome(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.HOME, hsRegion, "HOME", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.HOME, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 
 	private void cmdAddSchaefer(int sID)
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.SHEPHERD, hsRegion, "SHEPHERD", true,null);
-		if (!Settlement.addBuilding(newbuilding,rModel.getSettlements().getSettlement(sID)))
-		{
-			System.out.println("Settlemen not found id = "+sID);
-		}
+		newbuilding =  new Building(BuildPlanType.SHEPHERD, hsRegion, null,sID);
+		rModel.getBuildings().addBuilding(newbuilding);
+		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
 	
 	

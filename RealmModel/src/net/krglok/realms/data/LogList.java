@@ -39,7 +39,7 @@ public class LogList
     private int index;
     
     private boolean isSql = false;
-    private boolean defaultCreate = false;
+    private boolean defaultCreate = true;
     
 	public LogList(String path )
 	{
@@ -207,6 +207,7 @@ public class LogList
 
 	public void addProduction(String text,int SettleId, int buildingId, String itemRef, int value , String user, long age)
 	{
+		if (defaultCreate == false) {return; }
 		String DataType = "PRODUCTION";
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");

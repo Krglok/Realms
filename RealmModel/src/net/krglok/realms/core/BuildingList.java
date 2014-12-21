@@ -26,13 +26,13 @@ public class BuildingList  extends HashMap<String,Building>
 //	private Map<String,Building> buildingList;
 //	private ArrayList<Integer> regionList; 
 //	private ArrayList<Integer> superRegionList; 
-	private HashMap<BuildPlanType,Integer> buildTypeList;
+//	private HashMap<BuildPlanType,Integer> buildTypeList;
 	private boolean isHall;
 	
 	public BuildingList()
 	{
 //		buildingList = new HashMap<String,Building>();
-		buildTypeList = new HashMap<BuildPlanType,Integer>();
+//		buildTypeList = new HashMap<BuildPlanType,Integer>();
 	}
 
 //	/**
@@ -53,17 +53,6 @@ public class BuildingList  extends HashMap<String,Building>
 //		this.buildingList = buildingList;
 //	}
 	
-	/**
-	 * Clear the buildingList without checks 
-	 * After clear the List is Empty
-	 * clear implicit the regionList 
-	 */
-	public void clearBuildingList()
-	{
-		this.clear();
-//		this.regionList.clear();
-//		this.superRegionList.clear();
-	}
 	
 	public int checkId(int ref)
 	{
@@ -75,14 +64,6 @@ public class BuildingList  extends HashMap<String,Building>
 		return Building.getCounter();
 	}
 	
-	/**
-	 * 
-	 * @return  true if no building in the list
-	 */
-	public boolean isEmpty()
-	{
-		return this.isEmpty();
-	}
 	
 	public boolean containRegion(int regionId)
 	{
@@ -126,28 +107,35 @@ public class BuildingList  extends HashMap<String,Building>
 		return isBuild;
 	}
 	
+	public void putBuilding(Building building)
+	{
+		this.put(String.valueOf(building.getId()),building);
+	}
+	
 	private void addBuildTypeList(BuildPlanType bType)
 	{
-		if (buildTypeList.containsKey(bType))
-		{
-			buildTypeList.put(bType,buildTypeList.get(bType)+1);
-		} else
-		{
-			buildTypeList.put(bType,1);
-		}
 		
 	}
 
 	/**
 	 * initialize regionList and superRegionList
 	 */
-	public void initBuildPlanList()
+	public HashMap<BuildPlanType,Integer> initBuildPlanList()
 	{
-		this.buildTypeList.clear();
+		HashMap<BuildPlanType,Integer> subList = new HashMap<BuildPlanType,Integer>();
+		BuildPlanType bType ;
 		for (Building building  : this.values())
 		{
-			addBuildTypeList(building.getBuildingType());
+			bType = building.getBuildingType();
+			if (subList.containsKey(bType))
+			{
+				subList.put(bType,subList.get(bType)+1);
+			} else
+			{
+				subList.put(bType,1);
+			}
 		}
+		return subList;
 	}
 
 	/**
@@ -168,14 +156,6 @@ public class BuildingList  extends HashMap<String,Building>
 //		return superRegionList.toArray(new Integer[superRegionList.size()]);
 //	}
 
-	/**
-	 * 
-	 * @return  number of buildings in List
-	 */
-	public int size()
-	{
-		return this.size();
-	}
 	
 	/**
 	 * 
@@ -184,9 +164,7 @@ public class BuildingList  extends HashMap<String,Building>
 	 */
 	public Building getBuilding(int id)
 	{
-		Building b = this.get(String.valueOf(id)); 
-		return b;
-		
+		return this.get(String.valueOf(id)); 
 	}
 
 	/**
@@ -216,7 +194,8 @@ public class BuildingList  extends HashMap<String,Building>
 
 	public HashMap<BuildPlanType,Integer> getBuildTypeList()
 	{
-		return buildTypeList;
+		
+		return initBuildPlanList();
 	}
 
 	public Building getBuildingByRegion(int regionId)
@@ -231,4 +210,75 @@ public class BuildingList  extends HashMap<String,Building>
 		}
 		return building;
 	}
+	
+	/**
+	 * get Sublist for Settlement
+	 * 
+	 * @param settleId
+	 * @return
+	 */
+	public BuildingList getSubList(int settleId)
+	{
+		BuildingList subList = new BuildingList();
+		for (Building building : this.values())
+		{
+			if (building.getSettleId() == settleId)
+			{
+				subList.put(String.valueOf(building.getId()),building);
+			}
+		}
+		
+		return subList;
+	}
+	
+	/**
+	 * get Sublist for ownerId (playerName)
+	 * @param ownerId
+	 * @return
+	 */
+	public BuildingList getSubList(String ownerId)
+	{
+		BuildingList subList = new BuildingList();
+		for (Building building : this.values())
+		{
+			if (building.getOwnerId().equalsIgnoreCase(ownerId))
+			{
+				subList.put(String.valueOf(building.getId()),building);
+			}
+		}
+		
+		return subList;
+	}
+	
+	public BuildingList getSubList(BuildPlanType bType)
+	{
+		BuildingList subList = new BuildingList();
+		for (Building building : this.values())
+		{
+			if (building.getBuildingType() == bType)
+			{
+				subList.put(String.valueOf(building.getId()),building);
+			}
+		}
+		
+		return subList;
+	}
+
+	public BuildingList getSubList(int settleId, BuildPlanType bType)
+	{
+		BuildingList subList = new BuildingList();
+		for (Building building : this.values())
+		{
+			if (building.getSettleId() == settleId)
+			{
+				if (building.getBuildingType() == bType)
+				{
+					subList.put(String.valueOf(building.getId()),building);
+				}
+			}
+		}
+		
+		return subList;
+	}
+	
 }

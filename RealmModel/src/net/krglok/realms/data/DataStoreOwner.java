@@ -77,15 +77,15 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
 	public Owner initDataObject(ConfigurationSection data)
 	{
 		Owner owner = new Owner();
-		owner.setId(data.getInt("id"));
-		owner.setUuid(data.getString("uuid"));
+		owner.setId(data.getInt("id",0));
+		owner.setUuid(data.getString("uuid",""));
 		String ref = data.getString("nobleLevel","COMMONER");
 		owner.setNobleLevel(NobleLevel.valueOf(ref));
 		owner.setCommonLevel(CommonLevel.valueOf(data.getString("commonLevel","COLONIST")));
-		owner.setCapital(data.getInt("capital"));
+		owner.setCapital(data.getInt("capital",0));
 		owner.setPlayerName(data.getString("playerName"));
-		owner.setKingdomId(data.getInt("realmId"));
-		owner.setIsNPC(data.getBoolean("isNPC"));
+		owner.setKingdomId(data.getInt("realmId",0));
+		owner.setIsNPC(data.getBoolean("isNPC",true));
 
 		Map<String,Object> values = data.getConfigurationSection("Achivement").getValues(false);
 		for (String key : values.keySet())

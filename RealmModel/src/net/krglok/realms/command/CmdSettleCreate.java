@@ -136,15 +136,14 @@ public class CmdSettleCreate extends RealmsCommand
 			Building building = new Building(
 					buildingType, 
 					hsRegion, 
-					hsRegionType, 
-					true,
 					new LocationData(
 					sRegion.getLocation().getWorld().getName(),
 					sRegion.getLocation().getX(), 
 					sRegion.getLocation().getY(),
-					sRegion.getLocation().getZ())
+					sRegion.getLocation().getZ()),
+					settlement.getId()
 					);
-			Settlement.addBuilding(building, settlement);
+			plugin.getRealmModel().getBuildings().addBuilding(building);
 		}
 		// make not dynamic initialization
 		settlement.setSettlerMax();

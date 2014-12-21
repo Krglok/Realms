@@ -106,15 +106,17 @@ public class CmdSettleAddBuilding extends RealmsCommand
 		Building building = new Building(
 				buildingType, 
 				this.regionId, 
-				hsRegionType, 
-				true,
 				new LocationData(
-						region.getLocation().getWorld().getName(),
-						region.getLocation().getX(), 
-						region.getLocation().getY(),
-						region.getLocation().getZ()));
-		if (Settlement.addBuilding(building, settle))
+				region.getLocation().getWorld().getName(),
+				region.getLocation().getX(), 
+				region.getLocation().getY(),
+				region.getLocation().getZ()),
+				settle.getId()
+				);
+		if (plugin.getRealmModel().getBuildings().addBuilding(building))
 		{
+			plugin.getData().writeBuilding(building);
+			settle.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(settle.getId()));
 			msg.add("Settlement ["+settle.getId()+"]  "+settle.getName());
 			msg.add("Storage : "+settle.getWarehouse().getItemList().getItemCount());
 			msg.add("Capacity: "+settle.getResident().getSettlerMax());

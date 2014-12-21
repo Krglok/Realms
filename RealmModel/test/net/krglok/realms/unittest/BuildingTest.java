@@ -22,7 +22,7 @@ public class BuildingTest
 		BuildPlanType buildingType = BuildPlanType.HOME;
 		String regionType 	= "HOME";
 		boolean isRegion 	= true;
-		Building building = new Building(buildingType, regionType, isRegion);
+		Building building = new Building(buildingType);
 		
 		int expected = 1;
 		int actual 	 = building.getId();
@@ -36,7 +36,7 @@ public class BuildingTest
 		BuildPlanType buildingType = BuildPlanType.HOME;
 		String regionType 	= "HOME";
 		boolean isRegion 	= true;
-		Building building = new Building(buildingType, regionType, isRegion);
+		Building building = new Building(buildingType);
 		
 		int expected = 4;
 		int actual 	 = building.getSettler();
@@ -50,7 +50,7 @@ public class BuildingTest
 		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "WHEAT";
 		boolean isRegion 	= true;
-		Building building = new Building(buildingType, regionType, isRegion);
+		Building building = new Building(buildingType);
 		
 		int expected = 1;
 		int actual 	 = building.getWorkerNeeded();
@@ -66,7 +66,7 @@ public class BuildingTest
 		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "WHEAT";
 		boolean isRegion 	= true;
-		Building building = new Building(buildingType, regionType, isRegion);
+		Building building = new Building(buildingType);
 
 		outValues = building.produce(server);
 		
@@ -93,7 +93,7 @@ public class BuildingTest
 		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "WHEAT";
 		boolean isRegion 	= true;
-		Building building = new Building(buildingType, regionType, isRegion);
+		Building building = new Building(buildingType);
 
 		outValues = building.produce(server);
 		double sale = 0.0;
@@ -127,7 +127,7 @@ public class BuildingTest
 		BuildPlanType buildingType = BuildPlanType.CARPENTER;
 		String regionType 	= "CARPENTER";
 		boolean isRegion 	= true;
-		Building building = new Building(buildingType, regionType, isRegion);
+		Building building = new Building(buildingType);
 
 		ItemList matList = new ItemList();
 		
@@ -162,7 +162,7 @@ public class BuildingTest
 		BuildPlanType buildingType = BuildPlanType.CARPENTER;
 		String hsRegionType 	= "CARPENTER";
 		boolean isRegion 	= true;
-		Building building = new Building(buildingType, hsRegionType, isRegion);
+		Building building = new Building(buildingType);
 
 		ItemList matList = new ItemList();
 		

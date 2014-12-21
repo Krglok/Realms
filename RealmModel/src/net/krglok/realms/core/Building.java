@@ -37,12 +37,14 @@ public class Building  implements Serializable
 	private int id;
 	private BuildPlanType buildingType;
 	private int settler;
+	private int settleId;
+	private String ownerId;
 	private int workerNeeded;
 	private int workerInstalled;
-	private Boolean isRegion;
+//	private Boolean isRegion;
 	private int hsRegion;
-	private String hsRegionType;
-	private String hsSuperRegion;
+//	private String hsRegionType;
+//	private String hsSuperRegion;
 	private Boolean isEnabled;
 	private boolean isActiv;
 	private Item[] slots ;
@@ -55,7 +57,10 @@ public class Building  implements Serializable
 	private int trainCounter;
 	private int trainTime;
 	private int maxProduction;
-	
+	/**
+	 * instance of building with new Id;
+	 * buildingType = NONE
+	 */
 	public Building()
 	{
 		COUNTER++;
@@ -64,10 +69,10 @@ public class Building  implements Serializable
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		workerInstalled = 0;
-		this.isRegion 		= true;
+//		this.isRegion 		= true;
 		hsRegion		= 0;
-		hsRegionType	= "";
-		hsSuperRegion	= "";
+//		hsRegionType	= "";
+//		hsSuperRegion	= "";
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new Item[5];
@@ -81,7 +86,12 @@ public class Building  implements Serializable
 		maxProduction = 0;
 	}
 	
-	public Building(BuildPlanType buildingType, String regionType, boolean isRegion)
+	/**
+	 * instance of building with new Id;
+	 * 
+	 * @param buildingType
+	 */
+	public Building(BuildPlanType buildingType)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -89,10 +99,10 @@ public class Building  implements Serializable
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		workerInstalled = 0;
-		this.isRegion 		= isRegion;
-		this.hsRegionType	= regionType;
+//		this.isRegion 		= isRegion;
+//		this.hsRegionType	= regionType;
 		hsRegion		= 0;
-		hsSuperRegion	= "";
+//		hsSuperRegion	= "";
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new Item[5];
@@ -105,7 +115,15 @@ public class Building  implements Serializable
 	}
 
 
-	public Building(BuildPlanType buildingType,	int hsRegion, String hsRegionType, Boolean isRegion, LocationData position)
+	/**
+	 * instance of building with new Id;
+	 * hint: mostly used for testing
+	 *  
+	 * @param buildingType
+	 * @param hsRegion
+	 * @param position
+	 */
+	public Building(BuildPlanType buildingType,	int hsRegion, LocationData position,int settleId)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -113,10 +131,11 @@ public class Building  implements Serializable
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		this.workerInstalled = 0;
-		this.isRegion = isRegion;
-		this.hsRegionType = hsRegionType;
+		this.settleId = settleId;
+//		this.isRegion = isRegion;
+//		this.hsRegionType = hsRegionType;
 		this.hsRegion = hsRegion;
-		this.hsSuperRegion = "";
+//		this.hsSuperRegion = "";
 		this.isEnabled  = true;
 		isActiv 	    = true;
 		slots = new Item[5];
@@ -129,9 +148,20 @@ public class Building  implements Serializable
 		maxProduction = 0;
 	}
 	
+	/**
+	 * instance of building with given id
+	 * mostly used for testing 
+	 * @param id
+	 * @param buildingType
+	 * @param settler
+	 * @param workerNeeded
+	 * @param workerInstalled
+	 * @param hsRegion
+	 * @param isEnabled
+	 */
 	public Building(int id, BuildPlanType buildingType, int settler,
-			int workerNeeded, int workerInstalled, Boolean isRegion,
-			int hsRegion, String hsRegionType, String hsSuperRegion, 
+			int workerNeeded, int workerInstalled, 
+			int hsRegion, 
 			Boolean isEnabled)
 	{
 		super();
@@ -140,10 +170,10 @@ public class Building  implements Serializable
 		this.settler = settler;
 		this.workerNeeded = workerNeeded;
 		this.workerInstalled = workerInstalled;
-		this.isRegion = isRegion;
-		this.hsRegionType = hsRegionType;
+//		this.isRegion = isRegion;
+//		this.hsRegionType = hsRegionType;
 		this.hsRegion = hsRegion;
-		this.hsSuperRegion = hsSuperRegion;
+//		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
 		isActiv 	    = true;
 		slots = new Item[5];
@@ -156,28 +186,59 @@ public class Building  implements Serializable
 		maxProduction = 0;
 	}
 	
+	/**
+	 * instance of building with given id
+	 * 
+	 * @param id
+	 * @param buildingType
+	 * @param settler
+	 * @param workerNeeded
+	 * @param workerInstalled
+	 * @param isRegion
+	 * @param hsRegion
+	 * @param hsRegionType
+	 * @param hsSuperRegion
+	 * @param isEnabled
+	 * @param slot1
+	 * @param slot2
+	 * @param slot3
+	 * @param slot4
+	 * @param slot5
+	 * @param sales
+	 * @param position
+	 * @param trainCounter
+	 * @param trainTime
+	 * @param maxProduction
+	 */
 	public Building(int id, BuildPlanType buildingType, int settler,
-			int workerNeeded, int workerInstalled, Boolean isRegion,
-			int hsRegion, String hsRegionType, String hsSuperRegion, 
-			Boolean isEnabled, String slot1, String slot2, String slot3, 
+			int workerNeeded, int workerInstalled, 
+//			Boolean isRegion,
+			int hsRegion, 
+//			String hsRegionType, String hsSuperRegion, 
+			Boolean isEnabled, 
+			String slot1, String slot2, String slot3, 
 			String slot4, String slot5,Double sales,
 			LocationData position,
 //			UnitType trainType,
 			int trainCounter,
 			int trainTime,
-			int maxProduction
+			int maxProduction,
+			int settleId,
+			String ownerId
 			)
 	{
 		super();
 		this.id = id;
 		this.buildingType = buildingType;
+		this.settleId = settleId;
+		this.ownerId = ownerId;
 		this.settler = settler;
 		this.workerNeeded = workerNeeded;
 		this.workerInstalled = workerInstalled;
-		this.isRegion = isRegion;
+//		this.isRegion = isRegion;
 		this.hsRegion = hsRegion;
-		this.hsRegionType = hsRegionType;
-		this.hsSuperRegion = hsSuperRegion;
+//		this.hsRegionType = hsRegionType;
+//		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
 		storeCapacity   = getStoreCapacity(buildingType);
 		
@@ -588,25 +649,25 @@ public class Building  implements Serializable
 		this.workerNeeded = workerNeeded;
 	}
 	
-	/**
-	 * regions are producer / breeder
-	 * superregions are power collectors and managment buildings
-	 * @return 	true = building is a region
-	 */
-	public Boolean isRegion()
-	{
-		return isRegion;
-	}
+//	/**
+//	 * regions are producer / breeder
+//	 * superregions are power collectors and managment buildings
+//	 * @return 	true = building is a region
+//	 */
+//	public Boolean isRegion()
+//	{
+//		return isRegion;
+//	}
 
-	/**
-	 * true  = building is a region
-	 * false = building is a superRegion
-	 * @param isRegion
-	 */
-	public void setIsRegion(Boolean isRegion)
-	{
-		this.isRegion = isRegion;
-	}
+//	/**
+//	 * true  = building is a region
+//	 * false = building is a superRegion
+//	 * @param isRegion
+//	 */
+//	public void setIsRegion(Boolean isRegion)
+//	{
+//		this.isRegion = isRegion;
+//	}
 
 	public int getHsRegion()
 	{
@@ -616,33 +677,30 @@ public class Building  implements Serializable
 	
 	public void setHsRegion(int hsRegion)
 	{
-		if (isRegion == true)
-		{
-			this.hsRegion = hsRegion;
-		}
+		this.hsRegion = hsRegion;
 	}
 
-	/**
-	 * Only valid if isRegion = false
-	 * @return the reference for Superregion (name of superregion)
-	 */
-	public String getHsSuperRegion()
-	{
-		return hsSuperRegion;
-	}
-
-	/**
-	 * Only valid if isRegion = false
-	 * set the reference for Superregion (name of superregion)
-	 * @param hsSuperRegion
-	 */
-	public void setHsSuperRegion(String hsSuperRegion)
-	{
-		if (isRegion == false)
-		{
-			this.hsSuperRegion = hsSuperRegion;
-		}
-	}
+//	/**
+//	 * Only valid if isRegion = false
+//	 * @return the reference for Superregion (name of superregion)
+//	 */
+//	public String getHsSuperRegion()
+//	{
+//		return hsSuperRegion;
+//	}
+//
+//	/**
+//	 * Only valid if isRegion = false
+//	 * set the reference for Superregion (name of superregion)
+//	 * @param hsSuperRegion
+//	 */
+//	public void setHsSuperRegion(String hsSuperRegion)
+//	{
+//		if (isRegion == false)
+//		{
+//			this.hsSuperRegion = hsSuperRegion;
+//		}
+//	}
 
 	/**
 	 * show if building working correctly
@@ -721,7 +779,7 @@ public class Building  implements Serializable
 
 	public String getHsRegionType()
 	{
-		return hsRegionType;
+		return buildingType.name();
 	}
 	
 	public Double getSales()
@@ -783,7 +841,7 @@ public class Building  implements Serializable
 		BuildPlanType buildingType = BuildPlanType.getBuildPlanType(typeName);
 		if (buildingType != BuildPlanType.NONE)
 		{
-			Building building = new Building(buildingType, regionType, isRegion);
+			Building building = new Building(buildingType);
 			building.setHsRegion(regionId);
 			building.setIsActive(true);
 			return building;
@@ -961,27 +1019,27 @@ public class Building  implements Serializable
 		switch(buildingType)
 		{
 		case WHEAT : 
-			outValues = buildingProd(server,hsRegionType);
+			outValues = buildingProd(server,buildingType.name());
 			break;
 		case FARM :
-			outValues = buildingProd(server,hsRegionType);
+			outValues = buildingProd(server,buildingType.name());
 			break;
 		case WORKSHOP :
-			outValues = werkstattProd(server,hsRegionType);
+			outValues = werkstattProd(server,buildingType.name());
 			break;
 		case BAKERY :
-			outValues = baeckerProd(server,hsRegionType);
+			outValues = baeckerProd(server,buildingType.name());
 			break;
 		case TAMER :
-			outValues = buildingProd(server,hsRegionType);
+			outValues = buildingProd(server,buildingType.name());
 			maxProduction = 5;
 			break;
 		case HUNTER :
-			outValues = buildingProd(server,hsRegionType);
+			outValues = buildingProd(server,buildingType.name());
 			maxProduction = 5;
 			break;
 		default :
-				outValues = buildingProd(server,hsRegionType);
+				outValues = buildingProd(server,buildingType.name());
 			break;
 		}
 
@@ -1121,6 +1179,38 @@ public class Building  implements Serializable
 	public int getMaxTrain()
 	{
 		return maxProduction;
+	}
+
+	/**
+	 * @return the settleId
+	 */
+	public int getSettleId()
+	{
+		return settleId;
+	}
+
+	/**
+	 * @param settleId the settleId to set
+	 */
+	public void setSettleId(int settleId)
+	{
+		this.settleId = settleId;
+	}
+
+	/**
+	 * @return the ownerId
+	 */
+	public String getOwnerId()
+	{
+		return ownerId;
+	}
+
+	/**
+	 * @param ownerId the ownerId to set
+	 */
+	public void setOwnerId(String ownerId)
+	{
+		this.ownerId = ownerId;
 	}
 	
 }

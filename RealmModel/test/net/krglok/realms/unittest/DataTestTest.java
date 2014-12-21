@@ -31,6 +31,7 @@ public class DataTestTest
 {
 	private Boolean isOutput = false; // set this to false to suppress println
 
+	@SuppressWarnings("unused")
 	private ItemPriceList readPriceData() 
 	{
         String base = "BASEPRICE";
@@ -71,7 +72,7 @@ public class DataTestTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
-		OwnerList oList = testData.getTestOwners();
+		OwnerList oList = testData.getOwners();
 		int expected = 6; 
 		int actual = oList.size();
 		assertEquals(expected, actual);
@@ -91,7 +92,7 @@ public class DataTestTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
-		KingdomList rList = testData.getTestRealms();
+		KingdomList rList = testData.getKingdoms();
 		int expected = 1; 
 		int actual = rList.size();
 		assertEquals(expected, actual);
@@ -110,7 +111,7 @@ public class DataTestTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
-		KingdomList rList = testData.getTestRealms();
+		KingdomList rList = testData.getKingdoms();
 		int expected = 1; 
 		int actual = rList.size();
 		assertEquals(expected, actual);
@@ -224,16 +225,16 @@ public class DataTestTest
         ItemPriceList itemPrices = testData.getPriceList();
 		SettlementList settleList; // = new SettlementList(0);
 
-        if (testData.initSettlements().count() > 0)
+        if (testData.getSettlements().count() > 0)
         {
-        	settleList = testData.initSettlements();
+        	settleList = testData.getSettlements();
         } else
         {
         	settleList = new SettlementList(0);
-    		settleList.addSettlement(testData.readSettlement(1,itemPrices, logTest));
-    		settleList.addSettlement(testData.readSettlement(2,itemPrices, logTest));
-    		settleList.addSettlement(testData.readSettlement(3,itemPrices, logTest));
-    		settleList.addSettlement(testData.readSettlement(4,itemPrices, logTest));
+    		settleList.addSettlement(testData.readSettlementTest(1,itemPrices, logTest));
+    		settleList.addSettlement(testData.readSettlementTest(2,itemPrices, logTest));
+    		settleList.addSettlement(testData.readSettlementTest(3,itemPrices, logTest));
+    		settleList.addSettlement(testData.readSettlementTest(4,itemPrices, logTest));
         }
 		
 		int expected = 4; 

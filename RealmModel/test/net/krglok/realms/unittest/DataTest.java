@@ -5,10 +5,42 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//import java.util.Map;
+import net.krglok.realms.builder.BuildPlanMap;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.BuildingList;
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Owner;
+import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.core.SettleType;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.DataStoreBuilding;
+import net.krglok.realms.data.DataStoreCaseBook;
+import net.krglok.realms.data.DataStoreKingdom;
+import net.krglok.realms.data.DataStoreLehen;
+import net.krglok.realms.data.DataStoreOwner;
+import net.krglok.realms.data.DataStoreSettlement;
+import net.krglok.realms.data.KnowledgeData;
+import net.krglok.realms.data.LogList;
+import net.krglok.realms.data.RegimentData;
+import net.krglok.realms.data.SettlementData;
+import net.krglok.realms.kingdom.Kingdom;
+import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.science.CaseBook;
+import net.krglok.realms.science.CaseBookList;
+import net.krglok.realms.science.RealmPermission;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.RegimentList;
 
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,46 +52,8 @@ import tiled.core.Tile;
 import tiled.core.TileLayer;
 import tiled.core.TileSet;
 import tiled.io.TMXMapReader;
-
-import net.krglok.realms.builder.BuildPlanMap;
-import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.Bank;
-import net.krglok.realms.core.Barrack;
-import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingList;
-import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.ItemList;
-import net.krglok.realms.core.ItemPrice;
-import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.NobleLevel;
-import net.krglok.realms.core.MemberList;
-import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.OwnerList;
+//import java.util.Map;
 //import net.krglok.realms.core.Position;
-import net.krglok.realms.core.Resident;
-import net.krglok.realms.core.SettleType;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.core.Townhall;
-import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.data.DataStoreCaseBook;
-import net.krglok.realms.data.DataInterface;
-import net.krglok.realms.data.DataStoreKingdom;
-import net.krglok.realms.data.DataStoreLehen;
-import net.krglok.realms.data.DataStoreOwner;
-import net.krglok.realms.data.LogList;
-import net.krglok.realms.data.RegimentData;
-import net.krglok.realms.data.SettlementData;
-import net.krglok.realms.kingdom.Kingdom;
-import net.krglok.realms.kingdom.KingdomList;
-import net.krglok.realms.kingdom.Lehen;
-import net.krglok.realms.kingdom.LehenList;
-import net.krglok.realms.science.CaseBook;
-import net.krglok.realms.science.CaseBookList;
-import net.krglok.realms.unit.Regiment;
-import net.krglok.realms.unit.RegimentList;
-import net.krglok.realms.unit.UnitType;
 
 /**
  * Simuliert die eingelesenen des Realms
@@ -70,31 +64,37 @@ import net.krglok.realms.unit.UnitType;
 public class DataTest implements DataInterface
 {
 	
-	private static final String NPC_1 = "NPC1";
-	private static final String NPC_2 = "NPC2";
+//	private static final String NPC_1 = "NPC1";
+//	private static final String NPC_2 = "NPC2";
 //	private static final String NPC_4 = "NPC4";
-	private static final String PC_3 = "NPC3";
-	private static final String PC_4 = "NPC4";
-	private static final String PC_5 = "NPC5";
+//	private static final String PC_3 = "NPC3";
+//	private static final String PC_4 = "NPC4";
+//	private static final String PC_5 = "NPC5";
 	@SuppressWarnings("unused")
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 	
 	private OwnerList testOwners ;
-	private KingdomList testKingdoms ;
-	private SettlementList testSettlements;
+	private SettlementList settlementTest;
 	private BuildingList testBuildings; 
 	private RegimentList regiments; 		// data readed from file
 	private CaseBookList caseBooks;
     private ItemPriceList priceList ;
     private LehenList lehenList;
+    private BuildingList buildings;
+	private SettlementList settlements;
+	private KingdomList testKingdoms ;
+//	private RealmPermission rPerm; // = new RealmPermission();
+//	private KnowledgeData knowledgeData; // = new KnowledgeData();
 
-	private SettlementData settleData;
+	private SettlementData settleTestData;
 	private LogList logList;
 	private RegimentData regData;
 	private DataStoreCaseBook caseBookData;
 	private DataStoreOwner ownerData;
 	private DataStoreKingdom kingdomData;
 	private DataStoreLehen lehenData;
+	private DataStoreBuilding buildingData;
+	private DataStoreSettlement settleData;
 	
 	private String dataFolder;
 
@@ -102,6 +102,9 @@ public class DataTest implements DataInterface
 	{
 		this.logList = logList;
 		dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+//		rPerm = new RealmPermission();
+//		knowledgeData = new KnowledgeData();
+		
 		initTestData();
 
 	}
@@ -113,14 +116,18 @@ public class DataTest implements DataInterface
 		caseBookData = new DataStoreCaseBook(dataFolder);
 		ownerData = new DataStoreOwner(dataFolder);
 		kingdomData = new DataStoreKingdom(dataFolder); 
-		settleData = new SettlementData(dataFolder);
+		settleTestData = new SettlementData(dataFolder);
 		regData = new RegimentData(dataFolder);
 		lehenData = new DataStoreLehen(dataFolder);
+		buildingData = new DataStoreBuilding(dataFolder);
+		settleData = new DataStoreSettlement(dataFolder);
 		
 		initOwnerList();		// read dta from data file
-		initSettleDate(testOwners);		// read Settlements from data file
+		initBuildingList();
+		initSettleTest(testOwners);		// read Settlements from data file
+		initSettlementList();
 		initKingdomList(testOwners);		// read data from data file
-		initBuildingList();		// set constant list
+		initBuildingTest();		// set constant list
 		initLehenList(testOwners);
 		
 		this.caseBooks = initCaseBookData();	// read data from data file
@@ -140,35 +147,42 @@ public class DataTest implements DataInterface
 //		testSettlements.addSettlement(createSettlement(1, position));
 //	}
 	
-	public void initSettleDate(OwnerList owners)
+	public void initSettleTest(OwnerList owners)
 	{
 //		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
 //        File DataFile = new File(path, "Realms");
-        SettlementList settlements = new SettlementList(0);
-		Settlement settle = null;
+		settlementTest = new SettlementList(0);
+//		Settlement settle = null;
 		Owner owner = null;
 //		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = settleData.readSettleList();
-		settlements.clear();
+		ArrayList<String> sList = settleTestData.readSettleList();
 		for (String sName : sList)
 		{
-			settle = settleData.readSettledata(Integer.valueOf(sName),this.getPriceList());
+			Settlement settle = settleTestData.readSettledata(Integer.valueOf(sName),this.getPriceList(),this.logList);
 			String ref = settle.getOwnerId();
-			if (ref == "")
+			if ((ref == null))
 			{
+				System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
 				owner = owners.findPlayername(ConfigBasis.NPC_0);
 				settle.setOwner(owner);
 			} else
 			{
 				owner = owners.findPlayername(ref);
-				if (owner != null)
+				if (owner == null)
 				{
-					settle.setOwner(owner);
+					// make a default Owner
+					owner = Owner.initDefaultOwner();
+					owner.setOwnerPlayer(ref, "");
+					owner.initColonist();
+					owners.addOwner(owner);
 				}
+				settle.setOwner(owner);
+//				System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
 			}
-			settlements.addSettlement(settle);
+			settlementTest.addSettlement(settle);
+//			System.out.println(settle.getOwner().getPlayerName());
 		}
-		this.testSettlements= settlements; 
+//		this.testSettlements= settlements; 
 		
 	}
 
@@ -227,10 +241,7 @@ public class DataTest implements DataInterface
 						settler, 
 						0, 
 						0, 
-						true, 
 						regionId,
-						"HOME",
-						"", 
 						true
 						);
 		
@@ -250,10 +261,7 @@ public class DataTest implements DataInterface
 						0,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"WHEAT",
-						"", 
 						true
 						);
 		
@@ -267,10 +275,7 @@ public class DataTest implements DataInterface
 						0,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"WOODCUTTER",
-						"", 
 						true
 						);
 		
@@ -291,10 +296,7 @@ public class DataTest implements DataInterface
 						settler,
 						0,
 						0, 
-						true, 
 						regionId, 
-						"HALL",
-						"", 
 						true
 						);
 		
@@ -308,10 +310,7 @@ public class DataTest implements DataInterface
 						0,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"TAVERNE",
-						"", 
 						true
 						);
 		
@@ -332,10 +331,7 @@ public class DataTest implements DataInterface
 						unitSpace,
 						0,
 						0, 
-						true, 
 						regionId, 
-						"GUARDHOUSE",
-						"", 
 						true
 						);
 		
@@ -356,10 +352,7 @@ public class DataTest implements DataInterface
 						0,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"WAREHOUSE",
-						"", 
 						true
 						);
 		
@@ -373,10 +366,7 @@ public class DataTest implements DataInterface
 						settler,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"FARMHOUSE",
-						"", 
 						true
 						);
 		
@@ -391,10 +381,7 @@ public class DataTest implements DataInterface
 						settler,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"WORKSHOP",
-						"", 
 						true,
 						slot1,
 						slot2,
@@ -406,7 +393,9 @@ public class DataTest implements DataInterface
 //						UnitType.NONE,
 						0,
 						0,
-						0
+						0,
+						0,
+						""
 						);
 		
 	}
@@ -420,10 +409,7 @@ public class DataTest implements DataInterface
 						settler,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"BAKERY",
-						"", 
 						true,
 						slot1,
 						slot2,
@@ -435,7 +421,10 @@ public class DataTest implements DataInterface
 //						UnitType.NONE,
 						0,
 						0,
-						0
+						0,
+						0,
+						""
+
 						);
 		
 	}
@@ -456,17 +445,14 @@ public class DataTest implements DataInterface
 						settler,
 						workerNeeded,
 						0, 
-						true, 
 						regionId, 
-						"TRADER",
-						"", 
 						true
 						);
 		
 	}
 	
 	
-	private void initBuildingList()
+	private void initBuildingTest()
 	{
 		testBuildings = new BuildingList();
 		testBuildings.addBuilding(createBuildingHome(2, 4,2));
@@ -623,7 +609,7 @@ public class DataTest implements DataInterface
 	}
 
 	@Override
-	public OwnerList initOwners()
+	public OwnerList getOwners()
 	{
 	
 		return testOwners;
@@ -631,41 +617,36 @@ public class DataTest implements DataInterface
 
 
 	@Override
-	public SettlementList initSettlements()
+	public SettlementList getSettlements()
 	{
-		return testSettlements;
-	}
-
-	public OwnerList getTestOwners()
-	{
-		return testOwners;
-	}
-
-	public KingdomList getTestRealms()
-	{
-		return testKingdoms;
+		return settlements;
 	}
 
 	public SettlementList getTestSettlements()
 	{
-		return testSettlements;
+		return settlementTest;
 	}
 
 	@Override
-	public KingdomList initKingdoms()
+	public KingdomList getKingdoms()
 	{
 		return testKingdoms;
+	}
+	
+	public LehenList getLehen()
+	{
+		return lehenList;
 	}
 
 	@Override
 	public void writeSettlement(Settlement settle)
 	{
-		// TODO Auto-generated method stub
-		
+		settleData.writeData(settle, String.valueOf(settle.getId()));
 	}
-	public Settlement readSettlement(int id, ItemPriceList priceList, LogList logList)
+	
+	public Settlement readSettlementTest(int id, ItemPriceList priceList, LogList logList)
 	{
-		return settleData.readSettledata(id, priceList);
+		return settleTestData.readSettledata(id, priceList,logList);
 	}
 	
 	/**
@@ -939,21 +920,19 @@ public class DataTest implements DataInterface
 	}
 
 	@Override
-	public RegimentList initRegiments()
+	public RegimentList getRegiments()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return regiments;
 	}
 
 	@Override
 	public void writeRegiment(Regiment regiment)
 	{
-		// TODO Auto-generated method stub
-		
+		regData.writeRegimentData(regiment);
 	}
 
 	@Override
-	public CaseBookList initCaseBooks()
+	public CaseBookList getCaseBooks()
 	{
 		return caseBooks;
 	}
@@ -970,7 +949,6 @@ public class DataTest implements DataInterface
 	 */
 	public CaseBookList initCaseBookData()
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
 		CaseBookList caseBooks = new CaseBookList(); 
 		ArrayList<String> sList = caseBookData.readDataList();
 		for (String refId : sList)
@@ -1007,7 +985,9 @@ public class DataTest implements DataInterface
 		
 		if (testOwners.getOwner(ConfigBasis.NPC_0) == null)
 		{
-			testOwners.addOwner(Owner.initDefaultOwner());
+			owner = Owner.initDefaultOwner();
+			owner.initMayor();
+			testOwners.addOwner(owner);
 		}
 		
 //		testOwners.addOwner(new Owner(0, NobleLevel.COMMONER, 0, NPC_0, 1, true,""));
@@ -1041,6 +1021,7 @@ public class DataTest implements DataInterface
 		{
 			kingdom = kingdomData.readData(ref);
 			kingdom.setOwner(owners.getOwner(kingdom.getOwnerId()));
+			kingdom.initMembers(owners);
 			testKingdoms.addKingdom(kingdom);
 		}
 		
@@ -1069,10 +1050,43 @@ public class DataTest implements DataInterface
 			lehenList.addLehen(lehen);
 		}
 	}
-	
-	public LehenList initLehen()
+
+	public void writeBuilding(Building building)
 	{
-		return lehenList;
+		buildingData.writeData(building, String.valueOf(building.getId()));
+	}
+	
+	public void initBuildingList()
+	{
+		buildings = new BuildingList();
+		ArrayList<String> refList = buildingData.readDataList();
+		Building building;
+		for (String ref : refList)
+		{
+			building = buildingData.readData(ref);
+			buildings.putBuilding(building);
+		}
+		
+	}
+	
+	public void initSettlementList()
+	{
+		settlements = new SettlementList();
+		ArrayList<String> refList = settleData.readDataList();
+		Settlement settle;
+		for (String ref : refList)
+		{
+			settle = settleData.readData(ref);
+			settlements.putSettlement(settle);
+			settle.setBuildingList(buildings.getSubList(settle.getId()));
+		}
+		
+	}
+
+	@Override
+	public BuildingList getBuildings()
+	{
+		return buildings;
 	}
 	
 }

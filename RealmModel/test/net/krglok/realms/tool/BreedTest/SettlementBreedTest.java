@@ -1,43 +1,32 @@
 package net.krglok.realms.tool.BreedTest;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
-import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
-import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.LogList;
-import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.ConfigTest;
 import net.krglok.realms.unittest.DataTest;
 import net.krglok.realms.unittest.MessageTest;
 import net.krglok.realms.unittest.ServerTest;
 
-import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.junit.Test;
 
 public class SettlementBreedTest
 {
 	private Boolean isOutput = false; // set this to false to suppress println
 	private boolean isMonth = false;
 	private String sb = "";
-	private boolean showSettler = true;
+//	private boolean showSettler = true;
 	int dayCounter = 0;
 	private int month = 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
@@ -126,6 +115,7 @@ public class SettlementBreedTest
 	}
 
 
+	@SuppressWarnings("unused")
 	private String showBalkenHappy(Settlement settle, boolean isDay, boolean isSettler)
 	{
 		if (isSettler)
@@ -237,6 +227,7 @@ public class SettlementBreedTest
 			
 	}
 
+	@SuppressWarnings("unused")
 	private void makeSettleAnalysis(Settlement settle, int moth, ItemPriceList priceList)
 	{
 		ArrayList<String> msg = new ArrayList<>();

@@ -94,22 +94,25 @@ public class Owner
 
 	public void initColonist()
 	{
-		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_0, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH0, true));
+		this.setCommonLevel(CommonLevel.COLONIST);
 	}
 
 	public void initSettler()
 	{
 		initColonist();
-		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_1, true));
-		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_2, true));
-		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_3, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH1, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH2, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH3, true));
+		this.setCommonLevel(CommonLevel.SETTLER);
 	}
 	
 	public void initMayor()
 	{
 		initColonist();
 		initSettler();
-		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_4, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH4, true));
+		this.setCommonLevel(CommonLevel.MAYOR);
 	}	
 
 	public void initCouncilor()
@@ -117,8 +120,9 @@ public class Owner
 		initColonist();
 		initSettler();
 		initMayor();
-		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_5, true));
-		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH_6, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH5, true));
+		this.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH6, true));
+		this.setCommonLevel(CommonLevel.COUNCILOR);
 	}	
 	
 	/**

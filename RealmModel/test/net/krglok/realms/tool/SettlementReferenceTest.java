@@ -1,12 +1,9 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildPosition;
@@ -17,7 +14,6 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
@@ -370,7 +366,7 @@ public class SettlementReferenceTest
 		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList()));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList(),logList));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");

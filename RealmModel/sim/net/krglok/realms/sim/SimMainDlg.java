@@ -357,8 +357,8 @@ public class SimMainDlg
 //		realmModel = new RealmModel(config.getRealmCounter(), config.getSettlementCounter(), server, config, data, messageData, logList);
 		
 		realmModel = new RealmModel(
-				simServer.getDataStorage().initKingdoms().size(), 
-				simServer.getDataStorage().initSettlements().size(), 
+				simServer.getDataStorage().getKingdoms().size(), 
+				simServer.getDataStorage().getSettlements().size(), 
 				simServer, 
 				configData, 
 				simServer.getDataStorage(), 
@@ -447,10 +447,10 @@ public class SimMainDlg
 
 	private void doLoadSettlements()
 	{
-		if (simServer.getDataStorage().initSettlements() != null)
+		if (simServer.getDataStorage().getSettlements() != null)
 		{
 			int id = 1;
-			SettlementList settlements = simServer.getDataStorage().initSettlements();
+			SettlementList settlements = simServer.getDataStorage().getSettlements();
 			Object[][] dataRows = new Object[settlements.size()][3];
 			int index = 0;
 			for (Settlement settle : settlements.values())
@@ -474,7 +474,7 @@ public class SimMainDlg
 				BrowseList.setSelected(false);
 				BrowseList.setSelctedId(0);
 				// show selected Data
-				Settlement settlement = simServer.getDataStorage().initSettlements().getSettlement(id );
+				Settlement settlement = simServer.getDataStorage().getSettlements().getSettlement(id );
 				ShowSettle.showMe(settlement);
 			}
 		} else

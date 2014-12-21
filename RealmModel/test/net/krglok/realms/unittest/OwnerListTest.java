@@ -58,9 +58,9 @@ public class OwnerListTest
 		Owner PCOwner = new Owner(0, NobleLevel.COMMONER, 0, "PC1", 0, false,"PC1");
 		oList.addOwner(PCOwner);
 		oList.getOwner("PC1").setKingdomId(99);
-		Achivement achiv = new Achivement(AchivementType.BOOK, AchivementName.TECH_0);
+		Achivement achiv = new Achivement(AchivementType.BOOK, AchivementName.TECH0);
 		oList.getOwner("PC1").getAchivList().add(achiv);
-		achiv = new Achivement(AchivementType.BOOK, AchivementName.TECH_1);
+		achiv = new Achivement(AchivementType.BOOK, AchivementName.TECH1);
 		oList.getOwner("PC1").getAchivList().add(achiv);
 
 		perms.initPermission(PCOwner,kData.getKnowledgeList());

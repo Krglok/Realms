@@ -45,7 +45,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech0()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(0, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_0);
+		kNode.setAchievName(AchivementName.TECH0);
 		kNode.addBuildPlan(BuildPlanType.HOME);
 		kNode.addBuildPlan(BuildPlanType.WOODCUTTER);
 		kNode.addBuildPlan(BuildPlanType.QUARRY);
@@ -58,7 +58,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech1()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(1, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_1);
+		kNode.setAchievName(AchivementName.TECH1);
 		kNode.adRequirement(AchivementName.HOME);
 		kNode.adRequirement(AchivementName.WOODCUTTER);
 		kNode.adRequirement(AchivementName.QUARRY);
@@ -82,7 +82,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech2()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(2, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_2);
+		kNode.setAchievName(AchivementName.TECH2);
 		kNode.adRequirement(AchivementName.HALL);
 		kNode.adRequirement(AchivementName.CARPENTER);
 
@@ -96,7 +96,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech3()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(3, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_3);
+		kNode.setAchievName(AchivementName.TECH3);
 		kNode.adRequirement(AchivementName.CABINETMAKER);
 		kNode.adRequirement(AchivementName.BAKERY);
 
@@ -112,7 +112,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech4()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(4, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_4);
+		kNode.setAchievName(AchivementName.TECH4);
 		kNode.adRequirement(AchivementName.SHOP);
 
 		kNode.addBuildPlan(BuildPlanType.HOUSE);
@@ -135,7 +135,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech5()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(5, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_5);
+		kNode.setAchievName(AchivementName.TECH5);
 		kNode.adRequirement(AchivementName.WORKSHOP);
 		kNode.adRequirement(AchivementName.GUARDHOUSE);
 		kNode.adRequirement(AchivementName.TANNERY);
@@ -163,7 +163,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech6()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(6, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_6);
+		kNode.setAchievName(AchivementName.TECH6);
 		kNode.adRequirement(AchivementName.TOWNHALL);
 		kNode.adRequirement(AchivementName.SMELTER);
 
@@ -183,7 +183,7 @@ public class KnowledgeData
 	private KnowledgeNode addTech7()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(7, KnowledgeType.TECH);
-		kNode.setAchievName(AchivementName.TECH_7);
+		kNode.setAchievName(AchivementName.TECH7);
 		kNode.adRequirement(AchivementName.BARRACK);
 		kNode.adRequirement(AchivementName.TOWER);
 

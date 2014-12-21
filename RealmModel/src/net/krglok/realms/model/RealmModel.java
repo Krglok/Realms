@@ -7,6 +7,7 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.colonist.ColonyList;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
@@ -17,6 +18,7 @@ import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.KnowledgeData;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
@@ -33,17 +35,20 @@ import net.krglok.realms.unit.UnitFactory;
 /**
  * <pre>
  * the realmModel is the central Class of the realm handling.
- * all functions and algorithm of the settlements and realm will be executed inside the model.
+ * all storage, textoutput and command handling will be done outside of the model
+ * the model represent a abstract, simplified realization of an ancient political and economical feudal system
+ * (Lehensystem).
+ * the Technology has a orientation to the european  medieval age and is defined with a List of KnowledgeNode. 
+ * the knowledgeNode has required achievements and give permissions for building.
+ * the achievements must be collected by the player (Owner)
+ * the building and urban objects (settlement) in the game are realized and represented by the separate plugin, HeroStronghold.
+ * the aspects and parameters of HeroStronghold are imported in the realmModel.
+ * the HeroStronghold make also the area protection.
+ * the instances of the regions and superregions are used as buildings and settlements
+ * all functions and algorithm of the settlements and realms will be executed inside the model.
  * all rules are implemented here.
- * all storage, textoutput, command handling will be done outside of the model
- * the model represent a abstract realization of an ancient political and economic feudal system
- * (Lehensystem or Feudalism).
- * the building and urban objects in the game are realized and represented by a different plugin, HeroStronghold.
- * the aspects and parameters of HeroStronghold are imported in the realmModel
- * the instances of the regions and superregions are used as buildings and urban areas
- * the aspects and parameters of the HeroStronghold are abstracted in the realmModel the real value 
- * and connection to the HeroStronghold objects are done outside the realmModel by the plugin that 
- * use this realmModel.
+ * the settlements breed settlers and  has the task to produce food, materials, equipment and military units.
+ * the settlements also can trade automatically  
  * the RealmModel are controlled by the ModelStatus.
  * the RealmModel get Commands from outside over Event Methods.
  * the Model use queues for commands and other actions. 
@@ -72,8 +77,6 @@ public class RealmModel
 	private ArrayList<Settlement> tradeQueue;		// List von Settlements , die abgearbeitet werden muessen
 	private ArrayList<Settlement> productionQueue;	// List von Settlements , die abgearbeitet werden muessen
 	private ArrayList<Settlement> taxQueue;			// List von Settlements , die abgearbeitet werden muessen
-	// private ArrayList<Training> trainingQueue;
-	// private private ArrayList<Trade> tradeQueue;
 	private HashMap<Integer,Integer> storeQueue;	// Liste von Settlement Id, die gepeichert werden sollen
 
 	private TradeTransport tradeTransport = new TradeTransport();
@@ -81,10 +84,12 @@ public class RealmModel
 	private ColonyList colonys;				// List of colonys in game
 	private RegimentList regiments; 		// List of Regiments in game 
 	private CaseBookList caseBooks;			// List of Books in game
-	private KingdomList kingdoms;
+	private KingdomList kingdoms;			// List of Kingdoms in game
+	private BuildingList buildings;			// List of all buildings in game , make subList for settlements
 	
 	public NpcManager npcManager;
 	private UnitFactory unitFactory = new UnitFactory();
+	private KnowledgeData knowledgeData = new KnowledgeData();
 	
 	private boolean isInit = false;
 	private int garbageCounter;
@@ -294,18 +299,19 @@ public class RealmModel
 	}
 	
 	/**
-	 * read the persistent data from the dateStorage
+	 * link the persistent data to the dateStorage
 	 * 
 	 * @return
 	 */
 	public boolean initModel()
 	{
 		boolean isDone = config.initConfigData();
-		caseBooks = data.initCaseBooks();
-		owners = data.initOwners();
-		settlements = data.initSettlements();
-		regiments = data.initRegiments();
-		kingdoms = data.initKingdoms();
+		caseBooks = data.getCaseBooks();
+		owners = data.getOwners();
+		settlements = data.getSettlements();
+		regiments = data.getRegiments();
+		kingdoms = data.getKingdoms();
+		buildings = data.getBuildings();
 		isInit = isDone;
 		return isInit;
 	}
@@ -934,13 +940,38 @@ public class RealmModel
 			}
 		}
 	}
+
+	/**
+	 * @return the knowledgeData
+	 */
+	public KnowledgeData getKnowledgeData()
+	{
+		return knowledgeData;
+	}
+
+	/**
+	 * @param knowledgeData the knowledgeData to set
+	 */
+	public void setKnowledgeData(KnowledgeData knowledgeData)
+	{
+		this.knowledgeData = knowledgeData;
+	}
+
+	/**
+	 * @return the buildings
+	 */
+	public BuildingList getBuildings()
+	{
+		return buildings;
+	}
+
+	/**
+	 * @param buildings the buildings to set
+	 */
+	public void setBuildings(BuildingList buildings)
+	{
+		this.buildings = buildings;
+	}
 	
-//	/**
-//	 * @return the buildManager
-//	 */
-//	public BuildManager getBuildManager()
-//	{
-//		return buildManager;
-//	}
 	
 }

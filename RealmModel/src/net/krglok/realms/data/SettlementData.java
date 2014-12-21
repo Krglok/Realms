@@ -14,6 +14,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.BuildingList;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
@@ -79,7 +81,7 @@ public class SettlementData
 	            config.set(MemorySection.createPath(section, "biome"), settle.getBiome().name());
 	            config.set(MemorySection.createPath(section, "age"), settle.getAge());
 	            config.set(MemorySection.createPath(section, "name"), settle.getName());
-	            config.set(MemorySection.createPath(section, "owner"), settle.getOwner());
+	            config.set(MemorySection.createPath(section, "owner"), settle.getOwnerId());
 	            config.set(MemorySection.createPath(section, "isCapital"), settle.getIsCapital());
 //	            config.set(MemorySection.createPath(settleSec, "isEnabled"), settle.isEnabled());
 	            config.set(MemorySection.createPath(section, "isActive"), settle.isActive());
@@ -118,10 +120,10 @@ public class SettlementData
 	            	values.put("settler", String.valueOf(building.getSettler()));
 	            	values.put("workerNeeded", String.valueOf(building.getWorkerNeeded()));
 	            	values.put("workerInstalled", String.valueOf(building.getWorkerInstalled()));
-	            	values.put("isRegion", building.isRegion().toString());
+//	            	values.put("isRegion", building.isRegion().toString());
 	            	values.put("hsRegion", String.valueOf(building.getHsRegion()));
 	            	values.put("hsRegionType", building.getHsRegionType());
-	            	values.put("hsSuperRegion", building.getHsSuperRegion());
+//	            	values.put("hsSuperRegion", building.getHsSuperRegion());
 	            	values.put("isEnabled", building.isEnabled().toString());
 	            	values.put("isActiv", building.isActive().toString());
 	            	values.put("position", LocationData.toString(building.getPosition()));
@@ -195,9 +197,9 @@ public class SettlementData
 
 	}
 	
-	public Settlement readSettledata(int id, ItemPriceList priceList) 
+	public Settlement readSettledata(int id, ItemPriceList priceList, LogList logList) 
 	{
-		Settlement settle = new Settlement(priceList, null);
+		Settlement settle = new Settlement(priceList, logList);
         String section = getSettleKey(id);
 		try
 		{
@@ -213,7 +215,7 @@ public class SettlementData
 
             	//Biome.valueOf(settle.getBiome()));
             	settle.setName(config.getString(section+".name"));
-            	settle.setOwnerId(config.getString(section+".owner"));
+            	settle.setOwnerId(config.getString(section+".owner",ConfigBasis.NPC_0));
             	settle.setIsCapital(config.getBoolean(section+".isCapital",false));
             	settle.setIsActive(config.getBoolean(section+".isActive"));
             	settle.getBank().addKonto(config.getDouble(section+".bank",0.0),"SettleRead",settle.getId());
@@ -233,6 +235,8 @@ public class SettlementData
             	
 //                System.out.println(settleSec+".buildinglist");
     			Map<String,Object> buildings = config.getConfigurationSection(section+".buildinglist").getValues(false);
+    			BuildingList bList = new BuildingList();
+    			Building building ;
             	for (String ref : buildings.keySet())
             	{
 //                    System.out.println(ref);
@@ -267,17 +271,13 @@ public class SettlementData
         			
 //        			System.out.println(buildingId+" : "+buildingType);
         			
-        			Settlement.addBuilding(
-        					new Building(
+        			building = new Building(
         							buildingId, 
         							buildingType, 
         							settler, 
         							workerNeeded, 
         							workerInstalled, 
-        							isRegion, 
         							hsRegion, 
-        							hsRegionType, 
-        							hsSuperRegion, 
         							isEnabled, 
         							slot1, 
         							slot2, 
@@ -289,11 +289,13 @@ public class SettlementData
 //        							trainType,
         							trainCounter,
         							trainTime,
-        							maxProduction
-        							), 
-        					settle
-        					);
+        							maxProduction,
+        							0,
+        							""
+        							); 
+        		     bList.addBuilding(building);
             	}
+            	settle.setBuildingList(bList);
             }
             settle.getWarehouse().setItemMax(Integer.valueOf(config.getString(section+".warehouse"+".itemMax","0")));
             settle.getWarehouse().setIsEnabled(Boolean.valueOf(config.getString(section+".warehouse"+".isEnable","false")));

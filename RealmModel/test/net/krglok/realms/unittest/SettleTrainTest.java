@@ -380,7 +380,7 @@ public class SettleTrainTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
 		LogList logList = new LogList(path);
 		DataTest data     = new DataTest(logList);
-		OwnerList ownerList =  data.getTestOwners();
+		OwnerList ownerList =  data.getOwners();
 		ServerTest server = new ServerTest();
 		UnitFactory unitFactory = new UnitFactory();
 		ItemPriceList priceList = readPriceData(); 

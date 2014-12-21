@@ -1,7 +1,6 @@
 package net.krglok.realms.tool;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.fail;
 import net.krglok.realms.builder.BuildPosition;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.ConfigBasis;
@@ -11,7 +10,6 @@ import net.krglok.realms.data.LogList;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdColonyBuild;
-import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.ConfigTest;
 import net.krglok.realms.unittest.DataTest;
@@ -22,13 +20,13 @@ import org.junit.Test;
 
 public class ColonyTest
 {
-	private Boolean isOutput = false; // set this to false to suppress println
-	private String sb = "";
+//	private Boolean isOutput = false; // set this to false to suppress println
+//	private String sb = "";
 	int dayCounter = 0;
-	private int month = 0;
+//	private int month = 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 	private ServerTest server;
-	private DataTest     data;
+//	private DataTest     data;
 	private ConfigTest config;
 	private MessageTest   msg;
 	Settlement settle;

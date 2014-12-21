@@ -11,8 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	PositionTest.class,
 	OwnerListTest.class,
-	RealmTest.class,
-	RealmListTest.class,
+	KingdomTest.class,
+	KingdomListTest.class,
 
 	UnitListTest.class, 
 	BankTest.class,
@@ -26,10 +26,10 @@ import org.junit.runners.Suite.SuiteClasses;
 	OwnerListTest.class,
 	PositionTest.class,
 	PriceDataTest.class,
-	RealmListTest.class,
+	KingdomListTest.class,
 	RealmLoopTest.class,
 	RealmModelTest.class,
-	RealmTest.class,
+	KingdomTest.class,
 	ResidentTest.class,
 	TownhallTest.class,
 	TraderTest.class,

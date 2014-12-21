@@ -377,8 +377,9 @@ public class ShowSettle extends JDialog
 	{
 		Object[][] dataRows = new Object[settle.getWarehouse().getItemList().size()][3];
 		int index = 0;
-		for (Item item : settle.getWarehouse().getItemList().values())
+		for (String itemRef : settle.getWarehouse().getItemList().sortItems())
 		{
+			Item item = settle.getWarehouse().getItemList().getItem(itemRef);
 //			if (index <100)
 			{
 				dataRows[index][0] = item.ItemRef();

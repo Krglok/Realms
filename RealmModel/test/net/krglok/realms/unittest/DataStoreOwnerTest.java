@@ -1,7 +1,6 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import net.krglok.realms.core.CommonLevel;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
@@ -9,7 +8,6 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.data.DataStoreOwner;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.science.Achivement;
-import net.krglok.realms.science.AchivementList;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
 
@@ -101,7 +99,7 @@ public class DataStoreOwnerTest
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(logTest);
 		
-		OwnerList ownerList = data.initOwners();
+		OwnerList ownerList = data.getOwners();
 
 		int expected = 3;
 		int actual = ownerList.size();

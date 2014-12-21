@@ -2,7 +2,6 @@ package net.krglok.realms.tool;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanMap;
@@ -13,10 +12,8 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.data.LogList;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.unittest.DataTest;
-import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
 public class BuildPlanTools
@@ -89,6 +86,7 @@ public class BuildPlanTools
 
 
 	
+	@SuppressWarnings("unused")
 	private boolean isInList(String name, String[] sList)
 	{
 		for (int i = 0; i < sList.length; i++)
@@ -101,6 +99,7 @@ public class BuildPlanTools
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setStandardList()
 	{
 		return new String[] 
@@ -112,6 +111,7 @@ public class BuildPlanTools
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setNetherList()
 	{
 		return new String[] 
@@ -123,6 +123,7 @@ public class BuildPlanTools
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setBasisList()
 	{
 		return new String[] 
@@ -170,6 +171,7 @@ public class BuildPlanTools
         		};
 	}
 
+	@SuppressWarnings("unused")
 	private String[] setEbene1()
 	{
 		return new String[] 

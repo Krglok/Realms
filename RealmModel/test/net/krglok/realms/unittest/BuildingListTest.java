@@ -84,8 +84,8 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
-		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+		Building building = new Building(BuildPlanType.HOME);
+		building = new Building(BuildPlanType.HOME);
 		bList.addBuilding(building);
 		Building b = bList.getBuilding(2);
 		int expected = 2;
@@ -102,9 +102,9 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+		Building building = new Building(BuildPlanType.HOME);
 		bList.addBuilding(building);
-		building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+		building = new Building(BuildPlanType.HOME);
 		bList.addBuilding(building);
 		int expected = 2;
 		int actual = bList.getBuildTypeList().get(BuildPlanType.HOME);
@@ -124,7 +124,7 @@ public class BuildingListTest
 	{
 		Building.initCounter(0);
 		BuildingList bList = new BuildingList();
-		Building building = new Building(BuildPlanType.HOME,"haus_einfach",true);
+		Building building = new Building(BuildPlanType.HOME);
 		for (int i = 0; i < 10; i++)
 		{
 			bList.put(String.valueOf(i),building);

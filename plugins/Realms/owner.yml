@@ -20,3 +20,25 @@ OWNER:
     isNPC: true
     Achivement:
       BOOK_HOME: 'true'
+  '3':
+    id: 3
+    uuid: ''
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Krglok
+    realmId: 1
+    isNPC: false
+    Achivement:
+      BOOK_TECH0: 'true'
+  '4':
+    id: 4
+    uuid: ''
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: sebbra
+    realmId: 0
+    isNPC: false
+    Achivement:
+      BOOK_TECH0: 'true'

@@ -8,7 +8,7 @@ import net.krglok.realms.kingdom.Kingdom;
 
 import org.junit.Test;
 
-public class RealmTest
+public class KingdomTest
 {
 
 //	@Test

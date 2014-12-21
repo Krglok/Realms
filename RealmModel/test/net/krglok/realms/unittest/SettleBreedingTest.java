@@ -1,15 +1,13 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
-import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -370,7 +368,7 @@ public class SettleBreedingTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ItemPriceList priceList = readPriceData(); 

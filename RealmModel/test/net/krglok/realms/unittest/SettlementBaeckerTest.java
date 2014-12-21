@@ -1,6 +1,6 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +8,6 @@ import java.util.HashMap;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Item;
-import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
@@ -57,7 +55,7 @@ public class SettlementBaeckerTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();

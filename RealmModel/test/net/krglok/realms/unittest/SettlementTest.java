@@ -2,7 +2,6 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanType;
@@ -25,8 +24,6 @@ import net.krglok.realms.data.LogList;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
-import org.json.simple.JSONObject;
 import org.junit.Test;
 //import net.krglok.realms.core.Position;
 
@@ -104,7 +101,7 @@ public class SettlementTest
 	public void testSettlementCreate()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -148,7 +145,7 @@ public class SettlementTest
 	public void testSettlementItemMax()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -202,7 +199,7 @@ public class SettlementTest
 	public void testSettlementProduce()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -269,7 +266,7 @@ public class SettlementTest
 	public void testSettlementSettlerWorkerSupply()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -413,7 +410,7 @@ public class SettlementTest
 	public void testSettlementWorkerNeeded()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 //		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -509,7 +506,7 @@ public class SettlementTest
 	public void testSettlementSettlerWorked()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 //		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -611,7 +608,7 @@ public class SettlementTest
 	public void testSettlementTax()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -698,7 +695,7 @@ public class SettlementTest
 	public void testSettlementBauernhof()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();			
@@ -767,7 +764,7 @@ public class SettlementTest
 	public void testSettlementWerkstatt()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -865,7 +862,7 @@ public class SettlementTest
 	public void testSettlementSchmelze()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -962,7 +959,7 @@ public class SettlementTest
 	public void testBuildingEnabled()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -1097,7 +1094,7 @@ public class SettlementTest
 	public void testRequiredProduction()
 	{
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -1221,9 +1218,10 @@ public class SettlementTest
 	public void testAddBuilding()
 	{
 		DataTest testData = new DataTest(logTest);
-		testData.initSettleDate(testData.initOwners());
-		OwnerList ownerList =  testData.getTestOwners();
-		ServerTest server = new ServerTest();
+		testData.initSettleTest(testData.getOwners());
+		OwnerList ownerList =  testData.getOwners();
+//		ServerTest server = new ServerTest();
+		testData.getBuildings().clear();
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -1268,14 +1266,13 @@ public class SettlementTest
 		int settler = 4;
 		int workerNeeded = 0;
 		int workerInstalled = 0;
-		Boolean isRegion = true;
+//		Boolean isRegion = true;
 		int hsRegion = 2;
-		String hsRegionType = "HOME";
-		String hsSuperRegion = "";
+//		String hsRegionType = "HOME";
+//		String hsSuperRegion = "";
 		Boolean isEnabled = true;
-		Building newBuilding = new Building(id, buildingType, settler, workerNeeded, workerInstalled, isRegion, hsRegion, hsRegionType, hsSuperRegion, isEnabled);
-		
-		Settlement.addBuilding(newBuilding, settle);
+		Building newBuilding = new Building(id, buildingType, settler, workerNeeded, workerInstalled,  hsRegion, isEnabled);
+		testData.getBuildings().addBuilding(newBuilding);
 		
 		int expected = 15;
 		int actual = settle.getBuildingList().size(); 

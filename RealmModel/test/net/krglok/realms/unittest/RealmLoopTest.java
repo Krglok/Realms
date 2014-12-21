@@ -36,7 +36,7 @@ public class RealmLoopTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest(logTest);
-		OwnerList ownerList =  testData.getTestOwners();
+		OwnerList ownerList =  testData.getOwners();
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	

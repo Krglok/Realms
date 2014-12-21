@@ -75,6 +75,8 @@ public class SettlementListTest
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
 		
+//		SettlementList.createSettlement_0(null, superRegionTypes, superRegionTypes, regionBuildings, owner, biome, logList);
+		
 		sList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS, logTest);
 		
 		int expected = 1;
