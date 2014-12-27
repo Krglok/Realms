@@ -171,7 +171,9 @@ public class CaseBook
 			caseBook.getPages().put(i,bm.getPage(i));
 			String s = bm.getPage(i);
 			
-			msg.add(s.substring(0, 55));
+			int l = s.length();
+			if (l > 54) { l= 54; }
+			msg.add(s.substring(0, l));
 		}
 		caseBook.setEnabled(true);
 		return msg;

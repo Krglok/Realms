@@ -86,7 +86,7 @@ public class RegimentData
             config.set(MemorySection.createPath(section, "position"), LocationData.toString(regiment.getPosition()));
             config.set(MemorySection.createPath(section, "target"), LocationData.toString(regiment.getTarget()));
             config.set(MemorySection.createPath(section, "name"), regiment.getName());
-            config.set(MemorySection.createPath(section, "owner"), regiment.getOwner());
+            config.set(MemorySection.createPath(section, "owner"), regiment.getOwnerId());
             config.set(MemorySection.createPath(section, "bank"), regiment.getBank().getKonto());
             config.set(MemorySection.createPath(section, "isActiv"), regiment.getIsActive());
             config.set(MemorySection.createPath(section, "settleId"), regiment.getSettleId());
@@ -165,7 +165,7 @@ public class RegimentData
             	regiment.setPosition(LocationData.toLocation(config.getString(section+".position")));
             	regiment.setPosition(LocationData.toLocation(config.getString(section+".target")));
             	regiment.setName(config.getString(section+".name"));
-            	regiment.setOwner(config.getString(section+".owner"));
+            	regiment.setOwnerId(config.getString(section+".owner"));
             	regiment.setIsActive(config.getBoolean(section+".isActive"));
             	regiment.setSettleId(config.getInt(section+".settleId"));
             	regiment.getBarrack().setUnitMax(config.getInt(section+".MaxUnit"));

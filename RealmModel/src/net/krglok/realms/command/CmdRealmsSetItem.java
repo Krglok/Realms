@@ -93,6 +93,13 @@ public class CmdRealmsSetItem extends RealmsCommand
 	{
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
+			if (sender.isOp() == false)
+			{
+				errorMsg.add("You are not an OP ");
+				errorMsg.add(" ");
+				return false;
+			}
+
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
 				if (Material.getMaterial(itemRef) == null)

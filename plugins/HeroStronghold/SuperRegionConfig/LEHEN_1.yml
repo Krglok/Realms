@@ -18,5 +18,6 @@ child-super-regions:
 - CAMP
 - CLAIM
 - HAMLET
+- ENCLAVE
 exp: 5000
 description: Lowest settlement for noble (KNIGHT)

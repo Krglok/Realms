@@ -39,6 +39,18 @@ public class OwnerList extends HashMap<Integer,Owner>
 		return Owner.getID();
 	}
 	
+	public boolean containUuid(String uuid)
+	{
+		for (Owner owner : this.values())
+		{
+			if (owner.getUuid().equalsIgnoreCase(uuid))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * owner are unique in the ownerlist.
 	 * give a new ID
@@ -84,6 +96,18 @@ public class OwnerList extends HashMap<Integer,Owner>
 		for (Owner owner : this.values())
 		{
 			if (owner.getUuid().equals(uuid))
+			{
+				return owner;
+			}
+		}
+		return null;
+	}
+
+	public Owner getOwnerName(String value)
+	{
+		for (Owner owner : this.values())
+		{
+			if (owner.getPlayerName().equalsIgnoreCase(value))
 			{
 				return owner;
 			}

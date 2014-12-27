@@ -18,6 +18,7 @@ import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.colonist.Colony;
+import net.krglok.realms.command.RealmsPermission;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
@@ -44,6 +45,7 @@ import net.krglok.realms.unit.UnitType;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -95,7 +97,7 @@ import com.nisovin.shopkeepers.shoptypes.NormalPlayerShopkeeper.Cost;
  * 
  * the use not an automatic update service , only make a message for new versions
  * 
- * @author Windu
+ * @author Krglok
  *</pre>
  */
 public final class Realms extends JavaPlugin
@@ -316,6 +318,18 @@ public final class Realms extends JavaPlugin
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) 
     {
 		// hanldes all commands and Subcommands 
+		if (sender.isOp() == false)
+		{
+			if (sender.hasPermission(RealmsPermission.ADMIN.getValue().toLowerCase()) == false)
+			{
+				if (sender.hasPermission(RealmsPermission.USER.getValue().toLowerCase()) == false)
+				{
+					sender.sendMessage(ChatColor.RED+"You not have permission realms.user !");
+					sender.sendMessage(ChatColor.YELLOW+"Contact the OP or ADMIN for setup permission.");
+					return true;
+				}
+			}
+		}
 		commandRealms.run(sender, command, args);
 		return true;
     }
@@ -632,7 +646,7 @@ public final class Realms extends JavaPlugin
 	 * @param world
 	 * @param rLoc
 	 */
-	private void doRegionRequest(World world,RegionLocation rLoc )
+	public void doRegionRequest(World world,RegionLocation rLoc )
 	{
 		Location currentLocation = new Location (
 				world,

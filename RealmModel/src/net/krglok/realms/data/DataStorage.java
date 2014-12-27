@@ -124,12 +124,11 @@ public class DataStorage implements DataInterface
 //		npcOwners();
 		initOwnerList();
 		initBuildingList();
-		initKingdomList(owners);		//		npcRealms(owners.getOwner(NPC_0));
-		initLehenList(owners);
 		
 		// converter settlements / buildings
 		if (settlementData.checkSettlements() == false)
 		{
+			System.out.println("Read old Settlement and Convert");
 			initSettleData();
 			settlementData.convertSettlements(settlements);
 			buildingData.convertBuildings(settlements);
@@ -138,6 +137,8 @@ public class DataStorage implements DataInterface
 			initSettlementList();
 		}
 		initRegimentData();
+		initLehenList(owners);
+		initKingdomList(owners);		//		npcRealms(owners.getOwner(NPC_0));
 		initCaseBookData(); 
 		
 		return isReady;
@@ -208,12 +209,35 @@ public class DataStorage implements DataInterface
 		settlements = new SettlementList();
 		ArrayList<String> refList = settlementData.readDataList();
 		Settlement settle;
+		Owner owner;
 		for (String ref : refList)
 		{
 			settle = settlementData.readData(ref);
 			settle.setLogList(logList);
-			settlements.putSettlement(settle);
 			settle.setBuildingList(buildings.getSubList(settle.getId()));
+			settle.initSettlement();
+			settlements.putSettlement(settle);
+			String ownerId = settle.getOwnerId();
+			if ((ownerId == null))
+			{
+				System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
+				owner = owners.findPlayername(ConfigBasis.NPC_0);
+				settle.setOwner(owner);
+			} else
+			{
+				owner = owners.findPlayername(ownerId);
+				if (owner == null)
+				{
+					// make a default Owner
+					owner = Owner.initDefaultOwner();
+					owner.setOwnerPlayer(ownerId, ownerId);
+					owner.initColonist();
+					owners.addOwner(owner);
+					System.out.println("[REALMS] new owner"+ ownerId);
+				}
+				settle.setOwner(owner);
+//				System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
+			}
 		}
 		
 	}
@@ -265,7 +289,7 @@ public class DataStorage implements DataInterface
 	 */
 	public void writeSettlement(Settlement settle)
 	{
-		settleData.writeSettledata(settle);
+		settlementData.writeData(settle, String.valueOf(settle.getId()));
 	}
 
 	/**
@@ -326,7 +350,6 @@ public class DataStorage implements DataInterface
 	@Override
 	public KingdomList getKingdoms()
 	{
-		// TODO Auto-generated method stub
 		return kingdoms;
 	}
 	
@@ -334,7 +357,6 @@ public class DataStorage implements DataInterface
 	@Override
 	public OwnerList getOwners()
 	{
-		// TODO Auto-generated method stub
 		return owners;
 	}
 
@@ -622,6 +644,7 @@ public class DataStorage implements DataInterface
 			owner = Owner.initDefaultOwner();
 			owner.initMayor();
 			owners.addOwner(owner);
+			writeOwner(owner);
 		}
 	}
 
@@ -656,7 +679,10 @@ public class DataStorage implements DataInterface
 		
 		if (kingdoms.getKingdom(0) == null)
 		{
-			kingdoms.addKingdom(Kingdom.initDefaultKingdom(owners));
+			kingdom = Kingdom.initDefaultKingdom(owners);
+			kingdoms.addKingdom(kingdom);
+			kingdomData.writeData(kingdom, String.valueOf(kingdom.getId()));
+			System.out.println("[REALMS] Kingdom 0 init ");
 		}
 	}
 

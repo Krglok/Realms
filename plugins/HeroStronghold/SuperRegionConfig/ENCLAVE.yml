@@ -1,0 +1,22 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyplayerinteractnoreagent
+- denyfriendlyfirenoreagent
+- denyexplosionnoreagent
+- denyblockbuild
+- denyblockbreak
+- denyplayerinteract
+- denypvp
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 20
+money-requirement: 20000.0
+money-output-daily: 0.0
+max-power: 150
+daily-power-increase: 10
+charter: 0
+children: []
+exp: 100

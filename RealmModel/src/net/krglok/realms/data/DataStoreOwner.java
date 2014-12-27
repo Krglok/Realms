@@ -1,22 +1,17 @@
 package net.krglok.realms.data;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemorySection;
-
-import net.krglok.realms.core.Building;
 import net.krglok.realms.core.CommonLevel;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.kingdom.LehenList;
 import net.krglok.realms.science.Achivement;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 
 /**
  * read Data from YML file 
@@ -92,6 +87,8 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
 		{
 			boolean isEnabled = data.getBoolean("Achivement,"+key);
 			Achivement achiv = new Achivement(AchivementType.valueOf(Achivement.splitNameTyp(key)), AchivementName.valueOf(Achivement.splitNameName(key)), isEnabled);
+//			System.out.println("[REALMS] Achivement :"+Achivement.splitNameName(key));
+			owner.getAchivList().add(achiv);
 		}
 		
 		return owner;

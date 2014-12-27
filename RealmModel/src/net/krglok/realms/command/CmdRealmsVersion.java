@@ -37,11 +37,16 @@ public class CmdRealmsVersion extends RealmsCommand implements iRealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
     	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getDescription().getVersion()+" ");
     	msg.add(ChatColor.YELLOW+"Status: "+ChatColor.GREEN+"["+plugin.getRealmModel().getModelStatus()+"]");
+    	msg.add(ChatColor.YELLOW+"Buildings: "+ChatColor.GREEN+"["+plugin.getData().getBuildings().size()+"]");
     	msg.add(ChatColor.YELLOW+"Settlements: "+ChatColor.GREEN+"["+plugin.getRealmModel().getSettlements().count()+"]");
+    	msg.add(ChatColor.YELLOW+"Regiments: "+ChatColor.GREEN+"["+plugin.getData().getRegiments().size()+"]");
+    	msg.add(ChatColor.YELLOW+"Kingdoms: "+ChatColor.GREEN+"["+plugin.getData().getKingdoms().size()+"]");
+    	msg.add(ChatColor.YELLOW+"Lehen: "+ChatColor.GREEN+"["+plugin.getData().getLehen().size()+"]");
     	msg.add(ChatColor.YELLOW+"Colonist: "+ChatColor.GREEN+"["+plugin.getRealmModel().getColonys().size()+"]");
-    	if (plugin.getRealmModel().getSettlements().getSettlement(0) != null)
+    	
+    	if (plugin.getRealmModel().getSettlements().getSettlement(1) != null)
     	{
-    	msg.add(ChatColor.YELLOW+"Age of Realms: "+ChatColor.GREEN+"["+plugin.getRealmModel().getSettlements().getSettlement(0).getAge()+"] Days");
+    	msg.add(ChatColor.YELLOW+"Age of Realms: "+ChatColor.GREEN+"["+plugin.getRealmModel().getSettlements().getSettlement(1).getAge()+"] Days");
     	}
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);

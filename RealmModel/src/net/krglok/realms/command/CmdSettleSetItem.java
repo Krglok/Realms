@@ -91,13 +91,21 @@ public class CmdSettleSetItem extends RealmsCommand
 		Player player = (Player) sender;
 		itemRef.toUpperCase();
 		ItemStack item = new ItemStack(Material.getMaterial(itemRef), amount);
-		player.getInventory().remove(item);
-		// set itemRef / amount in warehopuse
-		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
-		plugin.getRealmModel().OnCommand(cmd);
-		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
-    	msg.add(ChatColor.YELLOW+"Set Item: "+ChatColor.GREEN+itemRef+":"+amount);
-    	msg.add("");
+		if (player.getInventory().contains(item) == true)
+		{
+			player.getInventory().remove(item);
+			player.updateInventory();
+			// set itemRef / amount in warehopuse
+			McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
+			plugin.getRealmModel().OnCommand(cmd);
+			msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleID).getId()+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleID).getName());
+	    	msg.add(ChatColor.YELLOW+"Set Item: "+ChatColor.GREEN+itemRef+":"+amount);
+	    	msg.add("");
+		} else
+		{
+			msg.add("You have not enough items !");
+			msg.add(" ");
+		}
 		plugin.getMessageData().printPage(sender, msg, 1);
 
 	}
@@ -107,8 +115,20 @@ public class CmdSettleSetItem extends RealmsCommand
 	{
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
+			
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
+				if (this.isOpOrAdmin(sender) == false)
+				{
+					Player player = (Player) sender;
+					String uuid = player.getUniqueId().toString();
+					if (plugin.getRealmModel().getSettlements().getSettlement(settleID).getOwner().getUuid().equals(uuid) == false)
+					{
+						errorMsg.add("You are not the owner ");
+						errorMsg.add(" ");
+						return false;
+					}
+				}
 				if (amount < 0)
 				{
 					errorMsg.add("The amount must be positive ");

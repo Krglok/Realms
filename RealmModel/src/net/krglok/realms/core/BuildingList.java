@@ -101,7 +101,6 @@ public class BuildingList  extends HashMap<String,Building>
 					isHall = true;
 				}
 				isBuild = true;
-				addBuildTypeList(building.getBuildingType());
 			}
 		}
 		return isBuild;
@@ -112,10 +111,6 @@ public class BuildingList  extends HashMap<String,Building>
 		this.put(String.valueOf(building.getId()),building);
 	}
 	
-	private void addBuildTypeList(BuildPlanType bType)
-	{
-		
-	}
 
 	/**
 	 * initialize regionList and superRegionList

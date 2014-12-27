@@ -8,6 +8,12 @@ import net.krglok.realms.command.CmdColonistMove;
 import net.krglok.realms.command.CmdColonyBuild;
 import net.krglok.realms.command.CmdColonyHelp;
 import net.krglok.realms.command.CmdColonyWarehouse;
+import net.krglok.realms.command.CmdFeudalList;
+import net.krglok.realms.command.CmdKingdomList;
+import net.krglok.realms.command.CmdOwnerHelp;
+import net.krglok.realms.command.CmdOwnerInfo;
+import net.krglok.realms.command.CmdOwnerList;
+import net.krglok.realms.command.CmdOwnerSet;
 import net.krglok.realms.command.CmdRealmNone;
 import net.krglok.realms.command.CmdRealmsActivate;
 import net.krglok.realms.command.CmdRealmsBook;
@@ -22,10 +28,12 @@ import net.krglok.realms.command.CmdRealmsMap;
 import net.krglok.realms.command.CmdRealmsPrice;
 import net.krglok.realms.command.CmdRealmsPricelistInfo;
 import net.krglok.realms.command.CmdRealmsProduce;
+import net.krglok.realms.command.CmdRealmsRecipeList;
 import net.krglok.realms.command.CmdRealmsSetItem;
 import net.krglok.realms.command.CmdRealmsSettler;
 import net.krglok.realms.command.CmdRealmsShop;
 import net.krglok.realms.command.CmdRealmsSign;
+import net.krglok.realms.command.CmdRealmsTech;
 import net.krglok.realms.command.CmdRealmsTest;
 import net.krglok.realms.command.CmdRealmsVersion;
 import net.krglok.realms.command.CmdRegimentCreate;
@@ -55,12 +63,15 @@ import net.krglok.realms.command.CmdSettleMarket;
 import net.krglok.realms.command.CmdSettleNoSell;
 import net.krglok.realms.command.CmdSettleOwner;
 import net.krglok.realms.command.CmdSettleProduction;
+import net.krglok.realms.command.CmdSettleRoute;
+import net.krglok.realms.command.CmdSettleRouteList;
 import net.krglok.realms.command.CmdSettleSell;
 import net.krglok.realms.command.CmdSettleSetItem;
 import net.krglok.realms.command.CmdSettleTrader;
 import net.krglok.realms.command.CmdSettleTrain;
 import net.krglok.realms.command.CmdSettleWarehouse;
 import net.krglok.realms.command.CmdSettleWorkshop;
+import net.krglok.realms.command.CmdWallSign;
 import net.krglok.realms.command.CommandParser;
 import net.krglok.realms.command.RealmsCommand;
 import net.krglok.realms.command.RealmsCommandType;
@@ -109,10 +120,13 @@ public class CommandRealms
 			new CmdRealmsMap(),
 			new CmdRealmsProduce(),
 			new CmdRealmsPrice(),
+			new CmdRealmsRecipeList(),
 			new CmdRealmsSettler(),
 			new CmdRealmsSetItem(),
 			new CmdRealmsShop(),
 			new CmdRealmsSign(),
+			new CmdRealmsTech(),
+			new CmdWallSign(),
 			new CmdRealmsVersion(),
 			new CmdRealmNone(),
 			new CmdSettleAddBuilding(),
@@ -135,6 +149,8 @@ public class CommandRealms
 			new CmdSettleNoSell(),
 			new CmdSettleOwner(),
 			new CmdSettleProduction(),
+			new CmdSettleRoute(),
+			new CmdSettleRouteList(),
 			new CmdSettleSell(),
 			new CmdSettleSetItem(),
 			new CmdSettleTrader(),
@@ -147,6 +163,12 @@ public class CommandRealms
 			new CmdColonyHelp(),
 			new CmdColonyWarehouse(),
 			new CmdColonistMove(),
+			new CmdOwnerHelp(),
+			new CmdOwnerInfo(),
+			new CmdOwnerList(),
+			new CmdOwnerSet(),
+			new CmdFeudalList(),
+			new CmdKingdomList(),
 			new CmdRegimentCreate(),
 			new CmdRegimentMove(),
 			new CmdRegimentList(),

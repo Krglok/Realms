@@ -107,7 +107,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 					cost = to.value() * to.getBasePrice();
 					settle.getBank().depositKonto(cost, "Trader "+to.getTargetId(),settle.getId());
 					settle.getTrader().setOrderCount(settle.getTrader().getOrderCount()+1);
-//					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount()-1);
+					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount()-1);
 				}
 				if (to.getTargetId() == 0)
 				{
@@ -143,5 +143,21 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 		}
 		
 	}
-	
+
+	public HashMap<Integer,TradeMarketOrder> getSubList(int settleId)
+	{
+		HashMap<Integer,TradeMarketOrder> subList = new HashMap<Integer,TradeMarketOrder>();
+		for (TradeMarketOrder tOrder : this.values())
+		{
+			if (tOrder.getSettleID() == settleId)
+			{
+				subList.put(tOrder.getId(), tOrder);
+			} else 	if (tOrder.getTargetId() == settleId)
+			{
+				subList.put(tOrder.getId(), tOrder);
+			} ;
+		}
+		
+		return subList;
+	}
 }

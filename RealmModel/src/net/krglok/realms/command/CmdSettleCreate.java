@@ -7,6 +7,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -99,7 +100,7 @@ public class CmdSettleCreate extends RealmsCommand
 		{
 			playerName = plugin.getRealmModel().getOwners().get(0).getPlayerName();
 			isNPC = true;
-			owner = plugin.getRealmModel().getOwners().get(0);
+			owner = plugin.getRealmModel().getOwners().getOwner(ConfigBasis.NPC_0);
 		} else
 		{
 			for (String name : sRegion.getOwners())
@@ -112,7 +113,9 @@ public class CmdSettleCreate extends RealmsCommand
 			owner = plugin.getRealmModel().getOwners().getOwner(playerName);
     		if (owner == null)
     		{
-    			owner = new Owner(playerName, isNPC);
+
+    			owner = Owner.initDefaultOwner();
+    			owner.initMayor();
     		}
 		}
 		Biome biome = sRegion.getLocation().getWorld().getBlockAt(sRegion.getLocation()).getBiome();
@@ -123,6 +126,8 @@ public class CmdSettleCreate extends RealmsCommand
 				sRegion.getLocation().getZ());
 		msg.add(" Owner: "+playerName);
 		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName,biome, plugin.getRealmModel().getLogList());
+		settlement.setOwner(owner);
+		settlement.setOwnerId(owner.getPlayerName());
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 
 		msg.add("");
@@ -144,10 +149,16 @@ public class CmdSettleCreate extends RealmsCommand
 					settlement.getId()
 					);
 			plugin.getRealmModel().getBuildings().addBuilding(building);
+			plugin.getData().writeBuilding(building);
+			System.out.println("[REALMS] "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
 		}
 		// make not dynamic initialization
-		settlement.setSettlerMax();
-		settlement.setWorkerNeeded();
+		settlement.setOwnerId(ConfigBasis.NPC_0);
+		
+		settlement.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(settlement.getId()));
+		settlement.initSettlement();
+//		settlement.setSettlerMax();
+//		settlement.setWorkerNeeded();
 
 		// minimum settler on create
 		settlement.getResident().setSettlerCount(settlement.getResident().getSettlerMax()/2);
@@ -204,17 +215,10 @@ public class CmdSettleCreate extends RealmsCommand
 			return false;
 		}
 
-//		if (sender.isOp() == false)
-//		{
-//			if (sender instanceof Player)
-//			{
-//				if (sender.hasPermission("") == false)
-//				{
-//					errorMsg.add("You have not the right permissions  ");
-//					return false;
-//				}
-//			}
-//		}
+		if (isOpOrAdminMsg(sender) == false)
+		{
+			return false;
+		}
 		// fehlenden Parameter Name ersetzen
 		if (this.name == "")
 		{

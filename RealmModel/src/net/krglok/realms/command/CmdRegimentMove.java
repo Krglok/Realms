@@ -101,7 +101,7 @@ public class CmdRegimentMove extends RealmsCommand
 		center.setZ(position.getZ());
 		regiment.startMove();
 
-		String[] signText = new String[] {"REGIMENT", regiment.getName(), regiment.getOwner(), "[MOVED]" };
+		String[] signText = new String[] {"REGIMENT", regiment.getName(), regiment.getOwnerId(), "[MOVED]" };
 		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
 		msg.add("[Realm] Regiment move at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
 		msg.add(" ");
@@ -136,9 +136,10 @@ public class CmdRegimentMove extends RealmsCommand
 		if (sender.isOp())
 		{
 			return true;
+			
 		} else
 		{
-			if (sender.getName().equalsIgnoreCase(regiment.getOwner()))
+			if (isRegimentOwner(plugin, sender, regimentId))
 			{
 				return true;
 			}

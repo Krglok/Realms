@@ -67,6 +67,7 @@ public class Trader
 		this.isActive = isActive;
 		this.orderMax = orderMax;
 		buyOrders = new TradeOrderList();
+		routeOrders = new RouteOrderList();
 //		sellOrders = new TradeOrderList();
 	}
 
@@ -84,6 +85,7 @@ public class Trader
 		this.buildingId = buildingId;
 		this.isActive = isActive;
 		this.buyOrders = buyOrder;
+		routeOrders = new RouteOrderList();
 //		this.sellOrders = sellOrder;
 		this.orderMax = orderMax;
 	}
@@ -113,6 +115,10 @@ public class Trader
 	public void setCaravanCount(int caravanCount)
 	{
 		this.caravanCount = caravanCount;
+		if (this.caravanCount < 0)
+		{
+			this.caravanCount= 0;
+		}
 	}
 
 
@@ -208,6 +214,10 @@ public class Trader
 	public void setOrderCount(int orderCount)
 	{
 		this.orderCount = orderCount;
+		if (this.orderCount< 0)
+		{
+			this.orderCount = 0;
+		}
 	}
 
 
@@ -401,22 +411,30 @@ public class Trader
 	public void checkRoutes(TradeMarket tradeMarket, TradeTransport tradeTransport, Settlement settle,SettlementList settlements)
 	{
 		// es wird eine zusätzliche Caravan erzeugt, damit der TRansport nicht vollstaendig unterdrueckt wird 
-		if (orderCount <= caravanMax)
+		if (caravanCount <= caravanMax)
 		{
 			for (RouteOrder rOrder : routeOrders.values())
 			{
 				if (settle.getWarehouse().getItemList().containsKey(rOrder.ItemRef()))
 				{
+					// enough items in warehouse of sender
 					if (settle.getWarehouse().getItemList().getValue(rOrder.ItemRef()) >= rOrder.value())
 					{
+						// target exist
 						if (settlements.containsKey(rOrder.getTargetId()))
 						{
-//							Settlement target = settlements.getSettlement(rOrder.getTargetId());
-							makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, settlements);
+							// target has enough space in warehouse
+							if (settlements.getSettlement(rOrder.getTargetId()).getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
+							{
+								makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, settlements);
+							}
 						}
 					}
 				}
 			}
+		} else
+		{
+			System.out.println("[REALMS] Routes  MaxCaravan :"+settle.getId());
 		}
 		
 	}
@@ -429,15 +447,18 @@ public class Trader
 	 */
 	public static long getRouteDelay(double distance)
 	{
-		if (distance > (ConfigBasis.DISTANCE_1_DAY / 2) )
+		long way = (long) distance;
+		if (distance < (ConfigBasis.DISTANCE_1_DAY / 2 ) )
 		{
-			long way = (long) (distance / ConfigBasis.DISTANCE_1_DAY * ConfigBasis.GameDay);
+			way = (long) (ConfigBasis.DISTANCE_1_DAY / 2);
+			return way; 
+		} else 	if (distance > (ConfigBasis.DISTANCE_1_DAY ) )
+		{
+			way = (long) (ConfigBasis.DISTANCE_1_DAY  * 1.5);
 			return way; 
 		} else
 		{
-			
-//			return ConfigBasis.GameDay/2;
-			return ConfigBasis.GameDay / 24 / 60 * (int) distance;
+			return (long) way;
 		}
 		
 	}
@@ -468,7 +489,7 @@ public class Trader
 		if (amount > 0)
 		{
 			cost = amount * rOrder.getBasePrice();
-			long travelTime = getTransportDelay(distance);
+			long travelTime = getRouteDelay(distance); // getTransportDelay(distance);
 			if (targetWorld.equalsIgnoreCase(settle.getPosition().getWorld()) == false)
 			{
 				travelTime = travelTime + (10 * ConfigBasis.GameDay);

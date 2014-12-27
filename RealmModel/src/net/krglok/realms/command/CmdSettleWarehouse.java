@@ -104,6 +104,16 @@ public class CmdSettleWarehouse extends RealmsCommand
 		{
 			if (plugin.getRealmModel().getSettlements().getSettlement(settleID) != null)
 			{
+				if (isOpOrAdmin(sender) == false)
+				{
+					if (isSettleOwner(plugin, sender, settleID) == false)
+					{
+						errorMsg.add("You are not the Owner !");
+						errorMsg.add(" ");
+						return false;
+					}
+					
+				}
 				return true;
 			}
 			errorMsg.add("Settlement not found !!!");

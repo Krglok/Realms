@@ -50,6 +50,11 @@ public class ServerData implements ServerInterface
 		recipeData = new RecipeData();
 	}
 
+	public RecipeData getRecipeData()
+	{
+		return recipeData;
+	}
+	
 	@Override
 	public ArrayList<String> getPlayerNameList()
 	{
@@ -206,6 +211,26 @@ public class ServerData implements ServerInterface
 		}
 		return rList;
 	}
+	
+	public ItemList getRegionRequirements(String regionType)
+	{
+		ItemList rList = new ItemList();
+		if (regionType == null)
+		{
+			return rList;
+		}
+
+		if ( plugin.stronghold.getRegionManager().getRegionType(regionType) != null)
+		{
+			for (ItemStack item : plugin.stronghold.getRegionManager().getRegionType(regionType).getReagents())
+			{
+				rList.addItem(item.getData().getItemType().name(), item.getAmount());
+			}
+			System.out.println(regionType+":"+rList.size());
+		}
+		return rList;
+	}
+	
 	
 	
 	@Override
@@ -445,6 +470,9 @@ public class ServerData implements ServerInterface
 		case LOG: return FAKTOR_M;
 		case WOOL : return FAKTOR_0;
 		case GOLD_NUGGET: return FAKTOR_MMM;
+		case STRING : return FAKTOR_PPP;
+		case SPIDER_EYE: return FAKTOR_PPP;
+		case SPONGE: return FAKTOR_P;
 		case LEATHER : return FAKTOR_0;
 		case RAW_BEEF : return FAKTOR_0;
 		case PORK : return FAKTOR_0;

@@ -48,6 +48,9 @@ public class TradeManager
 	
 	private ItemPriceList priceList;
 	
+	private int delayRoutes = 0;
+	private int delaySell = 0;
+	
 	public TradeManager()
 	{
 		this.buyOrder  = new TradeOrder();
@@ -184,9 +187,23 @@ public class TradeManager
 	public void run(RealmModel rModel, Settlement settle)
 	{
 		// check for RouteOrders
-		settle.getTrader().checkRoutes(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
+		if (delayRoutes > (SELL_DELAY / 20))
+		{
+			settle.getTrader().checkRoutes(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
+			delayRoutes = 0;
+		} else
+		{
+			delayRoutes++;
+		}
 		// check for BuyOrders to fulfill
-		settle.getTrader().checkMarket(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
+		if (delaySell > (SELL_DELAY / 20))
+		{
+			settle.getTrader().checkMarket(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
+			delaySell = 0;
+		} else
+		{
+			delaySell++;
+		}
 		// check for Transport to fulfill
 		rModel.getTradeTransport().fullfillTarget(settle);
 		rModel.getTradeTransport().fullfillSender(settle);

@@ -21,7 +21,7 @@ public class CmdRealmsBookRead extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS,RealmsSubCommandType.READ);
 		description = new String[] {
-				ChatColor.YELLOW+"/realms READ , read the from book in your hand ",
+				ChatColor.YELLOW+"/realms READ , read the book in your hand ",
 		    	"The text will stored into the BookList  ",
 		    	"With this command you read books into the Global Library ",
 		    	"that is the RefId = 0 , means no assotiated settlement",

@@ -104,7 +104,7 @@ public class CmdSettleTrader extends RealmsCommand
 							);
 				}
 				msg.add("Transport: ["+settle.getTrader().getCaravanCount()+"/"+settle.getTrader().getCaravanMax()+"]");
-				for (TradeMarketOrder order : plugin.getRealmModel().getTradeTransport().values())
+				for (TradeMarketOrder order : plugin.getRealmModel().getTradeTransport().getSubList(settle.getId()).values())
 				{
 					msg.add("GO : "+ChatColor.GREEN+order.getSettleID()+" >> "+order.getTargetId()
 							+" "+ChatColor.YELLOW+order.ItemRef()
@@ -129,6 +129,15 @@ public class CmdSettleTrader extends RealmsCommand
 	{
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
+			if(isOpOrAdmin(sender) == false)
+			{
+				if (isSettleOwner(plugin, sender, settleID) == false)
+				{
+					errorMsg.add("You are not the Owner !");
+					errorMsg.add(" ");
+					return false;
+				}
+			}
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
 				return true;

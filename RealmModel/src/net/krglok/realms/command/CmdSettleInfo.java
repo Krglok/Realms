@@ -195,6 +195,10 @@ public class CmdSettleInfo extends RealmsCommand
 	{
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
+			if (sender.isOp())
+			{
+				return true;
+			}
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
 				return true;

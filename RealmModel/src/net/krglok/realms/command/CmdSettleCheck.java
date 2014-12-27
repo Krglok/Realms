@@ -179,16 +179,9 @@ public class CmdSettleCheck extends RealmsCommand
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
 		boolean isReady = false;
-		if (sender.isOp() == false)
+		if (isOpOrAdminMsg(sender) == false)
 		{
-			if (sender instanceof Player)
-			{
-				if (sender.hasPermission("") == false)
-				{
-					this.addErrorMsg(this.command()+":"+this.subCommand()+ "  No Permissions");
-					return false;
-				}
-			}
+			return false;
 		}
 		// fehlenden Parameter Name ersetzen
 		if (this.name == "")

@@ -38,7 +38,7 @@ public class KnowledgeNode
 	
 	public static String makeTechId(String name, int level)
 	{
-		return name+"_"+level;
+		return name+level;
 	}
 	
 	public String getTechId()

@@ -117,6 +117,8 @@ public class CmdSettleAddBuilding extends RealmsCommand
 		{
 			plugin.getData().writeBuilding(building);
 			settle.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(settle.getId()));
+			settle.initSettlement();
+
 			msg.add("Settlement ["+settle.getId()+"]  "+settle.getName());
 			msg.add("Storage : "+settle.getWarehouse().getItemList().getItemCount());
 			msg.add("Capacity: "+settle.getResident().getSettlerMax());

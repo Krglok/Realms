@@ -8,6 +8,8 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.RouteOrder;
+import net.krglok.realms.core.RouteOrderList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
@@ -75,7 +77,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	{
 //		// 
 		HashMap<String,String> values; // = new HashMap<String,String>();
-
+		HashMap<String,Object> subList;
 		section.set("id", dataObject.getId());
         section.set( "settleType", dataObject.getSettleType().name());
         section.set( "position", LocationData.toString(dataObject.getPosition()));
@@ -107,6 +109,20 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
         values.put("cowCount",String.valueOf(dataObject.getResident().getHorseCount()));
         values.put("horseCount",String.valueOf(dataObject.getResident().getCowCount()));
         section.set("resident", values);
+
+        subList = new HashMap<String,Object>();
+        values = new HashMap<String,String>();
+	    for (RouteOrder rOrder : dataObject.getTrader().getRouteOrders().values())
+	    {
+	        values.put("id",String.valueOf(rOrder.getId()));
+	        values.put("targetId",String.valueOf(rOrder.getTargetId()));
+	        values.put("itemref",rOrder.ItemRef());
+	        values.put( "amount",String.valueOf(rOrder.value()));
+	        values.put( "price",String.valueOf(rOrder.getBasePrice()));
+	        values.put( "isEnabled",String.valueOf(rOrder.isEnabled()));
+		    subList.put(String.valueOf(rOrder.getId()),values);
+	    }
+        section.set( "routes", subList);
         
         values = new HashMap<String,String>();
     	values.put("itemMax", String.valueOf(dataObject.getWarehouse().getItemMax()));
@@ -170,7 +186,38 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	settle.getResident().setHappiness(Double.valueOf(data.getString( "resident"+".happiness")));
 	settle.getResident().setCowCount(Integer.valueOf(data.getString( "resident"+".cowCount")));
 	settle.getResident().setHorseCount(Integer.valueOf(data.getString( "resident"+".horseCount")));
-    	
+
+
+	if (data.isConfigurationSection("routes"))
+	{
+		Map<String,Object> rList = data.getConfigurationSection( "routes").getValues(false);
+		if (rList != null)
+		{
+			RouteOrderList routeOrderList = new RouteOrderList();
+	        System.out.println("[REALMS] RouteOrderList ["+rList.size()+"]");
+	    	for (String ref : rList.keySet())
+	    	{
+		        System.out.println("[REALMS] RouteOrder :"+ref);
+//	//	        values.put("id",String.valueOf(rOrder.getId()));
+//	//	        values.put("targetId",String.valueOf(rOrder.getTargetId()));
+//	//	        values.put("itemref",rOrder.ItemRef());
+//	//	        values.put( "amount",String.valueOf(rOrder.value()));
+//	//	        values.put( "price",String.valueOf(rOrder.getBasePrice()));
+//	//	        values.put( "isEnabled",String.valueOf(rOrder.isEnabled()));
+	    		int orderId = Integer.valueOf(data.getString( "routes."+ref+".id"));
+	    		int targeitId = Integer.valueOf(data.getString( "routes."+ref+".targetId"));
+	    		String itemRef = data.getString( "routes."+ref+".itemref","AIR");
+	    		int amount = Integer.valueOf(data.getString( "routes."+ref+".amount"));
+	    		double price= Double.valueOf(data.getString("routes."+ref+".price"));
+	    		boolean isEnabled = data.getBoolean("routes."+ref+".isEnabled",true);
+	            RouteOrder rOrder = new RouteOrder(orderId, targeitId, itemRef, amount, price, isEnabled);
+	            System.out.println("[REALMS] RouteOrder Id:"+rOrder.getId());
+	            routeOrderList.addRouteOrder(rOrder);
+	    	}    
+	    	settle.getTrader().setRouteOrders(routeOrderList);
+		}
+	}
+
     settle.getWarehouse().setItemMax(Integer.valueOf(data.getString( "warehouse"+".itemMax","0")));
     settle.getWarehouse().setIsEnabled(Boolean.valueOf(data.getString( "warehouse"+".isEnable","false")));
     

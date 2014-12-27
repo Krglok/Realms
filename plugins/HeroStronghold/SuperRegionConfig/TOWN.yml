@@ -23,6 +23,7 @@ daily-power-increase: 20
 charter: 2
 child-super-regions: 
 - CLAIM
+- ENCLAVE
 - HAMLET
 - FORTRESS
 - LEHEN_1

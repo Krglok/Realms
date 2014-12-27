@@ -1,5 +1,7 @@
 package net.krglok.realms.science;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -36,4 +38,19 @@ public class KnowledgeList extends HashMap<String, KnowledgeNode>
 		return null;
 	}
 	
+	public ArrayList<String> sortItems()
+	{
+		ArrayList<String> sortedItems = new ArrayList<String>();
+		for (String s : this.keySet())
+		{
+			sortedItems.add(s);
+		}
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  String.CASE_INSENSITIVE_ORDER);
+		}
+		return sortedItems;
+	}
+
 }

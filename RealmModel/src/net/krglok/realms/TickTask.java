@@ -6,6 +6,7 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -109,6 +110,7 @@ public class TickTask implements Runnable
 					taxCounter++;
 					plugin.getRealmModel().OnProduction();
 					plugin.getLog().info("[Realms] production calculation");
+					plugin.getServer().broadcastMessage(ChatColor.BLUE+"[Realms] production calculation");
 //					System.out.println("[Realms] Production");
 //					plugin.getLog().info("Tax counter "+taxCounter);
 				} else

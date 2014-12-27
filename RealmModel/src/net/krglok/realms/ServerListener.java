@@ -8,9 +8,11 @@ import multitallented.redcastlemedia.bukkit.herostronghold.Util;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionCondition;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.citizensnpcs.npc.entity.nonliving.TNTPrimedController.TNTPrimedNPC;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.command.CmdRealmsBookList;
+import net.krglok.realms.command.CmdSettleAddBuilding;
 import net.krglok.realms.command.CmdSettleBuildingList;
 import net.krglok.realms.command.CmdSettleInfo;
 import net.krglok.realms.command.CmdSettleMarket;
@@ -19,12 +21,16 @@ import net.krglok.realms.command.CmdSettleProduction;
 import net.krglok.realms.command.CmdSettleRequired;
 import net.krglok.realms.command.CmdSettleTrader;
 import net.krglok.realms.command.CmdSettleWarehouse;
+import net.krglok.realms.command.RealmsPermission;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.CommonLevel;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.NobleLevel;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
@@ -35,10 +41,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
@@ -72,6 +80,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.util.Vector;
 
 /**
  * <pre>
@@ -92,6 +101,7 @@ public class ServerListener implements Listener
 	private int bookId;
 	private long lastHunt = 0;
 	private long lastTame = 0; 
+	private ArrayList<String> donatePlayer = new ArrayList<String>();
 	
 	public ServerListener(Realms plugin)
 	{
@@ -212,7 +222,24 @@ public class ServerListener implements Listener
 			
 			String msg = "[Realms] Updatecheck : "+plugin.getConfigData().getPluginName()+" Vers.: "+plugin.getConfigData().getVersion();
 			plugin.getLog().log(Level.WARNING,msg);
+		} 
+		if(plugin.getData().getOwners().containUuid(event.getPlayer().getUniqueId().toString()) == false)
+		{
+			if(plugin.getData().getOwners().getOwnerName(event.getPlayer().getName()) == null)
+			{
+				Owner owner = Owner.initDefaultOwner();
+				owner.setPlayerName(event.getPlayer().getName());
+				owner.setUuid(event.getPlayer().getUniqueId().toString());
+				owner.setCommonLevel(CommonLevel.COLONIST);
+				owner.setNobleLevel(NobleLevel.COMMONER);
+				plugin.getData().getOwners().addOwner(owner);
+				plugin.getData().writeOwner(owner);
+				event.getPlayer().sendMessage("Owner is inilized for you !");
+				event.getPlayer().sendMessage("use /Realms Owner for link to your existing settlements");
+				plugin.getLog().log(Level.INFO,"Owner init for "+event.getPlayer().getName());
+			}
 		}
+
 		return; // no OP => OUT
 	}
 	
@@ -223,13 +250,13 @@ public class ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClose(InventoryCloseEvent event)
     {
-    	return;
-//    	if (event.getPlayer() instanceof Player)
-//    	{
+//    	return;
+    	if (event.getPlayer() instanceof Player)
+    	{
 //    		System.out.println(event.getInventory().getTitle());
 //    		System.out.println(event.getPlayer().getOpenInventory().getTitle());
-//    		checkSettleChest(event);
-//    	}
+    		checkSettleChest(event);
+    	}
     }
     
     @EventHandler(priority = EventPriority.NORMAL)
@@ -246,9 +273,71 @@ public class ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteractEvent(PlayerInteractEvent event)
     {
+    	if (event.getPlayer().isOp() == false)
+    	{
+			if (event.getPlayer().hasPermission(RealmsPermission.ADMIN.getValue().toLowerCase()) == false)
+			{
+				if (event.getPlayer().hasPermission(RealmsPermission.USER.getValue().toLowerCase()) == false)
+				{
+					event.getPlayer().sendMessage(ChatColor.RED+"You not have permission realms.user !");
+					event.getPlayer().sendMessage(ChatColor.YELLOW+"Contact the OP or ADMIN for setup permission.");
+					return ;
+				}
+			}
+    	}
     	Block b = event.getClickedBlock();
     	if (b != null)
     	{
+    		if (b.getType() == Material.CHEST)
+    		{
+//    			System.out.println("[REALMS] Click chest "+event.getPlayer().getName());
+    	    	Player player = (Player) event.getPlayer();
+    			Location pos = player.getLocation();
+    			String sRegion = findSuperRegionAtLocation(plugin, player); 
+    			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+    			if (settle != null)
+    			{
+    				String region = findRegionAtLocation(plugin, player);
+    				if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
+       				|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
+    				{
+    					if (b.getRelative(BlockFace.UP).getType() == Material.WALL_SIGN)
+    					{
+    						Sign sign = (Sign) b.getRelative(BlockFace.UP).getState();
+    						String l0 = sign.getLine(0);
+    						if (l0.equals("[DONATE]"))
+    						{
+    							donatePlayer.add(player.getUniqueId().toString());
+    						}
+    					}
+    				}
+    			}
+    			
+    		}
+	    	if (b.getType() == Material.IRON_BLOCK)
+	    	{
+	    		Chest chest = null;
+	    		Block redstone = null;
+	    		if (b.getRelative(BlockFace.UP).getType() == Material.CHEST)
+	    		{
+	    			chest = (Chest) b.getRelative(BlockFace.UP).getState();
+	    		}
+	    		if (b.getRelative(BlockFace.DOWN).getType() == Material.REDSTONE_BLOCK)
+	    		{
+	    			redstone = b.getRelative(BlockFace.DOWN);
+	    		}
+	    		if (event.getPlayer().getItemInHand().getType() == Material.FLINT_AND_STEEL)
+	    		{
+	    			if((chest != null) && (redstone != null))
+	    			{
+	    				event.getPlayer().sendMessage("You triggerd a Catapult");
+	    				float loud = (float) 20.0;
+	    				float pitch = (float) 90.0;
+	    				event.getPlayer().getWorld().playSound(b.getLocation(), Sound.FIREWORK_BLAST, loud, pitch);
+	    				shotArrow(b);
+	    			}
+	    		}
+	    	}
         	ArrayList<String> msg = new ArrayList<String>();
 	    	if (b.getType() == Material.WALL_SIGN)
 	    	{
@@ -256,7 +345,7 @@ public class ServerListener implements Listener
 	    		{
 	    	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
 	    	    	{
-	    	    		cmdRegisterSign(event, b);
+//	    	    		cmdRegisterSign(event, b);
 	    	    	} else
 	    	    	{
 	    	    		cmdWallSign(event, b);
@@ -266,7 +355,7 @@ public class ServerListener implements Listener
 	    		{
 	    	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
 	    	    	{
-	    	    		cmdSignUpdate(event, b);
+//	    	    		cmdSignUpdate(event, b);
 	    	    	} else
 	    	    	{
 	    	    		cmdLeftWallSign(event,b);
@@ -365,6 +454,9 @@ public class ServerListener implements Listener
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
 		{
 	    	Block target = event.getClickedBlock();
+	    	Building building = null;
+	    	Settlement settle = null;
+	    	int regionId = 0;
 	    	Location pos = target.getLocation();
 			ArrayList<Region> targets =  plugin.stronghold.getRegionManager().getContainingRegions(pos);
 	    	ArrayList<String> msg = new ArrayList<String>();
@@ -375,14 +467,21 @@ public class ServerListener implements Listener
 				{
 		    		for (Region region : targets)
 		    		{
-		    			if (region.getOwners().size() > 0)
+		    			if (plugin.getData().getBuildings().containRegion(region.getID()))
 		    			{
-		    				msg.add(region.getID()+":"+region.getType()+":"+region.getOwners().get(0));
+		    				building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
+		    				msg.add(region.getID()+":"+region.getType()+" Building :"+building.getId()+":"+building.getOwnerId());
 		    			} else
 		    			{
-		    				msg.add(region.getID()+":"+region.getType()+":");
+		    				regionId = region.getID();
+			    			if (region.getOwners().size() > 0)
+			    			{
+			    				msg.add(region.getID()+":"+region.getType()+":"+region.getOwners().get(0));
+			    			} else
+			    			{
+			    				msg.add(region.getID()+":"+region.getType()+":");
+			    			}
 		    			}
-		    			
 		    		}
 				} else
 				{
@@ -395,14 +494,36 @@ public class ServerListener implements Listener
 			}
 			for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(pos))
 			{
-				if (sRegion.getOwners().size() > 0)
+				if (plugin.getData().getSettlements().containsName(sRegion.getName()) == true)
 				{
-					msg.add(sRegion.getName()+":"+sRegion.getType()+":"+sRegion.getOwners().get(0));
+					settle = plugin.getData().getSettlements().findName(sRegion.getName());
+					msg.add(sRegion.getName()+":"+sRegion.getType()+": ["+settle.getId()+"] :"+settle.getOwnerId());
 				} else
 				{
-					msg.add(sRegion.getName()+":"+sRegion.getType()+":");
+					if (sRegion.getOwners().size() > 0)
+					{
+						msg.add(sRegion.getName()+":"+sRegion.getType()+":"+sRegion.getOwners().get(0));
+					} else
+					{
+						msg.add(sRegion.getName()+":"+sRegion.getType()+":");
+					}
 				}
-				
+			}
+			if (event.getPlayer().isSneaking() == true)
+			{
+				if (settle != null)
+				{
+					if (building == null)
+					{
+						if (event.getPlayer().isOp())
+						{
+							CmdSettleAddBuilding  cmd = new CmdSettleAddBuilding();
+							cmd.setPara(0, settle.getId());
+							cmd.setPara(1, regionId);
+							cmd.execute(plugin, event.getPlayer());
+						}
+					}
+				}
 			}
 			
 			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
@@ -735,22 +856,9 @@ public class ServerListener implements Listener
 		if (settle != null)
 		{
 			String region = findRegionAtLocation(plugin, player);
-//			if (region.equalsIgnoreCase(BuildPlanType.WAREHOUSE.name()))
-//			{
-//				if (event.getView().getType() == InventoryType.CHEST)
-//				{
-//					System.out.println("You are in a WAREHOUSE closed a Chest");
-//					if (inventory.getSize() > 0)
-//					{
-//						for (ItemStack itemStack :inventory.getContents())
-//						{
-//							settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
-//						}
-//						inventory.clear();
-//					}
-//				}
-//			}
-			if (region.equalsIgnoreCase(BuildPlanType.HALL.name()))
+			
+			if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
+					|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
 			{
 				if (event.getView().getType() == InventoryType.CHEST)
 				{
@@ -771,7 +879,8 @@ public class ServerListener implements Listener
 //									name = Material.SOIL.name();
 //								}
 								settle.getWarehouse().depositItemValue(name, itemStack.getAmount());
-								System.out.println("Warehouse : "+itemStack.getType().name()+":"+itemStack.getAmount());
+    							donatePlayer.remove(player.getUniqueId().toString());
+//								System.out.println("HALL : "+itemStack.getType().name()+":"+itemStack.getAmount()+"OpenChests :"+donatePlayer.size());
 							}
 						}
 						inventory.clear();
@@ -797,21 +906,32 @@ public class ServerListener implements Listener
 		{
 			cmdSignPost(event,b);
 		}		
+		if (l0.contains("[SPIDERSHED]"))
+		{
+			cmdSignPost(event,b);
+		}		
+
+		if (l0.contains("[ACQUIRE]"))
+		{
+			
+		}
 		
 		if (l0.contains("[WAREHOUSE]"))
 		{
 //			cmdBuildPlanBook(event);
-			CmdSettleWarehouse cmdWare = new CmdSettleWarehouse();
 			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
 			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 			if (settle != null)
 			{
-				cmdWare.execute(plugin, event.getPlayer());
+				CmdSettleWarehouse cmdWare = new CmdSettleWarehouse();
 				cmdWare.setPara(0, settle.getId());
 				cmdWare.setPara(1, this.lastPage);
-				cmdWare.execute(plugin, event.getPlayer());
-				lastPage = cmdWare.getPage()+1;
-				
+				if (cmdWare.canExecute(plugin, event.getPlayer()))
+				{
+//					cmdWare.execute(plugin, event.getPlayer());
+					cmdWare.execute(plugin, event.getPlayer());
+					lastPage = cmdWare.getPage()+1;
+				}
 			}
 			return;
 		}
@@ -824,7 +944,10 @@ public class ServerListener implements Listener
 				CmdSettleInfo cmdInfo = new CmdSettleInfo();
 				cmdInfo.setPara(0, settle.getId());
 				cmdInfo.setPara(1, 1);
-				cmdInfo.execute(plugin, event.getPlayer());
+				if (cmdInfo.canExecute(plugin, event.getPlayer()))
+				{
+					cmdInfo.execute(plugin, event.getPlayer());
+				}
 			}
 			return;
 		}
@@ -837,7 +960,10 @@ public class ServerListener implements Listener
 				CmdSettleTrader cmd = new CmdSettleTrader();
 				cmd.setPara(0, settle.getId());
 				cmd.setPara(1, 1);
-				cmd.execute(plugin, event.getPlayer());
+				if (cmd.canExecute(plugin, event.getPlayer()))
+				{
+					cmd.execute(plugin, event.getPlayer());
+				}
 			}
 			return;
 		}
@@ -850,8 +976,11 @@ public class ServerListener implements Listener
 				CmdSettleBuildingList cmd = new CmdSettleBuildingList();
 				cmd.setPara(0, settle.getId());
 				cmd.setPara(1, marketPage);
-				cmd.execute(plugin, event.getPlayer());
-				marketPage = cmd.getPage()+1;
+				if (cmd.canExecute(plugin, event.getPlayer()))
+				{
+					cmd.execute(plugin, event.getPlayer());
+					marketPage = cmd.getPage()+1;
+				}
 		}
 			return;
 		}
@@ -864,8 +993,11 @@ public class ServerListener implements Listener
 				CmdSettleProduction cmd = new CmdSettleProduction();
 				cmd.setPara(0, settle.getId());
 				cmd.setPara(1, marketPage);
-				cmd.execute(plugin, event.getPlayer());
-				marketPage = cmd.getPage()+1;
+				if (cmd.canExecute(plugin, event.getPlayer()))
+				{
+					cmd.execute(plugin, event.getPlayer());
+					marketPage = cmd.getPage()+1;
+				}
 			}
 			return;
 		}
@@ -879,8 +1011,11 @@ public class ServerListener implements Listener
 				CmdSettleMarket cmd = new CmdSettleMarket();
 				cmd.setPara(0, settle.getId());
 				cmd.setPara(1, marketPage);
-				cmd.execute(plugin, event.getPlayer());
-				marketPage = cmd.getPage()+1;
+				if (cmd.canExecute(plugin, event.getPlayer()))
+				{
+					cmd.execute(plugin, event.getPlayer());
+					marketPage = cmd.getPage()+1;
+				}
 			}
 			return;
 		}
@@ -1047,11 +1182,13 @@ public class ServerListener implements Listener
 			if (settle != null)
 			{
 				CmdSettleRequired  cmd = new CmdSettleRequired();
-				cmd.setPara(0, settle.getId());
-				cmd.setPara(1, this.lastPage);
-				cmd.execute(plugin, event.getPlayer());
-				lastPage = cmd.getPage()+1;
-				
+				if (cmd.canExecute(plugin, event.getPlayer()))
+				{
+					cmd.setPara(0, settle.getId());
+					cmd.setPara(1, this.lastPage);
+					cmd.execute(plugin, event.getPlayer());
+					lastPage = cmd.getPage()+1;
+				}
 			}
 //			cmdRequiredBook(event);
 		}
@@ -1061,27 +1198,30 @@ public class ServerListener implements Listener
 			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
 			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
-			for (Building building : settle.getBuildingList().values())
-			{
-				if (regionId == building.getHsRegion())
+			Building building = settle.getBuildingList().getBuildingByRegion(regionId);
+	    	ArrayList<String> msg = new ArrayList<String>();
+
+	    	if (event.getPlayer().isOp() == false)
+	    	{
+		    	if (building.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
 				{
-					sign.setLine(1, "id:"+String.valueOf(building.getId()));
-					sign.update();
-			    	ArrayList<String> msg = new ArrayList<String>();
-					msg.add("Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName());
-					int index = 0;
-					for (Item item :  building.getSlots())
-					{
-						if (item != null)
-						{
-							msg.add(ChatColor.YELLOW+"Slot"+index+": "+ChatColor.GREEN+item.ItemRef()+":"+item.value());
-						}
-						index++;
-					}
-					msg.add(" ");
+					msg.add("You are not the owner");
 					plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+					
 				}
+	    	}
+			msg.add("Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName());
+			int index = 0;
+			for (Item item :  building.getSlots())
+			{
+				if (item != null)
+				{
+					msg.add(ChatColor.YELLOW+"Slot"+index+": "+ChatColor.GREEN+item.ItemRef()+":"+item.value());
+				}
+				index++;
 			}
+			msg.add(" ");
+			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 		}
 
 		if (l0.contains("[TRAIN]"))
@@ -1172,17 +1312,9 @@ public class ServerListener implements Listener
 		}
 		if (l0.contains("[DONATE]"))
 		{
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
-			System.out.println("Donate "+settle.getName()+" : "+event.getPlayer().getItemInHand().getType());
-			if (settle.getBuildingList().getBuilding(regionId).getBuildingType() == BuildPlanType.HALL)
-			{
-				ItemStack item = event.getPlayer().getItemInHand();
-				settle.getWarehouse().depositItemValue(item.getType().name(), item.getAmount());
-				event.getPlayer().getInventory().remove(item);
-//				event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
-			}
+			event.getPlayer().sendMessage(ChatColor.GREEN+"Put items in chest below this wallsign !");
+			event.getPlayer().sendMessage(ChatColor.GREEN+"You will earn some reputation");
+			event.getPlayer().sendMessage(ChatColor.GREEN+"You stay in HALL or TOWNHALL");
 		}
     	
     }
@@ -1620,8 +1752,28 @@ public class ServerListener implements Listener
 	@EventHandler( priority = EventPriority.HIGHEST, ignoreCancelled = true )
     private void onNPC(EntityInteractEvent event)
     {
-    	System.out.println("[REALMS] NPC EntityInteractEvent");
+//    	System.out.println("[REALMS] NPC EntityInteractEvent");
     	event.setCancelled(true);
     }
 
+	private void shotArrow(Block b)
+	{
+        //Calculate trajectory of the arrow
+        Location loc = b.getRelative(BlockFace.UP, 2).getLocation();
+//        Location playerLoc = player.getLocation();
+        Vector vel = new Vector(loc.getX()-30, loc.getY(), loc.getZ());
+//        
+//        //Spawn and set velocity of the arrow
+        double speed = 0.5;
+//        Entity tnt = b.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
+//        tnt.setVelocity(vel.multiply(speed));
+//        tnt.setFireTicks(150);
+        Arrow arrow = b.getWorld().spawnArrow(loc, vel, (float) (0.2 * speed), 12);
+//        arrow.setPassenger(arg0);
+		ArrayList<String> lore = new ArrayList<String>();
+        arrow.setFireTicks(250);
+        arrow.setVelocity(vel.multiply(speed));
+        
+	}
+	
 }

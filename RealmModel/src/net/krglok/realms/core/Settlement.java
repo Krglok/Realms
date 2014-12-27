@@ -635,6 +635,9 @@ public class Settlement //implements Serializable
 					case HALL :
 						value = value + defaultItemMax(settleType);
 						break;
+					case TOWNHALL :
+						value = value + defaultItemMax(settleType);
+						break;
 					default :
 						break;
 				}

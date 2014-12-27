@@ -495,10 +495,10 @@ public class BuildManager
 						System.out.println("Settle Building added : "+buildPlan.getBuildingType()+":"+region.getID());
 						Building building = new Building(buildPlan.getBuildingType());
 						building.setHsRegion(region.getID());
-						if (settle.getBuildingList().addBuilding(building))
-						{
-							System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
-						}
+						rModel.getBuildings().addBuilding(building);
+						rModel.getData().writeBuilding(building);
+						settle.setBuildingList(rModel.getBuildings().getSubList(settle.getId()));
+						System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
 					} else
 					{
 						System.out.println("New region NOT found: ");

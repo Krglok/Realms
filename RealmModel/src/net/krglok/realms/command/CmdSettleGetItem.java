@@ -62,7 +62,6 @@ public class CmdSettleGetItem extends RealmsCommand
 		default:
 			break;
 		}
-
 	}
 
 	@Override
@@ -91,6 +90,7 @@ public class CmdSettleGetItem extends RealmsCommand
 		Player player = (Player) sender;
 		ItemStack item = new ItemStack(Material.getMaterial(itemRef), amount);
 		player.getInventory().addItem(item);
+		player.updateInventory();
 		amount = amount * -1;
 		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
 		plugin.getRealmModel().OnCommand(cmd);
@@ -113,9 +113,7 @@ public class CmdSettleGetItem extends RealmsCommand
 				{
 					if (isSettleOwner(plugin, sender, settleID)== false)
 					{
-						errorMsg.add("You are not the owner ! ");
-						errorMsg.add(" ");
-						return false;
+						ItemStack item = new ItemStack(Material.getMaterial(itemRef), amount);
 						
 					}
 				}

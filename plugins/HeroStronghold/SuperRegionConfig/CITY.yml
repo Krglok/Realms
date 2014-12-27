@@ -25,6 +25,7 @@ daily-power-increase: 50
 charter: 4
 child-regions:
 - CLAIM
+- ENCLAVE
 - HAMLET
 - TOWN
 - FORTRESS

@@ -32,7 +32,7 @@ public class ConfigBasis implements ConfigInterface
 	public final static long DelayTick = 20L; 
 	public static long GameDay = ConfigBasis.dayNight / ConfigBasis.RealmTick; // 40; //
 	
-	public static double DISTANCE_1_DAY = 1000.0;
+	public static double DISTANCE_1_DAY = 1200.0;
 	
 	public static double SETTLER_TAXE = 1.0;	/// Tax in money for every Settler , haedTax
 	public static double TRADER_TAXE  = 5.0;	/// Tax for Trader 
@@ -43,6 +43,7 @@ public class ConfigBasis implements ConfigInterface
 	public static final int WAREHOUSE_CHEST_FACTOR = 9;
 	public static final int TRADER_CHEST_FACTOR = 5;
 	public static final int CHEST_STORE = 1728;
+	public static final int WAREHOUSE_SPARE_STORE = 100;
 	
 	public static final int HALL_Settler = 5; 
 	public static final int HALL_Power = 100; 

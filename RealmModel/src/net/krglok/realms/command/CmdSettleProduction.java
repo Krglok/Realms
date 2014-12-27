@@ -105,6 +105,12 @@ public class CmdSettleProduction extends RealmsCommand
 				errorMsg.add("The ID is wrong or not a number ?");
 				return false;
 			}
+			if (isSettleOwner(plugin, sender, settleId) == false)
+			{
+				errorMsg.add("You are not the Owner !");
+				errorMsg.add(" ");
+				return false;
+			}
 			return true;
 		}
 		errorMsg.add("[Realm Model] NOT enabled or too busy");

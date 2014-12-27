@@ -308,10 +308,10 @@ public class RealmModel
 		boolean isDone = config.initConfigData();
 		caseBooks = data.getCaseBooks();
 		owners = data.getOwners();
+		buildings = data.getBuildings();
 		settlements = data.getSettlements();
 		regiments = data.getRegiments();
 		kingdoms = data.getKingdoms();
-		buildings = data.getBuildings();
 		isInit = isDone;
 		return isInit;
 	}

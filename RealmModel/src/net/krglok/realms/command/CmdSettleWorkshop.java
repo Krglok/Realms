@@ -2,6 +2,7 @@ package net.krglok.realms.command;
 
 import java.util.ArrayList;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
@@ -10,12 +11,14 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdSettleWorkshop extends RealmsCommand
 {
 	private int settleID;
-	private Integer buildingId ;
+//	private Integer buildingId ;
 	private int slot;
 	private String itemRef;
 
@@ -23,14 +26,15 @@ public class CmdSettleWorkshop extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.WORKSHOP);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle WORKSHOP [SettleID] [Building] [slot] [item]",
+				ChatColor.YELLOW+"/settle WORKSHOP [SettleID] [slot] [item]",
 		    	"Set the item in production slot (0..4)  ",
-		    	"of the BuildingId of settlement ",
-		    	"the Production is based on internal Production List"
+		    	"Stay in a WORKSHOP building ",
+		    	"the Production is based on internal Production List",
+		    	" use /realms RECIPES  "
 			};
-			requiredArgs = 4;
+			requiredArgs = 3;
 			this.settleID = 0;
-			this.buildingId = 1;  
+//			this.buildingId = 1;  
 			this.slot = 0;
 	}
 
@@ -39,7 +43,7 @@ public class CmdSettleWorkshop extends RealmsCommand
 	{
 		switch (index)
 		{
-		case 3:
+		case 2:
 			itemRef = value;
 			break;
 		default:
@@ -57,9 +61,6 @@ public class CmdSettleWorkshop extends RealmsCommand
 			settleID = value;
 			break;
 		case 1 :
-				buildingId = value;
-			break;
-		case 2 :
 			slot = value;
 		break;
 		default:
@@ -83,17 +84,21 @@ public class CmdSettleWorkshop extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName(), int.class.getName(), int.class.getName(), String.class.getName()};
+		return new String[] {int.class.getName(), int.class.getName(),  String.class.getName()};
 	}
 
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-		plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuilding(buildingId).addSlot(slot, itemRef, plugin.getConfigData());
-		msg.add("Slots are loaded with :");
+    	Player player = (Player) sender;
+    	Location loc = player.getLocation();
+    	Region region = plugin.stronghold.getRegionManager().getRegion(loc);
+    	Building building = plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuildingByRegion(region.getID());
+		building.addSlot(slot, itemRef, plugin.getConfigData());
+		msg.add("WORKSHOP Slots are loaded with :");
 		int index = 0;
-		for (Item item : plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuilding(buildingId).getSlots())
+		for (Item item : building.getSlots())
 		{
 			if (item != null)
 			{
@@ -112,10 +117,23 @@ public class CmdSettleWorkshop extends RealmsCommand
 		{
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
-				if (plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuilding(buildingId).getBuildingType() != BuildPlanType.WORKSHOP)
+				if (isOpOrAdmin(sender) == false)
+				{
+					if (isSettleOwner(plugin, sender, settleID) == false)
+					{
+						errorMsg.add("You are not the Owner !");
+						errorMsg.add(" ");
+						return false;
+					}
+					
+				}
+		    	Player player = (Player) sender;
+		    	Location loc = player.getLocation();
+		    	Region region = plugin.stronghold.getRegionManager().getRegion(loc);
+				if (region.getType().equals(BuildPlanType.WORKSHOP.name()) == false)
 				{
 					errorMsg.add("The Workshop not found ");
-					errorMsg.add("The Building Id is Wrong ??");
+					errorMsg.add("Stay in a WORKSHOP building ");
 					return false;
 				}
 

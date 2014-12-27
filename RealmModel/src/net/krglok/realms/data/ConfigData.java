@@ -492,21 +492,21 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	{
 //		 = new HashMap<BuildPlanType,String>();
 		buildPlanRegions.put("",BuildPlanType.NONE.name());
-		buildPlanRegions.put("haus_einfach",BuildPlanType.HOME.name());
-		buildPlanRegions.put("haus_gross", BuildPlanType.HOUSE.name());
-		buildPlanRegions.put("haupthaus", BuildPlanType.HALL.name());
-		buildPlanRegions.put("haus_stadt", BuildPlanType.HOUSE.name());
-		buildPlanRegions.put("haus_hof",BuildPlanType.FARMHOUSE.name());
-		buildPlanRegions.put("rathaus", BuildPlanType.HALL.name());
-		buildPlanRegions.put("taverne", BuildPlanType.TAVERNE.name());
-		buildPlanRegions.put("markt", BuildPlanType.WAREHOUSE.name());
-		buildPlanRegions.put("kornfeld", BuildPlanType.WHEAT.name());
-		buildPlanRegions.put("holzfaeller",BuildPlanType.WOODCUTTER.name());
-		buildPlanRegions.put("koehler", BuildPlanType.CHARBURNER.name());
-		buildPlanRegions.put("steinbruch", BuildPlanType.QUARRY.name());
-		buildPlanRegions.put("schaefer", BuildPlanType.SHEPHERD.name());
-		buildPlanRegions.put("bauern_haus",BuildPlanType.FARM.name());
-		buildPlanRegions.put("haus_baecker",BuildPlanType.BAKERY.name());
+		buildPlanRegions.put("HOME",BuildPlanType.HOME.name());
+		buildPlanRegions.put("HOUSE", BuildPlanType.HOUSE.name());
+		buildPlanRegions.put("HALL", BuildPlanType.HALL.name());
+		buildPlanRegions.put("HOUSE", BuildPlanType.HOUSE.name());
+		buildPlanRegions.put("FARMHOUSE",BuildPlanType.FARMHOUSE.name());
+		buildPlanRegions.put("TOWNHALL", BuildPlanType.TOWNHALL.name());
+		buildPlanRegions.put("TAVERNE", BuildPlanType.TAVERNE.name());
+		buildPlanRegions.put("WAREHOUSE", BuildPlanType.WAREHOUSE.name());
+		buildPlanRegions.put("WHEAT", BuildPlanType.WHEAT.name());
+		buildPlanRegions.put("WOODCUTTER",BuildPlanType.WOODCUTTER.name());
+		buildPlanRegions.put("CHARBURNER", BuildPlanType.CHARBURNER.name());
+		buildPlanRegions.put("QUARRY", BuildPlanType.QUARRY.name());
+		buildPlanRegions.put("SHEPHERD", BuildPlanType.SHEPHERD.name());
+		buildPlanRegions.put("FARM",BuildPlanType.FARM.name());
+		buildPlanRegions.put("BAKERY",BuildPlanType.BAKERY.name());
 		
 	}
 

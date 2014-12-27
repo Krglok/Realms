@@ -31,5 +31,29 @@ public class RouteOrderList extends HashMap<Integer,RouteOrder>
 		routeOrder.setId(key);
 		this.put(key, routeOrder);
 	}
+
+	public boolean contains(String itemRef)
+	{
+		for (RouteOrder rOrder : this.values())
+		{
+			if (rOrder.ItemRef().equalsIgnoreCase(itemRef))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public RouteOrder getRouteOrder(String itemRef)
+	{
+		for (RouteOrder rOrder : this.values())
+		{
+			if (rOrder.ItemRef().equalsIgnoreCase(itemRef))
+			{
+				return rOrder;
+			}
+		}
+		return null;
+	}
 	
 }

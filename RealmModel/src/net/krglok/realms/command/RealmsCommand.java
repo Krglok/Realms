@@ -63,6 +63,16 @@ public abstract class RealmsCommand implements iRealmsCommand
 	}
 
 
+	/**
+	 * <pre>
+	 * give a list of classnames as String array
+	 * set for every parameter of the command the type like <class>.class.getName()
+	 * for a int , string it shows 
+	 * new String[] { int.class.getName(), String.class.getName() }
+	 * 
+	 * @return array of class names
+	 * </pre>
+	 */
 	@Override
 	public abstract String[] getParaTypes();
 //	{
@@ -70,6 +80,9 @@ public abstract class RealmsCommand implements iRealmsCommand
 //		return null;
 //	}
 
+	/**
+	 * write here the code for command execution
+	 */
 	@Override
 	public abstract void execute(Realms plugin, CommandSender sender);
 //	{
@@ -77,6 +90,9 @@ public abstract class RealmsCommand implements iRealmsCommand
 //		
 //	}
 
+	/**
+	 * write her code for checking permissions and other conditions for the command
+	 */
 	@Override
 	public abstract boolean canExecute(Realms plugin, CommandSender sender);
 //	{
@@ -138,24 +154,53 @@ public abstract class RealmsCommand implements iRealmsCommand
 		this.errorMsg.add(s);
 	}
 
-	public boolean isOpOrAdmin(CommandSender sender)
+	/**
+	 * check if sender is an op or has realms.admin permission 
+	 * set a errorMessage in the global message storage.
+	 * @param sender
+	 * @return
+	 */
+	public boolean isOpOrAdminMsg(CommandSender sender)
 	{
-		if (sender.isOp() == false)
+		if (isOpOrAdmin(sender) == false)
 		{
 			errorMsg.add("Only for Ops and Admins !  ");
 			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * check if sender is an op or has realms.admin permission
+	 * silent check without message generation 
+	 * 
+	 * @param sender
+	 * @return
+	 */
+	public boolean isOpOrAdmin(CommandSender sender)
+	{
+		if (sender.isOp() == true)
+		{
+			return true;
 		}
 		if (sender instanceof Player)
 		{
 			if (sender.hasPermission(RealmsPermission.ADMIN.getValue()) == false)
 			{
-				errorMsg.add("You are not an Admins !  ");
+//				errorMsg.add("You are not an Admins !  ");
 				return false;
 			}
 		}
 		return true;
 	}
 	
+	/**
+	 * check for an settlement with  the given settleId
+	 * 
+	 * @param plugin
+	 * @param settleID
+	 * @return
+	 */
 	public boolean existSettlement (Realms plugin, int settleID)
 	{
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
@@ -174,6 +219,15 @@ public abstract class RealmsCommand implements iRealmsCommand
 
 	}
 	
+	/**
+	 * check for superregion (name) has the sender as owner
+	 * direct access to Herostronghold plugin
+	 * 
+	 * @param plugin
+	 * @param sender
+	 * @param name
+	 * @return
+	 */
 	public boolean isSuperRegionOwner (Realms plugin,CommandSender sender, String name )
 	{
 		// pruefe ob Superegion gueltig bzw. vorhanden ist
@@ -207,10 +261,15 @@ public abstract class RealmsCommand implements iRealmsCommand
 			return true;
 		}
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
-		if (settle.getOwnerId() == "")
+		if (settle == null)
 		{
-			return true;
+			errorMsg.add("Settlement NOT not found:"+settleID);
+			return false;
 		}
+//		if (settle.getOwnerId() == "")
+//		{
+//			return true;
+//		}
 		Player player = (Player) sender;
 		if (player.getUniqueId().toString().equalsIgnoreCase(settle.getOwner().getUuid()) == false)
 		{
@@ -228,11 +287,13 @@ public abstract class RealmsCommand implements iRealmsCommand
 			return true;
 		}
 		Regiment regiment = plugin.getRealmModel().getRegiments().get(regID);
-		if (regiment.getOwner() == "")
+		if (regiment.getOwnerId() == "")
 		{
 			return true;
 		}
-		if (sender.getName().equalsIgnoreCase(regiment.getOwner()) == false)
+//		if (sender.getName().equalsIgnoreCase(regiment.getOwner()) == false)
+		Player player = (Player) sender;
+	    if (player.getUniqueId().toString().equalsIgnoreCase(regiment.getOwner().getUuid()) == false)
 		{
 			errorMsg.add("You are NOT the owner of the Regiment !");
 			return false;

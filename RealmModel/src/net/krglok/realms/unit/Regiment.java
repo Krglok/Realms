@@ -11,6 +11,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.LogList;
@@ -51,7 +52,8 @@ public class Regiment {
 	private LocationData position;
 	private LocationData target;
 	private String name;
-	private String owner;
+	private String ownerId;
+	private Owner owner;
 	private Barrack barrack ;
 	private Warehouse warehouse ;
 	private Bank bank;
@@ -104,7 +106,7 @@ public class Regiment {
 		this.world 		= "";
 		this.biome		= null;
 		this.name		= "Regiment";
-		this.owner		= "NPC";
+		this.ownerId		= "NPC";
 		this.bank		= new Bank(logList);
 		this.barrack	= new Barrack(60);
 		this.warehouse		= new Warehouse(REGIMENT_ITEM_MAX);
@@ -128,7 +130,7 @@ public class Regiment {
 		UnitList settlerList = makeSettler(10);
 		regiment.getBarrack().addUnitList(settlerList);
 		regiment.name		= "Privateer";
-		regiment.owner		= "Raider";
+		regiment.ownerId		= "Raider";
 		regiment.commander 	= new Unit(UnitType.COMMANDER);
 //		regiment.getColonist().setPosition(regiment.getPosition());
 		return regiment;
@@ -254,14 +256,14 @@ public class Regiment {
 
 
 
-	public String getOwner() {
-		return owner;
+	public String getOwnerId() {
+		return ownerId;
 	}
 
 
 
-	public void setOwner(String owner) {
-		this.owner = owner;
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
 //		this.colonist.setOwner(owner);
 	}
 
@@ -675,7 +677,7 @@ public class Regiment {
 		{
 			System.out.println("Regiment start Camp :"+position.getWorld()+":"+position.getX()+":"+position.getY()+":"+position.getZ());
 			buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.FORT, 4, 0);
-			buildManager.newBuild(buildPlan, this.position, owner);
+			buildManager.newBuild(buildPlan, this.position, ownerId);
 			regStatus = RegimentStatus.CAMP;
 		}
 	}
@@ -720,8 +722,8 @@ public class Regiment {
 		if (position.getWorld().equalsIgnoreCase(target.getWorld()) == true)
 		{
 			System.out.println("Regiment Start Uncamp!");
-			newSuperRegion = new RegionLocation("CAMP", target, owner, name);
-			buildManager.newBuild(buildPlan, position, owner);
+			newSuperRegion = new RegionLocation("CAMP", target, ownerId, name);
+			buildManager.newBuild(buildPlan, position, ownerId);
 			regStatus = RegimentStatus.UNCAMP;
 //			colonist.startReinforce(colonist.getSettleSchema().getRadius());
 			
@@ -902,6 +904,22 @@ public class Regiment {
 	public void setSettleId(int settleId)
 	{
 		this.settleId = settleId;
+	}
+
+	/**
+	 * @return the owner
+	 */
+	public Owner getOwner()
+	{
+		return owner;
+	}
+
+	/**
+	 * @param owner the owner to set
+	 */
+	public void setOwner(Owner owner)
+	{
+		this.owner = owner;
 	}
 
 }

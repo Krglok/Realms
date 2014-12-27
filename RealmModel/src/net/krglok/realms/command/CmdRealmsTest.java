@@ -57,9 +57,7 @@ public class CmdRealmsTest extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms TEST [page]   ",
-		    	" fill Shop with items  ",
-		    	"  ",
-		    	"  ",
+		    	" check buildings with no settlement  ",
 		    	" "
 			};
 			requiredArgs = 1;
@@ -171,18 +169,26 @@ public class CmdRealmsTest extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
 		int radius = 5;
 		int edge = radius * 2 -1;
-		Player player = (Player) sender;
-		Entity npc;
-//		Location pos = new Location(player.getLocation().getWorld(), player.getLocation().getX()-radius, player.getLocation().getY(), player.getLocation().getZ()-radius);
-		Block lookAt =  player.getTargetBlock(null, 6);  
-		
-		// location where you look at
-		Location pos = player.getTargetBlock(null, 6).getLocation();
-		
-		msg.add("Nothing done ");
-		msg.add(" ");
+		msg.add("Region without Building ");
+		msg.add("ID  | Location ");
+		for (Region region : plugin.stronghold.getRegionManager().getRegions().values())
+		{
+			if (plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID()) == null)
+			{
+
+				String s = region.getID()+" :"
+					+region.getType()+" :"
+					+region.getLocation().getWorld().getName()+" :"
+					+(int) region.getLocation().getX()+" :"
+					+(int) region.getLocation().getY()+" :"
+					+(int) region.getLocation().getZ()+"";
+				
+					System.out.println("[REALMS] region ID "+s);
+					msg.add(s);
+			}
+		}
 		plugin.getMessageData().printPage(sender, msg, page);
-		page = 0;
+		page = 1;
 	}
 
 	@Override

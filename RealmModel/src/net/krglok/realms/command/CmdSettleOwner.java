@@ -119,14 +119,18 @@ public class CmdSettleOwner extends RealmsCommand
 						{
 							plugin.stronghold.getRegionManager().setMember(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
 							plugin.stronghold.getRegionManager().setOwner(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
+							System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playername );
+							building.setOwnerId(playername);
+							plugin.getData().writeBuilding(building);
 						}
+
 					}
 					plugin.getData().writeSettlement(settle);
 					msg.add("Owner added to "+settle.getName());
-					msg.add("Player "+playername+" now can use every Building in the Area");
-					msg.add("Player "+playername+" now owner of the settlement");
-					msg.add("They now look at you. Dont disappoint them !");
-					msg.add("Notice you are not the membet of the houses !");
+					msg.add(ChatColor.GOLD+"Player "+playername+" now owner of the settlement");
+					msg.add(ChatColor.GOLD+"Player "+playername+" can use every building in the Settlement");
+					msg.add(ChatColor.GOLD+"The settlers  now look at you. Dont disappoint them !");
+					msg.add(ChatColor.YELLOW+"Notice you are not a member of the houses !");
 					msg.add("");
 					if (plugin.getServer().getPlayer(playername) != null)
 					{
@@ -173,16 +177,14 @@ public class CmdSettleOwner extends RealmsCommand
 					return false;
 					
 				}
-			} else
+			} 
+			if (plugin.getServer().getPlayer(playername) == null)
 			{
-				if (plugin.getServer().getPlayer(playername) == null)
-				{
-					errorMsg.add("Player must be onöline ! ");
-					errorMsg.add(" ");
-					return false;
-				}
-				return true;
+				errorMsg.add("Player must be online ! ");
+				errorMsg.add(" ");
+				return false;
 			}
+			return true;
 			
 		} else
 		{
@@ -191,7 +193,6 @@ public class CmdSettleOwner extends RealmsCommand
 			return false;
 			
 		}
-		return false;
 	}
 
 }

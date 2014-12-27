@@ -127,6 +127,7 @@ public class CmdSettleCredit extends RealmsCommand
 				}
 				if (sender.isOp())
 				{
+					// dont check for items or money
 					return true;
 				}
 				if (hasItem(sender, itemRef, amount) == false)

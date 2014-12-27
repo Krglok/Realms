@@ -165,63 +165,66 @@ public class CmdSettleEvolve extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (plugin.getRealmModel().getModelStatus() != ModelStatus.MODEL_ENABLED)
-		{
-			errorMsg.add("The Model is busy or not enaled !");
-			errorMsg.add("");
-			return false;
-		}
-		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(this.settleId);
-		if (settle == null)
-		{
-			errorMsg.add("Settlement not found !");
-			errorMsg.add("See /settle LIST  for ID");
-			errorMsg.add("");
-			return false;
-		}
-		// check for ownership
-		if (sender.isOp() == false)
-		{
-			if(isSettleOwner(plugin, sender, settleId) == false)
-			{
-				errorMsg.add("You are not the owner !");
-				errorMsg.add("");
-				return false;
-			}
-		}
-
-		// check for regular types
-		settleType = SettleType.getSettleType(newType);
-		if ((settleType == SettleType.NONE)
-			|| (settleType == SettleType.CAMP)
-			|| (settleType == SettleType.FORTRESS)
-			|| (settleType == SettleType.LEHEN_1)
-			|| (settleType == SettleType.LEHEN_2)
-			|| (settleType == SettleType.LEHEN_3)
-			|| (settleType == SettleType.LEHEN_4)
-			)
-		{
-			errorMsg.add("The settleType is wrong or not allowe!");
-			errorMsg.add("get (CLAIM,HAMLET,TOWN, CITY) ");
-			errorMsg.add("");
-			return false;
-		}
-		// check for buildings
-		if ( checkRequiredBuilding(plugin, settle) )
-		{
-			errorMsg.add("Not all required building in the settlement !");
-			errorMsg.add("");
-			return false;
-		}
-		// check for money
-		if ( checkRequiredCost(plugin, settle) )
-		{
-			errorMsg.add("Not enough money in the settlement bank !");
-			errorMsg.add("");
-			return false;
-		}
+		sender.sendMessage(ChatColor.RED+"Not implemented yet !!");
+		return false;
 		
-		return true;
+//		if (plugin.getRealmModel().getModelStatus() != ModelStatus.MODEL_ENABLED)
+//		{
+//			errorMsg.add("The Model is busy or not enaled !");
+//			errorMsg.add("");
+//			return false;
+//		}
+//		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(this.settleId);
+//		if (settle == null)
+//		{
+//			errorMsg.add("Settlement not found !");
+//			errorMsg.add("See /settle LIST  for ID");
+//			errorMsg.add("");
+//			return false;
+//		}
+//		// check for ownership
+//		if (sender.isOp() == false)
+//		{
+//			if(isSettleOwner(plugin, sender, settleId) == false)
+//			{
+//				errorMsg.add("You are not the owner !");
+//				errorMsg.add("");
+//				return false;
+//			}
+//		}
+//
+//		// check for regular types
+//		settleType = SettleType.getSettleType(newType);
+//		if ((settleType == SettleType.NONE)
+//			|| (settleType == SettleType.CAMP)
+//			|| (settleType == SettleType.FORTRESS)
+//			|| (settleType == SettleType.LEHEN_1)
+//			|| (settleType == SettleType.LEHEN_2)
+//			|| (settleType == SettleType.LEHEN_3)
+//			|| (settleType == SettleType.LEHEN_4)
+//			)
+//		{
+//			errorMsg.add("The settleType is wrong or not allowe!");
+//			errorMsg.add("get (CLAIM,HAMLET,TOWN, CITY) ");
+//			errorMsg.add("");
+//			return false;
+//		}
+//		// check for buildings
+//		if ( checkRequiredBuilding(plugin, settle) )
+//		{
+//			errorMsg.add("Not all required building in the settlement !");
+//			errorMsg.add("");
+//			return false;
+//		}
+//		// check for money
+//		if ( checkRequiredCost(plugin, settle) )
+//		{
+//			errorMsg.add("Not enough money in the settlement bank !");
+//			errorMsg.add("");
+//			return false;
+//		}
+//		
+//		return true;
 	}
 
 }
