@@ -12,6 +12,7 @@ import net.krglok.realms.data.MessageText;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
+import net.krglok.realms.manager.ReputationList;
 import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
 import net.krglok.realms.unit.BattleFieldPosition;
@@ -98,6 +99,8 @@ public class Settlement //implements Serializable
 	private ArrayList<Item> treasureList;
 	
 	private SignPosList signList;
+	private ReputationList reputations;
+	
 	private LogList logList;
 	
 	/**
@@ -136,6 +139,8 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		reputations = new ReputationList();
+		
 		setSignList(new SignPosList());
 	}
 
@@ -180,6 +185,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager (priceList);
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		reputations = new ReputationList();
 		setSignList(new SignPosList());
 	}
 	
@@ -223,6 +229,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		reputations = new ReputationList();
 		setSignList(new SignPosList());
 }
 
@@ -268,6 +275,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		reputations = new ReputationList();
 		setSignList(new SignPosList());
 }
 	
@@ -325,6 +333,7 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager (priceList);
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
+		reputations = new ReputationList();
 		setSignList(new SignPosList());
 }
 
@@ -1432,6 +1441,7 @@ public class Settlement //implements Serializable
 	{
 		String itemRef = "";
 		boolean isResult = true;
+		boolean isMulti = false;
 		ItemArray products = building.buildingProd(server, building.getHsRegionType());
 		for (Item item : products)
 		{
@@ -1439,18 +1449,21 @@ public class Settlement //implements Serializable
 			// check MaxStorage
 			if ((warehouse.getItemList().getValue(itemRef)/64) < (warehouse.getItemMax() / 64 / 5))
 			{
-//				//check 
-//				if ((warehouse.getItemList().getValue(itemRef)/64) >= (warehouse.getTypeCapacityList().getValue(itemRef)*2))
-//					if ((warehouse.getItemList().getValue(itemRef)/64) >= (warehouse.getTypeCapacityList().getValue(itemRef)*2))
-//				{
-//					isResult = false;
-//					System.out.println(getId()+" :TypCapacity "+itemRef+":"+(warehouse.getItemList().getValue(itemRef)/64)+"/"+(warehouse.getTypeCapacityList().getValue(itemRef)*2));
-//				}
+				// check if multi items produce 
+				if (products.size() > 1)
+				{
+					isMulti = true;
+				}
 			} else
 			{
 //				System.out.println(getId()+" :MaxItems "+itemRef+":"+(warehouse.getItemList().getValue(itemRef)/64) +"/"+ (warehouse.getItemMax() / 64 / 4));
 				isResult = false;
 			}
+		}
+		// check if one of multi items can be produce
+		if (isMulti)
+		{
+			isResult = isMulti;
 		}
 		return isResult;
 	}
@@ -1587,16 +1600,21 @@ public class Settlement //implements Serializable
 					|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 3))
 				{
 					sale = 0.0;
+					cost = 0.0;
+					account = 0.0;
+					iValue = 0;
 					products = building.produce(server);
-					for (Item item : products)
+//					for (Item item : products)
+					if (products.size() > 0)
 					{
+						Item item = products.get(0);
 						
 						switch(building.getBuildingType())
 						{
 						case WORKSHOP:
 							ingredients = server.getRecipe(item.ItemRef());
 							ingredients.remove(item.ItemRef());
-							prodFactor = server.getRecipeFactor(item.ItemRef(),this.biome);
+							prodFactor = server.getRecipeFactor(item.ItemRef(),this.biome, item.value());
 //							System.out.println("WS " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							break;
 						case BAKERY:
@@ -1609,7 +1627,7 @@ public class Settlement //implements Serializable
 							{
 								ingredients = server.getRegionUpkeep(building.getHsRegionType());
 							}
-							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
+							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome, item.value());
 							break;
 						case TAVERNE:
 							if (resident.getHappiness() > Resident.getBaseHappines())
@@ -1630,43 +1648,53 @@ public class Settlement //implements Serializable
 							ingredients = new ItemList();
 							break;
 						default :
-	//						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
+//							System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
 							ingredients = new ItemList();
 							ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
 							prodFactor = 1;
 //								System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+ingredients.size());
-							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome);
+							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome, item.value());
+//							if (building.getBuildingType() == BuildPlanType.TANNERY)
+//							{
+//								System.out.println(this.getId()+" :item: "+item.ItemRef()+" igred:"+ingredients.size()+": factor:"+prodFactor);
+//							}
 							break;
 						}
 						
 						if (checkStock(prodFactor, ingredients))
 						{
-//							System.out.println("Prod " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 	//						iValue = item.value();
-							iValue = (int)((double) item.value() *prodFactor);
-							// berechne Verkaufpreis der Produktion
-							logList.addProduction(building.getBuildingType().name(), getId(), building.getId(), item.ItemRef(), iValue, "CraftManager",getAge());
-							sale = building.calcSales(server,item);
 							// berechne die MaterialKosten der Produktion
-							
 							cost = server.getRecipePrice(item.ItemRef(), ingredients);
-							if ((sale - cost) > 0.0)
+							// berechne Verkaufpreis der Produktion
+							for (Item product : products)
 							{
-							// setze Ertrag auf Building .. der Ertrag wird versteuert !!
-								account = (sale-cost) * (double) iValue / 2;
-//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
-							} else
-							{
-								account =  1.0 * (double) iValue;
-//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+								logList.addProduction(building.getBuildingType().name(), getId(), building.getId(), product.ItemRef(), iValue, "CraftManager",getAge());
+								iValue = (int)((double) product.value() *prodFactor);
+								sale = sale + building.calcSales(server,product);
+//								System.out.println("Prod " +product.ItemRef()+":"+product.value()+"*"+prodFactor);
+								
+								warehouse.depositItemValue(product.ItemRef(),iValue);
+								productionOverview.addCycleValue(product.ItemRef(), iValue);
+								if ((sale - cost) > 0.0)
+								{
+								// setze Ertrag auf Building .. der Ertrag wird versteuert !!
+									account = (sale-cost) * (double) iValue / 2;
+	//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+								} else
+								{
+									account =  1.0 * (double) iValue;
+	//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+								}
+								building.addSales(account); //-cost);
+								bank.depositKonto(account, "ProdSale ", getId());
+	//							System.out.println("ProdSale "+this.getId()+" : "+building.getHsRegionType() +" : "+account);
 							}
-							building.addSales(account); //-cost);
-							bank.depositKonto(account, "ProdSale ", getId());
-//							System.out.println("ProdSale "+this.getId()+" : "+building.getHsRegionType() +" : "+account);
 							consumStock(prodFactor, ingredients);
 //							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
-							warehouse.depositItemValue(item.ItemRef(),iValue);
-							productionOverview.addCycleValue(item.ItemRef(), iValue);
+						} else
+						{
+//							System.out.println("No stock " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 						}
 					}
 //					building.addSales(sale);
@@ -1888,4 +1916,14 @@ public class Settlement //implements Serializable
 		return owner;
 	}
 
+	public ReputationList getReputations()
+	{
+		return reputations;
+	}
+	
+	public void setReputationList(ReputationList repList)
+	{
+		this.reputations = repList;
+	}
+	
 }

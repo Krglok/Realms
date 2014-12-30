@@ -77,7 +77,7 @@ public class SimTask implements Runnable
 		if (isProduction)
 		{
 			taxCounter++;
-			realmModel.OnProduction();
+			realmModel.OnProduction("SteamHaven");
 //			plugin.getLog().info("[Realms] production calculation");
 		} else
 		{

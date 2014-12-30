@@ -195,7 +195,7 @@ public class SettlementBreedTest
 			rModel.OnTick();
 			if ((dayCounter % 40) == 0)
 			{
-				rModel.OnProduction();
+				rModel.OnProduction("SteamHaven");
 
 			}
 	}

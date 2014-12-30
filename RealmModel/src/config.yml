@@ -17,6 +17,8 @@ realmCounter: 0
 settlementCounter: 0
 buildingCounter: 0
 
+spawnAnimal: false;
+
 #---------------------------------------------
 # Settlement /superregions for older versions of your superregions to get into realms
 # the SettlementTypes are predefined

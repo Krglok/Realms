@@ -212,6 +212,7 @@ public class DataStorage implements DataInterface
 		Owner owner;
 		for (String ref : refList)
 		{
+			System.out.println("[REALMS read settle :"+ref);
 			settle = settlementData.readData(ref);
 			settle.setLogList(logList);
 			settle.setBuildingList(buildings.getSubList(settle.getId()));

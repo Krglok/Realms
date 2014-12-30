@@ -34,9 +34,14 @@ import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
+import net.krglok.realms.manager.ReputationData;
+import net.krglok.realms.manager.ReputationStatus;
+import net.krglok.realms.manager.ReputationType;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.science.CaseBook;
+import net.milkbowl.vault.economy.EconomyResponse;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -370,48 +375,7 @@ public class ServerListener implements Listener
 	    		String l1 = sign.getLine(1);
 	    		if (l0.contains("[BUILD]"))
 	    		{
-//	    			System.out.println("SignPost");
-		    		if (l1 != "")
-		    		{
-		    			Location pos = b.getLocation();
-		    	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
-		    	    	{
-			    			System.out.println("Check");
-		    	    		checkAt(pos, l1, event.getPlayer(), msg);
-		    	    		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
-		    	    		return;
-		    	    	} else
-		    	    	{
-		    	    		// start Build with empty hand on RightClick
-			    	    	if (
-			    	    		(event.getPlayer().getItemInHand().getType() == Material.AIR)
-			    	    		&& (event.getAction() == Action.RIGHT_CLICK_BLOCK)
-			    	    		)
-			    	    	{
-				    			System.out.println("BuildAt");
-				    			if (buildAt( pos, l1, event.getPlayer(), msg))
-				    			{
-							    	msg.add("Build startet  ");
-							    	msg.add(" ");
-					    			sign.setLine(0, "");
-					    			sign.update();
-				    			} else
-				    			{
-							    	msg.add("Build NOT started : "+l1);
-							    	msg.add(" ");
-				    			}
-				    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
-				    			return;
-			    	    	} else
-			    	    	{
-						    	msg.add("Use empty hand for startup build: "+l1);
-						    	msg.add(" ");
-			    	    	}
-			    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
-			    			return;
-		    	    	}
-		    		}
-		    		return;
+	    			cmdBuildat(event, b);
 	    		}
 	    		// other signpost Commands
 	    		cmdSignPost(event, b);
@@ -862,6 +826,7 @@ public class ServerListener implements Listener
 			{
 				if (event.getView().getType() == InventoryType.CHEST)
 				{
+					donatePlayer.remove(player.getUniqueId().toString());
 //					System.out.println("You are in a HALL closed a Chest");
 					if (inventory.getSize() > 0)
 					{
@@ -870,16 +835,48 @@ public class ServerListener implements Listener
 							if (itemStack != null)
 							{
 								String name = itemStack.getType().name();
-//								if (name.equalsIgnoreCase(Material.WATER_BUCKET.name()))
-//								{
-//									name = Material.WATER.name();
-//								}
-//								if (name.equalsIgnoreCase(Material.DIRT.name()))
-//								{
-//									name = Material.SOIL.name();
-//								}
 								settle.getWarehouse().depositItemValue(name, itemStack.getAmount());
-    							donatePlayer.remove(player.getUniqueId().toString());
+								if (ConfigBasis.initFoodMaterial().containsKey(name))
+								{
+									settle.getReputations().addValue(ReputationType.FOOD, player.getName(), name, ConfigBasis.VALUABLE_POINT);
+									System.out.println(" REPUTATION VALUABLE : "+name+": 1");
+									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
+									
+								} else 
+								if (ConfigBasis.initValuables().containsKey(name))
+								{
+									settle.getReputations().addValue(ReputationType.VALUABLE, player.getName(), name, ConfigBasis.VALUABLE_POINT);
+									System.out.println(" REPUTATION VALUABLE : "+name+": 1");
+									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
+									
+								} else 
+								if (settle.getRequiredProduction().containsKey(name))
+								{
+									settle.getReputations().addValue(ReputationType.REQUIRED, player.getName(), name, ConfigBasis.REQUIRED_POINT);
+									System.out.println("REPUTATION REQUIRED: "+name+": 1");
+									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
+									
+								} else
+								{
+									if (settle.getReputations().containsKey(ReputationData.getRefName(player.getName(), ReputationType.DONATION)))
+									{
+										if(settle.getReputations().get(ReputationData.getRefName(player.getName(), ReputationType.DONATION)).getItemValues().containsKey(name))
+										{
+											player.sendMessage(ChatColor.DARK_PURPLE+"You always donate this item");
+										} else
+										{
+											settle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
+											System.out.println(" REPUTATION DONATION : "+name+": 1");
+											player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
+										}
+										
+									} else
+									{
+										settle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
+										System.out.println(" REPUTATION DONATION : "+name+": 1");
+										player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
+									}
+								}
 //								System.out.println("HALL : "+itemStack.getType().name()+":"+itemStack.getAmount()+"OpenChests :"+donatePlayer.size());
 							}
 						}
@@ -913,7 +910,60 @@ public class ServerListener implements Listener
 
 		if (l0.contains("[ACQUIRE]"))
 		{
-			
+			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			// ohne settlement können auch gebäude erworben werden
+			// aber wenn in einem settlement , dann muss reputation vorhanden sein
+			if (settle != null)
+			{
+				// der owner braucht keinen Nachweis
+//				System.out.println("ACQUIRE Settlement "+settle.getId()+":"+settle.getName());
+				if (settle.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
+				{
+					System.out.println("ACQUIRE Reputation "+settle.getId()+":"+settle.getReputations().getReputation(event.getPlayer().getName()));
+					// ein fremder muss genug reputation haben
+					if (settle.getReputations().getReputation(event.getPlayer().getName()) < ReputationStatus.CITIZEN.getValue())
+					{
+						event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You need more Reputation in this settlement !");
+						event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You need more than "+ReputationStatus.CITIZEN.getValue());
+						return;
+					}
+				}
+			}
+			Region region = findRegionAtPosition(plugin, b.getLocation());
+			if (region != null)
+			{
+				double cost = plugin.getServerData().getRegionTypeCost(region.getType());
+				cost = cost * 2;
+				if (plugin.economy.has(event.getPlayer().getName(), cost))
+				{
+					if (event.getPlayer().getInventory().getItemInHand().getType() == Material.AIR)
+					{
+						EconomyResponse eResponse = plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
+						Building building = plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID());
+						building.setOwnerId(event.getPlayer().getName());
+						plugin.getData().writeBuilding(building);
+						event.getPlayer().sendMessage(ChatColor.GREEN+"You are now owner of this building");
+						event.getPlayer().sendMessage(ChatColor.YELLOW+"Remember to remove the AQUIRE sign !");
+						// ohne settlement können auch gebäude erworben werden
+						// aber dann gibt es auch keine reputation!
+						if (settle != null)
+						{
+							settle.getReputations().addValue(ReputationType.MEMBER, event.getPlayer().getName(), region.getType(), ConfigBasis.VALUABLE_POINT);
+							System.out.println(" REPUTATION MEMBER : "+region.getType()+": 1");
+							event.getPlayer().sendMessage(ChatColor.GREEN+"You gain reputation as citizen of the settlement ");
+						}
+					} else
+					{
+						event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"Your hand must be empty !");
+					}
+					
+				} else
+				{
+					event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You have need "+ConfigBasis.format2(cost)+plugin.economy.currencyNamePlural());
+				}
+			}
+				
 		}
 		
 		if (l0.contains("[WAREHOUSE]"))
@@ -1262,8 +1312,11 @@ public class ServerListener implements Listener
 	    	if (event.getPlayer().isOp() == false)
 	    	{
 				if ((region.getType().equalsIgnoreCase(BuildPlanType.LIBRARY.name()) == false)
-					&&  (region.getType().equalsIgnoreCase("BIBLIOTHEK") == false))
+					&&  (region.getType().equalsIgnoreCase("BIBLIOTHEK") == false)
+					&&  (region.getType().equalsIgnoreCase("HALL") == false)
+					)
 				{
+					event.getPlayer().sendMessage(ChatColor.GREEN+"The Booklist is available in BIBLIOTHEK or LIBRARY");
 					return;
 				}
 	    	}
@@ -1774,6 +1827,55 @@ public class ServerListener implements Listener
         arrow.setFireTicks(250);
         arrow.setVelocity(vel.multiply(speed));
         
+	}
+
+	private void cmdBuildat(PlayerInteractEvent event, Block b)
+	{
+    	ArrayList<String> msg = new ArrayList<String>();
+		Sign sign = (Sign) b.getState();
+		String l0 = sign.getLine(0);
+		String l1 = sign.getLine(1);
+//			System.out.println("SignPost");
+		if (l1 != "")
+		{
+			Location pos = b.getLocation();
+	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
+	    	{
+    			System.out.println("Check");
+	    		checkAt(pos, l1, event.getPlayer(), msg);
+	    		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+	    		return;
+	    	} else
+	    	{
+	    		// start Build with empty hand on RightClick
+    	    	if (
+    	    		(event.getPlayer().getItemInHand().getType() == Material.AIR)
+    	    		&& (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+    	    		)
+    	    	{
+	    			System.out.println("BuildAt");
+	    			if (buildAt( pos, l1, event.getPlayer(), msg))
+	    			{
+				    	msg.add("Build startet  ");
+				    	msg.add(" ");
+		    			sign.setLine(0, "");
+		    			sign.update();
+	    			} else
+	    			{
+				    	msg.add("Build NOT started : "+l1);
+				    	msg.add(" ");
+	    			}
+	    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+	    			return;
+    	    	} else
+    	    	{
+			    	msg.add("Use empty hand for startup build: "+l1);
+			    	msg.add(" ");
+    	    	}
+    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+    			return;
+	    	}
+		}
 	}
 	
 }

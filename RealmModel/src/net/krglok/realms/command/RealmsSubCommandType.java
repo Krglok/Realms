@@ -48,6 +48,7 @@ public enum RealmsSubCommandType
 	RECIPE,
 	RECIPES,
 	REQUIRE,
+	REPUTATION,
 	ROUTE,
 	ROUTES,
 	ROUTESTOP,

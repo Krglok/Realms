@@ -170,7 +170,7 @@ public class SimServer implements ServerInterface
 	}
 
 	@Override
-	public double getRecipeFactor(String itemRef, Biome biome)
+	public double getRecipeFactor(String itemRef, Biome biome, int amount)
 	{
 		// TODO Auto-generated method stub
 		return 0;
@@ -230,6 +230,13 @@ public class SimServer implements ServerInterface
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double getRegionTypeCost(String regionType)
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

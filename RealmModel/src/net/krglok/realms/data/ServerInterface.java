@@ -65,13 +65,15 @@ public interface ServerInterface
 
 	public String getRegionType(int id);
 	
+	public double getRegionTypeCost(String regionType);
+	
 	public void setRegionChest(int id, ItemList itemList);
 
 	public ItemList getRecipe(String itemRef);
 	
 	public int getBioneFactor(Biome biome, Material mat);
 
-	public double getRecipeFactor(String itemRef, Biome biome);
+	public double getRecipeFactor(String itemRef, Biome biome, int amount);
 
 	public ItemList getFoodRecipe(String itemRef);
 

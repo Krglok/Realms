@@ -17,7 +17,7 @@ reagents:
 - GOLD_NUGGET.2
 upkeep:
 - BREAD.1
-- LEATHER.6
+- LEATHER.22
 upkeep-chance: 0.001
 output:
 - LEATHER_BOOTS.1

@@ -495,6 +495,7 @@ public class BuildManager
 						System.out.println("Settle Building added : "+buildPlan.getBuildingType()+":"+region.getID());
 						Building building = new Building(buildPlan.getBuildingType());
 						building.setHsRegion(region.getID());
+						building.setSettleId(settle.getId());
 						rModel.getBuildings().addBuilding(building);
 						rModel.getData().writeBuilding(building);
 						settle.setBuildingList(rModel.getBuildings().getSubList(settle.getId()));

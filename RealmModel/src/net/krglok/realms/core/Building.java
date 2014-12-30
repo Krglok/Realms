@@ -293,6 +293,13 @@ public class Building  implements Serializable
 		case GUARDHOUSE : 
 			trainTime = 5; // es sind 5 productionZyklen = 5 inGameTage gemeint
 			return UnitType.MILITIA ;
+		case BARRACK :
+			trainTime = 5; // es sind 5 productionZyklen = 5 inGameTage gemeint
+			return UnitType.LIGHT_INFANTRY ;
+		case ARCHERY :
+			trainTime = 5; // es sind 5 productionZyklen = 5 inGameTage gemeint
+			return UnitType.ARCHER ;
+			
 		default :
 			return UnitType.NONE;
 		}
@@ -330,7 +337,7 @@ public class Building  implements Serializable
 		break;
 		case CARPENTER : setWorkerNeeded(2);
 		break;
-		case CABINETMAKER : setWorkerNeeded(2);
+		case CABINETMAKER : setWorkerNeeded(5);
 		break;
 		case DIAMONDMINE : setWorkerNeeded(10);
 		break;
@@ -380,6 +387,8 @@ public class Building  implements Serializable
 		break;
 		case STONEMINE : setWorkerNeeded(3);
 		break;
+		case STONEYARD : setWorkerNeeded(1);
+		break;
 		case IRONMINE : setWorkerNeeded(5);
 		break;
 		case COALMINE : setWorkerNeeded(5);
@@ -388,7 +397,9 @@ public class Building  implements Serializable
 		break;
 		case TAMER : setWorkerNeeded(2);
 		break;
-		case TAVERNE : setWorkerNeeded(2);
+		case TAVERNE : setWorkerNeeded(3);
+		break;
+		case TANNERY : setWorkerNeeded(4);
 		break;
 		case TRADER : setWorkerNeeded(5);
 		break;
@@ -874,7 +885,7 @@ public class Building  implements Serializable
 		{
 			if (item != null)
 			{
-				prodFactor = server.getRecipeFactor(item.ItemRef(), biome);
+				prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
 				recipeList = server.getRecipe(item.ItemRef());
 				iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
 				items.addItem(item.ItemRef(), iValue);
@@ -898,7 +909,7 @@ public class Building  implements Serializable
 					if (item.ItemRef().equals("") == false)
 					{
 	//					System.out.println("RecipeFood "+item.ItemRef());
-						prodFactor = server.getRecipeFactor(item.ItemRef(),biome);
+						prodFactor = server.getRecipeFactor(item.ItemRef(),biome, item.value());
 						recipeList = server.getFoodRecipe(item.ItemRef());
 						iValue = (int)((double)recipeList.getValue(item.ItemRef())*prodFactor);
 						items.addItem(item.ItemRef(), iValue);
@@ -915,7 +926,7 @@ public class Building  implements Serializable
 			{
 				for (Item item : items)
 				{
-					prodFactor = server.getRecipeFactor(item.ItemRef(),biome);
+					prodFactor = server.getRecipeFactor(item.ItemRef(),biome, item.value());
 					iValue = (int) ((double)item.value() *prodFactor);
 					items.setItem(item.ItemRef(), iValue);
 //					System.out.println("baeckerProd: "+item.ItemRef()+":"+item.value());

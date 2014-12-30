@@ -21,4 +21,4 @@ output:
 - LEATHER.1
 money-requirement: 500.0
 upkeep-money-output: -2.0
-description: produce cooked beef and leather. needed for armor production
+description: produce cooked beef and leather. needed for armor production. The fence should be closed otherwise the cows go off.

@@ -305,7 +305,7 @@ public class SettleManagerTest
 			rModel.OnTick();
 			
 		}
-		rModel.OnProduction();
+		rModel.OnProduction("SteamHaven");
 		dayCounter++;
 		if ((dayCounter % 30) == 0)
 		{

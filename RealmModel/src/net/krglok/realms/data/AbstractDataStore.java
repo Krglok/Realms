@@ -156,7 +156,7 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 			long time1 = System.nanoTime();
             if (config.isConfigurationSection(section))
             {
-            	
+//		    	System.out.println("Init DataObject :" +refId);
     	    	dataObject = initDataObject(config.getConfigurationSection(section));
             }
 

@@ -152,7 +152,7 @@ public class ModelCmdTest
 				rModel.OnTick();
 				steps++;
 			}
-			rModel.OnProduction();
+			rModel.OnProduction("SteamHaven");
 			steps++;
 			for (int j = 0; j < ConfigBasis.GameDay/2; j++)
 			{

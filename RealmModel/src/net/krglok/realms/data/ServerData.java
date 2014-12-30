@@ -704,19 +704,16 @@ public class ServerData implements ServerInterface
 
 	
 	@Override
-	public double getRecipeFactor(String itemRef, Biome biome)
+	public double getRecipeFactor(String itemRef, Biome biome, int amount)
 	{
-		double prodFactor = (100.0 + (double) getBioneFactor(biome, Material.getMaterial(itemRef)))/100.0 ;
-		return prodFactor;
-//		if (recipeData.getWeaponRecipe(itemRef).size() > 0)
-//		{
-//			return 1;
-//		}
-//		if (recipeData.getToolRecipe(itemRef).size() > 0)
-//		{
-//			return 16;
-//		}
-//		return 8;
+		if (amount >= 8)
+		{
+			double prodFactor = (100.0 + (double) getBioneFactor(biome, Material.getMaterial(itemRef)))/100.0 ;
+			return prodFactor;
+		} else
+		{
+			return 1;
+		}
 	}
 
 	@Override
@@ -835,6 +832,12 @@ public class ServerData implements ServerInterface
 		return plugin.stronghold.getRegionManager().getRegionByID(id).getType();
 	}
 
+	@Override
+	public double getRegionTypeCost(String regionType)
+	{
+		return plugin.stronghold.getRegionManager().getRegionType(regionType).getMoneyRequirement();
+	}
+	
 	@Override
 	public Region getRegionAt(LocationData pos)
 	{

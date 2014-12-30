@@ -21,4 +21,4 @@ output:
 - FEATHER.4
 money-requirement: 500.0
 upkeep-money-output: -2.0
-description: produce raw cicken and feather
+description: produce raw cicken and feather. The fence should be closed otherwise the chicken go off.

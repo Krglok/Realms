@@ -274,7 +274,7 @@ public class RealmLoopTest
 			if ((loopCount % dayCount) == 0)
 			{
 //				System.out.println("Day");
-				rModel.OnProduction();
+				rModel.OnProduction("SteamHaven");
 				rModel.OnTrade();
 			} 
 			doCleanRequest(rModel);

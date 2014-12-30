@@ -12,11 +12,13 @@ requirements:
 - GRASS.49
 reagents:
 - GOLD_NUGGET.1
+- WOOD_SWORD.1
 upkeep:
 - CARROT.2
 upkeep-chance: 0.001
 output:
-- GRILLED_PORK.2
+- RABBIT_HIDE.2
+- COOKED_RABBIT.2
 money-requirement: 500.0
 upkeep-money-output: -2.0
-description: Produce grilled_pork. The fence should be closed otherwise the pig go off.
+description: produce rabbit hide and cooked rabbit. The fence should be closed otherwise the rabbit go off.

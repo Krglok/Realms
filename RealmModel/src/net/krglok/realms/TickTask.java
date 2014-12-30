@@ -1,5 +1,7 @@
 package net.krglok.realms;
 
+import java.util.HashMap;
+
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
@@ -9,6 +11,9 @@ import net.krglok.realms.core.Settlement;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
@@ -38,8 +43,12 @@ public class TickTask implements Runnable
 	private static final long SUNRISE = 22000;
 	private static final long TOMORROW = 24000;
     
-	private boolean isGateClose = false;
-	private boolean isGateOpen = false;
+//	private boolean isGateClose = false;
+//	private boolean isGateOpen = false;
+	
+//	private HashMap<String,Integer> taxCounter = new  HashMap<String,Integer>();
+	private HashMap<String,Boolean> isGateClose = new  HashMap<String,Boolean>();
+	private HashMap<String,Boolean> isGateOpen = new  HashMap<String,Boolean>();
 	
     public static int getProdCounter()
 	{
@@ -49,6 +58,14 @@ public class TickTask implements Runnable
 	public TickTask(Realms plugin)
 	{
 		this.plugin = plugin;
+		// init world list
+		for (World world :plugin.getServer().getWorlds())
+		{
+			isGateClose.put(world.getName(), false);
+			isGateOpen.put(world.getName(), false);
+//			taxCounter.put(world.getName(), 0);
+//			System.out.println("[REALMS] world "+world.getName());
+		}
 		counter = 0;
 	}
     
@@ -81,6 +98,12 @@ public class TickTask implements Runnable
 	@Override
 	public void run()
 	{
+		// dont run until init done
+		if (plugin.getRealmModel().isInit() == false)
+		{
+			return;
+		}
+		
 		counter++;
 //		taxCounter++;
 		// starte speichern der Settlement vor onTick
@@ -95,96 +118,79 @@ public class TickTask implements Runnable
 			plugin.onCleanRequest();
 			plugin.onSignRequest();
 		// startt night Event
-		if( (plugin.getServer().getWorlds().get(0).getTime() >= 13000 )
-			&& (plugin.getServer().getWorlds().get(0).getTime() < 17000 ))
+			
+		for (World world : plugin.getServer().getWorlds())
 		{
-//			System.out.print("Night:"+plugin.getServer().getWorlds().get(0).getTime());
-			if (isGateClose == false)
+			if (world.getEnvironment() != Environment.THE_END)
 			{
-				plugin.getLog().info("[Realms] Gate Night Event");
-				doGateClose();
-				isGateClose = true;
-				isGateOpen = false;
-				if (isProduction)
+				if( (world.getTime() >= 13000 )
+					&& (world.getTime() < 17000 ))
 				{
-					taxCounter++;
-					plugin.getRealmModel().OnProduction();
-					plugin.getLog().info("[Realms] production calculation");
-					plugin.getServer().broadcastMessage(ChatColor.BLUE+"[Realms] production calculation");
-//					System.out.println("[Realms] Production");
-//					plugin.getLog().info("Tax counter "+taxCounter);
+		//			System.out.print("Night:"+plugin.getServer().getWorlds().get(0).getTime());
+					if (isGateClose.get(world.getName()) == false)
+					{
+						plugin.getLog().info("[Realms] Gate Night Event "+world.getName());
+						doGateClose(world);
+						isGateClose.put(world.getName(),true);
+						isGateOpen.put(world.getName(),false);
+						if (isProduction)
+						{
+							if (plugin.getServer().getWorlds().get(0).getName().equalsIgnoreCase(world.getName()))
+							{
+								taxCounter++;
+							}
+							if (plugin.getRealmModel().getSettlements().size() > 0)
+							{
+								plugin.getRealmModel().OnProduction(world.getName());
+//								plugin.getLog().info("[Realms] production calculation : "+world.getName());
+								plugin.getServer().broadcastMessage(ChatColor.BLUE+"[Realms] production calculation on "+world.getName());
+							}
+		//					System.out.println("[Realms] Production");
+		//					plugin.getLog().info("Tax counter "+taxCounter);
+						} else
+						{
+							System.out.println("[Realms] Production "+isProduction+" on "+world.getName());
+						}
+					}
+					plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getTime());
+					
 				} else
 				{
-					System.out.println("[Realms] Production "+isProduction);
-					
+					isGateClose.put(world.getName(),false);
 				}
-			}
-			plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getTime());
-			
-		} else
-		{
-			isGateClose = false;
-		}
-		// start Day Event
-		if( (plugin.getServer().getWorlds().get(0).getTime() >= 23000))
-		{
-//			System.out.print("Day:"+plugin.getServer().getWorlds().get(0).getTime());
-			if (isGateOpen == false)
-			{
-				plugin.getLog().info("[Realms] Gate DAY Event");
-				doGateOpen();
-				isGateOpen = true;
-				isGateClose = false;
-				if (isProduction)
+				// start Day Event
+				if( (world.getTime() >= 23000))
 				{
-					plugin.getRealmModel().OnTrade(); 
-					plugin.getLog().info("[Realms] Trader calculation");
+		//			System.out.print("Day:"+plugin.getServer().getWorlds().get(0).getTime());
+					if (isGateOpen.get(world.getName()) == false)
+					{
+						plugin.getLog().info("[Realms] Gate DAY Event : "+world.getName());
+						doGateOpen(world);
+						isGateOpen.put(world.getName(), true);
+						isGateClose.put(world.getName(), false);
+						if (isProduction)
+						{
+							plugin.getRealmModel().OnTrade(); 
+							plugin.getLog().info("[Realms] Trader calculation :"+world.getName());
+						}
+					}
+					plugin.getRealmModel().OnDay(world.getTime());
+				} else
+				{
+					isGateOpen.put(world.getName(), false);
 				}
-			}
-			plugin.getRealmModel().OnDay(plugin.getServer().getWorlds().get(0).getTime());
-		} else
-		{
-			isGateOpen = false;
-		}
+				
 			
-		// trader run
-//		if (counter == (prodLimit/2))
-//		{
-//			if (isProduction)
-//			{
-//				plugin.getRealmModel().OnTrade();
-//				plugin.getLog().info("[Realms] Trader calculation");
-//			}
-//
-//		}
-		
-		//production run
-//		if (counter == prodLimit)
-//		{
-//			counter = 0;
-//			if (isProduction)
-//			{
-//				plugin.getRealmModel().OnProduction();
-//				plugin.getLog().info("[Realms] production calculation");
-////				System.out.println("[Realms] Production");
-////				plugin.getLog().info("Tax counter "+taxCounter);
-//			} else
-//			{
-//				System.out.println("[Realms] Production "+isProduction);
-//				
-//			}
-//			
-//		} 
-		
-		//Tax run
-		if(taxCounter >= taxLimit)
-		{
-			taxCounter = 0;
-			if (isProduction)
-			{
-				plugin.getRealmModel().OnTax();
-				plugin.getLog().info("[Realms] Tax calculation");
-				System.out.println("[Realms] Tax");
+				//Tax run
+				if(taxCounter >= taxLimit)
+				{
+					taxCounter = 0;
+					if (isProduction)
+					{
+						plugin.getRealmModel().OnTax();
+						plugin.getLog().info("[Realms] Tax calculation");
+					}
+				}
 			}
 		}
 	}
@@ -192,10 +198,10 @@ public class TickTask implements Runnable
 	/**
 	 * not in use now 
 	 */
-	private void doGateClose()
+	private void doGateClose(World world)
 	{
-		plugin.getServer().broadcastMessage("Gates now Closed");
-		for (Settlement settle : plugin.getRealmModel().getSettlements().values())
+//		plugin.getServer().broadcastMessage("Gates now Closed "+world.getName());
+		for (Settlement settle : plugin.getRealmModel().getSettlements().getSubList(world.getName()).values())
 		{
 			for (Building building : settle.getBuildingList().values())
 			{
@@ -204,7 +210,7 @@ public class TickTask implements Runnable
 					Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
 					if (region != null)
 					{
-						System.out.println("[REALMS] Close gate");
+//						System.out.println("[REALMS] Close gate");
 						setGateFrame(region.getLocation(), Material.FENCE);
 					}
 				}
@@ -233,12 +239,12 @@ public class TickTask implements Runnable
 	
 	
 	/**
-	 * not in use now 
+	 * open the gate of a settlement 
 	 */
-	private void doGateOpen()
+	private void doGateOpen(World world)
 	{
-		plugin.getServer().broadcastMessage("Gates now Open");
-		for (Settlement settle : plugin.getRealmModel().getSettlements().values())
+//		plugin.getServer().broadcastMessage("Gates now Open "+world.getName());
+		for (Settlement settle : plugin.getRealmModel().getSettlements().getSubList(world.getName()).values())
 		{
 			for (Building building : settle.getBuildingList().values())
 			{
@@ -247,7 +253,7 @@ public class TickTask implements Runnable
 					Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
 					if (region != null)
 					{
-						System.out.println("[REALMS] Open gate");
+//						System.out.println("[REALMS] Open gate");
 						setGateFrame(region.getLocation(), Material.AIR);
 					}
 				}

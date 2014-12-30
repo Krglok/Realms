@@ -374,13 +374,13 @@ public class RealmModel
 		}
 	}
 
-	public void OnProduction()
+	public void OnProduction(String worldName)
 	{
 		switch (modelStatus)
 		{
 		case MODEL_ENABLED :
 			// initProductionQueue
-			modelStatus = initProductionQueue();
+			modelStatus = initProductionQueue(worldName);
 			break;
 		case MODEL_PRODUCTION :
 			// NextProduction
@@ -749,12 +749,12 @@ public class RealmModel
 		
 	}
 	
-	private ModelStatus initProductionQueue()
+	private ModelStatus initProductionQueue(String worldName)
 	{
 //		System.out.println("Init Production");
 		for (Settlement settle : settlements.values())
 		{
-			if (settle.isEnabled())
+			if (settle.isEnabled() && (settle.getPosition().getWorld().equalsIgnoreCase(worldName)))
 			{
 				productionQueue.add(settle);
 			}
@@ -766,6 +766,7 @@ public class RealmModel
 	{
 		if (productionQueue.isEmpty())
 		{
+			System.out.println("[REALMS] production ended");
 			return ModelStatus.MODEL_ENABLED;
 		}
 		Settlement settle = productionQueue.get(0);

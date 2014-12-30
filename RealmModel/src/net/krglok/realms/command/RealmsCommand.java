@@ -271,7 +271,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 //			return true;
 //		}
 		Player player = (Player) sender;
-		if (player.getUniqueId().toString().equalsIgnoreCase(settle.getOwner().getUuid()) == false)
+		if (player.getName().toString().equalsIgnoreCase(settle.getOwnerId()) == false)
 		{
 			errorMsg.add("You are NOT the owner of the Settlement !");
 			return false;

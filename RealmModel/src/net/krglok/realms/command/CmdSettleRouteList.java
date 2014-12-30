@@ -79,7 +79,7 @@ public class CmdSettleRouteList extends RealmsCommand
 		{
 			msg.add(rOrder.getTargetId()
 					+" | "+rOrder.ItemRef()
-					+" | "+rOrder.getBasePrice()
+					+" | "+rOrder.value()
 					+" | "+rOrder.getFormatedBasePrice()
 					);
 		}

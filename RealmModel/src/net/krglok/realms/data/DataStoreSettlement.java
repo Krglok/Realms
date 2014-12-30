@@ -13,6 +13,8 @@ import net.krglok.realms.core.RouteOrderList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.manager.ReputationData;
+import net.krglok.realms.manager.ReputationType;
 import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
@@ -110,6 +112,13 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
         values.put("horseCount",String.valueOf(dataObject.getResident().getCowCount()));
         section.set("resident", values);
 
+        values = new HashMap<String,String>();
+        for (ReputationData repData : dataObject.getReputations().values())
+        {
+        	values.put(repData.getName(), String.valueOf(repData.getValue()));
+        }
+        section.set("reputation", values);
+        
         subList = new HashMap<String,Object>();
         values = new HashMap<String,String>();
 	    for (RouteOrder rOrder : dataObject.getTrader().getRouteOrders().values())
@@ -161,6 +170,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 //		// 
 	Settlement settle = new Settlement(null);
 
+//	System.out.println("Section id");
 	settle.setId(data.getInt("id"));
 	settle.setSettleType(SettleType.valueOf(data.getString( "settleType")));
 	settle.setPosition(LocationData.toLocation(data.getString( "position")));
@@ -187,17 +197,40 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	settle.getResident().setCowCount(Integer.valueOf(data.getString( "resident"+".cowCount")));
 	settle.getResident().setHorseCount(Integer.valueOf(data.getString( "resident"+".horseCount")));
 
+	
+//	System.out.println("Section reputation");
+	if (data.isConfigurationSection("reputation"))
+	{
+		Map<String,Object> reList = data.getConfigurationSection( "reputation").getValues(false);
+		if (reList != null)
+		{
+			if (reList.size() > 0)
+			{
+		    	for (String repRef : reList.keySet())
+		    	{
+//					System.out.println("[REALMS] Reputation :"+repRef+":"+ReputationData.splitNameTyp(repRef)+":"+ReputationData.splitNameName(repRef));
+					if (data.isConfigurationSection("reputation"+"."+repRef))
+					{
+				        int value = Integer.valueOf(data.getString( "reputation"+"."+repRef));
+				        ReputationData repData = new ReputationData(ReputationData.splitNameTyp(repRef), ReputationData.splitNameName(repRef),  value);
+				        settle.getReputations().addValue(repData);
+					}
+		    	}
+			}
+		}
+	}
 
+//	System.out.println("Section routes");
 	if (data.isConfigurationSection("routes"))
 	{
 		Map<String,Object> rList = data.getConfigurationSection( "routes").getValues(false);
 		if (rList != null)
 		{
 			RouteOrderList routeOrderList = new RouteOrderList();
-	        System.out.println("[REALMS] RouteOrderList ["+rList.size()+"]");
+//	        System.out.println("[REALMS] RouteOrderList ["+rList.size()+"]");
 	    	for (String ref : rList.keySet())
 	    	{
-		        System.out.println("[REALMS] RouteOrder :"+ref);
+//		        System.out.println("[REALMS] RouteOrder :"+ref);
 //	//	        values.put("id",String.valueOf(rOrder.getId()));
 //	//	        values.put("targetId",String.valueOf(rOrder.getTargetId()));
 //	//	        values.put("itemref",rOrder.ItemRef());
@@ -211,13 +244,14 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	    		double price= Double.valueOf(data.getString("routes."+ref+".price"));
 	    		boolean isEnabled = data.getBoolean("routes."+ref+".isEnabled",true);
 	            RouteOrder rOrder = new RouteOrder(orderId, targeitId, itemRef, amount, price, isEnabled);
-	            System.out.println("[REALMS] RouteOrder Id:"+rOrder.getId());
+//	            System.out.println("[REALMS] RouteOrder Id:"+rOrder.getId());
 	            routeOrderList.addRouteOrder(rOrder);
 	    	}    
 	    	settle.getTrader().setRouteOrders(routeOrderList);
 		}
 	}
 
+//	System.out.println("Section warehouse");
     settle.getWarehouse().setItemMax(Integer.valueOf(data.getString( "warehouse"+".itemMax","0")));
     settle.getWarehouse().setIsEnabled(Boolean.valueOf(data.getString( "warehouse"+".isEnable","false")));
     

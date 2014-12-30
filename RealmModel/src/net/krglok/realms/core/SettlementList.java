@@ -317,15 +317,18 @@ public class SettlementList extends HashMap<Integer,Settlement>
 		return subList;
 	}
 	
-	
-	
-//	public void produce()
-//	{
-//		
-//	}
-//	
-//	public void consume()
-//	{
-//		
-//	}
+
+	public SettlementList getSubList(String worldName)
+	{
+		SettlementList subList = new SettlementList(); 
+		for (Settlement settle : this.values())
+		{
+			if (settle.getPosition().getWorld().equalsIgnoreCase(worldName))
+			{
+				subList.addSettlement(settle);
+			}
+		}
+		return subList;
+	}
+
 }

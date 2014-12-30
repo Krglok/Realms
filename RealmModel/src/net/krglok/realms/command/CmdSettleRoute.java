@@ -104,20 +104,28 @@ public class CmdSettleRoute extends RealmsCommand
 				msg.add("New Route added to ["+settle.getId()+"] "+settle.getName());
 				msg.add(rOrder.getTargetId()
 						+" | "+rOrder.ItemRef()
-						+" | "+rOrder.getBasePrice()
+						+" | "+rOrder.value()
 						+" | "+rOrder.getFormatedBasePrice()
 						);
 			}
 		} else
 		{
-			settle.getTrader().getRouteOrders().getRouteOrder(itemRef).setValue(amount);
-			msg.add("Uppdate Route to ["+settle.getId()+"] "+settle.getName());
-			msg.add(rOrder.getTargetId()
-					+" | "+rOrder.ItemRef()
-					+" | "+rOrder.getBasePrice()
-					+" | "+rOrder.getFormatedBasePrice()
-					);
-			
+			if (amount == 0)
+			{
+				int id = settle.getTrader().getRouteOrders().getRouteOrder(itemRef).getId();
+				settle.getTrader().getRouteOrders().remove(id);
+				msg.add(ChatColor.RED+"Remove Route to ["+settle.getId()+"] "+settle.getName());
+				
+			} else
+			{
+				settle.getTrader().getRouteOrders().getRouteOrder(itemRef).setValue(amount);
+				msg.add("Uppdate Route to ["+settle.getId()+"] "+settle.getName());
+				msg.add(rOrder.getTargetId()
+						+" | "+rOrder.ItemRef()
+						+" | "+rOrder.value()
+						+" | "+rOrder.getFormatedBasePrice()
+						);
+			}
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 

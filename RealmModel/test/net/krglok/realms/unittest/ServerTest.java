@@ -603,7 +603,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 
 	
 	@Override
-	public double getRecipeFactor(String itemRef, Biome biome)
+	public double getRecipeFactor(String itemRef, Biome biome, int amount)
 	{
 
 		double prodFactor = (100.0 + (double) getBioneFactor(biome, Material.getMaterial(itemRef)))/100.0 ;
@@ -875,5 +875,12 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public double getRegionTypeCost(String regionType)
+	{
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

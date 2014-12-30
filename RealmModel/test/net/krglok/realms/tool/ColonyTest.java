@@ -64,7 +64,7 @@ public class ColonyTest
 			rModel.OnTick();
 			if ((dayCounter % 40) == 0)
 			{
-				rModel.OnProduction();
+				rModel.OnProduction("SteamHaven");
 			}
 		String nextStatus = rModel.getColonys().get(1).getStatus();
 		if (colonyStatus != nextStatus)

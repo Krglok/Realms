@@ -26,8 +26,8 @@ public class CmdOwnerSet extends RealmsCommand
 		description = new String[] {
 				ChatColor.YELLOW+"/owner SET [page] [ACHIVEMENTNAME]  ",
 		    	"Set the Owner the AchivementName   ",
-		    	"Achivement give suilding permissions ",
-		    	"and Settlementpermissions ",
+		    	"Achivement give Building permissions ",
+		    	"and Settlement permissions ",
 		    	" "
 			};
 			requiredArgs = 2;

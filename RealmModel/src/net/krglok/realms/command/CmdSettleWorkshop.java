@@ -130,6 +130,12 @@ public class CmdSettleWorkshop extends RealmsCommand
 		    	Player player = (Player) sender;
 		    	Location loc = player.getLocation();
 		    	Region region = plugin.stronghold.getRegionManager().getRegion(loc);
+		    	if (region == null)
+				{
+					errorMsg.add("The region not found ");
+					errorMsg.add("Stay in a WORKSHOP building ");
+					return false;
+				}
 				if (region.getType().equals(BuildPlanType.WORKSHOP.name()) == false)
 				{
 					errorMsg.add("The Workshop not found ");

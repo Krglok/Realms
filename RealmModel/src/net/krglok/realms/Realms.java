@@ -61,6 +61,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -640,6 +641,49 @@ public final class Realms extends JavaPlugin
 //		}
 	}
 
+	public void spawnRegionAnimal(String regionType, Location spawnLocation, World world )
+	{
+    	if (regionType.equalsIgnoreCase("RABBITBARN"))
+    	{
+        	spawnLocation.setX(spawnLocation.getX()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.RABBIT);
+        	spawnLocation.setX(spawnLocation.getY()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.RABBIT);
+//        	currentLocation.setX(currentLocation.getX()+3);
+//        	world.spawnCreature(currentLocation, CreatureType.RABBIT);
+//        	currentLocation.setX(currentLocation.getY()+3);
+//        	world.spawnCreature(currentLocation, CreatureType.RABBIT);
+    	} else
+    	if (regionType.equalsIgnoreCase("CHICKENHOUSE"))
+    	{
+        	spawnLocation.setX(spawnLocation.getX()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.CHICKEN);
+        	spawnLocation.setX(spawnLocation.getY()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.CHICKEN);
+    	} else
+    	if (regionType.equalsIgnoreCase("SHEPHERD"))
+    	{
+        	spawnLocation.setX(spawnLocation.getX()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.SHEEP);
+        	spawnLocation.setX(spawnLocation.getY()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.SHEEP);
+    	} else
+    	if (regionType.equalsIgnoreCase("PIGPEN"))
+    	{
+        	spawnLocation.setX(spawnLocation.getX()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.PIG);
+        	spawnLocation.setX(spawnLocation.getY()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.PIG);
+    	} else
+    	if (regionType.equalsIgnoreCase("SPIDERSHED"))
+    	{
+        	spawnLocation.setX(spawnLocation.getX()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.SPIDER);
+        	spawnLocation.setX(spawnLocation.getY()-1);
+        	world.spawnCreature(spawnLocation, CreatureType.SPIDER);
+    	}
+	}
+	
 	/**
 	 * create a HeroStronghold Region at position
 	 * No checks will be done
@@ -654,6 +698,13 @@ public final class Realms extends JavaPlugin
 				rLoc.getPosition().getY(),
 				rLoc.getPosition().getZ()
 				);
+//        if (this.configData.isSpawnAnimal() == true)
+//        {
+//        	System.out.println("[REALMS] Spawn new Animals!");
+//        	Location spawnLocation = new Location(world,currentLocation.getX(),currentLocation.getY(),currentLocation.getZ());
+//        	spawnRegionAnimal(rLoc.getRegionType(),  spawnLocation, world );
+//        }
+
 		String arg1 = rLoc.getRegionType();
 		ArrayList<String> arg2= new ArrayList<String>();
 		arg2.add(rLoc.getOwner());
@@ -667,7 +718,12 @@ public final class Realms extends JavaPlugin
 				 (int)currentLocation.getY()+":"+
 				 (int)currentLocation.getZ()
 				 );
-
+        if (this.configData.isSpawnAnimal() == true)
+        {
+        	System.out.println("[REALMS] Spawn new Animals!");
+        	Location spawnLocation = new Location(world,currentLocation.getX(),currentLocation.getY(),currentLocation.getZ());
+        	spawnRegionAnimal(rLoc.getRegionType(),  spawnLocation, world );
+        }
 	}
 	
 	/**

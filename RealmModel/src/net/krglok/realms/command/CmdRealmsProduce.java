@@ -10,6 +10,7 @@ import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdRealmsProduce extends RealmsCommand
 {
@@ -74,7 +75,8 @@ public class CmdRealmsProduce extends RealmsCommand
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED) 
 		//  || (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED))
 		{
-			plugin.getRealmModel().OnProduction();
+			Player player = (Player) sender;
+			plugin.getRealmModel().OnProduction(player.getLocation().getWorld().getName());
 			msg.add("[Realm Model] Production");
 			for (Settlement settle : plugin.getRealmModel().getSettlements().values())
 			{

@@ -66,7 +66,7 @@ public class ModelLoopTest
 	private void makeProductionTick()
 	{
 		days++;
-		rModel.OnProduction();
+		rModel.OnProduction("SteamHaven");
 		rModel.OnTick();
 		rModel.OnTick();
 		rModel.OnTick();

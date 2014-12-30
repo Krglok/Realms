@@ -415,6 +415,8 @@ public class Trader
 		{
 			for (RouteOrder rOrder : routeOrders.values())
 			{
+				if (tradeTransport.checkRoute(settle.getId(), rOrder.getTargetId(), rOrder.ItemRef()) == false)
+				{
 				if (settle.getWarehouse().getItemList().containsKey(rOrder.ItemRef()))
 				{
 					// enough items in warehouse of sender
@@ -426,10 +428,15 @@ public class Trader
 							// target has enough space in warehouse
 							if (settlements.getSettlement(rOrder.getTargetId()).getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
 							{
+								System.out.println("[REALMS] Make route to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
 								makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, settlements);
 							}
 						}
 					}
+				}
+				} else
+				{
+					System.out.println("[REALMS] Route is activ to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
 				}
 			}
 		} else

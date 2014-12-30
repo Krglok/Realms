@@ -53,6 +53,8 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private boolean isLogList;
 	
 	private boolean isLoaded = false;
+	
+	private boolean isSpawnAnimal = false;
 
 	private ArrayList<EntityType> mobList;
 	
@@ -76,6 +78,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		isUpdateCheck = configFile.getBoolean("updatecheck", false);
 		isAutoUpdate  = configFile.getBoolean("autoupdate", false);
 		isLogList  = configFile.getBoolean("loglist", false);
+		isSpawnAnimal  = configFile.getBoolean("spawnAnimal", false);
 //		configFile.options().copyDefaults(true);
 		setLoaded(true);
 	}
@@ -553,5 +556,9 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		this.isLogList = isLogList;
 	}
 
+	public boolean isSpawnAnimal()
+	{
+		return this.isSpawnAnimal;
+	}
 
 }

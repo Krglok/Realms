@@ -160,4 +160,22 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 		
 		return subList;
 	}
+	
+	public boolean checkRoute(int senderId, int targetId, String itemRef)
+	{
+		for (TradeMarketOrder tOrder : this.values())
+		{
+			if (tOrder.getSettleID() == senderId)
+			{
+				if (tOrder.getTargetId() == targetId)
+				{
+					if (tOrder.ItemRef().equalsIgnoreCase(itemRef))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

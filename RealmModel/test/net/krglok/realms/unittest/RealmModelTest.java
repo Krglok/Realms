@@ -220,19 +220,19 @@ public class RealmModelTest
 		rModel.OnEnable();
 		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
 
-		rModel.OnProduction();
+		rModel.OnProduction("SteamHaven");
 		if (rModel.getProductionQueue().size() > 0)
 		{
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
-			rModel.OnProduction();
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
+			rModel.OnProduction("SteamHaven");
 //			rModel.OnProduction();
 		}
 		
@@ -304,7 +304,7 @@ public class RealmModelTest
 		Boolean actual = false;
 		int i = 0;
 
-		rModel.OnProduction();
+		rModel.OnProduction("SteamHaven");
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());
 		rModel.OnCommand(colonist1);
 //		System.out.println((i++)+" OnTick "+rModel.getModelStatus());

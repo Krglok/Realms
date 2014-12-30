@@ -25,6 +25,7 @@ import net.krglok.realms.command.CmdRealmsDeactivate;
 import net.krglok.realms.command.CmdRealmsGetItem;
 import net.krglok.realms.command.CmdRealmsHelp;
 import net.krglok.realms.command.CmdRealmsMap;
+import net.krglok.realms.command.CmdRealmsMove;
 import net.krglok.realms.command.CmdRealmsPrice;
 import net.krglok.realms.command.CmdRealmsPricelistInfo;
 import net.krglok.realms.command.CmdRealmsProduce;
@@ -63,6 +64,7 @@ import net.krglok.realms.command.CmdSettleMarket;
 import net.krglok.realms.command.CmdSettleNoSell;
 import net.krglok.realms.command.CmdSettleOwner;
 import net.krglok.realms.command.CmdSettleProduction;
+import net.krglok.realms.command.CmdSettleReputation;
 import net.krglok.realms.command.CmdSettleRoute;
 import net.krglok.realms.command.CmdSettleRouteList;
 import net.krglok.realms.command.CmdSettleSell;
@@ -118,6 +120,7 @@ public class CommandRealms
 			new CmdRealmsHelp(),
 			new CmdRealmsPricelistInfo(),
 			new CmdRealmsMap(),
+			new CmdRealmsMove(),
 			new CmdRealmsProduce(),
 			new CmdRealmsPrice(),
 			new CmdRealmsRecipeList(),
@@ -149,6 +152,7 @@ public class CommandRealms
 			new CmdSettleNoSell(),
 			new CmdSettleOwner(),
 			new CmdSettleProduction(),
+			new CmdSettleReputation(),
 			new CmdSettleRoute(),
 			new CmdSettleRouteList(),
 			new CmdSettleSell(),

@@ -14,7 +14,7 @@ public class CmdWallSign extends RealmsCommand
 		super(RealmsCommandType.REALMS,RealmsSubCommandType.WALLSIGN);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms WALLSIGN show the list of Wallsigns  ",
-		    	"All Wallsign entrys are liste  ",
+		    	"All Wallsign entrys are listed  ",
 		    	"with a short description ",
 		    	" "
 			};

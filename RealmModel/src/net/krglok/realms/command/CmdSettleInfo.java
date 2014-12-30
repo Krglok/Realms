@@ -14,19 +14,22 @@ import org.bukkit.command.CommandSender;
 public class CmdSettleInfo extends RealmsCommand
 {
 	int settleID;
+	int buildingId;
 	int page ;
 
 	public CmdSettleInfo( )
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.INFO);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle INFO [SettleID] [page] ",
-				"Show Infomation about the Settlement ",
-		    	"and show the analysis report ",
+				ChatColor.YELLOW+"/settle INFO [SettleID] [BuildingId] ",
+				"You aquire the building from settlement ",
+		    	"All resources and cost and incoming is to you",
+		    	"You need reputation in the settlent for aquiring ",
 		    	"  "
 		};
 		requiredArgs = 1;
 		this.settleID = 0;
+		this.buildingId = 0;
 		this.page = 1;  //default value
 	}
 

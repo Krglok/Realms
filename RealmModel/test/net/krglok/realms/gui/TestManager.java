@@ -280,7 +280,7 @@ public class TestManager
 			rModel.OnTick();
 			
 		}
-		rModel.OnProduction();
+		rModel.OnProduction("SteamHaven");
 		dayCounter++;
 		if ((dayCounter % 30) == 0)
 		{

@@ -52,6 +52,14 @@ public class ConfigBasis implements ConfigInterface
 	public static final int METROPOL_Power = 30000;
 	public static final int CASTLE_Power = 5000;
 	
+	public static final int DONATION_POINT = 1;
+	public static final int REQUIRED_POINT = 1;
+	public static final int VALUABLE_POINT = 1;
+	public static final int MONEY_POINT = 1;
+	public static final int TRADE_POINT = 1;
+	public static final int MEMBER_POINT = 1;
+	
+	
 	
 	public static final String LINE = "=============================== ";
 
