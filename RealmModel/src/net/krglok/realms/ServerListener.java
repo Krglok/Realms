@@ -103,6 +103,7 @@ import org.bukkit.util.Vector;
 public class ServerListener implements Listener
 {
 	private static String sellInv = ChatColor.DARK_PURPLE+ "Settlement SELL";
+	private static String buyInv = ChatColor.DARK_PURPLE+ "Settlement BUY";
 	private static String donateInv= ChatColor.DARK_PURPLE+ "DONATE";
 
 	private Realms plugin;
@@ -114,6 +115,7 @@ public class ServerListener implements Listener
 	private long lastTame = 0; 
 //	private ArrayList<String> donatePlayer = new ArrayList<String>();
 	private boolean isSell = false;
+	private boolean isBuy = false;
 	
 	public ServerListener(Realms plugin)
 	{
@@ -256,77 +258,180 @@ public class ServerListener implements Listener
 	}
 
     
+    private void clickInventorySell(InventoryClickEvent event)
+    {
+		Player player = (Player) event.getWhoClicked();
+//		player.sendMessage("Slot "+":"+event.getSlot()+":"+event.getSlotType()+":"+event.getRawSlot());
+		
+		if (event.getRawSlot() > 26)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"Click on item in chest inventory");
+    		event.setCancelled(true);
+			return;
+		}
+		String sRegion = findSuperRegionAtLocation(plugin, player);
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle == null)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"You standing not in a settlement");
+			return;
+		}
+
+		ItemStack itemStack  = event.getCurrentItem();
+		switch(event.getAction())
+		{
+		case PICKUP_ALL: 
+//		case PICKUP_ONE :
+//		case PICKUP_SOME :
+			if (itemStack.getAmount() > 0)
+			{
+				double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
+    			int amount = 1;
+    			cost = cost * amount;
+    			
+    			if (plugin.economy.has(player.getName(), cost) == false)
+    			{
+        			player.sendMessage("You have not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+    	    		event.setCancelled(true);
+    			} else
+    			{
+        			player.sendMessage("You bought "+itemStack.getType().name()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+        			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+        	    	if (itemStack.getAmount() == 1)
+        	    	{
+        	    		event.getInventory().remove(itemStack);
+//        	    		setItem(event.getRawSlot(), new ItemStack(Material.AIR,1));
+        	    	} else
+        	    	{
+        	    		itemStack.setAmount(itemStack.getAmount()-amount);
+        	    	}
+        			player.updateInventory();
+        			event.setCancelled(true);
+    			}
+			}
+			break;
+		case PICKUP_HALF:
+			if (itemStack.getAmount() > 1)
+			{
+    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
+    			int amount = itemStack.getAmount() / 2;
+    			cost = cost * amount;
+    			if (plugin.economy.has(player.getName(), cost) == false)
+    			{
+        			player.sendMessage("You have not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+    	    		event.setCancelled(true);
+    			} else
+    			{
+        			player.sendMessage("You bought "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+        			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+    	    		itemStack.setAmount(itemStack.getAmount()-amount);
+        			player.updateInventory();
+    	    		event.setCancelled(true);
+    			}
+			}
+			break;
+		default:
+    		event.setCancelled(true);
+			break;
+		}
+    }
+
+    
+    private void clickInventoryBuy(InventoryClickEvent event)
+    {
+		Player player = (Player) event.getWhoClicked();
+//		System.out.println("RawSlot :"+event.getRawSlot());
+		if (event.getRawSlot() < 27)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"Click on item in your inventory");
+			event.setCancelled(true);
+			return;
+		}
+		String sRegion = findSuperRegionAtLocation(plugin, player);
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle == null)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"You standing not in a settlement");
+			return;
+		}
+		
+		ItemStack itemStack  = event.getCurrentItem();
+		switch(event.getAction())
+		{
+		case PICKUP_ALL: 
+//		case PICKUP_ONE :
+//		case PICKUP_SOME :
+			if (itemStack.getAmount() > 0)
+			{
+    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
+    			int amount = 1;
+    			cost = cost * amount;
+    			if (settle.getBank().getKonto() <= cost) 
+    			{
+        			player.sendMessage("The settlement has not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+    	    		event.setCancelled(true);
+    			} else
+    			{
+        			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+        			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
+        			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+        	    	if (itemStack.getAmount() == 1)
+        	    	{
+        	    		player.getInventory().remove(itemStack);
+//        	    		setItem(event.getRawSlot(), new ItemStack(Material.AIR,1));
+        	    	} else
+        	    	{
+        	    		itemStack.setAmount(itemStack.getAmount()-amount);
+        	    	}
+        			player.updateInventory();
+        			event.setCancelled(true);
+    			}
+
+			}
+			break;
+		case PICKUP_HALF:
+			if (itemStack.getAmount() > 1)
+			{
+    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
+    			int amount = itemStack.getAmount() / 2;
+    			cost = cost * amount;
+    			if (settle.getBank().getKonto() <= cost) 
+    			{
+        			player.sendMessage("The settlement has not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+    	    		event.setCancelled(true);
+    			} else
+    			{
+        			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+        			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
+        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+        			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+    	    		itemStack.setAmount(itemStack.getAmount()-amount);
+        			player.updateInventory();
+    	    		event.setCancelled(true);
+    			}
+			}
+			break;
+		default:
+    		event.setCancelled(true);
+			break;
+		}
+    }
+    
     @EventHandler(priority = EventPriority.NORMAL)
     public void onClick(InventoryClickEvent event)
     {
     	if(event.getInventory().getTitle().contains(sellInv))
     	{
-			Player player = (Player) event.getWhoClicked();
-//			player.sendMessage("Slot "+":"+event.getSlot()+":"+event.getSlotType()+":"+event.getRawSlot());
-			
-    		if (event.getRawSlot() > 26)
-    		{
-	    		event.setCancelled(true);
-    			return;
-    		}
-    		ItemStack itemStack  = event.getCurrentItem();
-    		switch(event.getAction())
-    		{
-    		case PICKUP_ALL: 
-//    		case PICKUP_ONE :
-//    		case PICKUP_SOME :
-    			if (itemStack.getAmount() > 0)
-    			{
-	    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
-	    			int amount = 1;
-	    			cost = cost * amount;
-	    			if (plugin.economy.has(player.getName(), cost) == false)
-	    			{
-	        			player.sendMessage("You have not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
-	    	    		event.setCancelled(true);
-	    			} else
-	    			{
-	        			player.sendMessage("You bought "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
-	        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
-	        			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
-	        	    	if (itemStack.getAmount() == 1)
-	        	    	{
-	        	    		event.getInventory().setItem(event.getRawSlot(), new ItemStack(Material.AIR,1));
-	        	    	} else
-	        	    	{
-	        	    		itemStack.setAmount(itemStack.getAmount()-amount);
-	        	    	}
-	        			player.updateInventory();
-	        			event.setCancelled(true);
-	    			}
-    			}
-    			break;
-    		case PICKUP_HALF:
-    			if (itemStack.getAmount() > 1)
-    			{
-	    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
-	    			int amount = itemStack.getAmount() / 2;
-	    			cost = cost * amount;
-	    			if (plugin.economy.has(player.getName(), cost) == false)
-	    			{
-	        			player.sendMessage("You have not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
-	    	    		event.setCancelled(true);
-	    			} else
-	    			{
-	        			player.sendMessage("You bought "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
-	        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
-	        			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
-        	    		itemStack.setAmount(itemStack.getAmount()-amount);
-	        			player.updateInventory();
-	    	    		event.setCancelled(true);
-	    			}
-    			}
-    			break;
-    		default:
-	    		event.setCancelled(true);
-    			break;
-    		}
+    		clickInventorySell(event);
 		}
+    	
+    	if(event.getInventory().getTitle().contains(buyInv))
+    	{
+    		clickInventoryBuy(event);
+    	}
+
     }
     
     
@@ -366,6 +471,30 @@ public class ServerListener implements Listener
 	    				{
 	    					settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
 //	    					System.out.println("Warehouse restore : "+itemStack.getType().name()+":"+itemStack.getAmount());
+	    				}
+    				}
+    			}
+
+    			isSell = false;
+    		}
+    		if(event.getInventory().getTitle().contains(buyInv))
+    		{
+    			Player player = (Player) event.getPlayer();
+    			String sRegion = findSuperRegionAtLocation(plugin, player);
+    			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+    			if (settle == null)
+    			{
+    				player.sendMessage(ChatColor.DARK_RED+"You standing not in a settlement");
+    				return;
+    			}
+    			for (ItemStack itemStack : event.getInventory().getContents())
+    			{
+    				if (itemStack != null)
+    				{
+	    				if (itemStack.getType() != Material.AIR)
+	    				{
+	    					settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
+//	    					System.out.println("Warehouse store : "+itemStack.getType().name()+":"+itemStack.getAmount());
 	    				}
     				}
     			}
@@ -1000,6 +1129,7 @@ public class ServerListener implements Listener
 		if (l0.contains("[BUY]"))
 		{
 			event.getPlayer().sendMessage("The settlement BUY items from you ");
+			cmdBuy(event, b);
 		}
 		
 		if (l0.contains("[WAREHOUSE]"))
@@ -2036,7 +2166,7 @@ public class ServerListener implements Listener
 	}
 	
 
-	private void cmdBuyOld(PlayerInteractEvent event, Block b)
+	private void cmdBuy(PlayerInteractEvent event, Block b)
 	{
 		Sign sign = (Sign) b.getState();
 		String l0 = sign.getLine(0);
@@ -2044,70 +2174,41 @@ public class ServerListener implements Listener
 		String l2 = sign.getLine(2);
 		String l3 = sign.getLine(3);
 
-		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+		Player player = event.getPlayer();
+		if (isBuy)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"Sorry, the shop is busy");
+			return;
+		}
+		String sRegion = findSuperRegionAtLocation(plugin, player);
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle == null)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"You standing not in a settlement");
+			return;
+		}
+		
+		isBuy = true;
+		
 		if (settle != null)
 		{
 			String itemRef = l1.toUpperCase();
-			System.out.println("Buy :"+itemRef);
-			if ((settle.getWarehouse().getItemList().getValue(itemRef)/64) > (settle.getWarehouse().getItemMax() / 64 / 5))
-			{
-				l3 = "NO BUY";
-				sign.update();
-				event.getPlayer().sendMessage("No buy of "+itemRef);
-				
-			} else
-			{
-				int amount = 1;
-				try
-				{
-					amount = Integer.valueOf(l2);
-					if (amount < 1 )
-					{
-						amount = 1;
-					}
-					if (amount > 64 )
-					{
-						amount = 64;
-					}
-					
-				} catch (Exception e)
-				{
-					System.out.println("Buy amount exeption! ");
-					amount = 1;
-				}
-				double price = plugin.getData().getPriceList().getBasePrice(itemRef);
-				price = price * amount;
-				l3 = ConfigBasis.setStrformat2(price,7);
-				sign.update();
-//				int stock = settle.getWarehouse().getItemList().getValue(itemRef);
-				if (plugin.economy != null)
-				{
-					if (settle.getBank().getKonto() > price)
-					{
-						ItemStack itemStack = new ItemStack(Material.getMaterial(itemRef), amount);
-						if (event.getPlayer().getInventory().contains(Material.getMaterial(itemRef), amount) == true)
-						{
-							event.getPlayer().getInventory().removeItem(itemStack);
-							plugin.economy.depositPlayer(event.getPlayer().getName(), price);
-							settle.getWarehouse().depositItemValue(itemRef, amount);
-							settle.getBank().withdrawKonto(price, event.getPlayer().getName(), settle.getId());
-							event.getPlayer().sendMessage("You sold "+itemRef+":"+amount+ConfigBasis.setStrformat2(price,9));
-							System.out.println("Settle BUY "+itemRef+":"+amount);
-							event.getPlayer().updateInventory();
-						} else
-						{
-							event.getPlayer().sendMessage("You have not enough items:"+itemRef+":"+amount);
-						}
-					} else
-					{
-						event.getPlayer().sendMessage("The settlement has not enough money");
-					}
-				} else
-				{
-					event.getPlayer().sendMessage("NO economy !");
-				}
-			}
+//			System.out.println("Buy :"+itemRef);
+			// create inventory
+			Inventory chest = player.getServer().createInventory(null, 3 * 9, buyInv);
+
+//			ItemArray stockList;
+//			if (l1.equalsIgnoreCase("Material"))
+//			{
+//				stockList = shopMaterial(settle.getId());
+//				
+//			} else
+//			{
+//				stockList = shopBuildMaterial(settle.getId());
+//			}
+//			setupShop(stockList, settle, player, chest, 1);
+			
+			player.openInventory(chest);
 			
 		}
 		
