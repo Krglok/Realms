@@ -87,7 +87,10 @@ public class CmdSettleWarehouse extends RealmsCommand
 		    for (String itemref : settle.getWarehouse().sortItems())
 		    {
 		    	Item item = settle.getWarehouse().getItemList().get(itemref);
-	    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",15)+" : "+ChatColor.YELLOW+item.value());
+		    	if (item.value() > 0)
+		    	{
+		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",15)+" : "+ChatColor.YELLOW+item.value());
+		    	}
 		    }
 	    }
 	    if (page == 0)

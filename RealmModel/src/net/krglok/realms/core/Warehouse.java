@@ -245,6 +245,21 @@ public class Warehouse
 		return sortedItems;
 	}
 	
+	public ItemList searchItemsInWarehouse(ItemList searchList)
+	{
+		ItemList resultList = new ItemList();
+		for (Item search : searchList.values())
+		{
+//			System.out.println("SearchInList "+search.ItemRef());
+			if (itemList.getValue(search.ItemRef()) > search.value())
+			{
+				resultList.addItem(new Item(search.ItemRef(), itemList.getValue(search.ItemRef())) );
+			}
+		}
+		
+		return resultList;
+	}
 
+	
 
 }

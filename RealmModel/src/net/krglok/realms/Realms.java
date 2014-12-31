@@ -138,7 +138,7 @@ public final class Realms extends JavaPlugin
 //    public CitizensAPI npcAPI = null;
     public Citizens npc = null;
 //    public Vault vault = null;
-    public static Economy economy = null;
+    public Economy economy = null;
     
 	
 	@Override

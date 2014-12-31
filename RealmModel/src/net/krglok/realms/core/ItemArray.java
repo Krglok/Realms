@@ -27,6 +27,41 @@ public class ItemArray extends ArrayList<Item>
 		return item;
 	}
 	
+	/**
+	 * add all elements of newLIst to this list
+	 * dont add existing ItemRef
+	 * 
+	 * @param newList
+	 */
+	public void addAll(ItemArray newList)
+	{
+		for (Item item : newList)
+		{
+			if (containItem(item) == false)
+			{
+				this.add(item);
+			}
+		}
+	}
+	
+	/**
+	 * check for ItemRef in List
+	 * 
+	 * @param item
+	 * @return
+	 */
+	public boolean containItem(Item item)
+	{
+		for (Item existItem : this)
+		{
+			if (existItem.ItemRef().equalsIgnoreCase(item.ItemRef()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Item getItem(String itemRef)
 	{
 		for (int i = 0; i < this.size(); i++)

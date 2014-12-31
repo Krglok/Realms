@@ -326,14 +326,14 @@ public abstract class RealmsCommand implements iRealmsCommand
 			errorMsg.add("You are NOT a Player !");
 			return false;
 		}
-		if (Realms.economy != null)
+		if (plugin.economy != null)
 		{
 			errorMsg.add("NO economy is installed !");
 			return false;
 		}
 		Player player = (Player) sender;
 		
-		if (Realms.economy.has(player.getName(),  amount) == false)
+		if (plugin.economy.has(player.getName(),  amount) == false)
 		{
 			errorMsg.add("You have NOT enough money !");
 			return false;

@@ -385,6 +385,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem("IRON_SWORD",0);
 		subList.addItem("STONE_SWORD",0);
 		subList.addItem("WOOD_SWORD",0);
+		subList.addItem("ARROW",0);
 		
 		return subList;
 	}
@@ -436,7 +437,6 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem("FISHING_ROD",0);
 		subList.addItem("FLINT_AND_STEEL",0);
 		subList.addItem("SHEARS",0);
-		subList.addItem("ARROW",0);
 		
 		subList.addItem("DIAMOND_AXE",0);
 		subList.addItem("DIAMOND_HOE",0);
@@ -462,6 +462,12 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem("WOOD_HOE",0);
 		subList.addItem("WOOD_PICKAXE",0);
 		subList.addItem("WOOD_SPADE",0);
+		subList.addItem(Material.SADDLE.name(),0);
+		subList.addItem(Material.FISHING_ROD.name(),0);
+		subList.addItem(Material.COMPASS.name(),0);
+		subList.addItem(Material.WATCH.name(),0);
+		subList.addItem(Material.LEASH.name(),0);
+		subList.addItem(Material.NAME_TAG.name(),0);
 
 		return subList;
 	}
@@ -478,6 +484,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.BRICK.name(),0);
 		subList.addItem(Material.NETHER_BRICK.name(),0);
 //		subList.addItem(Material.WOOD_STEP.name(),0);
+		subList.addItem(Material.ANVIL.name(),0);
 		subList.addItem(Material.STEP.name(),0);
 		subList.addItem(Material.DIRT.name(),0);
 		subList.addItem(Material.GRASS.name(),0);
@@ -486,6 +493,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.WHEAT.name(),0);
 		subList.addItem(Material.WOOD.name(),0);
 		subList.addItem(Material.SOIL.name(),0);
+		subList.addItem(Material.GLASS.name(),0);
 //		subList.addItem(Material..name(),0);
 		
 		return subList;
@@ -503,9 +511,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.FENCE_GATE.name(),0);
 		subList.addItem(Material.BED.name(),0);
 		subList.addItem(Material.TORCH.name(),0);
-//		subList.addItem(Material.ANVIL.name(),0);
 		subList.addItem(Material.BOOKSHELF.name(),0);
-//		subList.addItem(Material.STAINED_GLASS_PANE.name(),0);
 		subList.addItem(Material.WOOD_DOOR.name(),0);
 		subList.addItem(Material.CHEST.name(),0);
 		subList.addItem(Material.WORKBENCH.name(),0);
@@ -560,6 +566,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.GRASS.name(),0);
 		subList.addItem(Material.NETHERRACK.name(),0);
 		subList.addItem(Material.LOG.name(),0);
+		subList.addItem(Material.LOG_2.name(),0);
 		subList.addItem(Material.GRAVEL.name(),0);
 		subList.addItem(Material.WATER.name(),0);
 		subList.addItem(Material.WOOL.name(),0);
@@ -602,6 +609,20 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.COOKED_CHICKEN.name(),0);
 		subList.addItem(Material.COOKED_FISH.name(),0);
 		subList.addItem(Material.COOKIE.name(),0);
+		subList.addItem(Material.COOKED_MUTTON.name(),0);
+		subList.addItem(Material.COOKED_RABBIT.name(),0);
+		subList.addItem(Material.RABBIT.name(),0);
+		subList.addItem(Material.RABBIT_STEW.name(),0);
+		subList.addItem(Material.RAW_BEEF.name(),0);
+		subList.addItem(Material.RAW_CHICKEN.name(),0);
+		subList.addItem(Material.RAW_FISH.name(),0);
+		subList.addItem(Material.CARROT.name(),0);
+		subList.addItem(Material.CAKE.name(),0);
+		subList.addItem(Material.CAKE_BLOCK.name(),0);
+		subList.addItem(Material.POTATO.name(),0);
+		subList.addItem(Material.POTATO_ITEM.name(),0);
+		subList.addItem(Material.MELON.name(),0);
+		
 		
 //		subList.addItem(Material..name(),0);
 

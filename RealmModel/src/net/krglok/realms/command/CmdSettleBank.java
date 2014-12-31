@@ -83,7 +83,7 @@ public class CmdSettleBank extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
 		
-		Realms.economy.withdrawPlayer(player.getName(),  amount);
+		plugin.economy.withdrawPlayer(player.getName(),  amount);
 		
 		McmdDepositeBank bank = new McmdDepositeBank(plugin.getRealmModel(), settleID, amount, sender.getName());
 		plugin.getRealmModel().OnCommand(bank);

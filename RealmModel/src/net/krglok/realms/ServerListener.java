@@ -26,6 +26,7 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.CommonLevel;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.LocationData;
@@ -70,6 +71,8 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityInteractEvent;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -99,6 +102,9 @@ import org.bukkit.util.Vector;
  */
 public class ServerListener implements Listener
 {
+	private static String sellInv = ChatColor.DARK_PURPLE+ "Settlement SELL";
+	private static String donateInv= ChatColor.DARK_PURPLE+ "DONATE";
+
 	private Realms plugin;
 	private int lastPage;
 	private int marketPage;
@@ -106,7 +112,8 @@ public class ServerListener implements Listener
 	private int bookId;
 	private long lastHunt = 0;
 	private long lastTame = 0; 
-	private ArrayList<String> donatePlayer = new ArrayList<String>();
+//	private ArrayList<String> donatePlayer = new ArrayList<String>();
+	private boolean isSell = false;
 	
 	public ServerListener(Realms plugin)
 	{
@@ -240,14 +247,90 @@ public class ServerListener implements Listener
 				plugin.getData().getOwners().addOwner(owner);
 				plugin.getData().writeOwner(owner);
 				event.getPlayer().sendMessage("Owner is inilized for you !");
-				event.getPlayer().sendMessage("use /Realms Owner for link to your existing settlements");
+//				event.getPlayer().sendMessage("use /Realms Owner for link to your existing settlements");
 				plugin.getLog().log(Level.INFO,"Owner init for "+event.getPlayer().getName());
 			}
 		}
 
 		return; // no OP => OUT
 	}
-	
+
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onClick(InventoryClickEvent event)
+    {
+    	if(event.getInventory().getTitle().contains(sellInv))
+    	{
+			Player player = (Player) event.getWhoClicked();
+//			player.sendMessage("Slot "+":"+event.getSlot()+":"+event.getSlotType()+":"+event.getRawSlot());
+			
+    		if (event.getRawSlot() > 26)
+    		{
+	    		event.setCancelled(true);
+    			return;
+    		}
+    		ItemStack itemStack  = event.getCurrentItem();
+    		switch(event.getAction())
+    		{
+    		case PICKUP_ALL: 
+//    		case PICKUP_ONE :
+//    		case PICKUP_SOME :
+    			if (itemStack.getAmount() > 0)
+    			{
+	    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
+	    			int amount = 1;
+	    			cost = cost * amount;
+	    			if (plugin.economy.has(player.getName(), cost) == false)
+	    			{
+	        			player.sendMessage("You have not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+	    	    		event.setCancelled(true);
+	    			} else
+	    			{
+	        			player.sendMessage("You bought "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+	        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+	        			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+	        	    	if (itemStack.getAmount() == 1)
+	        	    	{
+	        	    		event.getInventory().setItem(event.getRawSlot(), new ItemStack(Material.AIR,1));
+	        	    	} else
+	        	    	{
+	        	    		itemStack.setAmount(itemStack.getAmount()-amount);
+	        	    	}
+	        			player.updateInventory();
+	        			event.setCancelled(true);
+	    			}
+    			}
+    			break;
+    		case PICKUP_HALF:
+    			if (itemStack.getAmount() > 1)
+    			{
+	    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
+	    			int amount = itemStack.getAmount() / 2;
+	    			cost = cost * amount;
+	    			if (plugin.economy.has(player.getName(), cost) == false)
+	    			{
+	        			player.sendMessage("You have not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+	    	    		event.setCancelled(true);
+	    			} else
+	    			{
+	        			player.sendMessage("You bought "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+	        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+	        			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+        	    		itemStack.setAmount(itemStack.getAmount()-amount);
+	        			player.updateInventory();
+	    	    		event.setCancelled(true);
+	    			}
+    			}
+    			break;
+    		default:
+	    		event.setCancelled(true);
+    			break;
+    		}
+		}
+    }
+    
+    
+    
     /**
      * do special action on chest in settlement
      * @param event
@@ -260,7 +343,35 @@ public class ServerListener implements Listener
     	{
 //    		System.out.println(event.getInventory().getTitle());
 //    		System.out.println(event.getPlayer().getOpenInventory().getTitle());
-    		checkSettleChest(event);
+    		if(event.getInventory().getTitle().contains(donateInv))
+    		{
+    			checkSettleChest(event);
+    		}
+    		
+    		if(event.getInventory().getTitle().contains(sellInv))
+    		{
+    			Player player = (Player) event.getPlayer();
+    			String sRegion = findSuperRegionAtLocation(plugin, player);
+    			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+    			if (settle == null)
+    			{
+    				player.sendMessage(ChatColor.DARK_RED+"You standing not in a settlement");
+    				return;
+    			}
+    			for (ItemStack itemStack : event.getInventory().getContents())
+    			{
+    				if (itemStack != null)
+    				{
+	    				if (itemStack.getType() != Material.AIR)
+	    				{
+	    					settle.getWarehouse().depositItemValue(itemStack.getType().name(), itemStack.getAmount());
+//	    					System.out.println("Warehouse restore : "+itemStack.getType().name()+":"+itemStack.getAmount());
+	    				}
+    				}
+    			}
+
+    			isSell = false;
+    		}
     	}
     }
     
@@ -293,57 +404,23 @@ public class ServerListener implements Listener
     	Block b = event.getClickedBlock();
     	if (b != null)
     	{
+    		// Donate chest
     		if (b.getType() == Material.CHEST)
     		{
 //    			System.out.println("[REALMS] Click chest "+event.getPlayer().getName());
-    	    	Player player = (Player) event.getPlayer();
-    			Location pos = player.getLocation();
-    			String sRegion = findSuperRegionAtLocation(plugin, player); 
-    			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-    			if (settle != null)
-    			{
-    				String region = findRegionAtLocation(plugin, player);
-    				if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
-       				|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
-    				{
-    					if (b.getRelative(BlockFace.UP).getType() == Material.WALL_SIGN)
-    					{
-    						Sign sign = (Sign) b.getRelative(BlockFace.UP).getState();
-    						String l0 = sign.getLine(0);
-    						if (l0.equals("[DONATE]"))
-    						{
-    							donatePlayer.add(player.getUniqueId().toString());
-    						}
-    					}
-    				}
-    			}
-    			
+//    			doChest(event, b);
     		}
+    		
+    		/**
+    		 * special for Realms Catapult
+    		 */
 	    	if (b.getType() == Material.IRON_BLOCK)
 	    	{
-	    		Chest chest = null;
-	    		Block redstone = null;
-	    		if (b.getRelative(BlockFace.UP).getType() == Material.CHEST)
-	    		{
-	    			chest = (Chest) b.getRelative(BlockFace.UP).getState();
-	    		}
-	    		if (b.getRelative(BlockFace.DOWN).getType() == Material.REDSTONE_BLOCK)
-	    		{
-	    			redstone = b.getRelative(BlockFace.DOWN);
-	    		}
-	    		if (event.getPlayer().getItemInHand().getType() == Material.FLINT_AND_STEEL)
-	    		{
-	    			if((chest != null) && (redstone != null))
-	    			{
-	    				event.getPlayer().sendMessage("You triggerd a Catapult");
-	    				float loud = (float) 20.0;
-	    				float pitch = (float) 90.0;
-	    				event.getPlayer().getWorld().playSound(b.getLocation(), Sound.FIREWORK_BLAST, loud, pitch);
-	    				shotArrow(b);
-	    			}
-	    		}
+	    		doCatapult(event, b);
 	    	}
-        	ArrayList<String> msg = new ArrayList<String>();
+	    	
+	    	// Wallsign action
+	    	ArrayList<String> msg = new ArrayList<String>();
 	    	if (b.getType() == Material.WALL_SIGN)
 	    	{
 	    		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
@@ -353,7 +430,7 @@ public class ServerListener implements Listener
 //	    	    		cmdRegisterSign(event, b);
 	    	    	} else
 	    	    	{
-	    	    		cmdWallSign(event, b);
+	    	    		doWallSign(event, b);
 	    	    	}
 	    		}
 	    		if (event.getAction() == Action.LEFT_CLICK_BLOCK)
@@ -363,11 +440,13 @@ public class ServerListener implements Listener
 //	    	    		cmdSignUpdate(event, b);
 	    	    	} else
 	    	    	{
-	    	    		cmdLeftWallSign(event,b);
+	    	    		doLeftWallSign(event,b);
 	    	    	}
 	    		}
 	    		return;
 	    	}
+	    	
+	    	// signpost action
 	    	if (b.getType() == Material.SIGN_POST)
 	    	{
 	    		Sign sign = (Sign) b.getState();
@@ -390,6 +469,7 @@ public class ServerListener implements Listener
 	    		}
 	    		return;
 	    	}
+	    	
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
 	    	{
 //    			event.getPlayer().sendMessage("You hold a Blazerod :");
@@ -704,9 +784,7 @@ public class ServerListener implements Listener
 		{
 			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
 			{
-				BuildPlanMap buildPLan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.getBuildPlanType(name), 4, -1);
-				
-
+//				BuildPlanMap buildPLan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.getBuildPlanType(name), 4, -1);
 				if (checkBuild(pos, name, player, msg))
 				{
 					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
@@ -814,6 +892,7 @@ public class ServerListener implements Listener
     	Player player = (Player) event.getPlayer();
 		Location pos = event.getPlayer().getLocation();
 		Inventory inventory = event.getInventory();
+
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		ItemList needMat = new ItemList();
@@ -826,7 +905,6 @@ public class ServerListener implements Listener
 			{
 				if (event.getView().getType() == InventoryType.CHEST)
 				{
-					donatePlayer.remove(player.getUniqueId().toString());
 //					System.out.println("You are in a HALL closed a Chest");
 					if (inventory.getSize() > 0)
 					{
@@ -887,7 +965,7 @@ public class ServerListener implements Listener
 		}
     }
 
-    private void cmdWallSign(PlayerInteractEvent event, Block b)
+    private void doWallSign(PlayerInteractEvent event, Block b)
     {
 		Sign sign = (Sign) b.getState();
 		String l0 = sign.getLine(0);
@@ -910,60 +988,18 @@ public class ServerListener implements Listener
 
 		if (l0.contains("[ACQUIRE]"))
 		{
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			// ohne settlement können auch gebäude erworben werden
-			// aber wenn in einem settlement , dann muss reputation vorhanden sein
-			if (settle != null)
-			{
-				// der owner braucht keinen Nachweis
-//				System.out.println("ACQUIRE Settlement "+settle.getId()+":"+settle.getName());
-				if (settle.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
-				{
-					System.out.println("ACQUIRE Reputation "+settle.getId()+":"+settle.getReputations().getReputation(event.getPlayer().getName()));
-					// ein fremder muss genug reputation haben
-					if (settle.getReputations().getReputation(event.getPlayer().getName()) < ReputationStatus.CITIZEN.getValue())
-					{
-						event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You need more Reputation in this settlement !");
-						event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You need more than "+ReputationStatus.CITIZEN.getValue());
-						return;
-					}
-				}
-			}
-			Region region = findRegionAtPosition(plugin, b.getLocation());
-			if (region != null)
-			{
-				double cost = plugin.getServerData().getRegionTypeCost(region.getType());
-				cost = cost * 2;
-				if (plugin.economy.has(event.getPlayer().getName(), cost))
-				{
-					if (event.getPlayer().getInventory().getItemInHand().getType() == Material.AIR)
-					{
-						EconomyResponse eResponse = plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
-						Building building = plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID());
-						building.setOwnerId(event.getPlayer().getName());
-						plugin.getData().writeBuilding(building);
-						event.getPlayer().sendMessage(ChatColor.GREEN+"You are now owner of this building");
-						event.getPlayer().sendMessage(ChatColor.YELLOW+"Remember to remove the AQUIRE sign !");
-						// ohne settlement können auch gebäude erworben werden
-						// aber dann gibt es auch keine reputation!
-						if (settle != null)
-						{
-							settle.getReputations().addValue(ReputationType.MEMBER, event.getPlayer().getName(), region.getType(), ConfigBasis.VALUABLE_POINT);
-							System.out.println(" REPUTATION MEMBER : "+region.getType()+": 1");
-							event.getPlayer().sendMessage(ChatColor.GREEN+"You gain reputation as citizen of the settlement ");
-						}
-					} else
-					{
-						event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"Your hand must be empty !");
-					}
-					
-				} else
-				{
-					event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You have need "+ConfigBasis.format2(cost)+plugin.economy.currencyNamePlural());
-				}
-			}
-				
+			cmdAcquire(event, b);
+		}
+
+		if (l0.contains("[SELL]"))
+		{
+			event.getPlayer().sendMessage("The settlement SELL items to you ");
+			cmdSell(event, b, l1);
+		}
+
+		if (l0.contains("[BUY]"))
+		{
+			event.getPlayer().sendMessage("The settlement BUY items from you ");
 		}
 		
 		if (l0.contains("[WAREHOUSE]"))
@@ -1088,141 +1124,6 @@ public class ServerListener implements Listener
 		}
 
 		
-		if (l0.contains("[SELL]"))
-		{
-//			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			if (settle != null)
-			{
-				String itemRef = l1.toUpperCase();
-				System.out.println("Sell :"+itemRef);
-				if (settle.settleManager().getDontSell().containsKey(itemRef))
-				{
-					l3 = "NO SELL";
-					sign.update();
-					event.getPlayer().sendMessage("No sell of "+itemRef);
-				} else
-				{
-					int amount = 1;
-					try
-					{
-						amount = Integer.valueOf(l2);
-						if (amount < 1 )
-						{
-							amount = 1;
-						}
-						
-					} catch (Exception e)
-					{
-						System.out.println("Sell amount exeption! ");
-						amount = 1;
-					}
-					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
-					price = price * amount;
-					l3 = ConfigBasis.setStrformat2(price,7);
-					sign.update();
-					int stock = settle.getWarehouse().getItemList().getValue(itemRef);
-					if (stock > (amount * 2))
-					{
-						if (Realms.economy != null)
-						{
-							if (Realms.economy.has(event.getPlayer().getName(),price))
-							{
-								ItemStack item = new ItemStack(Material.getMaterial(itemRef), amount);
-								event.getPlayer().getInventory().addItem(item);
-								Realms.economy.withdrawPlayer(event.getPlayer().getName(), price);
-								settle.getWarehouse().withdrawItemValue(itemRef, amount);
-								System.out.println("Settle SELL :"+itemRef+":"+amount+":"+price);
-								event.getPlayer().sendMessage("You bought "+itemRef+":"+amount+ConfigBasis.setStrformat2(price,9));
-								event.getPlayer().updateInventory();
-							}
-						} else
-						{
-							event.getPlayer().sendMessage("NO economy !");
-						}
-					} else
-					{
-						System.out.println("No Stock");
-						event.getPlayer().sendMessage("No Stock of "+itemRef);
-					}
-				}
-				
-			}
-//			cmdRequiredBook(event);
-		}
-
-		if (l0.contains("[BUY]"))
-		{
-//			event.getPlayer().sendMessage("You will get a Book with required Items for the Settlement :"+l1);
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			if (settle != null)
-			{
-				String itemRef = l1.toUpperCase();
-				System.out.println("Buy :"+itemRef);
-				if ((settle.getWarehouse().getItemList().getValue(itemRef)/64) > (settle.getWarehouse().getItemMax() / 64 / 5))
-				{
-					l3 = "NO BUY";
-					sign.update();
-					event.getPlayer().sendMessage("No buy of "+itemRef);
-					
-				} else
-				{
-					int amount = 1;
-					try
-					{
-						amount = Integer.valueOf(l2);
-						if (amount < 1 )
-						{
-							amount = 1;
-						}
-						if (amount > 64 )
-						{
-							amount = 64;
-						}
-						
-					} catch (Exception e)
-					{
-						System.out.println("Buy amount exeption! ");
-						amount = 1;
-					}
-					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
-					price = price * amount;
-					l3 = ConfigBasis.setStrformat2(price,7);
-					sign.update();
-//					int stock = settle.getWarehouse().getItemList().getValue(itemRef);
-					if (Realms.economy != null)
-					{
-						if (settle.getBank().getKonto() > price)
-						{
-							ItemStack itemStack = new ItemStack(Material.getMaterial(itemRef), amount);
-							if (event.getPlayer().getInventory().contains(Material.getMaterial(itemRef), amount) == true)
-							{
-								event.getPlayer().getInventory().removeItem(itemStack);
-								Realms.economy.depositPlayer(event.getPlayer().getName(), price);
-								settle.getWarehouse().depositItemValue(itemRef, amount);
-								settle.getBank().withdrawKonto(price, event.getPlayer().getName(), settle.getId());
-								event.getPlayer().sendMessage("You sold "+itemRef+":"+amount+ConfigBasis.setStrformat2(price,9));
-								System.out.println("Settle BUY "+itemRef+":"+amount);
-								event.getPlayer().updateInventory();
-							} else
-							{
-								event.getPlayer().sendMessage("You have not enough items:"+itemRef+":"+amount);
-							}
-						} else
-						{
-							event.getPlayer().sendMessage("The settlement has not enough money");
-						}
-					} else
-					{
-						event.getPlayer().sendMessage("NO economy !");
-					}
-				}
-				
-			}
-//			cmdRequiredBook(event);
-		}
 		
 		if (l0.contains("[REQUIRE]"))
 		{
@@ -1245,33 +1146,6 @@ public class ServerListener implements Listener
 
 		if (l0.contains("[WORKSHOP]"))
 		{
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
-			Building building = settle.getBuildingList().getBuildingByRegion(regionId);
-	    	ArrayList<String> msg = new ArrayList<String>();
-
-	    	if (event.getPlayer().isOp() == false)
-	    	{
-		    	if (building.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
-				{
-					msg.add("You are not the owner");
-					plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
-					
-				}
-	    	}
-			msg.add("Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName());
-			int index = 0;
-			for (Item item :  building.getSlots())
-			{
-				if (item != null)
-				{
-					msg.add(ChatColor.YELLOW+"Slot"+index+": "+ChatColor.GREEN+item.ItemRef()+":"+item.value());
-				}
-				index++;
-			}
-			msg.add(" ");
-			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 		}
 
 		if (l0.contains("[TRAIN]"))
@@ -1365,14 +1239,15 @@ public class ServerListener implements Listener
 		}
 		if (l0.contains("[DONATE]"))
 		{
-			event.getPlayer().sendMessage(ChatColor.GREEN+"Put items in chest below this wallsign !");
+			event.getPlayer().sendMessage(ChatColor.GREEN+"Put items in chest for donation !");
 			event.getPlayer().sendMessage(ChatColor.GREEN+"You will earn some reputation");
 			event.getPlayer().sendMessage(ChatColor.GREEN+"You stay in HALL or TOWNHALL");
+			cmdDonate(event, b);
 		}
     	
     }
 
-    private void cmdLeftWallSign(PlayerInteractEvent event, Block b)
+    private void doLeftWallSign(PlayerInteractEvent event, Block b)
     {
 		Sign sign = (Sign) b.getState();
 		String l0 = sign.getLine(0);
@@ -1878,4 +1753,364 @@ public class ServerListener implements Listener
 		}
 	}
 	
+	/**
+	 * out of order 
+	 * 
+	 * @param event
+	 * @param b
+	 */
+	private void cmdWorkshop(PlayerInteractEvent event, Block b)
+	{
+		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
+		Building building = settle.getBuildingList().getBuildingByRegion(regionId);
+    	ArrayList<String> msg = new ArrayList<String>();
+
+    	if (event.getPlayer().isOp() == false)
+    	{
+	    	if (building.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
+			{
+				msg.add("You are not the owner");
+				plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+				
+			}
+    	}
+		msg.add("Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName());
+		int index = 0;
+		for (Item item :  building.getSlots())
+		{
+			if (item != null)
+			{
+				msg.add(ChatColor.YELLOW+"Slot"+index+": "+ChatColor.GREEN+item.ItemRef()+":"+item.value());
+			}
+			index++;
+		}
+		msg.add(" ");
+		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+	
+	}
+
+	private void doCatapult(PlayerInteractEvent event, Block b)
+	{
+		Chest chest = null;
+		Block redstone = null;
+		if (b.getRelative(BlockFace.UP).getType() == Material.CHEST)
+		{
+			chest = (Chest) b.getRelative(BlockFace.UP).getState();
+		}
+		if (b.getRelative(BlockFace.DOWN).getType() == Material.REDSTONE_BLOCK)
+		{
+			redstone = b.getRelative(BlockFace.DOWN);
+		}
+		if (event.getPlayer().getItemInHand().getType() == Material.FLINT_AND_STEEL)
+		{
+			if((chest != null) && (redstone != null))
+			{
+				event.getPlayer().sendMessage("You triggerd a Catapult");
+				float loud = (float) 20.0;
+				float pitch = (float) 90.0;
+				event.getPlayer().getWorld().playSound(b.getLocation(), Sound.FIREWORK_BLAST, loud, pitch);
+				shotArrow(b);
+			}
+		}
+		
+	}
+	
+	private void cmdDonate(PlayerInteractEvent event, Block b)
+	{
+    	Player player = (Player) event.getPlayer();
+		Location pos = player.getLocation();
+		String sRegion = findSuperRegionAtLocation(plugin, player); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle != null)
+		{
+			String region = findRegionAtLocation(plugin, player);
+			if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
+				|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
+			{
+//				if (b.getRelative(BlockFace.UP).getType() == Material.WALL_SIGN)
+//				{
+//					Sign sign = (Sign) b.getRelative(BlockFace.UP).getState();
+//					String l0 = sign.getLine(0);
+//					if (l0.equals("[DONATE]"))
+//					{
+						Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
+//						donatePlayer.add(player.getUniqueId().toString());
+						player.openInventory(chest);
+//					}
+//				}
+			}
+		}
+
+	}
+	
+	/**
+	 * acquire a building for player
+	 * check the reputation
+	 * 
+	 * @param event
+	 * @param b
+	 */
+	private void cmdAcquire(PlayerInteractEvent event, Block b)
+	{
+		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		// ohne settlement können auch gebäude erworben werden
+		// aber wenn in einem settlement , dann muss reputation vorhanden sein
+		if (settle != null)
+		{
+			// der owner braucht keinen Nachweis
+//			System.out.println("ACQUIRE Settlement "+settle.getId()+":"+settle.getName());
+			if (settle.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
+			{
+				System.out.println("ACQUIRE Reputation "+settle.getId()+":"+settle.getReputations().getReputation(event.getPlayer().getName()));
+				// ein fremder muss genug reputation haben
+				if (settle.getReputations().getReputation(event.getPlayer().getName()) < ReputationStatus.CITIZEN.getValue())
+				{
+					event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You need more Reputation in this settlement !");
+					event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You need more than "+ReputationStatus.CITIZEN.getValue());
+					return;
+				}
+			}
+		}
+		Region region = findRegionAtPosition(plugin, b.getLocation());
+		if (region != null)
+		{
+			double cost = plugin.getServerData().getRegionTypeCost(region.getType());
+			cost = cost * 2;
+			if (plugin.economy.has(event.getPlayer().getName(), cost))
+			{
+				if (event.getPlayer().getInventory().getItemInHand().getType() == Material.AIR)
+				{
+					EconomyResponse eResponse = plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
+					Building building = plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID());
+					building.setOwnerId(event.getPlayer().getName());
+					plugin.getData().writeBuilding(building);
+					event.getPlayer().sendMessage(ChatColor.GREEN+"You are now owner of this building");
+					event.getPlayer().sendMessage(ChatColor.YELLOW+"Remember to remove the AQUIRE sign !");
+					// ohne settlement können auch gebäude erworben werden
+					// aber dann gibt es auch keine reputation!
+					if (settle != null)
+					{
+						settle.getReputations().addValue(ReputationType.MEMBER, event.getPlayer().getName(), region.getType(), ConfigBasis.VALUABLE_POINT);
+						System.out.println(" REPUTATION MEMBER : "+region.getType()+": 1");
+						event.getPlayer().sendMessage(ChatColor.GREEN+"You gain reputation as citizen of the settlement ");
+					}
+				} else
+				{
+					event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"Your hand must be empty !");
+				}
+				
+			} else
+			{
+				event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You have need "+ConfigBasis.format2(cost)+plugin.economy.currencyNamePlural());
+			}
+		}
+
+	}
+	
+	private ItemStack setName(ItemStack is, String name, List<String> lore){
+		ItemMeta IM = is.getItemMeta();
+		if (name != null) {
+			IM.setDisplayName(name);
+		}
+		if (lore != null) {
+			IM.setLore(lore);
+		}
+		is.setItemMeta(IM);
+		return is;
+	}
+
+	
+	private void setupShopRow(int[] row, ItemArray stockList, Settlement settle, Player player, Inventory chest, int minAmount)
+	{
+		ArrayList<String> loreString = new ArrayList<String>(); // attribute liste
+		int index = 0;
+		for (int slot : row)
+		{
+			if (index >= stockList.size())
+			{
+				return;
+			}
+			Item item = stockList.get(index);
+			if (item != null)
+			{
+				String itemRef = item.ItemRef();
+				int amount = item.value();
+				double price = plugin.getData().getPriceList().getBasePrice(itemRef);
+				int stock = settle.getWarehouse().getItemList().getValue(itemRef);
+				if (stock+amount > minAmount)
+				{
+					settle.getWarehouse().getItemList().withdrawItem(itemRef, amount);
+//					player.sendMessage("Store item :"+itemRef);
+					if (itemRef.equalsIgnoreCase("AIR") == false)
+					{
+						loreString.clear();
+						ItemStack itemStack = new ItemStack(Material.valueOf(itemRef), amount);
+						loreString.add("Price : "+ConfigBasis.setStrformat2(price,5));
+						loreString.add("Amount: "+amount);
+						loreString.add("Cost  : "+ConfigBasis.setStrformat2(price*amount,6));
+//						System.out.println("Slot : "+slot);
+						if (itemStack != null)
+						{
+							chest.setItem(slot - 1, setName(itemStack, itemStack.getItemMeta().getDisplayName(), loreString));
+						}
+						stockList.remove(index);
+						if (stockList.size() == 0)
+						{
+							// end the list
+							return;
+						}
+					}
+				} else
+				{
+					player.sendMessage("Stock low item :"+itemRef);
+				}
+			}
+		}
+		
+	}
+	
+	private void setupShop(ItemArray stockList, Settlement settle, Player player, Inventory chest, int minAmount)
+	{
+		int[] row1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		int[] row2 = { 10, 11, 12, 13, 14, 15, 16, 17, 18 };
+		int[] row3 = { 19, 20, 21, 23, 24, 25, 26, 27, 28 };
+		ArrayList<String> loreString = new ArrayList<String>(); // attribute liste
+		setupShopRow(row1, stockList, settle, player, chest, minAmount);
+		setupShopRow(row2, stockList, settle, player, chest, minAmount);
+		setupShopRow(row3, stockList, settle, player, chest, minAmount);
+		
+		
+	}
+	
+	private ItemArray shopBuildMaterial(int settleId)
+	{
+		ItemArray stockList = plugin.getData().getSettlements().getSettlement(settleId).getWarehouse().searchItemsInWarehouse(ConfigBasis.initBuildMaterial()).asItemArray();
+		stockList.addAll(plugin.getData().getSettlements().getSettlement(settleId).getWarehouse().searchItemsInWarehouse(ConfigBasis.initRawMaterial()).asItemArray());
+		return stockList;
+	}
+
+	private ItemArray shopMaterial(int settleId)
+	{
+		ItemArray stockList = plugin.getData().getSettlements().getSettlement(settleId).getWarehouse().searchItemsInWarehouse(ConfigBasis.initMaterial()).asItemArray();
+		stockList.addAll(plugin.getData().getSettlements().getSettlement(settleId).getWarehouse().searchItemsInWarehouse(ConfigBasis.initTool()).asItemArray());
+		return stockList;
+	}
+	
+	private void cmdSell(PlayerInteractEvent event, Block b, String l1)
+	{
+		Player player = event.getPlayer();
+		if (isSell)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"Sorry, the shop is busy");
+			return;
+		}
+		String sRegion = findSuperRegionAtLocation(plugin, player);
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle == null)
+		{
+			player.sendMessage(ChatColor.DARK_RED+"You standing not in a settlement");
+			return;
+		}
+		
+		isSell = true;
+		String title = "";
+		// create inventory
+		Inventory chest = player.getServer().createInventory(null, 3 * 9, sellInv);
+
+		ItemArray stockList;
+		if (l1.equalsIgnoreCase("Material"))
+		{
+			stockList = shopMaterial(settle.getId());
+			
+		} else
+		{
+			stockList = shopBuildMaterial(settle.getId());
+		}
+		setupShop(stockList, settle, player, chest, 1);
+		
+		player.openInventory(chest);
+
+	}
+	
+
+	private void cmdBuyOld(PlayerInteractEvent event, Block b)
+	{
+		Sign sign = (Sign) b.getState();
+		String l0 = sign.getLine(0);
+		String l1 = sign.getLine(1);
+		String l2 = sign.getLine(2);
+		String l3 = sign.getLine(3);
+
+		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle != null)
+		{
+			String itemRef = l1.toUpperCase();
+			System.out.println("Buy :"+itemRef);
+			if ((settle.getWarehouse().getItemList().getValue(itemRef)/64) > (settle.getWarehouse().getItemMax() / 64 / 5))
+			{
+				l3 = "NO BUY";
+				sign.update();
+				event.getPlayer().sendMessage("No buy of "+itemRef);
+				
+			} else
+			{
+				int amount = 1;
+				try
+				{
+					amount = Integer.valueOf(l2);
+					if (amount < 1 )
+					{
+						amount = 1;
+					}
+					if (amount > 64 )
+					{
+						amount = 64;
+					}
+					
+				} catch (Exception e)
+				{
+					System.out.println("Buy amount exeption! ");
+					amount = 1;
+				}
+				double price = plugin.getData().getPriceList().getBasePrice(itemRef);
+				price = price * amount;
+				l3 = ConfigBasis.setStrformat2(price,7);
+				sign.update();
+//				int stock = settle.getWarehouse().getItemList().getValue(itemRef);
+				if (plugin.economy != null)
+				{
+					if (settle.getBank().getKonto() > price)
+					{
+						ItemStack itemStack = new ItemStack(Material.getMaterial(itemRef), amount);
+						if (event.getPlayer().getInventory().contains(Material.getMaterial(itemRef), amount) == true)
+						{
+							event.getPlayer().getInventory().removeItem(itemStack);
+							plugin.economy.depositPlayer(event.getPlayer().getName(), price);
+							settle.getWarehouse().depositItemValue(itemRef, amount);
+							settle.getBank().withdrawKonto(price, event.getPlayer().getName(), settle.getId());
+							event.getPlayer().sendMessage("You sold "+itemRef+":"+amount+ConfigBasis.setStrformat2(price,9));
+							System.out.println("Settle BUY "+itemRef+":"+amount);
+							event.getPlayer().updateInventory();
+						} else
+						{
+							event.getPlayer().sendMessage("You have not enough items:"+itemRef+":"+amount);
+						}
+					} else
+					{
+						event.getPlayer().sendMessage("The settlement has not enough money");
+					}
+				} else
+				{
+					event.getPlayer().sendMessage("NO economy !");
+				}
+			}
+			
+		}
+		
+	}
+
 }

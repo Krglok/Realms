@@ -220,4 +220,22 @@ public class ItemList  extends  HashMap<String, Item>
 		return sortedItems;
 	}
 
+	public void addAll(ItemList newList)
+	{
+		for (Item item : newList.values())
+		{
+			put(item.ItemRef(), item);
+		}
+	}
+	
+	public ItemArray asItemArray()
+	{
+		ItemArray itemArray = new ItemArray();
+		for (Item item : this.values())
+		{
+			itemArray.add(item);
+		}
+		return itemArray;
+	}
+
 }
