@@ -109,6 +109,10 @@ public class CmdOwnerSet extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
+		if (achivementName == "")
+		{
+			return false;
+		}
 		AchivementName aName = AchivementName.valueOf(achivementName);
 		if (aName == null)
 		{

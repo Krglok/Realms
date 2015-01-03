@@ -113,7 +113,8 @@ public class KnowledgeData
 	{
 		KnowledgeNode kNode = new KnowledgeNode(4, KnowledgeType.TECH);
 		kNode.setAchievName(AchivementName.TECH4);
-		kNode.adRequirement(AchivementName.SHOP);
+		kNode.adRequirement(AchivementName.HOESHOP);
+		kNode.adRequirement(AchivementName.KNIFESHOP);
 
 		kNode.addBuildPlan(BuildPlanType.HOUSE);
 		kNode.addBuildPlan(BuildPlanType.WORKSHOP);
@@ -152,6 +153,8 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.ARCHERY);
 		kNode.addBuildPlan(BuildPlanType.GUARDHOUSE);
 		kNode.addBuildPlan(BuildPlanType.WATCHTOWER);
+
+		kNode.addBuildPlan(BuildPlanType.BIBLIOTHEK);
 		
 		kNode.addBuildPlan(BuildPlanType.STRONGHOLD);
 
@@ -190,6 +193,7 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.HEADQUARTER);
 		kNode.addBuildPlan(BuildPlanType.GOLDSMELTER);
 		kNode.addBuildPlan(BuildPlanType.GARRISON);
+		kNode.addBuildPlan(BuildPlanType.LIBRARY);
 		
 		kNode.addBuildPlan(BuildPlanType.STRONGHOLD);
 

@@ -40,6 +40,9 @@ import net.krglok.realms.manager.ReputationStatus;
 import net.krglok.realms.manager.ReputationType;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.science.Achivement;
+import net.krglok.realms.science.AchivementName;
+import net.krglok.realms.science.AchivementType;
 import net.krglok.realms.science.CaseBook;
 import net.milkbowl.vault.economy.EconomyResponse;
 
@@ -1093,7 +1096,158 @@ public class ServerListener implements Listener
 			}
 		}
     }
+    
+    private void cmdTechBook(PlayerInteractEvent event, Block b)
+    {
+		Sign sign = (Sign) b.getState();
+		String l0 = sign.getLine(0);
+		String l1 = sign.getLine(1);
+		String l2 = sign.getLine(2);
+		String l3 = sign.getLine(3);
+		if (l1 != "")
+		{
+			if (AchivementName.contains(l1))
+			{
+				AchivementName aName = AchivementName.valueOf(l1);
+				if (aName != AchivementName.NONE)
+				{
+					ItemStack item = event.getPlayer().getItemInHand();
+					if (item.getType() != Material.BOOK)
+					{
+						event.getPlayer().sendMessage(ChatColor.YELLOW+"You must hold a BOOK in your hand ");
+						return;
+					}
+					List<String> lore = new ArrayList<String>(); //item.getItemMeta().getLore();
+					lore.add(aName.name());
+					lore.add("REALMS Techbook");
+					item.getItemMeta().setLore(lore);
+					setName(item, "Techbook", lore);				
+				}
+				
+			} else
+			{
+				event.getPlayer().sendMessage(ChatColor.YELLOW+"Wrong Achivement Name ");
+			}
+		}
+    }
 
+    private void cmdKnowledge(PlayerInteractEvent event, Block b)
+    {
+    	Player player = event.getPlayer();
+		String region = findRegionAtLocation(plugin, player);
+		
+		
+		if (region.equalsIgnoreCase(BuildPlanType.BIBLIOTHEK.name()))
+		{
+			ItemStack item = event.getPlayer().getItemInHand();
+			if (item.getType() != Material.BOOK)
+			{
+				event.getPlayer().sendMessage(ChatColor.YELLOW+"You must hold a BOOK in your hand ");
+				return;
+			}
+			List<String> lore = item.getItemMeta().getLore();
+			if (lore == null) { return; }
+			if (lore.size() < 2) { return; }
+			String l0 = lore.get(0);
+			String l1 = lore.get(1);
+			if (l1.contains("REALMS Techbook"))
+			{
+				if (AchivementName.contains(l0) == false)
+				{
+					return;
+				}
+				AchivementName aName = AchivementName.valueOf(l0);
+				if (aName != AchivementName.NONE)
+				{
+					switch (aName)
+					{
+					case HALL:
+					case CARPENTER:
+					case CABINETMAKER:
+					case BAKERY:
+					case HOESHOP:
+					case KNIFESHOP:
+					case WORKSHOP:
+					case TANNERY:
+					case BLACKSMITH:
+					case GUARDHOUSE:
+					case TECH1 :
+					case TECH2 :
+					case TECH3 :
+					case TECH4 :
+						Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString());
+						if (owner != null)
+						{
+							owner.getAchivList().add(new Achivement(AchivementType.BOOK, aName));
+							plugin.getData().writeOwner(owner);
+							event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You earn the achivement "+aName.name());
+							lore.set(0,"used");
+							lore.add(l0);
+							setName(item, "Techbook", lore);				
+						}
+						break;
+					default :
+						event.getPlayer().sendMessage(ChatColor.YELLOW+"You only get Techlevel 1 -4 ");
+						break;
+					}
+				}
+			}
+			item.getItemMeta().setLore(lore);
+			
+		}
+		if (region.equalsIgnoreCase(BuildPlanType.LIBRARY.name()))
+		{
+			ItemStack item = event.getPlayer().getItemInHand();
+			if (item.getType() != Material.BOOK)
+			{
+				event.getPlayer().sendMessage(ChatColor.YELLOW+"You must hold a Techbook in your hand ");
+				return;
+			}
+			List<String> lore = item.getItemMeta().getLore();
+			if (lore == null) { return; }
+			if (lore.size() < 2) { return; }
+			String l0 = lore.get(0);
+			String l1 = lore.get(1);
+			if (l1.contains("REALMS Techbook"))
+			{
+				if (AchivementName.contains(l0) == false)
+				{
+					return;
+				}
+				AchivementName aName = AchivementName.valueOf(l0);
+				if (aName != AchivementName.NONE)
+				{
+					switch (aName)
+					{
+					case TOWNHALL:
+					case SMELTER:
+					case BARRACK:
+					case TOWER:
+					case HEADQUARTER:
+					case TECH5 :
+					case TECH6 :
+					case TECH7 :
+						Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString());
+						if (owner != null)
+						{
+							owner.getAchivList().add(new Achivement(AchivementType.BOOK, aName));
+							plugin.getData().writeOwner(owner);
+							event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You earn the achivement "+aName.name());
+							lore.add(l0);
+							lore.set(0, "used Techbook");
+						}
+						break;
+					default :
+						event.getPlayer().sendMessage(ChatColor.YELLOW+"You only get Techlevel 5 -7 ");
+						break;
+					}
+				}
+			}
+			item.getItemMeta().setLore(lore);
+			
+		}
+    }
+    
     private void doWallSign(PlayerInteractEvent event, Block b)
     {
 		Sign sign = (Sign) b.getState();
@@ -1130,6 +1284,24 @@ public class ServerListener implements Listener
 		{
 			event.getPlayer().sendMessage("The settlement BUY items from you ");
 			cmdBuy(event, b);
+		}
+
+		if (l0.contains("[TECHBOOK]"))
+		{
+			if (event.getPlayer().isOp())
+			{
+				event.getPlayer().sendMessage("An achivement book is generated ");
+				cmdTechBook(event, b);
+			} else
+			{
+				event.getPlayer().sendMessage(ChatColor.RED+"You are not an OP ");
+
+			}
+		}
+		
+		if (l0.contains("[KNOWLEDGE]"))
+		{
+			cmdKnowledge(event, b);
 		}
 		
 		if (l0.contains("[WAREHOUSE]"))
