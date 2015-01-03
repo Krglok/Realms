@@ -17,8 +17,6 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.data.LogList;
-import net.krglok.realms.data.MessageText;
 import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.McmdCreateSettle;
@@ -111,9 +109,9 @@ public class Colony
 	private ArrayList<BiomeLocation> biomeRequest;
 	
 	private int timeout;
-	private LogList logList;
+//	private LogList logList;
 	
-	public Colony (String name, LocationData position, String owner, LogList logList)
+	public Colony (String name, LocationData position, String owner) //, LogList logList)
 	{
 		COUNTER++;
 		id = COUNTER;
@@ -122,8 +120,8 @@ public class Colony
 		this.name = name;
 		this.position = position;
 		this.owner = owner;
-		this.logList = logList;
-		this.bank = new Bank(logList);
+//		this.logList = logList;
+		this.bank = new Bank(); //logList);
 		this.isEnabled = true;
 		this.isActive  = true;
 		this.warehouse = new Warehouse(defaultItemMax());
@@ -156,10 +154,10 @@ public class Colony
 	 * @param position
 	 * @param owner
 	 */
-	public static Colony newColony(String name, LocationData position, String owner, LogList logList)
+	public static Colony newColony(String name, LocationData position, String owner) //, LogList logList)
 	{
 		
-		Colony colony = new Colony ( name,  position,  owner, logList);
+		Colony colony = new Colony ( name,  position,  owner); //, logList);
 		colony.newSuperRegion = new RegionLocation("HAMLET", position, owner, name);
 
 		colony.getWarehouse().depositItemValue(Material.BED.name(), 5);

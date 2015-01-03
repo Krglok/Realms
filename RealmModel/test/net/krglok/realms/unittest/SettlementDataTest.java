@@ -16,9 +16,9 @@ import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.tool.LogList;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -265,7 +265,7 @@ public class SettlementDataTest
 		
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 		ItemPriceList priceList = testData.getPriceList();
 
@@ -279,7 +279,7 @@ public class SettlementDataTest
 		for (String sName : sList)
 		{
 			long time1 = System.nanoTime();
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList(),logTest));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList())); //,logTest));
 		    long time2 = System.nanoTime();
 		    System.out.println("Read Time [ms]: "+(time2 - time1)/1000000);
 		}

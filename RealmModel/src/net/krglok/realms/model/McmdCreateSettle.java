@@ -79,7 +79,7 @@ public class McmdCreateSettle implements iModelCommand
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 
-		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName, biome, rModel.getLogList());
+		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName, biome); //, rModel.getLogList());
 		rModel.getSettlements().addSettlement(settlement);
 //		System.out.println(superRegionName+" : "+settlement.getId());
 		for (Region region : rModel.getServer().getRegionInSuperRegion(superRegionName))
@@ -100,9 +100,9 @@ public class McmdCreateSettle implements iModelCommand
 			rModel.getBuildings().addBuilding(building);
 		}
 		// make not dynamic initialization
+		
 		settlement.setBuildingList(rModel.getBuildings().getSubList(settlement.getId()));
-		settlement.setSettlerMax();
-		settlement.setWorkerNeeded();
+		settlement.initSettlement(rModel.getData().getPriceList());
 
 		// minimum settler on create
 		settlement.getResident().setSettlerCount(settlement.getResident().getSettlerMax()/2);

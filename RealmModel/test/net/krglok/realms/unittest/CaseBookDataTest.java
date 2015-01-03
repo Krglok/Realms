@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashMap;
 
 import net.krglok.realms.data.DataStoreCaseBook;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class CaseBookDataTest
 	{
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest);
+		DataTest data = new DataTest();
 		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
 		CaseBookList bookList = data.getCaseBooks();
 		int key = bookList.size()+1;
@@ -67,7 +67,7 @@ public class CaseBookDataTest
 	{
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest);
+		DataTest data = new DataTest();
 //		DataStoreCaseBook caseBookData = new DataStoreCaseBook(dataFolder);
 		CaseBookList bookList = data.getCaseBooks();
 		

@@ -9,7 +9,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.data.LogList;
+import net.krglok.realms.tool.LogList;
 
 import org.bukkit.block.Biome;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class SettlementListTest
 		LogList logTest = new LogList(path);
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
-		Settlement settlement = new Settlement(owner.getPlayerName(),pos, logTest);
+		Settlement settlement = new Settlement(owner.getPlayerName(),pos); //, logTest);
 		sList.addSettlement(settlement);
 		sList.setOwnerCapital(owner, settlement.getId());
 		int expected = settlement.getId();
@@ -45,9 +45,9 @@ public class SettlementListTest
 
 		SettlementList sList = new SettlementList(1);
 		Owner owner = new Owner();
-		Settlement settlement = new Settlement(owner.getPlayerName(),pos,logTest);
+		Settlement settlement = new Settlement(owner.getPlayerName(),pos); //,logTest);
 		sList.addSettlement(settlement);
-		settlement = new Settlement(owner.getPlayerName(),pos, logTest);
+		settlement = new Settlement(owner.getPlayerName(),pos); //, logTest);
 		sList.addSettlement(settlement);
 		sList.updateOwnerCapital(owner, settlement.getId());
 		int expected = settlement.getId();
@@ -60,7 +60,7 @@ public class SettlementListTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		HashMap<String,String> regionTypes = testData.defaultRegionList();
 		HashMap<String,String> superRegionTypes = testData.defaultSuperregionList();
 	
@@ -77,7 +77,7 @@ public class SettlementListTest
 		
 //		SettlementList.createSettlement_0(null, superRegionTypes, superRegionTypes, regionBuildings, owner, biome, logList);
 		
-		sList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS, logTest);
+		sList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,testData.getPriceList());
 		
 		int expected = 1;
 		int actual = sList.count();
@@ -89,7 +89,7 @@ public class SettlementListTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		HashMap<String,String> regionTypes = testData.defaultRegionList();
 		HashMap<String,String> superRegionTypes = testData.defaultSuperregionList();
 		
@@ -109,13 +109,13 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS, logTest);
+		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,testData.getPriceList());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS, logTest);
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,testData.getPriceList());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS, logTest);
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,testData.getPriceList());
 		sList.addSettlements(newList);
 
 		int expected = 3;
@@ -143,7 +143,7 @@ public class SettlementListTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		HashMap<String,String> regionTypes = testData.defaultRegionList();
 		HashMap<String,String> superRegionTypes = testData.defaultSuperregionList();
 		ServerTest server = new ServerTest();
@@ -164,13 +164,13 @@ public class SettlementListTest
 //		settlement = new Settlement(owner);
 //		sList.addSettlement(settlement);
 		
-		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,logTest);
+		SettlementList newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,testData.getPriceList());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS, logTest);
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,testData.getPriceList());
 		sList.addSettlements(newList);
 
-		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS, logTest);
+		newList = SettlementList.createSettlement(pos, superRegionSettles, regionTypes, regionBuildings, owner.getPlayerName(),Biome.PLAINS,testData.getPriceList());
 		sList.addSettlements(newList);
 
 		int expected = 3;

@@ -14,7 +14,6 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.RealmModel;
 
@@ -95,7 +94,7 @@ public class Regiment {
 	private int settleId = -1;
 	
 	
-	public Regiment(LogList logList) 
+	public Regiment() //LogList logList) 
 	{
 		super();
 		lfdID++;
@@ -107,7 +106,7 @@ public class Regiment {
 		this.biome		= null;
 		this.name		= "Regiment";
 		this.ownerId		= "NPC";
-		this.bank		= new Bank(logList);
+		this.bank		= new Bank(); //logList);
 		this.barrack	= new Barrack(60);
 		this.warehouse		= new Warehouse(REGIMENT_ITEM_MAX);
 		this.isEnabled  = true;
@@ -122,9 +121,9 @@ public class Regiment {
 
 	}
 
-	public static Regiment makeRaider(LogList logList)
+	public static Regiment makeRaider() //LogList logList)
 	{
-		Regiment regiment = new Regiment(logList);
+		Regiment regiment = new Regiment(); //logList);
 		UnitList militiaList = makeMilitia(10);
 		regiment.getBarrack().addUnitList(militiaList);
 		UnitList settlerList = makeSettler(10);
@@ -498,7 +497,7 @@ public class Regiment {
 		
 	}
 	
-	public void newCamp(String name,  String owner, LogList logList)
+	public void newCamp(String name,  String owner) //, LogList logList)
 	{
 		LocationData position = new LocationData("", 0.0, 0.0,0.0);
 		newSuperRegion = new RegionLocation("CAMP", position, owner, name);

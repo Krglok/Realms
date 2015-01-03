@@ -303,8 +303,6 @@ public class Building  implements Serializable
 		default :
 			return UnitType.NONE;
 		}
-		
-		
 	}
 
 	
@@ -317,9 +315,11 @@ public class Building  implements Serializable
 		break;
 		case ARCHERY : setWorkerNeeded(1);
 		break;
-		case AXESHOP : setWorkerNeeded(1);
+		case AXESHOP : setWorkerNeeded(2);
 		break;
 		case BAKERY : setWorkerNeeded(1);
+		break;
+		case BIBLIOTHEK : setWorkerNeeded(1);
 		break;
 		case BARRACK : setWorkerNeeded(2);
 		break;
@@ -370,6 +370,8 @@ public class Building  implements Serializable
 		case HUNTER : setWorkerNeeded(2);
 		break;
 		case KNIFESHOP : setWorkerNeeded(1);
+		break;
+		case LIBRARY : setWorkerNeeded(5);
 		break;
 		case PICKAXESHOP : setWorkerNeeded(1);
 		break;

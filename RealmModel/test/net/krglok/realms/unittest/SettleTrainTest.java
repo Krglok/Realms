@@ -19,7 +19,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.LogList;
+import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
@@ -379,7 +379,7 @@ public class SettleTrainTest
 		
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
 		LogList logList = new LogList(path);
-		DataTest data     = new DataTest(logList);
+		DataTest data     = new DataTest();
 		OwnerList ownerList =  data.getOwners();
 		ServerTest server = new ServerTest();
 		UnitFactory unitFactory = new UnitFactory();
@@ -429,8 +429,8 @@ public class SettleTrainTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS,
-				logList
+				Biome.PLAINS
+//				logList
 				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*10 );

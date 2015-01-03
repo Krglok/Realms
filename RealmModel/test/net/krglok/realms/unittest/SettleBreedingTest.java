@@ -17,7 +17,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.LogList;
+import net.krglok.realms.tool.LogList;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -367,7 +367,7 @@ public class SettleBreedingTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getOwners();
 		ServerTest server = new ServerTest();
 		
@@ -421,8 +421,8 @@ public class SettleBreedingTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.HELL,
-				logTest
+				Biome.HELL
+//				logTest
 				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );

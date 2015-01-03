@@ -11,7 +11,6 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdCreateSettle;
@@ -172,7 +171,7 @@ public class ModelCmdTest
 
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
@@ -190,8 +189,9 @@ public class ModelCmdTest
 				server,
 				config,
 				testData,
-				messageData,
-				logTest);
+				messageData
+//				logTest
+				);
 
 		McmdEnable modelEnable = new McmdEnable(rModel);
 		

@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.RegimentData;
+import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 import net.krglok.realms.unit.RegimentType;
@@ -38,8 +38,8 @@ public class RegimentDataTest
 		RegimentList regiments = new RegimentList(1);
 		ArrayList<String> regList = regData.readRegimentList();
 		
-		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0, logList);
-		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0, logList);
+		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0); //, logList);
+		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0); //, logList);
 		
         System.out.println("WRITE  regimentList =============");
 		for (Regiment regiment : regiments.values())

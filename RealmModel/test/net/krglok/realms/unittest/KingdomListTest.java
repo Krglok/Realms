@@ -6,9 +6,9 @@ import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -103,7 +103,7 @@ public class KingdomListTest
 		System.out.println("testKingdomList ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest);
+		DataTest data = new DataTest();
 
 		KingdomList kingdomList = data.getKingdoms();
 		

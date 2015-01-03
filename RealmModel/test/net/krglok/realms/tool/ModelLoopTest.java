@@ -9,7 +9,6 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.ConfigTest;
@@ -26,7 +25,7 @@ public class ModelLoopTest
 	private ServerTest server = new ServerTest();
 	String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 	LogList logTest = new LogList(path);
-	DataTest testData = new DataTest(logTest);
+	DataTest testData = new DataTest();
 	private MessageTest message = new MessageTest();
 	private RealmModel rModel;
 
@@ -54,8 +53,9 @@ public class ModelLoopTest
 				server,
 				config,
 				testData,
-				message,
-				logTest);
+				message
+//				logTest
+				);
 
 		return rModel;
 	}

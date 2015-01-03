@@ -157,9 +157,11 @@ public class TradeManager
 	{
 		return priceList;
 	}
+	
+	
 
 
-	public void getPriceList(ItemPriceList  priceList)
+	public void setPriceList(ItemPriceList  priceList)
 	{
 		this.priceList = priceList ;
 	}
@@ -308,39 +310,45 @@ public class TradeManager
 	private int sellValuePrice(RealmModel rModel, Settlement settle, McmdSellOrder sellOrder)
 	{
 //		boolean isRest = true;
-		int sellAmount = sellOrder.getAmount();
-		int amount = settle.getWarehouse().getItemList().getValue(sellOrder.getItemRef());
-		double sellPrice = priceList.getBasePrice(sellOrder.getItemRef());
-		//check valuables price
-		if (rModel.getConfig().getValuables().containsKey(sellOrder.getItemRef()))
+		if (sellOrder != null)
 		{
-			sellPrice = sellPrice * 1.25;
-		}
-
-//		sellOrder.setBasePrice(sellPrice);
-		if (sellAmount > amount)
-		{
-			sellAmount = amount;
-		}
-		
-		if (sellAmount > MAX_AMOUNT)
-		{
-			sellAmount = MAX_AMOUNT;
-		} 
-		if(Math.round(sellAmount * sellPrice) > MAX_VALUE)
-		{
-			sellAmount = (int) (MAX_VALUE / sellPrice);
-		}
-		sellOrder.setAmount(sellOrder.getAmount()-sellAmount);
-
-		int id = rModel.getTradeMarket().nextLastNumber();
-//		System.out.println("Market id : "+id);
-		TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, sellPrice, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
-		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, order);
-		sellOrder.setTarget(sellOrder.getTarget()+sellAmount);
-		if ((amount-sellAmount) > 0)
-		{
-			return sellOrder.getAmount();
+			int sellAmount = sellOrder.getAmount();
+			int amount = settle.getWarehouse().getItemList().getValue(sellOrder.getItemRef());
+			double sellPrice = priceList.getBasePrice(sellOrder.getItemRef());
+			//check valuables price
+			if (rModel.getConfig().getValuables().containsKey(sellOrder.getItemRef()))
+			{
+				sellPrice = sellPrice * 1.25;
+			}
+	
+	//		sellOrder.setBasePrice(sellPrice);
+			if (sellAmount > amount)
+			{
+				sellAmount = amount;
+			}
+			
+			if (sellAmount > MAX_AMOUNT)
+			{
+				sellAmount = MAX_AMOUNT;
+			} 
+			if(Math.round(sellAmount * sellPrice) > MAX_VALUE)
+			{
+				sellAmount = (int) (MAX_VALUE / sellPrice);
+			}
+			sellOrder.setAmount(sellOrder.getAmount()-sellAmount);
+	
+			int id = rModel.getTradeMarket().nextLastNumber();
+	//		System.out.println("Market id : "+id);
+			TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, sellPrice, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
+			settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, order);
+			sellOrder.setTarget(sellOrder.getTarget()+sellAmount);
+			if ((amount-sellAmount) > 0)
+			{
+				return sellOrder.getAmount();
+			} else
+			{
+				return 0;
+			}
 		} else
 		{
 			return 0;

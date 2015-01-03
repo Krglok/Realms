@@ -85,7 +85,7 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
 		Map<String,Object> values = data.getConfigurationSection("Achivement").getValues(false);
 		for (String key : values.keySet())
 		{
-			boolean isEnabled = data.getBoolean("Achivement,"+key);
+			boolean isEnabled = Boolean.valueOf(data.getString("Achivement."+key,"false"));
 			Achivement achiv = new Achivement(AchivementType.valueOf(Achivement.splitNameTyp(key)), AchivementName.valueOf(Achivement.splitNameName(key)), isEnabled);
 //			System.out.println("[REALMS] Achivement :"+Achivement.splitNameName(key));
 			owner.getAchivList().add(achiv);

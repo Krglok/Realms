@@ -59,6 +59,12 @@ public class ConfigBasis implements ConfigInterface
 	public static final int TRADE_POINT = 1;
 	public static final int MEMBER_POINT = 1;
 	
+	public static final int REPUTATION_GOAL_ACQUIRE = 51;
+	public static final int REPUTATION_GOAL_TRADER = 61;
+	public static final int REPUTATION_GOAL_OWNER = 101;
+	
+	public static final double SETTLE_BUY_FACTOR = 0.90; 
+	public static final double SETTLE_SELL_FACTOR = 1.10; 
 	
 	
 	public static final String LINE = "=============================== ";
@@ -589,6 +595,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.HUGE_MUSHROOM_2.name(),0);
 		subList.addItem(Material.MOSSY_COBBLESTONE.name(),0);
 		subList.addItem(Material.SAPLING.name(),0);
+		subList.addItem(Material.FLINT.name(),0);
 //		subList.addItem(Material..name(),0);
 			
 		return subList;

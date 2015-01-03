@@ -27,7 +27,13 @@ public class McmdSellOrder implements iModelCommand
 		super();
 		this.rModel = rModel;
 		this.settleId = settleId;
-		this.itemRef = itemRef;
+		if (itemRef == null)
+		{ 
+			this.itemRef = "AIR";
+		} else
+		{
+			this.itemRef = itemRef;
+		}
 		this.amount = amount;
 		this.price = price;
 		this.delayDays = delayDays;

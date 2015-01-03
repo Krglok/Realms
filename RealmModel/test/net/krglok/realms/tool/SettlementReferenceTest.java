@@ -17,7 +17,6 @@ import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigInterface;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.unittest.ConfigTest;
@@ -356,7 +355,7 @@ public class SettlementReferenceTest
 		ConfigTest config = new ConfigTest();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
 		LogList logList = new LogList(path);
-		DataTest data     = new DataTest(logList);
+		DataTest data     = new DataTest();
 		ItemPriceList priceList = readPriceData();
         File DataFile = new File(path, "Realms");
 		SettlementData sData = new SettlementData(path);
@@ -366,7 +365,7 @@ public class SettlementReferenceTest
 		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList(),logList));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList())); //,logList));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");

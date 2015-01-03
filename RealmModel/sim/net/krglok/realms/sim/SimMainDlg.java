@@ -39,9 +39,9 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.ConfigData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.simdata.ConfigSim;
+import net.krglok.realms.tool.LogList;
 
 import java.awt.Button;
 import java.io.File;
@@ -362,8 +362,8 @@ public class SimMainDlg
 				simServer, 
 				configData, 
 				simServer.getDataStorage(), 
-				simMessage, 
-				logList
+				simMessage 
+//				logList
 				);
 		
 	}

@@ -11,8 +11,13 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.McmdBuilder;
+import net.krglok.realms.science.Achivement;
+import net.krglok.realms.science.AchivementList;
+import net.krglok.realms.science.AchivementName;
+import net.krglok.realms.science.AchivementType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -242,19 +247,17 @@ public class CmdSettleBuild extends RealmsCommand
 			plugin.getMessageData().printPage(sender, msg, 1);
 	    	return;
 		}
-		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
-		if (settle == null)
-		{
-			settleId = 0;
-		}
 		Building building = new Building(bType, region.getID(), iLoc, settleId);
 		plugin.getRealmModel().getBuildings().addBuilding(building);
 		plugin.getRealmModel().getData().writeBuilding(building);
+		
 		if (settleId != 0)
 		{
+			Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
 			settle.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(settleId));
-			settle.initSettlement();
+			settle.initSettlement(plugin.getData().getPriceList());
 		}
+
 		RegionType rConfig = plugin.stronghold.getRegionManager().getRegionType(regionType);
 		ArrayList<String> reagents = new ArrayList<String>();
 		for (ItemStack item : rConfig.getReagents())
@@ -269,6 +272,29 @@ public class CmdSettleBuild extends RealmsCommand
     		msg.add(s);
     	}
     	msg.add(" ");
+    	
+    	if (AchivementName.contains(regionType))
+    	{
+    		AchivementName aName = AchivementName.valueOf(regionType);
+    		Owner owner = plugin.getData().getOwners().getOwnerName(ownerId);
+    		if (owner != null)
+    		{
+    			if (owner.getAchivList().contains(aName) == false)
+    			{
+	    			owner.getAchivList().add(new Achivement(AchivementType.BUILD, aName));
+	    			plugin.getData().writeOwner(owner);
+	    	    	msg.add(ChatColor.GOLD+"You earn Achivement "+regionType+" for building ");
+    			}
+    			AchivementName nextTech = plugin.getRealmModel().getKnowledgeData().getKnowledgeList().checkNextRank(owner.getAchivList());
+    			if (nextTech != AchivementName.NONE)
+    			{
+	    			owner.getAchivList().add(new Achivement(AchivementType.BUILD, nextTech));
+	    			plugin.getData().writeOwner(owner);
+	    	    	msg.add(ChatColor.GOLD+"You earn Techlevel "+nextTech.name()+" for building ");
+    			}
+    		}
+    	}
+    	
 		plugin.getMessageData().printPage(sender, msg, 1);
 		
 	}
@@ -276,31 +302,58 @@ public class CmdSettleBuild extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (isSettleOwner(plugin, sender, settleId) == false)
+		if (settleId > 0)
 		{
-			errorMsg.add("You are not the Owner !");
-			errorMsg.add(" ");
+			if (plugin.getRealmModel().getSettlements().containsID(settleId) == false)
+			{
+				errorMsg.add(ChatColor.RED+"Wrong Settlement ID !");
+				errorMsg.add(getDescription()[0]);
+				return false;
+			}
+			if (isSettleOwner(plugin, sender, settleId) == false)
+			{
+				errorMsg.add("ChatColor.RED+You are not the Owner !");
+				errorMsg.add(" ");
+				return false;
+			}
+		}
+		
+
+		if (buildName == "")
+		{
+			errorMsg.add(ChatColor.RED+"Wrong BuildingType !");
 			return false;
 		}
-		if (plugin.getRealmModel().getSettlements().containsID(settleId) == false)
+		bType = BuildPlanType.getBuildPlanType(buildName);
+		if (bType == BuildPlanType.NONE)
 		{
-			errorMsg.add("Wrong Settlement ID !");
+			errorMsg.add(ChatColor.RED+"Wrong BuildPlanType !");
+			errorMsg.add(ChatColor.RED+"NoName Default = WHEAT ");
 			errorMsg.add(getDescription()[0]);
 			return false;
 		}
-		if (buildName == "")
+		Player player = (Player) sender;
+		// check for realms achivement
+		Owner owner = plugin.getRealmModel().getOwners().getOwner(player.getUniqueId().toString());
+		if (owner == null)
 		{
-			buildName = "WHEAT";
-		}
-		bType = BuildPlanType.getBuildPlanType(buildName);
-		if (bType != BuildPlanType.NONE)
+			errorMsg.add(ChatColor.RED+"You are not a regular owner in REALMS !");
+			return false;
+		} else
 		{
-			return true;
+//			AchivementName aName = AchivementName.valueOf(bType.name());
+			ArrayList<BuildPlanType> aList = new ArrayList<BuildPlanType>();
+//			aList.add(owner.getAchivList());
+			aList.addAll(plugin.getRealmModel().getKnowledgeData().getKnowledgeList().getPermissions(owner.getAchivList()));
+			if (aList.contains(bType) == false)
+			{
+				errorMsg.add(ChatColor.RED+"You not have the required permission !");
+				errorMsg.add(ChatColor.YELLOW+"Try /owner INFO  for check your achivements");
+				return false;
+			}
 		}
-		errorMsg.add("Wrong BuildPlanType !");
-		errorMsg.add("NoName Default = WHEAT ");
-		errorMsg.add(getDescription()[0]);
-		return false;
+		System.out.println("Can Execute  TRUE");
+		return true;
 	}
 
 }

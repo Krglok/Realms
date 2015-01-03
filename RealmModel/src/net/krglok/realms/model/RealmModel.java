@@ -19,7 +19,6 @@ import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.KnowledgeData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.kingdom.KingdomList;
@@ -69,7 +68,7 @@ public class RealmModel
 	private ConfigInterface config;
 	private DataInterface data;
 	public MessageInterface messageData;
-	private LogList logList;
+//	private LogList logList;
 	
 	private OwnerList owners;
 	private SettlementList settlements;
@@ -115,8 +114,8 @@ public class RealmModel
 			ServerInterface server,
 			ConfigInterface config,
 			DataInterface data,
-			MessageInterface messageData,
-			LogList logList
+			MessageInterface messageData
+//			LogList logList
 			)
 	{
 		modelStatus =  ModelStatus.MODEL_DISABLED;
@@ -126,7 +125,7 @@ public class RealmModel
 		taxQueue = new ArrayList<Settlement>();
 		storeQueue = new HashMap<Integer,Integer>();
 		
-		this.logList = logList;
+//		this.logList = logList;
 		owners = new OwnerList();
 		kingdoms = new KingdomList(realmCounter);
 		settlements = new SettlementList(settlementCounter);
@@ -237,10 +236,10 @@ public class RealmModel
 		return config;
 	}
 
-	public LogList getLogList()
-	{
-		return logList;
-	}
+//	public LogList getLogList()
+//	{
+//		return logList;
+//	}
 
 	public TradeMarket getTradeMarket()
 	{
@@ -499,10 +498,10 @@ public class RealmModel
 					garbageCounter = 0;
 					messageData.log("Enabled Garbage Collector for TradeOrder");
 					doGarbageOrders();
-				} else
-				{
-					logList.run();
-					
+//				} else
+//				{
+//					logList.run();
+//					
 				}
 				
 				break;
@@ -770,6 +769,8 @@ public class RealmModel
 			return ModelStatus.MODEL_ENABLED;
 		}
 		Settlement settle = productionQueue.get(0);
+//		System.out.println("[REALMS] Reset Daily Reputation");
+		settle.getReputations().resetDaily();
 		messageData.log("settle");
 		settle.setSettlerMax();
 		messageData.log("settler max");

@@ -13,13 +13,13 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdDepositeBank;
 import net.krglok.realms.model.McmdSellOrder;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unittest.ConfigTest;
 import net.krglok.realms.unittest.DataTest;
 import net.krglok.realms.unittest.MessageTest;
@@ -45,10 +45,10 @@ public class TestManager
 		server = new ServerTest();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		config = new ConfigTest();
 		msg = new MessageTest();
-		rModel = new RealmModel(0, 0, server, config, testData, msg, logTest);
+		rModel = new RealmModel(0, 0, server, config, testData, msg); //, logTest);
     	rModel.OnEnable();
 		
 	}

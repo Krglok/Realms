@@ -10,7 +10,7 @@ import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.DataStoreBuilding;
-import net.krglok.realms.data.LogList;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class DataStoreBuildingTest
 		System.out.println("testBuildingConvert ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest); 
+		DataTest data = new DataTest(); 
 		DataStoreBuilding buildingData = new DataStoreBuilding(dataFolder);
 		buildingData.readDataList();
 		
@@ -66,7 +66,7 @@ public class DataStoreBuildingTest
 		System.out.println("testBuildingRead ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest); 
+		DataTest data = new DataTest(); 
 		DataStoreBuilding buildingData = new DataStoreBuilding(dataFolder);
 		ArrayList<String> refList = buildingData.readDataList();
 		BuildingList bList = new BuildingList();

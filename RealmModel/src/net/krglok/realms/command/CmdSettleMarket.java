@@ -81,12 +81,13 @@ public class CmdSettleMarket extends RealmsCommand
 			msg.add("SellOrder: ["+plugin.getRealmModel().getTradeMarket().size()+"]");
 			for (TradeMarketOrder order : plugin.getRealmModel().getTradeMarket().values())
 			{
+				
 				msg.add(""+ ConfigBasis.setStrright(String.valueOf(order.getId()),4)
 						+":"+ChatColor.GREEN+ ConfigBasis.setStrright(String.valueOf(order.getSettleID()),2)
-						+" "+ChatColor.YELLOW+ConfigBasis.setStrleft(order.ItemRef()+"___________",15)
-						+":"+ChatColor.YELLOW+order.value()
-	//					+":"+ChatColor.YELLOW+order.getBasePrice()
+						+" "+ChatColor.YELLOW+ConfigBasis.setStrleft(order.ItemRef()+"___________",12)
+						+":"+ChatColor.YELLOW+ConfigBasis.setStrright(order.value(),3)
 						+" ["+order.getStatus()+"]"
+						+" "+ChatColor.YELLOW+plugin.getData().getSettlements().getSettlement(order.getSettleID()).getName()
 						);
 			}
 		} else

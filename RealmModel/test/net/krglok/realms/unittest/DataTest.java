@@ -27,7 +27,6 @@ import net.krglok.realms.data.DataStoreLehen;
 import net.krglok.realms.data.DataStoreOwner;
 import net.krglok.realms.data.DataStoreSettlement;
 import net.krglok.realms.data.KnowledgeData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.RegimentData;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.kingdom.Kingdom;
@@ -37,6 +36,7 @@ import net.krglok.realms.kingdom.LehenList;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.science.RealmPermission;
+import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 
@@ -98,9 +98,8 @@ public class DataTest implements DataInterface
 	
 	private String dataFolder;
 
-	public DataTest(LogList logList)
+	public DataTest()
 	{
-		this.logList = logList;
 		dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 //		rPerm = new RealmPermission();
 //		knowledgeData = new KnowledgeData();
@@ -109,6 +108,12 @@ public class DataTest implements DataInterface
 
 	}
 
+	public void setLogList(LogList logList)
+	{
+		this.logList = logList;
+
+	}
+	
 	public void initTestData()
 	{
 		System.out.println("DataTest.initTestData()");
@@ -158,7 +163,8 @@ public class DataTest implements DataInterface
 		ArrayList<String> sList = settleTestData.readSettleList();
 		for (String sName : sList)
 		{
-			Settlement settle = settleTestData.readSettledata(Integer.valueOf(sName),this.getPriceList(),this.logList);
+			Settlement settle = settleTestData.readSettledata(Integer.valueOf(sName),this.getPriceList()); //,this.logList);
+			settle.initSettlement(priceList);
 			String ref = settle.getOwnerId();
 			if ((ref == null))
 			{
@@ -561,7 +567,7 @@ public class DataTest implements DataInterface
 	 */
 	public Settlement defaultPlot()
 	{
-		Settlement plot = new Settlement(this.logList);
+		Settlement plot = new Settlement(); //this.logList);
 		
 		plot.setOwnerId(testOwners.getOwner(ConfigBasis.NPC_0).getPlayerName());
 		plot.setOwner(testOwners.getOwner(ConfigBasis.NPC_0));
@@ -644,9 +650,9 @@ public class DataTest implements DataInterface
 		settleData.writeData(settle, String.valueOf(settle.getId()));
 	}
 	
-	public Settlement readSettlementTest(int id, ItemPriceList priceList, LogList logList)
+	public Settlement readSettlementTest(int id, ItemPriceList priceList)
 	{
-		return settleTestData.readSettledata(id, priceList,logList);
+		return settleTestData.readSettledata(id, priceList); //,logList);
 	}
 	
 	/**

@@ -89,7 +89,7 @@ public class CmdRegimentCreate extends RealmsCommand
 		String world = player.getLocation().getWorld().getName();
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
-		plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0, plugin.getLogList());
+		plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0); //, plugin.getLogList());
 		
 		msg.add("[Realm] Regiment created ");
 		msg.add("position 0 0 0  ");

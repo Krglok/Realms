@@ -1,18 +1,11 @@
 package net.krglok.realms;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.citizensnpcs.Citizens;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.npc.CitizensNPC;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
@@ -23,30 +16,24 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.data.ConfigData;
 import net.krglok.realms.data.DataStorage;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerData;
 import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
-import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.model.RealmModel;
-import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.SettlerTrait;
 import net.krglok.realms.unit.Regiment;
-import net.krglok.realms.unit.UnitType;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -60,29 +47,17 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.material.Door;
-import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.nisovin.shopkeepers.*;
-import com.nisovin.shopkeepers.shopobjects.DefaultShopObjectTypes;
-import com.nisovin.shopkeepers.shopobjects.living.LivingEntityType;
-import com.nisovin.shopkeepers.shoptypes.DefaultShopTypes;
-import com.nisovin.shopkeepers.shoptypes.NormalPlayerShopkeeper;
-import com.nisovin.shopkeepers.shoptypes.NormalPlayerShopkeeper.Cost;
 
 
 /**
@@ -109,7 +84,7 @@ public final class Realms extends JavaPlugin
 	private final String apiKey = "7a99d55450a225335559c13c44607f248a2533e8";
 	private Logger log = Logger.getLogger("Minecraft"); 
 	///This is a separate logfile, data stored as CSV values
-	private LogList logList; // = new LogList(this.getDataFolder().getPath());
+//	private LogList logList; // = new LogList(this.getDataFolder().getPath());
 	protected FileConfiguration configFile;
 
 //	private final CommandKingdom commandKingdom  = new CommandKingdom(this);
@@ -170,7 +145,7 @@ public final class Realms extends JavaPlugin
 		data.writeNpc(npcManager.getNpcList());
 		// write special Logdata to File
         log.info("[Realms] Save Transacton List");
-		logList.run();
+//		logList.run();
 		// diable message to console;
 		log.info("[Realms] is now disabled !");
 	}
@@ -179,8 +154,8 @@ public final class Realms extends JavaPlugin
 	public void onEnable()
 	{
 		getPluginConfig();
-		logList = new LogList(this.getDataFolder().getPath());
-		data = new DataStorage(this.getDataFolder().getPath(),logList);
+//		logList = new LogList(this.getDataFolder().getPath());
+		data = new DataStorage(this.getDataFolder().getPath()); //,logList);
         serverListener = new ServerListener(this);
 
 //		log = Logger.getLogger("Minecraft"); 
@@ -264,7 +239,7 @@ public final class Realms extends JavaPlugin
         	isReady = false;
     		log.info("[Realms] Data not properly read !");
         }
-        logList.setIsLogList(configData.isLogList());
+//        logList.setIsLogList(configData.isLogList());
 
         if (configData.isUpdateCheck())
         {
@@ -275,7 +250,7 @@ public final class Realms extends JavaPlugin
         }
         
         // realm model instance
-        realmModel = new RealmModel(configData.getRealmCounter(), configData.getSettlementCounter(), server, configData, data, messageData, logList);
+        realmModel = new RealmModel(configData.getRealmCounter(), configData.getSettlementCounter(), server, configData, data, messageData); //, logList);
         
         //Setup repeating sync task for calculating model
         long actualTime = this.getServer().getWorlds().get(0).getTime();
@@ -1497,10 +1472,10 @@ public final class Realms extends JavaPlugin
 	 * hint: the logfiles are large and hold many rows, when activated
 	 * @return the logList
 	 */
-	public LogList getLogList()
-	{
-		return logList;
-	}
+//	public LogList getLogList()
+//	{
+//		return logList;
+//	}
 
 	/**
 	 * read config from plugin interface 

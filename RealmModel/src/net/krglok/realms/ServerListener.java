@@ -242,6 +242,7 @@ public class ServerListener implements Listener
 			if(plugin.getData().getOwners().getOwnerName(event.getPlayer().getName()) == null)
 			{
 				Owner owner = Owner.initDefaultOwner();
+				owner.setIsNPC(false);
 				owner.setPlayerName(event.getPlayer().getName());
 				owner.setUuid(event.getPlayer().getUniqueId().toString());
 				owner.setCommonLevel(CommonLevel.COLONIST);
@@ -276,7 +277,9 @@ public class ServerListener implements Listener
 			player.sendMessage(ChatColor.DARK_RED+"You standing not in a settlement");
 			return;
 		}
-
+		
+		
+		
 		ItemStack itemStack  = event.getCurrentItem();
 		switch(event.getAction())
 		{
@@ -295,7 +298,7 @@ public class ServerListener implements Listener
     	    		event.setCancelled(true);
     			} else
     			{
-        			player.sendMessage("You bought "+itemStack.getType().name()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+        			player.sendMessage("You bought "+itemStack.getType().name()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 8));
         			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
         			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
         	    	if (itemStack.getAmount() == 1)
@@ -308,6 +311,8 @@ public class ServerListener implements Listener
         	    	}
         			player.updateInventory();
         			event.setCancelled(true);
+       				settle.getReputations().addValue(ReputationType.TRADE, player.getName(), "SELL", ConfigBasis.TRADE_POINT);
+					player.sendMessage(ChatColor.GREEN+"You get Reputation for your trade");
     			}
 			}
 			break;
@@ -367,14 +372,14 @@ public class ServerListener implements Listener
 			{
     			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
     			int amount = 1;
-    			cost = cost * amount;
+    			cost = cost * amount * ConfigBasis.SETTLE_BUY_FACTOR;
     			if (settle.getBank().getKonto() <= cost) 
     			{
         			player.sendMessage("The settlement has not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
     	    		event.setCancelled(true);
     			} else
     			{
-        			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+        			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 8));
         			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
         			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
         	    	if (itemStack.getAmount() == 1)
@@ -387,6 +392,8 @@ public class ServerListener implements Listener
         	    	}
         			player.updateInventory();
         			event.setCancelled(true);
+       				settle.getReputations().addValue(ReputationType.TRADE, player.getName(), "BUY", ConfigBasis.TRADE_POINT);
+					player.sendMessage(ChatColor.GREEN+"You get Reputation for your trade");
     			}
 
 			}
@@ -499,7 +506,7 @@ public class ServerListener implements Listener
     				}
     			}
 
-    			isSell = false;
+    			isBuy = false;
     		}
     	}
     }
@@ -1057,26 +1064,12 @@ public class ServerListener implements Listener
 									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
 									
 								} else 
-								if (settle.getRequiredProduction().containsKey(name))
-								{
-									settle.getReputations().addValue(ReputationType.REQUIRED, player.getName(), name, ConfigBasis.REQUIRED_POINT);
-									System.out.println("REPUTATION REQUIRED: "+name+": 1");
-									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
-									
-								} else
 								{
 									if (settle.getReputations().containsKey(ReputationData.getRefName(player.getName(), ReputationType.DONATION)))
 									{
-										if(settle.getReputations().get(ReputationData.getRefName(player.getName(), ReputationType.DONATION)).getItemValues().containsKey(name))
-										{
-											player.sendMessage(ChatColor.DARK_PURPLE+"You always donate this item");
-										} else
-										{
 											settle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
 											System.out.println(" REPUTATION DONATION : "+name+": 1");
 											player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
-										}
-										
 									} else
 									{
 										settle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
@@ -1084,6 +1077,13 @@ public class ServerListener implements Listener
 										player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
 									}
 								}
+								if (settle.getRequiredProduction().containsKey(name))
+								{
+									settle.getReputations().addValue(ReputationType.REQUIRED, player.getName(), name, ConfigBasis.REQUIRED_POINT);
+									System.out.println("REPUTATION REQUIRED: "+name+": 1");
+									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
+									
+								} 
 //								System.out.println("HALL : "+itemStack.getType().name()+":"+itemStack.getAmount()+"OpenChests :"+donatePlayer.size());
 							}
 						}
@@ -1266,9 +1266,12 @@ public class ServerListener implements Listener
 				if (cmd.canExecute(plugin, event.getPlayer()))
 				{
 					cmd.setPara(0, settle.getId());
-					cmd.setPara(1, this.lastPage);
+					cmd.setPara(1, 1);  // first page only
 					cmd.execute(plugin, event.getPlayer());
-					lastPage = cmd.getPage()+1;
+//					lastPage = cmd.getPage()+1;
+				} else
+				{
+					event.getPlayer().sendMessage(ChatColor.RED+"Can't  execute command!");
 				}
 			}
 //			cmdRequiredBook(event);
@@ -1276,6 +1279,7 @@ public class ServerListener implements Listener
 
 		if (l0.contains("[WORKSHOP]"))
 		{
+			cmdWorkshop(event, b);
 		}
 
 		if (l0.contains("[TRAIN]"))
@@ -2066,36 +2070,39 @@ public class ServerListener implements Listener
 			Item item = stockList.get(index);
 			if (item != null)
 			{
-				String itemRef = item.ItemRef();
-				int amount = item.value();
-				double price = plugin.getData().getPriceList().getBasePrice(itemRef);
-				int stock = settle.getWarehouse().getItemList().getValue(itemRef);
-				if (stock+amount > minAmount)
+				if (item.ItemRef().equalsIgnoreCase("SOIL") == false)
 				{
-					settle.getWarehouse().getItemList().withdrawItem(itemRef, amount);
-//					player.sendMessage("Store item :"+itemRef);
-					if (itemRef.equalsIgnoreCase("AIR") == false)
+					String itemRef = item.ItemRef();
+					int amount = item.value();
+					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
+					int stock = settle.getWarehouse().getItemList().getValue(itemRef);
+					if ((stock+amount > minAmount) && (price > 0.0))
 					{
-						loreString.clear();
-						ItemStack itemStack = new ItemStack(Material.valueOf(itemRef), amount);
-						loreString.add("Price : "+ConfigBasis.setStrformat2(price,5));
-						loreString.add("Amount: "+amount);
-						loreString.add("Cost  : "+ConfigBasis.setStrformat2(price*amount,6));
-//						System.out.println("Slot : "+slot);
-						if (itemStack != null)
+						settle.getWarehouse().getItemList().withdrawItem(itemRef, amount);
+	//					player.sendMessage("Store item :"+itemRef);
+						if (itemRef.equalsIgnoreCase("AIR") == false)
 						{
-							chest.setItem(slot - 1, setName(itemStack, itemStack.getItemMeta().getDisplayName(), loreString));
+							loreString.clear();
+							ItemStack itemStack = new ItemStack(Material.valueOf(itemRef), amount);
+							loreString.add("Price : "+ConfigBasis.setStrformat2(price,5));
+							loreString.add("Amount: "+amount);
+							loreString.add("Cost  : "+ConfigBasis.setStrformat2(price*amount,6));
+	//						System.out.println("Slot : "+slot);
+							if (itemStack != null)
+							{
+								chest.setItem(slot - 1, setName(itemStack, itemStack.getItemMeta().getDisplayName(), loreString));
+							}
+							stockList.remove(index);
+							if (stockList.size() == 0)
+							{
+								// end the list
+								return;
+							}
 						}
-						stockList.remove(index);
-						if (stockList.size() == 0)
-						{
-							// end the list
-							return;
-						}
+					} else
+					{
+//						player.sendMessage("Stock low item :"+itemRef);
 					}
-				} else
-				{
-					player.sendMessage("Stock low item :"+itemRef);
 				}
 			}
 		}

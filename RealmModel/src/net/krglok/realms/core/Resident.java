@@ -75,6 +75,29 @@ public class Resident
 		this.settlerCount = residentCount;
 	}
 
+	public void setDefaultSettlerCount(SettleType settleType)
+	{
+		switch(settleType)
+		{
+		case HAMLET :
+			this.settlerCount = 15;
+			break;
+		case TOWN :
+			this.settlerCount = 15;
+			break;
+		case CITY :
+			this.settlerCount = 15;
+			break;
+		case METROPOLIS :
+			this.settlerCount = 15;
+			break;
+		default :
+			this.settlerCount = 5;
+			break;
+		}
+	}
+
+	
 	/**
 	 * the value is a  signed field 
 	 *  

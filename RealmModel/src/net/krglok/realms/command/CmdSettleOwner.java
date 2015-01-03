@@ -20,9 +20,9 @@ public class CmdSettleOwner extends RealmsCommand
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.OWNER);
 		description = new String[] {
 				ChatColor.YELLOW+"/settle OWNER [ID] [playername]",
-				"Set the playername as owner to settlement ",
+				"Set the player as owner to settlement ",
 				"Set the playername as owner to every building ",
-		    	"expect the HOME and HOUSE ",
+		    	"expect the HOME, HOUSE, MANSION ",
 		    	"  "
 		};
 		requiredArgs = 2;

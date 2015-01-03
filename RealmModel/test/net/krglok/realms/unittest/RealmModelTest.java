@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdColonyBuild;
 import net.krglok.realms.model.McmdEnable;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ public class RealmModelTest
 				
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -42,8 +42,9 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null,
-				logTest);
+				null
+//				logTest
+				);
 		
 //		rModel.setOwners(ownerList);
 //		rModel.setRealms(realmList);
@@ -73,7 +74,7 @@ public class RealmModelTest
 				
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -81,8 +82,9 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null,
-				logTest);
+				null
+//				logTest
+				);
 		
 //		rModel.setOwners(ownerList);
 //		rModel.setRealms(realmList);
@@ -117,7 +119,7 @@ public class RealmModelTest
 
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -125,8 +127,9 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null,
-				logTest);
+				null
+//				logTest
+				);
 				
 		Boolean expected = true; //rModel.isInit();
 		Boolean actual = false; 
@@ -158,7 +161,7 @@ public class RealmModelTest
 
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -166,8 +169,9 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				null,
-				logTest);
+				null
+//				logTest
+				);
 		
 //		String command = RealmsCommandType.REALMS.name();
 //		String subCommand = "version";
@@ -203,7 +207,7 @@ public class RealmModelTest
 		ServerTest server = new ServerTest();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
@@ -212,8 +216,9 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				message,
-				logTest);
+				message
+//				logTest
+				);
 		
 		Boolean expected = true; 
 		Boolean actual = false; 
@@ -276,7 +281,7 @@ public class RealmModelTest
 		ServerTest server = new ServerTest();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
@@ -285,8 +290,9 @@ public class RealmModelTest
 				server,
 				config,
 				testData,
-				message,
-				logTest);
+				message
+//				logTest
+				);
 		
 		rModel.OnEnable();
 		

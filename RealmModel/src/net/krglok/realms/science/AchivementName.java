@@ -14,6 +14,7 @@ package net.krglok.realms.science;
 
 public enum AchivementName
 {
+	NONE,
 	HOME,
 	WHEAT,
 	WOODCUTTER,

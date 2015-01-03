@@ -103,7 +103,8 @@ public class CmdSettleTrader extends RealmsCommand
 							+" ["+order.getStatus()+"]"
 							);
 				}
-				msg.add("Transport: ["+settle.getTrader().getCaravanCount()+"/"+settle.getTrader().getCaravanMax()+"]");
+				int caravanCount = plugin.getRealmModel().getTradeTransport().countSender(settle.getId());
+				msg.add("Transport: ["+caravanCount+"/"+settle.getTrader().getCaravanMax()+"]");
 				for (TradeMarketOrder order : plugin.getRealmModel().getTradeTransport().getSubList(settle.getId()).values())
 				{
 					msg.add("GO : "+ChatColor.GREEN+order.getSettleID()+" >> "+order.getTargetId()

@@ -3,7 +3,6 @@ package net.krglok.realms.core;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import net.krglok.realms.data.LogList;
 
 /**
  * @author oduda
@@ -23,7 +22,7 @@ public class Bank  implements Serializable
 	private static final String ADD_KONTO = "Add Konto ";
 	private Boolean isEnabled;
 	private Double konto;
-	private LogList transactionList;
+//	private LogList transactionList;
 	private ItemList valuables;
 	
 //	public Bank(LogList LogList)
@@ -33,11 +32,11 @@ public class Bank  implements Serializable
 //		this.transactionList = logList;
 //	}
 	
-	public Bank(LogList logList)
+	public Bank() //LogList logList)
 	{
 		setIsEnabled(false);
 		konto = Double.valueOf(0.0);
-		transactionList = logList;
+//		transactionList = logList;
 		valuables = ConfigBasis.initValuables();
 	}
 
@@ -83,10 +82,10 @@ public class Bank  implements Serializable
 	public void initKonto(Double konto, int settleId)
 	{
 		this.konto = konto;
-		if (transactionList != null)
-		{
-			transactionList.addBank("Init Konto ", "Admin", settleId, konto);
-		}
+//		if (transactionList != null)
+//		{
+//			transactionList.addBank("Init Konto ", "Admin", settleId, konto);
+//		}
 	}
 
 	/**
@@ -97,10 +96,10 @@ public class Bank  implements Serializable
 	public void addKonto(Double value, String text, int settleId)
 	{
 		konto = konto + value;
-		if (transactionList != null)
-		{
-			transactionList.addBank(ADD_KONTO,"Admin", settleId, value);
-		}
+//		if (transactionList != null)
+//		{
+//			transactionList.addBank(ADD_KONTO,"Admin", settleId, value);
+//		}
 	}
 	
 	/**
@@ -114,10 +113,10 @@ public class Bank  implements Serializable
 	public double depositKonto (Double value, String user, int SettleId)
 	{
 		konto = konto + value;
-		if (transactionList != null)
-		{
-			transactionList.addBank(DEPOSIT,user, SettleId,  value);
-		}
+//		if (transactionList != null)
+//		{
+//			transactionList.addBank(DEPOSIT,user, SettleId,  value);
+//		}
 		return konto;
 	}
 
@@ -134,16 +133,16 @@ public class Bank  implements Serializable
 		if (konto >= value)
 		{
 			konto = konto - value;
-			if (transactionList != null)
-			{
-				transactionList.addBank(WITHDRAW, user, settleId, value);
-			}
+//			if (transactionList != null)
+//			{
+//				transactionList.addBank(WITHDRAW, user, settleId, value);
+//			}
 			return true;
 		}
-		if (transactionList != null)
-		{
-			transactionList.addBank(user,KONTO_TOO_LOW, settleId, konto - value);
-		}
+//		if (transactionList != null)
+//		{
+//			transactionList.addBank(user,KONTO_TOO_LOW, settleId, konto - value);
+//		}
 		return false;
 	}
 	
@@ -171,18 +170,18 @@ public class Bank  implements Serializable
 	 * date / time / user / text
 	 * @return entire transactionlist,  
 	 */
-	public LogList getTransactionList()
-	{
-		return transactionList;
-	}
-
-
-	public void clearTransactionList()
-	{
-		if (transactionList != null)
-		{
-			transactionList.getLogList().clear();
-		}
-	}
+//	public LogList getTransactionList()
+//	{
+//		return transactionList;
+//	}
+//
+//
+//	public void clearTransactionList()
+//	{
+//		if (transactionList != null)
+//		{
+//			transactionList.getLogList().clear();
+//		}
+//	}
 	
 }

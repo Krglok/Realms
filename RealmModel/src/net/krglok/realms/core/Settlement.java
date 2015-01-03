@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanType;
-//<<<<<<< HEAD
-import net.krglok.realms.data.LogList;
-import net.krglok.realms.data.MessageText;
-//=======
-//>>>>>>> origin/PHASE2
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
@@ -17,14 +12,15 @@ import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
 import net.krglok.realms.unit.BattleFieldPosition;
 import net.krglok.realms.unit.BattlePlacement;
-import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitList;
-import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+//<<<<<<< HEAD
+//=======
+//>>>>>>> origin/PHASE2
 
 /**
  * <pre>
@@ -101,13 +97,13 @@ public class Settlement //implements Serializable
 	private SignPosList signList;
 	private ReputationList reputations;
 	
-	private LogList logList;
+//	private LogList logList;
 	
 	/**
 	 * instance empty settlement with
 	 * - sequential ID
 	 */
-	public Settlement(LogList logList)
+	public Settlement() //LogList logList)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -122,7 +118,7 @@ public class Settlement //implements Serializable
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank(this.logList);
+		bank		= new Bank(); //this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -149,7 +145,7 @@ public class Settlement //implements Serializable
 	 * used by read from file
 	 * @param priceList
 	 */
-	public Settlement(ItemPriceList priceList, LogList logList)
+	public Settlement(ItemPriceList priceList) //, LogList logList)
 //=======
 //	public Settlement(ItemPriceList priceList)
 //>>>>>>> origin/PHASE2
@@ -162,13 +158,13 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		ownerId 		= "";
 		isCapital	= false;
-		this.logList = logList;
+//		this.logList = logList;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		barrack.setPowerMax(defaultPowerMax(settleType));
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank(this.logList);
+		bank		= new Bank(); //this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -196,7 +192,7 @@ public class Settlement //implements Serializable
 	 * 
 	 * @param Owner
 	 */
-	public Settlement(String owner, LocationData position, LogList logList)
+	public Settlement(String owner, LocationData position) //, LogList logList)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -211,8 +207,8 @@ public class Settlement //implements Serializable
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		this.logList = logList;
-		bank		= new Bank(this.logList);
+//		this.logList = logList;
+		bank		= new Bank(); //this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -242,7 +238,7 @@ public class Settlement //implements Serializable
 	 * @param settleType
 	 * @param name
 	 */
-	public Settlement(String owner, LocationData position, SettleType settleType, String name, Biome biome, LogList logList)
+	public Settlement(String owner, LocationData position, SettleType settleType, String name, Biome biome) //, LogList logList)
 	{
 		COUNTER++;
 		age         = 0;
@@ -257,8 +253,8 @@ public class Settlement //implements Serializable
 		warehouse	= new Warehouse(defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		this.logList = logList;
-		bank		= new Bank(this.logList);
+//		this.logList = logList;
+		bank		= new Bank(); //this.logList);
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
@@ -356,10 +352,10 @@ public class Settlement //implements Serializable
 		COUNTER = iD;
 	}
 	
-	public void setLogList(LogList logList)
-	{
-		this.logList = logList;
-	}
+//	public void setLogList(LogList logList)
+//	{
+//		this.logList = logList;
+//	}
 	
 	public Boolean isEnabled()
 	{
@@ -429,8 +425,9 @@ public class Settlement //implements Serializable
 		}
 	}
 	
-	public void initSettlement()
+	public void initSettlement(ItemPriceList priceList)
 	{
+		tradeManager.setPriceList(priceList);
 		calcItemMax( buildingList,  warehouse,  settleType);
 		setSettlerMax();
 		setWorkerNeeded();
@@ -872,10 +869,10 @@ public class Settlement //implements Serializable
 		return taxOverview;
 	}
 	
-	public LogList getLogList()
-	{
-		return logList;
-	}
+//	public LogList getLogList()
+//	{
+//		return logList;
+//	}
 
 	/**
 	 * Create a new settlement by SettleType 
@@ -891,11 +888,11 @@ public class Settlement //implements Serializable
 											settleType, String settleName, String owner, 
 											HashMap<String,String> regionTypes, 
 											HashMap<String,String> regionBuildings,
-											Biome biome,LogList logList)
+											Biome biome) //,LogList logList)
 	{
 		if (settleType != SettleType.NONE)
 		{
-			Settlement settlement = new Settlement(owner,position, settleType, settleName,biome,logList);
+			Settlement settlement = new Settlement(owner,position, settleType, settleName,biome); //,logList);
 //			BuildingList buildingList = new BuildingList();
 			int regionId = 0;
 			String BuildingTypeName = "";
@@ -1669,7 +1666,7 @@ public class Settlement //implements Serializable
 							// berechne Verkaufpreis der Produktion
 							for (Item product : products)
 							{
-								logList.addProduction(building.getBuildingType().name(), getId(), building.getId(), product.ItemRef(), iValue, "CraftManager",getAge());
+//								logList.addProduction(building.getBuildingType().name(), getId(), building.getId(), product.ItemRef(), iValue, "CraftManager",getAge());
 								iValue = (int)((double) product.value() *prodFactor);
 								sale = sale + building.calcSales(server,product);
 //								System.out.println("Prod " +product.ItemRef()+":"+product.value()+"*"+prodFactor);

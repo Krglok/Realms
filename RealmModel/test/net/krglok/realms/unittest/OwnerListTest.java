@@ -1,14 +1,11 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.data.KnowledgeData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.science.Achivement;
-import net.krglok.realms.science.AchivementList;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
 import net.krglok.realms.science.RealmPermission;

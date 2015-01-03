@@ -25,60 +25,6 @@ public class StrongholdTools
 		
 	}
 
-//	public static String setStrleft(String in, int len)
-//	{
-//		char[] out = new char[len];
-//		for (int i = 0; i < out.length; i++)
-//		{
-//			out[i] = ' ';
-//		}
-//		if (len >= in.length())
-//		{
-//			char[] zw  = in.toCharArray();
-//			for (int i = 0; i < zw.length; i++)
-//			{
-//				out[i] = zw[i]; 
-//			}
-//		} else
-//		{
-//			char[] zw  = in.toCharArray();
-//			for (int i = 0; i < out.length; i++)
-//			{
-//				out[i] = zw[i]; 
-//			}
-//			
-//		}
-//		return String.valueOf(out);
-//	}
-//
-//	public static String setStrright(String in, int len)
-//	{
-//		char[] out = new char[len];
-//		for (int i = 0; i < out.length; i++)
-//		{
-//			out[i] = ' ';
-//		}
-//		if (len >= in.length())
-//		{
-//			char[] zw  = in.toCharArray();
-//			int zwl = zw.length;
-//			for (int i = 0; i < zw.length; i++)
-//			{
-//				out[len-i-1] = zw[zwl-i-1]; 
-//			}
-//		} else
-//		{
-//			char[] zw  = in.toCharArray();
-//			int zwl = zw.length;
-//			for (int i = 0; i < out.length; i++)
-//			{
-//				out[len-i] = zw[zwl-i]; 
-////				out[i] = zw[i]; 
-//			}
-//			
-//		}
-//		return String.valueOf(out);
-//	}
 	
     public static ArrayList<ItemStack> processItemStackList(List<String> input, String filename) {
         ArrayList<ItemStack> returnList = new ArrayList<ItemStack>();

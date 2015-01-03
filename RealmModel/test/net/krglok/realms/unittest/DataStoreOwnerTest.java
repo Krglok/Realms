@@ -6,10 +6,10 @@ import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.data.DataStoreOwner;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.science.Achivement;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -97,7 +97,7 @@ public class DataStoreOwnerTest
 	{
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest);
+		DataTest data = new DataTest();
 		
 		OwnerList ownerList = data.getOwners();
 

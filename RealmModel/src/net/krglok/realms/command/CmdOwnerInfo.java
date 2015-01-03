@@ -10,9 +10,11 @@ import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.science.Achivement;
+import net.krglok.realms.science.AchivementList;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.KnowledgeNode;
 
+import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -34,7 +36,7 @@ public class CmdOwnerInfo extends RealmsCommand
 			};
 			requiredArgs = 0;
 			page = 0;
-			ownerId = 0;
+			ownerId = -1;
 	}
 
 
@@ -99,10 +101,37 @@ public class CmdOwnerInfo extends RealmsCommand
 				player.sendMessage("Owner is inilized for you !");
 				player.sendMessage("use /Realms Owner for link to your existing settlements");
 				plugin.getLog().log(Level.INFO,"Owner init for "+player.getName());
+				ownerId = owner.getId();
 			}
-			
+		} else
+		{
+			ownerId = me.getId();
 		}
 		Owner owner = plugin.getData().getOwners().getOwner(ownerId);
+		for (Achivement achive : owner.getAchivList().values())
+		{
+			switch (achive.getAchiveName())
+			{
+			case TECH0 :
+				owner.setCommonLevel(CommonLevel.COLONIST);
+				break;
+			case TECH1 :
+				owner.setCommonLevel(CommonLevel.SETTLER);
+				break;
+			case TECH4 :
+				owner.setCommonLevel(CommonLevel.MAYOR);
+				break;
+			case TECH5 :
+				owner.setCommonLevel(CommonLevel.COUNCILOR);
+				break;
+			case TECH7 :
+				owner.setCommonLevel(CommonLevel.SENATOR);
+				break;
+			default :
+				break;
+			}
+		}
+		
 		msg.add("ID |Nobility  |Commonlevel  |   | Player      |  [ "+plugin.getData().getOwners().size()+" ]");
 		msg.add(owner.getId()
 				+" | "+ChatColor.GOLD+owner.getNobleLevel()
@@ -113,30 +142,62 @@ public class CmdOwnerInfo extends RealmsCommand
 		msg.add(" ");
 		if ((me.getId() == owner.getId()) || player.isOp())
 		{
-			msg.add("Achivements  [ "+owner.getAchivList().size()+" ]");
-			for (Achivement achive  : owner.getAchivList().values())
+			ArrayList<BuildPlanType> aList = new ArrayList<BuildPlanType>();
+			ArrayList<SettleType> sList = new ArrayList<SettleType>();
+//			aList.add(owner.getAchivList());
+			sList.addAll(plugin.getRealmModel().getKnowledgeData().getKnowledgeList().getSettlePermission(owner.getAchivList()));
+			aList.addAll(plugin.getRealmModel().getKnowledgeData().getKnowledgeList().getPermissions(owner.getAchivList()));
+			for (Achivement achiv : owner.getAchivList().values())
 			{
-				msg.add(ChatColor.GOLD+achive.getName()
-						+" | "+ChatColor.YELLOW+achive.getTypeName()
-						);
-				KnowledgeNode kNode = plugin.getRealmModel().getKnowledgeData().getKnowledgeList().get(achive.getAchiveName());
-				if (kNode != null)
+				msg.add(ChatColor.GOLD+achiv.getName()+" "+achiv.isEnaled());
+			}
+			
+			msg.add("Build Permissions  [ "+aList.size()+" ]");
+			int column = 0;
+			String line = "";
+			for (BuildPlanType bPerm  : aList)
+			{
+				column++;
+				if (column > 3)
 				{
-					msg.add("Knowledge  [ "+kNode.getBuildPermission().size()+"/"+kNode.getSettlePermission().size()+" ]");
-					for (BuildPlanType bType : kNode.getBuildPermission())
-					{
-						msg.add(" | "+ChatColor.GREEN+bType.name());
-					}
-					for (SettleType sType : kNode.getSettlePermission())
-					{
-						msg.add(" | "+ChatColor.GREEN+sType.name());
-					}
+					msg.add(ChatColor.GOLD+line);
+					line =  " | "+bPerm.name();
+					column = 1;
+				} else
+				{
+					line = line + " | "+bPerm.name();
+				}
+			}
+			msg.add(ChatColor.GOLD+line);
+			column = 0;
+			line = "";
+			msg.add("Settlement Permissions  [ "+sList.size()+" ]");
+			for (SettleType bPerm  : sList)
+			{
+				column++;
+				if (column > 3)
+				{
+					msg.add(ChatColor.GOLD+line);
+					line =  " | "+bPerm.name();
+					column = 1;
+				} else
+				{
+					line = line + " | "+bPerm.name();
+				}
+			}
+			msg.add(ChatColor.GOLD+line);
+			msg.add("Minecraft Achievements ");
+			for (Achievement mcAchiv : Achievement.values())
+			{
+				if (player.hasAchievement(mcAchiv)) 
+				{
+					msg.add(ChatColor.GREEN+mcAchiv.name());
 				}
 			}
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		page = 0;
-		ownerId = 0; 
+		ownerId = -1; 
 	}
 
 	@Override

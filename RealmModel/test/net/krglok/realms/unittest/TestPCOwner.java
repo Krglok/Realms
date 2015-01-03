@@ -5,8 +5,8 @@ import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.kingdom.Kingdom;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class TestPCOwner
 	{
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest);
+		DataTest data = new DataTest();
 		OwnerList ownerList = data.getOwners();
 		System.out.println("");
 		System.out.println("OwnerList "+"["+ownerList.size()+"]");

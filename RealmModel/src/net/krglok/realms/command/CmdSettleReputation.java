@@ -3,6 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.manager.ReputationData;
 import net.krglok.realms.manager.ReputationStatus;
@@ -79,8 +80,26 @@ public class CmdSettleReputation extends RealmsCommand
 		Player player = (Player) sender;
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 		int reputation = settle.getReputations().getReputation(player.getName());
-		msg.add(ChatColor.GREEN+"Your Reputation in Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName()+" ["+reputation+"]");
-		msg.add(ChatColor.GREEN+ReputationStatus.ReputationStatusMessage(reputation));
+		msg.add(ChatColor.GREEN+"Your Reputation in Settlement ["+settle.getId()+"] : "+ChatColor.YELLOW+settle.getName());
+		msg.add(ChatColor.GREEN+ReputationStatus.ReputationStatusMessage(reputation)+" ["+reputation+"]");
+		if (reputation > ConfigBasis.REPUTATION_GOAL_OWNER)
+		{
+			msg.add(ChatColor.DARK_PURPLE+"You can get Ownership of the settlelemnt");
+			msg.add(ChatColor.DARK_PURPLE+"Use /settle ASSUME for assume control ");
+			
+		} else
+		if (reputation > ConfigBasis.REPUTATION_GOAL_TRADER)
+		{
+			msg.add(ChatColor.DARK_PURPLE+"You can make routes to this settlement");
+			msg.add(ChatColor.DARK_PURPLE+"All /settle ROUTE to this settlement are accepted ");
+		} else
+		if (reputation > ConfigBasis.REPUTATION_GOAL_ACQUIRE)
+		{
+			msg.add(ChatColor.DARK_PURPLE+"You can get buildings in settlement");
+			msg.add(ChatColor.DARK_PURPLE+"Use the sign [ACQUIRE] to get a building ");
+		}
+
+		
 		for (ReputationData repData : settle.getReputations().values())
 		{
 	    	msg.add(ChatColor.YELLOW+"Get Item: "+ChatColor.GREEN+repData.getRepTyp().name()+":"+repData.getValue());

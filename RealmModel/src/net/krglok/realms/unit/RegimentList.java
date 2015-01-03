@@ -3,7 +3,6 @@ package net.krglok.realms.unit;
 import java.util.HashMap;
 
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.model.RealmModel;
 
 /**
@@ -82,14 +81,14 @@ public class RegimentList extends HashMap <Integer, Regiment>
 	 * @param logList  
 	 * </pre>
 	 */
-	public void createRegiment(String typ, String name, int settleId, LogList logList)
+	public void createRegiment(String typ, String name, int settleId) //, LogList logList)
 	{
 		Regiment regiment;
 		switch (typ)
 		{
 		
 		default :
-			regiment = Regiment.makeRaider(logList);
+			regiment = Regiment.makeRaider(); //logList);
 			regiment.setName(name);
 			break;
 		}

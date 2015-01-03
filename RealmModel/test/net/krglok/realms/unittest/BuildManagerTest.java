@@ -6,8 +6,8 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class BuildManagerTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 //		BuildManager bManager = new BuildManager();
 //		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
@@ -52,7 +52,7 @@ public class BuildManagerTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 		ItemList gesamtList = new ItemList();
 		

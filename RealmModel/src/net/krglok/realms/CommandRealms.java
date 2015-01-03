@@ -19,8 +19,10 @@ import net.krglok.realms.command.CmdRealmsActivate;
 import net.krglok.realms.command.CmdRealmsBook;
 import net.krglok.realms.command.CmdRealmsBookList;
 import net.krglok.realms.command.CmdRealmsBookRead;
+import net.krglok.realms.command.CmdRealmsBuilding;
 import net.krglok.realms.command.CmdRealmsBuildingList;
 import net.krglok.realms.command.CmdRealmsCheck;
+import net.krglok.realms.command.CmdRealmsCreate;
 import net.krglok.realms.command.CmdRealmsDeactivate;
 import net.krglok.realms.command.CmdRealmsGetItem;
 import net.krglok.realms.command.CmdRealmsHelp;
@@ -46,6 +48,7 @@ import net.krglok.realms.command.CmdRegimentRaid;
 import net.krglok.realms.command.CmdRegimentWarehouse;
 import net.krglok.realms.command.CmdSettleAddBuilding;
 import net.krglok.realms.command.CmdSettleAddMember;
+import net.krglok.realms.command.CmdSettleAssume;
 import net.krglok.realms.command.CmdSettleBank;
 import net.krglok.realms.command.CmdSettleBiome;
 import net.krglok.realms.command.CmdSettleBuild;
@@ -65,6 +68,7 @@ import net.krglok.realms.command.CmdSettleNoSell;
 import net.krglok.realms.command.CmdSettleOwner;
 import net.krglok.realms.command.CmdSettleProduction;
 import net.krglok.realms.command.CmdSettleReputation;
+import net.krglok.realms.command.CmdSettleRequired;
 import net.krglok.realms.command.CmdSettleRoute;
 import net.krglok.realms.command.CmdSettleRouteList;
 import net.krglok.realms.command.CmdSettleSell;
@@ -111,10 +115,12 @@ public class CommandRealms
 			new CmdRealmNone(),
 			new CmdRealmsActivate(),
 			new CmdRealmsBuildingList(),
+			new CmdRealmsBuilding(),
 			new CmdRealmsBook(),
 			new CmdRealmsBookRead(),
 			new CmdRealmsBookList(),
 			new CmdRealmsCheck(),
+			new CmdRealmsCreate(),
 			new CmdRealmsDeactivate(),
 			new CmdRealmsGetItem(),
 			new CmdRealmsHelp(),
@@ -134,6 +140,7 @@ public class CommandRealms
 			new CmdRealmNone(),
 			new CmdSettleAddBuilding(),
 			new CmdSettleAddMember(),
+			new CmdSettleAssume(),
 			new CmdSettleBank(),
 			new CmdSettleBiome(),
 			new CmdSettleBuild(),
@@ -153,6 +160,7 @@ public class CommandRealms
 			new CmdSettleOwner(),
 			new CmdSettleProduction(),
 			new CmdSettleReputation(),
+			new CmdSettleRequired(),
 			new CmdSettleRoute(),
 			new CmdSettleRouteList(),
 			new CmdSettleSell(),

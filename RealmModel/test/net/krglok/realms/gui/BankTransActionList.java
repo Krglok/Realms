@@ -92,9 +92,9 @@ public class BankTransActionList extends JDialog
 
 	private void showData()
 	{
-		for(String s : bank.getTransactionList().getLogList())
-		{
-			list_transactions.add(s);
-		}
+//		for(String s : bank.getTransactionList().getLogList())
+//		{
+//			list_transactions.add(s);
+//		}
 	}
 }

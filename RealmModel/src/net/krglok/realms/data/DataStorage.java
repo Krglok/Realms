@@ -61,7 +61,7 @@ public class DataStorage implements DataInterface
 //	private static final String PC_5 = "NPC5";
 	private static final String Realm_1_NPC = "Realm 1 NPC";
 
-	private LogList logList;
+//	private LogList logList;
 	
 	private OwnerList owners ;
 	private KingdomList kingdoms ;
@@ -89,26 +89,26 @@ public class DataStorage implements DataInterface
 	private String path;
 //	private Realms plugin;
 	
-	public DataStorage(String path, LogList logList)
+	public DataStorage(String path) //, LogList logList)
 	{
 //		this.plugin = plugin;
-		this.logList = logList;
+//		this.logList = logList;
 		this.path = path;
 		// Datafile Handler
 		settleData = new SettlementData(this.path);
 		regData    = new RegimentData(this.path);
 		caseBookData = new DataStoreCaseBook(this.path);
 		ownerData = new DataStoreOwner(this.path);
-		kingdomData = new DataStoreKingdom(path);
-		lehenData = new DataStoreLehen(path);
-		buildingData = new DataStoreBuilding(path);
-		settlementData = new DataStoreSettlement(path);
+		kingdomData = new DataStoreKingdom(this.path);
+		lehenData = new DataStoreLehen(this.path);
+		buildingData = new DataStoreBuilding(this.path);
+		settlementData = new DataStoreSettlement(this.path);
+		priceData = new PriceData(this.path);
 		//DataLists
+		priceList = new ItemPriceList();
 		settlements = new SettlementList(0);
 		regiments   = new RegimentList(0);
 		caseBooks   = new CaseBookList();
-		priceData = new PriceData(this.path);
-		priceList = new ItemPriceList();
 		npcListData = new NPCListData(this.path, true);
 	}
 	
@@ -214,9 +214,9 @@ public class DataStorage implements DataInterface
 		{
 			System.out.println("[REALMS read settle :"+ref);
 			settle = settlementData.readData(ref);
-			settle.setLogList(logList);
+//			settle.setLogList(logList);
 			settle.setBuildingList(buildings.getSubList(settle.getId()));
-			settle.initSettlement();
+			settle.initSettlement(priceList);
 			settlements.putSettlement(settle);
 			String ownerId = settle.getOwnerId();
 			if ((ownerId == null))
@@ -234,6 +234,7 @@ public class DataStorage implements DataInterface
 					owner.setOwnerPlayer(ownerId, ownerId);
 					owner.initColonist();
 					owners.addOwner(owner);
+					writeOwner(owner);
 					System.out.println("[REALMS] new owner"+ ownerId);
 				}
 				settle.setOwner(owner);
@@ -258,6 +259,7 @@ public class DataStorage implements DataInterface
 		for (String settleId : settleInit)
 		{
 			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
+			settle.initSettlement(priceList);
 //			plugin.getMessageData().log("SettleRead: "+settleId );
 			String ref = settle.getOwnerId();
 			if ((ref == null))
@@ -304,7 +306,7 @@ public class DataStorage implements DataInterface
 	 */
 	private Settlement readSettlement(int id, ItemPriceList priceList)
 	{
-		return settleData.readSettledata(id, priceList, logList);
+		return settleData.readSettledata(id, priceList); //, logList);
 	}
 	
 	/**
@@ -606,7 +608,7 @@ public class DataStorage implements DataInterface
 	private void initCaseBookData()
 	{
 		
-		CaseBookList caseBooks = new CaseBookList(); 
+		caseBooks = new CaseBookList(); 
 		ArrayList<String> sList = caseBookData.readDataList();
 		for (String refId : sList)
 		{

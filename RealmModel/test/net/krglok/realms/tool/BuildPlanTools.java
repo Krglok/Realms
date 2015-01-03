@@ -9,7 +9,6 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.unittest.DataTest;
 
@@ -214,7 +213,7 @@ public class BuildPlanTools
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest(); //logTest);
 
 		path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms\\buildplan";
 		BuildPlanMap buildPLan;

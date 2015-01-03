@@ -5,9 +5,9 @@ import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStoreLehen;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -132,7 +132,7 @@ public class DataStoreLehenTest
 		System.out.println("testLehenList ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest);
+		DataTest data = new DataTest();
 
 		LehenList lList = data.getLehen();
 

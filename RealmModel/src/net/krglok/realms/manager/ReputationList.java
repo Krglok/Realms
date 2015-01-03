@@ -58,4 +58,16 @@ public class ReputationList extends HashMap<String,ReputationData>
 		}
 		return sum;
 	}
+	
+	/**
+	 * set isDaily = false
+	 */
+	public void resetDaily()
+	{
+		for (ReputationData repData : this.values())
+		{
+			repData.setIsDailySet(false);
+		}
+		
+	}
 }

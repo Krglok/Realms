@@ -11,9 +11,9 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.IUnit;
 import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
@@ -126,7 +126,7 @@ public class SettlementWriteTest
 		ItemPriceList priceList = getPriceList();
 		SettlementData settleData = new SettlementData(path);
 		int id = 27;
-		Settlement settle = settleData.readSettledata(id , priceList,logList);
+		Settlement settle = settleData.readSettledata(id , priceList); //,logList);
 		showSettleInfo(settle);
 		
 //		fillBarrack(settle);

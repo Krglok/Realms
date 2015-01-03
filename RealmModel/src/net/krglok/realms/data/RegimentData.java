@@ -153,7 +153,7 @@ public class RegimentData
 	 */
 	public Regiment readRegimentData(int id) 
 	{
-		Regiment regiment = new Regiment(null);
+		Regiment regiment = new Regiment(); //null);
 		try
 		{ 
 	        String section = getRegimentKey(id);

@@ -1,0 +1,33 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 9
+requirements:
+- WOODEN_DOOR.1
+- BOOKSHELF.30
+- CHEST.4
+- WALL_SIGN.5
+- WOOD.30
+- SANDSTONE.80
+- SANDSTONE_STAIRS.10
+reagents:
+- GOLD_NUGGET.20
+- IRON_INGOT.16
+upkeep: 
+- BREAD.5
+- COOKED_BEEF.2
+- PAPER.10
+- LEATHER.1
+upkeep-chance: 0.001
+output: 
+- BOOK.1
+money-requirement: 20000.0
+upkeep-money-output: -10.0
+super-regions:
+super-regions:
+- Metropolis
+description: produce books and knowledge. Can give Techlevel with TECHBOOK to player  up to tech level 7

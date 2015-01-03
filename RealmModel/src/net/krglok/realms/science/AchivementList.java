@@ -60,7 +60,7 @@ public class AchivementList extends HashMap<String, Achivement>
 	}
 	
 	/**
-	 * check is any AchievementType is true
+	 * check is the specific AchivementName &  AchievementType is true
 	 * 
 	 * @param value
 	 * @return
@@ -69,13 +69,35 @@ public class AchivementList extends HashMap<String, Achivement>
 	{
 		for (Achivement achiev : this.getSubList(value).values())
 		{
-			if (achiev.getAchiveType() == aType)
+			if (achiev.getAchiveName() == value)
+			{
+				if (achiev.getAchiveType() == aType)
+				{
+					return achiev.isEnaled();
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * check is any AchievementType is true
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public boolean contains (AchivementName value)
+	{
+		for (Achivement achiev : this.getSubList(value).values())
+		{
+			if (achiev.getAchiveName() == value)
 			{
 				return achiev.isEnaled();
 			}
 		}
 		return false;
 	}
+	
 	
 	public Achivement get(AchivementName value, AchivementType aType )
 	{

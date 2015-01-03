@@ -6,7 +6,6 @@ import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdColonyBuild;
@@ -42,11 +41,11 @@ public class ColonyTest
 		server = new ServerTest();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		config = new ConfigTest();
 		msg = new MessageTest();
 
-		rModel = new RealmModel(0, 0, server, config, testData, msg, logTest);
+		rModel = new RealmModel(0, 0, server, config, testData, msg); //, logTest);
     	rModel.OnEnable();
 		settle = rModel.getSettlements().getSettlement(1);
 		

@@ -9,7 +9,7 @@ import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.data.DataStoreSettlement;
-import net.krglok.realms.data.LogList;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -63,7 +63,7 @@ public class DataStoreSettlementTest
 		System.out.println("testSettleConvert ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest); 
+		DataTest data = new DataTest(); 
 		DataStoreSettlement settleData = new DataStoreSettlement(dataFolder);
 		settleData.readDataList();
 		
@@ -83,7 +83,7 @@ public class DataStoreSettlementTest
 		System.out.println("testSettleConvert ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest); 
+		DataTest data = new DataTest(); 
 		DataStoreSettlement settleData = new DataStoreSettlement(dataFolder);
 		ArrayList<String> refList = settleData.readDataList();
 		SettlementList sList = new SettlementList();
@@ -109,7 +109,7 @@ public class DataStoreSettlementTest
 		System.out.println("testSettleConvert ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(logTest); 
+		DataTest data = new DataTest(); 
 		SettlementList sList = data.getSettlements();
 		Settlement settlement = null;
 		

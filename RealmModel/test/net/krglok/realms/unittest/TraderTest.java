@@ -23,7 +23,7 @@ import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.core.TradeType;
 import net.krglok.realms.core.Trader;
-import net.krglok.realms.data.LogList;
+import net.krglok.realms.tool.LogList;
 
 import org.bukkit.block.Biome;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class TraderTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getOwners();
 		
 		ConfigTest config = new ConfigTest();
@@ -104,8 +104,8 @@ public class TraderTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS,
-				logTest
+				Biome.PLAINS
+//				logTest
 				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );

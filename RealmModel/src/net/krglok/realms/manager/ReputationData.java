@@ -114,6 +114,11 @@ public class ReputationData
 		return itemValues;
 	}
 
+	/**
+	 * add item one time per day
+	 * @param itemName
+	 * @param value
+	 */
 	public void addItemValue(String itemName, int value)
 	{
 		if (itemValues.containsKey(itemName) == false)

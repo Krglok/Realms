@@ -9,8 +9,8 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.SettlementData;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class RegimentManagerTest {
 		
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		
 //		ItemPriceList priceList = testData.getPriceList();
 
@@ -36,7 +36,7 @@ public class RegimentManagerTest {
 		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList(),logTest));
+			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList())); //,logTest));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");

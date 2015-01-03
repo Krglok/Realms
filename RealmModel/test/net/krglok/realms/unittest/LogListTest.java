@@ -2,7 +2,7 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.data.LogList;
+import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
 

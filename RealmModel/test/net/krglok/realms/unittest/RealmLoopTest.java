@@ -14,9 +14,9 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.tool.LogList;
 
 import org.bukkit.block.Biome;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class RealmLoopTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getOwners();
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -79,8 +79,8 @@ public class RealmLoopTest
 				ownerList.getOwner("NPC0").getPlayerName(),
 				regionTypes, 
 				regionBuildings,
-				Biome.PLAINS,
-				logTest
+				Biome.PLAINS
+//				logTest
 				);
 
 		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
@@ -297,7 +297,7 @@ public class RealmLoopTest
 		ServerTest server = new ServerTest();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest(logTest);
+		DataTest testData = new DataTest();
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
@@ -306,8 +306,9 @@ public class RealmLoopTest
 				server,
 				config,
 				testData,
-				message, 
-				logTest);
+				message 
+//				logTest
+				);
 //		String command = RealmsCommandType.REALMS.name();
 //		String subCommand = "version";
 //		RealmsCommand realmCommand = new CmdRealmsVersion();

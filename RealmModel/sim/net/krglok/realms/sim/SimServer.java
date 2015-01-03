@@ -12,8 +12,8 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.data.DataStorage;
-import net.krglok.realms.data.LogList;
 import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.tool.LogList;
 
 public class SimServer implements ServerInterface
 {
@@ -24,7 +24,7 @@ public class SimServer implements ServerInterface
 	public SimServer(String path)
 	{
 		this.path = path; 
-		dataStorage = new DataStorage(path,logList);
+		dataStorage = new DataStorage(path); //,logList);
 	}
 
 	/**
