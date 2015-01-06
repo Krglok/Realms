@@ -27,13 +27,24 @@ Design objects and requirements
 
 Realm based on the feudalsystem
 - King
-- Highlord
 - Lord
+- Earl
 - Knight
-- Settler
+- Commoner
 
-Settlement realize the urban organization
-- Town-hall
+The commoner can reach different techlevel
+- Tech0, eveyone , simple houses
+- Tech1 , founding HAMLET , building for KNIGTH level
+- Tech2 , simple craftsman
+- Tech3 , extended craftsman
+- Tech4 , founding TOWN , building for EARL level
+- Tech5 , founding CITY , building for LORD level
+- Tech6 , extended military
+- Tech7 , founding METROPOLIS, building for KING level
+The techlevel can reach by buildup buildings or to read a TechBook
+
+Settlement include the urban organization
+- Town-hall 
 - Resident
 - Warehouse
 - Buildings
@@ -56,10 +67,5 @@ The project is devide into 3 phases to reach Version 1.0
 - Phase 2, units and unit relevant buildings
 - Phase 3, Realms and Conflicts
  
-In progress:
-- Phase 2, units and unit relevant buildings
-
-Ready and published
-- Phase 1, ready, publish as beta 0.8.2
 
 
