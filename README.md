@@ -15,6 +15,7 @@ Architecture requirements
 - realm model run with events , triggered from outside the model
 - layer model for realm model, data handling, command and events, pluginframe
 - Units are always virtual and have no representation as entity in game
+- some units will spawn and interact with players
 
 Design objects and requirements
 - Owner Object , playername
