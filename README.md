@@ -41,6 +41,7 @@ The commoner can reach different techlevel
 - Tech5 , founding CITY , building for LORD level
 - Tech6 , extended military
 - Tech7 , founding METROPOLIS, building for KING level
+
 The techlevel can reach by buildup buildings or to read a TechBook
 
 Settlement include the urban organization
