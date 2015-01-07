@@ -11,20 +11,20 @@ requirements:
 central-structure: KEEP
 money-requirement: 500000.0
 money-output-daily: 0.0
-max-power: 9000
+max-power: 1500
 daily-power-increase: 20
 charter: 2
-children:
+child-super-regions: 
 - CAMP
 - CLAIM
 - ENCLAVE
 - HAMLET
 - TOWN
 - CITY
-- METROPOLIS
+- METROPOL
 - FORTRESS
 - LEHEN_1
 - LEHEN_2
 - LEHEN_3
-exp: 2727
-description: Highest settlement for noble (only for the king). Each Kingdom can only hold1 of this settlement.
+exp: 5000
+description: Highest settlement for noble (only for the king)

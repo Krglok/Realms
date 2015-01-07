@@ -1,44 +1,51 @@
 name: Realms
 database: false
 main: net.krglok.realms.Realms
-version: 0.9.3
-description: Allows you to create settlements based on herostronghold regions. Expand the settlement with buildings. Trade with other settlements. Build Kingdoms.
+version: 0.9.2.1
+description: Allows you to create settlements based on herostronghold regions. Expand the settlement with buildings. Trade with other settlements.
 author: krglok
 startup: postworld
 website: http://dev.bukkit.org/bukkit-plugins/realms/
 depend: [Vault,HeroStronghold,Citizens]
+softdepend: [Shopkeekers]
 commands:
     realms:
-        description: Basic command only show version and commandlist. The plugin has an integrated help system.
+        description: Basic command only show version and commandlist
         usage: "/realms only for ops to control model and setup
- /owner player and ops for managing owners 
+ /owner only for ops for managing owners 
  /kingdom player command for realm management
- /feudal player command for control lehen
  /settle player command for settlement management
  /colonist player command for control colonists
  /regiment player command for control regiments
  "
-    feudal: 
-        description: player and ops command for managing lehen
-        usage: /feudal HELP for more information
     owner: 
         description: only for ops for managing owners
-        usage: /owner HELP for more information  
+        usage: /owner [subCommand] [ownerId] 
     kingdom:
         description: player command for kingdom management 
-        usage: /realm HELP for more information   
+        usage: /realm [subCommand] [realmId]  
     settle:
         description: player command for settlement management
-        usage: /settle HELP for more information  
+        usage: /settle [subCommand] [settlementId] 
     colonist:
         description: player command for colonist managment
-        usage: /colonist HELP for more information
+        usage: /colonist [subCommand] {parameter}
     regiment:
         description: player command for regiment managment
-        usage: /regiment HELP for more information
+        usage: /regiment [subCommand] {parameter}
 permissions:
     realms.admin:
         description: Gives access to admin commands
+        children:
+            realms.model: true
+            realms.owner: true
+            realms.config: true
+        default: op
+    realms.settle:
+        description: Allows you to managing settlements
+        default: op
+    realms.realm:
+        description: Allows you to managing realms
         default: op
     realms.user:
         description: Allows you to use public commands

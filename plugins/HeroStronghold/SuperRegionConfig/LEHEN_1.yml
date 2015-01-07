@@ -14,13 +14,10 @@ money-output-daily: 0.0
 max-power: 1500
 daily-power-increase: 20
 charter: 2
-children:
+child-super-regions: 
 - CAMP
 - CLAIM
 - HAMLET
 - ENCLAVE
-- LEHEN_4
-- LEHEN_2
-- LEHEN_3
-exp: 1395
+exp: 5000
 description: Lowest settlement for noble (KNIGHT)

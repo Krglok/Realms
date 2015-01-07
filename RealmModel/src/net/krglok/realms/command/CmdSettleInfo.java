@@ -163,16 +163,13 @@ public class CmdSettleInfo extends RealmsCommand
 						+ChatColor.YELLOW+settle.getName()
 						+ChatColor.GREEN+" Age: "+settle.getAge()
 						+":"+settle.getProductionOverview().getCycleCount());
-				msg.add("Owner "+ChatColor.YELLOW+settle.getOwnerId()+ChatColor.WHITE+" : Tribut to "
-						+ChatColor.YELLOW+settle.getTributId()
-						+ChatColor.YELLOW+" Kingdom: "+ChatColor.GREEN+settle.getKingdomId());
 				msg.add("Biome: "+settle.getBiome()+"  Enable:"+settle.isEnabled()+" Activ: "+settle.isActive());
 				msg.add("Beds       : "+ChatColor.YELLOW+settle.getResident().getSettlerMax());
 				msg.add("Settlers  : "+ChatColor.GOLD+settle.getResident().getSettlerCount());
 				msg.add("Workers  : "+ChatColor.GOLD+settle.getTownhall().getWorkerCount());
 				msg.add("Happiness: "+ChatColor.GOLD+(int) (settle.getResident().getHappiness()));
-				msg.add("Fertility: "+ChatColor.GOLD+(int) (settle.getResident().getFertilityCounter()));
-//				msg.add("Deathrate: "+ChatColor.RED+settle.getResident().getDeathrate());
+//				msg.add("Fertility: "+ChatColor.GOLD+(int) (settle.getResident().getFertilityCounter()));
+				msg.add("Deathrate: "+ChatColor.RED+settle.getResident().getDeathrate());
 				msg.add("Barracks  : "+ChatColor.YELLOW+(settle.getBarrack().getUnitList().size())+"/"+settle.getBarrack().getUnitMax());
 				msg.add("Bank       : "+ChatColor.GREEN+((int) settle.getBank().getKonto()));
 				msg.add("Storage   : "+settle.getWarehouse().getItemMax());

@@ -1,7 +1,5 @@
 package net.krglok.realms.kingdom;
 
-import net.krglok.realms.core.Bank;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -25,14 +23,11 @@ public class Lehen
 	private String name;
 	private NobleLevel nobleLevel;
 	private SettleType settleType;
-	private String ownerId;
+	private int ownerId;
 	private Owner owner;
 	private int KingdomId;
 	private int parentId;
-	private Bank bank;
-	private double sales;
-	private LocationData position;
-	
+
 	
 	public Lehen()
 	{
@@ -40,18 +35,14 @@ public class Lehen
 		this.name = "Lehen";
 		this.nobleLevel = NobleLevel.COMMONER;
 		this.settleType = SettleType.NONE;
-		this.ownerId = "";
+		this.ownerId = 0;
 		this.owner = null;
 		this.KingdomId = 0;
 		this.parentId = 0;
-		this.setBank(new Bank());
-		this.sales = 0;
-		this.position = new LocationData("", 0.0, 0.0, 0.0);
 	}
 
 	/**
 	 * will be used to create new Lehen in existing kingdom
-	 * the id = 0 and will be set at adding to List
 	 * hint : the lehen_4 of the kingdom must exist before !!
 	 * hint: use Kingdom.checkLehen for verify the Lehen and kingdom settings 
 	 *  
@@ -62,19 +53,16 @@ public class Lehen
 	 * @param owner
 	 * @param parentId
 	 */
-	public Lehen(int KingdomId, String name,NobleLevel nobleLevel,SettleType settleType, Owner owner, int parentId, LocationData position)
+	public Lehen(int KingdomId, String name,NobleLevel nobleLevel,SettleType settleType, Owner owner, int parentId)
 	{
 		this.id = 0;
 		this.name = name;
 		this.nobleLevel = nobleLevel;;
 		this.settleType = settleType;
-		this.ownerId = "";
+		this.ownerId = 0;
 		this.owner = owner;
 		this.KingdomId = KingdomId;
 		this.parentId = parentId;
-		this.setBank(new Bank());
-		this.sales = 0;
-		this.position = position;
 	}
 
 	/**
@@ -88,19 +76,17 @@ public class Lehen
 	 * @param owner
 	 * @param parentId
 	 */
-//	public Lehen(int id, int KingdomId, String name,NobleLevel nobleLevel,SettleType settleType, Owner owner, int parentId, LocationData position)
-//	{
-//		this.id = id;
-//		this.name = name;
-//		this.nobleLevel = nobleLevel;;
-//		this.settleType = settleType;
-//		this.owner = owner;
-//		this.ownerId = owner.getPlayerName();
-//		this.KingdomId = KingdomId;
-//		this.parentId = parentId;
-//		this.setBank(new Bank());
-//		this.position = position;
-//	}
+	public Lehen(int id, int KingdomId, String name,NobleLevel nobleLevel,SettleType settleType, Owner owner, int parentId)
+	{
+		this.id = id;
+		this.name = name;
+		this.nobleLevel = nobleLevel;;
+		this.settleType = settleType;
+		this.owner = owner;
+		this.ownerId = 0;
+		this.KingdomId = KingdomId;
+		this.parentId = parentId;
+	}
 	
 	public static int getID()
 	{
@@ -156,7 +142,6 @@ public class Lehen
 	public void setOwner(Owner owner)
 	{
 		this.owner = owner;
-		this.ownerId = owner.getPlayerName();
 	}
 
 	public int getId()
@@ -208,7 +193,7 @@ public class Lehen
 	/**
 	 * @return the ownerId
 	 */
-	public String getOwnerId()
+	public int getOwnerId()
 	{
 		return ownerId;
 	}
@@ -216,79 +201,9 @@ public class Lehen
 	/**
 	 * @param ownerId the ownerId to set
 	 */
-	public void setOwnerId(String ownerId)
+	public void setOwnerId(int ownerId)
 	{
 		this.ownerId = ownerId;
 	}
 
-	/**
-	 * @return the bank
-	 */
-	public Bank getBank()
-	{
-		return bank;
-	}
-
-	/**
-	 * @param bank the bank to set
-	 */
-	public void setBank(Bank bank)
-	{
-		this.bank = bank;
-	}
-
-	/**
-	 * @return the position
-	 */
-	public LocationData getPosition()
-	{
-		return position;
-	}
-
-	/**
-	 * @param position the position to set
-	 */
-	public void setPosition(LocationData position)
-	{
-		this.position = position;
-	}
-
-	/**
-	 * @return the sales
-	 */
-	public double getSales()
-	{
-		return sales;
-	}
-
-	/**
-	 * @param sales the sales to set
-	 */
-	public void setSales(double sales)
-	{
-		this.sales = sales;
-	}
-
-	/**
-	 * add value to sales 
-	 * hint: dont use negative values , better use withdraw
-	 * @param value
-	 */
-	public void depositSales(double value)
-	{
-		this.sales = this.sales + value;
-	}
-	
-	/**
-	 * subtract value from sales.
-	 * hint: dont use negative values !
-	 * @param value
-	 */
-	public void withdrawSales(double value)
-	{
-		this.sales = this.sales - value;
-	}
-	
-	
-	
 }

@@ -98,9 +98,6 @@ public class TickTask implements Runnable
 	@Override
 	public void run()
 	{
-		doDynMapUpdate();
-		
-		
 		// dont run until init done
 		if (plugin.getRealmModel().isInit() == false)
 		{
@@ -262,12 +259,6 @@ public class TickTask implements Runnable
 				}
 			}
 		}
-	}
-
-	private void doDynMapUpdate()
-	{
-//		plugin.dynmap.getMarkerAPI().getMarkerSets()getClass();
-		
 	}
 	
 }

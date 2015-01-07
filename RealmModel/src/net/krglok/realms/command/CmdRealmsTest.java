@@ -1,26 +1,55 @@
 package net.krglok.realms.command;
 
+import java.awt.image.BufferedImage;
+import java.awt.print.Book;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ItemPrice;
+import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.npc.NPCType;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.PistonMoveReaction;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.dynmap.markers.Marker;
-import org.dynmap.markers.MarkerIcon;
-import org.dynmap.markers.MarkerSet;
+import org.bukkit.entity.Villager.Profession;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.MapMeta;
+import org.bukkit.map.MapCanvas;
+import org.bukkit.map.MapRenderer;
+import org.bukkit.map.MapView;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.plugin.Plugin;
+
+import com.avaje.ebean.validation.Length;
+import com.nisovin.shopkeepers.Shopkeeper;
+import com.nisovin.shopkeepers.shopobjects.living.LivingEntityShop;
+import com.nisovin.shopkeepers.shoptypes.NormalPlayerShopkeeper;
 
 public class CmdRealmsTest extends RealmsCommand
 {
-    private final String MARKER_SET = "markers";
 	private int page; 
 	
 	public CmdRealmsTest( )
@@ -28,7 +57,7 @@ public class CmdRealmsTest extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms TEST [page]   ",
-		    	" show dynmap label  ",
+		    	" check buildings with no settlement  ",
 		    	" "
 			};
 			requiredArgs = 1;
@@ -114,26 +143,28 @@ public class CmdRealmsTest extends RealmsCommand
 		return null;
 	}
 	
-//    private void cmdSignShop(Realms plugin, Block b, Player player)
-//    {
-//    	Location pos = b.getLocation();
-//		SuperRegion sRegion = findSuperRegionAtPosition(plugin, b.getLocation());
-//		if (sRegion != null)
-//		{
-//			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
-//			if (settle != null)
-//			{
-//    	    	System.out.println("Realms setShop");
-//    	    	plugin.setShopPrice(b.getLocation());
-////    	    	plugin.setShop(player,b.getLocation(), settle);
-////    	    	plugin.setShopPrice(pos);
-//    	    }
-//		}
-//    }
-
-
-    public void checkRegionBuilding(Realms plugin, CommandSender sender)
+    private void cmdSignShop(Realms plugin, Block b, Player player)
     {
+    	Location pos = b.getLocation();
+		SuperRegion sRegion = findSuperRegionAtPosition(plugin, b.getLocation());
+		if (sRegion != null)
+		{
+			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
+			if (settle != null)
+			{
+    	    	System.out.println("Realms setShop");
+    	    	plugin.setShopPrice(b.getLocation());
+//    	    	plugin.setShop(player,b.getLocation(), settle);
+//    	    	plugin.setShopPrice(pos);
+    	    }
+		}
+    }
+
+	
+    
+	@Override
+	public void execute(Realms plugin, CommandSender sender)
+	{
 		System.out.println("Realms Test ");
     	ArrayList<String> msg = new ArrayList<String>();
 		int radius = 5;
@@ -154,80 +185,6 @@ public class CmdRealmsTest extends RealmsCommand
 				
 					System.out.println("[REALMS] region ID "+s);
 					msg.add(s);
-			}
-		}
-		plugin.getMessageData().printPage(sender, msg, page);
-		page = 1;
-    	
-    }
-    
-    private void initMarkerSettle(Realms plugin, MarkerSet markerSet, Settlement settle)
-    {
-		String id  = "settle"+String.valueOf(settle.getId());
-		String label = settle.getName();
-		String world = settle.getPosition().getWorld();
-		double getX  = settle.getPosition().getX();
-		double getY  = settle.getPosition().getY()+20;
-		double getZ  = settle.getPosition().getZ();
-		MarkerIcon icon = plugin.dynmap.getMarkerAPI().getMarkerIcon("house"); 
-		// init new marker 
-		markerSet.createMarker(id, label, true, world, getX, getY, getZ, icon , false);
-		
-//		markerSet.createAreaMarker(id, label, true, world, arg4, icon, false);
-    }
-
-	@Override
-	public void execute(Realms plugin, CommandSender sender)
-	{
-    	ArrayList<String> msg = new ArrayList<String>();
-		if (plugin.dynmap == null)
-		{
-			msg.add(ChatColor.RED+"Dynmap not found ! ");
-			plugin.getMessageData().printPage(sender, msg, page);
-			return;
-		}
-
-		msg.add(ChatColor.RED+"Realms Test ");
-
-		msg.add("Dynmap Marker ");
-
-		MarkerSet markerSet = plugin.dynmap.getMarkerAPI().getMarkerSet(MARKER_SET);
-		{
-			if (markerSet.getMarkerSetID().equalsIgnoreCase("markers"))
-			{
-				for (Settlement settle : plugin.getData().getSettlements().values())
-				{
-					String id  = "settle"+String.valueOf(settle.getId());
-	                Marker m = null;
-	                for (Marker exist : markerSet.getMarkers()) //markers.remove(id);
-	                {	
-	                	if (exist.getLabel().equalsIgnoreCase(settle.getName()))
-	                	{
-	                		m = exist;
-	                	}
-	                }
-	                if (m == null)
-	                {
-	                	initMarkerSettle(plugin, markerSet, settle);
-	                	msg.add("Label set "+settle.getName());
-	                }
-	                else
-	                {
-	                	msg.add("Label exist ");
-	                }
-	
-//	     			msg.add(markerSet.getMarkerSetLabel()
-//						+" :"+markerSet.getMarkers().size()
-//						+" :"+markerSet.getMarkerSetID()
-//						);
-//					for (Marker marker : markerSet.getMarkers())
-//					{
-//						msg.add("+"+marker.getLabel()
-//								+":"+marker.getMarkerIcon().getMarkerIconID()
-//								+":"+marker.getWorld()
-//								);
-//					}
-				}
 			}
 		}
 		plugin.getMessageData().printPage(sender, msg, page);

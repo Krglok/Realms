@@ -47,6 +47,7 @@ public class CmdOwnerHelp extends RealmsCommand
 		default:
 			break;
 		}
+
 	}
 
 	@Override

@@ -11,10 +11,10 @@ requirements:
 central-structure: CASTLE
 money-requirement: 150000.0
 money-output-daily: 0.0
-max-power: 3000
+max-power: 1500
 daily-power-increase: 20
 charter: 2
-children:
+child-super-regions: 
 - CAMP
 - CLAIM
 - ENCLAVE
@@ -23,7 +23,5 @@ children:
 - CITY
 - FORTRESS
 - LEHEN_1
-- LEHEN_4
-- LEHEN_3
-exp: 1628
+exp: 5000
 description:  settlement for noble (EARL)

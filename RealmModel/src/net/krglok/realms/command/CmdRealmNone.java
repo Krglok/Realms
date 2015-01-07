@@ -23,7 +23,6 @@ public class CmdRealmNone extends RealmsCommand
 				ChatColor.GREEN+"/regiment [HELP] op/player for regiment management",
 				ChatColor.GREEN+"/owner [HELP] only for ops to managing owners",
 				ChatColor.GREEN+"/kingdom [HELP]  player command for kingdom management",
-				ChatColor.GREEN+"/feudal [HELP]  player command for Lehen management",
 		    	" "
 		};
 		requiredArgs = 0;

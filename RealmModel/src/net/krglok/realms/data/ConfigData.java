@@ -2,8 +2,6 @@ package net.krglok.realms.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
@@ -33,8 +31,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private HashMap<String,String> superSettleTypes;
 
 	private HashMap<String, String> buildPlanRegions;
-	
-	private ArrayList<String> npcNames;
 	
 	private ItemList toolItems;
 	private ItemList weaponItems;
@@ -71,7 +67,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		superSettleTypes = new HashMap<String, String>();
 		buildPlanRegions  = new HashMap<String, String>();
 		mobList = new ArrayList<EntityType>();
-		npcNames = new ArrayList<String>();
 		setRealmCounter(0);
 		setSettlementCounter(0);
 		
@@ -84,11 +79,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		isAutoUpdate  = configFile.getBoolean("autoupdate", false);
 		isLogList  = configFile.getBoolean("loglist", false);
 		isSpawnAnimal  = configFile.getBoolean("spawnAnimal", false);
-		List<?> names = configFile.getList("npcname");
-		if (names != null)
-		{
-			npcNames = (ArrayList<String>) names;
-		}
 //		configFile.options().copyDefaults(true);
 		setLoaded(true);
 	}
@@ -569,22 +559,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	public boolean isSpawnAnimal()
 	{
 		return this.isSpawnAnimal;
-	}
-
-	/**
-	 * @return the npcNames
-	 */
-	public ArrayList<String> getNpcNames()
-	{
-		return npcNames;
-	}
-
-	/**
-	 * @param npcNames the npcNames to set
-	 */
-	public void setNpcNames(ArrayList<String> npcNames)
-	{
-		this.npcNames = npcNames;
 	}
 
 }

@@ -78,6 +78,7 @@ public class CmdKingdomList extends RealmsCommand
     				+" | "+kingdom.getMembers().size()
     				);
 		}
+		msg.add(" ");
 		
 		plugin.getMessageData().printPage(sender, msg, page);
 

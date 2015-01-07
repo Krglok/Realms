@@ -19,38 +19,29 @@ buildingCounter: 0
 
 spawnAnimal: false;
 
-npcname:
-- 'Brorda'
-- 'Brunhild'
-- 'Bryce'
-- 'Burghred'
-- 'Cadfil'
-- 'Carac'
-- 'Cassius'
-- 'Catrain'
-- 'Ceawlin'
-- 'Cedric'
-- 'Cenred'
-- 'Cenwealh'
-- 'Cenwulf'
-- 'Ceolwulf'
-- 'Cerdic'
-- 'Clotilde'
-- 'Creoda'
-- 'Cristiana'
-- 'Cutha'
-- 'Cuthwine'
-- 'Cynric'
-- 'Dain'
-- 'Destrian'
-- 'Dimia'
-- 'Donald'
-- 'Doran'
-- 'Eadbald'
-- 'Eadberht'
-- 'Eadred'
-- 'Eadric'
-- 'Eadwig'
-- 'Eanulf'
-- 'Eawa'
-- 'Ecgfrith'
+#---------------------------------------------
+# Settlement /superregions for older versions of your superregions to get into realms
+# the SettlementTypes are predefined
+# every SettlementTypes are unique in this list
+#
+superSettleTypes:
+    HAMLET: "Mine"
+    CASTLE: "Burg"
+    HAMLET: "Siedlung"
+    TOWN: "Dorf"
+    CITY: "Stadt"
+    METROPOLIS: "Metropole"
+#---------------------------------------------
+# regions / BuildingType for older versions of your regions to get into realms
+# the BuildungTypes are predefined
+# the regions are unique in this list
+#
+regionBuildingTypes:
+    haus_einfach: "HOME"
+    haus_gross: "HOUSE"
+    haupthaus: "HALL"
+    taverne: "ENTERTAIN"
+    markt: "WAREHOUSE"
+    kornfeld: "WHEAT"
+    holzfaeller: "WOODCUTTER"
+

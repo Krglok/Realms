@@ -3,16 +3,11 @@ package net.krglok.realms.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bukkit.ChatColor;
-
-import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.colonist.ColonyList;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
-import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
@@ -26,9 +21,7 @@ import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.KnowledgeData;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
-import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
-import net.krglok.realms.kingdom.Lehen;
 //<<<<<<< HEAD
 //=======
 import net.krglok.realms.manager.BuildManager;
@@ -396,14 +389,6 @@ public class RealmModel
 			//modelStatus = initProductionQueue();
 			break;
 		}
-	}
-	/**
-	 * only for tests used ! Be careful !
-	 */
-	public void TaxTest()
-	{
-		modelStatus = ModelStatus.MODEL_PRODUCTION;
-		OnTax();
 	}
 	
 	public void OnTax()
@@ -844,82 +829,11 @@ public class RealmModel
 		messageData.log("Tax queue remove 0");
 		if (taxQueue.isEmpty())
 		{
-			doFeudalTax();
 			return ModelStatus.MODEL_ENABLED;
 		}
 		return ModelStatus.MODEL_TAX;
 	}
 
-	
-	private double getChildSum(Lehen lehen)
-	{
-		double childSum = 0;
-		for (Lehen child : getData().getLehen().getChildList(lehen.getId()).values())
-		{
-			double tax = child.getSales() * ConfigBasis.SALES_TAX / 100.0;
-			childSum = childSum + tax;
-			child.getBank().depositKonto(child.getSales(), "ME", 0);
-			child.getBank().withdrawKonto(tax, "ME", 0);
-			child.setSales(0.0);
-		}
-		return childSum;
-	}
-
-	private void doFeudalTax()
-	{
-    	for (Settlement settle : getData().getSettlements().values())
-    	{
-    		double umsatzTax = settle.getSales();
-    		double settlerTax = settle.getTaxSum();
-    		settle.setSales(0.0);
-    		settle.setTaxSum(0.0);
-    		Owner owner = getData().getOwners().getOwnerName(settle.getOwnerId());
-    		int lehenId = settle.getTributId();
-    		int kingdomId = 0;
-			Lehen tributLehen = getData().getLehen().getLehen(lehenId);
-    		if (tributLehen != null)
-    		{
-    			kingdomId = tributLehen.getKingdomId();
-    			tributLehen.depositSales((umsatzTax));
-    		} else if (owner != null)
-    		{
-    			kingdomId = owner.getKingdomId();
-    			owner.depositSales((umsatzTax));
-    		}
-			Lehen  kingLehen =  getData().getLehen().getKingdomRoot(kingdomId);
-			if (kingLehen != null)
-			{
-    			kingLehen.depositSales((settlerTax));
-			}
-    	}
-    	
-    	for (Kingdom kingdom : getData().getKingdoms().values())
-    	{
-    		if (kingdom.getId() > 0)
-    		{
-    			Lehen root = getData().getLehen().getKingdomRoot(kingdom.getId());
-    			if (root != null)
-    			{
-	    			for (Lehen lehen : getData().getLehen().getChildList(root.getId()).values())
-	    			{
-	    				for (Lehen child : getData().getLehen().getChildList(lehen.getId()).values())
-	    				{
-	    					double childsum = getChildSum(child);
-	    					child.depositSales(childsum);
-	    				}
-	    				double sum = getChildSum(lehen);
-	    				lehen.depositSales(sum);
-	    			}
-	    			double rootSum = getChildSum(root);
-	    			root.getBank().depositKonto(rootSum, "TAX", 0);
-	    			root.getBank().depositKonto(root.getSales(), "TAX", 0);
-	    			root.setSales(0.0);
-    			}
-    		}
-    	}
-		
-	}
-	
 	/**
 	 * delete Orders with Status NONE from BuyOrders and tradeMarket
 	 */

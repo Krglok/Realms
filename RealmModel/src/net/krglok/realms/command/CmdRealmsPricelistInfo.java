@@ -83,7 +83,7 @@ public class CmdRealmsPricelistInfo extends RealmsCommand
 		{
 			ItemPrice item = plugin.getData().getPriceList().get(itemRef);
 			String sLine = "";
-			sLine = ConfigBasis.setStrleft(item.ItemRef()+"_________",10)+":§a "+item.getFormatedBasePrice()+"§0 ";
+			sLine = ConfigBasis.setStrleft(item.ItemRef()+"________",9)+":§a "+item.getFormatedBasePrice()+"§0 ";
 			msg.add(sLine);
 			
 		}

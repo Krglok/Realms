@@ -23,4 +23,5 @@ upkeep-chance: 0.001
 output: []
 money-requirement: 2000.0
 upkeep-money-output: -10.0
+daily.power-increase: 20.0
 description: This is a military building and train Knights.

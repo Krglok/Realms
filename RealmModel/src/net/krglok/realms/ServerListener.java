@@ -2192,9 +2192,6 @@ public class ServerListener implements Listener
 					EconomyResponse eResponse = plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
 					Building building = plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID());
 					building.setOwnerId(event.getPlayer().getName());
-					SuperRegion superRegion = plugin.getServerData().getSuperRegion(sRegion);
-					List<String> perms = new ArrayList<String>();
-					superRegion.addMember(event.getPlayer().getName(), perms );
 					plugin.getData().writeBuilding(building);
 					event.getPlayer().sendMessage(ChatColor.GREEN+"You are now owner of this building");
 					event.getPlayer().sendMessage(ChatColor.YELLOW+"Remember to remove the AQUIRE sign !");

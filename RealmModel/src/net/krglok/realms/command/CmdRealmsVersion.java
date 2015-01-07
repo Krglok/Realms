@@ -46,10 +46,7 @@ public class CmdRealmsVersion extends RealmsCommand implements iRealmsCommand
     	
     	if (plugin.getRealmModel().getSettlements().getSettlement(1) != null)
     	{
-    		long maxAge = plugin.getRealmModel().getSettlements().getSettlement(1).getAge();
-    		long years = maxAge / 30 /12;
-    		
-    		msg.add(ChatColor.YELLOW+"Age of Realms: "+ChatColor.GREEN+"["+maxAge+"] Days or "+years+" Years");
+    	msg.add(ChatColor.YELLOW+"Age of Realms: "+ChatColor.GREEN+"["+plugin.getRealmModel().getSettlements().getSettlement(1).getAge()+"] Days");
     	}
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);

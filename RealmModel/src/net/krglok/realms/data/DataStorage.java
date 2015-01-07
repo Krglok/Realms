@@ -659,8 +659,8 @@ public class DataStorage implements DataInterface
 		for (String ref : refList)
 		{
 			lehen = lehenData.readData(ref);
-			lehen.setOwner(owners.getOwnerName(lehen.getOwnerId()));
-			lehenList.putLehen(lehen);
+			lehen.setOwner(owners.getOwner(lehen.getOwnerId()));
+			lehenList.addLehen(lehen);
 		}
 	}
 
@@ -729,7 +729,7 @@ public class DataStorage implements DataInterface
 	@Override
 	public void writeLehen(Lehen lehen)
 	{
-		lehenData.writeData(lehen, String.valueOf(lehen.getId()));
+		lehenData.writeData(lehen, String.valueOf(Kingdom.getID()));
 	}
 
 	@Override

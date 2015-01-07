@@ -20,7 +20,7 @@ public class CmdSettleBank extends RealmsCommand
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BANK);
 		description = new String[] {
 				ChatColor.YELLOW+"/settle BANK [SettleID] [amount] ",
-				"Set the amount of money into the bank ",
+				"Set the amount of item into the warehouse ",
 		    	"of Settlement <ID> ",
 		    	"If amount (+) deposit  to bank",
 		    	"If amount (-) withdraw from bank",

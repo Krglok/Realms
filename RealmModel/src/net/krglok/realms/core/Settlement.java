@@ -45,7 +45,7 @@ public class Settlement //implements Serializable
 	private static final long serialVersionUID = -7534071936212709937L;
 	private static final double MIN_FOODCONSUM_COUNTER = -5.0;
 	private static final double TAVERNE_UNHAPPY_FACTOR = 2.0;
-	private static final double BASE_TAX_FACTOR = ConfigBasis.SALES_TAX;
+	private static final double BASE_TAX_FACTOR = 10;
 	private static double TAVERNE_FREQUENT = 10.0;
 
 	private static final String NEW_SETTLEMENT = "New Settlement";
@@ -59,8 +59,6 @@ public class Settlement //implements Serializable
 	private String name;
 	private String ownerId;
 	private Owner owner;
-	private int kingdomId;
-	private int tributId;
 	private Boolean isCapital;
 	private Barrack barrack ;
 	private Warehouse warehouse ;
@@ -98,9 +96,7 @@ public class Settlement //implements Serializable
 	
 	private SignPosList signList;
 	private ReputationList reputations;
-
-	private double sales;
-	private double taxSum;
+	
 //	private LogList logList;
 	
 	/**
@@ -116,8 +112,6 @@ public class Settlement //implements Serializable
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
 		ownerId 		= "";
-		setKingdomId(0);
-		tributId = 0;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		barrack.setPowerMax(defaultPowerMax(settleType));
@@ -129,8 +123,6 @@ public class Settlement //implements Serializable
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
-		sales = 0.0;
-		taxSum = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
@@ -165,8 +157,6 @@ public class Settlement //implements Serializable
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
 		ownerId 		= "";
-		setKingdomId(0);
-		tributId = 0;
 		isCapital	= false;
 //		this.logList = logList;
 		barrack		= new Barrack(defaultUnitMax(settleType));
@@ -179,8 +169,6 @@ public class Settlement //implements Serializable
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
-		sales = 0.0;
-		taxSum = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
@@ -213,8 +201,6 @@ public class Settlement //implements Serializable
 		name		= NEW_SETTLEMENT;
 		this.position 	= position;
 		this.ownerId = owner;
-		setKingdomId(0);
-		tributId = 0;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		barrack.setPowerMax(defaultPowerMax(settleType));
@@ -227,8 +213,6 @@ public class Settlement //implements Serializable
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
-		sales = 0.0;
-		taxSum = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
@@ -263,8 +247,6 @@ public class Settlement //implements Serializable
 		this.name		= name;
 		this.position 	= position;
 		this.ownerId = owner;
-		setKingdomId(0);
-		tributId = 0;
 		isCapital	= false;
 		barrack		= new Barrack(defaultUnitMax(settleType));
 		barrack.setPowerMax(defaultPowerMax(settleType));
@@ -277,8 +259,6 @@ public class Settlement //implements Serializable
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
-		sales = 0.0;
-		taxSum = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
@@ -318,18 +298,13 @@ public class Settlement //implements Serializable
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
 			Resident resident, String world, Biome biome, long age,
-			ItemPriceList priceList,
-			int kingdomId,
-			int lehenId
-			)
+			ItemPriceList priceList)
 	{
 		this.id = id;
 		this.age        = age;
 		this.settleType = settleType;
 		this.name = name;
 		this.ownerId = owner;
-		this.setKingdomId(kingdomId);
-		this.tributId = lehenId;
 		this.isCapital = isCapital;
 		this.position = position;
 		this.barrack = barrack;
@@ -342,8 +317,6 @@ public class Settlement //implements Serializable
 		isEnabled   = true;
 		isActive    = true;
 		foodConsumCounter = 0.0;
-		sales = 0.0;
-		taxSum = 0.0;
 		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
 		productionOverview = new BoardItemList();
@@ -1781,32 +1754,29 @@ public class Settlement //implements Serializable
 		}
 		productionOverview.addCycle();
 	}
-
-	/**
-	 * berechnet tax von Bevölkerung 
-	 * vom Umsatz der Gebäude
-	 * 
-	 */
+	
 	public void doCalcTax()
 	{
-//		double taxSum = 0.0;
+		double taxSum = 0.0;
 		double value = 0.0; 
-		for (Building building : buildingList.values())
-		{
-			value = (building.getSales() * BASE_TAX_FACTOR/ 100.0);
-			if (value > 0.0)
-			{
-				taxOverview.addCycleValue(building.getId()+"."+building.getHsRegionType() , value);
-			}
-			sales = sales + value;
-			// reset building.sale
-			building.setSales(0.0);
-		}
-//		taxSum = townhall.getWorkerCount()  * ConfigBasis.SETTLER_TAXE;
+//		for (Building building : buildingList.getBuildingList().values())
+//		{
+//			value = (building.getSales() * BASE_TAX_FACTOR/ 100.0);
+////			System.out.println("doCalcTax"+building.getSales()+":"+value);
+//			if (value > 0.0)
+//			{
+//				taxOverview.addCycleValue(building.getId()+"."+building.getHsRegionType() , value);
+//			}
+//			taxSum = taxSum + value;
+//			// reset building.sale
+//			building.setSales(0.0);
+//		}
+//		taxSum = taxSum + (townhall.getWorkerCount()  * ConfigBasis.SETTLER_TAXE);
 		taxSum = taxSum + (resident.getSettlerCount() * ConfigBasis.SETTLER_TAXE);
-		bank.depositKonto(sales, "TAX_COLLECTOR", getId());
-		System.out.println("doCalcTax "+this.getId()+" : "+ConfigBasis.setStrformat2(sales,7)+"/"+ConfigBasis.setStrformat2(taxSum,7));
-		//  Kingdom tax calculated in RealmModel
+		bank.depositKonto(taxSum, "TAX_COLLECTOR", getId());
+		System.out.println("doCalcTax "+this.getId()+" : "+taxSum);
+		//  Kingdom tax are an open item
+		
 	}
 	
 	/**
@@ -1951,70 +1921,6 @@ public class Settlement //implements Serializable
 	public void setReputationList(ReputationList repList)
 	{
 		this.reputations = repList;
-	}
-
-	/**
-	 * @return the kingdomId
-	 */
-	public int getKingdomId()
-	{
-		return kingdomId;
-	}
-
-	/**
-	 * @param kingdomId the kingdomId to set
-	 */
-	public void setKingdomId(int kingdomId)
-	{
-		this.kingdomId = kingdomId;
-	}
-
-	/**
-	 * @return the lehenId
-	 */
-	public int getTributId()
-	{
-		return tributId;
-	}
-
-	/**
-	 * @param lehenId the lehenId to set
-	 */
-	public void setTributId(int lehenId)
-	{
-		this.tributId = lehenId;
-	}
-
-	/**
-	 * @return the sales
-	 */
-	public double getSales()
-	{
-		return sales;
-	}
-
-	/**
-	 * @param sales the sales to set
-	 */
-	public void setSales(double sales)
-	{
-		this.sales = sales;
-	}
-
-	/**
-	 * @return the taxSum
-	 */
-	public double getTaxSum()
-	{
-		return taxSum;
-	}
-
-	/**
-	 * @param taxSum the taxSum to set
-	 */
-	public void setTaxSum(double taxSum)
-	{
-		this.taxSum = taxSum;
 	}
 	
 }

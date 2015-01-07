@@ -8,24 +8,8 @@ import net.krglok.realms.command.CmdColonistMove;
 import net.krglok.realms.command.CmdColonyBuild;
 import net.krglok.realms.command.CmdColonyHelp;
 import net.krglok.realms.command.CmdColonyWarehouse;
-import net.krglok.realms.command.CmdFeudalBank;
-import net.krglok.realms.command.CmdFeudalCreate;
-import net.krglok.realms.command.CmdFeudalFollow;
-import net.krglok.realms.command.CmdFeudalHelp;
-import net.krglok.realms.command.CmdFeudalInfo;
 import net.krglok.realms.command.CmdFeudalList;
-import net.krglok.realms.command.CmdFeudalOwner;
-import net.krglok.realms.command.CmdKingdomCreate;
-import net.krglok.realms.command.CmdKingdomGive;
-import net.krglok.realms.command.CmdKingdomHelp;
-import net.krglok.realms.command.CmdKingdomInfo;
-import net.krglok.realms.command.CmdKingdomJoin;
 import net.krglok.realms.command.CmdKingdomList;
-import net.krglok.realms.command.CmdKingdomMember;
-import net.krglok.realms.command.CmdKingdomRelease;
-import net.krglok.realms.command.CmdKingdomRequest;
-import net.krglok.realms.command.CmdKingdomStructure;
-import net.krglok.realms.command.CmdOwnerCreate;
 import net.krglok.realms.command.CmdOwnerHelp;
 import net.krglok.realms.command.CmdOwnerInfo;
 import net.krglok.realms.command.CmdOwnerList;
@@ -52,7 +36,6 @@ import net.krglok.realms.command.CmdRealmsSetItem;
 import net.krglok.realms.command.CmdRealmsSettler;
 import net.krglok.realms.command.CmdRealmsShop;
 import net.krglok.realms.command.CmdRealmsSign;
-import net.krglok.realms.command.CmdRealmsTax;
 import net.krglok.realms.command.CmdRealmsTech;
 import net.krglok.realms.command.CmdRealmsTest;
 import net.krglok.realms.command.CmdRealmsVersion;
@@ -79,7 +62,6 @@ import net.krglok.realms.command.CmdSettleEvolve;
 import net.krglok.realms.command.CmdSettleGetItem;
 import net.krglok.realms.command.CmdSettleHelp;
 import net.krglok.realms.command.CmdSettleInfo;
-import net.krglok.realms.command.CmdSettleJoin;
 import net.krglok.realms.command.CmdSettleList;
 import net.krglok.realms.command.CmdSettleMarket;
 import net.krglok.realms.command.CmdSettleNoSell;
@@ -152,7 +134,6 @@ public class CommandRealms
 			new CmdRealmsSetItem(),
 			new CmdRealmsShop(),
 			new CmdRealmsSign(),
-			new CmdRealmsTax(),
 			new CmdRealmsTech(),
 			new CmdWallSign(),
 			new CmdRealmsVersion(),
@@ -173,7 +154,6 @@ public class CommandRealms
 			new CmdSettleGetItem(),
 			new CmdSettleHelp(),
 			new CmdSettleInfo(),
-			new CmdSettleJoin(),
 			new CmdSettleList(),
 			new CmdSettleMarket(),
 			new CmdSettleNoSell(),
@@ -195,28 +175,12 @@ public class CommandRealms
 			new CmdColonyHelp(),
 			new CmdColonyWarehouse(),
 			new CmdColonistMove(),
-			new CmdOwnerCreate(),
 			new CmdOwnerHelp(),
 			new CmdOwnerInfo(),
 			new CmdOwnerList(),
 			new CmdOwnerSet(),
-			new CmdFeudalBank(),
-			new CmdFeudalFollow(),
-			new CmdFeudalHelp(),
-			new CmdFeudalInfo(),
 			new CmdFeudalList(),
-			new CmdFeudalCreate(),
-			new CmdFeudalOwner(),
 			new CmdKingdomList(),
-			new CmdKingdomCreate(),
-			new CmdKingdomGive(),
-			new CmdKingdomHelp(),
-			new CmdKingdomInfo(),
-			new CmdKingdomJoin(),
-			new CmdKingdomMember(),
-			new CmdKingdomRequest(),
-			new CmdKingdomRelease(),
-			new CmdKingdomStructure(),
 			new CmdRegimentCreate(),
 			new CmdRegimentMove(),
 			new CmdRegimentList(),

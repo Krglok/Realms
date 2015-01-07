@@ -18,7 +18,7 @@ public class Resident
 	 */
 	private static final long serialVersionUID = 1454415012035643630L;
 	private static final double FertilityCounter_Limit = 75.0;
-	private static double FERTILITY = 1.5;   //  % satz // 07.01.2015 halbiert !!!
+	private static double FERTILITY = 3.0;   //  % satz 
 	private static double  LETHALITY= 1.0;   //  % satz
 	private static final double BASE_HAPPINES = 0.5;   
 	
@@ -372,7 +372,7 @@ public class Resident
 		{
 			if (fertilityCounter >= FertilityCounter_Limit)
 			{
-				value = value + 1.0; 
+				value = value + 1.0;
 				fertilityCounter = 0.0; //fertilityCounter - FertilityCounter_Limit;
 			} else
 			{

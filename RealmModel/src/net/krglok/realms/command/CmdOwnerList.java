@@ -66,16 +66,17 @@ public class CmdOwnerList  extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add("ID |  |Nobility  |Commonlevel  |   | Player      |  [ "+plugin.getData().getOwners().size()+" ]");
+		msg.add("ID |Nobility  |Commonlevel  |   | Player      |  [ "+plugin.getData().getOwners().size()+" ]");
 		for (Owner owner : plugin.getData().getOwners().values())
 		{
     		msg.add(owner.getId()
-    				+" | "+owner.getKingdomId()
     				+" | "+ChatColor.GOLD+owner.getNobleLevel()
     				+" | "+ChatColor.YELLOW+owner.getCommonLevel()
+    				+" | "+owner.getKingdomId()
     				+" | "+owner.getPlayerName()
     				);
 		}
+		msg.add(" ");
 		
 		plugin.getMessageData().printPage(sender, msg, page);
 	}

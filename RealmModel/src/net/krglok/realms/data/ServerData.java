@@ -192,11 +192,6 @@ public class ServerData implements ServerInterface
 		return plugin.stronghold.getRegionManager().getSuperRegionType(regionType).getMoneyRequirement();
 	}
 
-	public double getSuperTypeExp(String regionType)
-	{
-		return plugin.stronghold.getRegionManager().getSuperRegionType(regionType).getExp();
-	}
-	
 	@Override
 	public ItemList getRegionReagents(String regionType)
 	{

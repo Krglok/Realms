@@ -90,9 +90,7 @@ public class SettlementTest
 				owner.getPlayerName(), isCapital, barrack, warehouse,
 				buildingList, townhall, bank,
 				resident,"",Biome.PLAINS,0,
-				priceList,
-				0,
-				0
+				priceList
 				);
 		int expected =  99;
 		int actual = settlement.getId();

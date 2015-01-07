@@ -34,7 +34,6 @@ public class Owner
 	private Boolean isNPC;
 	private ArrayList<String> msg;
 	private AchivementList achivList;
-	private double sales;
 
 	/**
 	 * instanziert einen owner als NPC durch.
@@ -50,7 +49,6 @@ public class Owner
 		setKingdomId(0);
 		setIsNPC(true);
 		setUuid("");
-		sales = 0;
 		msg = new ArrayList<String>();
 		achivList = new AchivementList();
 	}
@@ -64,7 +62,6 @@ public class Owner
 		kingdomId = 0;
 		setIsNPC(isNPC);
 		setUuid("");
-		sales = 0;
 		msg = new ArrayList<String>();
 		achivList = new AchivementList();
 	}
@@ -86,7 +83,6 @@ public class Owner
 		setKingdomId(kingdomID);
 		setIsNPC(isNPC);
 		setUuid(uuid);
-		sales = 0;
 		msg = new ArrayList<String>();
 		achivList = new AchivementList();
 	}
@@ -356,42 +352,6 @@ public class Owner
 	public void setAchivList(AchivementList achivList)
 	{
 		this.achivList = achivList;
-	}
-
-	/**
-	 * @return the sales
-	 */
-	public double getSales()
-	{
-		return sales;
-	}
-
-	/**
-	 * @param sales the sales to set
-	 */
-	public void setSales(double sales)
-	{
-		this.sales = sales;
-	}
-	
-	/**
-	 * add value to sales 
-	 * hint: dont use negative values , better use withdraw
-	 * @param value
-	 */
-	public void depositSales(double value)
-	{
-		this.sales = this.sales + value;
-	}
-	
-	/**
-	 * subtract value from sales.
-	 * hint: dont use negative values !
-	 * @param value
-	 */
-	public void withdrawSales(double value)
-	{
-		this.sales = this.sales - value;
 	}
 	
 }
