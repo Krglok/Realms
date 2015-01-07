@@ -18,7 +18,7 @@ money-output-daily: 0.0
 max-power: 100.0
 daily-power-increase: 10
 charter: 0
-child-regions: 
+children:
 - LEHEN_1
 - LEHEN_2
 - LEHEN_3

@@ -83,7 +83,6 @@ public class CmdRealmsTech extends RealmsCommand
     				+" | "+node.getDescription()
     				);
 		}
-		msg.add(" ");
 		
 		plugin.getMessageData().printPage(sender, msg, page);
 		page = 0;

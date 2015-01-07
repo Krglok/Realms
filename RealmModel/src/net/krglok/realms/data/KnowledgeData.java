@@ -195,7 +195,7 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.GARRISON);
 		kNode.addBuildPlan(BuildPlanType.LIBRARY);
 		
-		kNode.addBuildPlan(BuildPlanType.STRONGHOLD);
+		kNode.addBuildPlan(BuildPlanType.PALACE);
 
 		kNode.addSettleType(SettleType.METROPOLIS);
 		

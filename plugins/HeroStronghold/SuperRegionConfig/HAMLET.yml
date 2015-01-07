@@ -27,7 +27,7 @@ money-output-daily: 0.0
 max-power: 500.0
 daily-power-increase: 10
 charter: 0
-child-regions:
+children:
 - CLAIM
 exp: 500
 description: Tiny settlement for commoner (none noble)

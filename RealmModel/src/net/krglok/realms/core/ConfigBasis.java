@@ -35,6 +35,7 @@ public class ConfigBasis implements ConfigInterface
 	public static double DISTANCE_1_DAY = 1200.0;
 	
 	public static double SETTLER_TAXE = 1.0;	/// Tax in money for every Settler , haedTax
+	public static double SALES_TAX = 10.0;
 	public static double TRADER_TAXE  = 5.0;	/// Tax for Trader 
 	public static double TAVERNE_TAXE = 7.0;	/// Tax for Taverne will modified by settlerCount
 
@@ -66,7 +67,12 @@ public class ConfigBasis implements ConfigInterface
 	public static final double SETTLE_BUY_FACTOR = 0.90; 
 	public static final double SETTLE_SELL_FACTOR = 1.10; 
 	
-	
+	public static final int LEHEN_CREATE_POWER_1 = 500;
+	public static final int LEHEN_CREATE_POWER_2 = 3000;
+	public static final int LEHEN_CREATE_POWER_3 = 6000;
+	public static final int LEHEN_CREATE_POWER_4 = 9000;
+
+
 	public static final String LINE = "=============================== ";
 
 	public static byte getBlockId(Block block)
@@ -635,7 +641,20 @@ public class ConfigBasis implements ConfigInterface
 
 		return subList;
 	}
-	
+
+	public static int getCreateMinPower(SettleType sType)
+	{
+		switch(sType)
+		{
+		case LEHEN_1 :	return LEHEN_CREATE_POWER_1;
+		case LEHEN_2 :	return LEHEN_CREATE_POWER_2;
+		case LEHEN_3 :	return LEHEN_CREATE_POWER_3;
+		case LEHEN_4 :	return LEHEN_CREATE_POWER_4;
+		default:
+			return 0;
+		}
+	}
+
 	
 	@Override
 	public BuildPlanType superRegionToBuildingType(String superRegionTypeName)

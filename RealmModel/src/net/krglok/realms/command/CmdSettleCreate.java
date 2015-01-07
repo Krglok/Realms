@@ -130,7 +130,7 @@ public class CmdSettleCreate extends RealmsCommand
                 {
                     if (sr.getLocation().distance(currentLocation) < radius + plugin.stronghold.getRegionManager().getSuperRegionType(sr.getType()).getRawRadius())
                     {
-                    	if (children.contains(sr.getType()) ) 
+                    	if (children.contains(sr.getType())==false) 
                     	{
                     		msg.add(ChatColor.RED + "[HeroStronghold] " + sr.getName() + " is already here.");
                         	isValid = false;
@@ -252,7 +252,7 @@ public class CmdSettleCreate extends RealmsCommand
 				sRegion.getLocation().getX(), 
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
-		msg.add(ChatColor.GOLD+"SettlementoOwner: "+playerName);
+		msg.add(ChatColor.GOLD+"SettlementOwner: "+playerName);
 		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName,biome); //, plugin.getRealmModel().getLogList());
 		settlement.setOwner(owner);
 		settlement.setOwnerId(owner.getPlayerName());

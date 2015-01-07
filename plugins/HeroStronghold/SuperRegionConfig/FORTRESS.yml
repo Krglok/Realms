@@ -15,7 +15,7 @@ money-output-daily: 0.0
 max-power: 5000
 daily-power-increase: 50
 charter: 0
-child-super-regions: 
+children:
 - CLAIM
 - HAMLET
 - TOWN

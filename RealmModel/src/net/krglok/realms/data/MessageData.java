@@ -120,6 +120,10 @@ public class MessageData implements MessageInterface
 	 */
 	public int printPage(CommandSender sender, ArrayList<String> msg, Integer pageNumber)
 	{
+		if (msg.size() == 1)
+		{
+			msg.add(" ");
+		}
 		if (msg.size() > 0)
 		{
 			HashMap<Integer,ArrayList<String>> pages = preparePage(msg);

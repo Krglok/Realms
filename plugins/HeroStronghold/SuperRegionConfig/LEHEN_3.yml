@@ -11,10 +11,10 @@ requirements:
 central-structure: STRONGHOLD
 money-requirement: 250000.0
 money-output-daily: 0.0
-max-power: 1500
+max-power: 6000
 daily-power-increase: 20
 charter: 2
-child-super-regions: 
+children:
 - CAMP
 - CLAIM
 - ENCLAVE
@@ -24,5 +24,6 @@ child-super-regions:
 - FORTRESS
 - LEHEN_1
 - LEHEN_2
-exp: 5000
+- LEHEN_4
+exp: 2045
 description: High settlement for noble (Lord)

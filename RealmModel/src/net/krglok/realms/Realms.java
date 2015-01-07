@@ -58,6 +58,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.dynmap.bukkit.DynmapPlugin;
 
 
 /**
@@ -114,7 +115,8 @@ public final class Realms extends JavaPlugin
     public Citizens npc = null;
 //    public Vault vault = null;
     public Economy economy = null;
-    
+
+    public DynmapPlugin dynmap;
 	
 	@Override
 	public void onDisable()
@@ -188,7 +190,7 @@ public final class Realms extends JavaPlugin
             return;
         }
         Plugin citizensPlugin = pm.getPlugin("Citizens");
-        if (npc != null) {
+        if (citizensPlugin != null) {
             log.info("[Realms] found Citizens !");
             npc = ((Citizens) citizensPlugin);
     		//Register your trait with Citizens.        
@@ -200,6 +202,16 @@ public final class Realms extends JavaPlugin
             log.info("[Realms] will disable NPC Manager");
             this.npcManager.setEnabled(false);
         }
+
+        Plugin dynmapPlugin = pm.getPlugin("dynmap");
+        if (dynmapPlugin != null) {
+            log.info("[Realms] found Dynmap ! ");
+            dynmap = (DynmapPlugin) dynmapPlugin;
+    		//Register your trait with Citizens.        
+        } else {
+            log.warning("[Realms] didnt find Dynmap.");
+        }
+        
         
         // read the npc list from file
         if (this.npcManager.isEnabled() == true)

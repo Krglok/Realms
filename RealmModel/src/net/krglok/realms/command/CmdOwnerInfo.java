@@ -16,6 +16,7 @@ import net.krglok.realms.science.KnowledgeNode;
 
 import org.bukkit.Achievement;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -149,7 +150,13 @@ public class CmdOwnerInfo extends RealmsCommand
 			aList.addAll(plugin.getRealmModel().getKnowledgeData().getKnowledgeList().getPermissions(owner.getAchivList()));
 			for (Achivement achiv : owner.getAchivList().values())
 			{
-				msg.add(ChatColor.GOLD+achiv.getName()+" "+achiv.isEnaled());
+				if (achiv.isEnaled())
+				{
+					msg.add(ChatColor.GOLD+achiv.getName()+" "+achiv.isEnaled());
+				} else
+				{
+					msg.add(ChatColor.GOLD+achiv.getName()+" "+ChatColor.RED+achiv.isEnaled());
+				}
 			}
 			
 			msg.add("Build Permissions  [ "+aList.size()+" ]");
