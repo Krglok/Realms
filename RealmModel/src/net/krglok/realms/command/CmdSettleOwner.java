@@ -178,11 +178,14 @@ public class CmdSettleOwner extends RealmsCommand
 					
 				}
 			} 
-			if (plugin.getServer().getPlayer(playername) == null)
+			if (plugin.getData().getOwners().getOwnerName(playername).isNPC() == false)
 			{
-				errorMsg.add("Player must be online ! ");
-				errorMsg.add(" ");
-				return false;
+				if (plugin.getServer().getPlayer(playername) == null)
+				{
+					errorMsg.add("Player must be online ! ");
+					errorMsg.add(" ");
+					return false;
+				}
 			}
 			return true;
 			

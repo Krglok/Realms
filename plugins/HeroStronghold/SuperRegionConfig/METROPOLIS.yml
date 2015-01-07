@@ -23,7 +23,7 @@ money-output-daily: 0.0
 max-power: 15000
 daily-power-increase: 50
 charter: 5
-child-regions:
+children:
 - CLAIM
 - ENCLAVE
 - HAMLET

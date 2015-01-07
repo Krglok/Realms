@@ -463,11 +463,11 @@ public class Building  implements Serializable
 		case ARCHERY : return 5;
 		case WATCHTOWER : return 5;
 		case DEFENSETOWER: return 15;
-		case BARRACK : return 10;
-		case TOWER : return 20;
-		case CASERN : return 50;
+		case BARRACK : return 20;
+		case TOWER : return 5;
+		case CASERN : return 20;
 		case GARRISON : return 100;
-		case HEADQUARTER : return 10;
+		case HEADQUARTER : return 5;
 		case KEEP : return 20;
 
 		default :

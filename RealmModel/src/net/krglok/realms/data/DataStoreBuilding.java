@@ -123,7 +123,7 @@ public class DataStoreBuilding  extends AbstractDataStore<Building>
 		slot3 = data.getString(  ".slot3","");
 		slot4 = data.getString(  ".slot4","");
 		slot5 = data.getString(  ".slot5","");
-		LocationData position = LocationData.toLocation(data.getString(data+".position"));
+		LocationData position = LocationData.toLocation(data.getString("position"));
 		Double sale = Double.valueOf(data.getString(  ".sale","0.0"));
 		
 //		System.out.println(buildingId+" : "+buildingType);

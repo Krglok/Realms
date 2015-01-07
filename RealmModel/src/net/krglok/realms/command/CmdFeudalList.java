@@ -70,7 +70,7 @@ public class CmdFeudalList extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add("ID |kingdom|Nobility|Name            |Owner     |Lord|  [ "+plugin.getData().getLehen().size()+" ]");
+		msg.add("ID |kingdom|Name        |Owner   |Lord|  [ "+plugin.getData().getLehen().size()+" ]");
 		for (Lehen lehen : plugin.getData().getLehen().values())
 		{
     		msg.add(lehen.getId()
@@ -81,7 +81,6 @@ public class CmdFeudalList extends RealmsCommand
     				+" | "+ChatColor.GREEN+lehen.getParentId()
     				);
 		}
-		msg.add(" ");
 		
 		plugin.getMessageData().printPage(sender, msg, page);
 

@@ -87,6 +87,8 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
         section.set( "age", dataObject.getAge());
         section.set( "name", dataObject.getName());
         section.set( "owner", dataObject.getOwnerId());
+        section.set( "kingdomId", dataObject.getKingdomId());
+        section.set( "tributId", dataObject.getTributId());
         section.set( "isCapital", dataObject.getIsCapital());
 //        section.set(MemorySection.createPath(settleSec, "isEnabled"), dataObject.isEnabled());
         section.set( "isActive", dataObject.isActive());
@@ -180,6 +182,8 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	//Biome.valueOf(settle.getBiome()));
 	settle.setName(data.getString( "name"));
 	settle.setOwnerId(data.getString( "owner",ConfigBasis.NPC_0));
+	settle.setKingdomId(data.getInt( "kingdomId",0));
+	settle.setTributId(data.getInt( "tributId",0));
 	settle.setIsCapital(data.getBoolean( "isCapital",false));
 	settle.setIsActive(data.getBoolean( "isActive"));
 	settle.getBank().addKonto(data.getDouble( "bank",0.0),"SettleRead",settle.getId());

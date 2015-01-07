@@ -9,6 +9,7 @@ effects:
 radius: 15
 requirements:
 - WOODEN_DOOR.6
+- IRON_DOOR_BLOCK.4
 - BED_BLOCK.5
 - CHEST.5
 - WALL_SIGN.1
@@ -18,7 +19,10 @@ requirements:
 - LOG.160
 reagents:
 - GOLD_NUGGET.50
-- IRON_INGOT.50
+- DIAMOND_HELMET.1
+- DIAMOND_CHESTPLATE.1
+- DIAMOND_LEGGINGS.1
+- DIAMOND_BOOTS.1
 upkeep:
 - BREAD.5
 - COOKED_BEEF.5

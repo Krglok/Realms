@@ -27,7 +27,7 @@ public enum NobleLevel
 		this.value = value;
 	}
 
-	int getValue()
+	public int getValue()
 	{
 		return value;
 	}
@@ -66,4 +66,17 @@ public enum NobleLevel
 		}
 	}
 
+	public static NobleLevel valueOf(int level)
+	{
+		switch (level)
+		{
+		case 1: return KNIGHT;
+		case 2: return EARL;
+		case 3: return LORD;
+		case 4: return KING;
+		
+		default:
+			return COMMONER;
+		}
+	}
 }

@@ -3,6 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 
@@ -70,14 +71,15 @@ public class CmdSettleList extends RealmsCommand
 		SettlementList  rList = plugin.getRealmModel().getSettlements();
 	    if (rList.count() > 0)
 	    {
-			msg.add("ID |Settlement | Active | Owner     |  [ "+rList.size()+" ]");
+			msg.add("ID|Settlement | Type | Owner     |  [ "+rList.size()+" ]");
 		    for (Settlement settle : rList.values())
 		    {
 	    		msg.add(settle.getId()
-	    				+" | "+ChatColor.YELLOW+settle.getName()
-	    				+" | "+ChatColor.GOLD+settle.getSettleType().name()
-	    				+" Owner: "+settle.getOwnerId()
-	    				+" in "+settle.getPosition().getWorld());
+	    				+" |"+ChatColor.YELLOW+ConfigBasis.setStrleft(settle.getName()+"___________",12)
+	    				+" |"+ChatColor.GREEN+ConfigBasis.setStrleft(settle.getSettleType().name(),4)
+	    				+ChatColor.YELLOW+"| "+ConfigBasis.setStrleft(settle.getOwnerId(),10)
+	    				+ChatColor.YELLOW+"| "+ChatColor.DARK_PURPLE+settle.getKingdomId()
+	    				+ChatColor.YELLOW+" in "+settle.getPosition().getWorld());
 		    }
 	    } else
 	    {

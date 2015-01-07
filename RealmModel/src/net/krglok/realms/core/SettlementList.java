@@ -108,7 +108,7 @@ public class SettlementList extends HashMap<Integer,Settlement>
 	{
 		for (Settlement settlement : this.values())
 		{
-			if (settlement.getName().equals(settleName))
+			if (settlement.getName().equalsIgnoreCase(settleName))
 			{
 				return true;
 			}

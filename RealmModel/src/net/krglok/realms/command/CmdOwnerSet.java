@@ -113,6 +113,11 @@ public class CmdOwnerSet extends RealmsCommand
 		{
 			return false;
 		}
+		if (AchivementName.contains(achivementName) == false)
+		{
+			errorMsg.add(ChatColor.RED+"AchivementName is wrong");
+			return false;
+		}
 		AchivementName aName = AchivementName.valueOf(achivementName);
 		if (aName == null)
 		{

@@ -1,5 +1,7 @@
 package net.krglok.realms.kingdom;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
@@ -30,6 +32,7 @@ public class Kingdom
 	private Owner owner;
 	private Boolean isNPCkingdom;
 	private MemberList members;
+	private JoinRequestList joinRequests;
 	
 	public Kingdom()
 	{
@@ -39,6 +42,7 @@ public class Kingdom
 		owner = new Owner(0, NobleLevel.COMMONER, 0, "NPC1", 0, true, ""); //null;  //new Owner());
 		isNPCkingdom = owner.isNPC();
 		members = new MemberList();
+		joinRequests = new JoinRequestList();
 	}
 
 	
@@ -49,8 +53,10 @@ public class Kingdom
 		this.id = id;
 		this.name = name;
 		this.owner = owner;
+		this.ownerId = owner.getId();
 		this.isNPCkingdom = isNPCkingdom;
 		members = new MemberList();
+		joinRequests = new JoinRequestList();
 	}
 
 	public static Kingdom initDefaultKingdom(OwnerList owners)
@@ -156,6 +162,22 @@ public class Kingdom
 	public MemberList getMembers()
 	{
 		return members;
+	}
+
+
+	public JoinRequestList getOpenRequests()
+	{
+		return this.joinRequests.getSubList(Request.REQUEST_STATUS_OPEN);
+	}
+
+
+
+	/**
+	 * @return the joinRequests
+	 */
+	public JoinRequestList getJoinRequests()
+	{
+		return joinRequests;
 	}
 
 	

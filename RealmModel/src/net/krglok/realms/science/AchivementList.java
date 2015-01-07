@@ -88,7 +88,7 @@ public class AchivementList extends HashMap<String, Achivement>
 	 */
 	public boolean contains (AchivementName value)
 	{
-		for (Achivement achiev : this.getSubList(value).values())
+		for (Achivement achiev : this.values())
 		{
 			if (achiev.getAchiveName() == value)
 			{
