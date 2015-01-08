@@ -82,19 +82,19 @@ public class CmdSettleCheck extends RealmsCommand
 		return new String[] {String.class.getName() , int.class.getName() };
 	}
 
-	private String findSuperRegionAtLocation(Realms plugin, Player player)
-	{
-		Location position = player.getLocation();
-	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
-	    {
-	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
-	    	if (settleType != SettleType.NONE)
-	    	{
-	    		return sRegion.getName();
-	    	}
-	    }
-		return "";
-	}
+//	private String findSuperRegionAtLocation(Realms plugin, Player player)
+//	{
+//		Location position = player.getLocation();
+//	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+//	    {
+//	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
+//	    	if (settleType != SettleType.NONE)
+//	    	{
+//	    		return sRegion.getName();
+//	    	}
+//	    }
+//		return "";
+//	}
 	
 	private boolean cmdSettlement(Realms plugin, CommandSender sender)
 	{

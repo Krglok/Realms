@@ -3,6 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
@@ -26,13 +27,13 @@ public class CmdSettleWorkshop extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.WORKSHOP);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle WORKSHOP [SettleID] [slot] [item]",
+				ChatColor.YELLOW+"/settle WORKSHOP [slot] [item]",
 		    	"Set the item in production slot (0..4)  ",
-		    	"Stay in a WORKSHOP building ",
+		    	"You must stay in a WORKSHOP building/area ",
 		    	"the Production is based on internal Production List",
 		    	" use /realms RECIPES  "
 			};
-			requiredArgs = 3;
+			requiredArgs = 2;
 			this.settleID = 0;
 //			this.buildingId = 1;  
 			this.slot = 0;
@@ -43,7 +44,7 @@ public class CmdSettleWorkshop extends RealmsCommand
 	{
 		switch (index)
 		{
-		case 2:
+		case 1:
 			itemRef = value;
 			break;
 		default:
@@ -57,10 +58,7 @@ public class CmdSettleWorkshop extends RealmsCommand
 	{
 		switch (index)
 		{
-		case 0:
-			settleID = value;
-			break;
-		case 1 :
+		case 0 :
 			slot = value;
 		break;
 		default:
@@ -84,7 +82,7 @@ public class CmdSettleWorkshop extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName(), int.class.getName(),  String.class.getName()};
+		return new String[] {int.class.getName(), String.class.getName()};
 	}
 
 	@Override
@@ -93,9 +91,10 @@ public class CmdSettleWorkshop extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
     	Player player = (Player) sender;
     	Location loc = player.getLocation();
-    	Region region = plugin.stronghold.getRegionManager().getRegion(loc);
-    	Building building = plugin.getRealmModel().getSettlements().getSettlement(settleID).getBuildingList().getBuildingByRegion(region.getID());
+    	Region region = findRegionAtPosition(plugin, loc);
+    	Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
 		building.addSlot(slot, itemRef, plugin.getConfigData());
+		plugin.getData().writeBuilding(building);
 		msg.add("WORKSHOP Slots are loaded with :");
 		int index = 0;
 		for (Item item : building.getSlots())
@@ -115,45 +114,54 @@ public class CmdSettleWorkshop extends RealmsCommand
 	{
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
 		{
-			if (plugin.getRealmModel().getSettlements().containsID(settleID))
-			{
-				if (isOpOrAdmin(sender) == false)
-				{
-					if (isSettleOwner(plugin, sender, settleID) == false)
-					{
-						errorMsg.add("You are not the Owner !");
-						errorMsg.add(" ");
-						return false;
-					}
-					
-				}
-		    	Player player = (Player) sender;
-		    	Location loc = player.getLocation();
-		    	Region region = plugin.stronghold.getRegionManager().getRegion(loc);
-		    	if (region == null)
-				{
-					errorMsg.add("The region not found ");
-					errorMsg.add("Stay in a WORKSHOP building ");
-					return false;
-				}
-				if (region.getType().equals(BuildPlanType.WORKSHOP.name()) == false)
-				{
-					errorMsg.add("The Workshop not found ");
-					errorMsg.add("Stay in a WORKSHOP building ");
-					return false;
-				}
+	    	Player player = (Player) sender;
+	    	Location loc = player.getLocation();
 
-				itemRef.toUpperCase();
-				if (plugin.getServerData().getRecipe(itemRef).size() == 0)
+	    	String settleName = findSuperRegionAtLocation(plugin, player);
+			
+			if (plugin.getRealmModel().getSettlements().containsName(settleName)== false)
+			{
+				errorMsg.add("Settlement not found !!!");
+				errorMsg.add("The name is wrong  ?");
+				return false;
+			}
+				
+			settleID = plugin.getRealmModel().getSettlements().findName(settleName).getId();
+			if (isOpOrAdmin(sender) == false)
+			{
+				if (isSettleOwner(plugin, sender, settleID) == false)
 				{
-					errorMsg.add("Recipe not found !!!");
+					errorMsg.add("You are not the Owner !");
 					return false;
 				}
-				return true;
+				
 			}
-			errorMsg.add("Settlement not found !!!");
-			errorMsg.add("The ID is wrong or not a number ?");
-			return false;
+	    	ArrayList<Region>  regions = plugin.stronghold.getRegionManager().getContainingRegions(loc);
+	    	if (regions.size() == 0)
+			{
+				errorMsg.add("The region not found ");
+				errorMsg.add("Stay in a WORKSHOP building ");
+				return false;
+			}
+			if (regions.iterator().next().getType().equals(BuildPlanType.WORKSHOP.name()) == false)
+			{
+				errorMsg.add("The Workshop not found ");
+				errorMsg.add("Stay in a WORKSHOP building ");
+				return false;
+			}
+
+			itemRef.toUpperCase();
+			if (isMaterial(itemRef) == false)
+			{
+				errorMsg.add("Not a valid MatrialName !!!");
+				return false;
+			}
+			if (plugin.getServerData().getRecipe(itemRef).size() == 0)
+			{
+				errorMsg.add("Recipe not found !!!");
+				return false;
+			}
+			return true;
 		}
 		errorMsg.add("[Realm Model] NOT enabled or too busy");
 		errorMsg.add("Try later again");

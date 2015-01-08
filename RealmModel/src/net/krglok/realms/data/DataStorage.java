@@ -198,7 +198,7 @@ public class DataStorage implements DataInterface
 		String refId = "0";
 		for (NPCData npcData : dataObject.values())
 		{
-			refId = String.valueOf(npcData.getNpcId());
+			refId = String.valueOf(npcData.getId());
 			npcListData.writeNpc(npcData, refId);
 		}
 	}

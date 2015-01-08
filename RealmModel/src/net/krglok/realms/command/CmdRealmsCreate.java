@@ -193,19 +193,19 @@ public class CmdRealmsCreate extends RealmsCommand
 		cmdCreate( plugin,  sender);
 	}
 	
-	private String findSuperRegionAtLocation(Realms plugin, Player player)
-	{
-		Location position = player.getLocation();
-	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
-	    {
-	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
-	    	if (settleType != SettleType.NONE)
-	    	{
-	    		return sRegion.getName();
-	    	}
-	    }
-		return "";
-	}
+//	private String findSuperRegionAtLocation(Realms plugin, Player player)
+//	{
+//		Location position = player.getLocation();
+//	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+//	    {
+//	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
+//	    	if (settleType != SettleType.NONE)
+//	    	{
+//	    		return sRegion.getName();
+//	    	}
+//	    }
+//		return "";
+//	}
 	
 
 	@Override

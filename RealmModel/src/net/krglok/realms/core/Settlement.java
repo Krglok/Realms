@@ -1805,7 +1805,7 @@ public class Settlement //implements Serializable
 //		taxSum = townhall.getWorkerCount()  * ConfigBasis.SETTLER_TAXE;
 		taxSum = taxSum + (resident.getSettlerCount() * ConfigBasis.SETTLER_TAXE);
 		bank.depositKonto(sales, "TAX_COLLECTOR", getId());
-		System.out.println("doCalcTax "+this.getId()+" : "+ConfigBasis.setStrformat2(sales,7)+"/"+ConfigBasis.setStrformat2(taxSum,7));
+//		System.out.println("doCalcTax "+this.getId()+" : "+ConfigBasis.setStrformat2(sales,7)+"/"+ConfigBasis.setStrformat2(taxSum,7));
 		//  Kingdom tax calculated in RealmModel
 	}
 	

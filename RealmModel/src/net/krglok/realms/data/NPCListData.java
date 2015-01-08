@@ -28,11 +28,10 @@ public class NPCListData extends AbstractDataStore<NPCData>
 		HashMap<String,String> values; // = new HashMap<String,String>();
         values = new HashMap<String,String>();
 		
-        section.set("npcId", dataObject.getNpcId());
+        section.set("npcId", dataObject.getId());
         section.set("npcType", String.valueOf(dataObject.getNpcType().name()));
         section.set("unitType", String.valueOf(dataObject.getUnitType().name()));
         section.set("settleId", dataObject.getSettleId());
-        section.set("buildingId", dataObject.getBuildingId());
 //        section.set(MemorySection.createPath(section,String.valueOf(dataObject.getNpcId())), values);
 	}
 
@@ -46,8 +45,7 @@ public class NPCListData extends AbstractDataStore<NPCData>
 			NPCType npcType = NPCType.valueOf(data.getString("npcType",NPCType.BEGGAR.name()));
 			UnitType unitType = UnitType.valueOf(data.getString("unitType",UnitType.SETTLER.name()));
 			int settleId = data.getInt("settleId",0);
-			int buildingId = data.getInt("buildingId",0);
-			npcData = new NPCData(npcId, npcType, unitType,settleId, buildingId);
+			npcData = new NPCData(npcId, npcType, unitType,settleId, 0);
 //			System.out.println("NPC objct : "+"/"+npcId+":"+ npcType.name()+":"+unitType.name());
 		}
 		return npcData;
@@ -83,7 +81,7 @@ public class NPCListData extends AbstractDataStore<NPCData>
 		for (String npcId : npcInit)
 		{
 			NPCData npcData =  readData(npcId);
-			System.out.println("[REALMS] NPC READ : "+npcData.getNpcId());
+			System.out.println("[REALMS] NPC READ : "+npcData.getId());
 			if (npcData != null)
 			{
 				npcList.put(Integer.valueOf(npcId), npcData);

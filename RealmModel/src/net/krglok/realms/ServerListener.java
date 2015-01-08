@@ -767,7 +767,11 @@ public class ServerListener implements Listener
 		if (sRegion != null)
 		{
 	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
-	    	if (settleType != SettleType.NONE)
+	    	if ((settleType == SettleType.HAMLET)
+	    		|| (settleType == SettleType.TOWN)
+	    		|| (settleType == SettleType.CITY)
+	    		|| (settleType == SettleType.METROPOLIS)
+	    		)
 	    	{
 	    		return sRegion.getName();
 	    	}
@@ -785,7 +789,11 @@ public class ServerListener implements Listener
 	{
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
 	    {
-	    	if (sRegion != null)
+	    	if ((sRegion.getType().equalsIgnoreCase( SettleType.HAMLET.name()) )
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.TOWN.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.CITY.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.METROPOLIS.name()))
+	    		)
 	    	{
 	    		return sRegion;
 	    	}

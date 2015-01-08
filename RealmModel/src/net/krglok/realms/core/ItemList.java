@@ -20,7 +20,7 @@ public class ItemList  extends  HashMap<String, Item>
 	 */
 	private static final long serialVersionUID = -3351533128792676311L;
 	//	private Map<String, Integer> itemList;
-	private int itemCount;
+	protected int itemCount;
 
 	public ItemList()
 	{
@@ -41,11 +41,12 @@ public class ItemList  extends  HashMap<String, Item>
 	 * if exist values are  overwrite
 	 * @param item
 	 */
-	public void addItem(Item item)
+	public boolean addItem(Item item)
 	{
 		this.put(item.ItemRef(), item);
+		itemCount = itemCount + item.value();
 //		Item item = new Item(itemRef, iValue);
-//		return item;
+		return true;
 	}
 	
 	/**
@@ -55,12 +56,12 @@ public class ItemList  extends  HashMap<String, Item>
 	 * @param iValue
 	 * @return added item or null
 	 */
-	public void addItem(String itemRef, int iValue)
+	public boolean addItem(String itemRef, int iValue)
 	{
 		this.put(itemRef, new Item(itemRef, iValue));
 		itemCount = itemCount + iValue;
 //		Item item = new Item(itemRef, iValue);
-//		return item;
+		return true;
 	}
 	
 	/**
@@ -237,5 +238,5 @@ public class ItemList  extends  HashMap<String, Item>
 		}
 		return itemArray;
 	}
-
+	
 }

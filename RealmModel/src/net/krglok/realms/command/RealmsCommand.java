@@ -2,13 +2,17 @@ package net.krglok.realms.command;
 
 import java.util.ArrayList;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.unit.Regiment;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -254,6 +258,94 @@ public abstract class RealmsCommand implements iRealmsCommand
 		
 	}
 	
+	/**
+	 * give first region at position
+	 * @param plugin
+	 * @param position
+	 * @return  region object
+	 */
+	protected Region findRegionAtPosition(Realms plugin,Location position)
+	{
+	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
+	    {
+	    	if (region != null)
+	    	{
+	    		return region;
+	    	}
+	    }
+		return null;
+	}
+
+
+	/**
+	 * give region id at player position
+	 * @param plugin
+	 * @param player
+	 * @return region id
+	 */
+	protected Integer findRegionIdAtLocation(Realms plugin, Player player)
+	{
+		Location position = player.getLocation();
+		Region region = findRegionAtPosition( plugin, position);
+	    if ( region != null)
+	    {
+	    	BuildPlanType bType = plugin.getConfigData().regionToBuildingType(region.getType());
+	    	if (bType != BuildPlanType.NONE)
+	    	{
+	    		return region.getID();
+	    	}
+	    }
+		return -1;
+	}
+	
+    /**
+     * give first superegion at player position
+     * @param plugin
+     * @param player
+     * @return superregion name
+     */
+	protected String findSuperRegionAtLocation(Realms plugin, Player player)
+	{
+		Location position = player.getLocation();
+		SuperRegion sRegion =  findSuperRegionAtPosition( plugin,  position);
+		if (sRegion != null)
+		{
+	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
+	    	if ((settleType == SettleType.HAMLET)
+	    		|| (settleType == SettleType.TOWN)
+	    		|| (settleType == SettleType.CITY)
+	    		|| (settleType == SettleType.METROPOLIS)
+	    		)
+	    	{
+	    		return sRegion.getName();
+	    	}
+	    }
+		return "";
+	}
+
+	/**
+	 * give first superregion at position
+	 * @param plugin
+	 * @param position
+	 * @return superregion object  or null
+	 */
+	protected SuperRegion findSuperRegionAtPosition(Realms plugin, Location position)
+	{
+	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+	    {
+	    	if ((sRegion.getType().equalsIgnoreCase( SettleType.HAMLET.name()) )
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.TOWN.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.CITY.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.METROPOLIS.name()))
+	    		)
+	    	{
+	    		return sRegion;
+	    	}
+	    }
+		return null;
+	}
+
+	
 	public boolean isSettleOwner(Realms plugin, CommandSender sender, int settleID)
 	{
 		if (isOpOrAdmin(sender))
@@ -280,7 +372,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 		return true;
 	}
 
-	public boolean isRegimentOwner(Realms plugin, CommandSender sender, int regID)
+	protected boolean isRegimentOwner(Realms plugin, CommandSender sender, int regID)
 	{
 		if (isOpOrAdmin(sender))
 		{
@@ -400,6 +492,19 @@ public abstract class RealmsCommand implements iRealmsCommand
     	}
 		return msg;
 
+	}
+	
+	public boolean isMaterial(String value)
+	{
+		for (Material mat : Material.values())
+		{
+			if (mat.name().equalsIgnoreCase(value))
+			{
+				return true;
+			}
+			
+		}
+		return false;
 	}
 	
 	public ItemStack writeBook(ItemStack book, ArrayList<String> msg, String author, String title)

@@ -93,29 +93,6 @@ public class CmdRealmsSettler extends RealmsCommand
 		}
 	}
 	
-	private static SuperRegion findSuperRegionAtPosition(Realms plugin, Location position)
-	{
-	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
-	    {
-	    	if (sRegion != null)
-	    	{
-	    		return sRegion;
-	    	}
-	    }
-		return null;
-	}
-
-	public static Region findRegionAtPosition(Realms plugin, Location position)
-	{
-	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
-	    {
-	    	if (region != null)
-	    	{
-	    		return region;
-	    	}
-	    }
-		return null;
-	}
 	
     private void cmdSignShop(Realms plugin, Block b, Player player)
     {

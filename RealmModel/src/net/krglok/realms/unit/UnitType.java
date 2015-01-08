@@ -33,5 +33,16 @@ public enum UnitType
 		
 		return UnitType.NONE;
 	}
-	
+
+	public boolean contains(String value)
+	{
+		for (UnitType uType : UnitType.values())
+		{
+			if (uType.name().equals(value))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
