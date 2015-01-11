@@ -10,6 +10,8 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
@@ -154,6 +156,45 @@ public class CmdFeudalCreate extends RealmsCommand
 		Lehen lehen = new Lehen(owner.getKingdomId(), name, nobleLevel, sType, owner, parentId,position);
 		plugin.getData().getLehen().addLehen(lehen);
 		plugin.getData().writeLehen(lehen);
+		SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(name);
+		msg.add("");
+		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
+		{
+    		msg.add("  "+region.getType()+" : "+ChatColor.YELLOW+region.getID()+" : "+" Owner: "+region.getOwners());
+    		
+			int hsRegion = region.getID();
+			String hsRegionType = region.getType();
+			BuildPlanType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
+			if (BuildPlanType.getBuildGroup(buildingType) == 900)
+			{
+				if (plugin.getData().getBuildings().containRegion(hsRegion) == false)
+				{
+					Building building = new Building(
+						buildingType, 
+						hsRegion, 
+						new LocationData(
+						sRegion.getLocation().getWorld().getName(),
+						sRegion.getLocation().getX(), 
+						sRegion.getLocation().getY(),
+						sRegion.getLocation().getZ()),
+						0
+						);
+					building.setLehenId(lehen.getId());
+					plugin.getRealmModel().getBuildings().addBuilding(building);
+					plugin.getData().writeBuilding(building);
+					System.out.println("[REALMS] Lehen "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
+				} else
+				{
+					Building building = plugin.getData().getBuildings().getBuildingByRegion(hsRegion);
+					if ((building.getSettleId() == 0) && (building.getLehenId() == 0))
+					{
+						building.setLehenId(lehen.getId());
+						plugin.getData().writeBuilding(building);
+						System.out.println("[REALMS] Lehen "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
+					}
+				}
+			}
+		}
 
 		plugin.getMessageData().printPage(sender, msg, page);
 
@@ -366,14 +407,17 @@ public class CmdFeudalCreate extends RealmsCommand
 		{
 			return false;
 		}
-		int power = ConfigBasis.getCreateMinPower(sType);
-		if (checkOwnerPower(plugin, owner, power))
+		if (isOpOrAdmin(sender) == false)
 		{
-			errorMsg.add(ChatColor.RED+"[HeroStronghold] You need more Power !");;
-			errorMsg.add(ChatColor.YELLOW+"Wait for regeneration or build new settlements !");;
-			return false;
+			int power = ConfigBasis.getCreateMinPower(sType);
+			
+			if (checkOwnerPower(plugin, owner, power))
+			{
+				errorMsg.add(ChatColor.RED+"[HeroStronghold] You need more Power !");;
+				errorMsg.add(ChatColor.YELLOW+"Wait for regeneration or build new settlements !");;
+				return false;
+			}
 		}
-		
 		return true;
 	}
 

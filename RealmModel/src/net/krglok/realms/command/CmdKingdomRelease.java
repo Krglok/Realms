@@ -117,6 +117,7 @@ public class CmdKingdomRelease extends RealmsCommand
 
 		plugin.getMessageData().printPage(sender, msg, page);
 		playerName = "";
+		kingdomId = 0;
 	}
 
 	@Override

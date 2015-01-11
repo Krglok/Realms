@@ -73,6 +73,7 @@ public class McmdCreateSettle implements iModelCommand
 			position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
 			return;
 		}
+		sRegion.setBalance(10000.0);
 		position = new LocationData(
 				sRegion.getLocation().getWorld().getName(),
 				sRegion.getLocation().getX(), 
@@ -84,20 +85,54 @@ public class McmdCreateSettle implements iModelCommand
 //		System.out.println(superRegionName+" : "+settlement.getId());
 		for (Region region : rModel.getServer().getRegionInSuperRegion(superRegionName))
 		{
-			int hsRegion = region.getID();
+			int regionId = region.getID();
 			String hsRegionType = region.getType();
     		BuildPlanType buildingType = rModel.getConfig().regionToBuildingType(hsRegionType);
-			Building building = new Building(
-					buildingType, 
-					hsRegion, 
-					new LocationData(
-					region.getLocation().getWorld().getName(),
-					region.getLocation().getX(), 
-					region.getLocation().getY(),
-					region.getLocation().getZ()),
-					settlement.getId()
-					);
-			rModel.getBuildings().addBuilding(building);
+//			Building building = new Building(
+//					buildingType, 
+//					hsRegion, 
+//					new LocationData(
+//					region.getLocation().getWorld().getName(),
+//					region.getLocation().getX(), 
+//					region.getLocation().getY(),
+//					region.getLocation().getZ()),
+//					settlement.getId()
+//					);
+//			rModel.getBuildings().addBuilding(building);
+//			rModel.getData().writeBuilding(building);
+			if ((BuildPlanType.getBuildGroup(buildingType) < 900)
+					&& (BuildPlanType.getBuildGroup(buildingType) >= 10)
+					)
+				{
+					if (rModel.getData().getBuildings().containRegion(regionId) == false)
+					{
+						Building building = new Building(
+							buildingType, 
+							regionId, 
+							new LocationData(
+							sRegion.getLocation().getWorld().getName(),
+							sRegion.getLocation().getX(), 
+							sRegion.getLocation().getY(),
+							sRegion.getLocation().getZ()),
+							settlement.getId()
+							);
+						rModel.getBuildings().addBuilding(building);
+						rModel.getData().writeBuilding(building);
+						System.out.println("[REALMS] Modell Settle "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
+					} else
+					{
+						Building building = rModel.getData().getBuildings().getBuildingByRegion(regionId);
+						if ((building.getSettleId() == 0) && (building.getLehenId() == 0))
+						{
+							building.setSettleId(settlement.getId());
+							rModel.getData().writeBuilding(building);
+							System.out.println("[REALMS] Model Settle "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
+						}
+					}
+				} else
+				{
+					System.out.println("[REALMS] Model Settle wrong Building Group"+BuildPlanType.getBuildGroup(buildingType));
+				}
 		}
 		// make not dynamic initialization
 		
@@ -119,7 +154,7 @@ public class McmdCreateSettle implements iModelCommand
 		settlement.getWarehouse().depositItemValue("WATER",settlement.getResident().getSettlerMax());
 		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
 		settlement.getBank().depositKonto((double) (settlement.getResident().getSettlerCount()*10) , "CREATE",settlement.getId());
-		System.out.println("Write Settlement to Storage : "+settlement.getName()+" Activ:"+settlement.isActive()+" Enable:"+settlement.isEnabled());
+		System.out.println("[REALMS] Model Write Settlement: "+settlement.getName()+" Activ:"+settlement.isActive()+" Enable:"+settlement.isEnabled());
 		rModel.getData().writeSettlement(settlement);
 	}
 

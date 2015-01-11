@@ -17,10 +17,7 @@ import org.bukkit.Material;
 //BUILDING_HALL (50),
 //BUILDING_HOME (100),
 //BUILDING_PROD (200),
-//BUILDING_WHEAT (200),
-//BUILDING_BAUERNHOF (200),
-//BUILDING_BAECKER (200),
-//BUILDING_WERKSTATT (200),
+//BUILDING_PRODMILITARY (300),
 //BUILDING_WAREHOUSE (300),
 //BUILDING_TRADER (400),
 //BUILDING_MILITARY (500),
@@ -181,13 +178,19 @@ public enum BuildPlanType
 		}
 		return buildPlanTypes;
 	}
-	
+
+	/**
+	 * check for groups to build automatically
+	 * 
+	 * @param buildPlanType
+	 * @return
+	 */
 	public static int getBuildGroup(BuildPlanType buildPlanType)
 	{
 		int group = buildPlanType.getValue();
 		if (group == 0) return 0;
 		if (group < 10)  return 1;
 		if (group  < 100) return 10;
-		return group / 100;
+		return group / 100 * 100;
 	}
 }

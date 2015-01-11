@@ -152,7 +152,10 @@ public class ServerData implements ServerInterface
 	@Override
 	public int getSuperRegionPower(String superRegionName)
 	{
-		
+		if (plugin.stronghold.getRegionManager().getSuperRegion(superRegionName) == null)
+		{
+			return 0;
+		}
 		Integer power = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName).getPower();
 		if (power != null)
 		{ 

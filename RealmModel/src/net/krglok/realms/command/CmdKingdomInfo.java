@@ -95,6 +95,7 @@ public class CmdKingdomInfo extends RealmsCommand
 			
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
+		kingdomId = 0;
 
 	}
 

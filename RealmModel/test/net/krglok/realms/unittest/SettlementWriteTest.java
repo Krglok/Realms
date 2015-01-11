@@ -81,7 +81,7 @@ public class SettlementWriteTest
 				+":"+settle.getProductionOverview().getCycleCount());
 		for (Building building : settle.getBuildingList().values())
 		{
-			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 5)
+			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500)
 			{
 				msg.add(" "+ConfigBasis.setStrright(building.getId(),3)
 				+" : "+ConfigBasis.setStrleft(building.getBuildingType().name(),12)

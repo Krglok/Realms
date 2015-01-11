@@ -500,15 +500,16 @@ public class SettleTrainTest
 							+": "+building.getTrainType()
 							+": "+building.getTrainCounter()
 							+": "+building.getTrainTime()
-							+": "+building.getMaxTrain()
-							);
+							+"| "+BuildPlanType.getBuildGroup(building.getBuildingType())
+					+"| "+building.getMaxTrain()
+					);
 					}
 				}
 			}
 			boolean isBarackList = true;
 			if (isBarackList)
 			{
-				System.out.println("Warehouse");
+				System.out.println("Warehouse" );
 				double price = 0.0;
 				double balance = 0.0;
 				for (Item item : settle.getWarehouse().getItemList().values())

@@ -3,6 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
@@ -103,11 +104,19 @@ public class CmdSettleOwner extends RealmsCommand
 				SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(settle.getName());
 				if (sRegion != null)
 				{
-					List<String> perms = null;
 					List<String> members = new ArrayList<String>();
 					members.add(playername);
-					plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
-					plugin.stronghold.getRegionManager().setOwner(sRegion, playername);
+					// check for playername as member of superregion
+					// set it again to delete the member entry
+					if (sRegion.getMembers().containsKey(playername))
+					{
+						plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
+					}
+					// set owner of superregion in addition to existing
+					if (sRegion.getOwners().contains(playername) == false)
+					{
+						sRegion.addOwner(playername);
+					}
 					settle.setOwnerId(playername);
 //					sRegion.addMember(playername, perms );
 					for (Building building : settle.getBuildingList().values())
@@ -117,13 +126,15 @@ public class CmdSettleOwner extends RealmsCommand
 								&& (building.getBuildingType() != BuildPlanType.MANSION)
 								)
 						{
-							plugin.stronghold.getRegionManager().setMember(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
-							plugin.stronghold.getRegionManager().setOwner(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
+							Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
+							if (region.getOwners().contains(playername) == false)
+							{
+								region.addOwner(playername);
+							}
 							System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playername );
 							building.setOwnerId(playername);
 							plugin.getData().writeBuilding(building);
 						}
-
 					}
 					plugin.getData().writeSettlement(settle);
 					msg.add("Owner added to "+settle.getName());

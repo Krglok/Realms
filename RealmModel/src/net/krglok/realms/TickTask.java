@@ -130,29 +130,32 @@ public class TickTask implements Runnable
 					&& (world.getTime() < 17000 ))
 				{
 		//			System.out.print("Night:"+plugin.getServer().getWorlds().get(0).getTime());
-					if (isGateClose.get(world.getName()) == false)
+					if (isGateClose.containsKey(world.getName()) == true)
 					{
-						plugin.getLog().info("[Realms] Gate Night Event "+world.getName());
-						doGateClose(world);
-						isGateClose.put(world.getName(),true);
-						isGateOpen.put(world.getName(),false);
-						if (isProduction)
+						if (isGateClose.get(world.getName()) == false)
 						{
-							if (plugin.getServer().getWorlds().get(0).getName().equalsIgnoreCase(world.getName()))
+							plugin.getLog().info("[Realms] Gate Night Event "+world.getName());
+							doGateClose(world);
+							isGateClose.put(world.getName(),true);
+							isGateOpen.put(world.getName(),false);
+							if (isProduction)
 							{
-								taxCounter++;
-							}
-							if (plugin.getRealmModel().getSettlements().size() > 0)
+								if (plugin.getServer().getWorlds().get(0).getName().equalsIgnoreCase(world.getName()))
+								{
+									taxCounter++;
+								}
+								if (plugin.getRealmModel().getSettlements().size() > 0)
+								{
+									plugin.getRealmModel().OnProduction(world.getName());
+	//								plugin.getLog().info("[Realms] production calculation : "+world.getName());
+									plugin.getServer().broadcastMessage(ChatColor.BLUE+"[Realms] production calculation on "+world.getName());
+								}
+			//					System.out.println("[Realms] Production");
+			//					plugin.getLog().info("Tax counter "+taxCounter);
+							} else
 							{
-								plugin.getRealmModel().OnProduction(world.getName());
-//								plugin.getLog().info("[Realms] production calculation : "+world.getName());
-								plugin.getServer().broadcastMessage(ChatColor.BLUE+"[Realms] production calculation on "+world.getName());
+								System.out.println("[Realms] Production "+isProduction+" on "+world.getName());
 							}
-		//					System.out.println("[Realms] Production");
-		//					plugin.getLog().info("Tax counter "+taxCounter);
-						} else
-						{
-							System.out.println("[Realms] Production "+isProduction+" on "+world.getName());
 						}
 					}
 					plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getTime());

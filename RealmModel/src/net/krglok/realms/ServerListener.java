@@ -11,6 +11,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.citizensnpcs.npc.entity.nonliving.TNTPrimedController.TNTPrimedNPC;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.command.CmdFeudalInfo;
 import net.krglok.realms.command.CmdRealmsBookList;
 import net.krglok.realms.command.CmdSettleAddBuilding;
 import net.krglok.realms.command.CmdSettleBuildingList;
@@ -18,6 +19,7 @@ import net.krglok.realms.command.CmdSettleInfo;
 import net.krglok.realms.command.CmdSettleMarket;
 import net.krglok.realms.command.CmdSettleNoSell;
 import net.krglok.realms.command.CmdSettleProduction;
+import net.krglok.realms.command.CmdSettleReputation;
 import net.krglok.realms.command.CmdSettleRequired;
 import net.krglok.realms.command.CmdSettleTrader;
 import net.krglok.realms.command.CmdSettleWarehouse;
@@ -35,6 +37,7 @@ import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
+import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.manager.ReputationData;
 import net.krglok.realms.manager.ReputationStatus;
 import net.krglok.realms.manager.ReputationType;
@@ -517,6 +520,32 @@ public class ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryOpen(InventoryOpenEvent event)
     {
+    	if (event.getInventory().getType() == InventoryType.CHEST)
+    	{
+    		if(event.getInventory().getTitle().contains(sellInv))
+    		{
+    			return;
+    		}
+    		if(event.getInventory().getTitle().contains(buyInv))
+    		{
+    			return;
+    		}
+    		if(event.getInventory().getTitle().contains(donateInv))
+    		{
+    			return;
+    		}
+    		Player player = (Player) event.getPlayer();
+			int regionId = findRegionIdAtLocation(plugin, player);
+			Region region = plugin.stronghold.getRegionManager().getRegionByID(regionId);
+			if (region != null)
+			{
+				if (region.getOwners().contains(event.getPlayer().getName()) == false)
+				{
+					event.setCancelled(true);
+					player.sendMessage(ChatColor.RED+"You are not the owner");
+				}
+			}
+    	}
     	return;
     }
     
@@ -543,12 +572,6 @@ public class ServerListener implements Listener
     	Block b = event.getClickedBlock();
     	if (b != null)
     	{
-    		// Donate chest
-    		if (b.getType() == Material.CHEST)
-    		{
-//    			System.out.println("[REALMS] Click chest "+event.getPlayer().getName());
-//    			doChest(event, b);
-    		}
     		
     		/**
     		 * special for Realms Catapult
@@ -681,6 +704,16 @@ public class ServerListener implements Listener
 				{
 					settle = plugin.getData().getSettlements().findName(sRegion.getName());
 					msg.add(sRegion.getName()+":"+sRegion.getType()+": ["+settle.getId()+"] :"+settle.getOwnerId());
+					if (event.getPlayer().isSneaking() == true)
+					{
+						if (event.getPlayer().isOp())
+						{
+							if (sRegion.getMembers().containsKey(event.getPlayer().getName())== false)
+							{
+								sRegion.addMember(event.getPlayer().getName(), new ArrayList<String>());
+							}
+						}
+					}
 				} else
 				{
 					if (sRegion.getOwners().size() > 0)
@@ -821,6 +854,22 @@ public class ServerListener implements Listener
 	    }
 		return "";
 	}
+	
+	private BuildPlanType findBuildingTypeAtLocation(Realms plugin, Player player)
+	{
+		Location position = player.getLocation();
+		Region region = findRegionAtPosition( plugin, position);
+	    if ( region != null)
+	    {
+	    	BuildPlanType bType = plugin.getConfigData().regionToBuildingType(region.getType());
+	    	if (bType != BuildPlanType.NONE)
+	    	{
+	    		return bType;
+	    	}
+	    }
+		return BuildPlanType.NONE;
+	}
+	
 
 	/**
 	 * give region id at player position
@@ -1050,6 +1099,21 @@ public class ServerListener implements Listener
 			if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
 					|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
 			{
+				if (settle.getWarehouse().getFreeCapacity() < 10)
+				{
+					player.sendMessage(ChatColor.RED+"No Capacy free in Warehouse");
+					for (ItemStack itemStack :inventory.getContents())
+					{
+						if (itemStack != null)
+						{
+							player.getInventory().addItem(new ItemStack(itemStack.getType(),itemStack.getAmount()));
+						}
+					}
+					player.updateInventory();
+					inventory.clear();
+					return;
+				}
+				
 				if (event.getView().getType() == InventoryType.CHEST)
 				{
 //					System.out.println("You are in a HALL closed a Chest");
@@ -1060,7 +1124,10 @@ public class ServerListener implements Listener
 							if (itemStack != null)
 							{
 								String name = itemStack.getType().name();
-								settle.getWarehouse().depositItemValue(name, itemStack.getAmount());
+								if (settle.getWarehouse().depositItemValue(name, itemStack.getAmount()) == false)
+								{
+									System.out.println("[REALMS) DONATE Warehouse deposit FALSE");
+								}
 								if (ConfigBasis.initFoodMaterial().containsKey(name))
 								{
 									settle.getReputations().addValue(ReputationType.FOOD, player.getName(), name, ConfigBasis.VALUABLE_POINT);
@@ -1179,6 +1246,7 @@ public class ServerListener implements Listener
 					case TANNERY:
 					case BLACKSMITH:
 					case GUARDHOUSE:
+					case TECH0 :
 					case TECH1 :
 					case TECH2 :
 					case TECH3 :
@@ -1186,7 +1254,7 @@ public class ServerListener implements Listener
 						Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString());
 						if (owner != null)
 						{
-							owner.getAchivList().add(new Achivement(AchivementType.BOOK, aName));
+							owner.getAchivList().add(new Achivement(AchivementType.BOOK, aName,true));
 							plugin.getData().writeOwner(owner);
 							event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You earn the achivement "+aName.name());
 							lore.set(0,"used");
@@ -1282,6 +1350,11 @@ public class ServerListener implements Listener
 			cmdAcquire(event, b);
 		}
 
+		if (l0.contains("[REPUTATION]"))
+		{
+			cmdReputation(event, b);
+		}
+		
 		if (l0.contains("[SELL]"))
 		{
 			event.getPlayer().sendMessage("The settlement SELL items to you ");
@@ -1333,18 +1406,7 @@ public class ServerListener implements Listener
 		}
 		if (l0.contains("[INFO]"))
 		{
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			if (settle != null)
-			{
-				CmdSettleInfo cmdInfo = new CmdSettleInfo();
-				cmdInfo.setPara(0, settle.getId());
-				cmdInfo.setPara(1, 1);
-				if (cmdInfo.canExecute(plugin, event.getPlayer()))
-				{
-					cmdInfo.execute(plugin, event.getPlayer());
-				}
-			}
+			cmdInfo(event);
 			return;
 		}
 		if (l0.contains("[TRADER]"))
@@ -1472,7 +1534,7 @@ public class ServerListener implements Listener
 			{
 				if (regionId == building.getHsRegion())
 				{
-					if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 5 )
+					if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500 )
 					{
 						sign.setLine(1, String.valueOf(building.getTrainType().name()));
 						sign.update();
@@ -2104,7 +2166,74 @@ public class ServerListener implements Listener
 		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 	
 	}
+	
+	private void cmdInfo(PlayerInteractEvent event)
+	{
+		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer());
+		BuildPlanType regionType = findBuildingTypeAtLocation(plugin, event.getPlayer());
+		if (BuildPlanType.getBuildGroup(regionType) == 900)
+		{
+			int id = findRegionIdAtLocation(plugin,  event.getPlayer());
+			Building building = plugin.getData().getBuildings().getBuildingByRegion(id);
+			if (building != null)
+			{
+				int lehenId = building.getLehenId();
+				Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
+				if (lehen != null)
+				{
+					CmdFeudalInfo cmd = new CmdFeudalInfo();
+					cmd.setPara(0, lehenId);
+					cmd.setPara(1, 1);
+					if (cmd.canExecute(plugin, event.getPlayer()))
+					{
+						cmd.execute(plugin, event.getPlayer());
+					} else
+					{
+						System.out.println("Cant execute ");
+					}
+				} else
+				{
+					System.out.println("Lehen not found ");
+				}
+			} else
+			{
+				System.out.println("Building not found ");
+			}
+			return;
+		}
+		System.out.println("BuildingGroup :"+BuildPlanType.getBuildGroup(regionType));
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle != null)
+		{
+			CmdSettleInfo cmdInfo = new CmdSettleInfo();
+			cmdInfo.setPara(0, settle.getId());
+			cmdInfo.setPara(1, 1);
+			if (cmdInfo.canExecute(plugin, event.getPlayer()))
+			{
+				cmdInfo.execute(plugin, event.getPlayer());
+			}
+		}
+		
+	}
 
+	private void cmdReputation(PlayerInteractEvent event, Block b)
+	{
+    	Player player = (Player) event.getPlayer();
+		Location pos = player.getLocation();
+		String sRegion = findSuperRegionAtLocation(plugin, player); 
+		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (settle != null)
+		{
+			CmdSettleReputation cmd = new CmdSettleReputation();
+			cmd.setPara(0, settle.getId());
+			if (cmd.canExecute(plugin, player))
+			{
+				cmd.execute(plugin, player);
+			}
+			
+		}
+	}
+	
 	private void doCatapult(PlayerInteractEvent event, Block b)
 	{
 		Chest chest = null;
@@ -2143,17 +2272,8 @@ public class ServerListener implements Listener
 			if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
 				|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
 			{
-//				if (b.getRelative(BlockFace.UP).getType() == Material.WALL_SIGN)
-//				{
-//					Sign sign = (Sign) b.getRelative(BlockFace.UP).getState();
-//					String l0 = sign.getLine(0);
-//					if (l0.equals("[DONATE]"))
-//					{
-						Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
-//						donatePlayer.add(player.getUniqueId().toString());
-						player.openInventory(chest);
-//					}
-//				}
+				Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
+				player.openInventory(chest);
 			}
 		}
 

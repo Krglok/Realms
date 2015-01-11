@@ -39,6 +39,8 @@ public class ConfigBasis implements ConfigInterface
 	public static double TRADER_TAXE  = 5.0;	/// Tax for Trader 
 	public static double TAVERNE_TAXE = 7.0;	/// Tax for Taverne will modified by settlerCount
 
+	private static final int SETTLER_COUNT = 4; 
+	
 	public static final int ENTERTAIN_SETTLERS = 50;	/// how many settlers happy thru Entertain
 
 	public static final int WAREHOUSE_CHEST_FACTOR = 9;
@@ -72,6 +74,7 @@ public class ConfigBasis implements ConfigInterface
 	public static final int LEHEN_CREATE_POWER_3 = 6000;
 	public static final int LEHEN_CREATE_POWER_4 = 9000;
 
+	public static final int TRADE_ORDER = 5;
 
 	public static final String LINE = "=============================== ";
 
@@ -383,6 +386,176 @@ public class ConfigBasis implements ConfigInterface
 		return String.valueOf(out);
 	}
 
+	/**
+	 * charge number of items in storage of townhall without any storage buildings
+	 * 
+	 * @param settleType
+	 * @return number of items 
+	 */
+	public static int defaultItemMax(SettleType settleType)
+	{
+		switch (settleType)
+		{
+		case HAMLET : return 10 * ConfigBasis.CHEST_STORE;
+		case TOWN   : return 10 * ConfigBasis.CHEST_STORE;
+		case CITY   : return 4 * ConfigBasis.CHEST_STORE;
+		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
+		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
+		default :
+			return 0;
+		}
+	}
+
+	public static int getDefaultSettler(BuildPlanType buildingType)
+	{
+		switch(buildingType)
+		{
+		case NONE : return 0;
+		case HOME : return SETTLER_COUNT;
+		case HOUSE : return (2 * SETTLER_COUNT);
+		case MANSION : return (3 * SETTLER_COUNT);
+		case FARMHOUSE : return (2 * SETTLER_COUNT);
+		case FARM : return(4 * SETTLER_COUNT);
+		case COLONY : return 0;
+		case LANE : return 0;
+		case ROAD : return 0;
+		case STEEPLE : return 0;
+		case TAVERNE : return 0;
+		case WALL : return 0;
+		case PILLAR : return 0;
+		case GUARDHOUSE : return 5;
+		case ARCHERY : return 5;
+		case WATCHTOWER : return 5;
+		case DEFENSETOWER: return 15;
+		case BARRACK : return 20;
+		case TOWER : return 5;
+		case CASERN : return 20;
+		case GARRISON : return 100;
+		case HEADQUARTER : return 5;
+		case KEEP : return 10;
+		case CASTLE : return 20;
+		case STRONGHOLD : return 30;
+		case PALACE : return 40;
+
+		default :
+			return 0;
+		}
+		
+	}
+
+	/**
+	 * charge number of unit in settlement without any special military buildings
+	 * @param settleType
+	 * @return number of unit 
+	 */
+	public static int defaultUnitMax(SettleType settleType)
+	{
+		switch (settleType)
+		{
+		case HAMLET : return 1 * ConfigBasis.HALL_Settler;
+		case TOWN   : return 1 * ConfigBasis.HALL_Settler*2;
+		case CITY   : return 2 * ConfigBasis.HALL_Settler*3;
+		case METROPOLIS  : return 4 * ConfigBasis.HALL_Settler*4;
+		case FORTRESS : return 5;
+		default :
+			return ConfigBasis.HALL_Settler;
+		}
+	}
+
+	public static int defaultPowerMax(SettleType settleType)
+	{
+		switch (settleType)
+		{
+		case HAMLET : return ConfigBasis.HALL_Power;
+		case TOWN   : return ConfigBasis.TOWN_Power;
+		case CITY   : return ConfigBasis.CITY_Power;
+		case METROPOLIS  : return ConfigBasis.METROPOL_Power;
+		case FORTRESS : return ConfigBasis.CASTLE_Power;
+		default :
+			return 100;
+		}
+	}
+
+	/**
+	 * calculte ItemMax for the whole settlement
+	 * @return ItemMax
+	 */
+	public static int calcItemMax(BuildingList buildingList, Warehouse warehouse, SettleType settleType)
+	{
+		int value = 0;
+		if (buildingList != null)
+		{
+			for (Building b : buildingList.values())
+			{
+				switch (b.getBuildingType()) 
+				{
+					case WAREHOUSE :
+						value = value + getWarehouseItemMax(b);
+						break;
+					case TRADER :
+						value = value + getTraderItemMax(b);
+						break;
+					case HALL :
+						value = value + ConfigBasis.defaultItemMax(settleType);
+						break;
+					case TOWNHALL :
+						value = value + ConfigBasis.defaultItemMax(settleType);
+						break;
+					default :
+						break;
+				}
+			}
+		}
+		return value;
+	}
+
+	/**
+	 * calculate extend for ItemMax for warehouse building
+	 * @param building
+	 * @param value  old ItemMax
+	 * @return new ItemMax
+	 */
+	public static int getWarehouseItemMax(Building building)
+	{
+		switch(building.getBuildingType())
+		{
+		case WAREHOUSE : return   ConfigBasis.WAREHOUSE_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
+		case TRADER    : return   ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
+		case WORKSHOP : return   0; //WerkstattChestFactor * Chest_Store;
+		case FARM : return   0; //BauernhofChestFactor * Chest_Store;
+		default :
+			return 0 ;
+			
+		}
+		 //value + (building.getWorkerNeeded()*WarehouseItemMaxFactor);
+	}
+
+	/**
+	 * calculate extend for ItemMax for trader building
+	 * @param building
+	 * @param value  old ItemMax
+	 * @return new ItemMax
+	 */
+	public static int getTraderItemMax(Building building)
+	{
+		switch(building.getBuildingType())
+		{
+			case TRADER    : return ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
+			default :
+				return 0 ;
+		}
+	}
+
+	public static int getOrderMax(Building building)
+	{
+		switch(building.getBuildingType())
+		{
+			case TRADER    : return TRADE_ORDER;
+			default :
+				return 0 ;
+		}
+	}
+	
 	/**
 	 * 
 	 * @return default weapon items

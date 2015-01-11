@@ -80,10 +80,17 @@ public class CmdRealmsGetItem extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		amount = amount * -1;
-		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
-		plugin.getRealmModel().OnCommand(cmd);
-
+		if (plugin.getData().getSettlements().getSettlement(settleID).getWarehouse().withdrawItemValue(itemRef, amount))
+		{
+			sender.sendMessage(ChatColor.RED+"Withdraw "+itemRef+" : "+amount);
+		} else
+		{
+			sender.sendMessage(ChatColor.RED+"NOTHING done !");
+		}
+//		amount = amount * -1;
+//		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
+//		plugin.getRealmModel().OnCommand(cmd);
+		
 	}
 
 	@Override

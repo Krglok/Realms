@@ -22,6 +22,7 @@ import net.krglok.realms.command.CmdKingdomInfo;
 import net.krglok.realms.command.CmdKingdomJoin;
 import net.krglok.realms.command.CmdKingdomList;
 import net.krglok.realms.command.CmdKingdomMember;
+import net.krglok.realms.command.CmdKingdomOwner;
 import net.krglok.realms.command.CmdKingdomRelease;
 import net.krglok.realms.command.CmdKingdomRequest;
 import net.krglok.realms.command.CmdKingdomStructure;
@@ -214,6 +215,7 @@ public class CommandRealms
 			new CmdKingdomInfo(),
 			new CmdKingdomJoin(),
 			new CmdKingdomMember(),
+			new CmdKingdomOwner(),
 			new CmdKingdomRequest(),
 			new CmdKingdomRelease(),
 			new CmdKingdomStructure(),

@@ -95,6 +95,7 @@ public class CmdKingdomJoin extends RealmsCommand
 		plugin.getMessageData().printPage(sender, msg, page);
 		owner = null;
 		kingdomId = 0;
+		playerName = "";
 
 	}
 

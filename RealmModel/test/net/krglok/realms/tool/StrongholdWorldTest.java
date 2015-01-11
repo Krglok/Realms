@@ -158,7 +158,7 @@ public class StrongholdWorldTest
         String key = "haus_einfach";
         if (buildingStat.get(key) != null)
         {
-        	MaxSettler = buildingStat.get(key)* Building.getDefaultSettler(BuildPlanType.HOME);
+        	MaxSettler = buildingStat.get(key)* ConfigBasis.getDefaultSettler(BuildPlanType.HOME);
         	
 			System.out.println(ConfigBasis.setStrleft("Max  Places:",20)+MaxSettler);
 			System.out.println(ConfigBasis.setStrleft("Start with:",20)+(MaxSettler/2));
@@ -191,7 +191,7 @@ public class StrongholdWorldTest
         key = "markt";
         if (buildingStat.get(key) != null)
         {
-        	int StorageBase = Settlement.defaultItemMax(settleType);
+        	int StorageBase = ConfigBasis.defaultItemMax(settleType);
         	int StorageExpand = ConfigBasis.WAREHOUSE_CHEST_FACTOR * ConfigBasis.CHEST_STORE * buildingStat.get(key);
 			System.out.println(ConfigBasis.setStrleft("Base Storage      :",20)+(StorageBase));
 			System.out.println(ConfigBasis.setStrleft("Storage expansion :",20)+buildingStat.get(key)+"/"+StorageExpand);
@@ -199,7 +199,7 @@ public class StrongholdWorldTest
 
         }else
         {
-        	int StorageBase = Settlement.defaultItemMax(settleType);
+        	int StorageBase = ConfigBasis.defaultItemMax(settleType);
 			System.out.println(ConfigBasis.setStrleft("Base Storage      :",20)+(StorageBase));
         	
         }

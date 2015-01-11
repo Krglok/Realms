@@ -74,7 +74,7 @@ public class CmdKingdomList extends RealmsCommand
 		{
     		msg.add(kingdom.getId()
     				+" | "+ChatColor.GOLD+kingdom.getName()
-    				+" | "+ChatColor.YELLOW+plugin.getData().getOwners().getOwner(kingdom.getOwnerId()).getPlayerName()
+    				+" | "+ChatColor.YELLOW+kingdom.getOwner().getPlayerName()
     				+" | Member: "+kingdom.getMembers().size()
     				);
 		}

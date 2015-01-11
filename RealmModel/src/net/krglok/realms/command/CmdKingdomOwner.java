@@ -12,27 +12,24 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdKingdomGive extends RealmsCommand
+public class CmdKingdomOwner extends RealmsCommand
 {
 	private int page;
 	private int kingdomId;
-	private int lehenId;
 	private String playerName;
 	
-	public CmdKingdomGive()
+	public CmdKingdomOwner()
 	{
-		super(RealmsCommandType.KINGDOM, RealmsSubCommandType.GIVE);
+		super(RealmsCommandType.KINGDOM, RealmsSubCommandType.OWNER);
 		description = new String[] {
-				ChatColor.YELLOW+"/kingdom REQUEST [kingdomId] [lehenId] [ownerName] ",
-		    	"The king give a lehen to his liege ",
-		    	"The king give land for loyalty ",
-		    	"both are bound to the loyalty ",
+				ChatColor.YELLOW+"/kingdom REQUEST [kingdomId] [playerName] ",
+		    	"The king set to the playername ",
+		    	"The player set also as owner of the king lehen ",
 		    	" "
 			};
-			requiredArgs = 3;
+			requiredArgs = 2;
 			page = 0;
 			kingdomId = 0;
-			lehenId = 0;
 			playerName = "";
 	}
 
@@ -41,7 +38,7 @@ public class CmdKingdomGive extends RealmsCommand
 	{
 		switch (index)
 		{
-		case 2:
+		case 1:
 			playerName = value;
 			break;
 		default:
@@ -56,9 +53,6 @@ public class CmdKingdomGive extends RealmsCommand
 		{
 		case 0:
 			kingdomId = value;
-			break;
-		case 1:
-			lehenId = value;
 			break;
 		default:
 			break;
@@ -80,7 +74,7 @@ public class CmdKingdomGive extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName(), int.class.getName(), String.class.getName() };
+		return new String[] {int.class.getName(), String.class.getName() };
 	}
 
 	@Override
@@ -88,19 +82,27 @@ public class CmdKingdomGive extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		Owner  owner = plugin.getData().getOwners().getOwnerName(playerName);
-		Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
-		lehen.setOwner(owner);
-		plugin.getData().writeLehen(lehen);
-		msg.add(playerName+" is now the owner of lehen "+lehenId+" : "+lehen.getName());
-		msg.add("the new title is "+lehen.getNobleLevel()+" of "+lehen.getName());
-		owner.setNobleLevel(lehen.getNobleLevel());
+		owner.setNobleLevel(NobleLevel.KING);
 		plugin.getData().writeOwner(owner);
+		
+		Kingdom kingdom = plugin.getData().getKingdoms().getKingdom(kingdomId);
+		kingdom.setOwner(owner);
+		plugin.getData().writeKingdom(kingdom);
+		msg.add(playerName+" is now the owner of Kingdom "+kingdomId+" : "+kingdom.getName());
+		msg.add("the new title is "+NobleLevel.KING+" of "+kingdom.getName());
+		Lehen lehen = plugin.getData().getLehen().getKingdomRoot(kingdomId);
+		if (lehen != null)
+		{
+			lehen.setOwner(owner);
+			plugin.getData().writeLehen(lehen);
+			msg.add(playerName+" is now the owner of lehen "+lehen.getId()+" : "+kingdom.getName());
+		}
+		
 		plugin.getMessageData().printPage(sender, msg, page);
 		
 		kingdomId = 0;
-		lehenId = 0;
 		playerName = "";
-		
+
 	}
 
 	@Override
@@ -125,15 +127,6 @@ public class CmdKingdomGive extends RealmsCommand
 			return false;
 		}
 		
-		if (owner.getKingdomId() != kingdomId)
-		{
-			errorMsg.add(ChatColor.RED+"The playerName is not a Member of your Kingdom !");
-			errorMsg.add(ChatColor.YELLOW+"The playerName must make a join request !");
-			errorMsg.add(ChatColor.YELLOW+"Try /kingdom join ");
-			errorMsg.add(ChatColor.YELLOW+"And then /kingdom request ");
-			errorMsg.add(ChatColor.YELLOW+" ");
-			return false;
-		}
 			
 		if (plugin.getData().getKingdoms().getKingdom(kingdomId) == null)
 		{
@@ -141,17 +134,6 @@ public class CmdKingdomGive extends RealmsCommand
 			return false;
 		}
 
-		if (plugin.getData().getLehen().getLehen(lehenId) == null)
-		{
-			errorMsg.add(ChatColor.RED+"Lehen  not exist !");
-			return false;
-		}
-		if (plugin.getData().getLehen().getLehen(lehenId).getKingdomId() != kingdomId)
-		{
-			errorMsg.add(ChatColor.RED+"Lehen is not in your kingdom !");
-			return false;
-		}
-		
 		return true;
 	}
 

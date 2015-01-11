@@ -5,14 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.kingdom.Lehen;
 
 /**
  * <pre>
  * Verwaltet eine Liste von Buildings
  * der key ist die Building id
- * zusätzlich wird eine liste der buildings vom typ region
- * und eine Liste der buildings von typ superregion 
- * geführt
+ * Die BuildingList macht auswertungen für die verschiedenen BuildingTypen
+ * Die Auswertung erfolgt anhand der TypeValue des BuildingType bzw. der sich daraus ergebenden Gruppenummer
+ * - MaxHome fuer anzahl der Bette für Siedler (100)
+ * - MaxWorker fuer anzahl der Arneitsplätze (200)
+ * - Max Capacity fuer den Storage (300)
+ * - Max Order fuer TRADER
+ * - MaxUnit  fuer Anzahl der Unitplätze (500)
+ * - MaxRegiment, fuer Anzahl der Regimenter von Lehen (900)
+ * 
  * </pre>
  * @author Windu
  *
@@ -31,29 +38,8 @@ public class BuildingList  extends HashMap<String,Building>
 	
 	public BuildingList()
 	{
-//		buildingList = new HashMap<String,Building>();
-//		buildTypeList = new HashMap<BuildPlanType,Integer>();
 	}
 
-//	/**
-//	 * default buildings is of Type BUILDING_NONE   
-//	 * @return  List of Buildings
-//	 */
-//	public Map<String,Building> getBuildingList()
-//	{
-//		return buildingList;
-//	}
-
-//	/**
-//	 * Set the BuildingList without check or 
-//	 * @param buildingList
-//	 */
-//	public void setBuildingList(Map<String,Building> buildingList)
-//	{
-//		this.buildingList = buildingList;
-//	}
-	
-	
 	public int checkId(int ref)
 	{
 		while (this.containsKey(String.valueOf(ref)))
@@ -63,7 +49,7 @@ public class BuildingList  extends HashMap<String,Building>
 		Building.initCounter(ref);
 		return Building.getCounter();
 	}
-	
+
 	
 	public boolean containRegion(int regionId)
 	{
@@ -78,6 +64,7 @@ public class BuildingList  extends HashMap<String,Building>
 		return false;
 	}
 	
+
 	
 	/**
 	 * !!! Normally used by the automatic. USE instead settlement.addBuilding()
@@ -225,6 +212,27 @@ public class BuildingList  extends HashMap<String,Building>
 		
 		return subList;
 	}
+
+	/**
+	 * get Sublist for Lehen. check for lehenId
+	 * 
+	 * @param lehen
+	 * @return
+	 */
+	public BuildingList getSubList(Lehen lehen)
+	{
+		BuildingList subList = new BuildingList();
+		for (Building building : this.values())
+		{
+			if (building.getLehenId() == lehen.getId())
+			{
+				subList.put(String.valueOf(building.getId()),building);
+			}
+		}
+		
+		return subList;
+	}
+	
 	
 	/**
 	 * get Sublist for ownerId (playerName)
@@ -274,6 +282,94 @@ public class BuildingList  extends HashMap<String,Building>
 		}
 		
 		return subList;
+	}
+
+	/**
+	 * check for BuildingGroup 100
+	 * @return  max amount of beds for settler 
+	 */
+	public int getMaxHome()
+	{
+		int result = 0;
+		for (Building building : this.values())
+		{
+			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 100)
+			{
+				if (building.isEnabled())
+				{
+				result = result + building.getSettler();
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * check for BuildingGroup 200
+	 * @return  max amount of beds for settler 
+	 */
+	public int getMaxWorker()
+	{
+		int result = 0;
+		for (Building building : this.values())
+		{
+			if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == 200)
+				|| (BuildPlanType.getBuildGroup(building.getBuildingType()) == 300)
+					)
+			{
+				if (building.isEnabled())
+				{
+				result = result + building.getWorkerNeeded();
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	public int getMaxStorage()
+	{
+		int result = 0;
+		for (Building building : this.values())
+		{
+			if (building.isEnabled())
+			{
+			result = result + ConfigBasis.getWarehouseItemMax(building);
+			}
+		}
+		
+		return result;
+	}
+	
+	public int getMaxOrder()
+	{
+		int result = 0;
+		for (Building building : this.values())
+		{
+			if (building.isEnabled())
+			{
+			result = result + ConfigBasis.getOrderMax(building);
+			}
+		}
+		return result;
+	}
+
+	public int getMaxUnit()
+	{
+		int result = 0;
+		for (Building building : this.values())
+		{
+			if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == 500)
+					)
+			{
+				if (building.isEnabled())
+				{
+				result = result + building.getUnitSpace();
+				}
+			}
+		}
+		return result;
 	}
 	
 }

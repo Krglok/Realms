@@ -109,7 +109,13 @@ public class CmdKingdomRequest extends RealmsCommand
 			lehen.setKingdomId(kingdomId);
 			if (lehen.getParentId() == 0)
 			{
-				lehen.setParentId(parent.getId());
+				if (lehen.getNobleLevel() != NobleLevel.KING)
+				{
+				  lehen.setParentId(parent.getId());
+				} else
+				{
+					lehen.setParentId(0);
+				}
 			}
 			plugin.getData().writeLehen(lehen);
 			msg.add("Lehen "+lehen.getId()+" set to Kingdom"+kingdomId);

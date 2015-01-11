@@ -182,7 +182,7 @@ public class BuildingTest
 				System.out.println(item.ItemRef()+":"+item.value());
 			}
 			System.out.println("==Outlist == Type : "+BuildPlanType.getBuildGroup(buildingType));
-			if (BuildPlanType.getBuildGroup(buildingType) == 2)
+			if (BuildPlanType.getBuildGroup(buildingType) == 200)
 			{
 				outValues.clear();
 				outValues = building.buildingProd(server,hsRegionType);

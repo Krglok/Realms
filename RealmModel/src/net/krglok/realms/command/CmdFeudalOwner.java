@@ -1,8 +1,13 @@
 package net.krglok.realms.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.kingdom.Lehen;
@@ -82,14 +87,42 @@ public class CmdFeudalOwner extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 //		Player player = (Player) sender;
 		Owner owner = plugin.getData().getOwners().getOwnerName(playerName);
-
+		
 		Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
 		lehen.setOwner(owner);
 		lehen.setKingdomId(owner.getKingdomId());
 		plugin.getData().writeLehen(lehen);
-		
+		owner.setNobleLevel(lehen.getNobleLevel());
+		plugin.getData().writeOwner(owner);
+		// check for playername as member of superregion
+		// set it again to delete the member entry
+		List<String> members = new ArrayList<String>();
+		SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(lehen.getName());
+		if (sRegion.getMembers().containsKey(playerName))
+		{
+			plugin.stronghold.getRegionManager().setMember(sRegion, lehen.getName(), members);
+		}
+		// set owner of superregion in addition to existing
+		if (sRegion.getOwners().contains(playerName) == false)
+		{
+			sRegion.addOwner(playerName);
+		}
+		for (Building building : lehen.getBuildings().values())
+		{
+			if (building.getLehenId() == lehen.getId())
+			{
+				Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
+				if (region.getOwners().contains(playerName) == false)
+				{
+					region.addOwner(playerName);
+				}
+				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playerName );
+				building.setOwnerId(playerName);
+				plugin.getData().writeBuilding(building);
+			}
+		}
+	
 		msg.add(ChatColor.YELLOW+playerName+" is now the new owner of "+lehen.getId()+":"+lehen.getName());
-
 		plugin.getMessageData().printPage(sender, msg, page);
 	}
 

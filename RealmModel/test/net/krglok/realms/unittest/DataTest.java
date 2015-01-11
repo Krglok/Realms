@@ -1048,11 +1048,13 @@ public class DataTest implements DataInterface
 	{
 		lehenList = new LehenList();
 		Lehen lehen;
+		Owner owner = new Owner("NPC1", true);
+		
 		ArrayList<String> refList = lehenData.readDataList();
 		for (String ref : refList)
 		{
 			lehen = lehenData.readData(ref);
-			lehen.setOwner(owners.getOwner(lehen.getOwnerId()));
+			lehen.setOwner(owner);
 			lehenList.addLehen(lehen);
 		}
 	}

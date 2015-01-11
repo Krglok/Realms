@@ -41,11 +41,12 @@ public class CmdSettleBuild extends RealmsCommand
 		description = new String[] {
 				ChatColor.YELLOW+"/settle BUILD [ID] [BUILDING]",
 		    	"Create a new Building {BUILDING_TYPE}  ",
-		    	"where you standing" +
+		    	"at your current position " +
 		    	"the ID is the Settlement Id (0 = no settlement) ",
-		    	"the command will create a hs region ",
+		    	"the command create the HeroStronghold region ",
 		    	"and a building for realms ",
-		    	"You must playce the required blocks before manually ",
+		    	"You must place the fullfil the requirements ",
+		    	"You must pay the building cost ",
 		    	" "
 			};
 			requiredArgs = 2;
@@ -247,6 +248,8 @@ public class CmdSettleBuild extends RealmsCommand
 			plugin.getMessageData().printPage(sender, msg, 1);
 	    	return;
 		}
+		double cost = plugin.getServerData().getRegionTypeCost(buildName);
+		plugin.economy.withdrawPlayer(ownerId, cost);
 		Building building = new Building(bType, region.getID(), iLoc, settleId);
 		plugin.getRealmModel().getBuildings().addBuilding(building);
 		plugin.getRealmModel().getData().writeBuilding(building);
@@ -352,7 +355,13 @@ public class CmdSettleBuild extends RealmsCommand
 				return false;
 			}
 		}
-		System.out.println("Can Execute  TRUE");
+		double cost = plugin.getServerData().getRegionTypeCost(buildName);
+		if (plugin.economy.has(owner.getPlayerName(), cost) == false)
+		{
+			errorMsg.add(ChatColor.RED+"You not have the required money :"+cost);
+			return false;
+		}
+//		System.out.println("Can Execute  TRUE");
 		return true;
 	}
 

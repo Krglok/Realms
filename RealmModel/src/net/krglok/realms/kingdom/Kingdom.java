@@ -114,6 +114,7 @@ public class Kingdom
 	{
 		this.owner = owner;
 		this.owner.setLevel(NobleLevel.KING);
+		this.ownerId = owner.getId();
 	}
 
 	

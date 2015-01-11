@@ -307,6 +307,38 @@ public class BuildManager
 			doCleanStep();
 			doCleanStep();
 			doCleanStep();
+			// buildfaster for test only !!
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			// buildfaster for test only !!
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			// buildfaster for test only !!
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			// buildfaster for test only !!
+			
 		}
 		// ein level oberhalb mit abraeumen
 		int edge = (buildPlan.getRadius()+1) * 2 -1; 
@@ -425,7 +457,16 @@ public class BuildManager
 				doAddStep();
 				doAddStep();
 				doAddStep();
-	}
+				// buildfaster for test only !!
+//				doAddStep();
+//				doAddStep();
+//				doAddStep();
+//				doAddStep();
+//				doAddStep();
+//				doAddStep();
+//				doAddStep();
+				// buildfaster for test only !!
+			}
 			if (h >= edge)
 			{
 				bStatus = BuildStatus.POSTBUILD;

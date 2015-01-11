@@ -119,9 +119,9 @@ public class Settlement //implements Serializable
 		setKingdomId(0);
 		tributId = 0;
 		isCapital	= false;
-		barrack		= new Barrack(defaultUnitMax(settleType));
-		barrack.setPowerMax(defaultPowerMax(settleType));
-		warehouse	= new Warehouse(defaultItemMax(settleType));
+		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
+		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
 		bank		= new Bank(); //this.logList);
@@ -169,9 +169,9 @@ public class Settlement //implements Serializable
 		tributId = 0;
 		isCapital	= false;
 //		this.logList = logList;
-		barrack		= new Barrack(defaultUnitMax(settleType));
-		barrack.setPowerMax(defaultPowerMax(settleType));
-		warehouse	= new Warehouse(defaultItemMax(settleType));
+		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
+		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
 		bank		= new Bank(); //this.logList);
@@ -216,9 +216,9 @@ public class Settlement //implements Serializable
 		setKingdomId(0);
 		tributId = 0;
 		isCapital	= false;
-		barrack		= new Barrack(defaultUnitMax(settleType));
-		barrack.setPowerMax(defaultPowerMax(settleType));
-		warehouse	= new Warehouse(defaultItemMax(settleType));
+		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
+		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
 //		this.logList = logList;
@@ -266,9 +266,9 @@ public class Settlement //implements Serializable
 		setKingdomId(0);
 		tributId = 0;
 		isCapital	= false;
-		barrack		= new Barrack(defaultUnitMax(settleType));
-		barrack.setPowerMax(defaultPowerMax(settleType));
-		warehouse	= new Warehouse(defaultItemMax(settleType));
+		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
+		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
 		buildingList= new BuildingList();
 		townhall	= new Townhall();
 //		this.logList = logList;
@@ -333,7 +333,7 @@ public class Settlement //implements Serializable
 		this.isCapital = isCapital;
 		this.position = position;
 		this.barrack = barrack;
-		this.barrack.setPowerMax(defaultPowerMax(settleType));
+		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
 		this.warehouse = warehouse;
 		this.buildingList = buildingList;
 		this.townhall = townhall;
@@ -399,63 +399,12 @@ public class Settlement //implements Serializable
 		this.isActive = value;
 	}
 	
-	/**
-	 * charge number of items in storage of townhall without any storage buildings
-	 * 
-	 * @param settleType
-	 * @return number of items 
-	 */
-	public static int defaultItemMax(SettleType settleType)
-	{
-		switch (settleType)
-		{
-		case HAMLET : return 10 * ConfigBasis.CHEST_STORE;
-		case TOWN   : return 10 * ConfigBasis.CHEST_STORE;
-		case CITY   : return 4 * ConfigBasis.CHEST_STORE;
-		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
-		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
-		default :
-			return 0;
-		}
-	}
 
-	/**
-	 * charge number of unit in settlement without any special military buildings
-	 * @param settleType
-	 * @return number of unit 
-	 */
-	private static int defaultUnitMax(SettleType settleType)
-	{
-		switch (settleType)
-		{
-		case HAMLET : return 1 * ConfigBasis.HALL_Settler;
-		case TOWN   : return 1 * ConfigBasis.HALL_Settler*2;
-		case CITY   : return 2 * ConfigBasis.HALL_Settler*3;
-		case METROPOLIS  : return 4 * ConfigBasis.HALL_Settler*4;
-		case FORTRESS : return 4 * ConfigBasis.HALL_Settler;
-		default :
-			return ConfigBasis.HALL_Settler;
-		}
-	}
-
-	private static int defaultPowerMax(SettleType settleType)
-	{
-		switch (settleType)
-		{
-		case HAMLET : return ConfigBasis.HALL_Power;
-		case TOWN   : return ConfigBasis.TOWN_Power;
-		case CITY   : return ConfigBasis.CITY_Power;
-		case METROPOLIS  : return ConfigBasis.METROPOL_Power;
-		case FORTRESS : return ConfigBasis.CASTLE_Power;
-		default :
-			return 100;
-		}
-	}
 	
 	public void initSettlement(ItemPriceList priceList)
 	{
 		tradeManager.setPriceList(priceList);
-		calcItemMax( buildingList,  warehouse,  settleType);
+		warehouse.setItemMax(ConfigBasis.calcItemMax( buildingList,  warehouse,  settleType));
 		setSettlerMax();
 		setWorkerNeeded();
 }
@@ -524,10 +473,10 @@ public class Settlement //implements Serializable
 		return barrack;
 	}
 
-	public void setBarrack(Barrack barrack)
-	{
-		this.barrack = barrack;
-	}
+//	public void setBarrack(Barrack barrack)
+//	{
+//		this.barrack = barrack;
+//	}
 
 	/**
 	 * give power of settlement = sum of barrack and units
@@ -609,75 +558,7 @@ public class Settlement //implements Serializable
 		this.checkBuildingType();
 	}
 	
-	/**
-	 * calculate extend for ItemMax for warehouse building
-	 * @param building
-	 * @param value  old ItemMax
-	 * @return new ItemMax
-	 */
-	private static int getWarehouseItemMax(Building building)
-	{
-		switch(building.getBuildingType())
-		{
-		case WAREHOUSE : return   ConfigBasis.WAREHOUSE_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
-		case TRADER    : return   ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
-		case WORKSHOP : return   0; //WerkstattChestFactor * Chest_Store;
-		case FARM : return   0; //BauernhofChestFactor * Chest_Store;
-		default :
-			return 0 ;
-			
-		}
-		 //value + (building.getWorkerNeeded()*WarehouseItemMaxFactor);
-	}
-
-	/**
-	 * calculate extend for ItemMax for trader building
-	 * @param building
-	 * @param value  old ItemMax
-	 * @return new ItemMax
-	 */
-	private static int getTraderItemMax(Building building)
-	{
-		switch(building.getBuildingType())
-		{
-			case TRADER    : return ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
-			default :
-				return 0 ;
-		}
-	}
 	
-	/**
-	 * calculte ItemMax for the whole settlement
-	 * @return ItemMax
-	 */
-	private static int calcItemMax(BuildingList buildingList, Warehouse warehouse, SettleType settleType)
-	{
-		int value = 0;
-		if (buildingList != null)
-		{
-			for (Building b : buildingList.values())
-			{
-				switch (b.getBuildingType()) 
-				{
-					case WAREHOUSE :
-						value = value + getWarehouseItemMax(b);
-						break;
-					case TRADER :
-						value = value + getTraderItemMax(b);
-						break;
-					case HALL :
-						value = value + defaultItemMax(settleType);
-						break;
-					case TOWNHALL :
-						value = value + defaultItemMax(settleType);
-						break;
-					default :
-						break;
-				}
-			}
-		}
-		return value;
-	}
 	
 	public void initTreasureList()
 	{
@@ -749,50 +630,50 @@ public class Settlement //implements Serializable
 	 */
 	public void checkBuildingType()
 	{
-		this.barrack.setUnitMax(0);
-		this.warehouse.setItemMax(0);
-		this.trader.setOrderMax(5);
-		for(Building building : this.buildingList.values())
-		{
-			switch(building.getBuildingType())
-			{
-			case HALL: 
-				this.townhall.setIsEnabled(true);
-				this.warehouse.setItemMax(calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
-				break;
-			case WAREHOUSE :
-				this.warehouse.setItemMax(calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
-				break;
-			case TRADER :
-				this.trader.setActive(true);
-				this.trader.setEnabled(true);
-				this.warehouse.setItemMax(calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
-				this.trader.setOrderMax(this.trader.getOrderMax()+5);
-				break;
-			case GUARDHOUSE :
-				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-				break;
-			case CASERN :
-				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-				break;
-			case GARRISON :
-				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-				break;
-			case WATCHTOWER :
-			case DEFENSETOWER :
-			case BARRACK :
-			case TOWER :
-			case HEADQUARTER :
-			case KEEP:
-			case CASTLE:
-			case STRONGHOLD :
-			case PALACE:
-				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-				break;
-			default :
-				break;
-			}
-		}
+		this.barrack.setUnitMax(buildingList.getMaxUnit());
+		this.warehouse.setItemMax(buildingList.getMaxStorage());
+		this.trader.setOrderMax(buildingList.getMaxOrder());
+//		for(Building building : this.buildingList.values())
+//		{
+//			switch(building.getBuildingType())
+//			{
+//			case HALL: 
+//				this.townhall.setIsEnabled(true);
+//				this.warehouse.setItemMax(ConfigBasis.calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
+//				break;
+//			case WAREHOUSE :
+//				this.warehouse.setItemMax(ConfigBasis.calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
+//				break;
+//			case TRADER :
+//				this.trader.setActive(true);
+//				this.trader.setEnabled(true);
+//				this.warehouse.setItemMax(ConfigBasis.calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
+//				this.trader.setOrderMax(this.trader.getOrderMax()+5);
+//				break;
+//			case GUARDHOUSE :
+//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+//				break;
+//			case CASERN :
+//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+//				break;
+//			case GARRISON :
+//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+//				break;
+//			case WATCHTOWER :
+//			case DEFENSETOWER :
+//			case BARRACK :
+//			case TOWER :
+//			case HEADQUARTER :
+//			case KEEP:
+//			case CASTLE:
+//			case STRONGHOLD :
+//			case PALACE:
+//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
+//				break;
+//			default :
+//				break;
+//			}
+//		}
 	}
 	
 
@@ -1544,7 +1425,7 @@ public class Settlement //implements Serializable
 					// Pruefe ob StorageCapacitaet des Types ausgelastet ist
 					switch (BuildPlanType.getBuildGroup(building.getBuildingType()))
 					{
-						case 2 : // normal production
+						case 200 : // normal production
 							if (checkStoreCapacity(server, building))
 							{
 								building.setIsEnabled(true);
@@ -1555,7 +1436,7 @@ public class Settlement //implements Serializable
 							// pruefe ob Stronghold region enabled sind
 							server.checkRegionEnabled(building.getHsRegion());
 							break;
-						case 5: //unit production
+						case 500: //unit production
 							if (building.getMaxTrain() > 0)
 							{
 								building.setIsEnabled(true);
@@ -1620,8 +1501,8 @@ public class Settlement //implements Serializable
 			building.setSales(0.0);
 			if (building.isEnabled())
 			{
-				if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 2)
-					|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 3))
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
+					|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300))
 				{
 					sale = 0.0;
 					cost = 0.0;
@@ -1818,13 +1699,69 @@ public class Settlement //implements Serializable
 		for (Building building : buildingList.values())
 		{
 			// unit production
-			if (BuildPlanType.getBuildGroup(building.getBuildingType())== 5)
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())== 500)
 			{
 				if (building.isEnabled())
 				{
 					switch(building.getBuildingType())
 					{
 					case GUARDHOUSE:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							Unit unit = unitFactory.erzeugeUnit(building.getTrainType());
+							unit.setSettleId(this.id);
+							barrack.getUnitList().add(unit);
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					case ARCHERY:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							Unit unit = unitFactory.erzeugeUnit(building.getTrainType());
+							unit.setSettleId(this.id);
+							barrack.getUnitList().add(unit);
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					case BARRACK:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							Unit unit = unitFactory.erzeugeUnit(building.getTrainType());
+							unit.setSettleId(this.id);
+							barrack.getUnitList().add(unit);
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					case CASERN:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							Unit unit = unitFactory.erzeugeUnit(building.getTrainType());
+							unit.setSettleId(this.id);
+							barrack.getUnitList().add(unit);
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					case TOWER:
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);

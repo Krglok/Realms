@@ -61,8 +61,10 @@ public class DataStoreBuilding  extends AbstractDataStore<Building>
     	section.set("id", String.valueOf(dataObject.getId()));
     	section.set("buildingType", dataObject.getBuildingType().name());
     	section.set("settleId", String.valueOf(dataObject.getSettleId()));
+    	section.set("lehenId", String.valueOf(dataObject.getLehenId()));
     	section.set("ownerId", dataObject.getOwnerId());
     	section.set("settler", String.valueOf(dataObject.getSettler()));
+    	section.set("settlerInstalled", String.valueOf(dataObject.getSettlerInstalled()));
     	section.set("workerNeeded", String.valueOf(dataObject.getWorkerNeeded()));
     	section.set("workerInstalled", String.valueOf(dataObject.getWorkerInstalled()));
 //    	section.set("isRegion", dataObject.isRegion().toString());
@@ -101,8 +103,10 @@ public class DataStoreBuilding  extends AbstractDataStore<Building>
 		int buildingId = Integer.valueOf(data.getString( "id","0"));
 		BuildPlanType buildingType = BuildPlanType.getBuildPlanType(data.getString(  "buildingType","None"));
 		int settleId = Integer.valueOf(data.getString(  "settleId","0"));
+		int lehenId = Integer.valueOf(data.getString(  "lehenId","0"));
 		String ownerId = data.getString(  "ownerId","");
 		int settler = Integer.valueOf(data.getString(  "settler","0"));
+		int settlerInstalled = Integer.valueOf(data.getString(  "settlerInstalled","0"));
 		int workerNeeded = Integer.valueOf(data.getString(  "workerNeeded","0"));
 		int workerInstalled = Integer.valueOf(data.getString(  "workerInstalled","0"));
 		int hsRegion = Integer.valueOf(data.getString("hsRegion","0"));
@@ -151,7 +155,8 @@ public class DataStoreBuilding  extends AbstractDataStore<Building>
 						settleId,
 						ownerId
 						);
-		
+		building.setLehenId(lehenId);
+		building.setSettlerInstalled(settlerInstalled);
 		return building;
 	}
 

@@ -91,6 +91,9 @@ public class Resident
 		case METROPOLIS :
 			this.settlerCount = 15;
 			break;
+		case CLAIM :
+			this.settlerCount = 0;
+			break;
 		default :
 			this.settlerCount = 5;
 			break;

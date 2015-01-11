@@ -1,6 +1,7 @@
 package net.krglok.realms.kingdom;
 
 import net.krglok.realms.core.Bank;
+import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
@@ -32,6 +33,7 @@ public class Lehen
 	private Bank bank;
 	private double sales;
 	private LocationData position;
+	private BuildingList buildings;
 	
 	
 	public Lehen()
@@ -47,6 +49,7 @@ public class Lehen
 		this.setBank(new Bank());
 		this.sales = 0;
 		this.position = new LocationData("", 0.0, 0.0, 0.0);
+		this.buildings = new BuildingList();
 	}
 
 	/**
@@ -75,33 +78,9 @@ public class Lehen
 		this.setBank(new Bank());
 		this.sales = 0;
 		this.position = position;
+		this.buildings = new BuildingList();
 	}
 
-	/**
-	 * will be used by read Lehen from file
-	 * 
-	 * @param id
-	 * @param KingdomId
-	 * @param name
-	 * @param nobleLevel
-	 * @param settleType
-	 * @param owner
-	 * @param parentId
-	 */
-//	public Lehen(int id, int KingdomId, String name,NobleLevel nobleLevel,SettleType settleType, Owner owner, int parentId, LocationData position)
-//	{
-//		this.id = id;
-//		this.name = name;
-//		this.nobleLevel = nobleLevel;;
-//		this.settleType = settleType;
-//		this.owner = owner;
-//		this.ownerId = owner.getPlayerName();
-//		this.KingdomId = KingdomId;
-//		this.parentId = parentId;
-//		this.setBank(new Bank());
-//		this.position = position;
-//	}
-	
 	public static int getID()
 	{
 		return ID;
@@ -287,6 +266,22 @@ public class Lehen
 	public void withdrawSales(double value)
 	{
 		this.sales = this.sales - value;
+	}
+
+	/**
+	 * @return the buildings
+	 */
+	public BuildingList getBuildings()
+	{
+		return buildings;
+	}
+
+	/**
+	 * @param buildings the buildings to set
+	 */
+	public void setBuildings(BuildingList buildings)
+	{
+		this.buildings = buildings;
 	}
 	
 	

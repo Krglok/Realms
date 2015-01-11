@@ -3,9 +3,9 @@ effects:
 - denybucketuse
 - denyfire
 - denyfriendlyfire
-radius: 30
+radius: 40
 requirements:
-- TOWER.1
+- CASTLE.1
 - GUARDHOUSE.1
 - DEFENSETOWER.1
 - WATCHTOWER.2

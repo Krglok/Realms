@@ -164,8 +164,8 @@ public class CmdSettleInfo extends RealmsCommand
 						+ChatColor.GREEN+" Age: "+settle.getAge()
 						+":"+settle.getProductionOverview().getCycleCount());
 				msg.add("Owner "+ChatColor.YELLOW+settle.getOwnerId()+ChatColor.WHITE+" : Tribut to "
-						+ChatColor.YELLOW+settle.getTributId()
-						+ChatColor.YELLOW+" Kingdom: "+ChatColor.GREEN+settle.getKingdomId());
+						+ChatColor.GREEN+settle.getTributId()
+						+ChatColor.WHITE+" | Kingdom: "+ChatColor.DARK_PURPLE+settle.getKingdomId());
 				msg.add("Biome: "+settle.getBiome()+"  Enable:"+settle.isEnabled()+" Activ: "+settle.isActive());
 				msg.add("Beds       : "+ChatColor.YELLOW+settle.getResident().getSettlerMax());
 				msg.add("Settlers  : "+ChatColor.GOLD+settle.getResident().getSettlerCount());
@@ -175,7 +175,7 @@ public class CmdSettleInfo extends RealmsCommand
 //				msg.add("Deathrate: "+ChatColor.RED+settle.getResident().getDeathrate());
 				msg.add("Barracks  : "+ChatColor.YELLOW+(settle.getBarrack().getUnitList().size())+"/"+settle.getBarrack().getUnitMax());
 				msg.add("Bank       : "+ChatColor.GREEN+((int) settle.getBank().getKonto()));
-				msg.add("Storage   : "+settle.getWarehouse().getItemMax());
+				msg.add("Storage   : "+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax());
 				msg.add("Building   : "+settle.getBuildingList().size());
 				msg.add("Food      : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
 				msg.add("====================== ");

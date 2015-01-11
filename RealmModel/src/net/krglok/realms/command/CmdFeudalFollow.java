@@ -108,35 +108,28 @@ public class CmdFeudalFollow extends RealmsCommand
 	{
 		Player player = (Player) sender;
 		Owner owner;
-		if (isOpOrAdmin(sender) == false)
-		{
-			owner = plugin.getData().getOwners().getOwnerName(player.getName());
-			if (owner.getNobleLevel() != NobleLevel.KING)
-			{
-				errorMsg.add(ChatColor.RED+"Only the king can do that !");
-				return false;
-			}
-		} else
-		{
-			if (playerName == "")
-			{
-				errorMsg.add(ChatColor.RED+"playerName must be given !");
-				return false;
-			}
-			owner = plugin.getData().getOwners().getOwnerName(playerName);
-		}
-		kingdomId = owner.getKingdomId();
-		
-		if (plugin.getData().getLehen().getLehen(lehenId).getOwnerId() != owner.getPlayerName())
-		{
-			errorMsg.add(ChatColor.RED+"You are not the owner of the Lehen !");
-			return false;
-		}
-		
-		if (plugin.getData().getLehen().getLehen(lehenId) == null)
+		Lehen lehen = plugin.getData().getLehen().getLehen(lehenId); 
+		if (lehen == null)
 		{
 			errorMsg.add(ChatColor.RED+"Lehen  not exist !");
 			return false;
+		}
+		owner = lehen.getOwner();
+		if (owner == null)
+		{
+			errorMsg.add(ChatColor.RED+"Owner dont exist !");
+			return false;
+		}
+		
+		kingdomId = owner.getKingdomId();
+		
+		if (isOpOrAdmin(sender) == false)
+		{
+			if (plugin.getData().getLehen().getLehen(lehenId).getOwnerId() != owner.getPlayerName())
+			{
+				errorMsg.add(ChatColor.RED+"You are not the owner of the Lehen !");
+				return false;
+			}
 		}
 		
 		if (plugin.getData().getLehen().getLehen(lordId) == null)
@@ -145,6 +138,14 @@ public class CmdFeudalFollow extends RealmsCommand
 			return false;
 		}
 
+		if (plugin.getData().getLehen().getLehen(lordId).getOwnerId() != owner.getPlayerName())
+		{
+			if (owner.getNobleLevel() != NobleLevel.KING)
+			{
+				errorMsg.add(ChatColor.RED+"Only the king can do that !");
+				return false;
+			}
+		}
 		if (plugin.getData().getLehen().getLehen(lordId).getKingdomId() != kingdomId)
 		{
 			errorMsg.add(ChatColor.RED+"Lehen is not in your kingdom !");

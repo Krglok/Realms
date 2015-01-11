@@ -42,7 +42,10 @@ public class BuildPlanTypeTest
 			System.out.println("testGetBuildPlanOrder");
 			for (BuildPlanType bType : bTypes)
 			{
-				System.out.println(":"+bType);
+				System.out.print(":"+BuildPlanType.getBuildGroup(bType));
+				System.out.print(":"+bType.getValue());
+				System.out.print(":"+bType);
+				System.out.println("");
 			}
 		}
 		assertEquals(expected, actual);
@@ -61,7 +64,10 @@ public class BuildPlanTypeTest
 			System.out.println("testGetBuildPlanGroup");
 			for (BuildPlanType bType : bTypes)
 			{
-				System.out.println(":"+bType);
+				System.out.print(":"+BuildPlanType.getBuildGroup(bType));
+				System.out.print(":"+bType.getValue());
+				System.out.print(":"+bType);
+				System.out.println("");
 			}
 		}
 		assertEquals(expected, actual);

@@ -33,12 +33,13 @@ public class CmdSettleCreate extends RealmsCommand
 	private String name;
 	private String sType;
 	private SettleType settleType;
+	private String playerName;
 	
 	public CmdSettleCreate()
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.FOUNDING);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle FOUND [settleType] [Name] ",
+				ChatColor.YELLOW+"/settle FOUNDING [settleType] [Name] ",
 				"Create a Settlement from <settleType> with <NAME> ",
 				"You must has the TechLevel for the settleType",
 				"You MUST stay at the center of new Settlement!",
@@ -49,6 +50,7 @@ public class CmdSettleCreate extends RealmsCommand
 		this.name = "";
 		this.sType = "";
 		this.settleType = SettleType.NONE;
+		playerName = "";
 	}
 
 	@Override
@@ -201,7 +203,7 @@ public class CmdSettleCreate extends RealmsCommand
             {
                 Map<String, List<String>> members = new HashMap<String, List<String>>();
                 List<String> owners = new ArrayList<String>();
-                owners.add(player.getName());
+                owners.add(playerName);
             	double balance = 1000.0;
 				plugin.stronghold.getRegionManager().addSuperRegion(superRegionName, currentLocation, regionTypeName, owners, members, currentRegionType.getDailyPower(), balance );
             }
@@ -224,6 +226,7 @@ public class CmdSettleCreate extends RealmsCommand
 		SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName);
 		if (sRegion == null)
 		{
+			playerName = player.getName();
 			msg.addAll(createSuperRegion(plugin, player, superRegionName, settleType.name(), centerPos));
 			sRegion = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName);
 			if (sRegion == null)
@@ -235,14 +238,24 @@ public class CmdSettleCreate extends RealmsCommand
 			{
 				msg.add(ChatColor.GOLD+"[HeroStronghold} Superregion "+superRegionName+" : "+settleType.name()+ "succesful created");
 			}
+		} else
+		{
+			// hole owner aus Superegion
+			playerName = sRegion.getOwners().iterator().next();
+			if (playerName == "")
+			{
+				playerName = player.getName();
+			}
+			if (plugin.getData().getOwners().containsKey(playerName) == false)
+			{
+				playerName = ConfigBasis.NPC_0;
+			}
 		}
-		
-		String playerName = player.getName();
 		boolean isNPC = false;
-		Owner owner = plugin.getRealmModel().getOwners().getOwner(player.getUniqueId().toString());
+		Owner owner = plugin.getRealmModel().getOwners().getOwnerName(playerName);
 		if (owner == null)
 		{
-			msg.add(ChatColor.RED+"owner not found ");
+			msg.add(ChatColor.RED+"Owner not found ");
 			plugin.getMessageData().printPage(sender, msg, page);
 			return false;
 		}
@@ -255,7 +268,6 @@ public class CmdSettleCreate extends RealmsCommand
 		msg.add(ChatColor.GOLD+"SettlementOwner: "+playerName);
 		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName,biome); //, plugin.getRealmModel().getLogList());
 		settlement.setOwner(owner);
-		settlement.setOwnerId(owner.getPlayerName());
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 
 		msg.add("");
@@ -266,27 +278,41 @@ public class CmdSettleCreate extends RealmsCommand
 			int hsRegion = region.getID();
 			String hsRegionType = region.getType();
 			BuildPlanType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
-			Building building = new Building(
-					buildingType, 
-					hsRegion, 
-					new LocationData(
-					sRegion.getLocation().getWorld().getName(),
-					sRegion.getLocation().getX(), 
-					sRegion.getLocation().getY(),
-					sRegion.getLocation().getZ()),
-					settlement.getId()
-					);
-			plugin.getRealmModel().getBuildings().addBuilding(building);
-			plugin.getData().writeBuilding(building);
-			System.out.println("[REALMS] "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
+			if ((BuildPlanType.getBuildGroup(buildingType) < 900)
+				&& (BuildPlanType.getBuildGroup(buildingType) >= 10)
+				)
+			{
+				if (plugin.getData().getBuildings().containRegion(hsRegion) == false)
+				{
+					Building building = new Building(
+						buildingType, 
+						hsRegion, 
+						new LocationData(
+						sRegion.getLocation().getWorld().getName(),
+						sRegion.getLocation().getX(), 
+						sRegion.getLocation().getY(),
+						sRegion.getLocation().getZ()),
+						settlement.getId()
+						);
+					plugin.getRealmModel().getBuildings().addBuilding(building);
+					plugin.getData().writeBuilding(building);
+					System.out.println("[REALMS] Settle "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
+				} else
+				{
+					Building building = plugin.getData().getBuildings().getBuildingByRegion(hsRegion);
+					if ((building.getSettleId() == 0) && (building.getLehenId() == 0))
+					{
+						building.setSettleId(settlement.getId());
+						plugin.getData().writeBuilding(building);
+						System.out.println("[REALMS] Settle "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
+					}
+				}
+			}
 		}
-		// make not dynamic initialization
-		settlement.setOwnerId(ConfigBasis.NPC_0);
 		
-		// minimum settler on create
-		
-		settlement.getWarehouse().depositItemValue("WHEAT",settlement.getResident().getSettlerMax()*2 );
-		settlement.getWarehouse().depositItemValue("BREAD",settlement.getResident().getSettlerMax()*2 );
+		// minimum Warehouse on
+		settlement.getWarehouse().depositItemValue("WHEAT",256 );
+		settlement.getWarehouse().depositItemValue("BREAD",64 );
 		settlement.getWarehouse().depositItemValue("WOOD_HOE",settlement.getResident().getSettlerMax());
 		settlement.getWarehouse().depositItemValue("WOOD_AXE",settlement.getResident().getSettlerMax());
 		settlement.getWarehouse().depositItemValue("WOOD_PICKAXE",settlement.getResident().getSettlerMax());
@@ -301,6 +327,7 @@ public class CmdSettleCreate extends RealmsCommand
 		settlement.getWarehouse().depositItemValue(Material.WALL_SIGN.name(),3);
 		settlement.getWarehouse().depositItemValue(Material.GOLD_NUGGET.name(),3);
 		
+		// initial setUp of the settlement
 		settlement.getResident().setDefaultSettlerCount(settleType);
 		settlement.getBank().depositKonto(1000.0, "ADMIN", settlement.getId());
 		settlement.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(settlement.getId()));
@@ -310,6 +337,7 @@ public class CmdSettleCreate extends RealmsCommand
 
 		plugin.getData().writeSettlement(settlement);
 		
+		msg.add("Owner   : "+settlement.getOwnerId());
 		msg.add("Storage : "+settlement.getWarehouse().getItemMax());
 		msg.add("Max Beds: "+settlement.getResident().getSettlerMax());
 		msg.add("Settlers: "+settlement.getResident().getSettlerCount());
@@ -364,26 +392,24 @@ public class CmdSettleCreate extends RealmsCommand
 		}
 		
 		Player player = (Player) sender;
-//		if (isOpOrAdminMsg(sender) == false)
-//		{
-			// check for realms achivement
-			Owner owner = plugin.getRealmModel().getOwners().getOwner(player.getUniqueId().toString());
-			if (owner == null)
+		// check for realms achivement
+		Owner owner = plugin.getRealmModel().getOwners().getOwner(player.getUniqueId().toString());
+		if (owner == null)
+		{
+			errorMsg.add(ChatColor.RED+"You are not a regular owner in REALMS !");
+			return false;
+		} else
+		{
+			ArrayList<SettleType> aList = new ArrayList<SettleType>();
+			aList.addAll(plugin.getRealmModel().getKnowledgeData().getKnowledgeList().getSettlePermission(owner.getAchivList()));
+			if (aList.contains(settleType) == false)
 			{
-				errorMsg.add(ChatColor.RED+"You are not a regular owner in REALMS !");
+				errorMsg.add(ChatColor.RED+"You not have the required Techlevel !");
+				errorMsg.add(ChatColor.YELLOW+"Try /owner INFO  for check your achivements");
 				return false;
-			} else
-			{
-				ArrayList<SettleType> aList = new ArrayList<SettleType>();
-				aList.addAll(plugin.getRealmModel().getKnowledgeData().getKnowledgeList().getSettlePermission(owner.getAchivList()));
-				if (aList.contains(settleType) == false)
-				{
-					errorMsg.add(ChatColor.RED+"You not have the required Techlevel !");
-					errorMsg.add(ChatColor.YELLOW+"Try /owner INFO  for check your achivements");
-					return false;
-				}
 			}
-//		}
+		}
+		playerName = owner.getPlayerName(); 
 		// fehlenden Parameter Name ersetzen
 		if (this.name == "")
 		{
@@ -406,8 +432,11 @@ public class CmdSettleCreate extends RealmsCommand
 				isReady = true;
 			} else
 			{
-				errorMsg.add(ChatColor.RED+"You are not owner of existing Superregion!");
-				return false;
+				if (sender.isOp() == false)
+				{
+					errorMsg.add(ChatColor.RED+"You are not owner of existing Superregion!");
+					return false;
+				}
 			}
 			// pruefe settleType der SuperRegion und setze den internen wert
 			this.settleType = plugin.getConfigData().superRegionToSettleType((plugin.stronghold.getRegionManager().getSuperRegion(name).getType()));

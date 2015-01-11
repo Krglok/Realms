@@ -27,9 +27,6 @@ public class Building  implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -347474537928992879L;
-	private static final int SETTLER_COUNT = 4; 
-	private static double SETTLER_TAXE = 1.0;
-	private static double TAVERNE_TAXE = 7.0;
 	
 	private static int COUNTER;
 
@@ -37,8 +34,10 @@ public class Building  implements Serializable
 	private int id;
 	private BuildPlanType buildingType;
 	private int settler;
+	private int settlerInstalled;
 	private int settleId;
 	private String ownerId;
+	private int lehenId; 
 	private int workerNeeded;
 	private int workerInstalled;
 //	private Boolean isRegion;
@@ -69,10 +68,9 @@ public class Building  implements Serializable
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		workerInstalled = 0;
-//		this.isRegion 		= true;
 		hsRegion		= 0;
-//		hsRegionType	= "";
-//		hsSuperRegion	= "";
+		settleId = 0;
+		lehenId = 0;
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new Item[5];
@@ -99,10 +97,9 @@ public class Building  implements Serializable
 		setSettlerDefault(buildingType);
 		setWorkerDefault(buildingType);
 		workerInstalled = 0;
-//		this.isRegion 		= isRegion;
-//		this.hsRegionType	= regionType;
+		settleId = 0;
+		lehenId = 0;
 		hsRegion		= 0;
-//		hsSuperRegion	= "";
 		isEnabled		= true;
 		isActiv 	    = true;
 		slots = new Item[5];
@@ -132,10 +129,8 @@ public class Building  implements Serializable
 		setWorkerDefault(buildingType);
 		this.workerInstalled = 0;
 		this.settleId = settleId;
-//		this.isRegion = isRegion;
-//		this.hsRegionType = hsRegionType;
+		lehenId = 0;
 		this.hsRegion = hsRegion;
-//		this.hsSuperRegion = "";
 		this.isEnabled  = true;
 		isActiv 	    = true;
 		slots = new Item[5];
@@ -170,11 +165,10 @@ public class Building  implements Serializable
 		this.settler = settler;
 		this.workerNeeded = workerNeeded;
 		this.workerInstalled = workerInstalled;
-//		this.isRegion = isRegion;
-//		this.hsRegionType = hsRegionType;
 		this.hsRegion = hsRegion;
-//		this.hsSuperRegion = hsSuperRegion;
 		this.isEnabled = isEnabled;
+		settleId = 0;
+		lehenId = 0;
 		isActiv 	    = true;
 		slots = new Item[5];
 		setisSlot(false);
@@ -231,6 +225,7 @@ public class Building  implements Serializable
 		this.id = id;
 		this.buildingType = buildingType;
 		this.settleId = settleId;
+		this.lehenId = 0;
 		this.ownerId = ownerId;
 		this.settler = settler;
 		this.workerNeeded = workerNeeded;
@@ -442,39 +437,6 @@ public class Building  implements Serializable
 	}
 	
 	
-	public static int getDefaultSettler(BuildPlanType buildingType)
-	{
-		switch(buildingType)
-		{
-		case NONE : return 0;
-		case HOME : return SETTLER_COUNT;
-		case HOUSE : return (2 * SETTLER_COUNT);
-		case MANSION : return (3 * SETTLER_COUNT);
-		case FARMHOUSE : return (2 * SETTLER_COUNT);
-		case FARM : return(4 * SETTLER_COUNT);
-		case COLONY : return 0;
-		case LANE : return 0;
-		case ROAD : return 0;
-		case STEEPLE : return 0;
-		case TAVERNE : return 0;
-		case WALL : return 0;
-		case PILLAR : return 0;
-		case GUARDHOUSE : return 5;
-		case ARCHERY : return 5;
-		case WATCHTOWER : return 5;
-		case DEFENSETOWER: return 15;
-		case BARRACK : return 20;
-		case TOWER : return 5;
-		case CASERN : return 20;
-		case GARRISON : return 100;
-		case HEADQUARTER : return 5;
-		case KEEP : return 20;
-
-		default :
-			return 0;
-		}
-		
-	}
 
 	
 	/**
@@ -483,7 +445,7 @@ public class Building  implements Serializable
 	 */
 	private void setSettlerDefault(BuildPlanType buildingType)
 	{
-		setSettler(getDefaultSettler(buildingType));
+		setSettler(ConfigBasis.getDefaultSettler(buildingType));
 	}
 	
 	
@@ -1084,16 +1046,16 @@ public class Building  implements Serializable
 		switch(buildingType)
 		{
 		case TAVERNE :
-			value = TAVERNE_TAXE * workerInstalled; 
+			value = ConfigBasis.TAVERNE_TAXE * workerInstalled; 
 			break;
 		case FARM :
-			value = SETTLER_TAXE * workerInstalled; 
+			value = ConfigBasis.SETTLER_TAXE * workerInstalled; 
 			break;
 		case WORKSHOP :
-			value = SETTLER_TAXE * workerInstalled; 
+			value = ConfigBasis.SETTLER_TAXE * workerInstalled; 
 			break;
 		default :
-			value = SETTLER_TAXE * workerInstalled; 
+			value = ConfigBasis.SETTLER_TAXE * workerInstalled; 
 			break;
 		}
 		return value;
@@ -1224,6 +1186,38 @@ public class Building  implements Serializable
 	public void setOwnerId(String ownerId)
 	{
 		this.ownerId = ownerId;
+	}
+
+	/**
+	 * @return the lehenId
+	 */
+	public int getLehenId()
+	{
+		return lehenId;
+	}
+
+	/**
+	 * @param lehenId the lehenId to set
+	 */
+	public void setLehenId(int lehenId)
+	{
+		this.lehenId = lehenId;
+	}
+
+	/**
+	 * @return the settlerInstalled
+	 */
+	public int getSettlerInstalled()
+	{
+		return settlerInstalled;
+	}
+
+	/**
+	 * @param settlerInstalled the settlerInstalled to set
+	 */
+	public void setSettlerInstalled(int settlerInstalled)
+	{
+		this.settlerInstalled = settlerInstalled;
 	}
 	
 }

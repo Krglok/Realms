@@ -3,6 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
@@ -11,6 +12,7 @@ import net.krglok.realms.kingdom.Lehen;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class CmdFeudalInfo extends RealmsCommand
 {
@@ -87,6 +89,16 @@ public class CmdFeudalInfo extends RealmsCommand
 		{
 			msg.add(ChatColor.GREEN+"Your Lord is "+ChatColor.YELLOW+parent.getOwner().getNobleLevel()+" "+parent.getOwner().getPlayerName()+" from "+parent.getName());
 		}
+		msg.add(ChatColor.GREEN+"Your Building are :");
+		for (Building building : lehen.getBuildings().values())
+		{
+    		msg.add(ChatColor.YELLOW+"+"+building.getId()
+    				+" | "+ChatColor.YELLOW+building.getBuildingType()
+    				+" | "+ChatColor.GOLD+building.getSettler()
+    				+" Train: "+building.getTrainType()
+    				);
+		}
+		
 		msg.add(ChatColor.GREEN+"Your settlement are :");
 	    for (Settlement settle : plugin.getData().getSettlements().values())
 	    {
@@ -130,6 +142,16 @@ public class CmdFeudalInfo extends RealmsCommand
 			errorMsg.add(ChatColor.RED+"The lehenId is wrong !");
 			return false;
 		}
+		Player player = (Player) sender;
+		if (isOpOrAdmin(sender) == false)
+		{
+			if (plugin.getData().getLehen().getLehen(lehenId).getOwnerId().equalsIgnoreCase(player.getName()))
+			{
+				errorMsg.add(ChatColor.RED+"You are not the owner !");
+				return false;
+			}
+		}
+			
 		return true;
 	}
 

@@ -43,7 +43,14 @@ public class ItemList  extends  HashMap<String, Item>
 	 */
 	public boolean addItem(Item item)
 	{
-		this.put(item.ItemRef(), item);
+		if (this.containsKey(item.ItemRef()))
+		{
+			Item exist = this.get(item.ItemRef());
+			exist.setValue(exist.value()+item.value());
+		} else
+		{
+			this.put(item.ItemRef(), item);
+		}
 		itemCount = itemCount + item.value();
 //		Item item = new Item(itemRef, iValue);
 		return true;
@@ -58,7 +65,14 @@ public class ItemList  extends  HashMap<String, Item>
 	 */
 	public boolean addItem(String itemRef, int iValue)
 	{
-		this.put(itemRef, new Item(itemRef, iValue));
+		if (this.containsKey(itemRef))
+		{
+			Item exist = this.get(itemRef);
+			exist.setValue(exist.value()+iValue);
+		} else
+		{
+			this.put(itemRef, new Item(itemRef, iValue)); 
+		}
 		itemCount = itemCount + iValue;
 //		Item item = new Item(itemRef, iValue);
 		return true;

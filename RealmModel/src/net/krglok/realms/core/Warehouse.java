@@ -134,6 +134,7 @@ public class Warehouse
 	 */
 	public void setItemList(ItemList itemList) {
 		this.itemList = itemList;
+		this.itemCount = itemList.getItemCount();
 	}
 		
 	/**

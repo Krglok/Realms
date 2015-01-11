@@ -14,6 +14,7 @@ public class NPCData
 	private GenderType gender;
 	private int age;
 	private EthnosType ethno;
+	private boolean immortal;
 	
 	private int settleId;
 	private int homeBuilding;
@@ -309,6 +310,22 @@ public class NPCData
 	public void setFather(int father)
 	{
 		this.father = father;
+	}
+
+	/**
+	 * @return the immortal
+	 */
+	public boolean isImmortal()
+	{
+		return immortal;
+	}
+
+	/**
+	 * @param immortal the immortal to set
+	 */
+	public void setImmortal(boolean immortal)
+	{
+		this.immortal = immortal;
 	}
 
 }

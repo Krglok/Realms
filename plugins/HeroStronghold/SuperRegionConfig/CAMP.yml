@@ -13,7 +13,7 @@ effects:
 - denyexplosion
 radius: 10
 requirements: []
-money-requirement: 500.0
+money-requirement: 50000.0
 money-output-daily: 0.0
 max-power: 100.0
 daily-power-increase: 10

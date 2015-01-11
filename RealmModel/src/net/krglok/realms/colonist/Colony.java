@@ -46,7 +46,7 @@ public class Colony
 	 * @author Windu
 	 *
 	 */
-	private enum ColonyStatus
+	public enum ColonyStatus
 	{
 		NONE,
 		STARTUP,		// Der Bauauftrag startet
@@ -74,7 +74,7 @@ public class Colony
 	private ColonyStatus cStatus ;
 	private LocationData position;
 	private String name;
-	private String owner;
+	private String ownerId;
 	private Warehouse warehouse ;
 	private Bank bank;
 	private ItemList requiredItems;
@@ -111,7 +111,7 @@ public class Colony
 	private int timeout;
 //	private LogList logList;
 	
-	public Colony (String name, LocationData position, String owner) //, LogList logList)
+	public Colony (String name, LocationData position, String ownerId) //, LogList logList)
 	{
 		COUNTER++;
 		id = COUNTER;
@@ -119,7 +119,7 @@ public class Colony
 		this.nextStatus = ColonyStatus.NONE;
 		this.name = name;
 		this.position = position;
-		this.owner = owner;
+		this.ownerId = ownerId;
 //		this.logList = logList;
 		this.bank = new Bank(); //logList);
 		this.isEnabled = true;
@@ -132,7 +132,7 @@ public class Colony
 		this.netherSchema = SettleSchema.initHellHamlet();
 		this.markUpStep = 0;
 		this.buildPosIndex = 0;
-		this.newSuperRegion = new RegionLocation("", position, owner, name);
+		this.newSuperRegion = new RegionLocation("", position, ownerId, name);
 		this.superRequest = null;
 		this.isPrepared = false;
 		this.prepareLevel = 41;
@@ -154,11 +154,11 @@ public class Colony
 	 * @param position
 	 * @param owner
 	 */
-	public static Colony newColony(String name, LocationData position, String owner) //, LogList logList)
+	public static Colony newColony(String name, LocationData position, String ownerId) //, LogList logList)
 	{
 		
-		Colony colony = new Colony ( name,  position,  owner); //, logList);
-		colony.newSuperRegion = new RegionLocation("HAMLET", position, owner, name);
+		Colony colony = new Colony ( name,  position,  ownerId); //, logList);
+		colony.newSuperRegion = new RegionLocation("HAMLET", position, ownerId, name);
 
 		colony.getWarehouse().depositItemValue(Material.BED.name(), 5);
 		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
@@ -274,7 +274,7 @@ public class Colony
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
 				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.PILLAR, 4, 0);
-				buildManager.newBuild(buildPlan, corner, owner);
+				buildManager.newBuild(buildPlan, corner, ownerId);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -285,7 +285,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()-this.settleSchema.getRadius()+1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
-				buildManager.newBuild(buildPlan, corner,owner);
+				buildManager.newBuild(buildPlan, corner,ownerId);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -296,7 +296,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()+this.settleSchema.getRadius()-1);
-				buildManager.newBuild(buildPlan, corner, owner);
+				buildManager.newBuild(buildPlan, corner, ownerId);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -307,7 +307,7 @@ public class Colony
 			{
 				System.out.println("Markup "+markUpStep);
 				corner = new LocationData(position.getWorld(), position.getX()+this.settleSchema.getRadius()-1, position.getY(), position.getZ()-this.settleSchema.getRadius()+1);
-				buildManager.newBuild(buildPlan, corner, owner);
+				buildManager.newBuild(buildPlan, corner, ownerId);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 				this.markUpStep++;
@@ -425,7 +425,7 @@ public class Colony
 		case PREBUILD:		// der Bauauftrag startet und bereitet die Baustelle vor
 				System.out.println(id+" Build Center "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
 				buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
-				buildManager.newBuild(buildPlan, this.position, owner);
+				buildManager.newBuild(buildPlan, this.position, ownerId);
 				nextStatus = ColonyStatus.READY;
 				this.cStatus = ColonyStatus.WAITBUILD;
 			break;
@@ -472,7 +472,7 @@ public class Colony
 						);
 				System.out.println(id+" Build List "+actualBuildPos.getbType()+":"+buildPosIndex);
 				buildPlan = rModel.getData().readTMXBuildPlan(actualBuildPos.getbType(), 4, -1);
-				buildManager.newBuild(buildPlan,newPos, owner);
+				buildManager.newBuild(buildPlan,newPos, ownerId);
 				nextStatus = ColonyStatus.NEXTLIST;
 				this.cStatus = ColonyStatus.WAITBUILD;
 			}
@@ -501,7 +501,7 @@ public class Colony
 				if (superRequest == null)
 				{
 					System.out.println(id+" Create Settlement  "+this.position.getX()+":"+this.position.getY()+":"+this.position.getZ());
-					McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, owner, SettleType.HAMLET,biome);
+					McmdCreateSettle msCreate = new McmdCreateSettle(rModel, name, ownerId, SettleType.HAMLET,biome);
 					rModel.OnCommand(msCreate);
 					buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.COLONY, 4, 0);
 					this.cStatus = ColonyStatus.REINFORCE;
@@ -613,12 +613,12 @@ public class Colony
 
 	public String getOwner()
 	{
-		return owner;
+		return ownerId;
 	}
 
 	public void setOwner(String owner)
 	{
-		this.owner = owner;
+		this.ownerId = owner;
 	}
 
 	public Boolean isEnabled()
