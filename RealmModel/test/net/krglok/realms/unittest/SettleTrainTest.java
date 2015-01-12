@@ -426,7 +426,7 @@ public class SettleTrainTest
 				pos, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS

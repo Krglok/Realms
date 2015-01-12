@@ -18,8 +18,10 @@ import net.citizensnpcs.api.trait.trait.MobType;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.npc.NPCData;
+import net.krglok.realms.npc.GenderType;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.npc.SettlerTrait;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.UnitType;
@@ -41,7 +43,7 @@ public class NpcManager
 {
 	private  Realms plugin;
 	private boolean isEnabled = false;
-	private HashMap<Integer,NPCData> npcList = new HashMap<Integer,NPCData>();
+	private NpcList npcList = new NpcList();
 
 	private static int EQUIP_HAND = 0;
 	private static int EQUIP_HELMET = 1;
@@ -70,12 +72,12 @@ public class NpcManager
 		this.isEnabled = isEnabled;
 	}
 
-	public HashMap<Integer, NPCData> getNpcList()
+	public HashMap<Integer, NpcData> getNpcList()
 	{
 		return npcList;
 	}
 
-	public void setNpcList(HashMap<Integer, NPCData> npcList)
+	public void setNpcList(NpcList npcList)
 	{
 		this.npcList = npcList;
 	}
@@ -84,7 +86,7 @@ public class NpcManager
 	{
 		System.out.println("[REALMS] Init Trait to NPC ");
 		NPC npc ;
-		NPCData npcData;
+		NpcData npcData;
 		for (int key : npcList.keySet())
 		{
 			npc = CitizensAPI.getNPCRegistry().getById(key);
@@ -123,7 +125,7 @@ public class NpcManager
 			settleId = settle.getId();
 		}
 		int npcId = doNPCSpawn( name, npcType, position,settleId, buildingId) ;
-		npcList.put(npcId, new NPCData(npcId,npcType,UnitType.SETTLER,settleId,buildingId));
+		npcList.put(npcId, new NpcData(npcId, npcType, UnitType.SETTLER, name, settleId, buildingId, GenderType.MAN, 20));
 	}
 	
 	public void createUnitNPC(String name, UnitType npcType,LocationData position, Regiment regiment)
@@ -132,7 +134,7 @@ public class NpcManager
 
 	}
 
-	private void storeNPCinList(int npcId, NPCData npcData)
+	private void storeNPCinList(int npcId, NpcData npcData)
 	{
 		
 		npcList.put(npcId,npcData);

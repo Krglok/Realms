@@ -8,17 +8,16 @@ import net.krglok.realms.core.Owner;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdOwnerList  extends RealmsCommand
+public class CmdRealmsPlayer extends RealmsCommand
 {
-
 	private int page;
 	
-	public CmdOwnerList()
+	public CmdRealmsPlayer()
 	{
-		super(RealmsCommandType.OWNER, RealmsSubCommandType.LIST);
+		super(RealmsCommandType.REALMS, RealmsSubCommandType.OWNER);
 		description = new String[] {
-				ChatColor.YELLOW+"/owner LIST [page]  ",
-		    	"List the registered Owners   ",
+				ChatColor.YELLOW+"/realms OWNER [page]  ",
+		    	"List the registered Owners  and Players ",
 		    	" "
 			};
 			requiredArgs = 0;
@@ -66,16 +65,15 @@ public class CmdOwnerList  extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add("ID |  |Nobility  |Commonlevel  |   | Player      |  [ "+plugin.getData().getOwners().size()+" ]");
+		msg.add("ID | Player      |  [ "+plugin.getData().getOwners().size()+" ]");
 		for (Owner owner : plugin.getData().getOwners().values())
 		{
-			if (owner.isUser)
+			if (owner.isNPC()==false)
 			{
 	    		msg.add(owner.getId()
-	    				+" | "+owner.getKingdomId()
-	    				+" | "+ChatColor.GOLD+owner.getNobleLevel()
-	    				+" | "+ChatColor.YELLOW+owner.getCommonLevel()
 	    				+" | "+owner.getPlayerName()
+	    				+" | "+owner.firstLogin
+	    				+" | "+owner.lastLogOff
 	    				);
 			}
 		}

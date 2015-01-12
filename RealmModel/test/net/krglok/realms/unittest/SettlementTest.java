@@ -51,8 +51,8 @@ public class SettlementTest
 	{
 		
 		Settlement settlement = new Settlement(); //logTest);
-		String expected = new Owner().getPlayerName();
-		String actual = settlement.getOwnerId();
+		int expected = new Owner().getId();
+		int actual = settlement.getOwnerId();
 		assertEquals(expected, actual);
 	}
 
@@ -61,9 +61,9 @@ public class SettlementTest
 	{
 		Owner owner = new Owner();
 		owner.setId(5);
-		String expected =  "";
-		Settlement settlement = new Settlement(owner.getPlayerName(), position); //, logTest);
-		String actual = settlement.getOwnerId();
+		int expected =  0;
+		Settlement settlement = new Settlement(owner.getId(), position); //, logTest);
+		int actual = settlement.getOwnerId();
 		assertEquals(expected, actual);
 	}
 
@@ -87,7 +87,7 @@ public class SettlementTest
 
 		Settlement settlement = new Settlement(
 				id, settletype, name, position,  
-				owner.getPlayerName(), isCapital, barrack, warehouse,
+				owner.getId(), isCapital, barrack, warehouse,
 				buildingList, townhall, bank,
 				resident,"",Biome.PLAINS,0,
 				priceList,
@@ -118,7 +118,7 @@ public class SettlementTest
 				position,
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(), 
+				0, 
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -169,7 +169,7 @@ public class SettlementTest
 				position,
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(), 
+				0, 
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -223,7 +223,7 @@ public class SettlementTest
 				position,
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -313,7 +313,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -464,7 +464,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -566,7 +566,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -635,7 +635,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -724,7 +724,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -794,7 +794,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -891,7 +891,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -992,7 +992,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -1127,7 +1127,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS
@@ -1254,7 +1254,7 @@ public class SettlementTest
 				position, 
 				settleType, 
 				settleName, 
-				ownerList.getOwner("NPC0").getPlayerName(),
+				0,
 				regionTypes, 
 				regionBuildings,
 				Biome.PLAINS

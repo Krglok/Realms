@@ -58,6 +58,11 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
         config.set(MemorySection.createPath(section, "realmId"), dataObject.getKingdomId());
         config.set(MemorySection.createPath(section, "isNPC"), dataObject.isNPC());
         config.set(MemorySection.createPath(section, "sales"), dataObject.getSales());
+        config.set(MemorySection.createPath(section, "isUser"), dataObject.isUser);
+        config.set(MemorySection.createPath(section, "lastPosition"), dataObject.lastposition);
+        config.set(MemorySection.createPath(section, "firstLogin"), dataObject.firstLogin);
+        config.set(MemorySection.createPath(section, "lastLogin"), dataObject.lastLogin);
+        config.set(MemorySection.createPath(section, "lastLogOff"), dataObject.lastLogOff);
 
         HashMap<String,String> values = new HashMap<String,String>();
         for (Achivement achiv : dataObject.getAchivList().values())
@@ -83,6 +88,11 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
 		owner.setKingdomId(data.getInt("realmId",0));
 		owner.setIsNPC(data.getBoolean("isNPC",true));
 		owner.setSales(data.getDouble("sales",0.0));
+		owner.isUser = data.getBoolean("isUser",false );
+		owner.lastposition = data.getString("lastPosition","");
+        owner.firstLogin = data.getString("firstLogin", "");
+        owner.lastLogin = data.getString("lastLogin", "");
+        owner.lastLogOff = data.getString("lastLogOff","");
 
 		Map<String,Object> values = data.getConfigurationSection("Achivement").getValues(false);
 		for (String key : values.keySet())

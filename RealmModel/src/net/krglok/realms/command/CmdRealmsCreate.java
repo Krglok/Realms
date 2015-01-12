@@ -126,10 +126,10 @@ public class CmdRealmsCreate extends RealmsCommand
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 		msg.add(" Owner: "+playerName);
-		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName,biome); //, plugin.getRealmModel().getLogList());
+		Settlement settlement = new Settlement(owner.getId(), position,  settleType, superRegionName,biome); //, plugin.getRealmModel().getLogList());
 		settlement.initSettlement(plugin.getData().getPriceList());
 		settlement.setOwner(owner);
-		settlement.setOwnerId(owner.getPlayerName());
+		settlement.setOwnerId(owner.getId());
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 
 		msg.add("");
@@ -155,7 +155,7 @@ public class CmdRealmsCreate extends RealmsCommand
 			System.out.println("[REALMS] "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
 		}
 		// make not dynamic initialization
-		settlement.setOwnerId(ConfigBasis.NPC_0);
+		settlement.setOwnerId(0);
 		
 		settlement.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(settlement.getId()));
 		settlement.initSettlement(plugin.getData().getPriceList());

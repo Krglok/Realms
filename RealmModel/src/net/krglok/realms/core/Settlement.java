@@ -57,7 +57,8 @@ public class Settlement //implements Serializable
 	private SettleType settleType = SettleType.NONE;
 	private LocationData position;
 	private String name;
-	private String ownerId;
+	private int ownerId;
+	private String ownerName = "";
 	private Owner owner;
 	private int kingdomId;
 	private int tributId;
@@ -115,7 +116,7 @@ public class Settlement //implements Serializable
 		settleType 	= SettleType.NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
-		ownerId 		= "";
+		ownerId 		= 0;
 		setKingdomId(0);
 		tributId = 0;
 		isCapital	= false;
@@ -164,7 +165,7 @@ public class Settlement //implements Serializable
 		settleType 	= SettleType.NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
 		name		= NEW_SETTLEMENT;
-		ownerId 		= "";
+		ownerId 		= 0;
 		setKingdomId(0);
 		tributId = 0;
 		isCapital	= false;
@@ -204,7 +205,7 @@ public class Settlement //implements Serializable
 	 * 
 	 * @param Owner
 	 */
-	public Settlement(String owner, LocationData position) //, LogList logList)
+	public Settlement(int ownerId, LocationData position) //, LogList logList)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -212,7 +213,7 @@ public class Settlement //implements Serializable
 		settleType 	= SettleType.NONE;
 		name		= NEW_SETTLEMENT;
 		this.position 	= position;
-		this.ownerId = owner;
+		this.ownerId = ownerId;
 		setKingdomId(0);
 		tributId = 0;
 		isCapital	= false;
@@ -254,7 +255,7 @@ public class Settlement //implements Serializable
 	 * @param settleType
 	 * @param name
 	 */
-	public Settlement(String owner, LocationData position, SettleType settleType, String name, Biome biome) //, LogList logList)
+	public Settlement(int ownerId, LocationData position, SettleType settleType, String name, Biome biome) //, LogList logList)
 	{
 		COUNTER++;
 		age         = 0;
@@ -262,7 +263,7 @@ public class Settlement //implements Serializable
 		this.settleType = settleType;
 		this.name		= name;
 		this.position 	= position;
-		this.ownerId = owner;
+		this.ownerId = ownerId;
 		setKingdomId(0);
 		tributId = 0;
 		isCapital	= false;
@@ -314,7 +315,7 @@ public class Settlement //implements Serializable
 	 * @param resident
 	 */
 	public Settlement(int id, SettleType settleType, String name, 
-			LocationData position, String owner,
+			LocationData position, int ownerId,
 			Boolean isCapital, Barrack barrack, Warehouse warehouse,
 			BuildingList buildingList, Townhall townhall, Bank bank,
 			Resident resident, String world, Biome biome, long age,
@@ -327,7 +328,7 @@ public class Settlement //implements Serializable
 		this.age        = age;
 		this.settleType = settleType;
 		this.name = name;
-		this.ownerId = owner;
+		this.ownerId = ownerId;
 		this.setKingdomId(kingdomId);
 		this.tributId = lehenId;
 		this.isCapital = isCapital;
@@ -448,12 +449,12 @@ public class Settlement //implements Serializable
 		this.name = name;
 	}
 
-	public String getOwnerId()
+	public int getOwnerId()
 	{
 		return ownerId;
 	}
 
-	public void setOwnerId(String ownerId)
+	public void setOwnerId(int ownerId)
 	{
 		this.ownerId = ownerId;
 	}
@@ -793,14 +794,14 @@ public class Settlement //implements Serializable
 	 * @return
 	 */
 	public static Settlement createSettlement(LocationData position, SettleType 
-											settleType, String settleName, String owner, 
+											settleType, String settleName, int ownerId, 
 											HashMap<String,String> regionTypes, 
 											HashMap<String,String> regionBuildings,
 											Biome biome) //,LogList logList)
 	{
 		if (settleType != SettleType.NONE)
 		{
-			Settlement settlement = new Settlement(owner,position, settleType, settleName,biome); //,logList);
+			Settlement settlement = new Settlement(ownerId,position, settleType, settleName,biome); //,logList);
 //			BuildingList buildingList = new BuildingList();
 			int regionId = 0;
 			String BuildingTypeName = "";
@@ -1870,7 +1871,8 @@ public class Settlement //implements Serializable
 		if (nOwner != null)
 		{
 			this.owner = nOwner;
-			this.setOwnerId(nOwner.getPlayerName());
+			this.ownerId = nOwner.getId();
+			this.ownerName = nOwner.getPlayerName();
 		}
 	}
 		
@@ -1952,6 +1954,22 @@ public class Settlement //implements Serializable
 	public void setTaxSum(double taxSum)
 	{
 		this.taxSum = taxSum;
+	}
+
+	/**
+	 * @return the ownerName
+	 */
+	public String getOwnerName()
+	{
+		return ownerName;
+	}
+
+	/**
+	 * @param ownerName the ownerName to set
+	 */
+	public void setOwnerName(String ownerName)
+	{
+		this.ownerName = ownerName;
 	}
 	
 }

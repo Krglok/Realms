@@ -5,8 +5,10 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unit.UnitType;
 
-public class NPCData
+public class NpcData
 {
+	private static int COUNTER;
+
 	private int Id;
 	private NPCType npcType ;
 	private UnitType unitType ;
@@ -28,25 +30,79 @@ public class NPCData
 	private int pcHusband;
 	private int mother;
 	private int father;
+	private boolean isAlive;
+	private int schwanger;
 	
 	private LocationData location;
 	
-	public NPCData()
+	public NpcData()
 	{
 		this.Id = 0;
 		this.npcType = NPCType.BEGGAR;
 		this.unitType = UnitType.SETTLER;
+		this.name = "";
+		this.gender = GenderType.WOMAN;
+		this.age = 0;
+		this.ethno = EthnosType.HUMAN;
+		this.immortal = false;
 		this.settleId = 0;
+		this.homeBuilding = 0;
+		this.workBuilding = 0;
+		this.money = 0.0;
+		this.itemInHand = new Item("AIR",0);
+		this.backPack = new BackpackList();
+		this.isMaried = false;
+		this.npcHusband = 0;
+		this.pcHusband = 0;
+		this.mother = 0;
+		this.father = 0;
+		this.isAlive = false;
+		this.setSchwanger(0);
 	}
 	
-	public NPCData(int npcId, NPCType npcType, UnitType unitType, int settleId, int buildingId)
+	public NpcData(int npcId, NPCType npcType, UnitType unitType, String name, int settleId, int buildingId, GenderType gender, int age)
 	{
 		this.Id = npcId;
 		this.npcType = npcType;
 		this.unitType = unitType;
 		this.settleId = settleId;
+		this.gender = gender;
+		this.homeBuilding = buildingId;
+		this.settleId = settleId;
+		this.age = age;
+		this.name = name;
+		
+		this.ethno = EthnosType.HUMAN;
+		this.immortal = false;
+		this.workBuilding = 0;
+		this.money = 0.0;
+		this.itemInHand = new Item("AIR",0);
+		this.backPack = new BackpackList();
+		this.isMaried = false;
+		this.npcHusband = 0;
+		this.pcHusband = 0;
+		this.mother = 0;
+		this.father = 0;
+		this.isAlive = false;
+		this.setSchwanger(0);
 	}
 
+	/**
+	 * @return the cOUNTER
+	 */
+	public static int getCOUNTER()
+	{
+		return COUNTER;
+	}
+
+	/**
+	 * @param cOUNTER the cOUNTER to set
+	 */
+	public static void initCOUNTER(int cOUNTER)
+	{
+		COUNTER = cOUNTER;
+	}
+	
 	public int getId()
 	{
 		return Id;
@@ -327,5 +383,38 @@ public class NPCData
 	{
 		this.immortal = immortal;
 	}
+
+	/**
+	 * @return the isAlive
+	 */
+	public boolean isAlive()
+	{
+		return isAlive;
+	}
+
+	/**
+	 * @param isAlive the isAlive to set
+	 */
+	public void setAlive(boolean isAlive)
+	{
+		this.isAlive = isAlive;
+	}
+
+	/**
+	 * @return the schwanger
+	 */
+	public int getSchwanger()
+	{
+		return schwanger;
+	}
+
+	/**
+	 * @param schwanger the schwanger to set
+	 */
+	public void setSchwanger(int schwanger)
+	{
+		this.schwanger = schwanger;
+	}
+
 
 }

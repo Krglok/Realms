@@ -1,5 +1,6 @@
 package net.krglok.realms.builder;
 
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 
 /**
@@ -14,16 +15,16 @@ public class RegionLocation
 	private String name;
 	private String regionType;
 	private LocationData position;
-	private String owner;
+	private String ownerName;
 	
 
-	public RegionLocation(String regionType, LocationData position, String owner, String name)
+	public RegionLocation(String regionType, LocationData position, String ownerName, String name)
 	{
 		super();
 		this.setName(name);
 		this.regionType = regionType;
 		this.position = position;
-		this.owner = owner;
+		this.ownerName = ownerName;
 	}
 
 
@@ -53,13 +54,13 @@ public class RegionLocation
 
 	public String getOwner()
 	{
-		return owner;
+		return ownerName;
 	}
 
 
-	public void setOwner(String owner)
+	public void setOwner(String ownerName)
 	{
-		this.owner = owner;
+		this.ownerName = ownerName;
 	}
 
 

@@ -42,6 +42,7 @@ public class BuildingList  extends HashMap<String,Building>
 
 	public int checkId(int ref)
 	{
+		if (ref == 0) { ref = 1; }
 		while (this.containsKey(String.valueOf(ref)))
 		{
 			ref++;
@@ -239,12 +240,12 @@ public class BuildingList  extends HashMap<String,Building>
 	 * @param ownerId
 	 * @return
 	 */
-	public BuildingList getSubList(String ownerId)
+	public BuildingList getSubList(Owner owner)
 	{
 		BuildingList subList = new BuildingList();
 		for (Building building : this.values())
 		{
-			if (building.getOwnerId().equalsIgnoreCase(ownerId))
+			if (building.getOwnerId() == owner.getId())
 			{
 				subList.put(String.valueOf(building.getId()),building);
 			}

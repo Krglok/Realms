@@ -1,44 +1,373 @@
 OWNER:
-  '2':
-    id: 2
-    uuid: 51bde8b9-bad8-4461-a375-7b0438c98271
+  '0':
+    id: 0
+    uuid: NPC0
     nobleLevel: COMMONER
-    commonLevel: SENATOR
+    commonLevel: MAYOR
     capital: 0
-    playerName: drAdmin
-    realmId: 0
-    isNPC: false
-    Achivement: {}
-  '1':
-    id: 1
-    uuid: NPC1
-    nobleLevel: COMMONER
-    commonLevel: COUNCILOR
-    capital: 0
-    playerName: NPC1
+    playerName: NPC0
     realmId: 0
     isNPC: true
     Achivement:
-      BOOK_HOME: 'true'
-  '3':
-    id: 3
-    uuid: ''
+      BOOK_TECH4: 'true'
+      BOOK_TECH0: 'true'
+      BOOK_TECH1: 'true'
+      BOOK_TECH2: 'true'
+      BOOK_TECH3: 'true'
+  '1':
+    id: 1
+    uuid: 51bde8b9-bad8-4461-a375-7b0438c98271
+    nobleLevel: KING
+    commonLevel: SETTLER
+    capital: 0
+    playerName: dradmin
+    realmId: 8
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BUILD_PALACE: 'false'
+      BOOK_TECH4: 'true'
+      BOOK_TECH5: 'true'
+      BOOK_TECH6: 'true'
+      BOOK_TECH7: 'true'
+      BOOK_TECH0: 'true'
+      BOOK_TECH1: 'true'
+      BOOK_TECH2: 'true'
+      BOOK_TECH3: 'true'
+      BUILD_KEEP: 'false'
+  '2':
+    id: 2
+    uuid: de82315b-58b1-4ad6-becc-2a96ba2faf32
     nobleLevel: COMMONER
     commonLevel: COLONIST
     capital: 0
     playerName: Krglok
-    realmId: 1
+    realmId: 0
+    isNPC: true
+    Achivement: {}
+  '7':
+    id: 7
+    uuid: ccae61ca-2ba7-4407-94f1-96c435dd5fec
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: lilMegaNut
+    realmId: 0
     isNPC: false
+    Achivement: {}
+  '8':
+    id: 8
+    uuid: ff66ba21-19eb-4cff-a3c2-ce37b539b05b
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Katchushi
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '9':
+    id: 9
+    uuid: 6a4803b1-aa20-4f46-aac8-0b8c875e4725
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: MoritzSteinke
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '10':
+    id: 10
+    uuid: 68205667-bf3c-4749-9df3-2f940581e9db
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: guesch
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '11':
+    id: 11
+    uuid: 900f09bf-63cf-4003-bc93-bcf37bf16625
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: TheGoodPatrick
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '12':
+    id: 12
+    uuid: 648c57a0-9d58-4ff4-b075-cb10b00e0819
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: marcobosss
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '13':
+    id: 13
+    uuid: 0a39d23b-919b-4d47-9e6f-95f1534a6321
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Ramon_Viktor
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '14':
+    id: 14
+    uuid: 891f3c38-fc98-41fa-964e-be4c14fe3823
+    nobleLevel: KNIGHT
+    commonLevel: SETTLER
+    capital: 0
+    playerName: Eisenhammer
+    realmId: 5
+    isNPC: false
+    sales: 0.0
     Achivement:
+      BUILD_QUARRY: 'false'
+      BOOK_TECH4: 'true'
+      BUILD_WOODCUTTER: 'false'
       BOOK_TECH0: 'true'
-  '4':
-    id: 4
-    uuid: ''
+      BUILD_WHEAT: 'false'
+      BOOK_TECH1: 'true'
+      BOOK_TECH2: 'true'
+      BOOK_TECH3: 'true'
+  '3':
+    id: 3
+    uuid: sebbra
     nobleLevel: COMMONER
     commonLevel: COLONIST
     capital: 0
     playerName: sebbra
+    realmId: 4
+    isNPC: false
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'true'
+  '4':
+    id: 4
+    uuid: NPC1
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: NPC1
     realmId: 0
     isNPC: false
     Achivement:
       BOOK_TECH0: 'true'
+  '5':
+    id: 5
+    uuid: Emrys_Moonchild
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Emrys_Moonchild
+    realmId: 0
+    isNPC: false
+    Achivement:
+      BOOK_TECH0: 'true'
+  '6':
+    id: 6
+    uuid: Balathrus
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Balathrus
+    realmId: 0
+    isNPC: false
+    Achivement:
+      BOOK_TECH0: 'true'
+  '15':
+    id: 15
+    uuid: 1462b6f5-c4ee-46ce-b79b-835595d8d672
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Cyberlogical
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '16':
+    id: 16
+    uuid: 0565ef81-4965-49ec-9e5e-2810ae0b5b44
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: TheMiningArtist
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '17':
+    id: 17
+    uuid: de496274-810a-4e90-a8f5-21031dab4e19
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: nielshen
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '18':
+    id: 18
+    uuid: 2381906e-f77d-42a6-8699-5fd02589624b
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: mrs_L0L
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '19':
+    id: 19
+    uuid: f8097465-67a5-480e-91a3-eed544710a85
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: ACobra11
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '20':
+    id: 20
+    uuid: c04c0d7a-dc93-47d0-afae-7e233d8cd3ea
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Yannie2003
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '21':
+    id: 21
+    uuid: 3b05b6ff-4c24-4517-aa8b-b0e8bbafe1b0
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: LordofKrakatau
+    realmId: 0
+    isNPC: false
+    Achivement: {}
+  '22':
+    id: 22
+    uuid: ''
+    nobleLevel: KING
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Fallen
+    realmId: 1
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'false'
+  '23':
+    id: 23
+    uuid: ''
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: SalichSon
+    realmId: 1
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'false'
+  '24':
+    id: 24
+    uuid: ''
+    nobleLevel: KING
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Anion
+    realmId: 2
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'false'
+  '25':
+    id: 25
+    uuid: ''
+    nobleLevel: KING
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Nikoda
+    realmId: 3
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'false'
+  '26':
+    id: 26
+    uuid: 52b81805-22b4-470c-900e-5ded18dc37b5
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: LittlePandaCub
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    Achivement: {}
+  '27':
+    id: 27
+    uuid: ''
+    nobleLevel: KING
+    commonLevel: COLONIST
+    capital: 0
+    playerName: KoenigKaarborg
+    realmId: 5
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'false'
+  '28':
+    id: 28
+    uuid: ''
+    nobleLevel: KING
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Asher
+    realmId: 4
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'false'
+  '29':
+    id: 29
+    uuid: ''
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Salim
+    realmId: 6
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH0: 'false'
+  '30':
+    id: 30
+    uuid: c8257a83-4b96-43d0-81a2-fdb2b08f7748
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Toppiegirl
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    Achivement: {}
+  '31':
+    id: 31
+    uuid: NONE
+    nobleLevel: COMMONER
+    commonLevel: MAYOR
+    capital: 0
+    playerName: NONE
+    realmId: 0
+    isNPC: true
+    sales: 0.0
+    Achivement:
+      BOOK_TECH4: 'true'
+      BOOK_TECH0: 'true'
+      BOOK_TECH1: 'true'
+      BOOK_TECH2: 'true'
+      BOOK_TECH3: 'true'

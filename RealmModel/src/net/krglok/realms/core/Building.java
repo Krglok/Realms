@@ -36,7 +36,7 @@ public class Building  implements Serializable
 	private int settler;
 	private int settlerInstalled;
 	private int settleId;
-	private String ownerId;
+	private int ownerId;
 	private int lehenId; 
 	private int workerNeeded;
 	private int workerInstalled;
@@ -218,7 +218,7 @@ public class Building  implements Serializable
 			int trainTime,
 			int maxProduction,
 			int settleId,
-			String ownerId
+			int ownerId
 			)
 	{
 		super();
@@ -1175,7 +1175,7 @@ public class Building  implements Serializable
 	/**
 	 * @return the ownerId
 	 */
-	public String getOwnerId()
+	public int getOwnerId()
 	{
 		return ownerId;
 	}
@@ -1183,7 +1183,7 @@ public class Building  implements Serializable
 	/**
 	 * @param ownerId the ownerId to set
 	 */
-	public void setOwnerId(String ownerId)
+	public void setOwnerId(int ownerId)
 	{
 		this.ownerId = ownerId;
 	}

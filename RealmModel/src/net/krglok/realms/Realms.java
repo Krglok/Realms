@@ -28,6 +28,7 @@ import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;
 import net.krglok.realms.unit.Regiment;
 import net.milkbowl.vault.economy.Economy;
@@ -144,7 +145,11 @@ public final class Realms extends JavaPlugin
 			data.writeSettlement(settle);
 		}
 		// write NPCData/Trait to file
-		data.writeNpc(npcManager.getNpcList());
+        log.info("[Realms] Save Npc List");
+//		for (NpcData npc : npcManager.getNpcList().values())
+//		{
+//			data.writeNpc(npc);
+//		}
 		// write special Logdata to File
         log.info("[Realms] Save Transacton List");
 //		logList.run();
@@ -217,7 +222,7 @@ public final class Realms extends JavaPlugin
         if (this.npcManager.isEnabled() == true)
         {
             log.info("[Realms] Init Trait for Settler");
-        	npcManager.setNpcList(data.readNpcList());
+        	npcManager.setNpcList(data.getNpcs());
         } else
         {
             log.warning("[Realms] NPC Manger not enabled");

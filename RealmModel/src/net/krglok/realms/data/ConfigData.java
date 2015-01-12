@@ -18,6 +18,8 @@ import org.bukkit.entity.EntityType;
  * used for initialize the Plugin and the RealmModel with data
  * Hint: the plugin are not referenced here, so it is independant from the plugin system
  * this is useful for test and simuation
+ * configFile; hold the plugin configFile reference;
+ * configFile; is loaded by the plugin
  * 
  * @author Windu
  *
@@ -59,7 +61,9 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	private boolean isLoaded = false;
 	
 	private boolean isSpawnAnimal = false;
-
+	
+	private boolean isTrackPlayer = false;
+	
 	private ArrayList<EntityType> mobList;
 	
 	protected FileConfiguration configFile;
@@ -84,11 +88,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		isAutoUpdate  = configFile.getBoolean("autoupdate", false);
 		isLogList  = configFile.getBoolean("loglist", false);
 		isSpawnAnimal  = configFile.getBoolean("spawnAnimal", false);
-		List<?> names = configFile.getList("npcname");
-		if (names != null)
-		{
-			npcNames = (ArrayList<String>) names;
-		}
+		isSpawnAnimal  = configFile.getBoolean("trackPlayer", true);
 //		configFile.options().copyDefaults(true);
 		setLoaded(true);
 	}
@@ -310,20 +310,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	{
 		return regionBuildingTypes;
 	}
-
-//	@Override
-//	public String getRegionType(BuildPlanType bType)
-//	{
-//		for (String key : regionBuildingTypes.keySet())
-//		{
-//			if (regionBuildingTypes.get(key).equalsIgnoreCase(bType.name()))
-//			{
-//				return key;
-//			}
-//		}
-//		
-//		return "";
-//	}
 	
 	public HashMap<String, String> getBuildPlanRegions()
 	{
@@ -449,25 +435,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		return regionBuildings;
 	}
 
-//	/**
-//	 * make List of BuildingTypes for the List of superRegionTypes
-//	 * 
-//	 * @param collection
-//	 * @return List <i, SettleTypes>
-//	 */
-//	public HashMap<String, String> makeSuperRegionBuildingTypes(HashMap<String, String> superRegions)
-//	{
-//		HashMap<String, String> regionBuildings = new HashMap<String, String>();
-//		BuildPlanType bType;
-//		String regionType;
-//		for (String regionName :superRegions.keySet())
-//		{
-//			regionType = superRegions.get(regionName);
-//			bType = superRegionToBuildingType(regionType);
-//			regionBuildings.put(regionName, bType.name());
-//		}
-//		return regionBuildings;
-//	}
 
 	/**
 	 * @return the settlementCounter
@@ -505,21 +472,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	{
 //		 = new HashMap<BuildPlanType,String>();
 		buildPlanRegions.put("",BuildPlanType.NONE.name());
-		buildPlanRegions.put("HOME",BuildPlanType.HOME.name());
-		buildPlanRegions.put("HOUSE", BuildPlanType.HOUSE.name());
-		buildPlanRegions.put("HALL", BuildPlanType.HALL.name());
-		buildPlanRegions.put("HOUSE", BuildPlanType.HOUSE.name());
-		buildPlanRegions.put("FARMHOUSE",BuildPlanType.FARMHOUSE.name());
-		buildPlanRegions.put("TOWNHALL", BuildPlanType.TOWNHALL.name());
-		buildPlanRegions.put("TAVERNE", BuildPlanType.TAVERNE.name());
-		buildPlanRegions.put("WAREHOUSE", BuildPlanType.WAREHOUSE.name());
-		buildPlanRegions.put("WHEAT", BuildPlanType.WHEAT.name());
-		buildPlanRegions.put("WOODCUTTER",BuildPlanType.WOODCUTTER.name());
-		buildPlanRegions.put("CHARBURNER", BuildPlanType.CHARBURNER.name());
-		buildPlanRegions.put("QUARRY", BuildPlanType.QUARRY.name());
-		buildPlanRegions.put("SHEPHERD", BuildPlanType.SHEPHERD.name());
-		buildPlanRegions.put("FARM",BuildPlanType.FARM.name());
-		buildPlanRegions.put("BAKERY",BuildPlanType.BAKERY.name());
 		
 	}
 
@@ -586,5 +538,6 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	{
 		this.npcNames = npcNames;
 	}
+
 
 }

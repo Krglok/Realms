@@ -16,6 +16,8 @@ import net.krglok.realms.science.AchivementType;
  * - nobleLevel are significant for Kingdoms and feudal
  * - commonLevel are significant for Settlements
  * the key for a owner is th uuid of the player. in case of npc the name or none 
+ * for a NPC the UUID is the NpcId !
+ * NPC0 ist NONE, no NPC no Player
  * 
  * @author oduda
  * </pre>
@@ -35,6 +37,13 @@ public class Owner
 	private ArrayList<String> msg;
 	private AchivementList achivList;
 	private double sales;
+	
+	public Boolean isUser;
+//	public String lastIp ;
+	public String firstLogin;
+	public String lastLogin;
+	public String lastposition;
+	public String lastLogOff;
 
 	/**
 	 * instanziert einen owner als NPC durch.

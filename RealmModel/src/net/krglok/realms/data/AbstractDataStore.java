@@ -137,7 +137,55 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 		}
 		
 	}
-	
+
+	/**
+	 * write sectionName without  objectSection
+	 * @param dataObject
+	 */
+	public void writeData(T dataObject)
+	{
+		try
+		{ 
+			long time1 = System.nanoTime();
+            File dataFile = new File(dataFolder, fileName+".yml");
+            if (!dataFile.exists()) 
+            {
+            	System.out.println("Error Write : "+sectionName+":"+dataFolder+":"+fileName+" not Exist !!!");
+            	dataFile.createNewFile();
+            	System.out.println("Create Datafile : "+dataFile.getPath());
+            }
+            dataFile.setWritable(true);
+            
+            ConfigurationSection objectSection = config.createSection(sectionName);
+            //write data
+            initDataSection(objectSection,dataObject);
+            try
+			{
+            	config.save(dataFile); // dataFolder+"settlement.yml");
+			} catch (Exception e)
+			{
+	            System.out.println("ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
+			}
+		    long time2 = System.nanoTime();
+		    if (isTimeMessure)
+		    {
+		    	System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
+		    }
+
+		} catch (Exception e)
+		{
+			 @SuppressWarnings("unused")
+			 String name = "" ;
+			 StackTraceElement[] st = new Throwable().getStackTrace();
+			 if (st.length > 0)
+			 {
+				 name = st[0].getClassName()+":"+st[0].getMethodName();
+			 }
+			 System.out.println("Exception: "+name+" / "+e.getMessage());
+		}
+		
+	}
+
 	
 	/**
 	 *<pre> 
@@ -183,8 +231,72 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
     	
     	return dataObject;
     }
+
+	public T readData()
+	{
+		try
+		{
+            File regFile = new File(dataFolder, fileName+".yml");
+			System.out.println("Read DataStore: "+dataFolder+":"+fileName+".yml");
+            if (regFile.exists() == false) 
+            {
+            	regFile.createNewFile();
+    			System.out.println("NEW File: "+dataFolder+":"+fileName+".yml");
+            }
+            // load data from file
+            config.load(regFile);
+            
+		} catch (Exception e)
+		{
+  			 String name = "" ;
+			 StackTraceElement[] st = new Throwable().getStackTrace();
+			 if (st.length > 0)
+			 {
+				 name = st[0].getClassName()+":"+st[0].getMethodName();
+			 }
+			 System.out.println(name);
+			 System.out.println(e.getMessage());
+		}
+		
+		T dataObject = null;
+		try
+		{ 
+			long time1 = System.nanoTime();
+            if (config.isConfigurationSection(sectionName))
+            {
+//		    	System.out.println("Init DataObject :" +refId);
+            	ConfigurationSection section = config.getConfigurationSection(sectionName); 
+    	    	dataObject = initDataObject(section);
+            }
+
+            long time2 = System.nanoTime();
+		    if (isTimeMessure)
+		    {
+		    	System.out.println("Read " +sectionName+" Time [ms]: "+(time2 - time1)/1000000);
+		    }
+		    
+            
+		}catch (Exception e)
+		{
+			@SuppressWarnings("unused")
+			String name = "" ;
+			StackTraceElement[] st = new Throwable().getStackTrace();
+			if (st.length > 0)
+			{
+				name = st[0].getClassName()+":"+st[0].getMethodName();
+			}
+			System.out.println("Exception: "+name+" / "+e.getMessage());
+			return null;
+		}
+    	
+    	
+    	return dataObject;
+    }
 	
 //	@Override
+	/**
+	 * read the complete sectionName
+	 */
 	public ArrayList<String> readDataList()
 	{
 		ArrayList<String> msg = new ArrayList<String>();

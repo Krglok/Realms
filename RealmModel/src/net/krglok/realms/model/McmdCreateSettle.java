@@ -80,7 +80,7 @@ public class McmdCreateSettle implements iModelCommand
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 
-		Settlement settlement = new Settlement(playerName, position, settleType, superRegionName, biome); //, rModel.getLogList());
+		Settlement settlement = new Settlement(owner.getId(), position, settleType, superRegionName, biome); //, rModel.getLogList());
 		rModel.getSettlements().addSettlement(settlement);
 //		System.out.println(superRegionName+" : "+settlement.getId());
 		for (Region region : rModel.getServer().getRegionInSuperRegion(superRegionName))

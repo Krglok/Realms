@@ -145,7 +145,7 @@ public class CmdSettleJoin extends RealmsCommand
 				errorMsg.add(ChatColor.RED+"Only Admins can Requst for other");
 				return false;
 			}
-			if (plugin.getData().getSettlements().getSettlement(settleId).getOwnerId().equalsIgnoreCase(owner.getPlayerName())==false)
+			if (plugin.getData().getSettlements().getSettlement(settleId).getOwnerId() == owner.getId()==false)
 			{
 				errorMsg.add(ChatColor.RED+"You are not the owner of the settlement ! ");
 				return false;

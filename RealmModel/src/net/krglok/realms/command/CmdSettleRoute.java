@@ -163,9 +163,9 @@ public class CmdSettleRoute extends RealmsCommand
 					if (isOpOrAdmin(sender) == false)
 					{
 						Player player = (Player) sender;
-						String owner1 = plugin.getData().getSettlements().getSettlement(settleID).getOwnerId();
-						String owner2 = plugin.getData().getSettlements().getSettlement(targetID).getOwnerId();
-						if (owner1.equalsIgnoreCase(owner2) == false)
+						int owner1 = plugin.getData().getSettlements().getSettlement(settleID).getOwnerId();
+						int owner2 = plugin.getData().getSettlements().getSettlement(targetID).getOwnerId();
+						if (owner1 != owner2)
 						{
 							errorMsg.add("You are not the owner of target settlement ");
 							errorMsg.add(" ");

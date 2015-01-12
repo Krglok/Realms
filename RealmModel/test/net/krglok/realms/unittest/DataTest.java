@@ -33,6 +33,9 @@ import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.NpcList;
+import net.krglok.realms.npc.NpcNamen;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.science.RealmPermission;
@@ -165,20 +168,19 @@ public class DataTest implements DataInterface
 		{
 			Settlement settle = settleTestData.readSettledata(Integer.valueOf(sName),this.getPriceList()); //,this.logList);
 			settle.initSettlement(priceList);
-			String ref = settle.getOwnerId();
-			if ((ref == null))
+			int ref = settle.getOwnerId();
+			if ((ref == 0))
 			{
 				System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
 				owner = owners.findPlayername(ConfigBasis.NPC_0);
 				settle.setOwner(owner);
 			} else
 			{
-				owner = owners.findPlayername(ref);
+				owner = owners.getOwner(ref);
 				if (owner == null)
 				{
 					// make a default Owner
 					owner = Owner.initDefaultOwner();
-					owner.setOwnerPlayer(ref, "");
 					owner.initColonist();
 					owners.addOwner(owner);
 				}
@@ -401,7 +403,7 @@ public class DataTest implements DataInterface
 						0,
 						0,
 						0,
-						""
+						0
 						);
 		
 	}
@@ -429,7 +431,7 @@ public class DataTest implements DataInterface
 						0,
 						0,
 						0,
-						""
+						0
 
 						);
 		
@@ -569,7 +571,7 @@ public class DataTest implements DataInterface
 	{
 		Settlement plot = new Settlement(); //this.logList);
 		
-		plot.setOwnerId(testOwners.getOwner(ConfigBasis.NPC_0).getPlayerName());
+		plot.setOwnerId(0);
 		plot.setOwner(testOwners.getOwner(ConfigBasis.NPC_0));
 		plot.getWarehouse().setItemList(defaultWarehouseItems());
 		return plot;
@@ -1095,6 +1097,27 @@ public class DataTest implements DataInterface
 	public BuildingList getBuildings()
 	{
 		return buildings;
+	}
+
+	@Override
+	public NpcList getNpcs()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void writeNpc(NpcData npc)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public NpcNamen getNpcName()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

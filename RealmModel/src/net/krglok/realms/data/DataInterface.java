@@ -13,6 +13,9 @@ import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.NpcList;
+import net.krglok.realms.npc.NpcNamen;
 import net.krglok.realms.science.CaseBook;
 import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
@@ -59,6 +62,10 @@ public interface DataInterface
 	
 	public CaseBookList getCaseBooks();
 	
+	public NpcList getNpcs();
+	
+	public NpcNamen getNpcName();
+	
 	public void writeSettlement(Settlement settle);
 	
 	public void writeRegiment(Regiment regiment);
@@ -72,6 +79,8 @@ public interface DataInterface
 	public void writeLehen(Lehen lehen);
 
 	public void writeOwner(Owner owner);
+
+	public void writeNpc(NpcData npc);
 	
 	public BuildPlanMap readTMXBuildPlan(BuildPlanType bType, int radius, int offSet);
 	

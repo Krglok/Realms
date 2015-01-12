@@ -8,6 +8,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 
 import org.bukkit.ChatColor;
@@ -87,6 +88,7 @@ public class CmdSettleOwner extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		Player player;
+		Owner owner = null;
 		if (sender instanceof Player)
 		{
 			player = (Player) sender;
@@ -94,82 +96,74 @@ public class CmdSettleOwner extends RealmsCommand
 			{
 				playername = player.getPlayerListName();
 			}
-			
 		}
-		if (playername != "")
-		{
-			Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
-			if ( settle != null)
-			{
-				SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(settle.getName());
-				if (sRegion != null)
-				{
-					List<String> members = new ArrayList<String>();
-					members.add(playername);
-					// check for playername as member of superregion
-					// set it again to delete the member entry
-					if (sRegion.getMembers().containsKey(playername))
-					{
-						plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
-					}
-					// set owner of superregion in addition to existing
-					if (sRegion.getOwners().contains(playername) == false)
-					{
-						sRegion.addOwner(playername);
-					}
-					settle.setOwnerId(playername);
-//					sRegion.addMember(playername, perms );
-					for (Building building : settle.getBuildingList().values())
-					{
-						if ((building.getBuildingType() != BuildPlanType.HOME) 
-								&& (building.getBuildingType() != BuildPlanType.HOUSE)
-								&& (building.getBuildingType() != BuildPlanType.MANSION)
-								)
-						{
-							Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
-							if (region.getOwners().contains(playername) == false)
-							{
-								region.addOwner(playername);
-							}
-							System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playername );
-							building.setOwnerId(playername);
-							plugin.getData().writeBuilding(building);
-						}
-					}
-					plugin.getData().writeSettlement(settle);
-					msg.add("Owner added to "+settle.getName());
-					msg.add(ChatColor.GOLD+"Player "+playername+" now owner of the settlement");
-					msg.add(ChatColor.GOLD+"Player "+playername+" can use every building in the Settlement");
-					msg.add(ChatColor.GOLD+"The settlers  now look at you. Dont disappoint them !");
-					msg.add(ChatColor.YELLOW+"Notice you are not a member of the houses !");
-					msg.add("");
-					if (plugin.getServer().getPlayer(playername) != null)
-					{
-						for (String s : msg)
-						{
-							plugin.getServer().getPlayer(playername).sendMessage(s);
-						}
-					} 
-					for (String s : msg)
-					{
-						sender.sendMessage(s);
-					}
-
-				} else
-				{
-					msg.add("Superregion not found !");
-					msg.add("");
-				}
-			} else
-			{
-				msg.add("Settlement not found !");
-				msg.add("");
-			}
-		} else
+		owner = plugin.getData().getOwners().getOwnerName(playername);
+		if (owner == null)
 		{
 			msg.add("No playername is given !");
-			msg.add("");
 		}
+		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
+		if ( settle == null)
+		{
+			msg.add("Settlement not found !");
+		}
+		SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(settle.getName());
+		if (sRegion == null)
+		{
+			msg.add("Superregion not found !");
+		}
+		
+		List<String> members = new ArrayList<String>();
+		members.add(playername);
+		// check for playername as member of superregion
+		// set it again to delete the member entry
+		if (sRegion.getMembers().containsKey(playername))
+		{
+			plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
+		}
+		// set owner of superregion in addition to existing
+		if (sRegion.getOwners().contains(playername) == false)
+		{
+			sRegion.addOwner(playername);
+		}
+		settle.setOwner(owner);
+//					sRegion.addMember(playername, perms );
+		for (Building building : settle.getBuildingList().values())
+		{
+			if ((building.getBuildingType() != BuildPlanType.HOME) 
+					&& (building.getBuildingType() != BuildPlanType.HOUSE)
+					&& (building.getBuildingType() != BuildPlanType.MANSION)
+					)
+			{
+				Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
+				if (region.getOwners().contains(playername) == false)
+				{
+					region.addOwner(playername);
+				}
+				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playername );
+				building.setOwnerId(owner.getId());
+				plugin.getData().writeBuilding(building);
+			}
+		}
+		plugin.getData().writeSettlement(settle);
+		msg.add("Owner added to "+settle.getName());
+		msg.add(ChatColor.GOLD+"Player "+playername+" now owner of the settlement");
+		msg.add(ChatColor.GOLD+"Player "+playername+" can use every building in the Settlement");
+		msg.add(ChatColor.GOLD+"The settlers  now look at you. Dont disappoint them !");
+		msg.add(ChatColor.YELLOW+"Notice you are not a member of the houses !");
+		msg.add("");
+		if (plugin.getServer().getPlayer(playername) != null)
+		{
+			for (String s : msg)
+			{
+				plugin.getServer().getPlayer(playername).sendMessage(s);
+			}
+		} 
+		for (String s : msg)
+		{
+			sender.sendMessage(s);
+		}
+
 		plugin.getMessageData().printPage(sender, msg, 1);
 
 	}
@@ -184,26 +178,20 @@ public class CmdSettleOwner extends RealmsCommand
 				if (isSettleOwner(plugin, sender, settleId)== false)
 				{
 					errorMsg.add("You are not the owner ! ");
-					errorMsg.add(" ");
 					return false;
 					
 				}
 			} 
-			if (plugin.getData().getOwners().getOwnerName(playername).isNPC() == false)
+			if (plugin.getData().getOwners().getOwnerName(playername) == null)
 			{
-				if (plugin.getServer().getPlayer(playername) == null)
-				{
-					errorMsg.add("Player must be online ! ");
-					errorMsg.add(" ");
+					errorMsg.add("Not a regulat Owner ! ");
 					return false;
-				}
 			}
 			return true;
 			
 		} else
 		{
 			errorMsg.add("Settlement not found ! ");
-			errorMsg.add(" ");
 			return false;
 			
 		}

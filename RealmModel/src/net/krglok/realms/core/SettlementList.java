@@ -65,6 +65,7 @@ public class SettlementList extends HashMap<Integer,Settlement>
 	 */
 	public int checkId(int ref)
 	{
+		if (ref == 0) { ref = 1; }
 		while (this.containsKey(ref))
 		{
 			ref++;
@@ -242,7 +243,7 @@ public class SettlementList extends HashMap<Integer,Settlement>
 			HashMap<String,String> superRegionTypes, 
 			HashMap<String,String> regionTypes, 
 			HashMap<String,String> regionBuildings, 
-			String owner,
+			int ownerId,
 			Biome biome, ItemPriceList priceList)//	LogList logList)
 	{
 		SettlementList settleList = new SettlementList(0);
@@ -250,7 +251,7 @@ public class SettlementList extends HashMap<Integer,Settlement>
 		if (settleType != SettleType.NONE)
 		{
 			String settleName = getSettleName(superRegionTypes); 
-			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, owner, regionTypes, regionBuildings,biome); //,logList);
+			Settlement settlement =  Settlement.createSettlement(position, settleType, settleName, ownerId, regionTypes, regionBuildings,biome); //,logList);
 			settleList.addSettlement(settlement);
 		}
 		return settleList;
@@ -277,7 +278,7 @@ public class SettlementList extends HashMap<Integer,Settlement>
 		{
 			if (settle.getOwner() != null) 
 			{
-				if ((settle.getOwner().getUuid().equals(owner.getUuid())) && settle.getOwnerId().equalsIgnoreCase(owner.getPlayerName())) 
+				if (settle.getOwnerId() == owner.getId()) 
 				{
 					subList.put(settle.getId(), settle);
 				}

@@ -51,7 +51,7 @@ public class Regiment {
 	private LocationData position;
 	private LocationData target;
 	private String name;
-	private String ownerId;
+	private int ownerId;
 	private Owner owner;
 	private Barrack barrack ;
 	private Warehouse warehouse ;
@@ -105,7 +105,8 @@ public class Regiment {
 		this.world 		= "";
 		this.biome		= null;
 		this.name		= "Regiment";
-		this.ownerId		= "NPC";
+		this.ownerId	= 0;
+		this.owner 		= null;
 		this.bank		= new Bank(); //logList);
 		this.barrack	= new Barrack(60);
 		this.warehouse		= new Warehouse(REGIMENT_ITEM_MAX);
@@ -129,7 +130,7 @@ public class Regiment {
 		UnitList settlerList = makeSettler(10);
 		regiment.getBarrack().addUnitList(settlerList);
 		regiment.name		= "Privateer";
-		regiment.ownerId		= "Raider";
+		regiment.ownerId		= 0;
 		regiment.commander 	= new Unit(UnitType.COMMANDER);
 //		regiment.getColonist().setPosition(regiment.getPosition());
 		return regiment;
@@ -255,13 +256,13 @@ public class Regiment {
 
 
 
-	public String getOwnerId() {
+	public int getOwnerId() {
 		return ownerId;
 	}
 
 
 
-	public void setOwnerId(String ownerId) {
+	public void setOwnerId(int ownerId) {
 		this.ownerId = ownerId;
 //		this.colonist.setOwner(owner);
 	}
@@ -497,10 +498,10 @@ public class Regiment {
 		
 	}
 	
-	public void newCamp(String name,  String owner) //, LogList logList)
+	public void newCamp(String name,  String ownerName) //, LogList logList)
 	{
 		LocationData position = new LocationData("", 0.0, 0.0,0.0);
-		newSuperRegion = new RegionLocation("CAMP", position, owner, name);
+		newSuperRegion = new RegionLocation("CAMP", position, ownerName, name);
 		warehouse.depositItemValue(Material.BED.name(), 1);
 		warehouse.depositItemValue(Material.WOOL.name(), 120);
 		warehouse.depositItemValue(Material.LOG.name(), 250);
@@ -676,7 +677,15 @@ public class Regiment {
 		{
 			System.out.println("Regiment start Camp :"+position.getWorld()+":"+position.getX()+":"+position.getY()+":"+position.getZ());
 			buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.FORT, 4, 0);
-			buildManager.newBuild(buildPlan, this.position, ownerId);
+			String ownerName;
+			if (owner == null)
+			{
+				ownerName = ConfigBasis.NPC_0;
+			} else
+			{
+				ownerName = owner.getPlayerName();
+			}
+			buildManager.newBuild(buildPlan, this.position, ownerName);
 			regStatus = RegimentStatus.CAMP;
 		}
 	}
@@ -721,8 +730,16 @@ public class Regiment {
 		if (position.getWorld().equalsIgnoreCase(target.getWorld()) == true)
 		{
 			System.out.println("Regiment Start Uncamp!");
-			newSuperRegion = new RegionLocation("CAMP", target, ownerId, name);
-			buildManager.newBuild(buildPlan, position, ownerId);
+			String ownerName;
+			if (owner == null)
+			{
+				ownerName = ConfigBasis.NPC_0;
+			} else
+			{
+				ownerName = owner.getPlayerName();
+			}
+			newSuperRegion = new RegionLocation("CAMP", target, ownerName, name);
+			buildManager.newBuild(buildPlan, position, ownerName);
 			regStatus = RegimentStatus.UNCAMP;
 //			colonist.startReinforce(colonist.getSettleSchema().getRadius());
 			

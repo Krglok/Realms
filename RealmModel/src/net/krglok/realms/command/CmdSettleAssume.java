@@ -102,7 +102,8 @@ public class CmdSettleAssume extends RealmsCommand
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
 		if ( settle != null)
 		{
-			String oldOwner = settle.getOwnerId();
+			Owner oldOwner = plugin.getData().getOwners().getOwner(settle.getOwnerId());
+			String oldOwnerName = oldOwner.getPlayerName();
 			plugin.economy.withdrawPlayer(player.getName(), cost);
 			Kingdom kingdom = plugin.getData().getKingdoms().getKingdom(settle.getOwner().getKingdomId());
 			if (kingdom != null)
@@ -110,7 +111,7 @@ public class CmdSettleAssume extends RealmsCommand
 				plugin.economy.bankDeposit(kingdom.getName(), cost);
 			} else
 			{
-				plugin.economy.bankDeposit(oldOwner, cost);
+				plugin.economy.bankDeposit(oldOwnerName, cost);
 			}
 			SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(settle.getName());
 			if (sRegion != null)
@@ -120,7 +121,6 @@ public class CmdSettleAssume extends RealmsCommand
 				members.add(playername);
 				plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
 				plugin.stronghold.getRegionManager().setOwner(sRegion, playername);
-				settle.setOwnerId(playername);
 				settle.setOwner(owner);
 //				sRegion.addMember(playername, perms );
 				for (Building building : settle.getBuildingList().values())
@@ -134,12 +134,12 @@ public class CmdSettleAssume extends RealmsCommand
 							&& (building.getBuildingType() != BuildPlanType.PALACE)
 							)
 					{
-						if (building.getOwnerId().equalsIgnoreCase(oldOwner))
+						if (building.getOwnerId()==oldOwner.getId())
 						{
 							plugin.stronghold.getRegionManager().setMember(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
 							plugin.stronghold.getRegionManager().setOwner(plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion()), playername);
 							System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playername );
-							building.setOwnerId(playername);
+							building.setOwnerId(owner.getId());
 							plugin.getData().writeBuilding(building);
 				    		AchivementName aName = AchivementName.valueOf(building.getBuildingType().name());
 			    			if (owner.getAchivList().contains(aName) == false)

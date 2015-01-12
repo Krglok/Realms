@@ -6,6 +6,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
@@ -363,7 +364,8 @@ public abstract class RealmsCommand implements iRealmsCommand
 //			return true;
 //		}
 		Player player = (Player) sender;
-		if (player.getName().toString().equalsIgnoreCase(settle.getOwnerId()) == false)
+		Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString()); 
+		if (owner.getId() != settle.getOwnerId())
 		{
 			errorMsg.add("You are NOT the owner of the Settlement !");
 			return false;
@@ -379,7 +381,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 			return true;
 		}
 		Regiment regiment = plugin.getRealmModel().getRegiments().get(regID);
-		if (regiment.getOwnerId() == "")
+		if (regiment.getOwnerId() == 0)
 		{
 			return true;
 		}

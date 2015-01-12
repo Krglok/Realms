@@ -117,7 +117,7 @@ public class CmdFeudalOwner extends RealmsCommand
 					region.addOwner(playerName);
 				}
 				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playerName );
-				building.setOwnerId(playerName);
+				building.setOwnerId(owner.getId());
 				plugin.getData().writeBuilding(building);
 			}
 		}

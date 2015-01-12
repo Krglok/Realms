@@ -266,7 +266,7 @@ public class CmdSettleCreate extends RealmsCommand
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 		msg.add(ChatColor.GOLD+"SettlementOwner: "+playerName);
-		Settlement settlement = new Settlement(playerName, position,  settleType, superRegionName,biome); //, plugin.getRealmModel().getLogList());
+		Settlement settlement = new Settlement(owner.getId(), position,  settleType, superRegionName,biome); //, plugin.getRealmModel().getLogList());
 		settlement.setOwner(owner);
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 

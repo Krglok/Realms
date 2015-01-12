@@ -215,7 +215,7 @@ public class SettlementData
 
             	//Biome.valueOf(settle.getBiome()));
             	settle.setName(config.getString(section+".name"));
-            	settle.setOwnerId(config.getString(section+".owner",ConfigBasis.NPC_0));
+            	settle.setOwnerId(config.getInt(section+".owner",0));
             	settle.setIsCapital(config.getBoolean(section+".isCapital",false));
             	settle.setIsActive(config.getBoolean(section+".isActive"));
             	settle.getBank().addKonto(config.getDouble(section+".bank",0.0),"SettleRead",settle.getId());
@@ -291,7 +291,7 @@ public class SettlementData
         							trainTime,
         							maxProduction,
         							0,
-        							""
+        							0
         							); 
         		     bList.addBuilding(building);
             	}

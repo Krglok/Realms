@@ -104,7 +104,7 @@ public class DataStoreBuilding  extends AbstractDataStore<Building>
 		BuildPlanType buildingType = BuildPlanType.getBuildPlanType(data.getString(  "buildingType","None"));
 		int settleId = Integer.valueOf(data.getString(  "settleId","0"));
 		int lehenId = Integer.valueOf(data.getString(  "lehenId","0"));
-		String ownerId = data.getString(  "ownerId","");
+		int ownerId = data.getInt(  "ownerId",0);
 		int settler = Integer.valueOf(data.getString(  "settler","0"));
 		int settlerInstalled = Integer.valueOf(data.getString(  "settlerInstalled","0"));
 		int workerNeeded = Integer.valueOf(data.getString(  "workerNeeded","0"));

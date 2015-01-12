@@ -6,7 +6,7 @@ REGIMENT:
     position: :0.0:0.0:0.0
     target: :0.0:0.0:0.0
     name: Privateer
-    owner: Raider
+    owner: 0
     bank: 0.0
     isActiv: true
     settleId: -1
@@ -39,7 +39,7 @@ REGIMENT:
     position: :0.0:0.0:0.0
     target: :0.0:0.0:0.0
     name: Privateer
-    owner: Raider
+    owner: 0
     bank: 0.0
     isActiv: true
     settleId: -1

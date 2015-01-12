@@ -93,7 +93,7 @@ public class RealmModel
 	private KingdomList kingdoms;			// List of Kingdoms in game
 	private BuildingList buildings;			// List of all buildings in game , make subList for settlements
 	
-	public NpcManager npcManager;
+//	public NpcManager npcManager;
 	private UnitFactory unitFactory = new UnitFactory();
 	private KnowledgeData knowledgeData = new KnowledgeData();
 	
@@ -873,7 +873,7 @@ public class RealmModel
     		double settlerTax = settle.getTaxSum();
     		settle.setSales(0.0);
     		settle.setTaxSum(0.0);
-    		Owner owner = getData().getOwners().getOwnerName(settle.getOwnerId());
+    		Owner owner = getData().getOwners().getOwner(settle.getOwnerId());
     		int lehenId = settle.getTributId();
     		int kingdomId = 0;
 			Lehen tributLehen = getData().getLehen().getLehen(lehenId);

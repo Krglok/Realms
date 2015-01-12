@@ -77,7 +77,7 @@ public class CmdSettleList extends RealmsCommand
 	    		msg.add(settle.getId()
 	    				+" |"+ChatColor.YELLOW+ConfigBasis.setStrleft(settle.getName()+"___________",12)
 	    				+" |"+ChatColor.GREEN+ConfigBasis.setStrleft(settle.getSettleType().name(),4)
-	    				+ChatColor.YELLOW+"| "+ConfigBasis.setStrleft(settle.getOwnerId(),10)
+	    				+ChatColor.YELLOW+"| "+ConfigBasis.setStrright(settle.getOwnerId(),3)
 	    				+ChatColor.YELLOW+"| "+ChatColor.DARK_PURPLE+settle.getKingdomId()
 	    				+ChatColor.YELLOW+" in "+settle.getPosition().getWorld());
 		    }

@@ -203,10 +203,17 @@ public class CmdSettleBuild extends RealmsCommand
 		World world = player.getWorld();
 		LocationData iLoc = new LocationData(world.getName(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
 		Location loc = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
-		String ownerId = player.getName();
+		String ownerName = player.getName();
+		Owner owner = plugin.getData().getOwners().getOwnerName(ownerName);
+		if (owner == null)
+		{
+	    	msg.add("Owner not exist ");
+			plugin.getMessageData().printPage(sender, msg, 1);
+			return;
+		}
 		System.out.println("SettleCommand : Builder");
 		ArrayList<String> owners = new ArrayList<String>();
-		owners.add(ownerId);
+		owners.add(ownerName);
 		bType = BuildPlanType.valueOf(buildName);
 		String regionType = bType.name();
 		
@@ -237,7 +244,7 @@ public class CmdSettleBuild extends RealmsCommand
 			plugin.getMessageData().printPage(sender, msg, 1);
 			return;
 		}
-		RegionLocation rLoc = new RegionLocation(bType.name(), iLoc, ownerId, "");
+		RegionLocation rLoc = new RegionLocation(bType.name(), iLoc, ownerName, "");
 		plugin.doRegionRequest( world, rLoc );
 //		plugin.stronghold.getRegionManager().addRegion(loc, regionType, owners);
 		Region region = plugin.stronghold.getRegionManager().getRegion(loc);
@@ -249,7 +256,7 @@ public class CmdSettleBuild extends RealmsCommand
 	    	return;
 		}
 		double cost = plugin.getServerData().getRegionTypeCost(buildName);
-		plugin.economy.withdrawPlayer(ownerId, cost);
+		plugin.economy.withdrawPlayer(ownerName, cost);
 		Building building = new Building(bType, region.getID(), iLoc, settleId);
 		plugin.getRealmModel().getBuildings().addBuilding(building);
 		plugin.getRealmModel().getData().writeBuilding(building);
@@ -268,7 +275,7 @@ public class CmdSettleBuild extends RealmsCommand
 			reagents.add(item.getType().name()+":"+item.getAmount());
 		}
     	msg.add("BUILD "+bType.name()+" at "+(int)position.getX()+":"+(int)position.getY()+":"+(int)position.getZ());
-    	msg.add("Building: "+building.getId() +"for owner "+ownerId);
+    	msg.add("Building: "+building.getId() +"for owner "+ownerName);
     	msg.add("remember to give reagents to chest: ");
     	for (String s : reagents)
     	{
@@ -279,7 +286,6 @@ public class CmdSettleBuild extends RealmsCommand
     	if (AchivementName.contains(regionType))
     	{
     		AchivementName aName = AchivementName.valueOf(regionType);
-    		Owner owner = plugin.getData().getOwners().getOwnerName(ownerId);
     		if (owner != null)
     		{
     			if (owner.getAchivList().contains(aName) == false)

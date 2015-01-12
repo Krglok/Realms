@@ -165,7 +165,7 @@ public class RegimentData
             	regiment.setPosition(LocationData.toLocation(config.getString(section+".position")));
             	regiment.setPosition(LocationData.toLocation(config.getString(section+".target")));
             	regiment.setName(config.getString(section+".name"));
-            	regiment.setOwnerId(config.getString(section+".owner"));
+            	regiment.setOwnerId(Integer.valueOf(config.getString(section+".owner","0")));
             	regiment.setIsActive(config.getBoolean(section+".isActive"));
             	regiment.setSettleId(config.getInt(section+".settleId"));
             	regiment.getBarrack().setUnitMax(config.getInt(section+".MaxUnit"));
@@ -204,7 +204,7 @@ public class RegimentData
 				}
             }
 		    long time2 = System.nanoTime();
-		    System.out.println("Regiment "+id+": Time [ms]: "+(time2 - time1)/1000000);
+//		    System.out.println("Regiment "+id+": Time [ms]: "+(time2 - time1)/1000000);
 		    
             
 		}catch (Exception e)

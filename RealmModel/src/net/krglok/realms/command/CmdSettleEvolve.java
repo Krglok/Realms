@@ -144,7 +144,7 @@ public class CmdSettleEvolve extends RealmsCommand
 				settle.getPosition().getY(), 
 				settle.getPosition().getZ()-1
 				);
-		String owner = settle.getOwnerId();
+		String owner = settle.getOwner().getPlayerName();
 		RegionLocation rLoc = new RegionLocation(newType, position, owner,name);
 		World world = plugin.getServer().getWorld(settle.getPosition().getWorld());
 		

@@ -69,7 +69,8 @@ public class McmdBuilder implements iModelCommand
 	{
 //		System.out.println("Builder");
 		BuildPlanMap buildPlan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
-		rModel.getSettlements().getSettlement(settleId).buildManager().newBuild(buildPlan, position, rModel.getSettlements().getSettlement(settleId).getOwnerId());
+		String ownerName = rModel.getSettlements().getSettlement(settleId).getOwner().getPlayerName();
+		rModel.getSettlements().getSettlement(settleId).buildManager().newBuild(buildPlan, position, ownerName);
 //		player.sendMessage("Build Order send to SettleManager");
 	}
 

@@ -74,7 +74,7 @@ public class BuildManager
 	private ArrayList<ItemLocation> resultBlockRequest;
 	private ArrayList<RegionLocation> regionRequest;
 	private ArrayList<ItemListLocation> chestSetRequest;
-	private String owner;
+	private String ownerName;
 
 	private int timeout;
 
@@ -89,7 +89,7 @@ public class BuildManager
 		this.regionRequest = new ArrayList<RegionLocation>();
 		this.chestSetRequest = new ArrayList<ItemListLocation>();
 		bStatus = BuildStatus.NONE;
-		this.owner = "";
+		this.ownerName = ConfigBasis.NPC_0;
 	}
 	
 	public BuildStatus getStatus()
@@ -128,7 +128,7 @@ public class BuildManager
 	 * @param centerPos
 	 * @return true if build is started
 	 */
-	public boolean newBuild(BuildPlan bPlan, LocationData centerPos, String owner)
+	public boolean newBuild(BuildPlan bPlan, LocationData centerPos, String ownerName)
 	{
 //		System.out.println("new Build : "+":"+bType.getBuildingType().name()+":"+centerPos.getX()+":"+centerPos.getY()+":"+centerPos.getZ());
 //		if (bStatus == BuildStatus.NONE)
@@ -143,7 +143,7 @@ public class BuildManager
 			sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
 			signText[2] = sPos.toCharArray();
 			bStatus = BuildStatus.PREBUILD;
-			this.owner = owner;
+			this.ownerName = ownerName;
 			if (buildPlan == null)
 			{
 				bStatus = BuildStatus.NONE;
@@ -496,7 +496,7 @@ public class BuildManager
 							buildLocation.getY()+buildPlan.getOffsetY()+buildPlan.getRadius()-1, 
 							buildLocation.getZ()-1
 							);
-					String owner = this.owner;
+					String owner = this.ownerName;
 					regionRequest.add(new RegionLocation(regionType, position, owner,""));
 				}
 			}

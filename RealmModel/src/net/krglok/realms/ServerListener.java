@@ -1,6 +1,9 @@
 package net.krglok.realms;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -85,6 +88,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
@@ -224,6 +228,26 @@ public class ServerListener implements Listener
         
     }
 	
+	public static String getDateTime(){
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy::hh:mm:ss a");
+          Date date = new Date();
+          return dateFormat.format(date);
+    }
+	
+    @EventHandler(priority = EventPriority.NORMAL)
+	public void onPlayerQuit(PlayerQuitEvent event) 
+    {
+		if(plugin.getData().getOwners().containUuid(event.getPlayer().getUniqueId().toString()) == true)
+		{
+			Owner owner = plugin.getData().getOwners().getOwner(event.getPlayer().getUniqueId().toString());
+			owner.lastposition = event.getPlayer().getLocation().toString();
+			owner.lastLogOff = getDateTime();
+			plugin.getData().writeOwner(owner);
+		}
+    	
+    }
+	
+	
 	/**
 	 * send update check message to ops
 	 * @param event
@@ -231,6 +255,8 @@ public class ServerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerJoin(PlayerJoinEvent event) 
     {
+    	//        String IP = player.getAddress().getHostString();
+
     	if (event.getPlayer()== null) return;    	
 		if (event.getPlayer().isOp()) 
 		{
@@ -242,25 +268,72 @@ public class ServerListener implements Listener
 			
 			String msg = "[Realms] Updatecheck : "+plugin.getConfigData().getPluginName()+" Vers.: "+plugin.getConfigData().getVersion();
 			plugin.getLog().log(Level.WARNING,msg);
-		} 
-		if(plugin.getData().getOwners().containUuid(event.getPlayer().getUniqueId().toString()) == false)
-		{
-			if(plugin.getData().getOwners().getOwnerName(event.getPlayer().getName()) == null)
-			{
-				Owner owner = Owner.initDefaultOwner();
-				owner.setIsNPC(false);
-				owner.setPlayerName(event.getPlayer().getName());
-				owner.setUuid(event.getPlayer().getUniqueId().toString());
-				owner.setCommonLevel(CommonLevel.COLONIST);
-				owner.setNobleLevel(NobleLevel.COMMONER);
-				plugin.getData().getOwners().addOwner(owner);
-				plugin.getData().writeOwner(owner);
-				event.getPlayer().sendMessage("Owner is inilized for you !");
-//				event.getPlayer().sendMessage("use /Realms Owner for link to your existing settlements");
-				plugin.getLog().log(Level.INFO,"Owner init for "+event.getPlayer().getName());
-			}
 		}
-
+		if ((event.getPlayer().hasPermission(RealmsPermission.USER.getValue()))
+			|| (event.getPlayer().hasPermission(RealmsPermission.ADMIN.getValue()))
+			)
+		{
+			if(plugin.getData().getOwners().containUuid(event.getPlayer().getUniqueId().toString()) == false)
+			{
+				if(plugin.getData().getOwners().getOwnerName(event.getPlayer().getName()) == null)
+				{
+					Owner owner = Owner.initDefaultOwner();
+					owner.setIsNPC(false);
+					owner.isUser = true;
+					owner.setPlayerName(event.getPlayer().getName());
+					owner.setUuid(event.getPlayer().getUniqueId().toString());
+					owner.setCommonLevel(CommonLevel.COLONIST);
+					owner.setNobleLevel(NobleLevel.COMMONER);
+					owner.firstLogin = getDateTime();
+					owner.lastLogin = getDateTime();
+					plugin.getData().getOwners().addOwner(owner);
+					plugin.getData().writeOwner(owner);
+					event.getPlayer().sendMessage("Owner is inilized for you !");
+	//				event.getPlayer().sendMessage("use /Realms Owner for link to your existing settlements");
+					plugin.getLog().log(Level.INFO,"Owner init for "+event.getPlayer().getName());
+				}
+			} else
+			{
+				Owner owner = plugin.getData().getOwners().getOwner(event.getPlayer().getUniqueId().toString());
+				owner.setIsNPC(false);
+				owner.isUser = true;
+				owner.setPlayerName(event.getPlayer().getName());
+				if (owner.firstLogin == "")
+				{
+					owner.firstLogin = getDateTime();
+				}
+				owner.lastLogin = getDateTime();
+				plugin.getData().writeOwner(owner);
+			}
+		} else
+		{
+			if(plugin.getData().getOwners().containUuid(event.getPlayer().getUniqueId().toString()) == false)
+			{
+				if(plugin.getData().getOwners().getOwnerName(event.getPlayer().getName()) == null)
+				{
+					Owner owner = Owner.initDefaultOwner();
+					owner.setIsNPC(false);
+					owner.isUser = false;
+					owner.setPlayerName(event.getPlayer().getName());
+					owner.setUuid(event.getPlayer().getUniqueId().toString());
+					owner.firstLogin = getDateTime();
+					owner.lastLogin = getDateTime();
+					plugin.getData().getOwners().addOwner(owner);
+					plugin.getData().writeOwner(owner);
+					event.getPlayer().sendMessage("Player is inilized for you !");
+					plugin.getLog().log(Level.INFO,"Player init for "+event.getPlayer().getName());
+				}
+			} else
+			{
+				Owner owner = plugin.getData().getOwners().getOwner(event.getPlayer().getUniqueId().toString());
+				owner.setIsNPC(false);
+				owner.isUser = false;
+				owner.setPlayerName(event.getPlayer().getName());
+				owner.lastLogin = getDateTime();
+				plugin.getData().writeOwner(owner);
+			}
+			
+		}
 		return; // no OP => OUT
 	}
 
@@ -2137,6 +2210,12 @@ public class ServerListener implements Listener
 	 */
 	private void cmdWorkshop(PlayerInteractEvent event, Block b)
 	{
+		Owner owner = plugin.getData().getOwners().getOwner(event.getPlayer().getUniqueId().toString());
+		if (owner == null)
+		{
+			event.getPlayer().sendMessage(ChatColor.RED+"You are not a regular Owner !");
+			return;
+		}
 		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
@@ -2145,7 +2224,7 @@ public class ServerListener implements Listener
 
     	if (event.getPlayer().isOp() == false)
     	{
-	    	if (building.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
+	    	if (building.getOwnerId() != owner.getId())
 			{
 				msg.add("You are not the owner");
 				plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
@@ -2290,13 +2369,20 @@ public class ServerListener implements Listener
 	{
 		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		Owner owner = plugin.getData().getOwners().getOwner(event.getPlayer().getUniqueId().toString());
+		if (owner == null)
+		{
+			event.getPlayer().sendMessage(ChatColor.RED+"You are not a regular Owner !");
+			return;
+		}
+
 		// ohne settlement können auch gebäude erworben werden
 		// aber wenn in einem settlement , dann muss reputation vorhanden sein
 		if (settle != null)
 		{
 			// der owner braucht keinen Nachweis
 //			System.out.println("ACQUIRE Settlement "+settle.getId()+":"+settle.getName());
-			if (settle.getOwnerId().equalsIgnoreCase(event.getPlayer().getName()) == false)
+			if (settle.getOwnerId() == owner.getId())
 			{
 				System.out.println("ACQUIRE Reputation "+settle.getId()+":"+settle.getReputations().getReputation(event.getPlayer().getName()));
 				// ein fremder muss genug reputation haben
@@ -2319,7 +2405,7 @@ public class ServerListener implements Listener
 				{
 					EconomyResponse eResponse = plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
 					Building building = plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID());
-					building.setOwnerId(event.getPlayer().getName());
+					building.setOwnerId(owner.getId());
 					SuperRegion superRegion = plugin.getServerData().getSuperRegion(sRegion);
 					List<String> perms = new ArrayList<String>();
 					superRegion.addMember(event.getPlayer().getName(), perms );

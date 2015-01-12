@@ -181,7 +181,7 @@ public class DataStoreLehenTest
 					{
 						if (sub1.getOwner() != null)
 						{
-							if (settle.getOwnerId() == sub1.getOwner().getPlayerName())
+							if (settle.getOwnerId() == sub1.getOwner().getId())
 							{
 								System.out.print(" | ");
 								System.out.print(" + ");
