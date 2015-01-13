@@ -13,6 +13,7 @@ import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 
 /**
+ * references of HeroSTronghold RegionManager
  *  private Map<Location, Region> liveRegions = new HashMap<Location, Region>();
     private Map<Integer, Region> idRegions = new HashMap<Integer, Region>();
     private ArrayList<Region> sortedRegions = new ArrayList<Region>();

@@ -37,6 +37,8 @@ public class Owner
 	private ArrayList<String> msg;
 	private AchivementList achivList;
 	private double sales;
+	private double cost;
+	private double bank;
 	
 	public Boolean isUser;
 //	public String lastIp ;
@@ -44,6 +46,7 @@ public class Owner
 	public String lastLogin;
 	public String lastposition;
 	public String lastLogOff;
+	
 
 	/**
 	 * instanziert einen owner als NPC durch.
@@ -401,6 +404,43 @@ public class Owner
 	public void withdrawSales(double value)
 	{
 		this.sales = this.sales - value;
+	}
+
+	/**
+	 * @return the cost
+	 */
+	public double getCost()
+	{
+		return cost;
+	}
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(double cost)
+	{
+		this.cost = cost;
+	}
+	
+	public void depositCost(double value)
+	{
+		this.cost = this.cost + value;
+	}
+
+	/**
+	 * @return the bank
+	 */
+	public double getBank()
+	{
+		return bank;
+	}
+
+	/**
+	 * @param bank the bank to set
+	 */
+	public void setBank(double bank)
+	{
+		this.bank = bank;
 	}
 	
 }

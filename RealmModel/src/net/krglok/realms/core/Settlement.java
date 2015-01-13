@@ -2,14 +2,19 @@ package net.krglok.realms.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
 import net.krglok.realms.manager.ReputationList;
 import net.krglok.realms.manager.SettleManager;
 import net.krglok.realms.manager.TradeManager;
+import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.unit.BattleFieldPosition;
 import net.krglok.realms.unit.BattlePlacement;
 import net.krglok.realms.unit.Unit;
@@ -846,6 +851,7 @@ public class Settlement //implements Serializable
 			iValue = (int) (items.getValue(itemRef)*prodFactor);
 			if (this.warehouse.getItemList().getValue(itemRef) < iValue)
 			{
+				System.out.println("miss: "+itemRef+":"+iValue);
 				isStock = false;
 				if (requiredProduction.containsKey(itemRef))
 				{
@@ -999,6 +1005,29 @@ public class Settlement //implements Serializable
 //		}
 	}
 	
+	private void getTreasue(ServerInterface server, NpcData npc)
+	{
+		int Dice = 100;
+		int wuerfel = 0;
+		String foundItem = "";
+
+		wuerfel = (int) (Math.random()*Dice+1);
+		if (wuerfel < 8)
+		{
+			foundItem = getFoundItem();
+			if (foundItem != Material.AIR.name())
+			{
+				System.out.println("Treasure: "+foundItem);
+				if (getFoundCapacity() > 1)
+				{
+					npc.depositMoney(server.getItemPrice(foundItem));
+					warehouse.depositItemValue(foundItem, 1);
+					productionOverview.addCycleValue(foundItem, 1);
+				}
+			}
+		}
+	}
+	
 	private void checkFoundItems(ServerInterface server)
 	{
 		if (getFoundCapacity() < resident.getSettlerCount()-townhall.getWorkerCount())
@@ -1006,23 +1035,23 @@ public class Settlement //implements Serializable
 			return;
 		}
 		int notWorker = resident.getSettlerCount()-townhall.getWorkerCount();
-		int Dice = 100;
-		int wuerfel = 0;
-		String foundItem = "";
-		for (int i = 0; i < notWorker; i++)
+		NpcList homeNpc = resident.getNpcList().getSettleWorker();
+		NpcList treasureNpc = new NpcList();
+//		Iterator<NpcData> npcIterator = homeNpc.values().iterator();
+		for (NpcData npc : homeNpc.values())
 		{
-			wuerfel = (int) (Math.random()*Dice+1);
-			if (wuerfel < 3)
+			if (npc.getWorkBuilding() == 0)
 			{
-				foundItem = getFoundItem();
-				if (foundItem != Material.AIR.name())
-				{
-					if (getFoundCapacity() > 1)
-					{
-						warehouse.depositItemValue(foundItem, 1);
-						productionOverview.addCycleValue(foundItem, 1);
-					}
-				}
+				treasureNpc.putNpc(npc);
+			}
+		}
+
+		for (NpcData npc : treasureNpc.values())
+		{
+			getTreasue(server, npc);
+			if (npc.getNpcType() == NPCType.BEGGAR)
+			{
+				getTreasue(server, npc);
 			}
 		}
 		
@@ -1374,6 +1403,16 @@ public class Settlement //implements Serializable
 		return isResult;
 	}
 	
+	
+	private void resetWorkerBuild(NpcList homeNpc)
+	{
+		Iterator<NpcData> npcIterator = homeNpc.values().iterator();
+		while (npcIterator.hasNext())
+		{
+			npcIterator.next().setWorkBuilding(0); 
+		}
+	}
+	
 	/**
 	 * set workers to buildings. no priority
 	 * @param workerSum
@@ -1381,33 +1420,99 @@ public class Settlement //implements Serializable
 	 */
 	public int setWorkerToBuilding(int workerSum)
 	{
-		int workerCount = 0;
-		for (Building building : buildingList.values())
+//		Iterator<Building> buildingIterator = buildingList.values().iterator(); 
+		NpcList homeNpc = resident.getNpcList().getSettleWorker();
+		Iterator<NpcData> npcIterator = homeNpc.values().iterator();
+		resetWorkerBuild(homeNpc);
+//		System.out.println(" hasNext: "+npcIterator.hasNext());
+		for (Building building : buildingList.getSubList(BuildPlanType.WHEAT).values())
 		{
-			if ((building.isEnabled()) &&(building.getBuildingType() == BuildPlanType.WHEAT))
+			int installed = 0;
+			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
-				if (workerSum >= workerCount + building.getWorkerNeeded())
+				NpcData npc = npcIterator.next();
+				npc.setWorkBuilding(building.getId());
+//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+				installed++;
+			}
+		}
+
+		for (Building building : buildingList.getGroupSubList(ConfigBasis.BUILDPLAN_GROUP_PRODUCTION).values())
+		{
+			int installed = 0;
+			if (building.getBuildingType() != BuildPlanType.WHEAT)
+			{
+				while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 				{
-					workerCount = workerCount + building.getWorkerNeeded();
-					building.setWorkerInstalled(building.getWorkerNeeded());
-				} else
-				{
-//					building.setIsEnabled(false);
+					npcIterator.next().setWorkBuilding(building.getId());
+					installed++;
 				}
 			}
 		}
-		for (Building building : buildingList.values())
+		
+		for (Building building : buildingList.getSubList(BuildPlanType.FARMHOUSE).values())
 		{
-			if ((building.isEnabled()) &&((building.getBuildingType() != BuildPlanType.WHEAT)))
+			int installed = 0;
+			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
-				if (workerSum >= workerCount + building.getWorkerNeeded())
-				{
-					workerCount = workerCount + building.getWorkerNeeded();
-					building.setWorkerInstalled(building.getWorkerNeeded());
-				} else
-				{
-					building.setIsEnabled(false);
-				}
+				npcIterator.next().setWorkBuilding(building.getId());
+				installed++;
+			}
+		}
+		
+		for (Building building : buildingList.getSubList(BuildPlanType.FARM).values())
+		{
+			int installed = 0;
+			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
+			{
+				npcIterator.next().setWorkBuilding(building.getId());
+				installed++;
+			}
+		}
+
+
+		for (Building building : buildingList.getGroupSubList(ConfigBasis.BUILDPLAN_GROUP_EQUIPMENT).values())
+		{
+			int installed = 0;
+			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
+			{
+				npcIterator.next().setWorkBuilding(building.getId());
+				installed++;
+			}
+		}
+
+		for (Building building : buildingList.getGroupSubList(ConfigBasis.BUILDPLAN_GROUP_ENTERTAIN).values())
+		{
+			int installed = 0;
+			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
+			{
+				npcIterator.next().setWorkBuilding(building.getId());
+				installed++;
+			}
+		}
+
+		for (Building building : buildingList.getGroupSubList(ConfigBasis.BUILDPLAN_GROUP_TRADE).values())
+		{
+			int installed = 0;
+			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
+			{
+				npcIterator.next().setWorkBuilding(building.getId());
+				installed++;
+			}
+		}
+		// reset all other npc
+		System.out.println(" ClearNext: "+npcIterator.hasNext());
+		while (npcIterator.hasNext())
+		{
+			npcIterator.next().setWorkBuilding(0);
+		}
+		
+		int workerCount = 0;
+		for (NpcData  npc : resident.getNpcList().values())
+		{
+			if (npc.getWorkBuilding() > 0)
+			{
+				workerCount++;
 			}
 		}
 		townhall.setWorkerCount(workerCount);
@@ -1468,13 +1573,32 @@ public class Settlement //implements Serializable
 		return requiredProduction;
 	}
 
+	public void setWorkerSale(Building building, double account)
+	{
+		NpcList homeNpc = resident.getNpcList().getBuildingWorker(building.getId());
+		if (homeNpc.size() > 0)
+		{
+			double value = account / homeNpc.size();
+			for (NpcData npc : homeNpc.values())
+			{
+				if (value > 0.0)
+				{
+					npc.depositMoney(value);
+				}
+			}
+		} else
+		{
+			System.out.println("No NPC");
+			
+		}
+	}
 	
 	/**
 	 * get production get from producer buildings in the settlement
 	 * each Building will separate calculate 
 	 * @param server
 	 */
-	public void doProduce(ServerInterface server)
+	public void doProduce(ServerInterface server, DataInterface data)
 	{
 		// increment age of the Setlement in production cycles
 		age++;
@@ -1566,7 +1690,7 @@ public class Settlement //implements Serializable
 //							}
 							break;
 						}
-						
+//						System.out.println("check");
 						if (checkStock(prodFactor, ingredients))
 						{
 	//						iValue = item.value();
@@ -1575,32 +1699,44 @@ public class Settlement //implements Serializable
 							// berechne Verkaufpreis der Produktion
 							for (Item product : products)
 							{
-//								logList.addProduction(building.getBuildingType().name(), getId(), building.getId(), product.ItemRef(), iValue, "CraftManager",getAge());
 								iValue = (int)((double) product.value() *prodFactor);
-								sale = sale + building.calcSales(server,product);
-//								System.out.println("Prod " +product.ItemRef()+":"+product.value()+"*"+prodFactor);
+								sale = sale + (building.calcSales(server,product)*iValue);
+//								System.out.println("Prod value" +product.ItemRef()+":"+iValue+" | "+prodFactor+" |"+(building.calcSales(server,product)*iValue));
 								
+								System.out.println("Prod deposit: "+product.ItemRef()+":"+iValue);
 								warehouse.depositItemValue(product.ItemRef(),iValue);
 								productionOverview.addCycleValue(product.ItemRef(), iValue);
-								if ((sale - cost) > 0.0)
-								{
-								// setze Ertrag auf Building .. der Ertrag wird versteuert !!
-									account = (sale-cost) * (double) iValue / 2;
-	//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
-								} else
-								{
-									account =  1.0 * (double) iValue;
-	//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
-								}
-								building.addSales(account); //-cost);
+							}
+							if ((sale - cost) > 0.0)
+							{
+								// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
+								account = (sale-cost); // * (double) iValue / 2;
+//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+							} else
+							{
+								account =  1.0 * (double) iValue;
+//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+							}
+//							System.out.println("Prod account: "+sale+"-"+cost+"="+account);
+							double salary = account / 3.0 * 2.0;
+							setWorkerSale( building,  salary);
+							account = account - salary;
+							building.addSales(account); //-cost);
+							if (this.ownerId != building.getOwnerId())
+							{
+								Owner bOwner = data.getOwners().getOwner(building.getId());
+								bOwner.depositCost(cost);
+								bOwner.depositSales(account);
+								bank.depositKonto(cost, "ProdCost ", getId());
+								
+							} else
+							{
 								bank.depositKonto(account, "ProdSale ", getId());
-	//							System.out.println("ProdSale "+this.getId()+" : "+building.getHsRegionType() +" : "+account);
 							}
 							consumStock(prodFactor, ingredients);
-//							System.out.println("Product-"+item.ItemRef()+":"+iValue+"/"+item.value());
 						} else
 						{
-//							System.out.println("No stock " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+//							System.out.println("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
 						}
 					}
 //					building.addSales(sale);

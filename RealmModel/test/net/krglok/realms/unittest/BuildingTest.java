@@ -7,6 +7,7 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.data.DataStorage;
 
 import org.junit.Test;
 
@@ -14,6 +15,9 @@ public class BuildingTest
 {
 	private Boolean isOutput = false; // set this to false to suppress println
 
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
 
 	@Test
 	public void testBuildingBuildingTypeStringBoolean()
@@ -61,7 +65,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingProduce()
 	{
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "WHEAT";
@@ -88,7 +92,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingTax()
 	{
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.WHEAT;
 		String regionType 	= "WHEAT";
@@ -121,7 +125,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingIntBuildingConsume()
 	{
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.CARPENTER;
@@ -156,7 +160,7 @@ public class BuildingTest
 	@Test
 	public void testBuildingProduceGroup()
 	{
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		@SuppressWarnings("unused")
 		ItemArray outValues = new ItemArray(); 
 		BuildPlanType buildingType = BuildPlanType.CARPENTER;

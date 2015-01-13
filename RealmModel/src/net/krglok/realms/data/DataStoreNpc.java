@@ -60,10 +60,12 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		section.set("age", dataObject.getAge());
 		section.set("ethno", dataObject.getEthno().name());
 		section.set("immortal", dataObject.isImmortal());
+		section.set("isAlive", dataObject.isAlive());
 		section.set("settleId", dataObject.getSettleId());
 		section.set("homeBuilding", dataObject.getHomeBuilding());
 		section.set("workBuilding", dataObject.getWorkBuilding());
 		section.set("money", dataObject.getMoney());
+		section.set("isMaried", dataObject.isMaried());
 		section.set("npcHusband", dataObject.getNpcHusband());
 		section.set("pcHusband", dataObject.getPcHusband());
 		section.set("mother", dataObject.getMother());
@@ -102,6 +104,9 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		npc.setGender(GenderType.valueOf(data.getString("gender","MAN")));
 		npc.setAge(data.getInt("age"));
 		npc.setEthno(EthnosType.valueOf(data.getString("athno","HUMAN")));
+		npc.setImmortal(data.getBoolean("immortal",false));
+		npc.setAlive(data.getBoolean("isAlive",false));
+		npc.setAlive(data.getBoolean("isMaried",false));
 		npc.setImmortal(data.getBoolean("immortal",false));
 		npc.setSettleId(data.getInt("settleId",0));
 		npc.setHomeBuilding(data.getInt("homeBuilding",0));
@@ -144,7 +149,7 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		    	npc.setBackPack(iList);
 			}
 		}
-		return null;
+		return npc;
 	}
 
 }

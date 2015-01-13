@@ -9,6 +9,7 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.ConfigTest;
@@ -22,10 +23,13 @@ public class ModelLoopTest
 {
 	@SuppressWarnings("unused")
 	private Boolean isOutput = false; // set this to false to suppress println
-	private ServerTest server = new ServerTest();
-	String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-	LogList logTest = new LogList(path);
-	DataTest testData = new DataTest();
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
+	
+	LogList logTest = new LogList(dataFolder);
 	private MessageTest message = new MessageTest();
 	private RealmModel rModel;
 
@@ -52,7 +56,7 @@ public class ModelLoopTest
 				settlementCounter,
 				server,
 				config,
-				testData,
+				data,
 				message
 //				logTest
 				);

@@ -11,6 +11,7 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdCreateSettle;
@@ -32,6 +33,11 @@ public class ModelCmdTest
 	private Boolean isOutput = false; // set this to false to suppress println
 	int steps = 0;
 
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 	
 	private String getReqList(Settlement settle)
 	{
@@ -169,10 +175,8 @@ public class ModelCmdTest
 		Logger log = Logger.getLogger("Minecraft"); 
 		MessageData messageData = new MessageData(log);
 
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-		LogList logTest = new LogList(path);
+		LogList logTest = new LogList(dataFolder);
 		DataTest testData = new DataTest();
-		ServerTest server = new ServerTest();
 		
 		ConfigTest config = new ConfigTest();
 		config.initConfigData();

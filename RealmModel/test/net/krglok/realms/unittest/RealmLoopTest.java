@@ -14,6 +14,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.tool.LogList;
@@ -29,6 +30,11 @@ public class RealmLoopTest
 	int loopCount = 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 	
 	@SuppressWarnings("unused")
 	private Settlement createSettlement()
@@ -294,9 +300,7 @@ public class RealmLoopTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 
-		ServerTest server = new ServerTest();
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-		LogList logTest = new LogList(path);
+		LogList logTest = new LogList(dataFolder);
 		DataTest testData = new DataTest();
 		MessageTest message = new MessageTest();
 		

@@ -164,9 +164,10 @@ public class ItemList  extends  HashMap<String, Item>
 	
 	public int getValue(String itemRef)
 	{
-		if (containsKey(itemRef))
+		Item item = get(itemRef);
+		if (item != null)
 		{
-			return get(itemRef).value();
+			return item.value();
 		} else
 		{
 			return 0;

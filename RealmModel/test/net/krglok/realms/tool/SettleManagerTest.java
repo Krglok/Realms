@@ -12,6 +12,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdColonistCreate;
@@ -31,6 +32,11 @@ public class SettleManagerTest
 {
 	private int dayCounter = 0;
 	private int month;
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 	
 	@Test
 //	public void testSettleMgr()
@@ -326,9 +332,7 @@ public class SettleManagerTest
 	@Test
 	public void testSettleMgrModel()
 	{
-		ServerTest server = new ServerTest();
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-		LogList logTest = new LogList(path);
+		LogList logTest = new LogList(dataFolder);
 		DataTest testData = new DataTest();
 		ConfigTest config = new ConfigTest();
 		MessageTest   msg = new MessageTest();

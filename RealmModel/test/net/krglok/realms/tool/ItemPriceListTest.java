@@ -15,6 +15,7 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.manager.CraftManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.ConfigTest;
@@ -38,6 +39,12 @@ import org.junit.Test;
 
 public class ItemPriceListTest
 {
+
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 
 	private boolean isOutput = false;
 	private String getBaseKey()
@@ -556,7 +563,6 @@ public class ItemPriceListTest
 		String[] sList;
         sList = setBuildingList();
         ItemPriceList itemPrices = testPriceList();
-        ServerTest server = new ServerTest();
 		
 		getStrongholdConstructionMaterial(sList, itemPrices);
 		getStrongholdConstructionMaterial(sList, itemPrices);

@@ -4,17 +4,22 @@ import static org.junit.Assert.assertEquals;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.data.DataStorage;
 
 import org.junit.Test;
 
 public class TestServerTest
 {
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 
 	@Test
 	public void testGetRegionUpkeep()
 	{
 		
-		ServerTest server = new ServerTest();
 		ItemList rList = new ItemList();
 		String regionType = BuildPlanType.AXESHOP.name();
 		
@@ -36,7 +41,6 @@ public class TestServerTest
 	public void testGetRegionOutput()
 	{
 		
-		ServerTest server = new ServerTest();
 		ItemList rList = new ItemList();
 		String regionType = BuildPlanType.AXESHOP.name();
 		

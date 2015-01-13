@@ -17,6 +17,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.tool.LogList;
 
 import org.bukkit.Material;
@@ -36,6 +37,10 @@ public class SettleBreedingTest
 	private int maxResidents= 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+	
 	private double format2(double value)
 	{
 		int value100 = (int)(value * 100);
@@ -189,7 +194,7 @@ public class SettleBreedingTest
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.setHappiness();
-			settle.doProduce(server);
+			settle.doProduce(server,data);
 			if (dayCounter == 30)
 			{
 				settle.doCalcTax();
@@ -367,9 +372,9 @@ public class SettleBreedingTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+//		OwnerList ownerList =  testData.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ItemPriceList priceList = readPriceData(); 
 		

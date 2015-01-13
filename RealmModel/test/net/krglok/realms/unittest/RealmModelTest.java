@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdColonyBuild;
 import net.krglok.realms.model.McmdEnable;
@@ -17,6 +18,10 @@ public class RealmModelTest
 {
 
 	private Boolean isOutput = false; // set this to false to suppress println
+	
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
 
 
 	@Test
@@ -27,7 +32,6 @@ public class RealmModelTest
 		config.initRegionBuilding();
 		config.initSuperSettleTypes();
 
-		ServerTest server = new ServerTest();
 
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
@@ -35,6 +39,7 @@ public class RealmModelTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest();
+		ServerTest server = new ServerTest(data);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -67,7 +72,7 @@ public class RealmModelTest
 	public void testOnEnable() {
 		ConfigTest config = new ConfigTest();
 		
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
@@ -115,7 +120,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 				
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
@@ -157,7 +162,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 				
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
@@ -204,7 +209,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest();
@@ -278,7 +283,7 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest();

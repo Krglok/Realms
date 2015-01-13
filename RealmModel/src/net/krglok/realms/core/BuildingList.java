@@ -268,6 +268,20 @@ public class BuildingList  extends HashMap<String,Building>
 		return subList;
 	}
 
+	public BuildingList getGroupSubList(int group)
+	{
+		BuildingList subList = new BuildingList();
+		for (Building building : this.values())
+		{
+			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == group)
+			{
+				subList.put(String.valueOf(building.getId()),building);
+			}
+		}
+		
+		return subList;
+	}
+	
 	public BuildingList getSubList(int settleId, BuildPlanType bType)
 	{
 		BuildingList subList = new BuildingList();

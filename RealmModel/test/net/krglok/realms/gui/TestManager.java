@@ -13,6 +13,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdColonistCreate;
@@ -42,9 +43,10 @@ public class TestManager
 	
 	public TestManager()
 	{
-		server = new ServerTest();
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-		LogList logTest = new LogList(path);
+		String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+		DataStorage data = new DataStorage(dataFolder);
+		ServerTest server = new ServerTest(data);
+		LogList logTest = new LogList(dataFolder);
 		DataTest testData = new DataTest();
 		config = new ConfigTest();
 		msg = new MessageTest();

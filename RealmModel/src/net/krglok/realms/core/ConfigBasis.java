@@ -75,6 +75,16 @@ public class ConfigBasis implements ConfigInterface
 	public static final int LEHEN_CREATE_POWER_4 = 9000;
 
 	public static final int TRADE_ORDER = 5;
+	
+	public static final int BUILDPLAN_GROUP_INTERN = 1;
+	public static final int BUILDPLAN_GROUP_CONSTRUCT = 10;
+	public static final int BUILDPLAN_GROUP_HOME = 100;
+	public static final int BUILDPLAN_GROUP_PRODUCTION = 200;
+	public static final int BUILDPLAN_GROUP_EQUIPMENT = 300;
+	public static final int BUILDPLAN_GROUP_TRADE = 400;
+	public static final int BUILDPLAN_GROUP_MILITARY = 500;
+	public static final int BUILDPLAN_GROUP_ENTERTAIN = 600;
+	public static final int BUILDPLAN_GROUP_NOBEL = 900;
 
 	public static final String LINE = "=============================== ";
 

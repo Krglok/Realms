@@ -20,6 +20,7 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Townhall;
 import net.krglok.realms.core.Warehouse;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.tool.LogList;
 
 import org.bukkit.Material;
@@ -32,8 +33,11 @@ public class SettlementTest
 
 	private Boolean isOutput = false; // set this to false to suppress println
 	LocationData position  = new LocationData("SteamHaven",-519.5118200333327,68,-1415.4833680460988); 
-	String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
-	LogList logTest = new LogList(path);
+//	String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+	LogList logTest = new LogList(dataFolder);
 
 	
 	@Test
@@ -199,9 +203,9 @@ public class SettlementTest
 	@Test
 	public void testSettlementProduce()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -233,7 +237,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
 		
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 		
 		int expected = 48; // weil Biome Plains
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
@@ -266,9 +270,9 @@ public class SettlementTest
 	@Test
 	public void testSettlementSettlerWorkerSupply()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -338,7 +342,7 @@ public class SettlementTest
 		}
 		for (int i = 0; i < 51; i++)
 		{
-			settle.doProduce(server);
+			settle.doProduce(server,data);
 			settle.setHappiness();
 			dayCount++;
 			if (dayCount == 30)
@@ -608,9 +612,9 @@ public class SettlementTest
 	@Test
 	public void testSettlementTax()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -646,14 +650,14 @@ public class SettlementTest
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		int freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 		settle.setHappiness();
 		settle.getTaxe(server);
 
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 		settle.setHappiness();
 		settle.getTaxe(server);
 		
@@ -695,9 +699,9 @@ public class SettlementTest
 	@Test
 	public void testSettlementBauernhof()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();			
 
@@ -734,7 +738,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
 		
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 		
 		int expected = 96;	// wegen Biome PLAINS 
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
@@ -764,9 +768,9 @@ public class SettlementTest
 	@Test
 	public void testSettlementWerkstatt()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -826,7 +830,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.IRON_INGOT.name(), 32);
 		settle.getWarehouse().depositItemValue(Material.LEATHER.name(), 32);
 		
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 //		settle.produce(server);
 //		settle.produce(server);
 //		settle.produce(server);
@@ -862,9 +866,9 @@ public class SettlementTest
 	@Test
 	public void testSettlementSchmelze()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -924,7 +928,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.COAL.name(), 512);
 		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 //		settle.produce(server);
 //		settle.produce(server);
 //		settle.produce(server);
@@ -959,9 +963,9 @@ public class SettlementTest
 	@Test
 	public void testBuildingEnabled()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -1048,11 +1052,11 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 		
 		int expected = 2;
 		int actual = 0; 
@@ -1094,9 +1098,9 @@ public class SettlementTest
 	@Test
 	public void testRequiredProduction()
 	{
-		DataTest testData = new DataTest();
-		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest();
+//		DataTest testData = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -1184,7 +1188,7 @@ public class SettlementTest
 //		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server);
+		settle.doProduce(server,data);
 //		settle.checkBuildingsEnabled(server);
 //		settle.doProduce(server);
 //		settle.checkBuildingsEnabled(server);

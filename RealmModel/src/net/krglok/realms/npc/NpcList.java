@@ -76,6 +76,36 @@ public class NpcList extends HashMap<Integer, NpcData>
 		
 		return subList;
 	}
+
+	public NpcList getBuildingWorker(int buildingId)
+	{
+		NpcList subList = new NpcList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.getWorkBuilding() == buildingId)
+			{
+				subList.putNpc(npc);
+			}
+		}
+		
+		return subList;
+	}
+
+	public NpcList getSettleWorker()
+	{
+		NpcList subList = new NpcList();
+		for (NpcData npc : this.values())
+		{
+			if ((npc.getNpcType() != NPCType.CHILD)
+				&& (npc.isAlive())
+				)
+			{
+				subList.putNpc(npc);
+			}
+		}
+		
+		return subList;
+	}
 	
 	public NpcList getWorkerNpc(int buildingId)
 	{

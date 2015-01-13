@@ -797,7 +797,7 @@ public class RealmModel
 		messageData.log("worker to building");
 		settle.setHappiness();
 		messageData.log("happiness");
-		settle.doProduce(server);
+		settle.doProduce(server, data);
 		messageData.log("produce");
 		settle.doUnitTrain(unitFactory);
 		

@@ -9,6 +9,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.tool.LogList;
 
 import org.bukkit.block.Biome;
@@ -21,6 +22,9 @@ public class SettlementListTest
 	
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 	
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
 
 	@Test
 	public void SetOwnerCapitalTest()
@@ -146,7 +150,7 @@ public class SettlementListTest
 		DataTest testData = new DataTest();
 		HashMap<String,String> regionTypes = testData.defaultRegionList();
 		HashMap<String,String> superRegionTypes = testData.defaultSuperregionList();
-		ServerTest server = new ServerTest();
+		ServerTest server = new ServerTest(data);
 		
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
@@ -180,7 +184,7 @@ public class SettlementListTest
 		for (Settlement settle : sList.values())
 		{
 			dayCounter++;
-			settle.doProduce(server);
+			settle.doProduce(server,data);
 			settle.setHappiness();
 			if (dayCounter == 30)
 			{

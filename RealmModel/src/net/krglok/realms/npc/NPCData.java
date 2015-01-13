@@ -56,7 +56,7 @@ public class NpcData
 		this.pcHusband = 0;
 		this.mother = 0;
 		this.father = 0;
-		this.isAlive = false;
+		this.isAlive = true;
 		this.setSchwanger(0);
 	}
 	
@@ -83,7 +83,7 @@ public class NpcData
 		this.pcHusband = 0;
 		this.mother = 0;
 		this.father = 0;
-		this.isAlive = false;
+		this.isAlive = true;
 		this.setSchwanger(0);
 	}
 
@@ -256,6 +256,23 @@ public class NpcData
 		this.money = money;
 	}
 
+	public void depositMoney(double value)
+	{
+		this.money = this.money + value;
+	}
+	
+	public boolean withdrawMoney(double value)
+	{
+		if ((this.money-value) > 0.0)
+		{
+			this.money = this.money - value;
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+	
 	/**
 	 * @return the itemInHand
 	 */

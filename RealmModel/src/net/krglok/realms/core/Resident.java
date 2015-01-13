@@ -2,6 +2,8 @@ package net.krglok.realms.core;
 
 import java.io.Serializable;
 
+import net.krglok.realms.npc.NpcList;
+
 /**
  * <pre>
  * hold the human  resources of a settlement
@@ -35,6 +37,8 @@ public class Resident
 
 	private double happiness ;
 	
+	private NpcList npcList;
+	
 	public Resident()
 	{
 		fertilityCounter = 100.0;
@@ -44,7 +48,7 @@ public class Resident
 //		workerCount  = 0;
 		cowCount     = 0;
 		horseCount = 0;
-		
+		npcList = new NpcList(); 
 	}
 
 	public int getSettlerMax()
@@ -63,7 +67,7 @@ public class Resident
 	 */
 	public int getSettlerCount()
 	{
-		return settlerCount;
+		return npcList.size();
 	}
 
 	/**
@@ -455,6 +459,22 @@ public class Resident
 		setBirthrate();
 		setDeathrate();
 		settlerCount = settlerCount + settlerBirthrate - settlerDeathrate;
+	}
+
+	/**
+	 * @return the npcList
+	 */
+	public NpcList getNpcList()
+	{
+		return npcList;
+	}
+
+	/**
+	 * @param npcList the npcList to set
+	 */
+	public void setNpcList(NpcList npcList)
+	{
+		this.npcList = npcList;
 	}
 
 	

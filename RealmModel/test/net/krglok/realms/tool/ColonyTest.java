@@ -6,6 +6,7 @@ import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdColonyBuild;
@@ -24,13 +25,18 @@ public class ColonyTest
 	int dayCounter = 0;
 //	private int month = 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
-	private ServerTest server;
 //	private DataTest     data;
 	private ConfigTest config;
 	private MessageTest   msg;
 	Settlement settle;
 	RealmModel rModel;
 
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
+	
 	public ColonyTest()
 	{
 	
@@ -38,7 +44,6 @@ public class ColonyTest
 
 	public void initTestEnvironment()
 	{
-		server = new ServerTest();
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest();

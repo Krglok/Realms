@@ -11,6 +11,7 @@ import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unittest.ConfigTest;
@@ -31,7 +32,10 @@ public class SettlementBreedTest
 	private int month = 0;
 	LocationData pos = new LocationData("SteamHaven",-469.51819223615206,72,-1236.6592548015324);
 	private ServerTest server;
-	private DataTest     data;
+//	private DataTest     data;
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+	DataStorage data = new DataStorage(dataFolder);
+	
 	private ConfigTest config;
 	private MessageTest   msg;
 	Settlement settle;
@@ -39,7 +43,7 @@ public class SettlementBreedTest
 	
 	public SettlementBreedTest()
 	{
-		server = new ServerTest();
+		server = new ServerTest(data);
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataTest testData = new DataTest();
@@ -219,7 +223,7 @@ public class SettlementBreedTest
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.setHappiness();
-			settle.doProduce(server);
+			settle.doProduce(server,data);
 			if ((dayCounter % 30) == 0)
 			{
 				settle.doCalcTax();

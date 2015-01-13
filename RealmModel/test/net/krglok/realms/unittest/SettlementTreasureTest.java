@@ -11,6 +11,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.tool.LogList;
 
 import org.bukkit.block.Biome;
@@ -21,6 +22,11 @@ public class SettlementTreasureTest
 
 	private Boolean isOutput = false; // set this to false to suppress println
 	LocationData position  = new LocationData("SteamHaven",-519.5118200333327,68,-1415.4833680460988); 
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+
+	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 
 	@Test
 	public void test()
@@ -31,7 +37,6 @@ public class SettlementTreasureTest
 		OwnerList ownerList =  testData.getOwners();
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
-		ServerTest server = new ServerTest();
 	
 		HashMap<String,String> regionTypes = testData.defaultRegionList();
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);

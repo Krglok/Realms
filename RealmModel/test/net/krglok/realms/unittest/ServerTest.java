@@ -9,6 +9,7 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.RecipeData;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.tool.StrongholdTools;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class ServerTest  implements ServerInterface // extends ServerData
 {
+	private static final double VERKAUF_FAKTOR = 1.25;
 
 	public static final int FAKTOR_0 = 0;
 	public static final int FAKTOR_M = -25;
@@ -39,14 +41,17 @@ public class ServerTest  implements ServerInterface // extends ServerData
 //	private ItemList defaultItems;
 	
 	private RecipeData recipeData;
+
+	DataStorage data;
 	
 	public ItemList getDefaultItems()
 	{
 		return null; //defaultItems;
 	}
 
-	public ServerTest()
+	public ServerTest(DataStorage data)
 	{
+		this.data = data;
 //		initItemList();
 		playerNameList = getPlayerNameList();
 		offPlayerNameList = getOffPlayerNameList();
@@ -251,10 +256,13 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		ItemList rList = new ItemList();
 		if (region != null)
 		{
+//			System.out.print("Region Upkeep: "+region.getName());
 			for (ItemStack itemStack :region.getUpkeep())
 			{
+//				System.out.print("|"+itemStack.getType()+":"+itemStack.getAmount());
 				rList.addItem(itemStack.getType().name(), itemStack.getAmount());
 			}
+//			System.out.println("");
 		}
 		
 		
@@ -650,7 +658,36 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public Double getRecipePrice(String itemRef, ItemList ingredients)
 	{
-		return 0.0;
+		Double prodCost = 0.0;
+		Double price = 0.0;
+		int amount = 1;
+		for (String recipeRef : ingredients.keySet())
+		{
+			if (recipeRef.equals(itemRef) == false)
+			{
+//				System.out.println("ingredients: "+itemRef+":"+recipeRef);
+				price =  data.getPriceList().getBasePrice(recipeRef);
+				if (price == 0.0)
+				{
+					price =1.0;
+				}
+				prodCost = prodCost + (ingredients.getValue(recipeRef) * price) ; // * VERKAUF_FAKTOR);
+//				System.out.println("cost: "+recipeRef+":"+price+" * "+ingredients.getValue(recipeRef)+"="+(ingredients.getValue(recipeRef) * price));
+			} else
+			{
+				amount = ingredients.getValue(recipeRef);
+				if (amount == 0)
+				{
+					amount = 1;
+				}
+			}
+		}
+		prodCost = prodCost / amount;
+		if (prodCost == 0.0)
+		{
+			//prodCost = 1.0;
+		}
+		return prodCost;
 	}
 
 	@Override
@@ -666,7 +703,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public Double getItemPrice(String itemRef)
 	{
-		ItemPriceList items = new ItemPriceList();
+		ItemPriceList items = data.getPriceList();
 		for (Material mat : Material.values())
 		{
 			if (mat.name().contains("IRON"))
@@ -674,22 +711,22 @@ public class ServerTest  implements ServerInterface // extends ServerData
 				items.add(mat.name(), 25.0);
 			}
 		}
-		items.add("WHEAT", 0.30);
-		items.add("LOG", 0.5);
-		items.add("COBBLESTONE", 0.5);
-		items.add("SAND", 0.5);
-		items.add("STONE", 1.7);
-		items.add("IRON_INGOT", 56.0);
-		items.add("GOLD_INGOT", 400.0);
-		items.add("WOOD", 0.1666);
-		items.add("STICK", 0.0555);
-		items.add("WOOD_AXE", 1.25);
-		items.add("WOOD_PICKAXE", 1.25);
-		items.add("WOOD_HOE", 1.00);
-		items.add("WOOD_SWORD", 0.6);
-		items.add("BREAD", 1.0);
-		items.add("COAL", 3.0);
-		items.add("IRON_ORE", 15.0);
+//		items.add("WHEAT", 0.30);
+//		items.add("LOG", 0.5);
+//		items.add("COBBLESTONE", 0.5);
+//		items.add("SAND", 0.5);
+//		items.add("STONE", 1.7);
+//		items.add("IRON_INGOT", 56.0);
+//		items.add("GOLD_INGOT", 400.0);
+//		items.add("WOOD", 0.1666);
+//		items.add("STICK", 0.0555);
+//		items.add("WOOD_AXE", 1.25);
+//		items.add("WOOD_PICKAXE", 1.25);
+//		items.add("WOOD_HOE", 1.00);
+//		items.add("WOOD_SWORD", 0.6);
+//		items.add("BREAD", 1.0);
+//		items.add("COAL", 3.0);
+//		items.add("IRON_ORE", 15.0);
 		items.add("IRON_SWORD", 235.0);
 	
 		if (items.get(itemRef) != null)
@@ -697,6 +734,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 			return  items.get(itemRef).getBasePrice();
 		} else
 		{
+			System.out.println("No ItemPrice :"+itemRef);
 			return 0.9;
 		}
 
