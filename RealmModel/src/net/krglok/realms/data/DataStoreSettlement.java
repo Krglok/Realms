@@ -45,16 +45,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 
 	private void printSettleRow(Settlement settle)
 	{
-		System.out.print(settle.getId());
-		System.out.print(" | ");
-		System.out.print(settle.getOwnerId());
-		System.out.print(" | ");
-		System.out.print(settle.getSettleType());
-		System.out.print(" | ");
-		System.out.print(settle.getName());
-		System.out.print(" | ");
-		System.out.println("");
-	
+		System.out.print(settle.getId()+"|"+settle.getOwnerId()+"|"+settle.getSettleType()+"|"+settle.getName()+"|"+settle.getResident().oldPopulation);
 	}
 
 	public void convertSettlements(SettlementList sList)
@@ -64,7 +55,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 		{
 				printSettleRow(settle);
 				writeData(settle, String.valueOf(settle.getId()));
-				System.out.println("Settle :"+settle.getId()+" | "+settle.getName());
+//				System.out.println("Settle :"+settle.getId()+" | "+settle.getName());
 		}
 
 	}
@@ -107,9 +98,10 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 
         values = new HashMap<String,String>();
         values.put("settlerMax",String.valueOf(dataObject.getResident().getSettlerMax()));
-        values.put("settlerCount",String.valueOf(dataObject.getResident().getSettlerCount()));
+        values.put("population",String.valueOf(dataObject.getResident().getSettlerCount()));
+    	values.put("settlerCount",String.valueOf(dataObject.getResident().oldPopulation));
         values.put("fertilityCounter",String.valueOf(dataObject.getResident().getFertilityCounter()));
-        values.put("happiness",String.valueOf(dataObject.getResident().getHappiness()));
+//        values.put("happiness",String.valueOf(dataObject.getResident().getHappiness()));
         values.put("workerCount","0");
         values.put("cowCount",String.valueOf(dataObject.getResident().getHorseCount()));
         values.put("horseCount",String.valueOf(dataObject.getResident().getCowCount()));
@@ -197,12 +189,13 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	settle.getTownhall().setWorkerCount(Integer.valueOf(data.getString( "townhall"+".workerCount")));
 	
 	// die werte werden als String gelesen, da verschiedene Datentypen im array sind
-	settle.getResident().setSettlerMax(Integer.valueOf(data.getString( "resident"+".settlerMax")));
-	settle.getResident().setSettlerCount(Integer.valueOf(data.getString( "resident"+".settlerCount")));
-	settle.getResident().setFeritilityCounter(Double.valueOf(data.getString( "resident"+".fertilityCounter")));
-	settle.getResident().setHappiness(Double.valueOf(data.getString( "resident"+".happiness")));
-	settle.getResident().setCowCount(Integer.valueOf(data.getString( "resident"+".cowCount")));
-	settle.getResident().setHorseCount(Integer.valueOf(data.getString( "resident"+".horseCount")));
+	settle.getResident().setSettlerMax(Integer.valueOf(data.getString( "resident"+".settlerMax","0")));
+	settle.getResident().setSettlerCount(Integer.valueOf(data.getString( "resident"+".population","0")));
+	settle.getResident().oldPopulation = Integer.valueOf(data.getString( "resident"+".settlerCount","0"));
+	settle.getResident().setFeritilityCounter(Double.valueOf(data.getString( "resident"+".fertilityCounter","0")));
+//	settle.getResident().setHappiness(Double.valueOf(data.getString( "resident"+".happiness")));
+	settle.getResident().setCowCount(Integer.valueOf(data.getString( "resident"+".cowCount","0")));
+	settle.getResident().setHorseCount(Integer.valueOf(data.getString( "resident"+".horseCount","0")));
 
 	
 //	System.out.println("Section reputation");

@@ -1,5 +1,6 @@
 package net.krglok.realms.npc;
 
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
@@ -14,7 +15,7 @@ public class NpcData
 	private UnitType unitType ;
 	private String name;
 	private GenderType gender;
-	private int age;
+	private int age;	// in days !
 	private EthnosType ethno;
 	private boolean immortal;
 	
@@ -32,8 +33,16 @@ public class NpcData
 	private int father;
 	private boolean isAlive;
 	private int schwanger;
+	private int producer;
+	private double happiness;
 	
 	private LocationData location;
+	public double foodConsumCounter;
+	public double hungerCounter;
+	public boolean isSpawned;
+	public int spawnId ;
+	
+	private NpcAction npcAction;
 	
 	public NpcData()
 	{
@@ -58,6 +67,13 @@ public class NpcData
 		this.father = 0;
 		this.isAlive = true;
 		this.setSchwanger(0);
+		foodConsumCounter = 0.0;
+		hungerCounter = 0.0;
+		happiness = 0.0;
+		isSpawned = false;
+		spawnId = -1;
+		npcAction = NpcAction.NONE;
+		location = null;
 	}
 	
 	public NpcData(int npcId, NPCType npcType, UnitType unitType, String name, int settleId, int buildingId, GenderType gender, int age)
@@ -85,6 +101,41 @@ public class NpcData
 		this.father = 0;
 		this.isAlive = true;
 		this.setSchwanger(0);
+		foodConsumCounter = 0.0;
+		hungerCounter = 0.0;
+		happiness = 0.0;
+		isSpawned = false;
+		spawnId = -1;
+		npcAction = NpcAction.NONE;
+		location = null;
+	}
+	
+	
+	
+	
+	public static GenderType findGender()
+	{
+		int maxValue = 100;
+		int index =  (int) Math.rint(Math.random() * maxValue);
+		if (index+5 > 55)
+		{
+			return GenderType.WOMAN;
+		}
+		return GenderType.MAN;
+		
+	}
+	
+	public static NpcData makeChild(NpcNamen npcNameList, int fatherId, int motherId)
+	{
+		NpcData npc = new NpcData();
+		npc.setGender(findGender());
+		npc.setNpcType(NPCType.CHILD);
+		String npcName = npcNameList.findName(npc.getGender());
+		npc.setName(npcName);
+		npc.setAge(1);
+		npc.setFather(fatherId);
+		npc.setMother(motherId);
+		return npc;
 	}
 
 	/**
@@ -177,21 +228,40 @@ public class NpcData
 	}
 
 	/**
-	 * @return the age
+	 * @return the age in yeras !
 	 */
 	public int getAge()
 	{
+		return (age / 360);
+	}
+	
+	public int getAgeDay()
+	{
 		return age;
 	}
+	
 
 	/**
 	 * @param age the age to set
 	 */
-	public void setAge(int age)
+	public void setAge(int years)
 	{
-		this.age = age;
+		this.age = (years * 360);
 	}
 
+	public void setAgeDay(int days)
+	{
+		this.age = days;
+	}
+
+	/**
+	 * increment ag by 1 day
+	 */
+	public void addAgeDay()
+	{
+		this.age++;
+	}
+	
 	/**
 	 * @return the ethno
 	 */
@@ -432,6 +502,130 @@ public class NpcData
 	{
 		this.schwanger = schwanger;
 	}
+	
+	public void addSchwanger(int value)
+	{
+		this.schwanger = this.schwanger + value;
+	}
+	
+	public boolean isSchwanger()
+	{
+		if (this.schwanger > 0)
+		{
+			return true;
+		}
+		return false;
+	}
 
+	public boolean isChild()
+	{
+		if (this.getNpcType() == NPCType.CHILD)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isBeggar()
+	{
+		if (this.getNpcType() == NPCType.BEGGAR)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isManager()
+	{
+		if ((this.getNpcType() == NPCType.BUILDER)
+			|| (this.getNpcType() == NPCType.CRAFTSMAN)
+			|| (this.getNpcType() == NPCType.FARMER)
+			|| (this.getNpcType() == NPCType.MANAGER)
+			|| (this.getNpcType() == NPCType.MAPMAKER)
+			)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * @return the producer
+	 */
+	public int getProducer()
+	{
+		return producer;
+	}
+
+	/**
+	 * @param producer the producer to set
+	 */
+	public void setProducer(int producer)
+	{
+		this.producer = producer;
+	}
+
+	/**
+	 * @return the happiness
+	 */
+	public double getHappiness()
+	{
+		return happiness;
+	}
+
+	/**
+	 * There is an LIMITER for the value for isAlive npc
+	 * 
+	 * @param happiness the value to set
+	 */
+	public void setHappiness(double value)
+	{
+			// 
+		if (this.happiness <= ConfigBasis.MAX_HAPPINESS)
+		{
+			if (this.happiness >= ConfigBasis.MIN_HAPPINESS)
+			{
+				this.happiness = value;
+			} else
+			{
+				this.happiness = ConfigBasis.MIN_HAPPINESS;			
+			}
+		} else
+		{
+			this.happiness = ConfigBasis.MAX_HAPPINESS;
+		}
+	}
+
+	/**
+	 * @return the npcAction
+	 */
+	public NpcAction getNpcAction()
+	{
+		return npcAction;
+	}
+
+	/**
+	 * @param npcAction the npcAction to set
+	 */
+	public void setNpcAction(NpcAction npcAction)
+	{
+		this.npcAction = npcAction;
+	}
+
+	/**
+	 * @return the location
+	 */
+	public LocationData getLocation()
+	{
+		return location;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(LocationData location)
+	{
+		this.location = location;
+	}
 
 }

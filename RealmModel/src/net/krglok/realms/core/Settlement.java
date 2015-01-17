@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
@@ -81,8 +82,8 @@ public class Settlement //implements Serializable
 	private Boolean isEnabled;
 	private Boolean isActive;
 	
-	private double hungerCounter = 0.0;
-	private double foodConsumCounter;
+//	private double hungerCounter = 0.0;
+//	private double foodConsumCounter;
 	private Double buildingTax ;
 	
 	private BoardItemList productionOverview;
@@ -134,7 +135,7 @@ public class Settlement //implements Serializable
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
-		foodConsumCounter = 0.0;
+//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
 		requiredProduction = new ItemList();
@@ -184,7 +185,7 @@ public class Settlement //implements Serializable
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
-		foodConsumCounter = 0.0;
+//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
 		requiredProduction = new ItemList();
@@ -232,7 +233,7 @@ public class Settlement //implements Serializable
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
-		foodConsumCounter = 0.0;
+//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
 		requiredProduction = new ItemList();
@@ -282,7 +283,7 @@ public class Settlement //implements Serializable
 		resident	= new Resident();
 		isEnabled   = true;
 		isActive    = true;
-		foodConsumCounter = 0.0;
+//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
 		requiredProduction = new ItemList();
@@ -347,7 +348,7 @@ public class Settlement //implements Serializable
 		this.resident = resident;
 		isEnabled   = true;
 		isActive    = true;
-		foodConsumCounter = 0.0;
+//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
 		requiredProduction = new ItemList();
@@ -733,10 +734,10 @@ public class Settlement //implements Serializable
 		this.buildingTax = buildingTax;
 	}
 
-	public double getFoodConsumCounter()
-	{
-		return foodConsumCounter;
-	}
+//	public double getFoodConsumCounter()
+//	{
+//		return foodConsumCounter;
+//	}
 
 	public double getEntertainFactor()
 	{
@@ -851,7 +852,7 @@ public class Settlement //implements Serializable
 			iValue = (int) (items.getValue(itemRef)*prodFactor);
 			if (this.warehouse.getItemList().getValue(itemRef) < iValue)
 			{
-				System.out.println("miss: "+itemRef+":"+iValue);
+//				System.out.println("miss: "+itemRef+":"+iValue);
 				isStock = false;
 				if (requiredProduction.containsKey(itemRef))
 				{
@@ -1017,7 +1018,7 @@ public class Settlement //implements Serializable
 			foundItem = getFoundItem();
 			if (foundItem != Material.AIR.name())
 			{
-				System.out.println("Treasure: "+foundItem);
+//				System.out.println("Treasure: "+foundItem);
 				if (getFoundCapacity() > 1)
 				{
 					npc.depositMoney(server.getItemPrice(foundItem));
@@ -1028,6 +1029,11 @@ public class Settlement //implements Serializable
 		}
 	}
 	
+	/**
+	 * check for treasure and give child money when hungry
+	 *  
+	 * @param server
+	 */
 	private void checkFoundItems(ServerInterface server)
 	{
 		if (getFoundCapacity() < resident.getSettlerCount()-townhall.getWorkerCount())
@@ -1035,7 +1041,7 @@ public class Settlement //implements Serializable
 			return;
 		}
 		int notWorker = resident.getSettlerCount()-townhall.getWorkerCount();
-		NpcList homeNpc = resident.getNpcList().getSettleWorker();
+		NpcList homeNpc = resident.getNpcList(); //.getSettleWorker();
 		NpcList treasureNpc = new NpcList();
 //		Iterator<NpcData> npcIterator = homeNpc.values().iterator();
 		for (NpcData npc : homeNpc.values())
@@ -1043,6 +1049,22 @@ public class Settlement //implements Serializable
 			if (npc.getWorkBuilding() == 0)
 			{
 				treasureNpc.putNpc(npc);
+			}
+			// give hungry chil money from settlement
+			if (npc.isChild())
+			{
+				if (npc.getMoney() <= 1.0)
+				{
+					if (npc.hungerCounter < ConfigBasis.HUNGER_BEGGAR)
+					{
+						if (bank.getKonto() > resident.getSettlerCount())
+						{
+//							System.out.println("ChildBeggar"+npc.getId());
+							bank.withdrawKonto(1.0, "ChildBeggar", this.id);
+							npc.depositMoney(2.0);
+						}
+					}
+				}
 			}
 		}
 
@@ -1053,6 +1075,7 @@ public class Settlement //implements Serializable
 			{
 				getTreasue(server, npc);
 			}
+
 		}
 		
 	}
@@ -1129,17 +1152,19 @@ public class Settlement //implements Serializable
 	/**
 	 * calculate the whole happines for the different influences 
 	 */
-	public void setHappiness()
+	public void doHappiness(DataInterface data)
 	{
 		double sumDif = 0.0;
 //		double resiDif = 0.0;
 		EntertainFactor = calcEntertainment();
-		SettlerFactor = resident.calcResidentHappiness(SettlerFactor); //resident.getHappiness());
-		FoodFactor = consumeFood(); //SettlerFactor);
+//		SettlerFactor = resident.calcResidentHappiness(SettlerFactor); //resident.getHappiness());
+//		FoodFactor = 
+		consumeFood(); //SettlerFactor);
 		sumDif = EntertainFactor + SettlerFactor + FoodFactor;
 //		logList.addHappiness("CYCLE", getId(), sumDif, EntertainFactor, SettlerFactor, FoodFactor, "CraftManager", getAge());
-		resident.setHappiness(sumDif);
-		resident.settlerCalculation();
+//		resident.setHappiness(sumDif);
+		resident.doSettlerCalculation(buildingList,data);
+		this.getResident().setNpcList(data.getNpcs().getSubList(this.id));
 //		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
 		UnitFactory unitFactory = new UnitFactory();
 		for (Unit unit : barrack.getUnitList())
@@ -1166,49 +1191,63 @@ public class Settlement //implements Serializable
 	}
 	
 	
-	private double checkConsume(String foodItem , int amount, int required, double happyFactor)
+	private double checkConsume(String foodItem , int amount, int required, double happyFactor, NpcData npc, NpcData parent)
 	{
-		double factor = 0.0; 
+		double factor = 0.0;
+		double cost = tradeManager.getPriceList().getBasePrice(foodItem);
+		// check for money of food
+		if (parent.getMoney() < cost)
+		{
+//			System.out.println("No food money !"+npc.getId());
+			amount = 0;
+		}
 		if (required > amount)
 		{	
 			// keine Versorgung
 			if (resident.getSettlerCount() > 5)
 			{
-				
-				factor = hungerCounter + ((double)required / (double)resident.getSettlerMax()) * -1.0;
-				if (foodConsumCounter > MIN_FOODCONSUM_COUNTER)
+//				System.out.println("keine Versorgung :"+npc.getId());
+//				factor = npc.hungerCounter + ((double)required / (double)resident.getSettlerMax()) * -1.0;
+				factor = -0.1;
+				if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
 				{
-					foodConsumCounter = foodConsumCounter + factor;
+					npc.foodConsumCounter = npc.foodConsumCounter + factor;
 				}
+				// setzte required food
 				requiredProduction.depositItem(foodItem, required);
-				hungerCounter = factor ; // hungerCounter + factor;
-				if (resident.getHappiness() < MIN_FOODCONSUM_COUNTER)
-				{
-					factor = 0.0;
-				}
+				npc.hungerCounter = npc.hungerCounter + factor ; // hungerCounter + factor;
 			}
 		} else
 		{
-			hungerCounter = 0.0;
+			npc.hungerCounter = 0.0;
+			parent.withdrawMoney(cost);
+			bank.depositKonto(cost, "Food", this.id);
 			warehouse.withdrawItemValue(foodItem, required);
 //			System.out.println(foodItem+":"+required);
 			productionOverview.addCycleValue(foodItem, (required* -1));
-			if (foodConsumCounter > MIN_FOODCONSUM_COUNTER)
+//			if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
+//			{
+			npc.foodConsumCounter = npc.foodConsumCounter + (double)required; //((double)resident.getSettlerCount() / 20.0);
+			if (npc.foodConsumCounter > 0)
 			{
-				foodConsumCounter = foodConsumCounter + ((double)resident.getSettlerCount() / 20.0);
+				npc.foodConsumCounter = 0.0; //npc.foodConsumCounter + (double)required; //((double)resident.getSettlerCount() / 20.0);
 			}
-			if (foodConsumCounter < 0.0)
+//			}
+			if (npc.foodConsumCounter < 0.0)
 			{
-				if (resident.getHappiness() > MIN_FOODCONSUM_COUNTER)
+				
+				// ziemlich tief !! -5.0
+				if (npc.getHappiness() < MIN_FOODCONSUM_COUNTER)
 				{
-					factor = -0.1;
+					factor = 0.1; //changed
 				} else
 				{
 					factor = happyFactor;
 				}
+//				System.out.println("Min Food Consum"+factor);
 			} else
 			{
-				if (resident.getHappiness() < 0.6)
+				if (npc.getHappiness() < 0.6)
 				{
 					if (resident.getSettlerMax() > resident.getSettlerCount())
 					{
@@ -1217,15 +1256,152 @@ public class Settlement //implements Serializable
 					{
 						factor = happyFactor/2;
 					}
-					
+//					System.out.println("Low Happiness "+factor);
 				} else
 				{
+//					System.out.println("Normal Happiness"+factor);
 					factor = happyFactor;
 				}
-				foodConsumCounter = 0;
+				npc.foodConsumCounter = 0;
 			}
 		}
 		return factor;
+	}
+	
+	
+	private void  checkNpcFeed(NpcData npc, int required, NpcData parent)
+	{
+		double factor = 0.0; 
+		String foodItem = "";
+		int amount = 0;
+		if (npc.getNpcType() != NPCType.CHILD)
+		{
+			// Fish consume before wheat consum
+			// if not enough bread then the rest will try to consum wheat
+			foodItem = Material.COOKED_FISH.name();
+			amount = warehouse.getItemList().getValue(foodItem);
+			if (amount > 0)
+			{
+				// check for money for food
+				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
+				{
+					if (amount > required)
+					{
+						factor = factor + checkConsume(foodItem, amount, required, 0.3,npc,parent);
+						
+					} else
+					{
+						required = required - amount;
+						factor = factor + checkConsume(foodItem, amount, amount, 0.3, npc,parent);
+					}
+					npc.setHappiness(npc.getHappiness() + factor);
+					return ;
+					}
+			}
+			// Mushroom Soup consume before wheat or mushroom consum
+			// if not enough bread then the rest will try to consum wheat
+			foodItem = "MUSHROOM_SOUP";
+			amount = warehouse.getItemList().getValue(foodItem);
+			if (amount > 0)
+			{
+				// check for money for food
+				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
+				{
+					if (amount > required)
+					{
+						factor = factor + checkConsume(foodItem, amount, required,0.3, npc,parent);
+		
+					} else
+					{
+						required = required - amount;
+						factor = factor + checkConsume(foodItem, amount, amount,0.3, npc,parent);
+					}
+					npc.setHappiness(npc.getHappiness() + factor);
+					return ;
+				}
+			}
+			// Mushroom consume before wheat consum
+			// if not enough bread then the rest will try to consum wheat
+			foodItem = "RED_MUSHROOM";
+			amount = warehouse.getItemList().getValue(foodItem);
+			if (amount > 0)
+			{
+				// check for money for food
+				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
+				{
+					if (amount > required)
+					{
+						factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
+						
+					} else
+					{
+						required = required - amount;
+						factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
+					}
+					npc.setHappiness(npc.getHappiness() + factor);
+					return ;
+				}
+			}
+			// Mushroom consume before wheat consum
+			// if not enough bread then the rest will try to consum wheat
+			foodItem = "BROWN_MUSHROOM";
+			amount = warehouse.getItemList().getValue(foodItem);
+			if (amount > 0)
+			{
+				// check for money for food
+				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
+				{
+					if (amount > required)
+					{
+						factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
+						
+					} else
+					{
+						required = required - amount;
+						factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
+					}
+					npc.setHappiness(npc.getHappiness() + factor);
+					return ;
+				}
+			}
+			// Bread consume before wheat consum
+			// if not enough bread then the rest will try to consum wheat
+			foodItem = "BREAD";
+			amount = warehouse.getItemList().getValue(foodItem);
+			if (amount > 0)
+			{
+				// check for money for food
+				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
+				{
+					if (amount > required)
+					{
+						factor = factor + checkConsume(foodItem, amount, required, 0.5, npc,parent);
+						
+					} else
+					{
+						required = required - amount;
+						factor = factor + checkConsume(foodItem, amount, amount, 0.5, npc,parent);
+					}
+		//			System.out.println("BREAD "+factor+":"+(npc.getHappiness() + factor));
+					npc.setHappiness(npc.getHappiness() + factor);
+					return ;
+				}
+			}
+		}
+		//  Wheat is the last consum item
+		//  without wheat the residents are very unhappy
+		foodItem = "WHEAT";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > required)
+		{
+			factor = factor + checkConsume(foodItem, amount, required,0.0, npc,parent);
+			
+		} else
+		{
+			factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
+		}
+		npc.setHappiness(npc.getHappiness() + factor);
+//		return factor;
 	}
 	
 	/**
@@ -1236,107 +1412,64 @@ public class Settlement //implements Serializable
 	 * @param oldFactor
 	 * @return happiness factor of food supply 
 	 */
-	private double consumeFood() //double oldFactor)
+	private void consumeFood() //double oldFactor)
 	{
-		double factor = 0.0; 
-		int required = resident.getSettlerCount();
-		String foodItem = "";
-		int amount = 0;
-		// Fish consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = Material.COOKED_FISH.name();
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
+//		int required = resident.getSettlerCount();
+		
+//		int notWorker = resident.getSettlerCount()-townhall.getWorkerCount();
+		NpcList homeNpc = resident.getNpcList(); //.getSettleWorker();
+//		Iterator<NpcData> npcIterator = homeNpc.values().iterator();
+		for (NpcData npc : homeNpc.values())
 		{
-			if (amount > required)
+			if (npc.isAlive())
 			{
-				factor = factor + checkConsume(foodItem, amount, required, 0.3);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount, 0.3);
-			}
-		}
-		// Mushroom Soup consume before wheat or mushroom consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "MUSHROOM_SOUP";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			if (amount > required)
-			{
-				factor = factor + checkConsume(foodItem, amount, required,0.3);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount,0.3);
-			}
-		}
-		// Mushroom consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "RED_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			if (amount > required)
-			{
-				factor = factor + checkConsume(foodItem, amount, required, 0.0);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
-			}
-		}
-		// Mushroom consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "BROWN_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			if (amount > required)
-			{
-				factor = factor + checkConsume(foodItem, amount, required, 0.0);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount, 0.0);
-			}
-		}
-		// Bread consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "BREAD";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			if (amount > required)
-			{
-				factor = factor + checkConsume(foodItem, amount, required, 0.5);
-				
-			} else
-			{
-				required = required - amount;
-				factor = factor + checkConsume(foodItem, amount, amount, 0.5);
+				if (npc.isChild())
+				{
+					NpcData parent = homeNpc.get(npc.getFather());
+					if (parent != null)
+					{
+						if (parent.isAlive() == false)
+						{
+							parent = null;
+						}
+					}
+					if (parent == null)
+					{
+						parent = homeNpc.get(npc.getMother());
+						if (parent != null)
+						{
+							if (parent.isAlive() == false)
+							{
+								parent = null;
+							}
+						}
+					}
+					if (parent != null)
+					{	
+						if (parent.getMoney() < 1.0)
+						{
+//							System.out.println("Child Money");
+							checkNpcFeed(npc, 1, npc);
+						} else
+						{
+//							System.out.println("Child Parent");
+							checkNpcFeed(npc, 1, parent);
+						}
+					} else
+					{
+//						System.out.println("Child ");
+						checkNpcFeed(npc, 1, npc);
+					}
+						
+				} else
+				{
+					checkNpcFeed(npc, 1,npc);
+					
+				}
 			}
 		}
 		
-		//  Wheat is the last consum item
-		//  without wheat the residents are very unhappy
-		foodItem = "WHEAT";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > required)
-		{
-			factor = factor + checkConsume(foodItem, amount, required,0.0);
-			
-		} else
-		{
-			factor = factor + checkConsume(foodItem, amount, required, 0.0);
-		}
-//		
-		return factor;
+//		return factor;
 	}
 	
 	/**
@@ -1501,7 +1634,7 @@ public class Settlement //implements Serializable
 			}
 		}
 		// reset all other npc
-		System.out.println(" ClearNext: "+npcIterator.hasNext());
+//		System.out.println(" ClearNext: "+npcIterator.hasNext());
 		while (npcIterator.hasNext())
 		{
 			npcIterator.next().setWorkBuilding(0);
@@ -1703,7 +1836,7 @@ public class Settlement //implements Serializable
 								sale = sale + (building.calcSales(server,product)*iValue);
 //								System.out.println("Prod value" +product.ItemRef()+":"+iValue+" | "+prodFactor+" |"+(building.calcSales(server,product)*iValue));
 								
-								System.out.println("Prod deposit: "+product.ItemRef()+":"+iValue);
+//								System.out.println("Prod deposit: "+product.ItemRef()+":"+iValue);
 								warehouse.depositItemValue(product.ItemRef(),iValue);
 								productionOverview.addCycleValue(product.ItemRef(), iValue);
 							}
@@ -1725,8 +1858,11 @@ public class Settlement //implements Serializable
 							if (this.ownerId != building.getOwnerId())
 							{
 								Owner bOwner = data.getOwners().getOwner(building.getId());
-								bOwner.depositCost(cost);
-								bOwner.depositSales(account);
+								if (bOwner !=null)
+								{
+									bOwner.depositCost(cost);
+									bOwner.depositSales(account);
+								}
 								bank.depositKonto(cost, "ProdCost ", getId());
 								
 							} else

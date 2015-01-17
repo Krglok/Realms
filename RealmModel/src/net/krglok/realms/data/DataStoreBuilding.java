@@ -18,18 +18,7 @@ public class DataStoreBuilding  extends AbstractDataStore<Building>
 	
 	private void printBuildingRow(Building building)
 	{
-		System.out.print(building.getId());
-		System.out.print(" | ");
-		System.out.print(building.getSettleId());
-		System.out.print(" | ");
-		System.out.print(building.getOwnerId());
-		System.out.print(" | ");
-		System.out.print(building.getHsRegion());
-		System.out.print(" | ");
-		System.out.print(building.getBuildingType());
-		System.out.print(" | ");
-		System.out.println("");
-	
+		System.out.print(building.getId()+" | "+building.getHsRegion()+" | "+building.getBuildingType());
 	}
 	
 	public void convertBuildings(SettlementList sList)

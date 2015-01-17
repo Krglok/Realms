@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.citizensnpcs.Citizens;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemListLocation;
@@ -144,12 +145,22 @@ public final class Realms extends JavaPlugin
 		{
 			data.writeSettlement(settle);
 		}
+        Plugin citizensPlugin = getServer().getPluginManager().getPlugin("Citizens");
+        if (citizensPlugin != null) 
+        {
+            log.info("[Realms] found Citizens !");
+        }
+
 		// write NPCData/Trait to file
         log.info("[Realms] Save Npc List");
-//		for (NpcData npc : npcManager.getNpcList().values())
-//		{
-//			data.writeNpc(npc);
-//		}
+		for (NpcData npc : data.getNpcs().values())
+		{
+			data.writeNpc(npc);
+			if (npc.isSpawned)
+			{
+				npcManager.removeNPC(npc);
+			}
+		}
 		// write special Logdata to File
         log.info("[Realms] Save Transacton List");
 //		logList.run();
@@ -176,7 +187,7 @@ public final class Realms extends JavaPlugin
         } else {
             log.warning("[Realms] didnt find HeroStronghold.");
             log.info("[Realms] please install the plugin HeroStronghold .");
-            log.info("[Realms] will NOT be Enabled");
+            log.info("[Realms] will NOT Started");
             this.setEnabled(false);
             return;
         }
@@ -217,27 +228,7 @@ public final class Realms extends JavaPlugin
             log.warning("[Realms] didnt find Dynmap.");
         }
         
-        
-        // read the npc list from file
-        if (this.npcManager.isEnabled() == true)
-        {
-            log.info("[Realms] Init Trait for Settler");
-        	npcManager.setNpcList(data.getNpcs());
-        } else
-        {
-            log.warning("[Realms] NPC Manger not enabled");
-        }
-//        Plugin shop = pm.getPlugin("Shopkeepers");
-//        if(shop != null && shop.isEnabled())
-//        {
-//            log.info("[Realms] found Shopkeeper !");
-//            sk = (ShopkeepersPlugin) shop; //You may never need to use this
-//        } else {
-//            log.warning("[Realms] didnt find Shopkeeper.");
-//            log.warning("[Realms] please install the plugin Shopkeeper .");
-//            log.warning("[Realms] will be Enabled without Shops");
-//        }
-
+       
         boolean isReady = true; // flag for Init contrll
 		// Vault economy
         configData = new ConfigData(this.configFile);
@@ -251,10 +242,25 @@ public final class Realms extends JavaPlugin
         	isReady = false;
     		log.info("[Realms] Config not properly read !");
         }
+        // read Realms Data
         if (data.initData() == false)
         {
         	isReady = false;
     		log.info("[Realms] Data not properly read !");
+        }
+        if (isReady && configData.isInitBuildingPos())
+        {
+        	for (Building building: data.getBuildings().values())
+        	{
+        		Region region = stronghold.getRegionManager().getRegionByID(building.getHsRegion());
+        		if (region != null)
+        		{
+        			System.out.println("[REALMS] reset building pos: "+building.getId()+":"+region.getID());
+        			LocationData position = makeLocationData(region.getLocation());
+					building.setPosition(position);
+					data.writeBuilding(building);
+        		}
+        	}
         }
 //        logList.setIsLogList(configData.isLogList());
 
@@ -280,6 +286,9 @@ public final class Realms extends JavaPlugin
         TaxTask taxTask = new TaxTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, taxTask, timeUntilDay, TaxTask.getTAX_SCHEDULE());
 
+        NpcTask npcTask = new NpcTask(this);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, npcTask, npcTask.DELAY_SCHEDULE, npcTask.NPC_SCHEDULE);
+        
         // realm model init
         if (isReady)
         {
@@ -287,6 +296,7 @@ public final class Realms extends JavaPlugin
         	TickTask.setIsProduction(true);
         	// Initialize the Model 
         	realmModel.OnEnable();
+        	npcManager.initNpc();
     		log.info("[Realms] Model is now enabled !");
         } else
         {
@@ -1514,4 +1524,29 @@ public final class Realms extends JavaPlugin
 		
 	}
 
+	public Location makeLocation(LocationData position)
+	{
+		try
+		{
+			if (position.getWorld() == null) { return null; };
+			if (position.getWorld() == "") { return null; };
+			World world = this.getServer().getWorld(position.getWorld());
+			return new Location(world, position.getX(), position.getY(), position.getZ());
+			
+		} catch (Exception e)
+		{
+			return null;
+		}
+	}
+
+	public Location makeLocation(World world, LocationData position)
+	{
+		return new Location(world, position.getX(), position.getY(), position.getZ());
+	}
+
+	public LocationData makeLocationData(Location position)
+	{
+		return new LocationData(position.getWorld().getName(), position.getX(), position.getY(), position.getZ());
+	}
+	
 }

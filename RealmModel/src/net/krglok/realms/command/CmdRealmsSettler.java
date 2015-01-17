@@ -6,9 +6,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
@@ -19,6 +21,7 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.NpcData;
 
 public class CmdRealmsSettler extends RealmsCommand
 {
@@ -34,7 +37,7 @@ public class CmdRealmsSettler extends RealmsCommand
 		    	" The settlerType is chosen by regionType ",
 		    	" "
 			};
-			requiredArgs = 1;
+			requiredArgs = 0;
 			page = 0;
 	}
 
@@ -111,7 +114,48 @@ public class CmdRealmsSettler extends RealmsCommand
 		}
     }
 
-	
+    private boolean checkFullSize(Location pos)
+    {
+    	if (pos.getBlock().getType() == Material.AIR)
+    	{
+	    	if (pos.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR)
+	    	{
+	    		return true;
+	    	}
+    	}
+    	return false;
+    }
+    
+    private Location getNearFree(Location pos)
+    {
+    	Location spawnPos = new Location(pos.getWorld(),pos.getX(),pos.getY(),pos.getZ());
+    	if (checkFullSize(pos.getBlock().getRelative(BlockFace.NORTH).getLocation()))
+    	{
+    		return pos.getBlock().getRelative(BlockFace.NORTH).getLocation();
+    	}
+    	if (checkFullSize(pos.getBlock().getRelative(BlockFace.EAST).getLocation()))
+    	{
+    		return pos.getBlock().getRelative(BlockFace.EAST).getLocation();
+    	}
+    	if (checkFullSize(pos.getBlock().getRelative(BlockFace.SOUTH).getLocation()))
+    	{
+    		return pos.getBlock().getRelative(BlockFace.SOUTH).getLocation();
+    	}
+    	if (checkFullSize(pos.getBlock().getRelative(BlockFace.WEST).getLocation()))
+    	{
+    		return pos.getBlock().getRelative(BlockFace.WEST).getLocation();
+    	}
+
+    	return spawnPos;
+    }
+
+    
+	private Location getFreeTarget(Location pos, Location eyelocation)
+	{
+		Vector vec = pos.getDirection();
+		Location frontlocation = eyelocation.add(vec);
+		return frontlocation.getWorld().getHighestBlockAt(frontlocation).getLocation(); //.getRelative(BlockFace.UP).getLocation();
+	}
     
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
@@ -124,64 +168,101 @@ public class CmdRealmsSettler extends RealmsCommand
 		Entity npc;
 //		Location pos = new Location(player.getLocation().getWorld(), player.getLocation().getX()-radius, player.getLocation().getY(), player.getLocation().getZ()-radius);
 		Block lookAt =  player.getTargetBlock(null, 6);  
+		NpcData settleNpc = null;
 		
 		// location where you look at
-		Location pos = player.getTargetBlock(null, 6).getLocation();
-		pos.setY(pos.getY()+1);
-		SuperRegion sRegion = findSuperRegionAtPosition(plugin, pos);
+		Location spawnPos;
+//		Location pos = player.getTargetBlock(null, 6).getLocation();
+//		pos.setY(pos.getY()+1);
+//		if (pos.getBlock().getType() != Material.AIR)
+//		{
+//		spawnPos = getFreeTarget(player.getLocation(),player.getEyeLocation());
+		spawnPos = getNearFree(player.getLocation());
+			
+		if (spawnPos.getBlock().getType() != Material.AIR)
+		{
+	    	msg.add(ChatColor.RED+"Sorry there is no free space for spawn ");
+	    	return;
+		} else
+		{
+			// in die mitte des Blocks verschieben
+			spawnPos.setX(spawnPos.getX()+0.5);
+			spawnPos.setZ(spawnPos.getZ()+0.5);
+		}
+		SuperRegion sRegion = findSuperRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
 		if (sRegion != null)
 		{
 			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
-			Region region = findRegionAtPosition(plugin, pos);
-			Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
+			Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
 			if (region != null)
 			{
-				switch (region.getType())
+				Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
+				if (building != null)
 				{
-				case "HALL":
-					plugin.npcManager.createNPC("Verwalter", NPCType.MANAGER, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
-			    	msg.add(ChatColor.GREEN+"NPC Citizen");
-			    	msg.add("");
-					break;
-				case "HOME":
-					plugin.npcManager.createNPC("Siedler", NPCType.SETTLER, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
-			    	msg.add(ChatColor.GREEN+"NPC Citizen");
-			    	msg.add("");
-					break;
-				case "WHEAT":
-					plugin.npcManager.createNPC("Farmer", NPCType.FARMER, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
-			    	msg.add(ChatColor.GREEN+"NPC Citizen");
-			    	msg.add("");
-					break;
-				case "FARMHOUSE":
-					plugin.npcManager.createNPC("Farmer", NPCType.FARMER, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
-			    	msg.add(ChatColor.GREEN+"NPC Citizen");
-			    	msg.add("");
-					break;
-				case "WOODCUTTER":
-					plugin.npcManager.createNPC("Farmer", NPCType.CRAFTSMAN, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
-			    	msg.add(ChatColor.GREEN+"NPC Citizen");
-			    	msg.add("");
-					break;
-				default:
-					plugin.npcManager.createNPC("Bettler", NPCType.BEGGAR, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,building.getId());
-			    	msg.add(ChatColor.YELLOW+"NPC Citizen Bettler");
-			    	msg.add(ChatColor.RED+"No regular Settler");
-			    	msg.add("");
+					switch (region.getType())
+					{
+					case "HALL":
+						settleNpc = settle.getResident().getNpcList().getNpcType(NPCType.MANAGER);
+						if (settleNpc != null)
+						{
+							plugin.npcManager.createNPC(settleNpc, new LocationData(spawnPos.getWorld().getName(),spawnPos.getX(),spawnPos.getY(),spawnPos.getZ()));
+					    	msg.add(ChatColor.GREEN+"NPC Citizen");
+						} else
+						{
+					    	msg.add(ChatColor.RED+"NPC not found in Settlement "+settle.getName());
+						}
+						break;
+					case "HOME":
+						settleNpc = settle.getResident().getNpcList().getBuildingNpc(building.getId()).values().iterator().next();
+						if (settleNpc != null)
+						{
+							plugin.npcManager.createNPC(settleNpc, new LocationData(spawnPos.getWorld().getName(),spawnPos.getX(),spawnPos.getY(),spawnPos.getZ()));
+					    	msg.add(ChatColor.GREEN+"NPC Citizen");
+						} else
+						{
+					    	msg.add(ChatColor.RED+"NPC not found in Settlement "+settle.getName());
+						}
+						break;
+					case "HOUSE":
+						settleNpc = settle.getResident().getNpcList().getBuildingNpc(building.getId()).values().iterator().next();
+						if (settleNpc != null)
+						{
+							plugin.npcManager.createNPC(settleNpc, new LocationData(spawnPos.getWorld().getName(),spawnPos.getX(),spawnPos.getY(),spawnPos.getZ()));
+					    	msg.add(ChatColor.GREEN+"NPC Citizen");
+						} else
+						{
+					    	msg.add(ChatColor.RED+"NPC not found in Settlement "+settle.getName());
+						}
+						break;
+					case "FARMHOUSE":
+						settleNpc = settle.getResident().getNpcList().getBuildingNpc(building.getId()).values().iterator().next();
+						if (settleNpc != null)
+						{
+							plugin.npcManager.createNPC(settleNpc, new LocationData(spawnPos.getWorld().getName(),spawnPos.getX(),spawnPos.getY(),spawnPos.getZ()));
+					    	msg.add(ChatColor.GREEN+"NPC Citizen");
+						} else
+						{
+					    	msg.add(ChatColor.RED+"NPC not found in Settlement "+settle.getName());
+						}
+						break;
+					default:
+						break;
+					}
+				} else
+				{
+					settleNpc = settle.getResident().getNpcList().getNoHomeNpc().values().iterator().next();
+					if (settleNpc != null)
+					{
+						plugin.npcManager.createNPC(settleNpc, new LocationData(spawnPos.getWorld().getName(),spawnPos.getX(),spawnPos.getY(),spawnPos.getZ()));
+				    	msg.add(ChatColor.GREEN+"NPC Citizen");
+					} else
+					{
+				    	msg.add(ChatColor.RED+"BEGGAR not found in Settlement "+settle.getName());
+					}
 				}
-			} else
-			{
-				plugin.npcManager.createNPC("Kind", NPCType.CHILD, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),settle,0);
-		    	msg.add(ChatColor.YELLOW+"NPC Citizen Bettler");
-		    	msg.add(ChatColor.RED+"No regular Settler");
-		    	msg.add("");
 			}
 		} else
 		{
-			plugin.npcManager.createNPC("Bettler", NPCType.BEGGAR, new LocationData(pos.getWorld().getName(),pos.getX(),pos.getY(),pos.getZ()),null,0);
-	    	msg.add(ChatColor.YELLOW+"NPC Citizen Bettler");
-	    	msg.add(ChatColor.RED+"No regular Settler");
-	    	msg.add("");
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		page = 0;
@@ -197,10 +278,9 @@ public class CmdRealmsSettler extends RealmsCommand
 		}
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
 		{
-			return true;
+			return false;
 		}
-		errorMsg.add("The Model is always Enabled !  ");
-		return false;
+		return true;
 	}
 
 

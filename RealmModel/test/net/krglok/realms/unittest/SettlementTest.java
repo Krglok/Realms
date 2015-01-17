@@ -343,7 +343,7 @@ public class SettlementTest
 		for (int i = 0; i < 51; i++)
 		{
 			settle.doProduce(server,data);
-			settle.setHappiness();
+			settle.doHappiness(data);
 			dayCount++;
 			if (dayCount == 30)
 			{
@@ -651,14 +651,14 @@ public class SettlementTest
 		settle.setWorkerNeeded();
 		int freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 		settle.doProduce(server,data);
-		settle.setHappiness();
+		settle.doHappiness(data);
 		settle.getTaxe(server);
 
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 		settle.doProduce(server,data);
-		settle.setHappiness();
+		settle.doHappiness(data);
 		settle.getTaxe(server);
 		
 		Integer expected = 20;

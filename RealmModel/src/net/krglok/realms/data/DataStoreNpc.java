@@ -71,6 +71,8 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		section.set("mother", dataObject.getMother());
 		section.set("father", dataObject.getFather());
 		section.set("schwanger", dataObject.getSchwanger());
+		section.set("producer", dataObject.getProducer());
+		section.set("happiness", dataObject.getHappiness());
 
 		HashMap<String,String>values = new HashMap<String,String>();
 		
@@ -103,10 +105,10 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		npc.setName(data.getString("name"));
 		npc.setGender(GenderType.valueOf(data.getString("gender","MAN")));
 		npc.setAge(data.getInt("age"));
-		npc.setEthno(EthnosType.valueOf(data.getString("athno","HUMAN")));
+		npc.setEthno(EthnosType.valueOf(data.getString("ethno","HUMAN")));
 		npc.setImmortal(data.getBoolean("immortal",false));
 		npc.setAlive(data.getBoolean("isAlive",false));
-		npc.setAlive(data.getBoolean("isMaried",false));
+		npc.setMaried(data.getBoolean("isMaried",false));
 		npc.setImmortal(data.getBoolean("immortal",false));
 		npc.setSettleId(data.getInt("settleId",0));
 		npc.setHomeBuilding(data.getInt("homeBuilding",0));
@@ -117,6 +119,8 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		npc.setMother(data.getInt("mother",0));
 		npc.setFather(data.getInt("father",0));
 		npc.setSchwanger(data.getInt("schwanger",0));
+		npc.setProducer(data.getInt("producer",0));
+		npc.setHappiness(data.getDouble("happiness",0.1));
 		
 
 		if (data.isConfigurationSection("itemInHand"))

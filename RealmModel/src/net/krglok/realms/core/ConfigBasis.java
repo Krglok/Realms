@@ -40,9 +40,21 @@ public class ConfigBasis implements ConfigInterface
 	public static double TAVERNE_TAXE = 7.0;	/// Tax for Taverne will modified by settlerCount
 
 	private static final int SETTLER_COUNT = 4; 
+	public static final int BREEDING_DAYS = 270; 
+	public static final int BREEDING_DELAY = -70; 
 	
 	public static final int ENTERTAIN_SETTLERS = 50;	/// how many settlers happy thru Entertain
 
+	public static final double MAX_HAPPINESS = 3.2;		// bei +-0.1 Modificator werden 32 day gebraucht bis 0  
+	public static final double MIN_HAPPINESS = -3.2;		// bei +-0.1 Modificator werden 32 day gebraucht bis 0  
+//	public static final double  FERTILITY = 1.5;   //  % satz // 07.01.2015 halbiert !!!
+	public static final double  LETHALITY= 1.0;   //  % satz
+	public static final double  HUNGER_LETHALITY = -6.0;   //  % satz
+	public static final double  HUNGER_LETHALITY_CHILD = -4.0;   //  % satz
+	public static final double  HUNGER_BEGGAR = -0.7;   //  % satz
+	public static final int NORMAL_AGE = 60;	// Normales Alter ohn alters check
+	
+	
 	public static final int WAREHOUSE_CHEST_FACTOR = 9;
 	public static final int TRADER_CHEST_FACTOR = 5;
 	public static final int CHEST_STORE = 1728;

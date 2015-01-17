@@ -1,11 +1,14 @@
 package net.krglok.realms.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
@@ -13,8 +16,14 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.api.trait.trait.Inventory;
 import net.citizensnpcs.api.trait.trait.MobType;
+import net.citizensnpcs.trait.Age;
+import net.citizensnpcs.trait.Anchors;
+import net.citizensnpcs.trait.LookClose;
+import net.citizensnpcs.trait.VillagerProfession;
+import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
@@ -43,7 +52,10 @@ public class NpcManager
 {
 	private  Realms plugin;
 	private boolean isEnabled = false;
-	private NpcList npcList = new NpcList();
+//	private NpcList npcList = new NpcList();
+	private boolean isSpawn = false;
+	private ArrayList<Integer> spawnList = new ArrayList<Integer>();
+	private boolean isNpcInit = false;
 
 	private static int EQUIP_HAND = 0;
 	private static int EQUIP_HELMET = 1;
@@ -71,35 +83,62 @@ public class NpcManager
 	{
 		this.isEnabled = isEnabled;
 	}
+	
+	
 
-	public HashMap<Integer, NpcData> getNpcList()
+	/**
+	 * @return the isSpawn
+	 */
+	public boolean isSpawn()
 	{
-		return npcList;
+		return isSpawn;
 	}
 
-	public void setNpcList(NpcList npcList)
+	/**
+	 * @param isSpawn the isSpawn to set
+	 */
+	public void setSpawn(boolean isSpawn)
 	{
-		this.npcList = npcList;
+		this.isSpawn = isSpawn;
+	}
+
+	/**
+	 * @return the spawnList
+	 */
+	public ArrayList<Integer> getSpawnList()
+	{
+		return spawnList;
+	}
+
+
+	/**
+	 * @return the isNpcInit
+	 */
+	public boolean isNpcInit()
+	{
+		return isNpcInit;
+	}
+
+	/**
+	 * @param isNpcInit the isNpcInit to set
+	 */
+	public void setNpcInit(boolean isNpcInit)
+	{
+		this.isNpcInit = isNpcInit;
 	}
 
 	public void initNpc()
 	{
-		System.out.println("[REALMS] Init Trait to NPC ");
-		NPC npc ;
-		NpcData npcData;
-		for (int key : npcList.keySet())
+		System.out.println("[REALMS] Init spawnList of NPC ");
+		
+		for (NpcData npcData : plugin.getData().getNpcs().values())
 		{
-			npc = CitizensAPI.getNPCRegistry().getById(key);
-			if (npc != null)
+			if (npcData.isSpawned == false)
 			{
-				npcData = npcList.get(plugin);
-				doAddTrait(npc, npcData.getNpcType(), npcData.getSettleId(), 0);
-				System.out.println("[REALMS] Add Trait for NPC "+key);
-			} else
-			{
-				System.out.println("[REALMS] Citizen NPC not found "+key);
+				spawnList.add(npcData.getId());
 			}
 		}
+		isNpcInit = true;
 	}
 	
 	/**
@@ -112,20 +151,25 @@ public class NpcManager
 	 * @param settle
 	 * @param buildingId
 	 */
-	public void createNPC(String name, NPCType npcType,LocationData position, Settlement settle, int buildingId)
+//	public void createNPC(String name, NPCType npcType,LocationData position, Settlement settle, int buildingId)
+	public void createNPC(NpcData npc, LocationData position)
 	{
 		if (isEnabled == false)  
 		{
 			System.out.println("NPC Manager not enabled !");
 			return; 
 		}
-		int settleId = 0;
-		if (settle != null)
+		if (npc.isSpawned == false)
 		{
-			settleId = settle.getId();
+//			System.out.println("NPC create : "+npc.getId()+":"+npc.getNpcType());
+			int spawnId = doNPCSpawn( npc.getName(), npc.getNpcType(), position,npc.getSettleId(), npc.getHomeBuilding()) ;
+			if (spawnId >= 0)
+			{
+				npc.isSpawned = true;
+				npc.spawnId = spawnId;
+			}
 		}
-		int npcId = doNPCSpawn( name, npcType, position,settleId, buildingId) ;
-		npcList.put(npcId, new NpcData(npcId, npcType, UnitType.SETTLER, name, settleId, buildingId, GenderType.MAN, 20));
+//		npcList.put(npcId, new NpcData(npcId, npcType, UnitType.SETTLER, name, settleId, buildingId, GenderType.MAN, 20));
 	}
 	
 	public void createUnitNPC(String name, UnitType npcType,LocationData position, Regiment regiment)
@@ -133,12 +177,13 @@ public class NpcManager
 		
 
 	}
+	
 
-	private void storeNPCinList(int npcId, NpcData npcData)
-	{
-		
-		npcList.put(npcId,npcData);
-	}
+//	private void storeNPCinList(int npcId, NpcData npcData)
+//	{
+//		
+//		npcList.put(npcId,npcData);
+//	}
 	
 	/**
 	 * create a colored helmet
@@ -160,13 +205,14 @@ public class NpcManager
 	private ItemStack makeNPCTool(NPCType npcType)
 	{
 		ItemStack item = null ;
+//		System.out.println("[REALMS] make NPC Tools ");
 		switch(npcType)
 		{
 		case MANAGER:
 			item = new ItemStack(Material.BOOK);
 			break;
 		case FARMER:
-			System.out.println("[REALMS] Trait makeNPCTool"+npcType.name());
+//			System.out.println("[REALMS] Trait makeNPCTool"+npcType.name());
 			item = new ItemStack(Material.WOOD_HOE);
 			break;
 		case BUILDER:
@@ -183,7 +229,7 @@ public class NpcManager
 		case CHILD:
 			break;
 		case BEGGAR:
-			System.out.println("[REALMS] Trait makeNPCTool"+npcType.name());
+//			System.out.println("[REALMS] Trait makeNPCTool"+npcType.name());
 			item = new ItemStack(Material.ROTTEN_FLESH);
 			break;
 			
@@ -196,40 +242,41 @@ public class NpcManager
 	
 	public void equipNpc(NPC npc, NPCType npcType)
 	{
-		Equipment equip = npc.getTrait(Equipment.class);
-		Inventory inv   = npc.getTrait(Inventory.class);
+//		System.out.println("[REALMS] equip NPC  ");
+//		Inventory inv   = npc.getTrait(Inventory.class);
 		Color color = Color.WHITE;
 		switch(npcType)
 		{
 		case MANAGER:
-			equip.set(EQUIP_HAND, makeNPCTool(npcType));
-			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
+//			npc.getTrait(Equipment.class).set(EquipmentSlot.HAND, new ItemStack(Material.BOOK,1));
+//			npc.getTrait(Equipment.class).set(EQUIP_HAND, makeNPCTool(npcType));
+//			npc.getTrait(Equipment.class).set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
 			break;
 		case SETTLER:
-			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
+			npc.getTrait(Equipment.class).set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
 			break;
 		case FARMER:
-			System.out.println("[REALMS] Trait equip "+npcType.name());
-			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
-			equip.set(EQUIP_HAND, makeNPCTool(npcType));
+//			System.out.println("[REALMS] Trait equip "+npcType.name());
+			npc.getTrait(Equipment.class).set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
+			npc.getTrait(Equipment.class).set(EQUIP_HAND, makeNPCTool(npcType));
 			break;
 		case BUILDER:
-			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
-			equip.set(EQUIP_HAND, makeNPCTool(npcType));
+			npc.getTrait(Equipment.class).set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
+			npc.getTrait(Equipment.class).set(EQUIP_HAND, makeNPCTool(npcType));
 			break;
 		case TRADER:
-			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
-			equip.set(EQUIP_HAND, makeNPCTool(npcType));
+			npc.getTrait(Equipment.class).set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
+			npc.getTrait(Equipment.class).set(EQUIP_HAND, makeNPCTool(npcType));
 			break;
 		case CRAFTSMAN:
-			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
-			equip.set(EQUIP_HAND, makeNPCTool(npcType));
+			npc.getTrait(Equipment.class).set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
+			npc.getTrait(Equipment.class).set(EQUIP_HAND, makeNPCTool(npcType));
 			break;
 		case CHILD:
-			equip.set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
+			npc.getTrait(Equipment.class).set(EQUIP_HELMET, makeNpcHelmet(npcType, color));
 			break;
 		case BEGGAR:
-			equip.set(EQUIP_HAND, makeNPCTool(npcType));
+			npc.getTrait(Equipment.class).set(EQUIP_HAND, makeNPCTool(npcType));
 			break;
 			
 		default:
@@ -249,7 +296,13 @@ public class NpcManager
 	 */
 	public SettlerTrait doAddTrait(NPC npc, NPCType npcType, int settleId, int buildingId)
 	{
+//		System.out.println("[REALMS] add trait  NPC ");
 		SettlerTrait sTrait = new SettlerTrait();
+		npc.getTrait(LookClose.class).lookClose(true);
+		float newSpeed = (float) 0.8;
+		npc.getNavigator().getDefaultParameters().speedModifier(newSpeed );
+//		Waypoints wp = npc.getTrait(Waypoints.class);
+//		Anchors anchors = npc.getTrait(Anchors.class);
 		switch(npcType)
 		{
 		case MANAGER:
@@ -258,6 +311,8 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
+//			anchors.addAnchor("Home", location);
+//			wp.getCurrentProvider().
 			equipNpc(npc, npcType);
 			break;
 		case SETTLER:
@@ -266,6 +321,7 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
+//			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
 			equipNpc(npc, npcType);
 			break;
 		case CHILD:
@@ -274,7 +330,8 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
-			equipNpc(npc, npcType);
+//			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
+//			equipNpc(npc, npcType);
 			break;
 		case FARMER:
 			npc.addTrait(sTrait);
@@ -282,7 +339,8 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
-			equipNpc(npc, npcType);
+//			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
+//			equipNpc(npc, npcType);
 			break;
 		case BUILDER:
 			npc.addTrait(sTrait);
@@ -290,7 +348,8 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
-			equipNpc(npc, npcType);
+//			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
+//			equipNpc(npc, npcType);
 			break;
 		case TRADER:
 			npc.addTrait(sTrait);
@@ -298,7 +357,8 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
-			equipNpc(npc, npcType);
+//			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
+//			equipNpc(npc, npcType);
 			break;
 		case CRAFTSMAN:
 			npc.addTrait(sTrait);
@@ -306,7 +366,8 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
-			equipNpc(npc, npcType);
+//			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
+//			equipNpc(npc, npcType);
 			break;
 			
 		default:
@@ -315,74 +376,108 @@ public class NpcManager
 			sTrait.setsUnitType(UnitType.SETTLER);
 			sTrait.setSettleId(settleId);
 			sTrait.setBuildingId(buildingId);
-			equipNpc(npc, npcType);
+//			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
+//			equipNpc(npc, npcType);
 			break;
 		}
 		return sTrait;
 		
 	}
 	
+	public void removeNPC(NpcData realmNpc)
+	{
+		try
+		{
+			NPC npc = CitizensAPI.getNPCRegistry().getById(realmNpc.spawnId);
+			if (npc != null)
+			{
+//				System.out.println("Deregister "+npc.getId());
+				CitizensAPI.getNPCRegistry().deregister(npc );
+			}
+		} catch (Exception e)
+		{
+			System.out.println("Exception Deregister "+realmNpc.getId());
+		}
+	}
+
+	
 	public int doNPCSpawn(String name, NPCType npcType, LocationData position, int settleId, int buildingId)
 	{
-		NPC npc ;
+		NPC npc = null;
 		SettlerTrait sTrait;
-		int npcId = 0;
 		switch(npcType)
 		{
 		case MANAGER:
 			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
 			npc.setProtected(true);
-			npc.setName("Manager");
+			npc.setName(name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
-			npcId = npc.getId(); 
 			break;
 		case SETTLER:
 			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
 			npc.setProtected(true);
-			npc.setName("Siedler");
+			npc.setName(name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
 		case FARMER:
 			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
 			npc.setProtected(true);
-			npc.setName("Farmer");
+			npc.setName(name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
 		case BUILDER:
 			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
 			npc.setProtected(true);
-			npc.setName("Baumeister");
+			npc.setName(name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
 		case TRADER:
 			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
 			npc.setProtected(true);
-			npc.setName("Trader");
+			npc.setName(name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
 		case CRAFTSMAN:
-			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
-			npc.setProtected(true);
-			npc.setName("Handwerker");
-			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
+//			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
+//			npc.setProtected(true);
+//			npc.setName(name);
+//			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
 		case CHILD:
-			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Teenager");
+			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.VILLAGER, "Child");
 			npc.setProtected(true);
+			npc.getTrait(VillagerProfession.class).setProfession(Profession.FARMER);
+			int age = -24000;
+			npc.getTrait(Age.class).setAge(age);
+			npc.setName(ChatColor.YELLOW+name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
 			
 		default:
 			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Beggar");
 			npc.setProtected(false);
-			npc.setName("Beggar");
+			npc.setName(name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
 			break;
 		}
-		Location pos = new Location(plugin.getServer().getWorld(position.getWorld()), position.getX(), position.getY(), position.getZ());
-		npc.spawn(pos);
-		return npc.getId();
+		if (npc != null)
+		{
+			Location pos = new Location(plugin.getServer().getWorld(position.getWorld()), position.getX(), position.getY(), position.getZ());
+			npc.spawn(pos);
+			return npc.getId();
+		} else
+		{
+			return -1;
+		}
 	}
 
-
+	
+	public void run()
+	{
+		if (isSpawn == false)
+		{
+			spawnList.get(0);
+		}
+	}
+	
 }

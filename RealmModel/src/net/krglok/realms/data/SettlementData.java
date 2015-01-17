@@ -228,8 +228,9 @@ public class SettlementData
             	// die werte werden als String gelesen, da verschiedene Datentypen im array sind
             	settle.getResident().setSettlerMax(Integer.valueOf(config.getString(section+".resident"+".settlerMax")));
             	settle.getResident().setSettlerCount(Integer.valueOf(config.getString(section+".resident"+".settlerCount")));
+            	settle.getResident().oldPopulation = Integer.valueOf(config.getString(section+".resident"+".settlerCount"));
             	settle.getResident().setFeritilityCounter(Double.valueOf(config.getString(section+".resident"+".fertilityCounter")));
-            	settle.getResident().setHappiness(Double.valueOf(config.getString(section+".resident"+".happiness")));
+//            	settle.getResident().setHappiness(Double.valueOf(config.getString(section+".resident"+".happiness")));
             	settle.getResident().setCowCount(Integer.valueOf(config.getString(section+".resident"+".cowCount")));
             	settle.getResident().setHorseCount(Integer.valueOf(config.getString(section+".resident"+".horseCount")));
             	

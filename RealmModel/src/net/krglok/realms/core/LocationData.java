@@ -122,6 +122,10 @@ public class LocationData  implements Serializable
      */
     public static String toString(LocationData position)
     {
+    	if (position.getWorld() == null)
+    	{
+    		position.world = "";
+    	}
     	String sLocation = position.getWorld()+":"+String.valueOf(position.getX())+":"+String.valueOf(position.getY())+":"+String.valueOf(position.getZ()); 
     	return sLocation ;
     }

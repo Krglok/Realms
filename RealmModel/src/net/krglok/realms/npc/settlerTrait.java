@@ -136,7 +136,7 @@ public class SettlerTrait extends Trait
 		buildingId = key.getInt("buildingId",0);
 		locationData = LocationData.toLocation(key.getString("targetLocation"));
 		targetLocation = null;
-		System.out.println("[REALMS] NPC load setting : "+key);
+//		System.out.println("[REALMS] Trait load setting : "+key.toString());
 	}
 
 	// Save settings for this NPC. These values will be added to the citizens
@@ -148,7 +148,7 @@ public class SettlerTrait extends Trait
 		key.setString("UnitType", unitType.name());
 		key.setInt("settleId", settleId);
 		key.setInt("buildingId", buildingId);
-		System.out.println("[REALMS] NPC save setting : "+key);
+		System.out.println("[REALMS] Trait save setting : "+key.toString());
 	}
 
 	@EventHandler
@@ -220,6 +220,11 @@ public class SettlerTrait extends Trait
 			{
 				seenPlayer.add(event.getClicker().getUniqueId().toString());
 			}
+			if (this.npcType == NPCType.CHILD)
+			{
+				event.getClicker().sendMessage("I dont speak with alien !");
+				return;
+			}
 			event.getClicker().sendMessage(ChatColor.YELLOW+"Hallo, "+playerName+". My name is "+this.getNPC().getFullName());
 			if (this.settleId > 0)
 			{
@@ -243,6 +248,42 @@ public class SettlerTrait extends Trait
 		
 	}
 
+	@EventHandler
+	public void click(net.citizensnpcs.api.event.NPCLeftClickEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+//			System.out.println("[REALMS] Trait Settler , wrong NPC instance !  : "+event.getNPC().getId());
+			return;
+		} else
+		{
+			System.out.println("[REALMS] Trait Settler , NPC : "+event.getNPC().getId());
+			
+		}
+		if (event.getClicker().getItemInHand().getType() == Material.BLAZE_ROD)
+		{
+			event.getClicker().sendMessage("Only on <RightClck> and for Ops and Admin ");
+			return;
+		}
+		if (event.getClicker().getItemInHand().getType() == Material.STICK)
+		{
+			event.getClicker().sendMessage("Only on <RightClck> and for Ops and Admin ");
+			return;
+		}
+		if (event.getClicker().getItemInHand().getType() == Material.AIR)
+		{
+			event.getClicker().sendMessage("I have no Action for you ");
+			event.getClicker().sendMessage("Please ask the managers in the HALL. ");
+			return;
+		} else
+		{
+			event.getClicker().sendMessage("I warn you! Dont hurt me ! ");
+			event.getClicker().sendMessage("or I calling the the Militia ! ");
+			return;
+			
+		}
+
+	}
 	// Run code when your trait is attached to a NPC.
 	// This is called BEFORE onSpawn so do not try to access
 	// npc.getBukkitEntity(). It will be null.

@@ -1,5 +1,7 @@
 package net.krglok.realms.data;
 
+import static org.junit.Assert.fail;
+
 import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import tiled.core.TileLayer;
 import tiled.core.TileSet;
 import tiled.io.TMXMapReader;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
@@ -31,6 +34,8 @@ import net.krglok.realms.kingdom.KingdomList;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.kingdom.LehenList;
 import net.krglok.realms.kingdom.MemberList;
+import net.krglok.realms.npc.GenderType;
+import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.npc.NpcNamen;
@@ -128,6 +133,8 @@ public class DataStorage implements DataInterface
 		isReady = true;
 		priceList = priceData.readPriceData();
 //		npcOwners();
+		initNpcName();
+		initNpcList();
 		initOwnerList();
 		initBuildingList();
 		
@@ -146,8 +153,6 @@ public class DataStorage implements DataInterface
 		initLehenList(owners);
 		initKingdomList(owners);		//		npcRealms(owners.getOwner(NPC_0));
 		initCaseBookData(); 
-		initNpcList();
-		initNpcName();
 		
 		return isReady;
 	}
@@ -198,6 +203,10 @@ public class DataStorage implements DataInterface
 //			settle.setLogList(logList);
 			settle.setBuildingList(buildings.getSubList(settle.getId()));
 			settle.initSettlement(priceList);
+			if (npcs.isEmpty() == false)
+			{
+				settle.getResident().setNpcList(this.getNpcs().getSubList(settle.getId()));
+			}
 			settlements.putSettlement(settle);
 			int ownerId = settle.getOwnerId();
 			String ownerName = settle.getOwnerName();
@@ -213,7 +222,15 @@ public class DataStorage implements DataInterface
 			}
 			settle.setOwner(owner);
 		}
-		
+		if (npcs.isEmpty())
+		{
+			CreateSettlementNPC();
+			for (Settlement settlement : settlements.values())
+			{
+				settlement.getResident().setNpcList(this.getNpcs().getSubList(settlement.getId()));
+			}
+		}
+
 	}
 
 	
@@ -225,37 +242,21 @@ public class DataStorage implements DataInterface
 	 */
 	private void initSettleData()
 	{
-//		ArrayList<String> settleInit = settleData.readSettleList();
-//		Settlement settle;
-//		Owner owner;
-//		for (String settleId : settleInit)
-//		{
-//			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
-//			settle.initSettlement(priceList);
-////			plugin.getMessageData().log("SettleRead: "+settleId );
-//			 ref = settle.getOwnerId();
-//			if ((ref == null))
-//			{
-//				System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
-//				owner = owners.findPlayername(ConfigBasis.NPC_0);
-//				settle.setOwner(owner);
-//			} else
-//			{
-//				owner = owners.findPlayername(ref);
-//				if (owner == null)
-//				{
-//					// make a default Owner
-//					owner = Owner.initDefaultOwner();
-//					owner.setOwnerPlayer(ref, ref);
-//					owner.initColonist();
-//					owners.addOwner(owner);
-//					System.out.println("[REALMS] new owner"+ ref);
-//				}
-//				settle.setOwner(owner);
-////				System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
-//			}
-//			settlements.addSettlement(settle);
-//		}
+		ArrayList<String> settleInit = settleData.readSettleList();
+		Settlement settle;
+		Owner owner;
+		for (String settleId : settleInit)
+		{
+			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
+			settle.initSettlement(priceList);
+//			plugin.getMessageData().log("SettleRead: "+settleId );
+			System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
+			owner = owners.findPlayername(ConfigBasis.NPC_0);
+			settle.setOwner(owner);
+			settle.setOwner(owner);
+//			System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
+			settlements.addSettlement(settle);
+		}
 	}
 
 	/**
@@ -597,6 +598,10 @@ public class DataStorage implements DataInterface
 		for (String ref : refList)
 		{
 			building = buildingData.readData(ref);
+			if (building.getPosition().getY() == 0.0)
+			{
+				System.out.println("[REALMS] Wrong position building :"+building.getId());
+			}
 			buildings.putBuilding(building);
 		}
 		
@@ -747,6 +752,222 @@ public class DataStorage implements DataInterface
 		return npcNamen;
 	}
 
+	private int makeOlder()
+	{
+		int maxValue = 9;
+		int index =  (int) Math.rint(Math.random() * maxValue);
+		return index;
+	}
 
+	private int makeChildOlder()
+	{
+		int maxValue = 13;
+		int index =  (int) Math.rint(Math.random() * maxValue);
+		return index;
+	}
+	
+	private void makePair(NpcData man, NpcData woman)
+	{
+		man.setMaried(true);
+		man.setNpcHusband(woman.getId());
+		woman.setMaried(true);
+		woman.setNpcHusband(man.getId());
+	}
+	
+	private NpcData makeFather(NpcNamen npcNameList)
+	{
+		NpcData npc = new NpcData();
+		String npcName = npcNameList.findName(GenderType.MAN);
+		npc.setNpcType(NPCType.SETTLER);
+		npc.setName(npcName);
+		npc.setGender(GenderType.MAN);
+		npc.setAge(20+makeOlder());
+		return npc;
+	}
+
+	private NpcData makeMother(NpcNamen npcNameList)
+	{
+		NpcData npc = new NpcData();
+		String npcName = npcNameList.findName(GenderType.WOMAN);
+		npc.setNpcType(NPCType.SETTLER);
+		npc.setName(npcName);
+		npc.setGender(GenderType.WOMAN);
+		npc.setAge(20+makeOlder());
+		return npc;
+	}
+	
+	
+	
+	private void makeFamily(Building building, NpcNamen npcNameList, int maxChild)
+	{
+		int max = ConfigBasis.getDefaultSettler(building.getBuildingType());
+		NpcData father = makeFather(npcNameList);
+		father.setSettleId(building.getSettleId());
+		father.setHomeBuilding(building.getId());
+		this.getNpcs().add(father);
+		NpcData mother = makeMother(npcNameList);
+		mother.setSettleId(building.getSettleId());
+		mother.setHomeBuilding(building.getId());
+		makePair(father, mother);
+		this.getNpcs().add(mother);
+		this.writeNpc(father);
+		this.writeNpc(mother);
+		NpcData child1;
+		NpcData child2;
+		NpcData child3;
+		
+		switch(maxChild)
+		{
+		case 2 :
+			child1 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
+			child1.setAge(1+makeChildOlder()+1);
+			child1.setSettleId(building.getSettleId());
+			child1.setHomeBuilding(building.getId());
+			this.getNpcs().add(child1);
+			this.writeNpc(child1);
+			child2 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
+			child2.setAge(1+makeChildOlder()+2);
+			child2.setSettleId(building.getSettleId());
+			child2.setHomeBuilding(building.getId());
+			this.getNpcs().add(child2);
+			this.writeNpc(child2);
+		break;
+		case 3 :
+			child1 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
+			child1.setAge(1+makeChildOlder()+1);
+			child1.setSettleId(building.getSettleId());
+			child1.setHomeBuilding(building.getId());
+			this.getNpcs().add(child1);
+			this.writeNpc(child1);
+			child2 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
+			child2.setAge(1+makeChildOlder()+2);
+			child2.setSettleId(building.getSettleId());
+			child2.setHomeBuilding(building.getId());
+			this.getNpcs().add(child2);
+			this.writeNpc(child2);
+			child3 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
+			child3.setSettleId(building.getSettleId());
+			child3.setHomeBuilding(building.getId());
+			this.getNpcs().add(child3);
+			this.writeNpc(child3);
+		break;
+		default :
+			child1 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
+			child1.setSettleId(building.getSettleId());
+			child1.setHomeBuilding(building.getId());
+			this.getNpcs().add(child1);
+			this.writeNpc(child1);
+		break;
+		}
+	}
+	
+	private void makeManager(Building building, NpcNamen npcNameList)
+	{
+		int max = 5;
+		NpcData father = makeFather(npcNameList);
+		father.setName("Elder "+father.getName());
+		father.setImmortal(true);
+		father.setNpcType(NPCType.MANAGER);
+		father.setSettleId(building.getSettleId());
+		father.setHomeBuilding(building.getId());
+		this.getNpcs().add(father);
+		this.writeNpc(father);
+
+		father = makeFather(npcNameList);
+		father.setImmortal(true);
+		father.setNpcType(NPCType.BUILDER);
+		father.setName("Elder "+father.getName());
+		father.setSettleId(building.getSettleId());
+		father.setHomeBuilding(building.getId());
+		this.getNpcs().add(father);
+		this.writeNpc(father);
+		
+		NpcData mother = makeMother(npcNameList);
+		mother.setImmortal(true);
+		mother.setNpcType(NPCType.CRAFTSMAN);
+		mother.setName("Elder "+mother.getName());
+		mother.setSettleId(building.getSettleId());
+		mother.setHomeBuilding(building.getId());
+		this.getNpcs().add(mother);
+		this.writeNpc(mother);
+
+		mother = makeMother(npcNameList);
+		mother.setImmortal(true);
+		father.setNpcType(NPCType.FARMER);
+		mother.setName("Elder "+mother.getName());
+		mother.setSettleId(building.getSettleId());
+		mother.setHomeBuilding(building.getId());
+		this.getNpcs().add(mother);
+		this.writeNpc(mother);
+
+		mother = makeMother(npcNameList);
+		mother.setImmortal(true);
+		father.setNpcType(NPCType.MAPMAKER);
+		mother.setName("Elder "+mother.getName());
+		mother.setSettleId(building.getSettleId());
+		mother.setHomeBuilding(building.getId());
+		this.getNpcs().add(mother);
+		this.writeNpc(mother);
+		
+	}
+	
+	private int checkBuildingNpc(Building building, NpcNamen npcNameList)
+	{
+		int max = 0;
+		int child = 0;
+		max = ConfigBasis.getDefaultSettler(building.getBuildingType());
+		if((BuildPlanType.getBuildGroup(building.getBuildingType()) == 100 )
+			|| (BuildPlanType.getBuildGroup(building.getBuildingType()) == 200 )
+			)
+		{
+			if (max > 0)
+			{
+				child = (max - 2) / 2;
+				makeFamily(building, npcNameList, child); 
+				return (2 + child);
+			}
+		}
+		if ((building.getBuildingType() == BuildPlanType.HALL)
+			|| (building.getBuildingType() == BuildPlanType.TOWNHALL)
+			)
+		{
+			makeManager(building, npcNameList);
+			return 5;
+		}
+		return 0;
+	}
+
+	/**
+	 * setup new npc for all settlements
+	 */
+	public void CreateSettlementNPC()
+	{
+		int counter = 0;
+		int settlerCount = 0;
+		int bcount = 0;
+		for (Settlement settle : settlements.values())
+		{
+			counter = 0;
+//			counter = counter + (settle.getResident().getSettlerCount()/4*3);
+			bcount = bcount + settle.getBuildingList().size();
+			for (Building building : settle.getBuildingList().values())
+			{
+				if ((building.getBuildingType() != BuildPlanType.HALL)
+					&& (building.getBuildingType() != BuildPlanType.TOWNHALL)
+					)
+				{
+					if (settle.getResident().oldPopulation >  (counter+3))
+					{
+						// erstellt die Siedler
+						counter = counter + checkBuildingNpc(building, npcNamen);
+					}
+				} else
+				{
+					// erstellt die Verwalter
+					counter = counter + checkBuildingNpc(building, npcNamen);				}
+			}
+			settlerCount = settlerCount + counter;
+		}
+	}
 
 }

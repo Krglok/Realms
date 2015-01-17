@@ -64,6 +64,8 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	
 	private boolean isTrackPlayer = false;
 	
+	private boolean initBuildingPos = false;
+	
 	private ArrayList<EntityType> mobList;
 	
 	protected FileConfiguration configFile;
@@ -89,6 +91,7 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 		isLogList  = configFile.getBoolean("loglist", false);
 		isSpawnAnimal  = configFile.getBoolean("spawnAnimal", false);
 		isSpawnAnimal  = configFile.getBoolean("trackPlayer", true);
+		initBuildingPos = configFile.getBoolean("initBuildingPos",false);
 //		configFile.options().copyDefaults(true);
 		setLoaded(true);
 	}
@@ -537,6 +540,22 @@ public class ConfigData extends ConfigBasis implements ConfigInterface
 	public void setNpcNames(ArrayList<String> npcNames)
 	{
 		this.npcNames = npcNames;
+	}
+
+	/**
+	 * @return the initBuildingPos
+	 */
+	public boolean isInitBuildingPos()
+	{
+		return initBuildingPos;
+	}
+
+	/**
+	 * @param initBuildingPos the initBuildingPos to set
+	 */
+	public void setInitBuildingPos(boolean initBuildingPos)
+	{
+		this.initBuildingPos = initBuildingPos;
 	}
 
 

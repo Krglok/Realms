@@ -2,7 +2,12 @@ package net.krglok.realms.core;
 
 import java.io.Serializable;
 
+import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
+import net.krglok.realms.npc.NpcNamen;
 
 /**
  * <pre>
@@ -20,8 +25,6 @@ public class Resident
 	 */
 	private static final long serialVersionUID = 1454415012035643630L;
 	private static final double FertilityCounter_Limit = 75.0;
-	private static double FERTILITY = 1.5;   //  % satz // 07.01.2015 halbiert !!!
-	private static double  LETHALITY= 1.0;   //  % satz
 	private static final double BASE_HAPPINES = 0.5;   
 	
 	private int settlerMax;
@@ -29,7 +32,7 @@ public class Resident
 	private int settlerDeathrate;
 	private double fertilityCounter ;
 	private double deathCounter = 0.0;
-	
+	public int oldPopulation = 0; 
 	private int settlerCount;
 //	private int workerCount;
 	private int cowCount;
@@ -67,7 +70,13 @@ public class Resident
 	 */
 	public int getSettlerCount()
 	{
-		return npcList.size();
+		if (npcList == null)
+		{
+			return settlerCount;
+		} else
+		{
+			return npcList.getAliveNpc().size();
+		}
 	}
 
 	/**
@@ -77,6 +86,7 @@ public class Resident
 	public void setSettlerCount(int residentCount)
 	{
 		this.settlerCount = residentCount;
+		this.oldPopulation = residentCount;
 	}
 
 	public void setDefaultSettlerCount(SettleType settleType)
@@ -259,14 +269,14 @@ public class Resident
 		return fertilityCounter;
 	}
 	
-	/**
-	 * set happiness value
-	 * @param value
-	 */
-	public void setHappiness(double value)
-	{
-		happiness = value;
-	}
+//	/**
+//	 * set happiness value
+//	 * @param value
+//	 */
+//	public void setHappiness(double value)
+//	{
+//		happiness = value;
+//	}
 	
 
 	/**
@@ -275,6 +285,16 @@ public class Resident
 	 */
 	public double getHappiness()
 	{
+		int counter = 0;
+		for (NpcData npc : npcList.values())
+		{
+			if (npc.isAlive())
+			{
+				happiness = happiness + npc.getHappiness();
+				counter++;
+			}
+		}
+		happiness = happiness / counter;
 		return happiness;
 	}
 
@@ -353,112 +373,358 @@ public class Resident
 			return (value * factor);
 		}
 	}
+	
+	private boolean isContact()
+	{
+		double max = 2.0;
+		int Dice = 400;
+		double wuerfel = 0;
 
+		wuerfel = (Math.random()*Dice+1);
+		if (wuerfel < max)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	
+	private boolean isBreed(double fertWoman, double fertMan)
+	{
+		int Dice = 100;
+		double wuerfel = 0;
+		
+//		System.out.print(" isBreed "+fertWoman+":"+fertMan);
+
+		wuerfel = (Math.random()*Dice+1);
+		if (wuerfel < fertWoman)
+		{
+			wuerfel = (Math.random()*Dice+1);
+			if (wuerfel < fertMan)
+			{
+				return true;
+			}	
+		}	
+		
+		return false;
+	}
+
+	private double getFertilityMan(int age)
+	{
+		if (age > 60)
+		{
+			return 0;
+		}
+		double fert = ((60.0 - (double) age) * 2.0);
+		return  fert;
+	}
+	
+	private double getFertilityWoman(int age)
+	{
+		if (age > 50)
+		{
+			return 0;
+		}
+		double fert = ((50.0 - (double) age) * 2.5) + 8.0;
+//		System.out.println(" Fert "+fert);
+		return  fert;
+	}
+	
+	public void checkBirthrate(NpcData woman, NpcData man)
+	{
+//		System.out.print("Birthrate Age "+woman.getAge());
+		double fertWoman =  getFertilityWoman(woman.getAge()) * woman.getHappiness();
+		double fertMan =  getFertilityMan(man.getAge()) * man.getHappiness();
+		
+		if (woman.getSchwanger() == 0)
+		{
+			if (isBreed(fertWoman, fertMan))
+			{
+				woman.setSchwanger(1);
+				woman.setProducer(man.getId());
+			}
+		}
+		
+	}
+	
 	/**
 	 * calculate birthrate for settlement based on 
-	 * - settlerMax
-	 * - FERTILITY
+	 * - npc woman
 	 * - happiness
-	 * - fertilityCounter for birthrate below 1 
-	 * birthrate = 0 below BASE_HAPPINESS
+	 * - fertility 
+	 * - randomNumber for loverContact
 	 */
-	private void setBirthrate()
+	private void doBirthrate()
 	{
-		// guaranted minimum settler
-		double value = 0.0;
-		if (settlerCount < 5)
+		NpcList womanNpc = npcList.getWoman(); //.getSettleWorker();
+		
+		for (NpcData woman : womanNpc.values())
 		{
-			settlerCount = 5;
-			settlerBirthrate = 0;
-			
-		}
-		if (happiness < 0.0)
-		{
-			value  = 0;
-		} else
-		{
-			if (fertilityCounter >= FertilityCounter_Limit)
+//			System.out.println("Woman "+woman.getId()+":"+woman.isMaried());
+			if (woman.isMaried())
 			{
-				value = value + 1.0; 
-				fertilityCounter = 0.0; //fertilityCounter - FertilityCounter_Limit;
-			} else
-			{
-				double baseFertility = (FERTILITY / 3);
-				if ((settlerMax-settlerCount) > 0)
+				if (isContact())
 				{
-					if (happiness > BASE_HAPPINES)
+	//				System.out.println("isMaried "+woman.getId());
+					NpcData man = npcList.get(woman.getNpcHusband());
+					if (man != null)
 					{
-						fertilityCounter = fertilityCounter + baseFertility + (FERTILITY/100 * (settlerCount/2))  ;
-					} else
-					{
-						fertilityCounter = fertilityCounter + baseFertility + (FERTILITY/2 /100 * (settlerCount/2)) ;
+						if ((man.isAlive())
+							&& (man.getHomeBuilding() == woman.getHomeBuilding())
+							)
+						{
+//							System.out.println("CheckBirthrate");
+							checkBirthrate(woman, man);
+						}
 					}
-				} else
-				{
-					fertilityCounter = fertilityCounter + baseFertility + (FERTILITY/2 /100 * (settlerCount/2)); 
-					
 				}
 			}
-		}		
-		settlerBirthrate = (int) value;
-		
+			if (woman.getSchwanger() > 0)
+			{
+				woman.addSchwanger(1);
+				
+			} else
+			{
+				if (woman.getSchwanger() < 0)
+				{
+					woman.addSchwanger(1);
+				}
+			}
+
+		}
 	}
 
 	/**
-	 * calculate deathrate for settlement based on
-	 * - settlerMAx
-	 * - LETHALITY 
-	 * - happiness
-	 * no deathrate above BASE_HAPPINESS
-	 * extreme deathrate for happiness below 0 
+	 * <pre>
+	 * increment age by 1 day
+	 * check for CHILD to be Settler
+	 * immortal npc dont increment their age
+	 * </pre> 
 	 */
-	private void setDeathrate()
+	private void doLifeCycle(BuildingList buildings, DataInterface data)
 	{
-		// guaranted minimum settler
-		double value = 0.0;
-		if (settlerCount <= 5)
+		for (NpcData npc : npcList.values())
 		{
-			settlerCount = 5;
-			settlerDeathrate = 0;
-			return;
-		}
-		double factor = 0.0;
-		value = (double)(settlerCount) * LETHALITY / 100.0;
-		if (happiness > BASE_HAPPINES )
-		{
-			value  = 0;
-		} else
-		{
-			if (happiness < 0)
+			if (npc.isAlive())
 			{
-				factor = value;  // 
-				value = value + factor;
-				deathCounter = deathCounter +  19.0;  //(double)(settlerCount) *LETHALITY; // - happiness;
-			} else
+				npc.addAgeDay();
+				// check for new Status
+				if (npc.getMoney() <= 0.3)
+				{
+					if (npc.hungerCounter < ConfigBasis.HUNGER_BEGGAR)
+					{
+						if (npc.isChild() == false)
+						{
+							if (npc.getMoney() < 0.3)
+							{
+								if (npc.isBeggar() == false)
+								{
+									System.out.println("Settler "+npc.getId()+" rankdown to BEGGAR ");
+									npc.setNpcType(NPCType.BEGGAR);
+								}
+							}
+						}
+					} else
+					{
+						if (npc.isBeggar())
+						{
+							if (npc.hungerCounter > 0.0)
+							{
+								if (npc.getHomeBuilding() != 0)
+								{
+									if (npc.getMoney() > 0.3)
+									{
+										System.out.println("Beagger "+npc.getId()+" rankup to SETTLER ");
+										npc.setNpcType(NPCType.SETTLER);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (npc.isChild())
 			{
-//				value = value / 2;
+				if (npc.getAge() >= 14)
+				{
+					System.out.println("Child "+npc.getId()+" Growing to Settler with age "+npc.getAge());
+					npc.setNpcType(NPCType.SETTLER);
+					npc.depositMoney(10.0);
+				}
+			}
+			if (npc.getId() == 2)
+			{
+				System.out.println("Schwanger "+npc.getId()+":"+npc.getSchwanger());
+			}
+			if (npc.isSchwanger())
+			{
+				if (npc.getSchwanger() > ConfigBasis.BREEDING_DAYS)
+				{
+					System.out.println("ENtbindung "+npc.getId());
+					Building building = buildings.getBuilding(npc.getHomeBuilding());
+					if (building != null)
+					{
+						if (npcList.getBuildingNpc(building.getId()).size() < building.getSettler())
+						{
+							NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
+							newChild.setHomeBuilding(npc.getHomeBuilding());
+							newChild.setSettleId(building.getSettleId());
+							data.getNpcs().add(newChild);
+							data.writeNpc(newChild);
+							System.out.println("New Child "+newChild.getId()+" born into "+building.getId());
+						} else
+						{
+							System.out.println("Baby is die ! "+npc.getId()+" Bewohner "+npcList.getBuildingNpc(building.getId()).size()+" < "+building.getSettler());
+						}
+					}else
+					{
+						NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
+						newChild.setHomeBuilding(0);
+						newChild.setSettleId(building.getSettleId());
+						npcList.add(newChild);
+						data.writeNpc(newChild);
+						System.out.println("New Child "+newChild.getId()+" born living as BEGGAR ");
+					}
+					npc.setSchwanger(ConfigBasis.BREEDING_DELAY);
+				}
 			}
 		}
-		if (deathCounter >= 100.0)
+	}
+	
+	
+	private boolean checkDeath(int age)
+	{
+		int Dice = 100;
+		double wuerfel = 0;
+
+		wuerfel = (Math.random()*Dice+1);
+		if (wuerfel < ConfigBasis.LETHALITY)
 		{
-			value = value + 1;
-			deathCounter = 0.0; //deathCounter -100.0;
-		} else
+			wuerfel = (Math.random()*Dice+1);
+			if (wuerfel < age)
+			{
+				return true;
+			}	
+		}	
+		
+		return false;
+		
+	}
+
+	
+	private void checkLegacy(NpcData npc)
+	{
+		if (npc.getNpcHusband() > 0)
 		{
-			deathCounter = deathCounter + 0.3;
+			NpcData husband = npcList.get(npc.getNpcHusband());
+			if (husband != null)
+			{
+				if (husband.getNpcHusband() == npc.getHomeBuilding())
+				{
+					husband.setNpcHusband(0);
+				}
+			} 
+				
 		}
-		// deatrate !! not  > =
-		settlerDeathrate = (int) value;
+	}
+	
+	/**
+	 * set npc to death, when he is not immortal !
+	 * set happines to max for cooldown the husband
+	 * @param npc
+	 */
+	private void doDeath(NpcData npc)
+	{
+		if (npc.isImmortal() == false)
+		{
+			npc.setName(npc.getName()+" +");
+			npc.setAlive(false);
+			npc.setHappiness(ConfigBasis.MAX_HAPPINESS);
+			checkLegacy(npc);
+		}
+	}
+	
+	
+	/**
+	 * calculate deathrate for settlement based on
+	 * - npc
+	 * - age of npc
+	 * - over 60 a random must be done 
+	 * 
+	 *  After deat the happines count down to 0
+	 * - when happiness = the husband are cleared , a grief time 
+	 * 
+	 *  
+	 */
+	private void doDeathrate()
+	{
+
+		for (NpcData npc : npcList.values())
+		{
+			if (npc.isAlive())
+			{
+				if (npc.getAge() >= ConfigBasis.NORMAL_AGE)
+				{
+//					System.out.println("CheckDeath "+npc.getAge());
+					if (checkDeath(npc.getAge()) == true)
+					{
+						doDeath(npc);
+					}
+				}
+				if (npc.hungerCounter < 0.0)
+				{
+					if (npc.getNpcType() == NPCType.CHILD)
+					{
+						if (npc.hungerCounter < ConfigBasis.HUNGER_LETHALITY_CHILD)
+						{
+							doDeath(npc);
+							System.out.println("HungerTod "+npc.hungerCounter+":"+npc.getNpcType()+":"+npc.getId());
+						}
+					} else
+					{
+						if (npc.hungerCounter < ConfigBasis.HUNGER_LETHALITY)
+						{
+							doDeath(npc);
+							System.out.println("HungerTod "+npc.hungerCounter+":"+npc.getNpcType()+":"+npc.getId());
+						}
+					}
+				}
+			} else
+			{
+				if (npc.getHappiness() > 0.2)
+				{
+					npc.setHappiness(npc.getHappiness() - 0.1);
+				} else
+				{
+					if (npc.getNpcHusband() > 0)
+					{
+						NpcData husband = npcList.get(npc.getNpcHusband());
+						if (husband != null)
+						{
+							if (husband.getNpcHusband() == npc.getHomeBuilding())
+							{
+								husband.setNpcHusband(0);
+							}
+						}
+						npc.setHappiness(0.0);
+					} else
+					{
+						npc.setHappiness(0.0);
+					}
+				}
+			}
+		}
 	}
 	
 	/**
 	 * calulate settlerCount for the settlement
 	 */
-	public void settlerCalculation()
+	public void doSettlerCalculation(BuildingList buildings, DataInterface data)
 	{
-		setBirthrate();
-		setDeathrate();
-		settlerCount = settlerCount + settlerBirthrate - settlerDeathrate;
+		doLifeCycle(buildings, data);
+		doBirthrate();
+		doDeathrate();
+//		settlerCount = settlerCount + settlerBirthrate - settlerDeathrate;
 	}
 
 	/**

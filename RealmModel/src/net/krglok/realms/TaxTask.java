@@ -1,6 +1,7 @@
 package net.krglok.realms;
 
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.model.ModelStatus;
 
 /**
  * <pre>
@@ -27,6 +28,16 @@ public class TaxTask implements Runnable
 	@Override
 	public void run()
 	{
+		if (plugin.getRealmModel().isInit() == false)
+		{
+			System.out.println("[REALMS] not ready for run");
+			return;
+		}
+		if (plugin.getRealmModel().getModelStatus()==ModelStatus.MODEL_DISABLED)
+		{
+			System.out.println("[REALMS] Model is disabled !");
+			return;
+		}
 		// TODO Auto-generated method stub
 		counter++;
 		if (counter == taxCounter)

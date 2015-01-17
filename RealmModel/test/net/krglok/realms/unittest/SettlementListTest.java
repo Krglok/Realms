@@ -185,7 +185,7 @@ public class SettlementListTest
 		{
 			dayCounter++;
 			settle.doProduce(server,data);
-			settle.setHappiness();
+			settle.doHappiness(data);
 			if (dayCounter == 30)
 			{
 				settle.getTaxe(server);
