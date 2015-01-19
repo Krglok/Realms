@@ -333,7 +333,7 @@ public class SettleManagerTest
 	public void testSettleMgrModel()
 	{
 		LogList logTest = new LogList(dataFolder);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(dataFolder);
 		ConfigTest config = new ConfigTest();
 		MessageTest   msg = new MessageTest();
 		

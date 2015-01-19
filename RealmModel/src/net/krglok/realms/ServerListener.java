@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -46,6 +47,8 @@ import net.krglok.realms.manager.ReputationStatus;
 import net.krglok.realms.manager.ReputationType;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.science.Achivement;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
@@ -1404,40 +1407,61 @@ public class ServerListener implements Listener
 		String l1 = sign.getLine(1);
 		String l2 = sign.getLine(2);
 		String l3 = sign.getLine(3);
-		
+		if (l0.equals(""))
+		{
+	    	Location pos = findSignBase(b);
+
+			Region region = findRegionAtPosition(plugin, pos);
+			if (region != null)
+			{
+				cmdBuildingInfo(event, b, region);
+			} else
+			{
+				event.getPlayer().sendMessage(ChatColor.DARK_GRAY+"No region found !");
+			}
+			return;
+		}		
+
 		if (l0.contains("[TRAP]"))
 		{
 			cmdSignPost(event,b);
+			return;
 		}		
 		if (l0.contains("[HUNT]"))
 		{
 			cmdSignPost(event,b);
+			return;
 		}		
 		if (l0.contains("[SPIDERSHED]"))
 		{
 			cmdSignPost(event,b);
+			return;
 		}		
 
 		if (l0.contains("[ACQUIRE]"))
 		{
 			cmdAcquire(event, b);
+			return;
 		}
 
 		if (l0.contains("[REPUTATION]"))
 		{
 			cmdReputation(event, b);
+			return;
 		}
 		
 		if (l0.contains("[SELL]"))
 		{
 			event.getPlayer().sendMessage("The settlement SELL items to you ");
 			cmdSell(event, b, l1);
+			return;
 		}
 
 		if (l0.contains("[BUY]"))
 		{
 			event.getPlayer().sendMessage("The settlement BUY items from you ");
 			cmdBuy(event, b);
+			return;
 		}
 
 		if (l0.contains("[TECHBOOK]"))
@@ -1451,11 +1475,13 @@ public class ServerListener implements Listener
 				event.getPlayer().sendMessage(ChatColor.RED+"You are not an OP ");
 
 			}
+			return;
 		}
 		
 		if (l0.contains("[KNOWLEDGE]"))
 		{
 			cmdKnowledge(event, b);
+			return;
 		}
 		
 		if (l0.contains("[WAREHOUSE]"))
@@ -1512,7 +1538,7 @@ public class ServerListener implements Listener
 					cmd.execute(plugin, event.getPlayer());
 					marketPage = cmd.getPage()+1;
 				}
-		}
+			}
 			return;
 		}
 		if (l0.contains("[PRODUCTION]"))
@@ -1566,6 +1592,7 @@ public class ServerListener implements Listener
 				
 			}
 //			cmdRequiredBook(event);
+			return;
 		}
 
 		
@@ -1595,6 +1622,7 @@ public class ServerListener implements Listener
 		if (l0.contains("[WORKSHOP]"))
 		{
 			cmdWorkshop(event, b);
+			return;
 		}
 
 		if (l0.contains("[TRAIN]"))
@@ -1627,6 +1655,7 @@ public class ServerListener implements Listener
 					plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 				}
 			}
+			return;
 		}
 		if (l0.contains("[BOOK]"))
 		{
@@ -1684,7 +1713,7 @@ public class ServerListener implements Listener
 	    		sign.setLine(3, "Enable: "+cBook.isEnabled());
 				sign.update(true);
 			}
-			
+			return;
 		}
 		if (l0.contains("[DONATE]"))
 		{
@@ -1692,6 +1721,7 @@ public class ServerListener implements Listener
 			event.getPlayer().sendMessage(ChatColor.GREEN+"You will earn some reputation");
 			event.getPlayer().sendMessage(ChatColor.GREEN+"You stay in HALL or TOWNHALL");
 			cmdDonate(event, b);
+			return;
 		}
     	
     }
@@ -2022,7 +2052,7 @@ public class ServerListener implements Listener
     }
     
     
-    private Location getSignBase(Block b)
+    private Location findSignBase(Block b)
     {
     	Location position = b.getLocation();
     	if (b.getRelative(BlockFace.NORTH).getType() != Material.AIR)
@@ -2053,7 +2083,7 @@ public class ServerListener implements Listener
      */
     private void cmdRegisterSign(PlayerInteractEvent event, Block b)
     {
-    	Location pos = getSignBase(b);
+    	Location pos = findSignBase(b);
     	Region region = findRegionAtPosition(plugin, pos );
     	if (region != null)
     	{
@@ -2244,6 +2274,46 @@ public class ServerListener implements Listener
 		msg.add(" ");
 		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 	
+	}
+	
+	private void cmdBuildingInfo(PlayerInteractEvent event, Block b, Region region)
+	{
+		Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
+		if (building != null)
+		{
+			Sign sign = (Sign) b.getState();
+			String l0 = "";
+			String l1 = "";
+			String l2 = "";
+			String l3 = "";
+
+			Sign sBlock =	((Sign) b.getState());
+
+			l0 = building.getHsRegionType();
+			
+			Iterator<NpcData> npcs = plugin.getData().getNpcs().getBuildingNpc(building.getId()).values().iterator();
+			
+			if (npcs.hasNext())
+			{
+				l1 = npcs.next().getName();
+			}
+			if (npcs.hasNext())
+			{
+				l2 = npcs.next().getName();
+			}
+			if (npcs.hasNext())
+			{
+				l3 = npcs.next().getName();
+			}
+			sBlock.setLine(0, l0);
+			sBlock.setLine(1, l1);
+			sBlock.setLine(2, l2);
+			sBlock.setLine(3, l3);
+			sBlock.update(true);
+		} else
+		{
+			event.getPlayer().sendMessage(ChatColor.DARK_GRAY+"No building found !");
+		}
 	}
 	
 	private void cmdInfo(PlayerInteractEvent event)

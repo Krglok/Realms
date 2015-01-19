@@ -2,6 +2,7 @@ package net.krglok.realms.command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,11 +13,13 @@ import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.science.Achivement;
 import net.krglok.realms.science.AchivementList;
 import net.krglok.realms.science.AchivementName;
@@ -132,10 +135,13 @@ public class CmdSettleCreate extends RealmsCommand
                 {
                     if (sr.getLocation().distance(currentLocation) < radius + plugin.stronghold.getRegionManager().getSuperRegionType(sr.getType()).getRawRadius())
                     {
-                    	if (children.contains(sr.getType())==false) 
+                    	if (sr.getName().equals(superRegionName) == false)
                     	{
-                    		msg.add(ChatColor.RED + "[HeroStronghold] " + sr.getName() + " is already here.");
-                        	isValid = false;
+	                    	if (children.contains(sr.getType())==false) 
+	                    	{
+	                    		msg.add(ChatColor.RED + "[HeroStronghold] " + sr.getName() + " is already here.");
+	                        	isValid = false;
+	                    	}
                     	}
                     }
                 } catch (IllegalArgumentException iae) {
@@ -201,11 +207,27 @@ public class CmdSettleCreate extends RealmsCommand
 
             if (isValid)
             {
-                Map<String, List<String>> members = new HashMap<String, List<String>>();
-                List<String> owners = new ArrayList<String>();
-                owners.add(playerName);
+            	SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName);
             	double balance = 1000.0;
-				plugin.stronghold.getRegionManager().addSuperRegion(superRegionName, currentLocation, regionTypeName, owners, members, currentRegionType.getDailyPower(), balance );
+            	if (sRegion == null)
+            	{
+                    Map<String, List<String>> members = new HashMap<String, List<String>>();
+	                List<String> owners = new ArrayList<String>();
+	                owners.add(playerName);
+					plugin.stronghold.getRegionManager().addSuperRegion(superRegionName, currentLocation, regionTypeName, owners, members, currentRegionType.getDailyPower(), balance );
+            	} else
+            	{
+            		if (sRegion.hasMember(playerName))
+            		{
+            			List<String> perms = new ArrayList<String>();
+						sRegion.addMember(playerName, perms);
+            		}
+            		if (sRegion.hasOwner(playerName) == false)
+            		{
+            			sRegion.addOwner(playerName);
+            		}
+            		sRegion.setBalance(sRegion.getBalance()+balance);
+            	}
             }
         }
 		return msg;
@@ -288,11 +310,11 @@ public class CmdSettleCreate extends RealmsCommand
 						buildingType, 
 						hsRegion, 
 						new LocationData(
-						sRegion.getLocation().getWorld().getName(),
-						sRegion.getLocation().getX(), 
-						sRegion.getLocation().getY(),
-						sRegion.getLocation().getZ()),
-						settlement.getId()
+								region.getLocation().getWorld().getName(),
+								region.getLocation().getX(), 
+								region.getLocation().getY(),
+								region.getLocation().getZ()),
+								settlement.getId()
 						);
 					plugin.getRealmModel().getBuildings().addBuilding(building);
 					plugin.getData().writeBuilding(building);
@@ -334,9 +356,46 @@ public class CmdSettleCreate extends RealmsCommand
 		settlement.initSettlement(plugin.getData().getPriceList());
 		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
 
-
 		plugin.getData().writeSettlement(settlement);
+
+		System.out.println("Create individual NPC  ");
+		for (Building building : settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HALL).values())
+		{
+			plugin.getRealmModel().getData().makeManager(building, plugin.getRealmModel().getData().getNpcName());
+		}
+		Iterator<Building> iBuilding = settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HOME).values().iterator();
+		if (iBuilding.hasNext())
+		{
+			Building home = iBuilding.next();
+			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+		}
+		if (iBuilding.hasNext())
+		{
+			Building home = iBuilding.next();
+			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+		}
+		if (iBuilding.hasNext())
+		{
+			Building home = iBuilding.next();
+			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+		}
+		System.out.println("Build FULLFILL ");
+		if (iBuilding.hasNext())
+		{
+			Building home = iBuilding.next();
+			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+		}
 		
+		for (NpcData npcData : plugin.getData().getNpcs().values())
+		{
+			if (npcData.getSettleId() == settlement.getId())
+			{
+				if (settlement.getResident().getNpcList().containsKey(npcData.getId()) == false)
+				{
+					settlement.getResident().getNpcList().add(npcData);
+				}
+			}
+		}
 		msg.add("Owner   : "+settlement.getOwnerId());
 		msg.add("Storage : "+settlement.getWarehouse().getItemMax());
 		msg.add("Max Beds: "+settlement.getResident().getSettlerMax());

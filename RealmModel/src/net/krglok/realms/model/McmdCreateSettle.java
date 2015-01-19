@@ -6,6 +6,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -47,30 +48,28 @@ public class McmdCreateSettle implements iModelCommand
 	{
 //		playerName = "";
 		boolean isNPC = false;
-		Owner owner = null; 
 		if ((playerName == "") )
 		{
-			playerName = "NPC1";
+			playerName = ConfigBasis.NPC_0;
 			isNPC = true;
-		} else
+		}
+		Owner owner = rModel.getOwners().getOwnerName(playerName);
+		if (owner == null)
 		{
-			for (Owner fOwner : rModel.getOwners().values())
+			Owner fOwner = rModel.getOwners().getOwner(0);
+			if (fOwner == null)
 			{
-				if (playerName.equalsIgnoreCase(fOwner.getPlayerName()))
-				{
-					owner = fOwner;
-				}
+				owner = Owner.initDefaultOwner();
+			} else
+			{
+				owner = fOwner;
 			}
-    		if (owner == null)
-    		{
-    			owner = new Owner(playerName, isNPC);
-    		}
 		}
 		LocationData position;
 		SuperRegion sRegion =  rModel.getServer().getSuperRegion(superRegionName);
 		if (sRegion == null)
 		{
-			position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
+			System.out.println("[REALMS]  SuperRegion not found on create settlement !" );
 			return;
 		}
 		sRegion.setBalance(10000.0);

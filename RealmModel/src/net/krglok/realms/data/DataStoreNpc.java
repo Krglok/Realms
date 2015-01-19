@@ -57,7 +57,7 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		section.set("unitType", dataObject.getUnitType().name());
 		section.set("name", dataObject.getName());
 		section.set("gender", dataObject.getGender().name());
-		section.set("age", dataObject.getAge());
+		section.set("ageDay", dataObject.getAgeDay());
 		section.set("ethno", dataObject.getEthno().name());
 		section.set("immortal", dataObject.isImmortal());
 		section.set("isAlive", dataObject.isAlive());
@@ -104,7 +104,7 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		npc.setUnitType(UnitType.valueOf(data.getString("unitType","SETTLER")));
 		npc.setName(data.getString("name"));
 		npc.setGender(GenderType.valueOf(data.getString("gender","MAN")));
-		npc.setAge(data.getInt("age"));
+		npc.setAgeDay(data.getInt("ageDay"));
 		npc.setEthno(EthnosType.valueOf(data.getString("ethno","HUMAN")));
 		npc.setImmortal(data.getBoolean("immortal",false));
 		npc.setAlive(data.getBoolean("isAlive",false));

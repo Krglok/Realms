@@ -1,6 +1,7 @@
 package net.krglok.realms.colonist;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
@@ -10,6 +11,7 @@ import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.builder.SettleSchema;
 import net.krglok.realms.core.Bank;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -21,6 +23,7 @@ import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.McmdCreateSettle;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NpcData;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -537,7 +540,44 @@ public class Colony
 						settle.getWarehouse().depositItemValue(item.ItemRef(), item.value());
 					}
 					settle.getBank().depositKonto(1000.0, "Colonist",settle.getId());
+					System.out.println("Create individual NPC  ");
+					for (Building building : settle.getBuildingList().getSubList(settle.getId(), BuildPlanType.HALL).values())
+					{
+						rModel.getData().makeManager(building, rModel.getData().getNpcName());
+					}
+					Iterator<Building> iBuilding = settle.getBuildingList().getSubList(settle.getId(), BuildPlanType.HALL).values().iterator();
+					if (iBuilding.hasNext())
+					{
+						Building home = iBuilding.next();
+						rModel.getData().makeFamily(home, rModel.getData().getNpcName(), 0);
+					}
+					if (iBuilding.hasNext())
+					{
+						Building home = iBuilding.next();
+						rModel.getData().makeFamily(home, rModel.getData().getNpcName(), 0);
+					}
+					if (iBuilding.hasNext())
+					{
+						Building home = iBuilding.next();
+						rModel.getData().makeFamily(home, rModel.getData().getNpcName(), 0);
+					}
 					System.out.println("Build FULLFILL ");
+					if (iBuilding.hasNext())
+					{
+						Building home = iBuilding.next();
+						rModel.getData().makeFamily(home, rModel.getData().getNpcName(), 0);
+					}
+					for (NpcData npcData : rModel.getData().getNpcs().values())
+					{
+						if (npcData.getSettleId() == settle.getId())
+						{
+							if (settle.getResident().getNpcList().containsKey(npcData.getId()) == false)
+							{
+								settle.getResident().getNpcList().add(npcData);
+							}
+						}
+					}
+					
 					this.cStatus = ColonyStatus.FULFILL;
 				} else
 				{

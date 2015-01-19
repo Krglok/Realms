@@ -27,7 +27,6 @@ import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerData;
 import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
-import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;

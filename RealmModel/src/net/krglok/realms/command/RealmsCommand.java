@@ -269,6 +269,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 	{
 	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
 	    {
+//	    	System.out.println(region.getType());
 	    	if (region != null)
 	    	{
 	    		return region;
@@ -281,7 +282,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 	/**
 	 * give region id at player position
 	 * @param plugin
-	 * @param player
+	 * @param playert/
 	 * @return region id
 	 */
 	protected Integer findRegionIdAtLocation(Realms plugin, Player player)

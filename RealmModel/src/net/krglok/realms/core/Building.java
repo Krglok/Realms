@@ -1137,6 +1137,7 @@ public class Building  implements Serializable
 		this.trainTime = trainTime;
 	}
 
+	
 	/**
 	 * set Max Units to train
 	 * @param value
@@ -1156,6 +1157,83 @@ public class Building  implements Serializable
 		return maxProduction;
 	}
 
+	/**
+	 * set the idle limit in days (production cycle)
+	 * 
+	 * @param limit
+	 */
+	public void setIdleLimit(int limit)
+	{
+		this.trainTime = limit;
+	}
+	
+	public int getIdleLimit()
+	{
+		return this.trainTime;
+	}
+	
+	/**
+	 * check if idle counter reached his limit
+	 * @return
+	 */
+	public boolean isIdleReady()
+	{
+		if (this.trainCounter >= this.trainTime)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * get actual idle counter
+	 * @return
+	 */
+	public int getIdleTime()
+	{
+		return trainTime;
+	}
+
+	/**
+	 * set Idle timer
+	 * 
+	 * @param idleTime
+	 */
+	public void setIdleTime(int idleTime)
+	{
+		this.trainTime = trainTime;
+	}
+
+	/**
+	 * increase counter by 1 if counter <= maxIdle 
+	 *  
+	 */
+	public void addIdlleTime()
+	{
+		if (this.trainCounter <= this.trainTime)
+		{
+			this.trainCounter++;
+		}
+	}
+
+	/**
+	 * <pre>
+	 * init the idle Timer  
+	 * if idleCounter > maxIdle time
+	 * so the counter is 1 more run then the limit
+	 * 
+	 * @param maxIdleTime
+	 * </pre>
+	 */
+	public void initIdle(int IdleTime)
+	{
+		if (this.trainCounter > this.trainTime)
+		{
+			this.trainTime = IdleTime;
+			this.trainCounter = 0;
+		}
+	}
+	
 	/**
 	 * @return the settleId
 	 */

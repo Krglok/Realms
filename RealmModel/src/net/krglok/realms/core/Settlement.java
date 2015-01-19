@@ -1463,6 +1463,12 @@ public class Settlement //implements Serializable
 						
 				} else
 				{
+					if (npc.getNpcType() == NPCType.MANAGER)
+					{
+						double salery = 3.0;
+						bank.withdrawKonto(salery, "MANAGER", this.id);
+						npc.depositMoney(salery);
+					}
 					checkNpcFeed(npc, 1,npc);
 					
 				}
@@ -1564,9 +1570,12 @@ public class Settlement //implements Serializable
 			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
 				NpcData npc = npcIterator.next();
-				npc.setWorkBuilding(building.getId());
-//				System.out.println(building.getBuildingType()+" : "+npc.getId());
-				installed++;
+				if (npc.getNpcType() != NPCType.MANAGER)
+				{
+					npc.setWorkBuilding(building.getId());
+	//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+					installed++;
+				}
 			}
 		}
 
@@ -1577,8 +1586,13 @@ public class Settlement //implements Serializable
 			{
 				while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 				{
-					npcIterator.next().setWorkBuilding(building.getId());
-					installed++;
+					NpcData npc = npcIterator.next();
+					if (npc.getNpcType() != NPCType.MANAGER)
+					{
+						npc.setWorkBuilding(building.getId());
+		//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+						installed++;
+					}
 				}
 			}
 		}
@@ -1588,8 +1602,13 @@ public class Settlement //implements Serializable
 			int installed = 0;
 			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
-				npcIterator.next().setWorkBuilding(building.getId());
-				installed++;
+				NpcData npc = npcIterator.next();
+				if (npc.getNpcType() != NPCType.MANAGER)
+				{
+					npc.setWorkBuilding(building.getId());
+	//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+					installed++;
+				}
 			}
 		}
 		
@@ -1598,8 +1617,13 @@ public class Settlement //implements Serializable
 			int installed = 0;
 			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
-				npcIterator.next().setWorkBuilding(building.getId());
-				installed++;
+				NpcData npc = npcIterator.next();
+				if (npc.getNpcType() != NPCType.MANAGER)
+				{
+					npc.setWorkBuilding(building.getId());
+	//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+					installed++;
+				}
 			}
 		}
 
@@ -1609,8 +1633,13 @@ public class Settlement //implements Serializable
 			int installed = 0;
 			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
-				npcIterator.next().setWorkBuilding(building.getId());
-				installed++;
+				NpcData npc = npcIterator.next();
+				if (npc.getNpcType() != NPCType.MANAGER)
+				{
+					npc.setWorkBuilding(building.getId());
+	//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+					installed++;
+				}
 			}
 		}
 
@@ -1619,8 +1648,13 @@ public class Settlement //implements Serializable
 			int installed = 0;
 			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
-				npcIterator.next().setWorkBuilding(building.getId());
-				installed++;
+				NpcData npc = npcIterator.next();
+				if (npc.getNpcType() != NPCType.MANAGER)
+				{
+					npc.setWorkBuilding(building.getId());
+	//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+					installed++;
+				}
 			}
 		}
 
@@ -1629,8 +1663,13 @@ public class Settlement //implements Serializable
 			int installed = 0;
 			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
-				npcIterator.next().setWorkBuilding(building.getId());
-				installed++;
+				NpcData npc = npcIterator.next();
+				if (npc.getNpcType() != NPCType.MANAGER)
+				{
+					npc.setWorkBuilding(building.getId());
+	//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+					installed++;
+				}
 			}
 		}
 		// reset all other npc
@@ -1652,7 +1691,11 @@ public class Settlement //implements Serializable
 		return workerSum-workerCount;
 	}
 
-	
+	/**
+	 * check if production is necessary for a building
+	 * 
+	 * @param server
+	 */
 	public void checkBuildingsEnabled(ServerInterface server)
 	{
 		for (Building building : buildingList.values())
@@ -1671,6 +1714,10 @@ public class Settlement //implements Serializable
 							} else
 							{
 								building.setIsEnabled(false);
+								if (building.getBuildingType() == BuildPlanType.CABINETMAKER)
+								{
+									building.initIdle(5);
+								}
 							}
 							// pruefe ob Stronghold region enabled sind
 							server.checkRegionEnabled(building.getHsRegion());
@@ -1721,8 +1768,7 @@ public class Settlement //implements Serializable
 			}
 		} else
 		{
-			System.out.println("No NPC");
-			
+//			System.out.println("No NPC");
 		}
 	}
 	
@@ -1757,7 +1803,10 @@ public class Settlement //implements Serializable
 				building.setBiome(biome);
 			}
 			building.setSales(0.0);
-			if (building.isEnabled())
+			building.addIdlleTime();
+			if ((building.isEnabled())
+				&& building.isIdleReady()	
+				)
 			{
 				if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
 					|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300))

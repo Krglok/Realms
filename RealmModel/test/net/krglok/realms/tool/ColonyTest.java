@@ -44,9 +44,9 @@ public class ColonyTest
 
 	public void initTestEnvironment()
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		config = new ConfigTest();
 		msg = new MessageTest();
 

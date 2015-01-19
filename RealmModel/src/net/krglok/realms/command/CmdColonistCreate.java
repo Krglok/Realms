@@ -123,23 +123,23 @@ public class CmdColonistCreate extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (sender.isOp())
+		if (isOpOrAdmin(sender))
 		{
 			if (sender instanceof Player)
 			{
 				if (name.equals(""))
 				{
-					errorMsg.add("You must give a name for the new settlement !");
+					errorMsg.add(ChatColor.RED+"You must give a name for the new settlement !");
 					errorMsg.add(" ");
 					return false;
 				}
 				return true;
 			}
-			errorMsg.add("The World can NOT be set correct !");
-			errorMsg.add("The command can NOT be send from console");
+			errorMsg.add(ChatColor.RED+"The World can NOT be set correct !");
+			errorMsg.add(ChatColor.RED+"The command can NOT be send from console");
 		} else
 		{
-			errorMsg.add("You are not a OP");
+			errorMsg.add(ChatColor.RED+"You are not a OP or Admin");
 		}
 		return false;
 	}

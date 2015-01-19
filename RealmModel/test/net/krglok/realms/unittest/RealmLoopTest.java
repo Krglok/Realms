@@ -301,7 +301,7 @@ public class RealmLoopTest
 		int settlementCounter = config.getSettlementCounter();
 
 		LogList logTest = new LogList(dataFolder);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(dataFolder);
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(

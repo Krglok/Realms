@@ -44,9 +44,9 @@ public class SettlementBreedTest
 	public SettlementBreedTest()
 	{
 		server = new ServerTest(data);
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		config = new ConfigTest();
 		msg = new MessageTest();
 		rModel = new RealmModel(0, 0, server, config, testData, msg); //, logTest);

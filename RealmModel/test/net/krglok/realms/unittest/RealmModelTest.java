@@ -36,9 +36,9 @@ public class RealmModelTest
 		int realmCounter = config.getRealmCounter();
 		int settlementCounter = config.getSettlementCounter();
 				
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		ServerTest server = new ServerTest(data);
 		
 		RealmModel rModel = new RealmModel(
@@ -79,7 +79,7 @@ public class RealmModelTest
 				
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -122,9 +122,9 @@ public class RealmModelTest
 				
 		ServerTest server = new ServerTest(data);
 
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -164,9 +164,9 @@ public class RealmModelTest
 				
 		ServerTest server = new ServerTest(data);
 
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -210,9 +210,9 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		ServerTest server = new ServerTest(data);
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(
@@ -284,9 +284,9 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		ServerTest server = new ServerTest(data);
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
+		DataStorage testData = new DataStorage(path);
 		MessageTest message = new MessageTest();
 		
 		RealmModel rModel = new RealmModel(

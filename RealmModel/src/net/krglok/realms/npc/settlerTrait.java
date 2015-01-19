@@ -15,10 +15,11 @@ import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.util.DataKey;
 import net.citizensnpcs.trait.LookClose;
 import net.krglok.realms.CommandRealms;
+import net.krglok.realms.NpcManager;
 import net.krglok.realms.Realms;
 import net.krglok.realms.command.CmdRealmsTest;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.manager.NpcManager;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.unit.UnitType;
 
 /**
@@ -170,42 +171,25 @@ public class SettlerTrait extends Trait
 		{
 			event.getClicker().sendMessage("Hallo,my name is "+this.getNPC().getFullName());
 			event.getClicker().sendMessage("my Job is "+this.getNPC().getTrait(SettlerTrait.class).getsNPCType());
-//			for (Trait trait : npc.getTraits())
-//			{
-//				event.getClicker().sendMessage("MyTrait :"+ trait.getName()+":"+trait.getClass().getName());
-//			}
-			plugin.npcManager.equipNpc(npc, this.npcType);
-			ItemStack[] equip = npc.getTrait(Equipment.class).getEquipment();
-			int i = 0;
-			for (ItemStack item : equip)
+			NpcData npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
+			Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
+			if (settle != null)
 			{
-				if (item != null)
-				{
-					event.getClicker().sendMessage("equip "+i+": "+item.getType());
-				} else
-				{
-					event.getClicker().sendMessage("equip "+i+": "+"NULL");
-					
-				}
-				i++;
+				event.getClicker().sendMessage("I am a Settler of "+settle.getName());
+			} else
+			{
+				event.getClicker().sendMessage("I have no home and hiking around ");
 			}
+			event.getClicker().sendMessage("my name is "+this.getNPC().getFullName()+" | "+npcData.getAge()+" years old "+npcData.getGender());
+			event.getClicker().sendMessage("my job is "+npcData.getNpcAction()+" as "+npcData.getNpcType()+" : pregnant "+npcData.isSchwanger());
 
 			npc.getTrait(LookClose.class).lookClose(true);
-//			if (buildingId == 0)
-//			{
-//				Region region = CmdRealmsTest.findRegionAtPosition(plugin, npc.getStoredLocation());
-//				buildingId = region.getID();
-//			}
 			return;
 		}
 		if (event.getClicker().getItemInHand().getType() == Material.STICK)
 		{
-			event.getClicker().sendMessage("I am a Settler of "+this.getNPC().getTrait(SettlerTrait.class).getName());
-			event.getClicker().sendMessage("my name is "+this.getNPC().getFullName());
-			event.getClicker().sendMessage("my job is "+this.getNPC().getTrait(SettlerTrait.class).getsNPCType());
-			event.getClicker().sendMessage("my village "+this.getNPC().getTrait(SettlerTrait.class).getSettleId());
-			event.getClicker().sendMessage("my home is "+this.getNPC().getTrait(SettlerTrait.class).getBuildingId());
-			event.getClicker().sendMessage("my target is "+this.getNPC().getTrait(SettlerTrait.class).getTargetId());
+//			event.getClicker().sendMessage("my home is "+this.getNPC().getTrait(SettlerTrait.class).getBuildingId());
+//			event.getClicker().sendMessage("my target is "+this.getNPC().getTrait(SettlerTrait.class).getTargetId());
 			return;
 		} else
 		{

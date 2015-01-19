@@ -10,12 +10,12 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.Anchors;
+import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
 
@@ -32,14 +32,16 @@ public class NpcTask implements Runnable
 {
 	
     private final Realms plugin;
-	public long NPC_SCHEDULE =  3;  // 10 * 50 ms 
+	public long NPC_SCHEDULE =  1;  // 10 * 50 ms 
 	public long DELAY_SCHEDULE =  5;  // 10 * 50 ms 
     private static int counter = 0;
     
-    private int nextNpc = 0;
-
     private BlockFace lastPos = BlockFace.NORTH;
     private int nextPos = 0;
+    private Iterator<NpcData> npcIterator;
+    private boolean isNpcEnd = true;
+    private boolean isNpcDead = false;
+    private boolean isNpcAlive = false;
     
     public NpcTask(Realms plugin)
     {
@@ -76,32 +78,42 @@ public class NpcTask implements Runnable
 		// do other things :)
 		if (plugin.npcManager.isSpawn() == true)
 		{
-			if (nextNpc < plugin.getData().getNpcs().values().size())
+			if (isNpcEnd)
+			{
+				if (isNpcAlive == false)
+				{
+					npcIterator = plugin.getData().getNpcs().getAliveNpc().values().iterator();
+					isNpcAlive = true;
+					isNpcDead = false;
+				} else
+				{
+					npcIterator = plugin.getData().getNpcs().getDeathNpc().values().iterator();
+					isNpcAlive = false;
+					isNpcDead = true;
+				}
+				isNpcEnd = false;
+				return;
+			}
+			if (npcIterator.hasNext())
 			{
 //				System.out.println("[REALMS] next Npc Action: "+nextNpc+":"+plugin.getData().getNpcs().values().size());
-				NpcData npcData = null;
-				int index = 0;
-				Iterator<NpcData> npcIterator = plugin.getData().getNpcs().values().iterator();
-				while (index <= nextNpc)
-				{
-					if (npcIterator.hasNext())
-					{
-						npcData = npcIterator.next();
-						index++;
-					} else
-					{
-						index = nextNpc +1;
-					}
-				}
+				NpcData npcData = npcIterator.next();
 				if (npcData != null)
 				{
 //					System.out.println("[REALMS] Npc Action  for: "+npcData.getId());
-					doAction(npcData);
+					if (npcData.isSpawned)
+					{
+						doAction(npcData);
+					} else
+					{
+						npcData.setNpcAction(NpcAction.NONE);
+						plugin.npcManager.getSpawnList().add(npcData.getId());
+						spawnNpc(plugin.npcManager);
+					}
 				}
-				nextNpc++;
 			} else
 			{
-				nextNpc = 0;
+				isNpcEnd = true;
 			}
 				
 			
@@ -126,8 +138,18 @@ public class NpcTask implements Runnable
 //			System.out.println("[REALMS] Npc Action: Citizen not spawned "+npc.getId());
 			return; 
 		}
-
-		Location npcRefpos = null;
+		Location npcRefpos = plugin.makeLocation(npcData.getLocation());
+//		if (npcData.getId() > 100)
+//		{
+//			if (npcRefpos != null)
+//			{
+//				System.out.println("NPC "+npcData.getId()+":"+npcData.getNpcType()+":"+npcData.getNpcAction()+"|"+npc.getId()+"|"+npcRefpos.getWorld().getTime());
+//			} else
+//			{
+//				System.out.println("NPC "+npcData.getId()+":"+npcData.getNpcType()+":"+npcData.getNpcAction()+"| NULL");
+//			}
+//		}
+//		npcRefpos = null;
 		switch (npcData.getNpcAction())
 		{
 		case NONE:
@@ -152,6 +174,8 @@ public class NpcTask implements Runnable
 //					{
 //						System.out.println("[REALMS] next Npc Location: "+LocationData.toString(npcData.getLocation()));
 //					}
+//					npc.getTrait(Waypoints.class).
+					location.setZ(location.getZ()+1);
 					npc.getTrait(Anchors.class).addAnchor("Home", location);
 					npc.teleport(location, TeleportCause.PLUGIN);
 				} else
@@ -161,6 +185,16 @@ public class NpcTask implements Runnable
 				
 				npcData.setNpcAction(NpcAction.IDLE);
 			}
+			break;
+		case HOME:
+			npcRefpos = plugin.makeLocation(npcData.getLocation());
+			if (npcRefpos == null ) { return; }
+		    if ((npcRefpos.getWorld().getTime() >= 10000)
+			    	&& (npcRefpos.getWorld().getTime() < 18000)
+			    	)
+		    {
+				npcData.setNpcAction(NpcAction.IDLE);
+		    }
 			break;
 		case WORKTAVERNE:
 			npcRefpos = plugin.makeLocation(npcData.getLocation());
@@ -182,8 +216,9 @@ public class NpcTask implements Runnable
 	    		{
 	    			lastPos = getNextPos();
 	    			Location home = b.getRelative(lastPos).getLocation();
-	    			npc.getNavigator().setTarget(home);
-//						npc.teleport(home, TeleportCause.PLUGIN);
+	    			home.setZ(home.getZ()+1);
+//	    			npc.getNavigator().setTarget(home);
+					npc.teleport(home, TeleportCause.PLUGIN);
 					npcData.setNpcAction(NpcAction.IDLE);
 	    		}
 		    }			
@@ -191,7 +226,7 @@ public class NpcTask implements Runnable
 		case WORK:
 			npcRefpos = plugin.makeLocation(npcData.getLocation());
 			if (npcRefpos == null ) { return; }
-		    if (npcRefpos.getWorld().getTime() > 18000)
+		    if (npcRefpos.getWorld().getTime() > 12000)
 		    {
 	    		Block b = null;
 		    	if (npcData.getHomeBuilding() > 0)
@@ -208,15 +243,21 @@ public class NpcTask implements Runnable
 	    		{
 	    			lastPos = getNextPos();
 	    			Location home = b.getRelative(lastPos).getLocation();
-	    			npc.getNavigator().setTarget(home);
-//						npc.teleport(home, TeleportCause.PLUGIN);
+	    			home.setZ(home.getZ()+1);
+//	    			npc.getNavigator().setTarget(home);
+					npc.teleport(home, TeleportCause.PLUGIN);
 					npcData.setNpcAction(NpcAction.IDLE);
 	    		}
 		    }			
 			break;
+		case TREASURE :
+			
+			break;
 		default :
 			npcRefpos = plugin.makeLocation(npcData.getLocation());
 			if (npcRefpos == null ) { return; }
+			
+			// Taverne Worker
 		    if ((npcRefpos.getWorld().getTime() >= 10000)
 		    	&& (npcRefpos.getWorld().getTime() < 18000)
 		    	)
@@ -229,14 +270,16 @@ public class NpcTask implements Runnable
 		    			Block b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getPosition()).getBlock();
 		    			lastPos = getNextPos();
 		    			Location taverne = b.getRelative(lastPos).getLocation();
-		    			npc.getNavigator().setTarget(taverne);
-//						npc.teleport(taverne, TeleportCause.PLUGIN);
+		    			taverne.setZ(taverne.getZ()+1);
+//		    			npc.getNavigator().setTarget(taverne);
+						npc.teleport(taverne, TeleportCause.PLUGIN);
 						npcData.setNpcAction(NpcAction.WORKTAVERNE);
 		    		}
 		    	}
 		    }
+		    // production Worker
 		    if ((npcRefpos.getWorld().getTime() >= 1000)
-			    	&& (npcRefpos.getWorld().getTime() < 10000)
+			    	&& (npcRefpos.getWorld().getTime() < 11000)
 			    	)
 			    {
 
@@ -247,9 +290,33 @@ public class NpcTask implements Runnable
 			    			Block b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getPosition()).getBlock();
 			    			lastPos = getNextPos();
 			    			Location taverne = b.getRelative(lastPos).getLocation();
-			    			npc.getNavigator().setTarget(taverne);
-//							npc.teleport(taverne, TeleportCause.PLUGIN);
+			    			taverne.setZ(taverne.getZ()+1);
+
+//			    			npc.getNavigator().setTarget(taverne);
+							npc.teleport(taverne, TeleportCause.PLUGIN);
 							npcData.setNpcAction(NpcAction.WORK);
+			    		}
+			    	}
+			    }
+		    if ((npcRefpos.getWorld().getTime() >= 13000)
+			    	&& (npcRefpos.getWorld().getTime() < 20000)
+			    	)
+			    {
+
+			    	if ((npcData.getNpcAction() != NpcAction.WORKTAVERNE)
+			    			&& (npcData.getNpcAction() != NpcAction.TAVERNE)
+			    		)
+			    	{
+			    		if (plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getId() > 0)
+			    		{
+			    			Block b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition()).getBlock();
+			    			lastPos = getNextPos();
+			    			Location home = b.getRelative(lastPos).getLocation();
+			    			home.setZ(home.getZ()+1);
+
+//			    			npc.getNavigator().setTarget(taverne);
+							npc.teleport(home, TeleportCause.PLUGIN);
+							npcData.setNpcAction(NpcAction.HOME);
 			    		}
 			    	}
 			    }
@@ -300,6 +367,11 @@ public class NpcTask implements Runnable
 		}
 	}
 	
+	/**
+	 * spawn citizen the first time
+	 * 
+	 * @param npcManager
+	 */
 	private void spawnNpc(NpcManager npcManager)
 	{
 		NpcData npcData = plugin.getData().getNpcs().get(npcManager.getSpawnList().get(0));
@@ -307,49 +379,38 @@ public class NpcTask implements Runnable
 		if (npcData.isSpawned == false)
 		{
 			LocationData position = null;
-			switch (npcData.getNpcType())
-			{
-			case BEGGAR:
-//				System.out.println("[REALMS] next Npc Settlement: "+npcData.getSettleId());
-				settle = plugin.getData().getSettlements().get(npcData.getSettleId());
-				if (settle != null)
+    		Block b = null;
+	    	if (npcData.getHomeBuilding() > 0)
+	    	{
+	    			b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition()).getBlock();
+    		} else
+    		{
+    			if (npcData.getSettleId() > 0)
+    			{
+    				b = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition()).getBlock();
+    			}
+    		}
+    		if (b != null)
+    		{
+    			// round robin for position
+    			lastPos = getNextPos();
+    			position = plugin.makeLocationData(b.getRelative(lastPos).getLocation());
+    			position.setZ(position.getZ()+1);
+
+				try
 				{
-					position = settle.getPosition();
-				}
-				break;
-			default:
-//				System.out.println("[REALMS] next Npc Building: "+npcData.getHomeBuilding());
-				Building building = plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding());
-				if (building != null)
-				{
-					if (building.getPosition().getX() > 0.1)
+					if (position != null)
 					{
-						position = building.getPosition();
-					} else
-					{
-//						System.out.println("[REALMS] next Npc Settlement and not Building : "+npcData.getSettleId());
-						settle = plugin.getData().getSettlements().get(npcData.getSettleId());
-						if (settle != null)
-						{
-							position = settle.getPosition();
-						}
+	//					System.out.println("[REALMS] next Npc Spawn: "+npcManager.getSpawnList().get(0));
+						npcManager.createNPC(npcData, position);
 					}
-				}
-				break;
-			}
-			try
-			{
-				if (position != null)
+					
+				} catch (Exception e)
 				{
-//					System.out.println("[REALMS] next Npc Spawn: "+npcManager.getSpawnList().get(0));
-					npcManager.createNPC(npcData, position);
+					System.out.println("[REALMS] EXCEPTION  Npc Spawn: "+npcManager.getSpawnList().get(0));
+					e.printStackTrace(System.out);
 				}
-				
-			} catch (Exception e)
-			{
-				System.out.println("[REALMS] EXCEPTION  Npc Spawn: "+npcManager.getSpawnList().get(0));
-				e.printStackTrace(System.out);
-			}
+    		}
 			npcManager.getSpawnList().remove(0);
 		}
 	}

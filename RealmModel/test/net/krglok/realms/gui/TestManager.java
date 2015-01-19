@@ -30,10 +30,11 @@ import org.bukkit.entity.Player;
 
 public class TestManager
 {
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+	DataStorage data = new DataStorage(dataFolder);
 	int dayCounter = 0;
 	int month;
 	private ServerTest server;
-	private DataTest     data;
 	private ConfigTest config;
 	private MessageTest   msg;
 	RealmModel rModel;
@@ -43,14 +44,12 @@ public class TestManager
 	
 	public TestManager()
 	{
-		String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
-		DataStorage data = new DataStorage(dataFolder);
 		ServerTest server = new ServerTest(data);
 		LogList logTest = new LogList(dataFolder);
 		DataTest testData = new DataTest();
 		config = new ConfigTest();
 		msg = new MessageTest();
-		rModel = new RealmModel(0, 0, server, config, testData, msg); //, logTest);
+		rModel = new RealmModel(0, 0, server, config, data, msg); //, logTest);
     	rModel.OnEnable();
 		
 	}

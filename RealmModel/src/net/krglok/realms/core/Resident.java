@@ -94,7 +94,7 @@ public class Resident
 		switch(settleType)
 		{
 		case HAMLET :
-			this.settlerCount = 15;
+			this.settlerCount = 13;
 			break;
 		case TOWN :
 			this.settlerCount = 15;
@@ -542,50 +542,50 @@ public class Resident
 						}
 					}
 				}
-			}
-			if (npc.isChild())
-			{
-				if (npc.getAge() >= 14)
+				if (npc.isChild())
 				{
-					System.out.println("Child "+npc.getId()+" Growing to Settler with age "+npc.getAge());
-					npc.setNpcType(NPCType.SETTLER);
-					npc.depositMoney(10.0);
-				}
-			}
-			if (npc.getId() == 2)
-			{
-				System.out.println("Schwanger "+npc.getId()+":"+npc.getSchwanger());
-			}
-			if (npc.isSchwanger())
-			{
-				if (npc.getSchwanger() > ConfigBasis.BREEDING_DAYS)
-				{
-					System.out.println("ENtbindung "+npc.getId());
-					Building building = buildings.getBuilding(npc.getHomeBuilding());
-					if (building != null)
+					if (npc.getAge() >= 14)
 					{
-						if (npcList.getBuildingNpc(building.getId()).size() < building.getSettler())
+						System.out.println("Child "+npc.getId()+" Growing to Settler with age "+npc.getAge());
+						npc.setNpcType(NPCType.SETTLER);
+						npc.depositMoney(10.0);
+					}
+				}
+				if (npc.getId() == 2)
+				{
+					System.out.println("Schwanger "+npc.getId()+":"+npc.getSchwanger());
+				}
+				if (npc.isSchwanger())
+				{
+					if (npc.getSchwanger() > ConfigBasis.BREEDING_DAYS)
+					{
+						System.out.println("ENtbindung "+npc.getId());
+						Building building = buildings.getBuilding(npc.getHomeBuilding());
+						if (building != null)
+						{
+							if (npcList.getBuildingNpc(building.getId()).size() < building.getSettler())
+							{
+								NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
+								newChild.setHomeBuilding(npc.getHomeBuilding());
+								newChild.setSettleId(building.getSettleId());
+								data.getNpcs().add(newChild);
+								data.writeNpc(newChild);
+								System.out.println("New Child "+newChild.getId()+" born into "+building.getId());
+							} else
+							{
+								System.out.println("Baby is die ! "+npc.getId()+" Bewohner "+npcList.getBuildingNpc(building.getId()).size()+" < "+building.getSettler());
+							}
+						}else
 						{
 							NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
-							newChild.setHomeBuilding(npc.getHomeBuilding());
+							newChild.setHomeBuilding(0);
 							newChild.setSettleId(building.getSettleId());
-							data.getNpcs().add(newChild);
+							npcList.add(newChild);
 							data.writeNpc(newChild);
-							System.out.println("New Child "+newChild.getId()+" born into "+building.getId());
-						} else
-						{
-							System.out.println("Baby is die ! "+npc.getId()+" Bewohner "+npcList.getBuildingNpc(building.getId()).size()+" < "+building.getSettler());
+							System.out.println("New Child "+newChild.getId()+" born living as BEGGAR ");
 						}
-					}else
-					{
-						NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
-						newChild.setHomeBuilding(0);
-						newChild.setSettleId(building.getSettleId());
-						npcList.add(newChild);
-						data.writeNpc(newChild);
-						System.out.println("New Child "+newChild.getId()+" born living as BEGGAR ");
+						npc.setSchwanger(ConfigBasis.BREEDING_DELAY);
 					}
-					npc.setSchwanger(ConfigBasis.BREEDING_DELAY);
 				}
 			}
 		}
@@ -656,7 +656,7 @@ public class Resident
 	 * 
 	 *  
 	 */
-	private void doDeathrate()
+	private void doDeathrate(DataInterface data)
 	{
 
 		for (NpcData npc : npcList.values())
@@ -689,6 +689,7 @@ public class Resident
 						}
 					}
 				}
+				data.writeNpc(npc);
 			} else
 			{
 				if (npc.getHappiness() > 0.2)
@@ -707,6 +708,7 @@ public class Resident
 							}
 						}
 						npc.setHappiness(0.0);
+						data.writeNpc(npc);
 					} else
 					{
 						npc.setHappiness(0.0);
@@ -723,7 +725,7 @@ public class Resident
 	{
 		doLifeCycle(buildings, data);
 		doBirthrate();
-		doDeathrate();
+		doDeathrate(data);
 //		settlerCount = settlerCount + settlerBirthrate - settlerDeathrate;
 	}
 

@@ -20,3 +20,5 @@ buildingCounter: 0
 spawnAnimal: false;
 
 trackPlayer: true;
+
+initBuildingPos: false

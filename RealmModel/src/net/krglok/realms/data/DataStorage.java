@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Material;
 
@@ -36,6 +37,7 @@ import net.krglok.realms.kingdom.LehenList;
 import net.krglok.realms.kingdom.MemberList;
 import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.npc.NpcNamen;
@@ -222,8 +224,10 @@ public class DataStorage implements DataInterface
 			}
 			settle.setOwner(owner);
 		}
+		// respawn NPC
 		if (npcs.isEmpty())
 		{
+			System.out.println("[REALMS] recalculate NPC list !");
 			CreateSettlementNPC();
 			for (Settlement settlement : settlements.values())
 			{
@@ -683,6 +687,50 @@ public class DataStorage implements DataInterface
 	private void initNpcName()
 	{
 		npcNamen = nameDataStore.readData();
+		if (npcNamen.getManNames().isEmpty())
+		{
+			List<String> womanNames = new ArrayList<String>();
+			List<String> manNames = new ArrayList<String>();
+
+			womanNames.add("Brorda");
+			womanNames.add("Brunhild");
+			womanNames.add("Bryce");
+			womanNames.add("Clotilde");
+			womanNames.add("Ceawlin");
+			womanNames.add("Cedric");
+			womanNames.add("Cenred");
+			womanNames.add("Cenwealh");
+			womanNames.add("Cenwulf");
+			womanNames.add("Creoda");
+			womanNames.add("Cristiana");
+			womanNames.add("Cutha");
+			womanNames.add("Dimia");
+			womanNames.add("Eawa");
+			womanNames.add("Ecgfrith");
+
+			manNames.add("Burghred");
+			manNames.add("Cadfil");
+			manNames.add("Carac");
+			manNames.add("Cassius");
+			manNames.add("Catrain");
+			manNames.add("Ceolwulf");
+			manNames.add("Cerdic");
+			manNames.add("Cuthwine");
+			manNames.add("Cynric");
+			manNames.add("Dain");
+			manNames.add("Destrian");
+			manNames.add("Donald");
+			manNames.add("Doran");
+			manNames.add("Eadbald");
+			manNames.add("Eadberht");
+			manNames.add("Eadred");
+			manNames.add("Eadric");
+			manNames.add("Eadwig");
+			manNames.add("Eanulf");
+			npcNamen.setManNames(manNames);
+			npcNamen.setWomanNames(womanNames);
+			nameDataStore.writeData(npcNamen);
+		}
 	}
 	
 	@Override
@@ -798,16 +846,18 @@ public class DataStorage implements DataInterface
 	
 	
 	
-	private void makeFamily(Building building, NpcNamen npcNameList, int maxChild)
+	public void makeFamily(Building building, NpcNamen npcNameList, int maxChild)
 	{
 		int max = ConfigBasis.getDefaultSettler(building.getBuildingType());
 		NpcData father = makeFather(npcNameList);
 		father.setSettleId(building.getSettleId());
 		father.setHomeBuilding(building.getId());
+		father.setNpcAction(NpcAction.NONE);
 		this.getNpcs().add(father);
 		NpcData mother = makeMother(npcNameList);
 		mother.setSettleId(building.getSettleId());
 		mother.setHomeBuilding(building.getId());
+		mother.setNpcAction(NpcAction.NONE);
 		makePair(father, mother);
 		this.getNpcs().add(mother);
 		this.writeNpc(father);
@@ -818,17 +868,21 @@ public class DataStorage implements DataInterface
 		
 		switch(maxChild)
 		{
+		case 0:
+			break;
 		case 2 :
 			child1 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
 			child1.setAge(1+makeChildOlder()+1);
 			child1.setSettleId(building.getSettleId());
 			child1.setHomeBuilding(building.getId());
+			child1.setNpcAction(NpcAction.NONE);
 			this.getNpcs().add(child1);
 			this.writeNpc(child1);
 			child2 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
 			child2.setAge(1+makeChildOlder()+2);
 			child2.setSettleId(building.getSettleId());
 			child2.setHomeBuilding(building.getId());
+			child2.setNpcAction(NpcAction.NONE);
 			this.getNpcs().add(child2);
 			this.writeNpc(child2);
 		break;
@@ -837,36 +891,42 @@ public class DataStorage implements DataInterface
 			child1.setAge(1+makeChildOlder()+1);
 			child1.setSettleId(building.getSettleId());
 			child1.setHomeBuilding(building.getId());
+			child1.setNpcAction(NpcAction.NONE);
 			this.getNpcs().add(child1);
 			this.writeNpc(child1);
 			child2 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
 			child2.setAge(1+makeChildOlder()+2);
 			child2.setSettleId(building.getSettleId());
 			child2.setHomeBuilding(building.getId());
+			child2.setNpcAction(NpcAction.NONE);
 			this.getNpcs().add(child2);
 			this.writeNpc(child2);
 			child3 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
 			child3.setSettleId(building.getSettleId());
 			child3.setHomeBuilding(building.getId());
+			child3.setNpcAction(NpcAction.NONE);
 			this.getNpcs().add(child3);
 			this.writeNpc(child3);
 		break;
 		default :
 			child1 = NpcData.makeChild(npcNameList,father.getId(),mother.getId());
+			child1.setAge(1+makeChildOlder()+1);
 			child1.setSettleId(building.getSettleId());
 			child1.setHomeBuilding(building.getId());
+			child1.setNpcAction(NpcAction.NONE);
 			this.getNpcs().add(child1);
 			this.writeNpc(child1);
 		break;
 		}
 	}
 	
-	private void makeManager(Building building, NpcNamen npcNameList)
+	public void makeManager(Building building, NpcNamen npcNameList)
 	{
 		int max = 5;
 		NpcData father = makeFather(npcNameList);
 		father.setName("Elder "+father.getName());
 		father.setImmortal(true);
+		father.setNpcAction(NpcAction.NONE);
 		father.setNpcType(NPCType.MANAGER);
 		father.setSettleId(building.getSettleId());
 		father.setHomeBuilding(building.getId());
@@ -875,6 +935,7 @@ public class DataStorage implements DataInterface
 
 		father = makeFather(npcNameList);
 		father.setImmortal(true);
+		father.setNpcAction(NpcAction.NONE);
 		father.setNpcType(NPCType.BUILDER);
 		father.setName("Elder "+father.getName());
 		father.setSettleId(building.getSettleId());
@@ -884,6 +945,7 @@ public class DataStorage implements DataInterface
 		
 		NpcData mother = makeMother(npcNameList);
 		mother.setImmortal(true);
+		mother.setNpcAction(NpcAction.NONE);
 		mother.setNpcType(NPCType.CRAFTSMAN);
 		mother.setName("Elder "+mother.getName());
 		mother.setSettleId(building.getSettleId());
@@ -893,6 +955,7 @@ public class DataStorage implements DataInterface
 
 		mother = makeMother(npcNameList);
 		mother.setImmortal(true);
+		mother.setNpcAction(NpcAction.NONE);
 		father.setNpcType(NPCType.FARMER);
 		mother.setName("Elder "+mother.getName());
 		mother.setSettleId(building.getSettleId());
@@ -902,6 +965,7 @@ public class DataStorage implements DataInterface
 
 		mother = makeMother(npcNameList);
 		mother.setImmortal(true);
+		mother.setNpcAction(NpcAction.NONE);
 		father.setNpcType(NPCType.MAPMAKER);
 		mother.setName("Elder "+mother.getName());
 		mother.setSettleId(building.getSettleId());

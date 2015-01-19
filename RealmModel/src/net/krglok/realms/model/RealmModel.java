@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 
+import net.krglok.realms.NpcManager;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.colonist.Colony;
@@ -23,6 +24,7 @@ import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.KnowledgeData;
 import net.krglok.realms.data.MessageInterface;
 import net.krglok.realms.data.ServerInterface;
@@ -32,7 +34,6 @@ import net.krglok.realms.kingdom.Lehen;
 //<<<<<<< HEAD
 //=======
 import net.krglok.realms.manager.BuildManager;
-import net.krglok.realms.manager.NpcManager;
 import net.krglok.realms.science.CaseBookList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
@@ -73,7 +74,7 @@ public class RealmModel
 	private ModelStatus modelStatus;
 	private ServerInterface server;
 	private ConfigInterface config;
-	private DataInterface data;
+	private DataStorage data;
 	public MessageInterface messageData;
 //	private LogList logList;
 	
@@ -120,7 +121,7 @@ public class RealmModel
 			int settlementCounter,
 			ServerInterface server,
 			ConfigInterface config,
-			DataInterface data,
+			DataStorage data,
 			MessageInterface messageData
 //			LogList logList
 			)
@@ -233,7 +234,7 @@ public class RealmModel
 	}
 
 
-	public DataInterface getData()
+	public DataStorage getData()
 	{
 		return data;
 	}

@@ -99,11 +99,15 @@ public class NpcList extends HashMap<Integer, NpcData>
 		NpcList subList = new NpcList();
 		for (NpcData npc : this.values())
 		{
-			if ((npc.getNpcType() != NPCType.CHILD)
-				&& (npc.isAlive())
-				)
+			if (npc.isAlive())
 			{
-				subList.putNpc(npc);
+				if (npc.getNpcType() != NPCType.CHILD)
+				{
+					if (npc.getNpcType() != NPCType.MANAGER)
+					{
+						subList.putNpc(npc);
+					}
+				}
 			}
 		}
 		
@@ -335,6 +339,18 @@ public class NpcList extends HashMap<Integer, NpcData>
 		}
 			
 		return subList;
+	}
+
+	public NpcData getCitizenId(int citizenId)
+	{
+		for (NpcData npc : this.values())
+		{
+			if (npc.spawnId == citizenId)
+			{
+				return npc;
+			}
+		}
+		return null;
 	}
 	
 }
