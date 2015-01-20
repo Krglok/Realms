@@ -523,6 +523,45 @@ public final class Realms extends JavaPlugin
 	  }		
 	}
 	
+	public byte determineDataOfDirection(BlockFace bf)
+	{
+	     if(bf.equals(BlockFace.NORTH))
+	            return (byte)3;
+//	            return (byte)2;
+	     else if(bf.equals(BlockFace.SOUTH))
+	            return (byte)2;
+//	             return (byte)3;
+	     else if(bf.equals(BlockFace.WEST))
+	            return (byte)5;
+//	            return (byte)4;
+	     else if(bf.equals(BlockFace.EAST))
+	            return (byte)4;
+//	            return (byte)5;
+	     return (byte)3;
+	}
+	
+	public void setWallBase(Block providedSign)
+	{
+		BlockFace[] blockFaces = {BlockFace.EAST, BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH};
+		for(BlockFace bf : blockFaces) 
+		{
+		    Block bu = providedSign.getRelative(bf);
+		    if((bu.getType() != Material.AIR)) 
+		    {
+//		        providedSign.setData(determineDataOfDirection(bf));
+		    	
+//		    	byte faceData = determineDataOfDirection(providedSign.getFace(bu));
+		    	byte faceData = determineDataOfDirection(bf);
+		    	System.out.println("[REALMS] set Wallbase "+bf+":"+faceData);
+		        providedSign.setType(Material.WALL_SIGN);
+		        providedSign.setData(faceData, false);
+		        //		        providedSign.update(); //Add this line
+		        return;
+		    }
+		}
+        providedSign.setType(Material.SIGN_POST);
+	}
+
 	/**
 	 * setzt einen Block in die Welt an die Position iLoc
 	 * !!! verwendet teilweise alte Methoden fuer Bloecke !!!!
@@ -561,36 +600,39 @@ public final class Realms extends JavaPlugin
 			case WALL_SIGN:
 				
 				Block bs = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
-				if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
-				{
-					System.out.println("Set WallSign SOUTH");
-					bs.setType(Material.WALL_SIGN);
-				} else
-				{
-					if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
-					{
-						System.out.println("Set WallSign NORTH");
-						bs.setType(Material.WALL_SIGN);
-					} else
-					{
-						if (bs.getRelative(BlockFace.EAST).getType() != Material.AIR)
-						{
-							System.out.println("Set WallSign EAST");
-							bs.setType(Material.WALL_SIGN);
-						} else
-						{
-							if (bs.getRelative(BlockFace.WEST).getType() != Material.AIR)
-							{
-								System.out.println("Set WallSign WEST");
-								bs.setType(Material.WALL_SIGN);
-							} else
-							{
-								System.out.println("Set SignPost !");
-								bs.setType(Material.SIGN_POST);
-							}
-						}
-					}
-				}
+//				Sign sign = (Sign) bs.getState();
+				setWallBase(bs);
+//				if (bs.getRelative(BlockFace.SOUTH).getType() != Material.AIR)
+//				{
+//					bs.setData(data, applyPhysics)
+//					System.out.println("Set WallSign SOUTH");
+//					bs.setType(Material.WALL_SIGN);
+//				} else
+//				{
+//					if (bs.getRelative(BlockFace.NORTH).getType() != Material.AIR)
+//					{
+//						System.out.println("Set WallSign NORTH");
+//						bs.setType(Material.WALL_SIGN);
+//					} else
+//					{
+//						if (bs.getRelative(BlockFace.EAST).getType() != Material.AIR)
+//						{
+//							System.out.println("Set WallSign EAST");
+//							bs.setType(Material.WALL_SIGN);
+//						} else
+//						{
+//							if (bs.getRelative(BlockFace.WEST).getType() != Material.AIR)
+//							{
+//								System.out.println("Set WallSign WEST");
+//								bs.setType(Material.WALL_SIGN);
+//							} else
+//							{
+//								System.out.println("Set SignPost !");
+//								bs.setType(Material.SIGN_POST);
+//							}
+//						}
+//					}
+//				}
 				break;
 			case BED:
 			case BED_BLOCK:
@@ -1530,7 +1572,13 @@ public final class Realms extends JavaPlugin
 			if (position.getWorld() == null) { return null; };
 			if (position.getWorld() == "") { return null; };
 			World world = this.getServer().getWorld(position.getWorld());
-			return new Location(world, position.getX(), position.getY(), position.getZ());
+			if (world != null)
+			{
+				return new Location(world, position.getX(), position.getY(), position.getZ());
+			} else
+			{
+				return null;
+			}
 			
 		} catch (Exception e)
 		{

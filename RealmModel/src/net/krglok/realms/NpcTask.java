@@ -32,7 +32,7 @@ public class NpcTask implements Runnable
 {
 	
     private final Realms plugin;
-	public long NPC_SCHEDULE =  1;  // 10 * 50 ms 
+	public long NPC_SCHEDULE =  3;  // 10 * 50 ms 
 	public long DELAY_SCHEDULE =  5;  // 10 * 50 ms 
     private static int counter = 0;
     
@@ -287,14 +287,22 @@ public class NpcTask implements Runnable
 			    	{
 			    		if (plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getBuildingType() != BuildPlanType.TAVERNE)
 			    		{
-			    			Block b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getPosition()).getBlock();
-			    			lastPos = getNextPos();
-			    			Location taverne = b.getRelative(lastPos).getLocation();
-			    			taverne.setZ(taverne.getZ()+1);
-
-//			    			npc.getNavigator().setTarget(taverne);
-							npc.teleport(taverne, TeleportCause.PLUGIN);
-							npcData.setNpcAction(NpcAction.WORK);
+			    			if (npcData.getWorkBuilding() > 0)
+			    			{
+			    				Location target =  plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getPosition());
+			    				if (target != null)
+			    				{
+//			    					System.out.println(target.toString());
+					    			Block b = target.getBlock();
+					    			lastPos = getNextPos();
+					    			Location taverne = b.getRelative(lastPos).getLocation();
+					    			taverne.setZ(taverne.getZ()+1);
+		
+		//			    			npc.getNavigator().setTarget(taverne);
+									npc.teleport(taverne, TeleportCause.PLUGIN);
+									npcData.setNpcAction(NpcAction.WORK);
+			    				}
+			    			}
 			    		}
 			    	}
 			    }
@@ -382,12 +390,20 @@ public class NpcTask implements Runnable
     		Block b = null;
 	    	if (npcData.getHomeBuilding() > 0)
 	    	{
-	    			b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition()).getBlock();
+	    			Location location = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition());
+	    			if (location != null)
+	    			{
+	    				b = location.getBlock();
+	    			}
     		} else
     		{
     			if (npcData.getSettleId() > 0)
     			{
-    				b = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition()).getBlock();
+    				Location location = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition());
+    				if (location != null)
+    				{
+    					b = location.getBlock();
+    				}
     			}
     		}
     		if (b != null)

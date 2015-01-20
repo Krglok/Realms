@@ -91,6 +91,8 @@ public class CmdSettleBank extends RealmsCommand
     	msg.add(ChatColor.YELLOW+"Bank  "+ChatColor.GREEN+"deposit : "+amount);
     	msg.add("");
 		plugin.getMessageData().printPage(sender, msg, 1);
+		this.settleID = 0;
+		this.amount = 0.0;  //default value
 	}
 
 	@Override

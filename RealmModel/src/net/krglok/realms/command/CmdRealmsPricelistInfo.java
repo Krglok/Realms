@@ -83,7 +83,7 @@ public class CmdRealmsPricelistInfo extends RealmsCommand
 		{
 			ItemPrice item = plugin.getData().getPriceList().get(itemRef);
 			String sLine = "";
-			sLine = ConfigBasis.setStrleft(item.ItemRef()+"_________",10)+":§a "+item.getFormatedBasePrice()+"§0 ";
+			sLine = ConfigBasis.setStrleft(item.ItemRef()+"_________",12)+":§a "+ConfigBasis.setStrformat2(item.getFormatedBasePrice(),6)+"§0 ";
 			msg.add(sLine);
 			
 		}
@@ -101,10 +101,6 @@ public class CmdRealmsPricelistInfo extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (sender.isOp() == false)
-		{
-			return false;
-		}
 		return true;
 	}
 

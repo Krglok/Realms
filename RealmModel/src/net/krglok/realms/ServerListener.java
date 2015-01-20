@@ -102,6 +102,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.util.Vector;
+import org.dynmap.PlayerFaces.FaceType;
 
 /**
  * <pre>
@@ -260,6 +261,11 @@ public class ServerListener implements Listener
     {
     	//        String IP = player.getAddress().getHostString();
 
+    	if (plugin.isEnabled() == false)
+    	{
+			event.getPlayer().sendMessage(ChatColor.RED+"Plugin not Enabled !");
+    		return;
+    	}
     	if (event.getPlayer()== null) return;    	
 		if (event.getPlayer().isOp()) 
 		{
@@ -272,6 +278,12 @@ public class ServerListener implements Listener
 			String msg = "[Realms] Updatecheck : "+plugin.getConfigData().getPluginName()+" Vers.: "+plugin.getConfigData().getVersion();
 			plugin.getLog().log(Level.WARNING,msg);
 		}
+		if (plugin.getConfigData() == null)
+		{
+			plugin.getLog().log(Level.WARNING,"[REALMS] event onPlayerJoin, getConfig == null ");
+			return;
+		}
+
 		if ((event.getPlayer().hasPermission(RealmsPermission.USER.getValue()))
 			|| (event.getPlayer().hasPermission(RealmsPermission.ADMIN.getValue()))
 			)
@@ -289,6 +301,7 @@ public class ServerListener implements Listener
 					owner.setNobleLevel(NobleLevel.COMMONER);
 					owner.firstLogin = getDateTime();
 					owner.lastLogin = getDateTime();
+					owner.initColonist();
 					plugin.getData().getOwners().addOwner(owner);
 					plugin.getData().writeOwner(owner);
 					event.getPlayer().sendMessage("Owner is inilized for you !");
@@ -425,6 +438,20 @@ public class ServerListener implements Listener
 		}
     }
 
+    private String getItemRef(ItemStack itemStack)
+    {
+    	switch (itemStack.getType())
+    	{
+    	case AIR: return itemStack.getType().name();
+    	case SIGN : return Material.SIGN_POST.name();
+    	case WATER : return Material.WATER_BUCKET.name();
+    	case LAVA: return Material.LAVA_BUCKET.name();
+    	default:
+    		return itemStack.getType().name();	
+    	}
+    	
+    	 
+    }
     
     private void clickInventoryBuy(InventoryClickEvent event)
     {
@@ -452,7 +479,8 @@ public class ServerListener implements Listener
 //		case PICKUP_SOME :
 			if (itemStack.getAmount() > 0)
 			{
-    			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
+				String ItemRef = getItemRef(itemStack);
+    			double cost = plugin.getData().getPriceList().getBasePrice(ItemRef);
     			int amount = 1;
     			cost = cost * amount * ConfigBasis.SETTLE_BUY_FACTOR;
     			if (settle.getBank().getKonto() <= cost) 
@@ -463,6 +491,7 @@ public class ServerListener implements Listener
     			{
         			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 8));
         			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
+        			plugin.economy.depositPlayer(player.getName(), cost).toString();
         			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
         	    	if (itemStack.getAmount() == 1)
         	    	{
@@ -494,7 +523,7 @@ public class ServerListener implements Listener
     			{
         			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
         			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
-        			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+        			plugin.economy.depositPlayer(player.getName(), cost).toString();
         			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
     	    		itemStack.setAmount(itemStack.getAmount()-amount);
         			player.updateInventory();
@@ -2165,6 +2194,15 @@ public class ServerListener implements Listener
 
 	private void shotArrow(Block b)
 	{
+//		Location eyelocation = player.getEyeLocation();
+//		Vector vec = player.getLocation().getDirection();
+//		Location frontlocation = eyelocation.add(vec);
+//
+//Entity bullet = player.getWorld().spawnEntity(frontLocation, EntityType.SNOWBALL);
+////Spawns a snowball at front location
+//bullet.setVelocity(frontlocation.getDirection().multiply(4.0));
+////Sets velocity of bullet to the direction that the player is facing.
+
         //Calculate trajectory of the arrow
         Location loc = b.getRelative(BlockFace.UP, 2).getLocation();
 //        Location playerLoc = player.getLocation();
@@ -2428,6 +2466,37 @@ public class ServerListener implements Listener
 
 	}
 	
+	public BlockFace determineDataOfDirection(BlockFace bf)
+	{
+	     if(bf.equals(BlockFace.NORTH))
+	            return BlockFace.SOUTH;
+//	            return (byte)2;
+	     else if(bf.equals(BlockFace.SOUTH))
+	            return BlockFace.NORTH;
+//	             return (byte)3;
+	     else if(bf.equals(BlockFace.WEST))
+	            return BlockFace.EAST;
+//	            return (byte)4;
+	     else if(bf.equals(BlockFace.EAST))
+	            return BlockFace.WEST;
+//	            return (byte)5;
+	     return BlockFace.NORTH;
+	}
+	
+	public BlockFace getFaceFromData(byte value)
+	{
+		switch(value)
+		{
+		case 2 : return BlockFace.NORTH;
+		case 3 : return BlockFace.SOUTH;
+		case 4 : return BlockFace.WEST;
+		case 5 : return BlockFace.EAST;
+		default : 
+		  return BlockFace.NORTH;
+		}
+	}
+
+	
 	/**
 	 * acquire a building for player
 	 * check the reputation
@@ -2437,7 +2506,11 @@ public class ServerListener implements Listener
 	 */
 	private void cmdAcquire(PlayerInteractEvent event, Block b)
 	{
-		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
+//		byte signData = event.getClickedBlock().getData();
+		BlockFace baseFace = determineDataOfDirection(getFaceFromData(event.getClickedBlock().getData()));
+//		System.out.println("[REALMS] Acquire face  :"+baseFace);
+		Location signBase = event.getClickedBlock().getRelative(baseFace).getLocation();
+		String sRegion = findSuperRegionAtPosition(plugin, signBase).getName(); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		Owner owner = plugin.getData().getOwners().getOwner(event.getPlayer().getUniqueId().toString());
 		if (owner == null)
@@ -2454,7 +2527,7 @@ public class ServerListener implements Listener
 //			System.out.println("ACQUIRE Settlement "+settle.getId()+":"+settle.getName());
 			if (settle.getOwnerId() == owner.getId())
 			{
-				System.out.println("ACQUIRE Reputation "+settle.getId()+":"+settle.getReputations().getReputation(event.getPlayer().getName()));
+//				System.out.println("ACQUIRE Reputation "+settle.getId()+":"+settle.getReputations().getReputation(event.getPlayer().getName()));
 				// ein fremder muss genug reputation haben
 				if (settle.getReputations().getReputation(event.getPlayer().getName()) < ReputationStatus.CITIZEN.getValue())
 				{
@@ -2463,8 +2536,11 @@ public class ServerListener implements Listener
 					return;
 				}
 			}
+		} else
+		{
+			event.getPlayer().sendMessage(ChatColor.RED+"Settlement not found !");
 		}
-		Region region = findRegionAtPosition(plugin, b.getLocation());
+		Region region = findRegionAtPosition(plugin, signBase);
 		if (region != null)
 		{
 			double cost = plugin.getServerData().getRegionTypeCost(region.getType());
@@ -2475,20 +2551,28 @@ public class ServerListener implements Listener
 				{
 					EconomyResponse eResponse = plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
 					Building building = plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID());
-					building.setOwnerId(owner.getId());
-					SuperRegion superRegion = plugin.getServerData().getSuperRegion(sRegion);
-					List<String> perms = new ArrayList<String>();
-					superRegion.addMember(event.getPlayer().getName(), perms );
-					plugin.getData().writeBuilding(building);
-					event.getPlayer().sendMessage(ChatColor.GREEN+"You are now owner of this building");
-					event.getPlayer().sendMessage(ChatColor.YELLOW+"Remember to remove the AQUIRE sign !");
-					// ohne settlement können auch gebäude erworben werden
-					// aber dann gibt es auch keine reputation!
-					if (settle != null)
+					if (building != null)
 					{
-						settle.getReputations().addValue(ReputationType.MEMBER, event.getPlayer().getName(), region.getType(), ConfigBasis.VALUABLE_POINT);
-						System.out.println(" REPUTATION MEMBER : "+region.getType()+": 1");
-						event.getPlayer().sendMessage(ChatColor.GREEN+"You gain reputation as citizen of the settlement ");
+						building.setOwnerId(owner.getId());
+						SuperRegion superRegion = plugin.getServerData().getSuperRegion(sRegion);
+						List<String> perms = new ArrayList<String>();
+						superRegion.addMember(event.getPlayer().getName(), perms );
+						plugin.getData().writeBuilding(building);
+						
+						event.getPlayer().sendMessage(ChatColor.GREEN+"You are now owner of this building");
+						event.getPlayer().sendMessage(ChatColor.YELLOW+"Remember to remove the AQUIRE sign !");
+						// ohne settlement können auch gebäude erworben werden
+						// aber dann gibt es auch keine reputation!
+						if (settle != null)
+						{
+							settle.getReputations().addValue(ReputationType.MEMBER, event.getPlayer().getName(), region.getType(), ConfigBasis.VALUABLE_POINT);
+//							System.out.println(" REPUTATION MEMBER : "+region.getType()+": 1");
+							event.getPlayer().sendMessage(ChatColor.GREEN+"You gain reputation as citizen of the settlement ");
+						}
+					} else
+					{
+						event.getPlayer().sendMessage(ChatColor.RED+"Region not found ! region "+region.getID());
+						
 					}
 				} else
 				{
@@ -2499,7 +2583,12 @@ public class ServerListener implements Listener
 			{
 				event.getPlayer().sendMessage(ChatColor.DARK_PURPLE+"You have need "+ConfigBasis.format2(cost)+plugin.economy.currencyNamePlural());
 			}
+		} else
+		{
+//			System.out.println("[REALMS] Acquire location :"+signBase);
+			event.getPlayer().sendMessage(ChatColor.RED+"Region not found !");
 		}
+
 
 	}
 	

@@ -69,14 +69,17 @@ public class CmdOwnerList  extends RealmsCommand
 		msg.add("ID |  |Nobility  |Commonlevel  |   | Player      |  [ "+plugin.getData().getOwners().size()+" ]");
 		for (Owner owner : plugin.getData().getOwners().values())
 		{
-			if (owner.isUser)
+			if (owner != null)
 			{
-	    		msg.add(owner.getId()
-	    				+" | "+owner.getKingdomId()
-	    				+" | "+ChatColor.GOLD+owner.getNobleLevel()
-	    				+" | "+ChatColor.YELLOW+owner.getCommonLevel()
-	    				+" | "+owner.getPlayerName()
-	    				);
+				if (owner.isUser)
+				{
+		    		msg.add(owner.getId()
+		    				+" | "+owner.getKingdomId()
+		    				+" | "+ChatColor.GOLD+owner.getNobleLevel()
+		    				+" | "+ChatColor.YELLOW+owner.getCommonLevel()
+		    				+" | "+owner.getPlayerName()
+		    				);
+				}
 			}
 		}
 		

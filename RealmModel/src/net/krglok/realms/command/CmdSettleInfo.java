@@ -7,6 +7,8 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.npc.GenderType;
+import net.krglok.realms.npc.NPCType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -171,13 +173,16 @@ public class CmdSettleInfo extends RealmsCommand
 				msg.add("Settlers  : "+ChatColor.GOLD+settle.getResident().getSettlerCount());
 				msg.add("Workers  : "+ChatColor.GOLD+settle.getTownhall().getWorkerCount());
 				msg.add("Happiness: "+ChatColor.GOLD+(int) (settle.getResident().getHappiness()));
-				msg.add("Fertility: "+ChatColor.GOLD+(int) (settle.getResident().getFertilityCounter()));
+				int breed = settle.getResident().getNpcList().getSchwanger().size();
+				int breedBase = settle.getResident().getNpcList().getGender(GenderType.WOMAN).size();
+				int child = settle.getResident().getNpcList().getChild().size();
+				msg.add("Fertility: "+ChatColor.GOLD+breed+"/"+breedBase+" child: "+child);
 //				msg.add("Deathrate: "+ChatColor.RED+settle.getResident().getDeathrate());
 				msg.add("Barracks  : "+ChatColor.YELLOW+(settle.getBarrack().getUnitList().size())+"/"+settle.getBarrack().getUnitMax());
 				msg.add("Bank       : "+ChatColor.GREEN+((int) settle.getBank().getKonto()));
 				msg.add("Storage   : "+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax());
-				msg.add("Building   : "+settle.getBuildingList().size());
-				msg.add("Food      : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
+				msg.add("Power     : "+settle.getPower());
+				msg.add("Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT")+"|"+"BREAD "+settle.getWarehouse().getItemList().getValue("BREAD"));
 				msg.add("====================== ");
 				msg.add(ChatColor.ITALIC+"Required Items : "+settle.getRequiredProduction().size());
 				for (String itemRef : settle.getRequiredProduction().keySet())

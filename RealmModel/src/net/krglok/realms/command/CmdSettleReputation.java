@@ -102,7 +102,7 @@ public class CmdSettleReputation extends RealmsCommand
 		
 		for (ReputationData repData : settle.getReputations().values())
 		{
-	    	msg.add(ChatColor.YELLOW+"Get Item: "+ChatColor.GREEN+repData.getRepTyp().name()+":"+repData.getValue());
+	    	msg.add(ChatColor.YELLOW+"Source: "+ChatColor.GREEN+repData.getRepTyp().name()+":"+repData.getValue());
 	    	for (String itemRef : repData.getItemValues().keySet())
 	    	{
 	    		msg.add(ChatColor.WHITE+" + "+itemRef+":"+repData.getItemValues().get(itemRef));

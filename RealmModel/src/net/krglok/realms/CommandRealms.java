@@ -55,6 +55,7 @@ public class CommandRealms
 			new CmdRealmsRecipeList(),
 			new CmdRealmsSettler(),
 			new CmdRealmsSetItem(),
+			new CmdRealmsSettlement(),
 			new CmdRealmsShop(),
 			new CmdRealmsSign(),
 			new CmdRealmsTax(),

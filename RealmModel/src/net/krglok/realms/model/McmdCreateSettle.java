@@ -109,11 +109,11 @@ public class McmdCreateSettle implements iModelCommand
 							buildingType, 
 							regionId, 
 							new LocationData(
-							sRegion.getLocation().getWorld().getName(),
-							sRegion.getLocation().getX(), 
-							sRegion.getLocation().getY(),
-							sRegion.getLocation().getZ()),
-							settlement.getId()
+									region.getLocation().getWorld().getName(),
+									region.getLocation().getX(), 
+									region.getLocation().getY(),
+									region.getLocation().getZ()),
+									settlement.getId()
 							);
 						rModel.getBuildings().addBuilding(building);
 						rModel.getData().writeBuilding(building);
@@ -140,6 +140,7 @@ public class McmdCreateSettle implements iModelCommand
 
 		// minimum settler on create
 		settlement.getResident().setSettlerCount(settlement.getResident().getSettlerMax()/2);
+		
 		settlement.getWarehouse().depositItemValue("WHEAT",settlement.getResident().getSettlerMax()*2 );
 		settlement.getWarehouse().depositItemValue("BREAD",settlement.getResident().getSettlerMax()*2 );
 		settlement.getWarehouse().depositItemValue("WOOD_HOE",settlement.getResident().getSettlerMax());
@@ -151,7 +152,6 @@ public class McmdCreateSettle implements iModelCommand
 		settlement.getWarehouse().depositItemValue("COBBLESTONE",settlement.getResident().getSettlerMax());
 		settlement.getWarehouse().depositItemValue("SOIL",64);
 		settlement.getWarehouse().depositItemValue("WATER",settlement.getResident().getSettlerMax());
-		settlement.setWorkerToBuilding(settlement.getResident().getSettlerCount());
 		settlement.getBank().depositKonto((double) (settlement.getResident().getSettlerCount()*10) , "CREATE",settlement.getId());
 		System.out.println("[REALMS] Model Write Settlement: "+settlement.getName()+" Activ:"+settlement.isActive()+" Enable:"+settlement.isEnabled());
 		rModel.getData().writeSettlement(settlement);

@@ -30,7 +30,7 @@ public enum SettleType
 		this.value = value;
 	}
 	
-	int getValue()
+	public int getValue()
 	{
 		return value;
 	}

@@ -307,8 +307,11 @@ public class DataStorage implements DataInterface
 	 */
 	private Regiment readRegiment(int id)
 	{
-		Regiment regiment = regData.readRegimentData(id); 
-		regiment.setBuildPlan(readTMXBuildPlan(BuildPlanType.FORT, 4, 0));
+		Regiment regiment = regData.readRegimentData(id);
+		if (regiment != null)
+		{
+			regiment.setBuildPlan(readTMXBuildPlan(BuildPlanType.FORT, 4, 0));
+		}
 		return regiment; 
 	}
 
@@ -323,7 +326,11 @@ public class DataStorage implements DataInterface
 		for (String regId : regInit)
 		{
 //			plugin.getMessageData().log("RegimentRead: "+regId );
-			regiments.addRegiment(readRegiment(Integer.valueOf(regId)));
+			Regiment regiment = readRegiment(Integer.valueOf(regId));
+			if (regiment != null)
+			{
+				regiments.addRegiment(regiment);
+			}
 		}
 	}
 	
@@ -687,6 +694,10 @@ public class DataStorage implements DataInterface
 	private void initNpcName()
 	{
 		npcNamen = nameDataStore.readData();
+		if (npcNamen == null)
+		{
+			npcNamen = new NpcNamen();
+		}
 		if (npcNamen.getManNames().isEmpty())
 		{
 			List<String> womanNames = new ArrayList<String>();

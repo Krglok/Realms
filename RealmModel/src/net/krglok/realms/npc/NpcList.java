@@ -240,6 +240,24 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 
+	public NpcList getChild()
+	{
+		NpcList subList = new NpcList();
+		for (NpcData npc : this.values())
+		{
+			// kind des NPC
+			if (npc.isAlive())
+			{
+				// ist kein kind
+				if (npc.getNpcType() == NPCType.CHILD)
+				{
+					subList.putNpc(npc);
+				}
+			}
+		}
+		return subList;
+	}
+	
 	public NpcList getDeathNpc()
 	{
 		NpcList subList = new NpcList();

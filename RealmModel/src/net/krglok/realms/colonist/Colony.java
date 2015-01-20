@@ -541,11 +541,12 @@ public class Colony
 					}
 					settle.getBank().depositKonto(1000.0, "Colonist",settle.getId());
 					System.out.println("Create individual NPC  ");
+					
 					for (Building building : settle.getBuildingList().getSubList(settle.getId(), BuildPlanType.HALL).values())
 					{
 						rModel.getData().makeManager(building, rModel.getData().getNpcName());
 					}
-					Iterator<Building> iBuilding = settle.getBuildingList().getSubList(settle.getId(), BuildPlanType.HALL).values().iterator();
+					Iterator<Building> iBuilding = settle.getBuildingList().getSubList(settle.getId(), BuildPlanType.HOME).values().iterator();
 					if (iBuilding.hasNext())
 					{
 						Building home = iBuilding.next();
@@ -562,11 +563,11 @@ public class Colony
 						rModel.getData().makeFamily(home, rModel.getData().getNpcName(), 0);
 					}
 					System.out.println("Build FULLFILL ");
-					if (iBuilding.hasNext())
-					{
-						Building home = iBuilding.next();
-						rModel.getData().makeFamily(home, rModel.getData().getNpcName(), 0);
-					}
+//					if (iBuilding.hasNext())
+//					{
+//						Building home = iBuilding.next();
+//						rModel.getData().makeFamily(home, rModel.getData().getNpcName(), 0);
+//					}
 					for (NpcData npcData : rModel.getData().getNpcs().values())
 					{
 						if (npcData.getSettleId() == settle.getId())
@@ -577,7 +578,8 @@ public class Colony
 							}
 						}
 					}
-					
+					settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
+	
 					this.cStatus = ColonyStatus.FULFILL;
 				} else
 				{

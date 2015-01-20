@@ -3,33 +3,30 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
 import net.krglok.realms.Realms;
-import net.krglok.realms.TickTask;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Item;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.core.SettleType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CmdRealmsProduce extends RealmsCommand
+public class CmdRealmsSettlement extends RealmsCommand
 {
-	private String search;
 	private int page;
+	private String search ;
 
-	public CmdRealmsProduce( )
+	public CmdRealmsSettlement()
 	{
-		super(RealmsCommandType.REALMS, RealmsSubCommandType.PRODUCTION);
+		super(RealmsCommandType.REALMS, RealmsSubCommandType.SETTLEMENT);
 		description = new String[] {
-				ChatColor.YELLOW+"/realms PRODUCTION {BUILDINGTYPE} ",
-				"Show production details of BuildingType ",
-				"If no BuildingType a List of Buildings shown",
-		    	"  "
-			};
+			ChatColor.YELLOW+"/realms SETTLEMENT {SettlementType} ",
+			"Show construction details of BuildingType ",
+			"If no BuildingType a List of Buildings shown",
+			" "
+		};
 		requiredArgs = 0;
 		page = 1;
 		search = "";
@@ -46,6 +43,7 @@ public class CmdRealmsProduce extends RealmsCommand
 		default:
 			break;
 		}
+
 	}
 
 	@Override
@@ -71,21 +69,21 @@ public class CmdRealmsProduce extends RealmsCommand
 	{
 		return new String[] { String.class.getName() };
 	}
-
+	
 	private String toLine(String s, String value)
 	{
 		s = s + " "+ConfigBasis.setStrleft(value+"________", 12);
 		return s;
 	}
 
-	private ArrayList<String> BuildingSection(int von, int bis, ChatColor color)
+	private ArrayList<String> SettlementSection(int von, int bis, ChatColor color)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
     	int index = 0; 
     	String line = "";
-    	for (BuildPlanType bType : BuildPlanType.values())
+    	for (SettleType bType : SettleType.values())
     	{
-    		if ((bType.getValue() > von) && (bType.getValue() < bis) )
+    		if ((bType.getValue() >= von) && (bType.getValue() <= bis) )
     		{
     			if (index >= 4)
     			{
@@ -106,35 +104,42 @@ public class CmdRealmsProduce extends RealmsCommand
 
     	return msg;
 	}
-	
+
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
     	if (search == "")
     	{
-        	msg.addAll(BuildingSection(200, 300,ChatColor.GREEN));
-        	msg.addAll(BuildingSection(300, 400,ChatColor.LIGHT_PURPLE));
+        	msg.addAll(SettlementSection(10, 99,ChatColor.GOLD));
+        	msg.addAll(SettlementSection(100, 399,ChatColor.GREEN));
+        	msg.addAll(SettlementSection(500, 600,ChatColor.LIGHT_PURPLE));
     		
     	} else
     	{
-        	msg.add(ChatColor.GREEN+"BuildPlan production requirements "+ChatColor.YELLOW+search);
-        	RegionType region = plugin.stronghold.getRegionManager().getRegionType(search);
+        	msg.add(ChatColor.GREEN+"Minimum requirements for founding a  "+ChatColor.YELLOW+search);
+//        	String pathName = plugin.stronghold.getDataFolder().getPath();
+//            File regionFolder = new File(pathName, "RegionConfig");
+//        	RegionConfig region = StrongholdTools.getRegionConfig(regionFolder.getAbsolutePath(), search+".yml");
+        	SuperRegionType region = plugin.stronghold.getRegionManager().getSuperRegionType((search));
         	if (region != null)
         	{
-            	msg.add(ChatColor.GREEN+"Required Input :");
+            	msg.add(ChatColor.GREEN+"Radius    : "+ChatColor.YELLOW+region.getRawRadius());
+            	msg.add(ChatColor.GREEN+"MaxPower  : "+ChatColor.YELLOW+region.getMaxPower());
+            	msg.add(ChatColor.GREEN+"DailyPower: "+ChatColor.YELLOW+region.getDailyPower());
+            	msg.add(ChatColor.GREEN+"Required Building :");
             	int index = 0; 
         		String line = "";
-            	for (ItemStack item : region.getUpkeep())
+            	for (String item : region.getRequirements().keySet())
             	{
             		index++;
             		if (index <= 3)
             		{
-            			line = line + item.getType().name()+" : "+item.getAmount()+" | ";
+            			line = line + item+" : "+region.getRequirements().get(item)+" | ";
             		} else
             		{
-            			msg.add(ChatColor.RED+line);
-            			line = item.getType().name()+" : "+item.getAmount()+" | ";
+            			msg.add(ChatColor.YELLOW+line);
+            			line = item+" : "+region.getRequirements().get(item)+" | ";
             			index = 1;
             		}
             	}
@@ -143,30 +148,32 @@ public class CmdRealmsProduce extends RealmsCommand
         			msg.add(ChatColor.YELLOW+line);
         		}
             	msg.add(" ");
-            	msg.add(ChatColor.GREEN+"Output Resources:");
+            	msg.add(ChatColor.GREEN+"Allowed Settlement in place :");
             	index = 0; 
         		line = "";
-            	for (ItemStack item : region.getOutput())
+            	for (String item : region.getChildren())
             	{
             		index++;
             		if (index <= 3)
             		{
-            			line = line + item.getType().name()+" : "+item.getAmount()+" | ";
+            			line = line + item+" | ";
             		} else
             		{
             			msg.add(ChatColor.LIGHT_PURPLE+line);
-            			line = item.getType().name()+" : "+item.getAmount()+" | ";
+            			line = item+" | ";
             			index = 1;
             		}
             	}
         		if (line.length() > 0)
         		{
-        			msg.add(ChatColor.YELLOW+line);
+        			msg.add(ChatColor.LIGHT_PURPLE+line);
         		}
             	msg.add(" ");
+            	msg.add(ChatColor.GREEN+"needed for ASSUME in Realms:");
+            	msg.add(ChatColor.GREEN+"MoneyCost: "+ChatColor.YELLOW+region.getMoneyRequirement());
         	} else
         	{
-            	msg.add(ChatColor.RED+"Building not found or not for production");
+            	msg.add(ChatColor.RED+"Building not found");
             	msg.add(ChatColor.GREEN+"Try command /realms BUILDING (without parameter)");
         		
         	}
@@ -178,6 +185,7 @@ public class CmdRealmsProduce extends RealmsCommand
 		page = 1;
 		msg.clear();
 		search = "";
+
 	}
 
 	@Override

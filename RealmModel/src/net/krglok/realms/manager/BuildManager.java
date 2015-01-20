@@ -318,26 +318,6 @@ public class BuildManager
 			doCleanStep();
 			doCleanStep();
 			// buildfaster for test only !!
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			// buildfaster for test only !!
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			doCleanStep();
-			// buildfaster for test only !!
 			
 		}
 		// ein level oberhalb mit abraeumen

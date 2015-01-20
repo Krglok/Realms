@@ -65,6 +65,7 @@ public class Owner
 		sales = 0;
 		msg = new ArrayList<String>();
 		achivList = new AchivementList();
+		isUser = false;
 	}
 
 	public Owner(String playerName,	Boolean isNPC)
@@ -79,6 +80,7 @@ public class Owner
 		sales = 0;
 		msg = new ArrayList<String>();
 		achivList = new AchivementList();
+		isUser = false;
 	}
 	
 	public Owner(			
@@ -101,6 +103,7 @@ public class Owner
 		sales = 0;
 		msg = new ArrayList<String>();
 		achivList = new AchivementList();
+		isUser = false;
 	}
 	
 	public static Owner initDefaultOwner()
