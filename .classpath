@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="D:/GIT/OwnPlugins/Realms/forms-1.3.0.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/HeroStronghold.jar" sourcepath="/HeroStronghold/src"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Vault.jar"/>
-	<classpathentry kind="lib" path="D:/GIT/PluginRef/Citizens.jar" sourcepath="D:/GIT/OwnPlugins/Citizens2"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/Citizens.jar" sourcepath="D:/GIT/OwnPlugins/CitizensAPI"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/citizensapi-2.0.11-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Shopkeepers.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/ChestShop.jar"/>

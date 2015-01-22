@@ -736,6 +736,13 @@ public class ServerListener implements Listener
 	    		}
 	    		return;
 	    	}
+
+//	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
+//	    	{
+////    			event.getPlayer().sendMessage("You hold a Blazerod :");
+//	    		doDoortest(event, b);
+//	    		return;
+//	    	}
 	    	
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BLAZE_ROD)
 	    	{
@@ -2419,6 +2426,57 @@ public class ServerListener implements Listener
 			}
 			
 		}
+	}
+	
+	
+	private void doDoortest(PlayerInteractEvent event, Block b)
+	{
+		System.out.println(" door check ");
+		BlockFace[] blockFaces = {BlockFace.EAST, BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH};
+		Block base = b.getLocation().getBlock().getRelative(BlockFace.UP);
+		for(BlockFace bf : blockFaces) 
+		{
+		    Block bu = base.getRelative(bf);
+		    if((bu.getType() == Material.WOODEN_DOOR)) 
+		    {
+		    	byte openData = 0x4;
+		    	byte doorData = (byte) (bu.getData());
+				System.out.println(" door found "+ (doorData & 0x4));
+				if ((doorData & 0x4) == 0x4)
+				{
+					doorData = (byte) (doorData & 0x3);
+				} else
+				{
+					doorData = (byte) (doorData | 0x7);
+					
+				}
+//		    	doorData = (byte) (doorData | openData);
+				System.out.println(" door open "+doorData);
+		    	bu.setData(doorData);
+//		    	bu.setData(openData);
+//		    	BlockState state =  bu.getState();
+//		    	Openable o = (Openable) state.getData();
+//		    	o.setOpen(true); 
+//		    	state.setData((MaterialData) o);
+//		    	state.update();w
+		    	
+			    if((bu.getRelative(BlockFace.UP).getType() == Material.WOODEN_DOOR)) 
+			    {
+			    	doorData = (byte) (bu.getRelative(BlockFace.UP).getData());
+			    	if ((doorData & 0x1) == 1)
+			    	{
+			    		doorData = 0x9;
+			    	} else
+			    	{
+			    		doorData = 0x8;
+			    	}
+					System.out.println(" door hing "+doorData);
+			    	bu.getRelative(BlockFace.UP).setData(doorData);
+			    }
+				System.out.println(" set door state ");
+		    }
+		}
+
 	}
 	
 	private void doCatapult(PlayerInteractEvent event, Block b)

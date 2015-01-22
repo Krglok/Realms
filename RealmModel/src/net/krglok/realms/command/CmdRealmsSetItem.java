@@ -1,5 +1,7 @@
 package net.krglok.realms.command;
 
+import java.util.ArrayList;
+
 import net.krglok.realms.Realms;
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
@@ -84,8 +86,20 @@ public class CmdRealmsSetItem extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		// set itemRef / amount in warehopuse
-		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
-		plugin.getRealmModel().OnCommand(cmd);
+		if (isMaterial(itemRef))
+		{
+			McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
+			plugin.getRealmModel().OnCommand(cmd);
+			sender.sendMessage(ChatColor.RED+"Withdraw "+itemRef+" : "+amount);
+			
+		} else
+		{
+			sender.sendMessage(ChatColor.RED+"NOT a valid Material name !");
+		}
+		this.itemRef = "";
+		this.settleID = 0;
+		this.amount = 0;  //default value
+
 	}
 
 	@Override
@@ -102,16 +116,16 @@ public class CmdRealmsSetItem extends RealmsCommand
 
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
-				if (Material.getMaterial(itemRef) == null)
+				if (isMaterial(itemRef) == false)
 				{
 					errorMsg.add("Item  not found !!!");
-					errorMsg.add("The MaterialName must be used !");
+					errorMsg.add("A valid MaterialName must be used !");
 					return false;
 				}
 				if (amount < 0)
 				{
 					errorMsg.add("The amount must be positive ");
-					errorMsg.add("better use /settle GET [ID] [item] [amount] ");
+					errorMsg.add("better use /realms GETITEM [ID] [item] [amount] ");
 					return false;
 					
 				}

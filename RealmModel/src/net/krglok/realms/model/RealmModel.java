@@ -439,13 +439,13 @@ public class RealmModel
 //		}
 //	}
 
-	public void OnTrade()
+	public void OnTrade(String worldName)
 	{
 //		System.out.println("OnTrade : "+modelStatus);
 		switch (modelStatus)
 		{
 		case MODEL_ENABLED :
-			modelStatus = initTradeQueue();
+			modelStatus = initTradeQueue(worldName);
 			return;
 		case MODEL_TRADE :
 			modelStatus = nextTradeQueue();
@@ -603,6 +603,7 @@ public class RealmModel
 			switch (modelStatus)
 			{
 			case MODEL_ENABLED :
+//				System.out.println("[Realms] onDay");
 				doTrap();
 				break;
 			default :
@@ -614,7 +615,7 @@ public class RealmModel
 			}
 			isDay = true;
 		} catch (Exception e) {
-			messageData.log("[Realms] OnNight exception "+ e.getMessage());
+			messageData.log("[Realms] OnDay exception "+ e.getMessage());
 			System.out.println("[Realms] ERROR exception "+ e.getMessage());
 			e.printStackTrace(System.out);
 			System.out.println("[Realms] Model Disabled ! ");
@@ -732,11 +733,11 @@ public class RealmModel
 		return ModelStatus.MODEL_ENABLED;
 	}
 
-	private ModelStatus initTradeQueue()
+	private ModelStatus initTradeQueue(String worldName)
 	{
 		for (Settlement settle : settlements.values())
 		{
-			if (settle.isEnabled())
+			if (settle.isEnabled() && (settle.getPosition().getWorld().equalsIgnoreCase(worldName)))
 			{
 				tradeQueue.add(settle);
 			}
@@ -750,7 +751,14 @@ public class RealmModel
 		{
 			return ModelStatus.MODEL_ENABLED;
 		}
-//		Settlement settle = tradeQueue.get(0);
+		Settlement settle = tradeQueue.get(0);
+		if (settle != null)
+		{
+			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
+			messageData.log("worker to building");
+			System.out.println("[REALMS] worker to building "+settle.getId());
+//			settle.setWorkerToBuilding(workerSum);
+		}
 
 		
 		tradeQueue.remove(0);
@@ -794,8 +802,8 @@ public class RealmModel
 		messageData.log("Building enable");
 		settle.setWorkerNeeded();
 		messageData.log("worker needed");
-		settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-		messageData.log("worker to building");
+//		settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
+//		messageData.log("worker to building");
 		settle.doHappiness(data);
 		messageData.log("happiness");
 		settle.doProduce(server, data);

@@ -582,7 +582,7 @@ public final class Realms extends JavaPlugin
 				Block bottom = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
 				Block top = bottom.getRelative(BlockFace.UP, 1);
 				Byte data1 = (0x8); //not sure on this syntax...
-				Byte data2 = (0x4); //not sure on this syntax...
+				Byte data2 = (0x1); //not sure on this syntax...0x1 = north/closed
 				top.setTypeIdAndData(64, data1, false);
 				bottom.setTypeIdAndData(64, data2, false);
 				break;

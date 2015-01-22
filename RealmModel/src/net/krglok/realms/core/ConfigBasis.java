@@ -528,6 +528,10 @@ public class ConfigBasis implements ConfigInterface
 				}
 			}
 		}
+		if (value == 0)
+		{
+			value = ConfigBasis.defaultItemMax(settleType);
+		}
 		return value;
 	}
 

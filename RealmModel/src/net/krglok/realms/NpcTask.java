@@ -16,8 +16,10 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.SettlerTrait;
 
 /**
  * Die schedule zeit ist absichtlich versetzt gegenüber dem realmSchedule.
@@ -135,62 +137,31 @@ public class NpcTask implements Runnable
 		NPC npc = CitizensAPI.getNPCRegistry().getById(npcData.spawnId);
 		if (npc.isSpawned() == false) 
 		{ 
-//			System.out.println("[REALMS] Npc Action: Citizen not spawned "+npc.getId());
 			return; 
 		}
+
 		Location npcRefpos = plugin.makeLocation(npcData.getLocation());
-//		if (npcData.getId() > 100)
-//		{
-//			if (npcRefpos != null)
-//			{
-//				System.out.println("NPC "+npcData.getId()+":"+npcData.getNpcType()+":"+npcData.getNpcAction()+"|"+npc.getId()+"|"+npcRefpos.getWorld().getTime());
-//			} else
-//			{
-//				System.out.println("NPC "+npcData.getId()+":"+npcData.getNpcType()+":"+npcData.getNpcAction()+"| NULL");
-//			}
-//		}
-//		npcRefpos = null;
 		switch (npcData.getNpcAction())
 		{
 		case NONE:
-//			if (npcData.getId() < 10)
-//			{
-//				System.out.println("[REALMS] next Npc Action: "+npcData.getNpcAction());
-//			}
 			npcData.setNpcAction(NpcAction.STARTUP);
 			setHomePosition(npcData);
 			break;
 		case STARTUP:
-//			if (npcData.getId() < 10)
-//			{
-//				System.out.println("[REALMS] next Npc Action: "+npcData.getNpcAction());
-//			}
 			if (npc != null)
 			{
-				Location location = plugin.makeLocation(npcData.getLocation());
-				if (location != null)
-				{
-//					if (npcData.getId() < 10)
-//					{
-//						System.out.println("[REALMS] next Npc Location: "+LocationData.toString(npcData.getLocation()));
-//					}
-//					npc.getTrait(Waypoints.class).
-					location.setZ(location.getZ()+1);
-					npc.getTrait(Anchors.class).addAnchor("Home", location);
-					npc.teleport(location, TeleportCause.PLUGIN);
-				} else
-				{
-					System.out.println("[REALMS] Location for Npc Action: NULL");
-				}
-				
+				doTeleportHome(npc, npcData);				
 				npcData.setNpcAction(NpcAction.IDLE);
 			}
 			break;
 		case HOME:
 			npcRefpos = plugin.makeLocation(npcData.getLocation());
-			if (npcRefpos == null ) { return; }
-		    if ((npcRefpos.getWorld().getTime() >= 10000)
-			    	&& (npcRefpos.getWorld().getTime() < 18000)
+			if (npcRefpos == null ) 
+			{ 
+				npcRefpos = npc.getEntity().getLocation();
+			}
+		    if ((npcRefpos.getWorld().getTime() >= 0)
+			    	&& (npcRefpos.getWorld().getTime() < 6000)
 			    	)
 		    {
 				npcData.setNpcAction(NpcAction.IDLE);
@@ -198,7 +169,10 @@ public class NpcTask implements Runnable
 			break;
 		case WORKTAVERNE:
 			npcRefpos = plugin.makeLocation(npcData.getLocation());
-			if (npcRefpos == null ) { return; }
+			if (npcRefpos == null ) 
+			{ 
+				npcRefpos = npc.getEntity().getLocation();
+			}
 		    if (npcRefpos.getWorld().getTime() > 18000)
 		    {
 	    		Block b = null;
@@ -225,89 +199,69 @@ public class NpcTask implements Runnable
 			break;
 		case WORK:
 			npcRefpos = plugin.makeLocation(npcData.getLocation());
-			if (npcRefpos == null ) { return; }
-		    if (npcRefpos.getWorld().getTime() > 12000)
+			if (npcRefpos == null ) 
+			{ 
+				npcRefpos = npc.getEntity().getLocation();
+			}
+		    if (npcRefpos.getWorld().getTime() > 10000)
 		    {
-	    		Block b = null;
-		    	if (npcData.getHomeBuilding() > 0)
+		    	if (npcData.getNpcType() == NPCType.MANAGER)
 		    	{
-		    			b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition()).getBlock();
-	    		} else
-	    		{
-	    			if (npcData.getSettleId() > 0)
-	    			{
-	    				b = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition()).getBlock();
-	    			}
-	    		}
-	    		if (b != null)
-	    		{
-	    			lastPos = getNextPos();
-	    			Location home = b.getRelative(lastPos).getLocation();
-	    			home.setZ(home.getZ()+1);
-//	    			npc.getNavigator().setTarget(home);
-					npc.teleport(home, TeleportCause.PLUGIN);
-					npcData.setNpcAction(NpcAction.IDLE);
-	    		}
-		    }			
+		    		doWorkManager(npc, npcData);
+		    		return;
+		    	}
+		    	
+		    	doWork(npc, npcData);
+		    	return;
+		    }
 			break;
 		case TREASURE :
-			
+			npcRefpos = plugin.makeLocation(npcData.getLocation());
+			if (npcRefpos == null ) 
+			{ 
+				npcRefpos = npc.getEntity().getLocation();
+			}
+			    if (npcRefpos.getWorld().getTime() > 10000)
+			    {
+			    	doTreasure(npc, npcData);
+		    }
 			break;
 		default :
 			npcRefpos = plugin.makeLocation(npcData.getLocation());
-			if (npcRefpos == null ) { return; }
+			if (npcRefpos == null ) 
+			{ 
+				npcRefpos = npc.getEntity().getLocation();
+			}
 			
 			// Taverne Worker
-		    if ((npcRefpos.getWorld().getTime() >= 10000)
-		    	&& (npcRefpos.getWorld().getTime() < 18000)
-		    	)
-		    {
-
-		    	if (npcData.getWorkBuilding() > 0)
-		    	{
-		    		if (plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getBuildingType() == BuildPlanType.TAVERNE)
-		    		{
-		    			Block b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getPosition()).getBlock();
-		    			lastPos = getNextPos();
-		    			Location taverne = b.getRelative(lastPos).getLocation();
-		    			taverne.setZ(taverne.getZ()+1);
-//		    			npc.getNavigator().setTarget(taverne);
-						npc.teleport(taverne, TeleportCause.PLUGIN);
-						npcData.setNpcAction(NpcAction.WORKTAVERNE);
-		    		}
-		    	}
-		    }
 		    // production Worker
 		    if ((npcRefpos.getWorld().getTime() >= 1000)
 			    	&& (npcRefpos.getWorld().getTime() < 11000)
 			    	)
 			    {
-
+			    	if (npcData.getNpcType() == NPCType.MANAGER)
+			    	{
+			    		doIdleManager(npc, npcData);
+			    		return;
+			    	}
 			    	if (npcData.getWorkBuilding() > 0)
 			    	{
 			    		if (plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getBuildingType() != BuildPlanType.TAVERNE)
 			    		{
 			    			if (npcData.getWorkBuilding() > 0)
 			    			{
-			    				Location target =  plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getPosition());
-			    				if (target != null)
-			    				{
-//			    					System.out.println(target.toString());
-					    			Block b = target.getBlock();
-					    			lastPos = getNextPos();
-					    			Location taverne = b.getRelative(lastPos).getLocation();
-					    			taverne.setZ(taverne.getZ()+1);
-		
-		//			    			npc.getNavigator().setTarget(taverne);
-									npc.teleport(taverne, TeleportCause.PLUGIN);
-									npcData.setNpcAction(NpcAction.WORK);
-			    				}
+			    				doIdleWorkStation(npc, npcData);
+			    				return;
 			    			}
 			    		}
+			    	} else
+			    	{
+			    		doIdleTreasue(npc, npcData);
+			    		return;
 			    	}
 			    }
-		    if ((npcRefpos.getWorld().getTime() >= 13000)
-			    	&& (npcRefpos.getWorld().getTime() < 20000)
+		    if ((npcRefpos.getWorld().getTime() >= 16000)
+			    	&& (npcRefpos.getWorld().getTime() < 23999)
 			    	)
 			    {
 
@@ -315,17 +269,22 @@ public class NpcTask implements Runnable
 			    			&& (npcData.getNpcAction() != NpcAction.TAVERNE)
 			    		)
 			    	{
-			    		if (plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getId() > 0)
-			    		{
-			    			Block b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition()).getBlock();
-			    			lastPos = getNextPos();
-			    			Location home = b.getRelative(lastPos).getLocation();
-			    			home.setZ(home.getZ()+1);
-
-//			    			npc.getNavigator().setTarget(taverne);
-							npc.teleport(home, TeleportCause.PLUGIN);
-							npcData.setNpcAction(NpcAction.HOME);
-			    		}
+//			    		if (npcData.getHomeBuilding() > 0)
+//			    		{
+//				    		if (plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getId() > 0)
+//				    		{
+//				    			Block b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition()).getBlock();
+//				    			lastPos = getNextPos();
+//				    			Location home = b.getRelative(lastPos).getLocation();
+//				    			home.setZ(home.getZ()+1);
+//	
+//				    			npc.getNavigator().setTarget(home);
+//				    			npc.getNavigator().setPaused(false);
+//	//							npc.teleport(home, TeleportCause.PLUGIN);
+//								npcData.setNpcAction(NpcAction.HOME);
+//				    		}
+//			    		}
+			    		return;
 			    	}
 			    }
 //			npc.set
@@ -431,4 +390,144 @@ public class NpcTask implements Runnable
 		}
 	}
 
+	private void doIdleManager(NPC npc, NpcData npcData)
+	{
+		if (npcData.getSettleId() > 0)
+		{
+			Location target = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition());
+			if (target != null)
+			{
+//				System.out.println(target.toString());
+    			Block b = target.getBlock();
+    			lastPos = getNextPos();
+    			Location taverne = b.getRelative(lastPos).getLocation();
+    			taverne.setZ(taverne.getZ()+1);
+    			npc.getNavigator().setTarget(taverne);
+    			npc.getNavigator().setPaused(false);
+//				npc.teleport(taverne, TeleportCause.PLUGIN);
+				npcData.setNpcAction(NpcAction.WORK);
+//				System.out.println(npc.getId()+" NPC "+npcData.getNpcType()+" walk to WORK ");
+			}
+		}
+		
+	}
+	
+	private void doIdleWorkStation(NPC npc, NpcData npcData)
+	{
+		Location target =  plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getPosition());
+		if (target != null)
+		{
+//			System.out.println(target.toString());
+			Block b = target.getBlock();
+			lastPos = getNextPos();
+			Location taverne = b.getRelative(lastPos).getLocation();
+			taverne.setZ(taverne.getZ()+1);
+
+			npc.getNavigator().setTarget(taverne);
+			npc.getNavigator().setPaused(false);
+//			npc.teleport(taverne, TeleportCause.PLUGIN);
+			npcData.setNpcAction(NpcAction.WORK);
+		}
+	}
+	
+	private void doIdleTreasue(NPC npc, NpcData npcData)
+	{
+		npc.getTrait(SettlerTrait.class).setTargetLocation(npc.getEntity().getLocation());
+		npc.getTrait(SettlerTrait.class).setNavi(false);
+		npc.getTrait(Waypoints.class).setWaypointProvider("wander");
+//		System.out.println(npc.getId()+" NPC "+npc.getName()+" set wander ");
+		npcData.setNpcAction(NpcAction.TREASURE);
+	}
+	
+	private void doTeleportHome(NPC npc, NpcData npcData)
+	{
+		Location location = plugin.makeLocation(npcData.getLocation());
+		if (location != null)
+		{
+			location.setZ(location.getZ()+1);
+			npc.getTrait(Anchors.class).addAnchor("Home", location);
+			npc.teleport(location, TeleportCause.PLUGIN);
+		} else
+		{
+			System.out.println("[REALMS] Location for Npc Action: NULL");
+		}
+	}
+	
+	private void doWorkManager(NPC npc, NpcData npcData)
+	{
+		if (npcData.getSettleId() > 0)
+		{
+			Location target = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition());
+			if (target != null)
+			{
+//				System.out.println(target.toString());
+    			Block b = target.getBlock();
+    			lastPos = getNextPos();
+    			Location taverne = b.getRelative(lastPos).getLocation();
+    			taverne.setZ(taverne.getZ()+1);
+    			npc.getNavigator().setTarget(taverne);
+    			npc.getNavigator().setPaused(false);
+//				npc.teleport(taverne, TeleportCause.PLUGIN);
+				npcData.setNpcAction(NpcAction.HOME);
+//				System.out.println(npc.getId()+" NPC "+npcData.getNpcType()+" walk to HOME "+target.getWorld().getTime());
+				return;
+			}
+		}
+		
+	}
+	
+	private void doWork(NPC npc, NpcData npcData)
+	{
+		Block b = null;
+    	if (npcData.getHomeBuilding() > 0)
+    	{
+    			b = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition()).getBlock();
+		} else
+		{
+			if (npcData.getSettleId() > 0)
+			{
+				b = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition()).getBlock();
+			}
+		}
+		if (b != null)
+		{
+			lastPos = getNextPos();
+			Location home = b.getRelative(lastPos).getLocation();
+			home.setZ(home.getZ()+1);
+			npc.getNavigator().setTarget(home);
+			npc.getNavigator().setPaused(false);
+//			npc.teleport(home, TeleportCause.PLUGIN);
+			npcData.setNpcAction(NpcAction.IDLE);
+		}
+		
+	}
+	
+	
+	private void doTreasure(NPC npc, NpcData npcData)
+	{
+//    	if (npc.getTrait(SettlerTrait.class).isNavi() == false)
+//    	{
+			npc.getTrait(Waypoints.class).setWaypointProvider("linear");
+			Location home = npc.getTrait(SettlerTrait.class).getTargetLocation();
+			if (home != null)
+			{
+				npc.getNavigator().setTarget(home);
+				npc.getNavigator().setPaused(false);
+			} else
+			{
+				if (npcData.getSettleId() > 0)
+				{
+					home = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition());
+					if (home != null)
+					{
+						npc.teleport(home, TeleportCause.PLUGIN);
+					}
+				}
+			}
+			npcData.setNpcAction(NpcAction.HOME);
+//			System.out.println(npc.getId()+" NPC "+npc.getName()+" Treasure Home set linear ");
+//    	}
+		
+	}
+	
 }

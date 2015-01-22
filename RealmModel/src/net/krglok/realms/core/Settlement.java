@@ -549,6 +549,7 @@ public class Settlement //implements Serializable
 	{
 		this.buildingList = buildingList;
 		this.checkBuildingType();
+
 	}
 
 	/**
@@ -631,7 +632,7 @@ public class Settlement //implements Serializable
 	
 	/**
 	 * recalculate settlement parameter based on buildings
-	 * - Warehouse.maxItem
+	 * - Warehouse.maxItem from actual buildingList with  ConfigBasis.getWarehouseItemMax
 	 * - Barrack.maxUnit
 	 * - Trader.maxOrder
 	 */

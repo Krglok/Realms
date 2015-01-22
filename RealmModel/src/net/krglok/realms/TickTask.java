@@ -156,6 +156,9 @@ public class TickTask implements Runnable
 							{
 								System.out.println("[Realms] Production "+isProduction+" on "+world.getName());
 							}
+						} else
+						{
+							
 						}
 					}
 					plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getTime());
@@ -165,7 +168,9 @@ public class TickTask implements Runnable
 					isGateClose.put(world.getName(),false);
 				}
 				// start Day Event
-				if( (world.getTime() >= 23000))
+				if( (world.getTime() >= 0)
+					&& (world.getTime() <= 1999)
+						)
 				{
 		//			System.out.print("Day:"+plugin.getServer().getWorlds().get(0).getTime());
 					if (isGateOpen.get(world.getName()) == false)
@@ -176,7 +181,7 @@ public class TickTask implements Runnable
 						isGateClose.put(world.getName(), false);
 						if (isProduction)
 						{
-							plugin.getRealmModel().OnTrade(); 
+							plugin.getRealmModel().OnTrade(world.getName()); 
 							plugin.getLog().info("[Realms] Trader calculation :"+world.getName());
 						}
 					}

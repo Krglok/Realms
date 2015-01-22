@@ -281,7 +281,7 @@ public class RealmLoopTest
 			{
 //				System.out.println("Day");
 				rModel.OnProduction("SteamHaven");
-				rModel.OnTrade();
+				rModel.OnTrade("SteamHaven");
 			} 
 			doCleanRequest(rModel);
 			doBuildRequest(rModel);

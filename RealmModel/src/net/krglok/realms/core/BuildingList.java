@@ -350,7 +350,7 @@ public class BuildingList  extends HashMap<String,Building>
 		{
 			if (building.isEnabled())
 			{
-			result = result + ConfigBasis.getWarehouseItemMax(building);
+				result = result + ConfigBasis.getWarehouseItemMax(building);
 			}
 		}
 		

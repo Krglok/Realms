@@ -6,14 +6,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.Openable;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import net.citizensnpcs.api.astar.pathfinder.BlockExaminer;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.util.DataKey;
+import net.citizensnpcs.npc.ai.CitizensNavigator.DoorExaminer;
 import net.citizensnpcs.trait.LookClose;
+import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.CommandRealms;
 import net.krglok.realms.NpcManager;
 import net.krglok.realms.Realms;
@@ -47,6 +56,7 @@ public class SettlerTrait extends Trait
 	private LocationData locationData;
 	private Location targetLocation;
 	private ArrayList<String> seenPlayer;
+	private boolean isNavi = true;
 
 	public SettlerTrait()
 	{
@@ -62,6 +72,7 @@ public class SettlerTrait extends Trait
 		this.locationData = null;
 		this.targetLocation = null;
 		this.seenPlayer = new ArrayList<String>();
+		this.isNavi = true;
 	}
 
 
@@ -121,6 +132,42 @@ public class SettlerTrait extends Trait
 		this.unitType = unitType;
 	}
 	
+	/**
+	 * @return the targetLocation
+	 */
+	public Location getTargetLocation()
+	{
+		return targetLocation;
+	}
+
+
+	/**
+	 * @param targetLocation the targetLocation to set
+	 */
+	public void setTargetLocation(Location targetLocation)
+	{
+		this.targetLocation = targetLocation;
+	}
+
+
+	/**
+	 * @return the isNavi
+	 */
+	public boolean isNavi()
+	{
+		return isNavi;
+	}
+
+
+	/**
+	 * @param isNavi the isNavi to set
+	 */
+	public void setNavi(boolean isNavi)
+	{
+		this.isNavi = isNavi;
+	}
+
+
 	// Here you should load up any values you have previously saved.
 	// This does NOT get called when applying the trait for the first time, only
 	// loading onto an existing npc at server start.
@@ -172,6 +219,7 @@ public class SettlerTrait extends Trait
 			event.getClicker().sendMessage("Hallo,my name is "+this.getNPC().getFullName());
 			event.getClicker().sendMessage("my Job is "+this.getNPC().getTrait(SettlerTrait.class).getsNPCType());
 			NpcData npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
+			if (npcData == null) { return; }
 			Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
 			if (settle != null)
 			{
@@ -181,8 +229,8 @@ public class SettlerTrait extends Trait
 				event.getClicker().sendMessage("I have no home and hiking around ");
 			}
 			event.getClicker().sendMessage("my name is "+this.getNPC().getFullName()+" | "+npcData.getAge()+" years old "+npcData.getGender());
-			event.getClicker().sendMessage("my job is "+npcData.getNpcAction()+" as "+npcData.getNpcType()+" : pregnant "+npcData.isSchwanger());
-
+			event.getClicker().sendMessage(this.getNPC().getId()+":"+npcData.getId()+" job "+npcData.getNpcAction()+" as "+npcData.getNpcType()+" : pregnant "+npcData.isSchwanger());
+			
 			npc.getTrait(LookClose.class).lookClose(true);
 			return;
 		}
@@ -315,5 +363,217 @@ public class SettlerTrait extends Trait
 	{
 		
 	}
+	
+	@EventHandler
+	public void onNaviStuck(net.citizensnpcs.api.ai.event.NavigationStuckEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+			return;
+		} else
+		{
+			if (this.npcType == NPCType.MANAGER)
+			{
+				if (isNavi)
+				{
+					Location actual = event.getNPC().getEntity().getLocation();
+					if (isCloseDoor(actual))
+					{
+						System.out.println(event.getNPC().getId()+" NPC "+" door opened ");
+					} else
+					{
+						System.out.println(event.getNPC().getId()+" NPC "+" Stuck teleport");
+						if (targetLocation != null)
+						{
+							event.getNPC().teleport(targetLocation, TeleportCause.PLUGIN);
+						}
+					}
+				} else
+				{
+					if (this.npcType == NPCType.MANAGER)
+					{
+						System.out.println(event.getNPC().getId()+" NPC "+" Stuck wander");
+					}
+				}
+			}
+		}
+	
+	}
 
+	@EventHandler
+	public void onNaviBegin(net.citizensnpcs.api.ai.event.NavigationBeginEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+			return;
+		} else
+		{
+			if (isNavi == false)
+			{
+				if (this.npcType == NPCType.MANAGER)
+				{
+//					System.out.println(event.getNPC().getId()+" NPC "+" Start wander ");
+				}
+			} else
+			{
+				if (this.npcType == NPCType.MANAGER)
+				{
+//					System.out.println(event.getNPC().getId()+" NPC "+" Start linear ");
+				}
+			}
+		}
+	}
+
+	@EventHandler
+	public void onNaviCancel(net.citizensnpcs.api.ai.event.NavigationCancelEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+			return;
+		} else
+		{
+			
+			if (this.npcType == NPCType.MANAGER)
+			{
+//				System.out.println(event.getNPC().getId()+" NPC "+" Cancal navigation ");
+			}
+			Location actual = event.getNPC().getEntity().getLocation();
+			if (isCloseDoor(actual))
+			{
+				System.out.println(event.getNPC().getId()+" NPC "+" door opened ");
+			}
+			if (isNavi)
+			{
+				this.targetLocation = event.getNPC().getNavigator().getTargetAsLocation();
+				isNavi = false;
+				event.getNPC().getTrait(Waypoints.class).setWaypointProvider("wander");
+				if (this.npcType == NPCType.MANAGER)
+				{
+//					System.out.println(event.getNPC().getId()+" NPC "+" set wander ");
+				}
+			} else
+			{
+				event.getNPC().getTrait(Waypoints.class).setWaypointProvider("linear");
+				event.getNPC().getNavigator().setTarget(targetLocation);
+				isNavi = true;
+				if (this.npcType == NPCType.MANAGER)
+				{
+//					System.out.println(event.getNPC().getId()+" NPC "+" Set linear ");
+				}
+			}
+		}
+	
+	}
+	@EventHandler
+	public void onNaviComplet(net.citizensnpcs.api.ai.event.NavigationCompleteEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+			return;
+		} else
+		{
+			if (isNavi == true)
+			{
+				if (this.npcType == NPCType.MANAGER)
+				{
+//					System.out.println(event.getNPC().getId()+" NPC "+" Complete linear ");
+				}
+				Location actual = event.getNPC().getEntity().getLocation();
+				if (isCloseDoor(actual))
+				{
+					System.out.println(event.getNPC().getId()+" NPC "+" door opened ");
+				}
+				this.targetLocation = event.getNPC().getNavigator().getTargetAsLocation();
+				if (event.getNPC().getNavigator().getTargetAsLocation().distanceSquared(actual) > 2.0)
+				{
+					event.getNPC().getNavigator().setTarget(this.targetLocation);
+					event.getNPC().getNavigator().setPaused(false);
+					if (this.npcType == NPCType.MANAGER)
+					{
+//						System.out.println(event.getNPC().getId()+" NPC "+" Restart due to distance ");
+					}
+				}
+			} else
+			{
+				event.getNPC().getTrait(Waypoints.class).setWaypointProvider("linear");
+				event.getNPC().getNavigator().setTarget(targetLocation);
+				isNavi = true;
+				if (this.npcType == NPCType.MANAGER)
+				{
+					System.out.println(event.getNPC().getId()+" NPC "+" Complete wander ");
+				}
+				
+			}
+		}
+	
+	}
+	@EventHandler
+	public void onNaviReplace(net.citizensnpcs.api.ai.event.NavigationReplaceEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+			return;
+		} else
+		{
+			if (this.npcType == NPCType.MANAGER)
+			{
+				if (isNavi)
+				{
+					if (this.npcType == NPCType.MANAGER)
+					{
+//						System.out.println(event.getNPC().getId()+" NPC "+" Replace linear ");
+					}
+				} else
+				{
+					if (this.npcType == NPCType.MANAGER)
+					{
+//						System.out.println(event.getNPC().getId()+" NPC "+" Replace wander ");
+					}
+				}
+			}
+		}
+
+	}
+	
+	private boolean isCloseDoor(Location actual)
+	{
+		BlockFace[] blockFaces = {BlockFace.EAST, BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH};
+		actual.setY(actual.getY());
+		Block base = actual.getBlock();
+		for(BlockFace bf : blockFaces) 
+		{
+		    Block bu = base.getRelative(bf);
+		    if((bu.getType() == Material.WOODEN_DOOR)) 
+		    {
+		    	byte openData = 0x4;
+		    	byte doorData = (byte) (bu.getData());
+				if ((doorData & 0x4) == 0x4)
+				{
+					doorData = (byte) (doorData & 0x3);
+				} else
+				{
+					doorData = (byte) (doorData | 0x7);
+					
+				}
+		    	bu.setData(doorData);
+		    	
+			    if((bu.getRelative(BlockFace.UP).getType() == Material.WOODEN_DOOR)) 
+			    {
+			    	doorData = (byte) (bu.getRelative(BlockFace.UP).getData());
+			    	if ((doorData & 0x1) == 1)
+			    	{
+			    		doorData = 0x9;
+			    	} else
+			    	{
+			    		doorData = 0x8;
+			    	}
+			    	bu.getRelative(BlockFace.UP).setData(doorData);
+			    }
+		        return true;
+		    }
+		}
+		return false;
+	}
+	
+//	public void onN
 }

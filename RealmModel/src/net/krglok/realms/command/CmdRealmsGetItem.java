@@ -80,13 +80,23 @@ public class CmdRealmsGetItem extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		if (plugin.getData().getSettlements().getSettlement(settleID).getWarehouse().withdrawItemValue(itemRef, amount))
+		if (isMaterial(itemRef))
 		{
-			sender.sendMessage(ChatColor.RED+"Withdraw "+itemRef+" : "+amount);
+			if (plugin.getData().getSettlements().getSettlement(settleID).getWarehouse().withdrawItemValue(itemRef, amount))
+			{
+				sender.sendMessage(ChatColor.RED+"Withdraw "+itemRef+" : "+amount);
+			} else
+			{
+				sender.sendMessage(ChatColor.RED+"NOTHING done !");
+			}
 		} else
 		{
-			sender.sendMessage(ChatColor.RED+"NOTHING done !");
+			sender.sendMessage(ChatColor.RED+"NOT a valid Material name !");
 		}
+		this.itemRef = "";
+		this.settleID = 0;
+		this.amount = 0;  //default value
+		
 //		amount = amount * -1;
 //		McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
 //		plugin.getRealmModel().OnCommand(cmd);
@@ -116,9 +126,15 @@ public class CmdRealmsGetItem extends RealmsCommand
 				if (amount < 0)
 				{
 					errorMsg.add("The amount must be positive ");
-					errorMsg.add("better use /settle SET [ID] [item] [amount] ");
+					errorMsg.add("better use /realms SETITEM [ID] [item] [amount] ");
 					return false;
 					
+				}
+				if (isMaterial(itemRef) == false)
+				{
+					errorMsg.add("Item  not found !!!");
+					errorMsg.add("A valid MaterialName must be used !");
+					return false;
 				}
 				
 				return true;
