@@ -11,7 +11,7 @@ public class DataStoreKingdom extends AbstractDataStore<Kingdom>
 
 	public DataStoreKingdom(String dataFolder)
 	{
-		super(dataFolder, "kingdom", "KINGDOM", false);
+		super(dataFolder, "kingdom", "KINGDOM", false, null);
 	}
 
 	/**

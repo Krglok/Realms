@@ -365,7 +365,7 @@ public class SettlementReferenceTest
 		ArrayList<String> sList = sData.readSettleList();
 		for (String sName : sList)
 		{
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList())); //,logList));
+//			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList())); //,logList));
 		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");

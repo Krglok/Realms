@@ -11,7 +11,7 @@ import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.data.PriceData;
 import net.krglok.realms.data.PriceTable;
-import net.krglok.realms.tool.SQliteConnection;
+import net.krglok.realms.data.SQliteConnection;
 
 import org.bukkit.Material;
 import org.junit.Test;

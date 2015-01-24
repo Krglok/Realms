@@ -25,13 +25,13 @@ public class DataStoreOwner extends AbstractDataStore<Owner>
 
 	public DataStoreOwner(String dataFolder)
 	{
-		super(dataFolder, "owner", "OWNER", false);
+		super(dataFolder, "owner", "OWNER", false,null);
 	}
 	
 	public DataStoreOwner(String dataFolder, String fileName, String sectionName,
 			boolean timeMessure)
 	{
-		super(dataFolder, fileName, sectionName, timeMessure);
+		super(dataFolder, fileName, sectionName, timeMessure, null);
 	}
 
 	@Override

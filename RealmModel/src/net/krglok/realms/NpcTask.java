@@ -336,56 +336,73 @@ public class NpcTask implements Runnable
 	
 	/**
 	 * spawn citizen the first time
-	 * 
+	 * NO Child are spawned !!!
 	 * @param npcManager
 	 */
 	private void spawnNpc(NpcManager npcManager)
 	{
 		NpcData npcData = plugin.getData().getNpcs().get(npcManager.getSpawnList().get(0));
-		Settlement settle;
-		if (npcData.isSpawned == false)
+		if (npcData.isChild() == false)
 		{
-			LocationData position = null;
-    		Block b = null;
-	    	if (npcData.getHomeBuilding() > 0)
-	    	{
-	    			Location location = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition());
-	    			if (location != null)
-	    			{
-	    				b = location.getBlock();
-	    			}
-    		} else
-    		{
-    			if (npcData.getSettleId() > 0)
-    			{
-    				Location location = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition());
-    				if (location != null)
-    				{
-    					b = location.getBlock();
-    				}
-    			}
-    		}
-    		if (b != null)
-    		{
-    			// round robin for position
-    			lastPos = getNextPos();
-    			position = plugin.makeLocationData(b.getRelative(lastPos).getLocation());
-    			position.setZ(position.getZ()+1);
-
-				try
-				{
-					if (position != null)
+			if (npcData.isSpawned == false)
+			{
+				LocationData position = null;
+	    		Block b = null;
+		    	if (npcData.getHomeBuilding() > 0)
+		    	{
+		    		try
 					{
-	//					System.out.println("[REALMS] next Npc Spawn: "+npcManager.getSpawnList().get(0));
-						npcManager.createNPC(npcData, position);
+		    			Location location = plugin.makeLocation(plugin.getData().getBuildings().getBuilding(npcData.getHomeBuilding()).getPosition());
+		    			if (location != null)
+		    			{
+		    				b = location.getBlock();
+		    			}
+						
+					} catch (Exception e)
+					{
+						return;
 					}
-					
-				} catch (Exception e)
-				{
-					System.out.println("[REALMS] EXCEPTION  Npc Spawn: "+npcManager.getSpawnList().get(0));
-					e.printStackTrace(System.out);
-				}
-    		}
+		    			
+	    		} else
+	    		{
+	    			if (npcData.getSettleId() > 0)
+	    			{
+	    				try
+						{
+	        				Location location = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition());
+	        				if (location != null)
+	        				{
+	        					b = location.getBlock();
+	        				}
+							
+						} catch (Exception e)
+						{
+							return;
+						}
+	    			}
+	    		}
+	    		if (b != null)
+	    		{
+	    			// round robin for position
+	    			lastPos = getNextPos();
+	    			position = plugin.makeLocationData(b.getRelative(lastPos).getLocation());
+	    			position.setZ(position.getZ()+1);
+	
+					try
+					{
+						if (position != null)
+						{
+		//					System.out.println("[REALMS] next Npc Spawn: "+npcManager.getSpawnList().get(0));
+							npcManager.createNPC(npcData, position);
+						}
+						
+					} catch (Exception e)
+					{
+						System.out.println("[REALMS] EXCEPTION  Npc Spawn: "+npcManager.getSpawnList().get(0));
+						e.printStackTrace(System.out);
+					}
+	    		}
+			}
 			npcManager.getSpawnList().remove(0);
 		}
 	}

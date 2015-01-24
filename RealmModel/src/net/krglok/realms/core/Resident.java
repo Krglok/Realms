@@ -689,7 +689,10 @@ public class Resident
 						}
 					}
 				}
-				data.writeNpc(npc);
+				if (npc.isAlive() == false)
+				{
+					data.writeNpc(npc);
+				}
 			} else
 			{
 				if (npc.getHappiness() > 0.2)

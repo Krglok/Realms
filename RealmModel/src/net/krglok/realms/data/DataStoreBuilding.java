@@ -11,14 +11,14 @@ import org.bukkit.configuration.ConfigurationSection;
 public class DataStoreBuilding  extends AbstractDataStore<Building>
 {
 
-	public DataStoreBuilding(String dataFolder)
+	public DataStoreBuilding(String dataFolder, SQliteConnection sql)
 	{
-		super(dataFolder, "buildings", "BUILDING", false);
+		super(dataFolder, "buildings", "BUILDING", false, sql);
 	}
 	
 	private void printBuildingRow(Building building)
 	{
-		System.out.print(building.getId()+" | "+building.getHsRegion()+" | "+building.getBuildingType());
+		System.out.print(building.getId()+" | "+building.getHsRegion()+" | "+building.getBuildingType()+" | "+building.getSettleId());
 	}
 	
 	public void convertBuildings(SettlementList sList)

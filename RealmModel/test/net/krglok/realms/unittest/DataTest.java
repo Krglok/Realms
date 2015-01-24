@@ -127,7 +127,7 @@ public class DataTest implements DataInterface
 		settleTestData = new SettlementData(dataFolder);
 		regData = new RegimentData(dataFolder);
 		lehenData = new DataStoreLehen(dataFolder);
-		buildingData = new DataStoreBuilding(dataFolder);
+		buildingData = new DataStoreBuilding(dataFolder,null);
 		settleData = new DataStoreSettlement(dataFolder);
 		
 		initOwnerList();		// read dta from data file
@@ -166,7 +166,7 @@ public class DataTest implements DataInterface
 		ArrayList<String> sList = settleTestData.readSettleList();
 		for (String sName : sList)
 		{
-			Settlement settle = settleTestData.readSettledata(Integer.valueOf(sName),this.getPriceList()); //,this.logList);
+			Settlement settle = null; //,this.logList);
 			settle.initSettlement(priceList);
 			int ref = settle.getOwnerId();
 			if ((ref == 0))
@@ -654,7 +654,7 @@ public class DataTest implements DataInterface
 	
 	public Settlement readSettlementTest(int id, ItemPriceList priceList)
 	{
-		return settleTestData.readSettledata(id, priceList); //,logList);
+		return settleTestData.readSettledata(id, priceList, buildings); //,logList);
 	}
 	
 	/**

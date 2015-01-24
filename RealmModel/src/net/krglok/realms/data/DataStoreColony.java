@@ -10,7 +10,7 @@ public class DataStoreColony extends AbstractDataStore<Colony>
 
 	public DataStoreColony(String dataFolder)
 	{
-		super(dataFolder, "colony", "COLONY", false);
+		super(dataFolder, "colony", "COLONY", false, null);
 	}
 
 	/**

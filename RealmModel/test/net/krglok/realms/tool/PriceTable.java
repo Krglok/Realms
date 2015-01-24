@@ -1,16 +1,13 @@
-package net.krglok.realms.data;
+package net.krglok.realms.tool;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import com.mysql.jdbc.PreparedStatement;
 
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.tool.TableData;
+import net.krglok.realms.data.SQliteConnection;
 
-public class PriceTable extends TableData 
+public class PriceTable extends TableData
 {
 	/**
 	 * check the table and make a create if false;

@@ -15,17 +15,17 @@ public class DataStorePrice extends AbstractDataStore<ItemPriceList>
 	public DataStorePrice(String dataFolder, String fileName,
 			String sectionName, boolean timeMessure)
 	{
-		super(dataFolder, fileName, sectionName, true);
+		super(dataFolder, fileName, sectionName, true, null);
 	}
 
 	public DataStorePrice(String dataFolder, boolean timeMessure)
 	{
-		super(dataFolder, "baseprice", "BASEPRICE", timeMessure);
+		super(dataFolder, "baseprice", "BASEPRICE", timeMessure, null);
 	}
 
 	public DataStorePrice(String dataFolder)
 	{
-		super(dataFolder, "baseprice", "BASEPRICE", true);
+		super(dataFolder, "baseprice", "BASEPRICE", true, null);
 	}
 	
 	@Override

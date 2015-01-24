@@ -41,7 +41,7 @@ public class DataStoreBuildingTest
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(); 
-		DataStoreBuilding buildingData = new DataStoreBuilding(dataFolder);
+		DataStoreBuilding buildingData = new DataStoreBuilding(dataFolder, null);
 		buildingData.readDataList();
 		
 		SettlementList sList = data.getSettlements();
@@ -67,7 +67,7 @@ public class DataStoreBuildingTest
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(dataFolder);
 		DataTest data = new DataTest(); 
-		DataStoreBuilding buildingData = new DataStoreBuilding(dataFolder);
+		DataStoreBuilding buildingData = new DataStoreBuilding(dataFolder,null);
 		ArrayList<String> refList = buildingData.readDataList();
 		BuildingList bList = new BuildingList();
 		Building building = null;

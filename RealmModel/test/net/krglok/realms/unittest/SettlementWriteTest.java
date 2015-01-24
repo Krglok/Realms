@@ -11,6 +11,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.DataStoreSettlement;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.tool.LogList;
@@ -124,15 +125,15 @@ public class SettlementWriteTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logList = new LogList(path);
 		ItemPriceList priceList = getPriceList();
-		SettlementData settleData = new SettlementData(path);
+		DataStoreSettlement settleData = new DataStoreSettlement(path);
 		int id = 27;
-		Settlement settle = settleData.readSettledata(id , priceList); //,logList);
+		Settlement settle = settleData.readData(String.valueOf(id));
 		showSettleInfo(settle);
 		
 //		fillBarrack(settle);
 		showBarrack(settle);
 	       long time1 = System.nanoTime();
-		settleData.writeSettledata(settle);
+		settleData.writeData(settle, String.valueOf(id));
 	       long time2 = System.nanoTime();
 	       System.out.println("Update Time [ms]: "+(time2 - time1)/1000000);
 	}

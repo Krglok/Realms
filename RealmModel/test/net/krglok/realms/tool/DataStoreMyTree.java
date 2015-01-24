@@ -2,6 +2,7 @@ package net.krglok.realms.tool;
 
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.data.AbstractDataStore;
+import net.krglok.realms.data.SQliteConnection;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
@@ -11,9 +12,9 @@ public class DataStoreMyTree extends AbstractDataStore<MyTree>
 {
 
 	public DataStoreMyTree(String dataFolder, String fileName,
-			String sectionName, boolean timeMessure)
+			String sectionName, boolean timeMessure,SQliteConnection sql)
 	{
-		super(dataFolder, fileName, sectionName, timeMessure);
+		super(dataFolder, fileName, sectionName, timeMessure, sql);
 		// TODO Auto-generated constructor stub
 	}
 

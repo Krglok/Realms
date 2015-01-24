@@ -197,7 +197,7 @@ public class SettlementData
 
 	}
 	
-	public Settlement readSettledata(int id, ItemPriceList priceList) 
+	public Settlement readSettledata(int id, ItemPriceList priceList, BuildingList buildingList) 
 	{
 		Settlement settle = new Settlement(priceList);
         String section = getSettleKey(id);
@@ -291,12 +291,13 @@ public class SettlementData
         							trainCounter,
         							trainTime,
         							maxProduction,
-        							0,
+        							settle.getId(),
         							0
         							); 
-        		     bList.addBuilding(building);
+        		     buildingList.addBuilding(building);
+//        		     buildingData.writeData(building, String.valueOf(building.getId()));
             	}
-            	settle.setBuildingList(bList);
+            	settle.setBuildingList(buildingList.getSubList(settle.getId())); 
             }
             settle.getWarehouse().setItemMax(Integer.valueOf(config.getString(section+".warehouse"+".itemMax","0")));
             settle.getWarehouse().setIsEnabled(Boolean.valueOf(config.getString(section+".warehouse"+".isEnable","false")));

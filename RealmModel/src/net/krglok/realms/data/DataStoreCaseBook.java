@@ -30,16 +30,16 @@ public class DataStoreCaseBook extends AbstractDataStore<CaseBook>
 
 
 	public DataStoreCaseBook(String dataFolder, String fileName,
-			String sectionName, boolean timeMessure)
+			String sectionName, boolean timeMessure,SQliteConnection sql)
 	{
-		super(dataFolder, fileName, sectionName, timeMessure);
+		super(dataFolder, fileName, sectionName, timeMessure,sql);
 		// TODO Auto-generated constructor stub
 	}
 
     public DataStoreCaseBook(String dataFolder)
     {
     	
-		super(dataFolder, fileName, sectionName, false);
+		super(dataFolder, fileName, sectionName, false, null);
     }
     
 	@Override

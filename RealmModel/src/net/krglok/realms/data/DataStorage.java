@@ -62,16 +62,11 @@ import net.krglok.realms.unit.RegimentList;
 public class DataStorage implements DataInterface
 {
 	private static final String NPC_0 = "NPC0";
-//	private static final String NPC_1 = "NPC1";
-//	private static final String NPC_2 = "NPC2";
-//	private static final String NPC_4 = "NPC4";
-//	private static final String PC_3 = "NPC3";
-//	private static final String PC_4 = "NPC4";
-//	private static final String PC_5 = "NPC5";
-	private static final String Realm_1_NPC = "Realm 1 NPC";
 
 //	private LogList logList;
-	
+	private SQliteConnection sql; // = new SQliteConnection(pathName);
+
+	private DBWriteCache writeCache;
 	private OwnerList owners ;
 	private KingdomList kingdoms ;
 	private SettlementList settlements;		// data readed from file
@@ -103,8 +98,8 @@ public class DataStorage implements DataInterface
 	
 	public DataStorage(String path) //, LogList logList)
 	{
-//		this.plugin = plugin;
-//		this.logList = logList;
+		this.sql = new SQliteConnection(path);
+		this.writeCache = new DBWriteCache(this);
 		this.path = path;
 		// Datafile Handler
 		settleData = new SettlementData(this.path);
@@ -113,7 +108,7 @@ public class DataStorage implements DataInterface
 		ownerData = new DataStoreOwner(this.path);
 		kingdomData = new DataStoreKingdom(this.path);
 		lehenData = new DataStoreLehen(this.path);
-		buildingData = new DataStoreBuilding(this.path);
+		buildingData = new DataStoreBuilding(this.path, null);
 		settlementData = new DataStoreSettlement(this.path);
 		priceData = new PriceData(this.path);
 		nameDataStore = new DataStoreNpcName(this.path);
@@ -122,7 +117,7 @@ public class DataStorage implements DataInterface
 		settlements = new SettlementList(0);
 		regiments   = new RegimentList(0);
 		caseBooks   = new CaseBookList();
-		npcDataStore = new DataStoreNpc(this.path);
+		npcDataStore = new DataStoreNpc(this.path, sql);
 	}
 	
 	/**
@@ -251,7 +246,7 @@ public class DataStorage implements DataInterface
 		Owner owner;
 		for (String settleId : settleInit)
 		{
-			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
+			settle = readSettlement(Integer.valueOf(settleId),this.priceList,buildingData,buildings);
 			settle.initSettlement(priceList);
 //			plugin.getMessageData().log("SettleRead: "+settleId );
 			System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
@@ -281,9 +276,9 @@ public class DataStorage implements DataInterface
 	 * @return the settlement
 	 * </pre>
 	 */
-	private Settlement readSettlement(int id, ItemPriceList priceList)
+	private Settlement readSettlement(int id, ItemPriceList priceList, DataStoreBuilding buildingData, BuildingList buildings)
 	{
-		return settleData.readSettledata(id, priceList); //, logList);
+		return settleData.readSettledata(id, priceList, buildings); //, logList);
 	}
 	
 	/**

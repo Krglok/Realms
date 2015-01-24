@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.data.SQliteConnection;
 
 /**
  * <pre>

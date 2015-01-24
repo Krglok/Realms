@@ -15,7 +15,7 @@ public class CmdSettleDestroyBuilding extends RealmsCommand
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.DESTROY);
 		description = new String[] {
 				ChatColor.YELLOW+"/settle DESTROY [SettleID] [RegionID] ",
-				"Destroy a building and region off a Settlement  ",
+				"Destroy a building and region of a Settlement  ",
 				"You must NOT be the Owner of the region ! ",
 				"You must  be the Owner of the Settlement ! ",
 				"The region must exist",

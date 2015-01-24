@@ -14,12 +14,12 @@ import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.unit.UnitType;
 
-public class DataStoreNpc extends AbstractDataStore<NpcData>
+public class DataStoreNpc extends AbstractDataStore<NpcData> 
 {
 
-	public DataStoreNpc(String dataFolder)
+	public DataStoreNpc(String dataFolder,SQliteConnection sql)
 	{
-		super(dataFolder, "npc", "NPCNAME", false);
+		super(dataFolder, "npc", "NPCNAME", false, sql);
 	}
 
 	/**

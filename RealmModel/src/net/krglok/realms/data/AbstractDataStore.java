@@ -1,10 +1,17 @@
 package net.krglok.realms.data;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.tool.TableData;
+
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -33,16 +40,28 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public abstract class AbstractDataStore<T> implements IDataStore<T>
 {
-	
+	protected SQliteConnection sql;
 	protected String dataFolder; 
-    protected FileConfiguration config;  
+    public FileConfiguration config;  
 
     protected String sectionName ; 
     protected String fileName ;
     protected boolean isTimeMessure;
+    protected boolean isSql;
+    private TableYml tableYml;
 
-	public AbstractDataStore(String dataFolder, String fileName, String sectionName, boolean timeMessure)
+	public AbstractDataStore(String dataFolder, String fileName, String sectionName, boolean timeMessure, SQliteConnection sql)
 	{
+		this.sql = sql;
+		if (sql == null)
+		{
+			this.isSql = false;
+			tableYml = null;
+		} else
+		{
+			this.isSql = true;
+			tableYml = new TableYml(sql, fileName);
+		}
 		this.dataFolder = dataFolder;
 		this.fileName	= fileName;
 		this.sectionName= sectionName;
@@ -95,6 +114,12 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 	 */
 	public void writeData(T dataObject, String refId)
 	{
+		if (isSql == true)
+		{
+			System.out.println("Sql access: "+fileName+" / String not valid as PRIMARY key !");
+			return ;
+		}
+
 		try
 		{ 
 			long time1 = System.nanoTime();
@@ -138,6 +163,32 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 		
 	}
 
+	public String  makeValue(ConfigurationSection section)
+	{
+		String value = "";
+		for (String key :section.getKeys(false))
+		{
+			value = value + key+": "+section.getString(key)+"\n";
+		}
+		return value;
+	}
+
+	public void writeData(T dataObject, int Id)
+	{
+		if (isSql == true)
+		{
+			ConfigurationSection section = new MemoryConfiguration();
+			initDataSection(section, dataObject);
+			String value = makeValue(section);
+			tableYml.writeObject(Id, value);			
+		} else
+		{
+			String refId = String.valueOf(Id);
+			writeData(dataObject, refId);
+		}
+		
+	}	
+	
 	/**
 	 * write sectionName without  objectSection
 	 * @param dataObject
@@ -198,6 +249,11 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 	public T readData(String refId)
 	{
 		T dataObject = null;
+		if (isSql == true)
+		{
+			System.out.println("Sql access: "+fileName+" / String not valid as PRIMARY key !");
+			return null;
+		}
 		try
 		{ 
 	        String section = getKey(refId);
@@ -232,6 +288,31 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
     	return dataObject;
     }
 
+	public T readData(int Id)
+	{
+		T dataObject = null;
+		if (isSql)
+		{
+			ResultSet result = tableYml.readObject(Id);
+			try
+			{
+				config.loadFromString(result.getString(2));
+				ConfigurationSection section = config.getRoot();
+				dataObject = initDataObject(section);
+			} catch (InvalidConfigurationException | SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			
+		} else
+		{
+			String refId = String.valueOf(Id);
+			dataObject = readData(refId);
+		}
+		return dataObject; 
+	}
+	
+	
 	public T readData()
 	{
 		try

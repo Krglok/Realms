@@ -279,7 +279,7 @@ public class SettlementDataTest
 		for (String sName : sList)
 		{
 			long time1 = System.nanoTime();
-			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList())); //,logTest));
+//			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),testData.getPriceList())); //,logTest));
 		    long time2 = System.nanoTime();
 		    System.out.println("Read Time [ms]: "+(time2 - time1)/1000000);
 		}

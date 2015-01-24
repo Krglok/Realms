@@ -12,12 +12,12 @@ public class DataStoreNpcName  extends AbstractDataStore<NpcNamen>
 {
 	public DataStoreNpcName(String dataFolder)
 	{
-		super(dataFolder, "npcName", "NPCNAME", false);
+		super(dataFolder, "npcName", "NPCNAME", false, null);
 	}
 
 	public DataStoreNpcName(String dataFolder, String fileName)
 	{
-		super(dataFolder, fileName, "NPCNAME", true);
+		super(dataFolder, fileName, "NPCNAME", true, null);
 	}
 	
 	/**

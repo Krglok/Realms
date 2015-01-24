@@ -196,7 +196,7 @@ public class SettlerTrait extends Trait
 		key.setString("UnitType", unitType.name());
 		key.setInt("settleId", settleId);
 		key.setInt("buildingId", buildingId);
-		System.out.println("[REALMS] Trait save setting : "+key.toString());
+//		System.out.println("[REALMS] Trait save setting : "+key.toString());
 	}
 
 	@EventHandler

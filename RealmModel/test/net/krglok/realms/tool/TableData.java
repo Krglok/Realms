@@ -3,23 +3,32 @@ package net.krglok.realms.tool;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import net.krglok.realms.data.SQliteConnection;
+
 
 
 /**
+ * <pre>
  * Abstract class for storage of YML data in SQLite Database
  * use the SQLibrary for database handling
  *
- * create tables and indices  on given definition
- * use automatic rowid of SQlite, so no PRIMARY KEY must be defined
- * 
  * make basic datahandling
  * - insert
  * - update
  * - delete
  * - select
  * 
+ * Should be use a single sqlconnection !
+ * 
+ * Timing Hint:
+ * - insert/update need 250-450ms per record
+ * - select need 3-5 ms per record
+ * - uese this as relative values not a fixed value for each computer 
+ * - measured on i7 with 16GB RAM and with SQLite 3.x
+ * - you can use SQLIte Database Browser from http://sqlitebrowser.sourceforge.net
+ *  
  * @author Windu
- *
+ * </pre>
  */
 public abstract class TableData 
 {
@@ -229,69 +238,19 @@ public abstract class TableData
 		return result ;
 	}
 	
-	/**
-	 * <pre>
-	 * fields: 
-		"objectname",
-		"sectionname",
-		"valuename",
-		"value"
-	 * indices:
-		tablename+"_idx1",
-		tablename+"_idx2",
-		tablename+"_idx3"
-	 * indexfields:
-		"objectname",
-		"objectname,sectionname",
-		"objectname,sectionname,valuename"
-	 * 
-	 * @param tablename
-	 * </pre>
-	 */
-	public void makeDefaultDefinitions(String tablename)
-	{
-		this.tablename = tablename;
-		this.fieldnames = new String[] 
-		{  
-			"objectname",
-			"sectionname",
-			"valuename",
-			"value"
-		};
-		this.fieldtypes = new String[]
-		{
-				String.class.getName(),
-				String.class.getName(),
-				String.class.getName(),
-				String.class.getName()
-				
-		};
-		this.indexnames = new String[]
-		{
-			tablename+"_idx1",
-			tablename+"_idx2",
-			tablename+"_idx3"
-		};
-		this.indexnames = new String[]
-			{  
-				"objectname",
-				"objectname,sectionname",
-				"objectname,sectionname,valuename"
-			};
-	}
 	
+
 	/**
 	 * <pre>
 	 * make a select on the first field of the table
-	 * HINT: in a default table this is the objectname
-	 * @param objectName
+	 * HINT: in a default table this is the ID
+	 * 
+	 * @param id
 	 * @return
 	 * </pre>
 	 */
-	public ResultSet readObject(String objectName)
+	public ResultSet readObject(String query)
 	{
-//		this.resultSet = null;
-		String query = "SELECT rowid, * FROM "+tablename+ "WHERE "+fieldnames[0]+"="+makeSqlString(objectName);
 		try {
 			return sql.query(query);
 		} catch (SQLException e) {
@@ -300,29 +259,14 @@ public abstract class TableData
 			return null;
 		}
 	}
-
-	public ResultSet readObjectSection(String objectName, String sectionName)
-	{
-//		this.resultSet = null;
-		String query = "SELECT rowid, * FROM "+tablename
-				+" WHERE "+fieldnames[0]+"="+makeSqlString(objectName)
-				+" AND "+fieldnames[1]+"="+makeSqlString(sectionName);
-		try {
-			return sql.query(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("[REALMS] Select Error on "+tablename);
-			return null;
-		}
-	}
-	
 	
 	/**
-	 * make a fullinsert for the table.
-	 * baesd on the field list
-	 * hint: the PRIMARY key is the first field and will be set to NULL
-	 * @param values
-	 * @return  true if insert succesful
+	 * make a insert for the table.
+	 * the String must be a well formated SQL
+	 * hint: the PRIMARY key is the first field and must be a integer value
+	 * 
+	 * @param query
+	 * @return
 	 */
 	public boolean insert(String query)
 	{
@@ -336,6 +280,14 @@ public abstract class TableData
 		return false;
 	}
 
+	/**
+	 * make a update for the table.
+	 * the String must be a well formated SQL
+	 * hint: the PRIMARY key is the first field and must be a integer value
+	 * 
+	 * @param query
+	 * @return
+	 */
 	public boolean update(String query)
 	{
 		try {
@@ -348,6 +300,14 @@ public abstract class TableData
 		return false;
 	}
 
+	/**
+	 * make a delete for the table.
+	 * the String must be a well formatted SQL
+	 * hint: only the PRIMARY key is necessary for delete
+	 * 
+	 * @param query
+	 * @return
+	 */
 	public boolean delete(String query)
 	{
 		try {

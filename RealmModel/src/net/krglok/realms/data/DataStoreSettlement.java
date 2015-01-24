@@ -28,7 +28,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 
 	public DataStoreSettlement(String dataFolder)
 	{
-		super(dataFolder, "settlements", "SETTLEMENT", false);
+		super(dataFolder, "settlements", "SETTLEMENT", false, null);
 	}
 	
 	public boolean checkSettlements()

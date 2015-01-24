@@ -17,7 +17,7 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 
 	public DataStoreLehen(String dataFolder)
 	{
-		super(dataFolder, "lehen", "LEHEN", false);
+		super(dataFolder, "lehen", "LEHEN", false, null);
 	}
 
 	/**
