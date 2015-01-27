@@ -3,32 +3,42 @@ package net.krglok.realms.unit;
 import org.bukkit.Material;
 
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.npc.NpcData;
 
 public class UnitCommander extends AbstractUnit {
 
 	
 	
-	public UnitCommander() {
-		super();
-		unitType = UnitType.COMMANDER;
-		armor = 6;
-		speed = 4;
-		offense = 7;
-		defense = 8;
-		offenseRange = 1;
-		maxStorage = 27;
+	public UnitCommander(NpcData npcData) 
+	{
+		super(npcData);
+//		npcData.setUnitType(UnitType.COMMANDER);
+		initData(this);
+
+	}
+	
+	public static void initData(AbstractUnit unit)
+	{
+		unit.armor = 6;
+		unit.speed = 4;
+		unit.offense = 7;
+		unit.defense = 8;
+		unit.offenseRange = 1;
+		unit.maxStorage = 27;
 		
 		// required
-		requiredItems = initRequired();
-		requiredCost = 0.0;
-		requiredTime = 10;
-		requiredUnits = new UnitList();
+		unit.requiredItems = unit.initRequired();
+		unit.requiredCost = 0.0;
+		unit.requiredTime = 10;
+		unit.requiredUnits = new UnitList();
 		
 		//consum
-		consumItems = initConsum();
-		consumCost  = 1.0;
-		consumTime  = 10;
+		unit.consumItems = unit.initConsum();
+		unit.consumCost  = 1.0;
+		unit.consumTime  = 10;
+
 	}
+
 
 	@Override
 	public ItemList initRequired() {

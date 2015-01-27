@@ -14,6 +14,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStoreSettlement;
 import net.krglok.realms.data.SettlementData;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.IUnit;
@@ -64,7 +65,7 @@ public class SettlementWriteTest
 		System.out.print("Barracks "+ ConfigBasis.setStrright(settle.getBarrack().getUnitList().size(), 2));
 		System.out.println("");
 		
-		for (AbstractUnit unit : settle.getBarrack().getUnitList())
+		for (NpcData unit : settle.getBarrack().getUnitList())
 		{
 			System.out.print(" "+ ConfigBasis.setStrleft(unit.getUnitType().name(), 10));
 			System.out.print(" AR: "+ ConfigBasis.setStrright(unit.getHealth(), 2));
@@ -106,17 +107,6 @@ public class SettlementWriteTest
 		System.out.println("");
 	}
 	
-	private void fillBarrack(Settlement settle)
-	{
-		UnitFactory uFactory = new UnitFactory(); 
-		AbstractUnit militia = uFactory.erzeugeUnit(UnitType.MILITIA);
-		AbstractUnit settler = uFactory.erzeugeUnit(UnitType.SETTLER);
-		settle.getBarrack().addUnit(militia);
-		settle.getBarrack().addUnit(settler);
-		settle.getBarrack().addUnit(uFactory.erzeugeUnit(UnitType.MILITIA));
-		settle.getBarrack().addUnit(uFactory.erzeugeUnit(UnitType.MILITIA));
-		settle.getBarrack().addUnit(uFactory.erzeugeUnit(UnitType.MILITIA));
-	}
 	
 	
 	@Test

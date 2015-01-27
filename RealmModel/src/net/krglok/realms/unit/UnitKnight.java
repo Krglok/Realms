@@ -3,31 +3,38 @@ package net.krglok.realms.unit;
 import org.bukkit.Material;
 
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.npc.NpcData;
 
 public class UnitKnight extends AbstractUnit
 {
 	
-	public UnitKnight()
+	public UnitKnight(NpcData npcData)
 	{
-		super();
-		unitType = UnitType.KNIGHT;
-		armor = 3;
-		speed = 2;
-		offense = 10;
-		defense = 10;
-		offenseRange = 1;
-		maxStorage = 27;
+		super(npcData);
+//		unitType = UnitType.KNIGHT;
+		initData(this);
+	}
+
+	public static void initData(AbstractUnit unit)
+	{
+		
+		unit.armor = 3;
+		unit.speed = 2;
+		unit.offense = 10;
+		unit.defense = 10;
+		unit.offenseRange = 1;
+		unit.maxStorage  = 27;
 		
 		// required
-		requiredItems = initRequired();
-		requiredCost = 0.0;
-		requiredTime = 10;
-		requiredUnits = new UnitList();
+		unit.requiredItems = unit.initRequired();
+		unit.requiredCost = 0.0;
+		unit.requiredTime = 10;
+		unit.requiredUnits = new UnitList();
 		
 		//consum
-		consumItems = initConsum();
-		consumCost  = 1.5;
-		consumTime  = 10;
+		unit.consumItems = unit.initConsum();
+		unit.consumCost  = 1.5;
+		unit.consumTime  = 10;
 		
 	}
 

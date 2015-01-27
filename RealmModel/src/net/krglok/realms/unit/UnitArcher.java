@@ -3,33 +3,39 @@ package net.krglok.realms.unit;
 import org.bukkit.Material;
 
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.npc.NpcData;
 
 public class UnitArcher extends AbstractUnit 
 {
 
 	
 	
-	public UnitArcher() 
+	public UnitArcher(NpcData npcData) 
 	{
-		super();
-		unitType = UnitType.ARCHER ;
-		armor = 3;
-		speed = 4;
-		offense = 9;
-		defense = 3;
-		offenseRange = 2;
-		maxStorage = 27;
+		super(npcData);
+//		npcData.setUnitType(UnitType.ARCHER) ;
+		initData(this);
+	}
+
+	public static void initData(AbstractUnit unit)
+	{
+		unit.armor = 3;
+		unit.speed = 4;
+		unit.offense = 9;
+		unit.defense = 3;
+		unit.offenseRange = 2;
+		unit.maxStorage = 27;
 		
 		// required
-		requiredItems = initRequired();
-		requiredCost = 0.0;
-		requiredTime = 10;
-		requiredUnits = new UnitList();
+		unit.requiredItems = unit.initRequired();
+		unit.requiredCost = 0.0;
+		unit.requiredTime = 10;
+		unit.requiredUnits = new UnitList();
 		
 		//consum
-		consumItems = initConsum();
-		consumCost  = 0.1;
-		consumTime  = 10;
+		unit.consumItems = unit.initConsum();
+		unit.consumCost  = 0.1;
+		unit.consumTime  = 10;
 	}
 
 

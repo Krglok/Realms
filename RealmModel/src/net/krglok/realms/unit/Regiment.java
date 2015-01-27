@@ -16,6 +16,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NpcData;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -125,10 +126,10 @@ public class Regiment {
 	public static Regiment makeRaider() //LogList logList)
 	{
 		Regiment regiment = new Regiment(); //logList);
-		UnitList militiaList = makeMilitia(10);
-		regiment.getBarrack().addUnitList(militiaList);
-		UnitList settlerList = makeSettler(10);
-		regiment.getBarrack().addUnitList(settlerList);
+//		UnitList militiaList = makeMilitia(10);
+//		regiment.getBarrack().addUnitList(militiaList);
+//		UnitList settlerList = makeSettler(10);
+//		regiment.getBarrack().addUnitList(settlerList);
 		regiment.name		= "Privateer";
 		regiment.ownerId		= 0;
 //		regiment.commander 	= new AbstractUnit(UnitType.COMMANDER);
@@ -136,38 +137,38 @@ public class Regiment {
 		return regiment;
 	}
 	
-	private static UnitList makeMilitia(int amount)
-	{
-		UnitFactory unitFactory = new UnitFactory();
-		UnitList unitList = new UnitList();
-		for (int i=0; i < amount; i++)
-		{
-			unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
-		}
-		return unitList;
-	}
+//	private static UnitList makeMilitia(int amount)
+//	{
+//		UnitFactory unitFactory = new UnitFactory();
+//		UnitList unitList = new UnitList();
+//		for (int i=0; i < amount; i++)
+//		{
+//			unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
+//		}
+//		return unitList;
+//	}
 
-	private static UnitList makeArcher(int amount)
-	{
-		UnitFactory unitFactory = new UnitFactory();
-		UnitList unitList = new UnitList();
-		for (int i=0; i < amount; i++)
-		{
-			unitList.add(unitFactory.erzeugeUnit(UnitType.ARCHER));
-		}
-		return unitList;
-	}
+//	private static UnitList makeArcher(int amount)
+//	{
+//		UnitFactory unitFactory = new UnitFactory();
+//		UnitList unitList = new UnitList();
+//		for (int i=0; i < amount; i++)
+//		{
+//			unitList.add(unitFactory.erzeugeUnit(UnitType.ARCHER));
+//		}
+//		return unitList;
+//	}
 
-	private static UnitList makeSettler(int amount)
-	{
-		UnitFactory unitFactory = new UnitFactory();
-		UnitList unitList = new UnitList();
-		for (int i=0; i < amount; i++)
-		{
-			unitList.add(unitFactory.erzeugeUnit(UnitType.SETTLER));
-		}
-		return unitList;
-	}
+//	private static UnitList makeSettler(int amount)
+//	{
+//		UnitFactory unitFactory = new UnitFactory();
+//		UnitList unitList = new UnitList();
+//		for (int i=0; i < amount; i++)
+//		{
+//			unitList.add(unitFactory.erzeugeUnit(UnitType.SETTLER));
+//		}
+//		return unitList;
+//	}
 
 	public static int getLfdID() {
 		return lfdID;
@@ -461,7 +462,7 @@ public class Regiment {
 		
 		//first line with militia
 		UnitList centerList = new UnitList();
-		for (AbstractUnit unit : barrack.getUnitList())
+		for (NpcData unit : barrack.getUnitList())
 		{
 			if (unit.getUnitType() == UnitType.MILITIA)
 			{
@@ -472,7 +473,7 @@ public class Regiment {
 		
 		// second line with archers
 		UnitList backList = new UnitList();
-		for (AbstractUnit unit : barrack.getUnitList())
+		for (NpcData unit : barrack.getUnitList())
 		{
 			if (unit.getUnitType() == UnitType.ARCHER)
 			{
@@ -555,7 +556,7 @@ public class Regiment {
 			{
 				if (battle.getAttacker().getPlaceUnit(bPos).size() > 0)
 				{
-					AbstractUnit unit = battle.getAttacker().getPlaceUnit(bPos).get(0);
+					NpcData unit = battle.getAttacker().getPlaceUnit(bPos).get(0);
 					for(int i= 0; i < battle.getAttacker().getPlaceUnit(bPos).size(); i++)
 					{
 						barrack.getUnitList().add(unit);
@@ -570,7 +571,7 @@ public class Regiment {
 			{
 				if (battle.getDefender().getPlaceUnit(bPos).size() > 0)
 				{
-					AbstractUnit unit = battle.getDefender().getPlaceUnit(bPos).get(0);
+					NpcData unit = battle.getDefender().getPlaceUnit(bPos).get(0);
 					for(int i= 0; i < battle.getDefender().getPlaceUnit(bPos).size(); i++)
 					{
 						raidTarget.getBarrack().getUnitList().add(unit);

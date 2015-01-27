@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
@@ -131,16 +132,16 @@ public class Resident
 		return false;
 	}
 	
-	/**
-	 * the value is a  signed field 
-	 * @param value add to settlerCount
-	 * @return  new number of residents
-	 */
-	public int  depositSettler(int value)
-	{
-		settlerCount = settlerCount + value;
-		return settlerCount;
-	}
+//	/**
+//	 * the value is a  signed field 
+//	 * @param value add to settlerCount
+//	 * @return  new number of residents
+//	 */
+//	public int  depositSettler(int value)
+//	{
+//		settlerCount = settlerCount + value;
+//		return settlerCount;
+//	}
 	
 //	/**
 //	 * 
@@ -748,5 +749,36 @@ public class Resident
 		this.npcList = npcList;
 	}
 
+	
+	public NpcData findRecrute()
+	{
+		for (NpcData npc : npcList.values())
+		{
+			if ((npc.getGender() != GenderType.WOMAN)
+				&& (npc.isChild() == false)
+				)
+			{
+				if (npc.isBeggar())
+				{
+					return npc;
+				}
+			}
+		}
+
+		for (NpcData npc : npcList.values())
+		{
+			if (npc.getWorkBuilding() == 0)
+			{
+				if ((npc.getGender() != GenderType.WOMAN)
+					&& (npc.isChild() == false)
+					)
+				{
+					return npc;
+				}
+			}
+		}
+		
+		return null;
+	}
 	
 }

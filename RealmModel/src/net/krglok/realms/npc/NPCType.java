@@ -12,7 +12,7 @@ public enum NPCType
 	BUILDER,
 	CRAFTSMAN,
 	MAPMAKER,
-	UNIT;
+	MILITARY;
 
 	public boolean contains(String value)
 	{

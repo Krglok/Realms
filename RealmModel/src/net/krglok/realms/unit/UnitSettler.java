@@ -3,32 +3,38 @@ package net.krglok.realms.unit;
 import org.bukkit.Material;
 
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.npc.NpcData;
 
 public class UnitSettler extends AbstractUnit
 {
 
 
-	public UnitSettler()
+	public UnitSettler(NpcData npcData)
 	{
-		super();
-		unitType = UnitType.SETTLER;
-		armor = 1;
-		speed = 5;
-		offense = 2;
-		defense = 3;
-		offenseRange = 1;
-		maxStorage = 27;
+		super(npcData);
+//		unitType = UnitType.SETTLER;
+		initData(this);
+	}
+
+	public static void initData(AbstractUnit unit)
+	{
+		unit.armor = 1;
+		unit.speed = 5;
+		unit.offense = 2;
+		unit.defense = 3;
+		unit.offenseRange = 1;
+		unit.maxStorage = 27;
 		
 		// required
-		requiredItems = new ItemList();
-		requiredCost = 0.0;
-		requiredTime = 10;
-		requiredUnits = new UnitList();
+		unit.requiredItems = new ItemList();
+		unit.requiredCost = 0.0;
+		unit.requiredTime = 10;
+		unit.requiredUnits = new UnitList();
 		
 		//consum
-		consumItems = new ItemList();
-		consumCost  = 0.0;
-		consumTime  = 10;
+		unit.consumItems = new ItemList();
+		unit.consumCost  = 0.0;
+		unit.consumTime  = 10;
 	}
 
 

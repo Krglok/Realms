@@ -171,17 +171,17 @@ public class RegimentData
             }
             regiment.setRegStatus(RegimentStatus.IDLE);
             
-        	UnitFactory uFactory = new UnitFactory();
-			Map<String,Object> uList = config.getConfigurationSection(section+".unitlist").getValues(false);
-			if (uList != null)
-			{
-	        	for (Object ref : uList.values())
-	        	{
-	        		String uType = (String) ref;
-	        		regiment.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
-	//                System.out.println(ref+":");
-	        	}
-			}
+//        	UnitFactory uFactory = new UnitFactory();
+//			Map<String,Object> uList = config.getConfigurationSection(section+".unitlist").getValues(false);
+//			if (uList != null)
+//			{
+//	        	for (Object ref : uList.values())
+//	        	{
+//	        		String uType = (String) ref;
+//	        		regiment.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
+//	//                System.out.println(ref+":");
+//	        	}
+//			}
 
             
             regiment.getWarehouse().setItemMax(Integer.valueOf(config.getString(section+".warehouse"+".itemMax","0")));

@@ -1,5 +1,7 @@
 package net.krglok.realms.unit;
 
+import net.krglok.realms.npc.NpcData;
+
 
 public class BattleSetup 
 {
@@ -173,7 +175,7 @@ public class BattleSetup
 		{
 			if ((attacker.getUnitPlacement().get(bPos) != null))
 			{
-				for (AbstractUnit unit : attacker.getUnitPlacement().get(bPos))
+				for (NpcData unit : attacker.getUnitPlacement().get(bPos))
 				{
 					attackPower = attackPower + unit.getPower();
 				}
@@ -183,7 +185,7 @@ public class BattleSetup
 		{
 			if ((defender.getUnitPlacement().get(bPos) != null))
 			{
-				for (AbstractUnit unit : defender.getUnitPlacement().get(bPos))
+				for (NpcData unit : defender.getUnitPlacement().get(bPos))
 				{
 					defendPower = defendPower + unit.getPower();
 				}
@@ -213,7 +215,7 @@ public class BattleSetup
 				}
 				if ((attacker.getUnitPlacement().get(BattleFieldPosition.CENTER).size() == 0))
 				{
-					for (AbstractUnit unit : attacker.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
+					for (NpcData unit : attacker.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
 					{
 						attacker.getUnitPlacement().get(BattleFieldPosition.CENTER).add(unit);
 					}
@@ -233,7 +235,7 @@ public class BattleSetup
 				}
 				if ((defender.getUnitPlacement().get(BattleFieldPosition.CENTER).size() == 0))
 				{
-					for (AbstractUnit unit : defender.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
+					for (NpcData unit : defender.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
 					{
 						defender.getUnitPlacement().get(BattleFieldPosition.CENTER).add(unit);
 					}
@@ -339,10 +341,10 @@ public class BattleSetup
 		if (attackUnits.size()>0)
 		{
 			UnitFactory unitFactory = new UnitFactory();
-			IUnit unitAttacker = unitFactory.erzeugeUnitConfig(attackUnits.get(0).getUnitType());
+			IUnit unitAttacker = unitFactory.erzeugeUnitConfig(attackUnits.get(0).getUnitType(),new NpcData());
 			int sumOffense = attackUnits.size() * unitAttacker.getOffense();
 	
-			IUnit unitDefender = unitFactory.erzeugeUnitConfig(attackUnits.get(0).getUnitType());
+			IUnit unitDefender = unitFactory.erzeugeUnitConfig(attackUnits.get(0).getUnitType(),new NpcData());
 			int sumArmor = defendUnits.size() * unitDefender.getArmor();
 	
 //			damage = sumOffense - sumArmor;
@@ -383,11 +385,11 @@ public class BattleSetup
 		{
 			if (damage > HUMAN_HEALTH)
 			{
-				defendUnits.get(i).addHealth(-HUMAN_HEALTH);
+				defendUnits.get(i).getUnit().addHealth(-HUMAN_HEALTH);
 				damage = damage - HUMAN_HEALTH;
 			} else
 			{
-				defendUnits.get(i).addHealth(-damage);
+				defendUnits.get(i).getUnit().addHealth(-damage);
 				damage = 0;
 			}
 		}

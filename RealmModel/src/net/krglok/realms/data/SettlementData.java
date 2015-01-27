@@ -313,17 +313,17 @@ public class SettlementData
 	        	}    
 	        	settle.getWarehouse().setItemList(iList);
 			}
-        	UnitFactory uFactory = new UnitFactory();
-			Map<String,Object> uList = config.getConfigurationSection(section+".unitlist").getValues(false);
-			if (uList != null)
-			{
-	        	for (Object ref : uList.values())
-	        	{
-	        		String uType = (String) ref;
-	        		settle.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
-	//                System.out.println(ref+":");
-	        	}
-			}
+//        	UnitFactory uFactory = new UnitFactory();
+//			Map<String,Object> uList = config.getConfigurationSection(section+".unitlist").getValues(false);
+//			if (uList != null)
+//			{
+//	        	for (Object ref : uList.values())
+//	        	{
+//	        		String uType = (String) ref;
+//	        		settle.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
+//	//                System.out.println(ref+":");
+//	        	}
+//			}
 		} catch (Exception e)
 		{
 			 String name = "" ;

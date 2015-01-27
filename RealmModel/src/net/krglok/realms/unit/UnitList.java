@@ -2,7 +2,10 @@ package net.krglok.realms.unit;
 
 import java.util.ArrayList;
 
-public class UnitList extends ArrayList<AbstractUnit>
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.NpcList;
+
+public class UnitList extends ArrayList<NpcData>
 {
 	private static final long serialVersionUID = 8833127238708166553L;
 
@@ -10,7 +13,7 @@ public class UnitList extends ArrayList<AbstractUnit>
 	public UnitList getUnitTypeList(UnitType uType)
 	{
 		UnitList subList = new UnitList();
-		for (AbstractUnit unit : this)
+		for (NpcData unit : this)
 		{
 			if (unit.getUnitType() == uType)
 			{
@@ -21,4 +24,25 @@ public class UnitList extends ArrayList<AbstractUnit>
 		return subList;
 	}
 	
+	/**
+	 * get the first recrute npc of the building 
+	 * @param buildingId
+	 * @return
+	 */
+	public NpcData getBuildingRecrute(int buildingId)
+	{
+		for (NpcData npc : this)
+		{
+			if (npc.getWorkBuilding() == buildingId)
+			{
+				if (npc.getUnitType() == UnitType.ROOKIE)
+				{
+					return npc;
+				}
+			}
+		}
+		
+		return null;
+	}
+
 }

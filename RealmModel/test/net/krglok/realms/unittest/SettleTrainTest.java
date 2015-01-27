@@ -20,6 +20,7 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.IUnit;
@@ -499,7 +500,7 @@ public class SettleTrainTest
 				{
 					if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
 					{
-						IUnit iUnit = unitFactory.erzeugeUnitConfig(building.getTrainType());
+						IUnit iUnit = unitFactory.erzeugeUnitConfig(building.getTrainType(),new NpcData());
 					System.out.println(
 							ConfigBasis.setStrleft(building.getBuildingType().name(),13)
 							+": "+building.getUnitSpace()
@@ -536,7 +537,7 @@ public class SettleTrainTest
 				System.out.println("==Barack Capacity ==");
 				System.out.print("UnitType  "+" :"+"Health"+" : "+"Power");
 				System.out.println("");
-				for (AbstractUnit unit : settle.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA))
+				for (NpcData unit : settle.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA))
 				{
 					System.out.print(ConfigBasis.setStrleft(unit.getUnitType().name(),10)
 							+" : "+unit.getHealth()

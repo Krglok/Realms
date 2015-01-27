@@ -19,8 +19,14 @@ import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.BattleFieldPosition;
 import net.krglok.realms.unit.BattlePlacement;
+import net.krglok.realms.unit.UnitArcher;
 import net.krglok.realms.unit.UnitFactory;
+import net.krglok.realms.unit.UnitHeavyInfantry;
+import net.krglok.realms.unit.UnitKnight;
+import net.krglok.realms.unit.UnitLightInfantry;
 import net.krglok.realms.unit.UnitList;
+import net.krglok.realms.unit.UnitMilitia;
+import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -492,7 +498,7 @@ public class Settlement //implements Serializable
 	public int getPower()
 	{
 		int power = barrack.getPower();
-		for (AbstractUnit unit : barrack.getUnitList())
+		for (NpcData unit : barrack.getUnitList())
 		{
 			power = power + unit.getPower();
 		}
@@ -506,13 +512,13 @@ public class Settlement //implements Serializable
 	 */
 	public BattlePlacement getDefenders()
 	{
-		UnitFactory unitFactory = new UnitFactory();
+//		UnitFactory unitFactory = new UnitFactory();
 		BattlePlacement units = new BattlePlacement();
 
 		UnitList unitList = new UnitList();
-		for (AbstractUnit unit : barrack.getUnitList())
+		for (NpcData unit : barrack.getUnitList())
 		{
-			unitList.add(unitFactory.erzeugeUnit(unit.getUnitType()));
+			unitList.add(unit);
 		}
 //		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
 //		unitList.add(unitFactory.erzeugeUnit(UnitType.MILITIA));
@@ -1168,22 +1174,22 @@ public class Settlement //implements Serializable
 		this.getResident().setNpcList(data.getNpcs().getSubList(this.id));
 //		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
 		UnitFactory unitFactory = new UnitFactory();
-		for (AbstractUnit unit : barrack.getUnitList())
+		for (NpcData unit : barrack.getUnitList())
 		{
-			ItemList ingredients = unitFactory.militaryConsum(unit.getUnitType());
+			ItemList ingredients = unit.getUnit().getConsumItems();
 			double prodFactor  = 1.0;
 			if (checkStock(prodFactor, ingredients))
 			{
 				consumStock(prodFactor, ingredients);
 				if (unit.getHappiness() < 1.0)
 				{
-					unit.addHappiness(0.1);
+					unit.getUnit().addHappiness(0.1);
 				}
 			} else
 			{
 				if (unit.getHappiness() > -1.0)
 				{
-					unit.addHappiness(-0.1);
+					unit.getUnit().addHappiness(-0.1);
 				}
 			}
 		}
@@ -1938,7 +1944,8 @@ public class Settlement //implements Serializable
 						case GUARDHOUSE:
 							if (building.getTrainCounter() == 0)
 							{
-								if (resident.getSettlerCount() > townhall.getWorkerCount())
+								NpcData recrute = resident.findRecrute();
+								if (recrute != null)
 								{
 									ingredients = building.militaryProduction();
 									prodFactor  = 1.0;
@@ -1947,7 +1954,9 @@ public class Settlement //implements Serializable
 										// ausrüstung abbuchen
 										consumStock(prodFactor, ingredients);
 										// Siedler aus vorrat nehmen
-										resident.depositSettler(-1);
+										recrute.setUnitType(UnitType.ROOKIE);
+										recrute.setWorkBuilding(building.getId());
+//										resident.depositSettler(-1);
 										// Counter starten
 										building.addTrainCounter(1);
 									} else
@@ -2032,9 +2041,10 @@ public class Settlement //implements Serializable
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							AbstractUnit unit = unitFactory.erzeugeUnit(building.getTrainType());
-							unit.setSettleId(this.id);
-							barrack.getUnitList().add(unit);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.MILITIA);
+							UnitMilitia.initData(recrute.getUnit());
 							building.addMaxTrain(-1);
 							building.setIsEnabled(false);
 							building.setTrainCounter(0);
@@ -2046,9 +2056,10 @@ public class Settlement //implements Serializable
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							AbstractUnit unit = unitFactory.erzeugeUnit(building.getTrainType());
-							unit.setSettleId(this.id);
-							barrack.getUnitList().add(unit);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.ARCHER);
+							UnitArcher.initData(recrute.getUnit());
 							building.addMaxTrain(-1);
 							building.setIsEnabled(false);
 							building.setTrainCounter(0);
@@ -2060,9 +2071,10 @@ public class Settlement //implements Serializable
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							AbstractUnit unit = unitFactory.erzeugeUnit(building.getTrainType());
-							unit.setSettleId(this.id);
-							barrack.getUnitList().add(unit);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.LIGHT_INFANTRY);
+							UnitLightInfantry.initData(recrute.getUnit());
 							building.addMaxTrain(-1);
 							building.setIsEnabled(false);
 							building.setTrainCounter(0);
@@ -2074,9 +2086,10 @@ public class Settlement //implements Serializable
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							AbstractUnit unit = unitFactory.erzeugeUnit(building.getTrainType());
-							unit.setSettleId(this.id);
-							barrack.getUnitList().add(unit);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.HEAVY_INFANTRY);
+							UnitHeavyInfantry.initData(recrute.getUnit());
 							building.addMaxTrain(-1);
 							building.setIsEnabled(false);
 							building.setTrainCounter(0);
@@ -2088,9 +2101,10 @@ public class Settlement //implements Serializable
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							AbstractUnit unit = unitFactory.erzeugeUnit(building.getTrainType());
-							unit.setSettleId(this.id);
-							barrack.getUnitList().add(unit);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.KNIGHT);
+							UnitKnight.initData(recrute.getUnit());
 							building.addMaxTrain(-1);
 							building.setIsEnabled(false);
 							building.setTrainCounter(0);

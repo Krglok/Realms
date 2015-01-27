@@ -16,7 +16,7 @@ import net.krglok.realms.npc.NpcData;
  * @author Windu
  *
  */
-public abstract class AbstractUnit extends NpcData implements IUnit
+public class AbstractUnit  implements IUnit
 {
 	
 //	private int id;
@@ -44,17 +44,14 @@ public abstract class AbstractUnit extends NpcData implements IUnit
 	protected double consumCost;
 	protected long consumTime;
 	
+	protected NpcData npcData;
 	
-	public AbstractUnit()
+	public AbstractUnit(NpcData npcData)
 	{
 //		ID++;
 //		this.id = ID;
 		super();
-		this.unitType = UnitType.NONE;
-		this.health = restoreHealth();
-		this.location = new LocationData("", 0.0, 0.0, 0.0);
-		this.backPack = new BackpackList();
-		this.itemInHand = new Item(Material.AIR.name(),1); 
+		this.npcData = npcData;
 		this.armor = 0;
 		this.speed = 0;
 		this.offense = 0;
@@ -294,18 +291,54 @@ public abstract class AbstractUnit extends NpcData implements IUnit
 	 */
 	public UnitType getUnitType()
 	{
-		return unitType;
+		return npcData.getUnitType();
 	}
 
-	public void addHealth(double value)
+	public void addHealth(int value)
 	{
-		this.health = (int) (this.health + value);
+		npcData.setHealth( npcData.getHealth() + value);
 	}
 
 	
 	public void addHappiness(double value)
 	{
-		this.happiness = this.happiness+value;
+		npcData.setHappiness(npcData.getHappiness() +value);
+	}
+
+
+
+	@Override
+	public ItemList initRequired()
+	{
+		return new ItemList();
+	}
+
+
+
+	@Override
+	public ItemList initConsum()
+	{
+		return new ItemList();
+	}
+
+
+
+	/**
+	 * @return the npcData
+	 */
+	public NpcData getNpcData()
+	{
+		return npcData;
+	}
+
+
+
+	/**
+	 * @param npcData the npcData to set
+	 */
+	public void setNpcData(NpcData npcData)
+	{
+		this.npcData = npcData;
 	}
 
 }

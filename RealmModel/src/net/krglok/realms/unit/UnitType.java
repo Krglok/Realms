@@ -8,6 +8,7 @@ public enum UnitType
 	COW,
 	WAGON,
 	HORSE,
+	ROOKIE,
 	MILITIA,
 	ARCHER,
 	SCOUT,

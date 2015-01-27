@@ -4,6 +4,8 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.unit.AbstractUnit;
+import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
 public class NpcData
@@ -12,7 +14,7 @@ public class NpcData
 
 	private int Id;
 	private NPCType npcType ;
-	protected UnitType unitType ;
+	private UnitType unitType ;
 	private String name;
 	private GenderType gender;
 	private int age;	// in days !
@@ -46,6 +48,7 @@ public class NpcData
 	public int spawnId ;
 	
 	private NpcAction npcAction;
+	private AbstractUnit unit;
 	
 	public NpcData()
 	{
@@ -80,7 +83,9 @@ public class NpcData
 		this.setHealth(20);
 		this.setRegimentId(0);
 		this.setPower(1);
+		this.unit = new AbstractUnit(this);
 	}
+	
 	
 	public NpcData(int npcId, NPCType npcType, UnitType unitType, String name, int settleId, int buildingId, GenderType gender, int age)
 	{
@@ -117,6 +122,8 @@ public class NpcData
 		this.setHealth(20);
 		this.setRegimentId(0);
 		this.setPower(1);
+		UnitFactory unitFactory = new UnitFactory();
+		this.unit = unitFactory.erzeugeUnit(this.unitType, this);
 	}
 	
 	
@@ -683,6 +690,24 @@ public class NpcData
 	public void setPower(int power)
 	{
 		this.power = power;
+	}
+
+
+	/**
+	 * @return the unit
+	 */
+	public AbstractUnit getUnit()
+	{
+		return unit;
+	}
+
+
+	/**
+	 * @param unit the unit to set
+	 */
+	public void setUnit(AbstractUnit unit)
+	{
+		this.unit = unit;
 	}
 
 }

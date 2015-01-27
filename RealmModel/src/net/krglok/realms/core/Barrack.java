@@ -1,5 +1,6 @@
 package net.krglok.realms.core;
 
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.UnitList;
 
@@ -66,13 +67,13 @@ public class Barrack
 
 	public void addUnitList(UnitList addList)
 	{
-		for (AbstractUnit unit : addList)
+		for (NpcData unit : addList)
 		{
 			this.unitList.add(unit); 
 		}
 	}
 
-	public boolean addUnit(AbstractUnit unit)
+	public boolean addUnit(NpcData unit)
 	{
 		if (unitList.size()+1 < unitMax)
 		{

@@ -1,7 +1,5 @@
 package net.krglok.realms.unit;
 
-import net.krglok.realms.core.Item;
-import net.krglok.realms.core.ItemList;
 import net.krglok.realms.npc.NpcData;
 
 public class UnitFactory
@@ -12,7 +10,7 @@ public class UnitFactory
 	{
 	}
 
-	public AbstractUnit erzeugeUnit(UnitType uType)
+	public AbstractUnit erzeugeUnit(UnitType uType, NpcData npcData)
 	{
 //		IUnit iUnit = null;
 		AbstractUnit unit = null;
@@ -20,73 +18,82 @@ public class UnitFactory
 		switch (uType)
 		{
 		case MILITIA:
-			unit = erzeugeUnitConfig(uType);
-			unit.setHealth(HUMAN_HEALTH);
-			unit.setPower(10);
-			unit.getBackPack().addAll(unit.getRequiredItems());
+			unit = erzeugeUnitConfig(uType, npcData);
+			npcData.setHealth(HUMAN_HEALTH);
+			npcData.setPower(10);
+			npcData.getBackPack().addAll(unit.getRequiredItems());
 			break;
 		case ARCHER:
-			unit = erzeugeUnitConfig(uType);
-			unit.setHealth(HUMAN_HEALTH);
-			unit.setPower(10);
-			unit.getBackPack().addAll(unit.getRequiredItems());
+			unit = erzeugeUnitConfig(uType, npcData);
+			npcData.setHealth(HUMAN_HEALTH);
+			npcData.setPower(10);
+			npcData.getBackPack().addAll(unit.getRequiredItems());
 			break;
 		case COMMANDER:
 			
 			break;
 		case SETTLER:
 		default:
-			unit = erzeugeUnitConfig(uType);
-			unit.setHealth(HUMAN_HEALTH);
-			unit.getBackPack().addAll(unit.getRequiredItems());
+			unit = erzeugeUnitConfig(uType,npcData);
+			npcData.setHealth(HUMAN_HEALTH);
+			npcData.getBackPack().addAll(unit.getRequiredItems());
 			break;
 		}
 		return unit;
 	}
 
-	public AbstractUnit erzeugeUnitConfig(UnitType uType)
+	public AbstractUnit erzeugeUnitConfig(UnitType uType, NpcData npcData)
 	{
 		AbstractUnit iUnit = null;
 
 		switch (uType)
 		{
 		case MILITIA:
-			iUnit = new UnitMilitia();
+			iUnit = new UnitMilitia(npcData);
 			break;
 		case ARCHER:
-			iUnit = new UnitArcher();
+			iUnit = new UnitArcher(npcData);
 			break;
 		case COMMANDER :
-			iUnit = new UnitCommander();
+			iUnit = new UnitCommander(npcData);
 		case SETTLER:
 		default:
-			iUnit = new UnitSettler();
+			iUnit = new UnitSettler(npcData);
 			break;
 		}
 		return iUnit;
 	}
 	
-	/**
-	 * liefert die consum Items für die Unit
-	 * @return
-	 */
-	public ItemList militaryConsum(UnitType uType)
+	
+	public void setConfig(UnitType uType, AbstractUnit unit)
 	{
-		ItemList outValues = new ItemList();
 		switch (uType)
 		{
 		case MILITIA:
-			UnitMilitia militia = new UnitMilitia();
-			for (Item item : militia.getConsumItems().values())
-			{
-				outValues.put(item.ItemRef() ,new Item(item.ItemRef(),item.value()));
-			}
+			UnitMilitia.initData(unit);
 			break;
-		default :
+		case ARCHER:
+			UnitArcher.initData(unit);
+			break;
+		case LIGHT_INFANTRY:
+			UnitLightInfantry.initData(unit);
+			break;
+		case HEAVY_INFANTRY:
+			UnitHeavyInfantry.initData(unit);
+			break;
+		case KNIGHT:
+			UnitKnight.initData(unit);
+			break;
+		case COMMANDER :
+			UnitCommander.initData(unit);
+		case SETTLER:
+		default:
+			UnitSettler.initData(unit);
+			break;
 		}
-		return outValues;
+		
 	}
-
+	
 	
 
 }
