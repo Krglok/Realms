@@ -12,8 +12,11 @@ import net.krglok.realms.tool.StrongholdTools;
 import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdRealmsBuilding extends RealmsCommand
 {
@@ -88,14 +91,15 @@ public class CmdRealmsBuilding extends RealmsCommand
     	{
     		if ((bType.getValue() > von) && (bType.getValue() < bis) )
     		{
-    			if (index >= 4)
-    			{
-    				msg.add(color+line);
-    				index = 0;
-    				line = "";
-    			}
-    			index++;
-    			line = toLine(line,bType.name());
+//    			if (index >= 4)
+//    			{
+//    				msg.add(color+line);
+//    				index = 0;
+//    				line = "";
+//    			}
+//    			index++;
+//    			line = toLine(line,bType.name());
+    			msg.add(color+bType.name()+"\n");
     		}
     	}
 		if (line.length() > 0)
@@ -114,18 +118,28 @@ public class CmdRealmsBuilding extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
     	if (search == "")
     	{
-//        	msg.add(ChatColor.GREEN+"BuildPlans available in Realms ");
+        	msg.add(ChatColor.GOLD+" Habitation "+"\n");
         	msg.addAll(BuildingSection(50, 200,ChatColor.GOLD));
 //        	msg.addAll(BuildingSection(100, 200,ChatColor.YELLOW));
+        	msg.add(ChatColor.GREEN+"Production"+"\n");
         	msg.addAll(BuildingSection(200, 300,ChatColor.GREEN));
+        	msg.add(ChatColor.LIGHT_PURPLE+"Equipment"+"\n");
         	msg.addAll(BuildingSection(300, 400,ChatColor.LIGHT_PURPLE));
 //        	msg.addAll(BuildingSection(400, 500,ChatColor.RED));
+        	msg.add(ChatColor.GREEN+"Military & Noble"+"\n");
         	msg.addAll(BuildingSection(500, 1000,ChatColor.GOLD));
-    		
+
+        	if (sender instanceof Player)
+    		{
+            	PlayerInventory inventory = ((Player) sender).getInventory();
+        		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+    			writeBook(book, msg, "Realm Admin","The BuildingTypes");
+    			inventory.addItem(book);
+    		}
     	} else
     	{
         	msg.add(ChatColor.GREEN+"BuildPlan minimum requirements for build a  "+ChatColor.YELLOW+search);
-//        	String pathName = plugin.stronghold.getDataFolder().getPath();
+//        	String pathName = plugin.stronghold.+-getDataFolder().getPath();
 //            File regionFolder = new File(pathName, "RegionConfig");
 //        	RegionConfig region = StrongholdTools.getRegionConfig(regionFolder.getAbsolutePath(), search+".yml");
         	RegionType region = plugin.stronghold.getRegionManager().getRegionType(search);

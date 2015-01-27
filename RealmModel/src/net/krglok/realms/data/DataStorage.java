@@ -117,7 +117,7 @@ public class DataStorage implements DataInterface
 		settlements = new SettlementList(0);
 		regiments   = new RegimentList(0);
 		caseBooks   = new CaseBookList();
-		npcDataStore = new DataStoreNpc(this.path, sql);
+		npcDataStore = new DataStoreNpc(this.path, null);
 	}
 	
 	/**

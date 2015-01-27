@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.bukkit.Material;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.model.RealmModel;
 
 
@@ -117,6 +118,10 @@ public class Warehouse
 	 * @param itemMax , set max allowed sum of item values 
 	 */
 	public void setItemMax(int itemMax) {
+		if (itemMax == 0)
+		{
+			itemMax = ConfigBasis.getWarehouseItemMax(BuildPlanType.HALL);
+		} 
 		this.itemMax = itemMax;
 	}
 

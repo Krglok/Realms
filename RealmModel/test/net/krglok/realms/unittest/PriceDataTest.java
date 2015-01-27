@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import net.krglok.realms.core.ConfigBasis;
@@ -14,10 +15,26 @@ import net.krglok.realms.data.PriceTable;
 import net.krglok.realms.data.SQliteConnection;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFactory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.junit.Test;
 
 public class PriceDataTest {
 
+	private void getRecipe(String itemRef)
+	{
+		ItemStack item = new ItemStack(Material.valueOf(itemRef));
+		ShapedRecipe recipe = new ShapedRecipe(item);
+		Map<Character, ItemStack> ingredientMap = recipe.getIngredientMap();
+        System.out.print(itemRef+"|");
+        for (ItemStack ingred  : ingredientMap.values()) 
+        {
+            System.out.print(ingred.getType().name()+"|");
+        }
+        System.out.print(itemRef+"|");
+	}
+	
 	@Test
 	public void testWritePriceData()
 	{
@@ -72,6 +89,8 @@ public class PriceDataTest {
 		   System.out.println();
 	   }
 		
+       System.out.println("Recipe: ");
+       getRecipe(Material.STONE_AXE.name());
 	}
 
 

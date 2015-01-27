@@ -15,7 +15,6 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentStatus;
 import net.krglok.realms.unit.RegimentType;
-import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
@@ -93,15 +92,15 @@ public class RegimentData
             config.set(MemorySection.createPath(section, "MaxUnit"), regiment.getBarrack().getUnitMax());
             //Unitlist write		
 			HashMap<String,String> values; // = new HashMap<String,String>();
-            values = new HashMap<String,String>();
-            int index = 0;
-        	for (Unit unit : regiment.getBarrack().getUnitList())
-        	{
-//                System.out.println("UNITLIST: "+index+": "+unit.getUnitType().name());
-        		values.put(String.valueOf(index), unit.getUnitType().name());
-        		index++;
-        	}
-            config.set(MemorySection.createPath(section,"unitlist"), values);
+//            values = new HashMap<String,String>();
+//            int index = 0;
+//        	for (Unit unit : regiment.getBarrack().getUnitList())
+//        	{
+////                System.out.println("UNITLIST: "+index+": "+unit.getUnitType().name());
+//        		values.put(String.valueOf(index), unit.getUnitType().name());
+//        		index++;
+//        	}
+//            config.set(MemorySection.createPath(section,"unitlist"), values);
             //warehouse write
             values = new HashMap<String,String>();
         	values.put("itemMax", String.valueOf(regiment.getWarehouse().getItemMax()));

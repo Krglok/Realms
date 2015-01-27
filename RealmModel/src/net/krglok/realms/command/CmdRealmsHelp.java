@@ -79,7 +79,7 @@ public class CmdRealmsHelp extends RealmsCommand
 		plugin.getMessageData().printPage(sender, msg, page);
 		helpPage = "";
 		page = 1;
-		msg.clear();
+		search = "";
 	}
 
 	@Override

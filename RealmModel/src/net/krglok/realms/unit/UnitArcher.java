@@ -28,7 +28,7 @@ public class UnitArcher extends AbstractUnit
 		
 		//consum
 		consumItems = initConsum();
-		consumCost  = 0.0;
+		consumCost  = 0.1;
 		consumTime  = 10;
 	}
 

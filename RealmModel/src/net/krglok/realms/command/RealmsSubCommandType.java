@@ -87,14 +87,28 @@ public enum RealmsSubCommandType
 		
 	public static RealmsSubCommandType getRealmSubCommandType(String name)
 	{
+		name = name.toUpperCase();
 		for (RealmsSubCommandType rsc : RealmsSubCommandType.values())
 		{
-			if (name.equalsIgnoreCase(rsc.name()))
+			if (rsc.name().equalsIgnoreCase(name))
 			{
 				return rsc;
 			}
 		}
 		return NONE;
 	}
-	
+
+	public static RealmsSubCommandType searchRealmSubCommandType(String name)
+	{
+		name = name.toUpperCase();
+		for (RealmsSubCommandType rsc : RealmsSubCommandType.values())
+		{
+			if (rsc.name().contains(name))
+			{
+				return rsc;
+			}
+		}
+		return NONE;
+	}
+
 }

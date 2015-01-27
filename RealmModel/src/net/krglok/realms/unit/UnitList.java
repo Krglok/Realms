@@ -2,7 +2,7 @@ package net.krglok.realms.unit;
 
 import java.util.ArrayList;
 
-public class UnitList extends ArrayList<Unit>
+public class UnitList extends ArrayList<AbstractUnit>
 {
 	private static final long serialVersionUID = 8833127238708166553L;
 
@@ -10,7 +10,7 @@ public class UnitList extends ArrayList<Unit>
 	public UnitList getUnitTypeList(UnitType uType)
 	{
 		UnitList subList = new UnitList();
-		for (Unit unit : this)
+		for (AbstractUnit unit : this)
 		{
 			if (unit.getUnitType() == uType)
 			{

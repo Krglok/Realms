@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
+import net.krglok.realms.model.RealmModel;
 
 /**
  * class for define static values (constants) 
@@ -419,7 +421,7 @@ public class ConfigBasis implements ConfigInterface
 		switch (settleType)
 		{
 		case HAMLET : return 10 * ConfigBasis.CHEST_STORE;
-		case TOWN   : return 10 * ConfigBasis.CHEST_STORE;
+		case TOWN   : return 12 * ConfigBasis.CHEST_STORE;
 		case CITY   : return 4 * ConfigBasis.CHEST_STORE;
 		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
 		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
@@ -512,10 +514,10 @@ public class ConfigBasis implements ConfigInterface
 				switch (b.getBuildingType()) 
 				{
 					case WAREHOUSE :
-						value = value + getWarehouseItemMax(b);
+						value = value + getWarehouseItemMax(b.getBuildingType());
 						break;
 					case TRADER :
-						value = value + getTraderItemMax(b);
+						value = value + getTraderItemMax(b.getBuildingType());
 						break;
 					case HALL :
 						value = value + ConfigBasis.defaultItemMax(settleType);
@@ -541,10 +543,12 @@ public class ConfigBasis implements ConfigInterface
 	 * @param value  old ItemMax
 	 * @return new ItemMax
 	 */
-	public static int getWarehouseItemMax(Building building)
+	public static int getWarehouseItemMax(BuildPlanType buildingType)
 	{
-		switch(building.getBuildingType())
+		switch(buildingType)
 		{
+		case HALL : return 10 * ConfigBasis.CHEST_STORE;
+		case TOWNHALL   : return 12 * ConfigBasis.CHEST_STORE;
 		case WAREHOUSE : return   ConfigBasis.WAREHOUSE_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
 		case TRADER    : return   ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
 		case WORKSHOP : return   0; //WerkstattChestFactor * Chest_Store;
@@ -562,9 +566,9 @@ public class ConfigBasis implements ConfigInterface
 	 * @param value  old ItemMax
 	 * @return new ItemMax
 	 */
-	public static int getTraderItemMax(Building building)
+	public static int getTraderItemMax(BuildPlanType buildingType)
 	{
-		switch(building.getBuildingType())
+		switch(buildingType)
 		{
 			case TRADER    : return ConfigBasis.TRADER_CHEST_FACTOR * ConfigBasis.CHEST_STORE;
 			default :
@@ -921,6 +925,56 @@ public class ConfigBasis implements ConfigInterface
 		return null;
 	}
 
+	public static int getMinStorage(int matFactor, int settlerCount, String itemRef, int sellLimit)
+	{
+//		RealmModel rModel,
+//		int matFactor = rModel.getServer().getBioneFactor( biome, Material.getMaterial(itemRef));
+		
+			if (initTool().containsKey(itemRef))
+			{
+				return 16 - (10 * matFactor / 100) + sellLimit;
+			}
+			if (initWeapon().containsKey(itemRef))
+			{
+				return 32 - (30 * matFactor / 100) + sellLimit;
+			}
+			if (initArmor().containsKey(itemRef))
+			{
+				return 32- (30 * matFactor / 100) + sellLimit; 
+			}
+			if (initFoodMaterial().containsKey(itemRef))
+			{
+				return settlerCount * 16 ;
+			}
+			if (initValuables().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (initBuildMaterial().containsKey(itemRef))
+			{
+				return 196 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (initOre().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100) + sellLimit;
+			}
+			if (initMaterial().containsKey(itemRef))
+			{
+				return 16 - (14 * matFactor / 100) + sellLimit;
+			}
+			if (initRawMaterial().containsKey(itemRef))
+			{
+				return 64 - (64 * matFactor / 100) + sellLimit;
+			}
+			
+			return 8 + sellLimit;
+//			if (matFactor >= 0)
+//			{
+//		} else
+//		{
+//			return 9999;
+//		}
+	}
 	
 	
 }

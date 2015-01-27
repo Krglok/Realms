@@ -50,7 +50,7 @@ public class PriceData
 			
 		} catch (Exception e)
 		{
-			System.out.println("writeSettledata"+ e.getMessage());
+			System.out.println("writePricedata"+ e.getMessage());
 		}
 	
 

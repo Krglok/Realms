@@ -14,6 +14,7 @@ public enum UnitType
 	LIGHT_INFANTRY,
 	HEAVY_INFANTRY,
 	KNIGHT,
+	CAVALRY,
 	COMMANDER;
 	
 	/**

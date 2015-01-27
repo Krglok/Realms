@@ -21,8 +21,8 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.tool.LogList;
+import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.IUnit;
-import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
@@ -536,7 +536,7 @@ public class SettleTrainTest
 				System.out.println("==Barack Capacity ==");
 				System.out.print("UnitType  "+" :"+"Health"+" : "+"Power");
 				System.out.println("");
-				for (Unit unit : settle.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA))
+				for (AbstractUnit unit : settle.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA))
 				{
 					System.out.print(ConfigBasis.setStrleft(unit.getUnitType().name(),10)
 							+" : "+unit.getHealth()

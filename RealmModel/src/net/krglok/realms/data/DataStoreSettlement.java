@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.krglok.realms.core.Building;
-import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.RouteOrder;
@@ -14,14 +12,11 @@ import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.manager.ReputationData;
-import net.krglok.realms.manager.ReputationType;
-import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.block.Biome;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.MemorySection;
 
 public class DataStoreSettlement extends AbstractDataStore<Settlement>
 {
@@ -142,14 +137,6 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
         section.set("itemList", values);
 ////        section.set("", dataObject);
 //        System.out.println("SAVE : "+dataObject.getId()+": "+fileName);
-        values = new HashMap<String,String>();
-        int index = 0;
-    	for (Unit unit : dataObject.getBarrack().getUnitList())
-    	{
-    		values.put(String.valueOf(index), unit.getUnitType().name());
-    		index++;
-    	}
-        section.set("unitlist", values);
 
 	}
 
@@ -267,17 +254,17 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
     	}    
     	settle.getWarehouse().setItemList(iList);
 	}
-	UnitFactory uFactory = new UnitFactory();
-	Map<String,Object> uList = data.getConfigurationSection( "unitlist").getValues(false);
-	if (uList != null)
-	{
-    	for (Object ref : uList.values())
-    	{
-    		String uType = (String) ref;
-    		settle.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
-//                System.out.println(ref+":");
-    	}
-	}
+//	UnitFactory uFactory = new UnitFactory();
+//	Map<String,Object> uList = data.getConfigurationSection( "unitlist").getValues(false);
+//	if (uList != null)
+//	{
+//    	for (Object ref : uList.values())
+//    	{
+//    		String uType = (String) ref;
+//    		settle.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
+////                System.out.println(ref+":");
+//    	}
+//	}
 		
 		return settle;
 	}

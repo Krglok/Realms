@@ -43,6 +43,7 @@ public class CmdRealmsVersion extends RealmsCommand implements iRealmsCommand
     	msg.add(ChatColor.YELLOW+"Kingdoms: "+ChatColor.GREEN+"["+plugin.getData().getKingdoms().size()+"]");
     	msg.add(ChatColor.YELLOW+"Lehen: "+ChatColor.GREEN+"["+plugin.getData().getLehen().size()+"]");
     	msg.add(ChatColor.YELLOW+"Colonist: "+ChatColor.GREEN+"["+plugin.getRealmModel().getColonys().size()+"]");
+    	msg.add(ChatColor.YELLOW+"Npc: "+ChatColor.GREEN+"["+plugin.getRealmModel().getData().getNpcs().size()+"]");
     	
     	if (plugin.getRealmModel().getSettlements().getSettlement(1) != null)
     	{

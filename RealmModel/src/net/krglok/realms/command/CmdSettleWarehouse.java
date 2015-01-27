@@ -9,7 +9,11 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdSettleWarehouse extends RealmsCommand
 {
@@ -82,17 +86,24 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    Settlement  settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 	    if (settle != null)
 	    {
-			msg.add("Settlement ["+settle.getId()+"] : "+settle.getName());
+			msg.add("["+settle.getId()+"] : "+settle.getName()+"\n");
 			
-			msg.add(settle.getName()+" Warehouse  used [ "+settle.getWarehouse().getUsedCapacity() +" ] / free ["+settle.getWarehouse().getFreeCapacity()+"]");
+			msg.add("Store [ "+settle.getWarehouse().getUsedCapacity() +" ]/["+settle.getWarehouse().getFreeCapacity()+"]"+"\n");
 		    for (String itemref : settle.getWarehouse().sortItems())
 		    {
 		    	Item item = settle.getWarehouse().getItemList().get(itemref);
 		    	if (item.value() > 0)
 		    	{
-		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",15)+" : "+ChatColor.YELLOW+item.value());
+		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",12)+":"+ConfigBasis.setStrright(item.value(),5)+"\n");
 		    	}
 		    }
+	    	if (sender instanceof Player)
+			{
+	        	PlayerInventory inventory = ((Player) sender).getInventory();
+	    		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+				writeBook(book, msg, settle.getName(),"Warehouse");
+				inventory.addItem(book);
+			}
 	    }
 	    if (page == 0)
 	    {

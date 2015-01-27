@@ -73,6 +73,9 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		section.set("schwanger", dataObject.getSchwanger());
 		section.set("producer", dataObject.getProducer());
 		section.set("happiness", dataObject.getHappiness());
+		section.set("health", dataObject.getHealth());
+		section.set("regimentId", dataObject.getRegimentId());
+		section.set("power", dataObject.getPower());
 
 		HashMap<String,String>values = new HashMap<String,String>();
 		
@@ -121,6 +124,9 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		npc.setSchwanger(data.getInt("schwanger",0));
 		npc.setProducer(data.getInt("producer",0));
 		npc.setHappiness(data.getDouble("happiness",0.1));
+		npc.setHealth(data.getInt("health",20));
+		npc.setRegimentId(data.getInt("regimentId",0));
+		npc.setPower(data.getInt("power",1));
 		
 
 		if (data.isConfigurationSection("itemInHand"))

@@ -11,6 +11,7 @@ public class CmdSettleHelp extends RealmsCommand
 {
 
 	private int page;
+	private String search;
 	
 	public CmdSettleHelp( )
 	{
@@ -21,6 +22,7 @@ public class CmdSettleHelp extends RealmsCommand
 			};
 			requiredArgs = 0;
 			page = 1;
+			search = "";
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class CmdSettleHelp extends RealmsCommand
 		switch (index)
 		{
 		case 1 :
-				this.helpPage = value;
+				search = value;
 			break;
 		default:
 			break;
@@ -73,12 +75,12 @@ public class CmdSettleHelp extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-    	msg = makeHelpPage(plugin.getCommandRealms().getCmdList(), msg, this.helpPage);
+    	msg = makeHelpPage(plugin.getCommandRealms().getCmdList(), msg, search);
 
 		plugin.getMessageData().printPage(sender, msg, page);
 		helpPage = "";
 		page = 1;
-		msg.clear();
+		search = "";
 
 	}
 

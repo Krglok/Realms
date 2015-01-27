@@ -21,7 +21,7 @@ public class CmdSettleSell extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.SELL);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle SELL [ID] [item] [amount] [prive] [days]",
+				ChatColor.YELLOW+"/settle SELL [ID] [item] [amount] [price] [days]",
 				"Set an buy order for te amount of item to the trader ",
 		    	"of Settlement <ID>, the decline after day(s) ",
 		    	"  "

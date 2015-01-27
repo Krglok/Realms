@@ -72,18 +72,16 @@ public class CmdRealmsPricelistInfo extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-		msg.add("== Pricelist size :"+plugin.getData().getPriceList().size());
+		msg.add("== Pricelist size :"+plugin.getData().getPriceList().size()+" \n");
 		Player player = (Player) sender;
 		PlayerInventory inventory = player.getInventory();
 		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-
-		msg.add(ConfigBasis.setStrleft(" Pricelist for ", 19));
-		msg.add(ConfigBasis.setStrleft(" Settlements : §0", 19));
+		msg.add("for Settlements : "+"\n");
 		for (String itemRef : plugin.getData().getPriceList().sortItems())
 		{
 			ItemPrice item = plugin.getData().getPriceList().get(itemRef);
 			String sLine = "";
-			sLine = ConfigBasis.setStrleft(item.ItemRef()+"_________",12)+":§a "+ConfigBasis.setStrformat2(item.getFormatedBasePrice(),6)+"§0 ";
+			sLine = ConfigBasis.setStrleft(item.ItemRef()+"_________",11)+": "+ConfigBasis.setStrformat2(item.getFormatedBasePrice(),6)+"\n"; //"§0\n";
 			msg.add(sLine);
 			
 		}

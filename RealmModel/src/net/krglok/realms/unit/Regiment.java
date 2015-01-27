@@ -80,7 +80,7 @@ public class Regiment {
 
 	//	private Colony colonist;
 	private BattleSetup battle;
-	private Unit commander = null;
+	private AbstractUnit commander = null;
 	private BattlePlacement attackPlan;
 	private int firstWave = 5;
 	private int waveCount = 2;
@@ -93,7 +93,7 @@ public class Regiment {
 	
 	private int settleId = -1;
 	
-	
+
 	public Regiment() //LogList logList) 
 	{
 		super();
@@ -131,7 +131,7 @@ public class Regiment {
 		regiment.getBarrack().addUnitList(settlerList);
 		regiment.name		= "Privateer";
 		regiment.ownerId		= 0;
-		regiment.commander 	= new Unit(UnitType.COMMANDER);
+//		regiment.commander 	= new AbstractUnit(UnitType.COMMANDER);
 //		regiment.getColonist().setPosition(regiment.getPosition());
 		return regiment;
 	}
@@ -461,7 +461,7 @@ public class Regiment {
 		
 		//first line with militia
 		UnitList centerList = new UnitList();
-		for (Unit unit : barrack.getUnitList())
+		for (AbstractUnit unit : barrack.getUnitList())
 		{
 			if (unit.getUnitType() == UnitType.MILITIA)
 			{
@@ -472,7 +472,7 @@ public class Regiment {
 		
 		// second line with archers
 		UnitList backList = new UnitList();
-		for (Unit unit : barrack.getUnitList())
+		for (AbstractUnit unit : barrack.getUnitList())
 		{
 			if (unit.getUnitType() == UnitType.ARCHER)
 			{
@@ -555,7 +555,7 @@ public class Regiment {
 			{
 				if (battle.getAttacker().getPlaceUnit(bPos).size() > 0)
 				{
-					Unit unit = battle.getAttacker().getPlaceUnit(bPos).get(0);
+					AbstractUnit unit = battle.getAttacker().getPlaceUnit(bPos).get(0);
 					for(int i= 0; i < battle.getAttacker().getPlaceUnit(bPos).size(); i++)
 					{
 						barrack.getUnitList().add(unit);
@@ -570,7 +570,7 @@ public class Regiment {
 			{
 				if (battle.getDefender().getPlaceUnit(bPos).size() > 0)
 				{
-					Unit unit = battle.getDefender().getPlaceUnit(bPos).get(0);
+					AbstractUnit unit = battle.getDefender().getPlaceUnit(bPos).get(0);
 					for(int i= 0; i < battle.getDefender().getPlaceUnit(bPos).size(); i++)
 					{
 						raidTarget.getBarrack().getUnitList().add(unit);
@@ -936,6 +936,22 @@ public class Regiment {
 	public void setOwner(Owner owner)
 	{
 		this.owner = owner;
+	}
+
+	/**
+	 * @return the commander
+	 */
+	public AbstractUnit getCommander()
+	{
+		return commander;
+	}
+
+	/**
+	 * @param commander the commander to set
+	 */
+	public void setCommander(AbstractUnit commander)
+	{
+		this.commander = commander;
 	}
 
 }

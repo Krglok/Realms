@@ -12,7 +12,7 @@ public class NpcData
 
 	private int Id;
 	private NPCType npcType ;
-	private UnitType unitType ;
+	protected UnitType unitType ;
 	private String name;
 	private GenderType gender;
 	private int age;	// in days !
@@ -24,8 +24,8 @@ public class NpcData
 	private int workBuilding;
 	
 	private double money;
-	private Item itemInHand;
-	private BackpackList backPack;
+	protected Item itemInHand;
+	protected BackpackList backPack;
 	private boolean isMaried;
 	private int npcHusband;
 	private int pcHusband;
@@ -34,9 +34,12 @@ public class NpcData
 	private boolean isAlive;
 	private int schwanger;
 	private int producer;
-	private double happiness;
-	
-	private LocationData location;
+	protected double happiness;
+	protected int health;
+	private int regimentId;
+	private int power;
+
+	protected LocationData location;
 	public double foodConsumCounter;
 	public double hungerCounter;
 	public boolean isSpawned;
@@ -74,6 +77,9 @@ public class NpcData
 		spawnId = -1;
 		npcAction = NpcAction.NONE;
 		location = null;
+		this.setHealth(20);
+		this.setRegimentId(0);
+		this.setPower(1);
 	}
 	
 	public NpcData(int npcId, NPCType npcType, UnitType unitType, String name, int settleId, int buildingId, GenderType gender, int age)
@@ -108,6 +114,9 @@ public class NpcData
 		spawnId = -1;
 		npcAction = NpcAction.NONE;
 		location = null;
+		this.setHealth(20);
+		this.setRegimentId(0);
+		this.setPower(1);
 	}
 	
 	
@@ -626,6 +635,54 @@ public class NpcData
 	public void setLocation(LocationData location)
 	{
 		this.location = location;
+	}
+
+	/**
+	 * @return the health
+	 */
+	public int getHealth()
+	{
+		return health;
+	}
+
+	/**
+	 * @param health the health to set
+	 */
+	public void setHealth(int health)
+	{
+		this.health = health;
+	}
+
+	/**
+	 * @return the regimentId
+	 */
+	public int getRegimentId()
+	{
+		return regimentId;
+	}
+
+	/**
+	 * @param regimentId the regimentId to set
+	 */
+	public void setRegimentId(int regimentId)
+	{
+		this.regimentId = regimentId;
+	}
+
+	/**
+	 * @return the power
+	 */
+	public int getPower()
+	{
+		return power;
+	}
+
+	/**
+	 * @param power the power to set
+	 */
+	public void setPower(int power)
+	{
+		this.power = power;
 	}
 
 }

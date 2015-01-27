@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.npc.BackpackList;
+import net.krglok.realms.npc.NpcData;
 
 /**
  * <pre>
@@ -14,15 +16,15 @@ import net.krglok.realms.core.LocationData;
  * @author Windu
  *
  */
-public abstract class AbstractUnit implements IUnit
+public abstract class AbstractUnit extends NpcData implements IUnit
 {
 	
 //	private int id;
-	protected UnitType unitType;
-	protected int health;
-	protected LocationData position;
-	protected ItemList storage;
-	protected Item used;
+//	protected UnitType unitType;
+//	protected int health;
+//	protected LocationData position;
+//	protected ItemList storage;
+//	protected Item used;
 
 	protected int speed;
 	protected int offense;
@@ -47,11 +49,12 @@ public abstract class AbstractUnit implements IUnit
 	{
 //		ID++;
 //		this.id = ID;
+		super();
 		this.unitType = UnitType.NONE;
 		this.health = restoreHealth();
-		this.position = new LocationData("", 0.0, 0.0, 0.0);
-		this.storage = new ItemList();
-		this.used = new Item(Material.AIR.name(),1); 
+		this.location = new LocationData("", 0.0, 0.0, 0.0);
+		this.backPack = new BackpackList();
+		this.itemInHand = new Item(Material.AIR.name(),1); 
 		this.armor = 0;
 		this.speed = 0;
 		this.offense = 0;
@@ -294,5 +297,15 @@ public abstract class AbstractUnit implements IUnit
 		return unitType;
 	}
 
+	public void addHealth(double value)
+	{
+		this.health = (int) (this.health + value);
+	}
+
+	
+	public void addHappiness(double value)
+	{
+		this.happiness = this.happiness+value;
+	}
 
 }

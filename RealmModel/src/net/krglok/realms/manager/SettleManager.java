@@ -3,6 +3,7 @@ package net.krglok.realms.manager;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
@@ -325,57 +326,58 @@ public class SettleManager
 
 	private int getMinStorage(RealmModel rModel, Settlement settle, String itemRef)
 	{
-		int matFactor = rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef));
+		int biomeFactor = rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef));
 		int sellLimit = 0;
 		if (dontSell.containsKey(itemRef))
 		{
 			sellLimit = dontSell.getValue(itemRef);
 		}
 		
-		if (matFactor >= 0)
-		{
-			if (rModel.getConfig().getToolItems().containsKey(itemRef))
-			{
-				return 64 - (64 * matFactor / 100) + sellLimit;
-			}
-			if (rModel.getConfig().getWeaponItems().containsKey(itemRef))
-			{
-				return 64 - (64 * matFactor / 100) + sellLimit;
-			}
-			if (rModel.getConfig().getArmorItems().containsKey(itemRef))
-			{
-				return 64- (64 * matFactor / 100) + sellLimit; 
-			}
-			if (rModel.getConfig().getFoodItems().containsKey(itemRef))
-			{
-				return settle.getResident().getSettlerMax() * 16 ;
-			}
-			if (rModel.getConfig().getValuables().containsKey(itemRef))
-			{
-				return 64 - (64 * matFactor / 100) + sellLimit;
-			}
-			if (rModel.getConfig().getBuildMaterialItems().containsKey(itemRef))
-			{
-				return 196 - (64 * matFactor / 100) + sellLimit;
-			}
-			if (rModel.getConfig().getOreItems().containsKey(itemRef))
-			{
-				return 64 - (64 * matFactor / 100) + sellLimit;
-			}
-			if (rModel.getConfig().getMaterialItems().containsKey(itemRef))
-			{
-				return 64 - (64 * matFactor / 100) + sellLimit;
-			}
-			if (rModel.getConfig().getRawItems().containsKey(itemRef))
-			{
-				return 64 - (64 * matFactor / 100) + sellLimit;
-			}
-			
-			return 8 + sellLimit;
-		} else
-		{
-			return 9999;
-		}
+		return  ConfigBasis.getMinStorage(biomeFactor,settle.getResident().getSettlerMax(), itemRef, sellLimit);
+//		if (matFactor >= 0)
+//		{
+//			if (rModel.getConfig().getToolItems().containsKey(itemRef))
+//			{
+//				return 64 - (64 * matFactor / 100) + sellLimit;
+//			}
+//			if (rModel.getConfig().getWeaponItems().containsKey(itemRef))
+//			{
+//				return 64 - (64 * matFactor / 100) + sellLimit;
+//			}
+//			if (rModel.getConfig().getArmorItems().containsKey(itemRef))
+//			{
+//				return 64- (64 * matFactor / 100) + sellLimit; 
+//			}
+//			if (rModel.getConfig().getFoodItems().containsKey(itemRef))
+//			{
+//				return settle.getResident().getSettlerMax() * 16 ;
+//			}
+//			if (rModel.getConfig().getValuables().containsKey(itemRef))
+//			{
+//				return 64 - (64 * matFactor / 100) + sellLimit;
+//			}
+//			if (rModel.getConfig().getBuildMaterialItems().containsKey(itemRef))
+//			{
+//				return 196 - (64 * matFactor / 100) + sellLimit;
+//			}
+//			if (rModel.getConfig().getOreItems().containsKey(itemRef))
+//			{
+//				return 64 - (64 * matFactor / 100) + sellLimit;
+//			}
+//			if (rModel.getConfig().getMaterialItems().containsKey(itemRef))
+//			{
+//				return 64 - (64 * matFactor / 100) + sellLimit;
+//			}
+//			if (rModel.getConfig().getRawItems().containsKey(itemRef))
+//			{
+//				return 64 - (64 * matFactor / 100) + sellLimit;
+//			}
+//			
+//			return 8 + sellLimit;
+//		} else
+//		{
+//			return 9999;
+//		}
 	}
 	
 	public ItemList getOverStock (RealmModel rModel, Settlement settle)

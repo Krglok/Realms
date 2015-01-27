@@ -17,6 +17,7 @@ import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.command.CmdFeudalInfo;
 import net.krglok.realms.command.CmdRealmsBookList;
+import net.krglok.realms.command.CmdRealmsPricelistInfo;
 import net.krglok.realms.command.CmdSettleAddBuilding;
 import net.krglok.realms.command.CmdSettleBuildingList;
 import net.krglok.realms.command.CmdSettleInfo;
@@ -481,32 +482,38 @@ public class ServerListener implements Listener
 			{
 				String ItemRef = getItemRef(itemStack);
     			double cost = plugin.getData().getPriceList().getBasePrice(ItemRef);
-    			int amount = 1;
-    			cost = cost * amount * ConfigBasis.SETTLE_BUY_FACTOR;
-    			if (settle.getBank().getKonto() <= cost) 
+    			if (cost > 0.0)
     			{
-        			player.sendMessage("The settlement has not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
-    	    		event.setCancelled(true);
+	    			int amount = 1;
+	    			cost = cost * amount * ConfigBasis.SETTLE_BUY_FACTOR;
+	    			if (settle.getBank().getKonto() <= cost) 
+	    			{
+	        			player.sendMessage("The settlement has not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+	    	    		event.setCancelled(true);
+	    			} else
+	    			{
+	        			player.sendMessage("You sell "+itemStack.getType()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 8));
+	        			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
+	        			plugin.economy.depositPlayer(player.getName(), cost).toString();
+	        			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+	        	    	if (itemStack.getAmount() == 1)
+	        	    	{
+	        	    		player.getInventory().remove(itemStack);
+	//        	    		setItem(event.getRawSlot(), new ItemStack(Material.AIR,1));
+	        	    	} else
+	        	    	{
+	        	    		itemStack.setAmount(itemStack.getAmount()-amount);
+	        	    	}
+	        			player.updateInventory();
+	        			event.setCancelled(true);
+	       				settle.getReputations().addValue(ReputationType.TRADE, player.getName(), "BUY", ConfigBasis.TRADE_POINT);
+						player.sendMessage(ChatColor.GREEN+"You get Reputation for your trade");
+	    			}
     			} else
     			{
-        			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 8));
-        			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
-        			plugin.economy.depositPlayer(player.getName(), cost).toString();
-        			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
-        	    	if (itemStack.getAmount() == 1)
-        	    	{
-        	    		player.getInventory().remove(itemStack);
-//        	    		setItem(event.getRawSlot(), new ItemStack(Material.AIR,1));
-        	    	} else
-        	    	{
-        	    		itemStack.setAmount(itemStack.getAmount()-amount);
-        	    	}
-        			player.updateInventory();
         			event.setCancelled(true);
-       				settle.getReputations().addValue(ReputationType.TRADE, player.getName(), "BUY", ConfigBasis.TRADE_POINT);
-					player.sendMessage(ChatColor.GREEN+"You get Reputation for your trade");
+					player.sendMessage(ChatColor.RED+"No price set in global pricelist! "+ItemRef);
     			}
-
 			}
 			break;
 		case PICKUP_HALF:
@@ -515,20 +522,27 @@ public class ServerListener implements Listener
     			double cost = plugin.getData().getPriceList().getBasePrice(itemStack.getType().name());
     			int amount = itemStack.getAmount() / 2;
     			cost = cost * amount;
-    			if (settle.getBank().getKonto() <= cost) 
+    			if (cost > 0.0)
     			{
-        			player.sendMessage("The settlement has not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
-    	    		event.setCancelled(true);
-    			} else
-    			{
-        			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
-        			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
-        			plugin.economy.depositPlayer(player.getName(), cost).toString();
-        			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
-    	    		itemStack.setAmount(itemStack.getAmount()-amount);
-        			player.updateInventory();
-    	    		event.setCancelled(true);
-    			}
+	    			if (settle.getBank().getKonto() <= cost) 
+	    			{
+	        			player.sendMessage("The settlement has not enough money "+":"+ConfigBasis.setStrformat2(cost, 5));
+	    	    		event.setCancelled(true);
+	    			} else
+	    			{
+	        			player.sendMessage("You sell "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
+	        			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
+	        			plugin.economy.depositPlayer(player.getName(), cost).toString();
+	        			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
+	    	    		itemStack.setAmount(itemStack.getAmount()-amount);
+	        			player.updateInventory();
+	    	    		event.setCancelled(true);
+	    			}
+				} else
+				{
+	    			event.setCancelled(true);
+					player.sendMessage(ChatColor.RED+"No price set in global pricelist! "+itemStack.getType());
+				}
 			}
 			break;
 		default:
@@ -1519,7 +1533,21 @@ public class ServerListener implements Listener
 			cmdKnowledge(event, b);
 			return;
 		}
+
+		if (l0.contains("[PRICELIST]"))
+		{
+			CmdRealmsPricelistInfo cmd = new CmdRealmsPricelistInfo();
+			cmd.setPara(0, 1);
+			if (cmd.canExecute(plugin, event.getPlayer()))
+			{
+//				cmdWare.execute(plugin, event.getPlayer());
+				cmd.execute(plugin, event.getPlayer());
+			}
+			
+			return;
+		}
 		
+
 		if (l0.contains("[WAREHOUSE]"))
 		{
 //			cmdBuildPlanBook(event);
@@ -2681,33 +2709,38 @@ public class ServerListener implements Listener
 					String itemRef = item.ItemRef();
 					int amount = item.value();
 					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
-					int stock = settle.getWarehouse().getItemList().getValue(itemRef);
-					if ((stock+amount > minAmount) && (price > 0.0))
+					if ((price > 0.0))
 					{
-						settle.getWarehouse().getItemList().withdrawItem(itemRef, amount);
-	//					player.sendMessage("Store item :"+itemRef);
-						if (itemRef.equalsIgnoreCase("AIR") == false)
+						int stock = settle.getWarehouse().getItemList().getValue(itemRef);
+						if ((stock+amount > minAmount))
 						{
-							loreString.clear();
-							ItemStack itemStack = new ItemStack(Material.valueOf(itemRef), amount);
-							loreString.add("Price : "+ConfigBasis.setStrformat2(price,5));
-							loreString.add("Amount: "+amount);
-							loreString.add("Cost  : "+ConfigBasis.setStrformat2(price*amount,6));
-	//						System.out.println("Slot : "+slot);
-							if (itemStack != null)
+							settle.getWarehouse().getItemList().withdrawItem(itemRef, amount);
+		//					player.sendMessage("Store item :"+itemRef);
+							if (itemRef.equalsIgnoreCase("AIR") == false)
 							{
-								chest.setItem(slot - 1, setName(itemStack, itemStack.getItemMeta().getDisplayName(), loreString));
+								loreString.clear();
+								ItemStack itemStack = new ItemStack(Material.valueOf(itemRef), amount);
+								loreString.add("Price : "+ConfigBasis.setStrformat2(price,5));
+								loreString.add("Amount: "+amount);
+								loreString.add("Cost  : "+ConfigBasis.setStrformat2(price*amount,6));
+		//						System.out.println("Slot : "+slot);
+								if (itemStack != null)
+								{
+									chest.setItem(slot - 1, setName(itemStack, itemStack.getItemMeta().getDisplayName(), loreString));
+								}
+								stockList.remove(index);
+								if (stockList.size() == 0)
+								{
+									// end the list
+									return;
+								}
 							}
-							stockList.remove(index);
-							if (stockList.size() == 0)
-							{
-								// end the list
-								return;
-							}
+						} else
+						{
 						}
 					} else
 					{
-//						player.sendMessage("Stock low item :"+itemRef);
+						System.out.println("[REALMS No price for  :"+itemRef);
 					}
 				}
 			}

@@ -450,7 +450,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 			}
 		}
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add(ChatColor.RED+"Nothig found for "+helpPage );
+//		msg.add(ChatColor.RED+"Nothig found for "+helpPage );
 		return msg;
 	}
 
@@ -490,8 +490,18 @@ public abstract class RealmsCommand implements iRealmsCommand
     	} else
     	{
     		
-    		RealmsSubCommandType subCommandType = RealmsSubCommandType.getRealmSubCommandType(search);
-			msg.addAll(getCommandDescription(cmdList,  this.command(), subCommandType));
+//    		RealmsSubCommandType subCommandType = RealmsSubCommandType.searchRealmSubCommandType(search);
+    		String name = search.toUpperCase();
+    		for (RealmsSubCommandType rsc : RealmsSubCommandType.values())
+    		{
+    			if (rsc.name().contains(name))
+    			{
+//    				return rsc;
+    				msg.addAll(getCommandDescription(cmdList,  this.command(), rsc));
+    			}
+    		}
+
+//			msg.addAll(getCommandDescription(cmdList,  this.command(), subCommandType));
     	}
 		return msg;
 
@@ -520,7 +530,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 		{
 			line++;
 			sPage = sPage+msg.get(i);
-			if ((line > 12) && (bookPage < 50))
+			if ((line > 11) && (bookPage < 50))
 			{
 				bm.addPage(sPage);
 				sPage = "";

@@ -14,7 +14,7 @@ public class UnitCommander extends AbstractUnit {
 		armor = 6;
 		speed = 4;
 		offense = 7;
-		defense = 6;
+		defense = 8;
 		offenseRange = 1;
 		maxStorage = 27;
 		
@@ -26,7 +26,7 @@ public class UnitCommander extends AbstractUnit {
 		
 		//consum
 		consumItems = initConsum();
-		consumCost  = 0.0;
+		consumCost  = 1.0;
 		consumTime  = 10;
 	}
 

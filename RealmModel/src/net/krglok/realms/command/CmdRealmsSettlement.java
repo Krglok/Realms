@@ -10,8 +10,11 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.SettleType;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdRealmsSettlement extends RealmsCommand
 {
@@ -85,14 +88,15 @@ public class CmdRealmsSettlement extends RealmsCommand
     	{
     		if ((bType.getValue() >= von) && (bType.getValue() <= bis) )
     		{
-    			if (index >= 4)
-    			{
-    				msg.add(color+line);
-    				index = 0;
-    				line = "";
-    			}
+//    			if (index >= 4)
+//    			{
+//    				msg.add(color+line+"\n");
+//    				index = 0;
+//    				line = "";
+//    			}
     			index++;
-    			line = toLine(line,bType.name());
+//    			line = toLine(line,bType.name());
+    			msg.add(color+bType.name()+"\n");
     		}
     	}
 		if (line.length() > 0)
@@ -111,9 +115,21 @@ public class CmdRealmsSettlement extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
     	if (search == "")
     	{
+    		msg.add(ChatColor.GOLD+"protected Areas"+"\n");
         	msg.addAll(SettlementSection(10, 99,ChatColor.GOLD));
+    		msg.add(ChatColor.GREEN+"Commoner Areas"+"\n");
         	msg.addAll(SettlementSection(100, 399,ChatColor.GREEN));
+    		msg.add(ChatColor.LIGHT_PURPLE+"Noble Areas"+"\n");
         	msg.addAll(SettlementSection(500, 600,ChatColor.LIGHT_PURPLE));
+
+
+    		if (sender instanceof Player)
+    		{
+            	PlayerInventory inventory = ((Player) sender).getInventory();
+        		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+    			writeBook(book, msg, "Realm Admin","The SettleTypes");
+    			inventory.addItem(book);
+    		}
     		
     	} else
     	{

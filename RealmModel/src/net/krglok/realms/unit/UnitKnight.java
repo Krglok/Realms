@@ -2,21 +2,19 @@ package net.krglok.realms.unit;
 
 import org.bukkit.Material;
 
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 
-public class UnitMilitia extends AbstractUnit
+public class UnitKnight extends AbstractUnit
 {
-
-
-	public UnitMilitia()
+	
+	public UnitKnight()
 	{
 		super();
-		unitType = UnitType.MILITIA;
+		unitType = UnitType.KNIGHT;
 		armor = 3;
-		speed = 4;
-		offense = 6;
-		defense = 3;
+		speed = 2;
+		offense = 10;
+		defense = 10;
 		offenseRange = 1;
 		maxStorage = 27;
 		
@@ -28,34 +26,35 @@ public class UnitMilitia extends AbstractUnit
 		
 		//consum
 		consumItems = initConsum();
-		consumCost  = 0.1;
+		consumCost  = 1.5;
 		consumTime  = 10;
 		
 	}
-	
+
+
+	@Override
 	public ItemList initRequired()
 	{
 		ItemList subList = new ItemList();
 		
-		subList.addItem(Material.LEATHER_BOOTS.name(),1);
-		subList.addItem(Material.LEATHER_CHESTPLATE.name(),1);
-		subList.addItem(Material.LEATHER_HELMET.name(),1);
-		subList.addItem(Material.LEATHER_LEGGINGS.name(),1);
-		subList.addItem(Material.STONE_SWORD.name(),1);
+		subList.addItem(Material.CHAINMAIL_BOOTS.name(),1);
+		subList.addItem(Material.CHAINMAIL_CHESTPLATE.name(),1);
+		subList.addItem(Material.CHAINMAIL_HELMET.name(),1);
+		subList.addItem(Material.CHAINMAIL_LEGGINGS.name(),1);
+		subList.addItem(Material.DIAMOND_SWORD.name(),1);
 		
 		return subList;
 	}
-	
-	
+
+	@Override
 	public ItemList initConsum()
 	{
 		ItemList subList = new ItemList();
 		
 		subList.addItem(Material.BREAD.name(),1);
+		subList.addItem(Material.GRILLED_PORK.name(),1);
 		
 		return subList;
 	}
-
-
 
 }

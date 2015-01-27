@@ -173,7 +173,7 @@ public class BattleSetup
 		{
 			if ((attacker.getUnitPlacement().get(bPos) != null))
 			{
-				for (Unit unit : attacker.getUnitPlacement().get(bPos))
+				for (AbstractUnit unit : attacker.getUnitPlacement().get(bPos))
 				{
 					attackPower = attackPower + unit.getPower();
 				}
@@ -183,7 +183,7 @@ public class BattleSetup
 		{
 			if ((defender.getUnitPlacement().get(bPos) != null))
 			{
-				for (Unit unit : defender.getUnitPlacement().get(bPos))
+				for (AbstractUnit unit : defender.getUnitPlacement().get(bPos))
 				{
 					defendPower = defendPower + unit.getPower();
 				}
@@ -213,7 +213,7 @@ public class BattleSetup
 				}
 				if ((attacker.getUnitPlacement().get(BattleFieldPosition.CENTER).size() == 0))
 				{
-					for (Unit unit : attacker.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
+					for (AbstractUnit unit : attacker.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
 					{
 						attacker.getUnitPlacement().get(BattleFieldPosition.CENTER).add(unit);
 					}
@@ -233,7 +233,7 @@ public class BattleSetup
 				}
 				if ((defender.getUnitPlacement().get(BattleFieldPosition.CENTER).size() == 0))
 				{
-					for (Unit unit : defender.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
+					for (AbstractUnit unit : defender.getUnitPlacement().get(BattleFieldPosition.CENTERBACK))
 					{
 						defender.getUnitPlacement().get(BattleFieldPosition.CENTER).add(unit);
 					}

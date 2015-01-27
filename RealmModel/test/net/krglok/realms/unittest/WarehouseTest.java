@@ -98,6 +98,7 @@ public class WarehouseTest
 	{
 		ConfigTest data = new ConfigTest();
 		ItemList iList = data.getToolItems();
+		iList.addAll(data.getMaterialItems());
 		Warehouse warehouse = new Warehouse(17260);
 		warehouse.setItemList(iList);
 		warehouse.setStoreCapacity();
@@ -112,38 +113,46 @@ public class WarehouseTest
 			warehouse.depositItemValue(itemRef, value);
 			lastRef = itemRef;
 		}
-		Boolean expected = false;
+		Boolean expected = true; // false;
 		Boolean actual = warehouse.depositItemValue(lastRef, i);
 		if (expected != actual)
 		{
 			System.out.println(" ");
 			System.out.println("testCheckCapacity "+warehouse.getFreeCapacity()+"/"+warehouse.getItemMax()/64);
+			System.out.println(ConfigBasis.setStrleft("Item",16)
+					+":"+ConfigBasis.setStrleft("value",5)
+					+":"+ConfigBasis.setStrleft("store",5));
 			for (Item item : iList.values())
 			{
 				System.out.println(ConfigBasis.setStrleft(item.ItemRef(),16)
-						+":"+warehouse.getItemList().getValue(item.ItemRef())
-						+":"+warehouse.getTypeCapacityList().get(item.ItemRef()).value()*64);
+						+":"+ConfigBasis.setStrright(warehouse.getItemList().getValue(item.ItemRef()),5)
+						+":"+ConfigBasis.setStrright(warehouse.getTypeCapacityList().get(item.ItemRef()).value()*64,5));
 			}
 			
 		}
 		String[][] dataRows = new String[warehouse.getItemList().size()][3];
 		int index = 0;
+		
 		for (String Ref : warehouse.getItemList().sortItems())
 		{
 			Item item = warehouse.getItemList().get(Ref);
-			if (index <100)
+			if (index <200)
 			{
 				dataRows[index][0] = ConfigBasis.setStrleft(item.ItemRef(),15);
 				dataRows[index][1] = ConfigBasis.setStrright(item.value(),7);
-				dataRows[index][2] = ConfigBasis.setStrright(0.0,5);
+				dataRows[index][2] = ConfigBasis.setStrright(ConfigBasis.getMinStorage(-50, 15, item.ItemRef(), 0),5);
 			}
 			index ++;
 		}
+		System.out.print(ConfigBasis.setStrleft("item",15)+"|");
+		System.out.print(ConfigBasis.setStrleft("maxStore",7)+"|");
+		System.out.print(ConfigBasis.setStrleft("MinStore",7)+"|");
+		System.out.println("");
 		for (int j = 0; j < dataRows.length; j++)
 		{
-			System.out.print(dataRows[j][0]+"|");
-			System.out.print(dataRows[j][1]+"|");
-			System.out.print(dataRows[j][2]+"|");
+			System.out.print(ConfigBasis.setStrleft(dataRows[j][0],15)+"|");
+			System.out.print(ConfigBasis.setStrright(dataRows[j][1],7)+"|");
+			System.out.print(ConfigBasis.setStrright(dataRows[j][2],7)+"|");
 			System.out.println("");
 		}
 

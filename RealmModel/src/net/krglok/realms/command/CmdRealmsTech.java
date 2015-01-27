@@ -3,12 +3,18 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.science.KnowledgeList;
 import net.krglok.realms.science.KnowledgeNode;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdRealmsTech extends RealmsCommand
 {
@@ -73,15 +79,23 @@ public class CmdRealmsTech extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		KnowledgeList kList = plugin.getRealmModel().getKnowledgeData().getKnowledgeList();
-		msg.add("ID |     |  [ "+kList.size()+" ]");
+		msg.add("Techlevel  [ "+kList.size()+" ]"+"\n");
 		
 		for (String ref : kList.sortItems())
 		{
 			KnowledgeNode node = kList.get(ref);
-    		msg.add(node.getTechId()
-    				+" | "+ChatColor.GOLD+node.getAchievName()
-    				+" | "+node.getDescription()
-    				);
+    		msg.add(ChatColor.GREEN+node.getTechId()+"\n");
+    		for (BuildPlanType bType : node.getBuildPermission())
+    		{
+    			msg.add(ChatColor.YELLOW+ConfigBasis.setStrleft(bType.name(),14)+"\n");
+    		}
+		}
+    	if (sender instanceof Player)
+		{
+        	PlayerInventory inventory = ((Player) sender).getInventory();
+    		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+			writeBook(book, msg, "Realm Admin","The Techlevel");
+			inventory.addItem(book);
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);

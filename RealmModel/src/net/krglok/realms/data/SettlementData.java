@@ -23,7 +23,6 @@ import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.unit.IUnit;
-import net.krglok.realms.unit.Unit;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
@@ -162,14 +161,14 @@ public class SettlementData
 	            config.set(MemorySection.createPath(section,"itemList"), values);
 ////	            config.set("", settle);
 //	            System.out.println("SAVE : "+settle.getId()+": "+fileName);
-	            values = new HashMap<String,String>();
-	            int index = 0;
-            	for (Unit unit : settle.getBarrack().getUnitList())
-            	{
-            		values.put(String.valueOf(index), unit.getUnitType().name());
-            		index++;
-            	}
-	            config.set(MemorySection.createPath(section,"unitlist"), values);
+//	            values = new HashMap<String,String>();
+//	            int index = 0;
+//            	for (Unit unit : settle.getBarrack().getUnitList())
+//            	{
+//            		values.put(String.valueOf(index), unit.getUnitType().name());
+//            		index++;
+//            	}
+//	            config.set(MemorySection.createPath(section,"unitlist"), values);
 
 	            try
 				{

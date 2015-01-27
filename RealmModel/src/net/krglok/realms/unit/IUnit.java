@@ -59,6 +59,8 @@ public interface IUnit
 	public abstract ItemList getConsumItems();
 
 	public abstract UnitType getUnitType();
+	
+	public abstract void addHappiness(double value);
 
 	
 }
