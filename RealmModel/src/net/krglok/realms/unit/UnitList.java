@@ -45,4 +45,8 @@ public class UnitList extends ArrayList<NpcData>
 		return null;
 	}
 
+	public void putUnit(NpcData npc)
+	{
+		this.add(npc);
+	}
 }

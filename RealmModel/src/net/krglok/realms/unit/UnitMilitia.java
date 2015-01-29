@@ -43,7 +43,7 @@ public class UnitMilitia extends AbstractUnit
 	@Override
 	public ItemList initRequired()
 	{
-		return getRequiredItems();
+		return getRequiredList();
 	}
 	
 	

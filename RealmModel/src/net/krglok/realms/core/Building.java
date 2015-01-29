@@ -9,6 +9,7 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.unit.UnitArcher;
 import net.krglok.realms.unit.UnitMilitia;
 import net.krglok.realms.unit.UnitType;
 
@@ -948,12 +949,10 @@ public class Building  implements Serializable
 		switch (trainType)
 		{
 		case MILITIA:
-//			UnitMilitia militia = new UnitMilitia(npcData);
 			outValues = UnitMilitia.getRequiredList();
-//			for (Item item : militia.getRequiredItems().values())
-//			{
-//				outValues.put(item.ItemRef() ,new Item(item.ItemRef(),item.value()));
-//			}
+			break;
+		case ARCHER:
+			outValues = UnitArcher.getRequiredList();
 			break;
 		default :
 		}

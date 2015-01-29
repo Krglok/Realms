@@ -2,6 +2,8 @@ package net.krglok.realms.npc;
 
 import java.util.HashMap;
 
+import net.krglok.realms.unit.UnitList;
+
 public class NpcList extends HashMap<Integer, NpcData>
 {
 
@@ -258,6 +260,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 	
+	
 	public NpcList getDeathNpc()
 	{
 		NpcList subList = new NpcList();
@@ -272,6 +275,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 
+	
 	public NpcList getAliveNpc()
 	{
 		NpcList subList = new NpcList();
@@ -285,6 +289,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 		}
 		return subList;
 	}
+	
 	
 	public NpcList getBeggarNpc()
 	{
@@ -302,6 +307,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 
+	
 	public NpcData getNpcType(NPCType npcType)
 	{
 		for (NpcData npc : this.values())
@@ -314,6 +320,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 			
 		return null;
 	}
+	
 	
 	public NpcList getNoHomeNpc()
 	{
@@ -359,6 +366,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 
+	
 	public NpcData getCitizenId(int citizenId)
 	{
 		for (NpcData npc : this.values())
@@ -370,5 +378,56 @@ public class NpcList extends HashMap<Integer, NpcData>
 		}
 		return null;
 	}
+
 	
+	public UnitList getSubListUnits()
+	{
+		UnitList subList = new UnitList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.getNpcType() == NPCType.MILITARY)
+			{
+				subList.putUnit(npc);
+			}
+		}
+		return subList;
+	}
+
+	
+	public UnitList getSubListUnits(int settleId)
+	{
+		UnitList subList = new UnitList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.getNpcType() == NPCType.MILITARY)
+			{
+				if ((npc.getSettleId() == settleId)
+					&& (npc.getRegimentId() == 0)
+					)
+				{
+					subList.putUnit(npc);
+				}
+			}
+		}
+		return subList;
+	}
+	
+	
+	public UnitList getSubListRegiment(int regimentId)
+	{
+		UnitList subList = new UnitList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.getNpcType() == NPCType.MILITARY)
+			{
+				if ((npc.getRegimentId() == regimentId)
+					)
+				{
+					subList.putUnit(npc);
+				}
+			}
+		}
+		return subList;
+	}
+
 }

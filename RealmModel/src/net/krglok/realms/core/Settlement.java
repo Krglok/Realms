@@ -1948,6 +1948,7 @@ public class Settlement //implements Serializable
 					{
 						switch(building.getBuildingType())
 						{
+						case ARCHERY:
 						case GUARDHOUSE:
 							if (building.getTrainCounter() == 0)
 							{
@@ -1958,11 +1959,18 @@ public class Settlement //implements Serializable
 									prodFactor  = 1.0;
 									if (checkStock(prodFactor, ingredients))
 									{
+										System.out.println("Traning Start for Rookie :"+recrute.getId());
 										// ausrüstung abbuchen
 										consumStock(prodFactor, ingredients);
 										// Siedler aus vorrat nehmen
+										recrute.setNpcType(NPCType.MILITARY);
 										recrute.setUnitType(UnitType.ROOKIE);
 										recrute.setWorkBuilding(building.getId());
+										if (resident.getNpcList().containsKey(recrute.getId()) == true)
+										{
+											resident.getNpcList().remove(recrute.getId());
+										}
+										barrack.getUnitList().putUnit(recrute);
 //										resident.depositSettler(-1);
 										// Counter starten
 										building.addTrainCounter(1);
@@ -1972,7 +1980,7 @@ public class Settlement //implements Serializable
 									}
 								} else
 								{
-									System.out.println("No Traning Start due to Resident");
+									System.out.println("No Traning Start due to missing Rookie ");
 								}
 		//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							} else

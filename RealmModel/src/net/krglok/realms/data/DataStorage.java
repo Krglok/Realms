@@ -225,6 +225,7 @@ public class DataStorage implements DataInterface
 			if (npcs.isEmpty() == false)
 			{
 				settle.getResident().setNpcList(this.getNpcs().getSubList(settle.getId()));
+				settle.getBarrack().setUnitList(this.getNpcs().getSubListUnits(settle.getId()));
 			}
 			settlements.putSettlement(settle);
 			int ownerId = settle.getOwnerId();
@@ -841,7 +842,7 @@ public class DataStorage implements DataInterface
 			NpcData npc = npcs.get(ref.getId());
 			npcDataStore.writeData(npc,ref.getId());
 			time2 = System.nanoTime();
-		    System.out.println("CacheWrite Npc: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
+//		    System.out.println("CacheWrite Npc: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
 			break;
 		case SETTLEMENT:
 			Settlement settle = settlements.getSettlement(ref.getId());

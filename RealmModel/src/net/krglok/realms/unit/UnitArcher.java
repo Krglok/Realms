@@ -41,6 +41,12 @@ public class UnitArcher extends AbstractUnit
 
 	@Override
 	public ItemList initRequired() {
+		
+		return getRequiredList();
+	}
+	
+	public static ItemList getRequiredList()
+	{
 		ItemList subList = new ItemList();
 		
 		subList.addItem(Material.LEATHER_BOOTS.name(),1);
@@ -51,7 +57,9 @@ public class UnitArcher extends AbstractUnit
 		subList.addItem(Material.ARROW.name(),32);
 		
 		return subList;
+		
 	}
+
 
 	@Override
 	public ItemList initConsum() {

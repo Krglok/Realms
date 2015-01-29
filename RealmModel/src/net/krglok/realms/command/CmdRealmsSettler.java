@@ -25,6 +25,8 @@ import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.UnitType;
 
 public class CmdRealmsSettler extends RealmsCommand
 {
@@ -104,40 +106,102 @@ public class CmdRealmsSettler extends RealmsCommand
     
     public NPCType nextFreeNpcType(Settlement settle, Building building)
     {
+    	NPCType result = null; //NPCType.BEGGAR;
     	if (building != null)
     	{
+    		// Check if space in Building
     		if (checkBuildingSpace(settle, building))
     		{
+    			// check for resident NpcType 
 		    	NpcList residents = settle.getResident().getNpcList().getBuildingNpc(building.getId());
-		    	if (building.getBuildingType() == BuildPlanType.HALL)
+		    	switch (building.getBuildingType())
 		    	{
+		    	case HALL:
+		    		// only one of each type allowed
 		    		if (residents.getNpcType(NPCType.MANAGER) == null)
 		    		{
-		    			return NPCType.MANAGER;
+		    			result = NPCType.MANAGER;
 		    		}
 		    		if (residents.getNpcType(NPCType.FARMER) == null)
 		    		{
-		    			return NPCType.FARMER;
+		    			result = NPCType.FARMER;
 		    		}
 		    		if (residents.getNpcType(NPCType.BUILDER) == null)
 		    		{
-		    			return NPCType.BUILDER;
+		    			result = NPCType.BUILDER;
 		    		}
 		    		if (residents.getNpcType(NPCType.CRAFTSMAN) == null)
 		    		{
-		    			return NPCType.CRAFTSMAN;
+		    			result = NPCType.CRAFTSMAN;
 		    		}
 		    		if (residents.getNpcType(NPCType.MAPMAKER) == null)
 		    		{
-		    			return NPCType.MAPMAKER;
+		    			result = NPCType.MAPMAKER;
 		    		}
-		    	} else
-		    	{
-		    		return NPCType.SETTLER;
+		    		break;
+		    	case HOME:
+		    	case HOUSE:
+		    	case MANSION:
+		    	case FARMHOUSE:
+		    	case FARM:
+		    		result = NPCType.SETTLER;
+		    		break;
+		    	default :
+		    		result = NPCType.BEGGAR;
+		    		break;
 		    	}
     		}
     	}
-    	return NPCType.BEGGAR;
+    	return result; //NPCType.BEGGAR;
+    }
+
+    public UnitType nextFreeUnitType(Settlement settle, Building building, Regiment regiment)
+    {
+    	UnitType result = null; //NPCType.BEGGAR;
+    	if (building != null)
+    	{
+    		if (settle != null)
+    		{
+	    		if (checkBuildingSpace(settle, building) == false)
+	    		{
+	    			return result;
+	    		}
+    		}
+    		if (regiment != null)
+    		{
+    			return result;
+    		}
+			// check for resident NpcType 
+	    	NpcList residents = settle.getResident().getNpcList().getBuildingNpc(building.getId());
+	    	switch (building.getBuildingType())
+	    	{
+	    	case GUARDHOUSE:
+	    		result = UnitType.MILITIA;
+	    		break;
+	    	case ARCHERY:
+	    		result = UnitType.ARCHER;
+	    		break;
+	    	case BARRACK:
+	    		result = UnitType.LIGHT_INFANTRY;
+	    		break;
+	    	case CASERN:
+	    		result = UnitType.HEAVY_INFANTRY;
+	    		break;
+	    	case TOWER:
+	    		result = UnitType.CAVALRY;
+	    		break;
+	    	case HEADQUARTER:
+	    		result = UnitType.COMMANDER;
+	    		break;
+	    	default :
+	    		break;
+	    	}
+    		
+    	} else
+    	{
+    		
+    	}
+    	return result; 
     }
     
     private boolean checkFullSize(Location pos)
@@ -182,17 +246,128 @@ public class CmdRealmsSettler extends RealmsCommand
 		Location frontlocation = eyelocation.add(vec);
 		return frontlocation.getWorld().getHighestBlockAt(frontlocation).getLocation(); //.getRelative(BlockFace.UP).getLocation();
 	}
-    
+	
+	private ArrayList<String> makeSettler(Realms plugin, NPCType nextNpc, Building building, Settlement settle, Player player)
+	{
+    	ArrayList<String> msg = new ArrayList<String>();
+    	NpcData settleNpc = null;
+		if (nextNpc == NPCType.BEGGAR)
+		{
+			settleNpc = new NpcData();
+			settleNpc.setGender(NpcData.findGender());
+			String npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
+			settleNpc.setName(npcName);
+			settleNpc.setNpcType(nextNpc);
+			settleNpc.setSettleId(building.getSettleId());
+			settleNpc.setHomeBuilding(0);
+			settleNpc.setAge(21);
+			settleNpc.setMoney(10.0);
+			plugin.getData().getNpcs().add(settleNpc);
+			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+			plugin.getData().writeNpc(settleNpc);
+			plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
+			
+	    	msg.add(ChatColor.GREEN+"NPC Beggar "+nextNpc+ ": "+settleNpc.getGender()+":"+settleNpc.getName());
+		} else
+			if (nextNpc == NPCType.SETTLER)
+			{
+				settleNpc = new NpcData();
+				settleNpc.setGender(NpcData.findGender());
+				String npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
+				settleNpc.setName(npcName);
+				settleNpc.setNpcType(nextNpc);
+				settleNpc.setSettleId(building.getSettleId());
+				settleNpc.setHomeBuilding(building.getId());
+				settleNpc.setAge(21);
+				settleNpc.setMoney(10.0);
+				plugin.getData().getNpcs().add(settleNpc);
+				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+				plugin.getData().writeNpc(settleNpc);
+				plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
+					
+		    	msg.add(ChatColor.GREEN+"NPC Citizen  "+nextNpc+ ": "+settleNpc.getGender()+":"+settleNpc.getName());
+			} else
+			{
+				settleNpc = new NpcData();
+				settleNpc.setGender(NpcData.findGender());
+				String npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
+				if (nextNpc == NPCType.MANAGER)
+				{
+					npcName = "Elder "+npcName;
+				}
+				settleNpc.setName(npcName);
+				settleNpc.setNpcType(nextNpc);
+				settleNpc.setSettleId(building.getSettleId());
+				settleNpc.setHomeBuilding(building.getId());
+				settleNpc.setAge(31);
+				settleNpc.setMoney(10.0);
+				settleNpc.setImmortal(true);
+				plugin.getData().getNpcs().add(settleNpc);
+				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+				plugin.getData().writeNpc(settleNpc);
+				plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
+				
+		    	msg.add(ChatColor.GREEN+"NPC Manager "+nextNpc+ ": "+settleNpc.getGender()+":"+settleNpc.getName());
+			} 
+		return msg;
+	}
+
+	private ArrayList<String> makeUnit(Realms plugin, UnitType nextUnit, Building building, Settlement settle, Regiment regiment, Player player)
+	{
+    	ArrayList<String> msg = new ArrayList<String>();
+    	NpcData settleNpc = null;
+    	String npcName = "";
+    	switch(nextUnit)
+    	{
+    	case MILITIA:
+			settleNpc = new NpcData();
+			settleNpc.setGender(GenderType.MAN);
+			npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
+			settleNpc.setName(npcName);
+			settleNpc.setNpcType(NPCType.MILITARY);
+			settleNpc.setUnitType(nextUnit);
+			settleNpc.setSettleId(building.getSettleId());
+			settleNpc.setHomeBuilding(building.getId());
+			settleNpc.setAge(21);
+			settleNpc.setMoney(10.0);
+			plugin.getData().getNpcs().add(settleNpc);
+			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListUnits(settle.getId()));
+			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+			plugin.getData().writeNpc(settleNpc);
+			plugin.unitManager.createUnit(settleNpc, plugin.makeLocationData(player.getLocation()));
+    		break;
+    	case ARCHER:
+			settleNpc = new NpcData();
+			settleNpc.setGender(GenderType.MAN);
+			npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
+			settleNpc.setName(npcName);
+			settleNpc.setNpcType(NPCType.MILITARY);
+			settleNpc.setUnitType(nextUnit);
+			settleNpc.setSettleId(building.getSettleId());
+			settleNpc.setHomeBuilding(building.getId());
+			settleNpc.setAge(21);
+			settleNpc.setMoney(10.0);
+			plugin.getData().getNpcs().add(settleNpc);
+			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListUnits(settle.getId()));
+			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+			plugin.getData().writeNpc(settleNpc);
+			plugin.unitManager.createUnit(settleNpc, plugin.makeLocationData(player.getLocation()));
+    		break;
+    	default:
+    		break;
+    	}
+		return msg;
+	}
+	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		System.out.println("Spawn Settler ");
     	ArrayList<String> msg = new ArrayList<String>();
-		int radius = 5;
-		int edge = radius * 2 -1;
+//		int radius = 5;
+//		int edge = radius * 2 -1;
 		Player player = (Player) sender;
-		Entity npc;
-		NpcData settleNpc = null;
+//		Entity npc;
 		Location spawnPos;
 		spawnPos = getNearFree(player.getLocation());
 			
@@ -210,85 +385,67 @@ public class CmdRealmsSettler extends RealmsCommand
 		SuperRegion sRegion = findSuperRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
 		if (sRegion != null)
 		{
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
-			if (settle != null)
+			if (sRegion.getType() != "CAMP")
 			{
-				Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
-				if (region != null)
+				Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
+				if (settle != null)
 				{
-					Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
-					NPCType nextNpc = nextFreeNpcType(settle, building);
-					if (building == null)
+					Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
+					if (region != null)
 					{
-						nextNpc = NPCType.BEGGAR;
-					}
-					if (nextNpc == NPCType.BEGGAR)
-					{
-						settleNpc = new NpcData();
-						settleNpc.setGender(NpcData.findGender());
-						String npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
-						settleNpc.setName(npcName);
-						settleNpc.setNpcType(nextNpc);
-						settleNpc.setSettleId(building.getSettleId());
-						settleNpc.setHomeBuilding(0);
-						settleNpc.setAge(21);
-						settleNpc.setMoney(10.0);
-						plugin.getData().getNpcs().add(settleNpc);
-						settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
-						plugin.getData().writeNpc(settleNpc);
-						plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
-						
-				    	msg.add(ChatColor.GREEN+"NPC Beggar "+nextNpc+ ": "+settleNpc.getGender()+":"+settleNpc.getName());
-					} else
-						if (nextNpc == NPCType.SETTLER)
+						Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
+						if (building != null)
 						{
-							settleNpc = new NpcData();
-							settleNpc.setGender(NpcData.findGender());
-							String npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
-							settleNpc.setName(npcName);
-							settleNpc.setNpcType(nextNpc);
-							settleNpc.setSettleId(building.getSettleId());
-							settleNpc.setHomeBuilding(building.getId());
-							settleNpc.setAge(21);
-							settleNpc.setMoney(10.0);
-							plugin.getData().getNpcs().add(settleNpc);
-							settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
-							plugin.getData().writeNpc(settleNpc);
-							plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
-	 						
-					    	msg.add(ChatColor.GREEN+"NPC Citizen  "+nextNpc+ ": "+settleNpc.getGender()+":"+settleNpc.getName());
-						} else
-						{
-							settleNpc = new NpcData();
-							settleNpc.setGender(NpcData.findGender());
-							String npcName = plugin.getData().getNpcName().findName(settleNpc.getGender());
-							if (nextNpc == NPCType.MANAGER)
+							if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_CONSTRUCT)
+								|| (BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_HOME)
+								)
 							{
-								npcName = "Elder "+npcName;
+								NPCType nextNpc = nextFreeNpcType(settle, building);
+								if (nextNpc != null)
+								{
+									msg.addAll(makeSettler(plugin, nextNpc, building, settle, player));
+									return;
+								} else
+								{
+									
+									return;
+
+								}
 							}
-							settleNpc.setName(npcName);
-							settleNpc.setNpcType(nextNpc);
-							settleNpc.setSettleId(building.getSettleId());
-							settleNpc.setHomeBuilding(building.getId());
-							settleNpc.setAge(31);
-							settleNpc.setMoney(10.0);
-							settleNpc.setImmortal(true);
-							plugin.getData().getNpcs().add(settleNpc);
-							settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
-							plugin.getData().writeNpc(settleNpc);
-							plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
-							
-					    	msg.add(ChatColor.GREEN+"NPC Manager "+nextNpc+ ": "+settleNpc.getGender()+":"+settleNpc.getName());
-						} 
-						
+							if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+								)
+							{
+								
+								UnitType nextUnit = nextFreeUnitType(settle, building, null);
+								if (nextUnit != null)
+								{
+									makeUnit(plugin, nextUnit, building, settle, null, player);
+								} else
+								{
+									
+									return;
+
+								}
+							}
+						}else
+						{
+					    	msg.add(ChatColor.RED+"Sorry Building not found region: "+region.getID());
+						}
+					} else
+					{
+				    	msg.add(ChatColor.RED+"Sorry Region not found ");
+					}
+				} else
+				{
+			    	msg.add(ChatColor.RED+"Sorry settlement not found: "+sRegion.getName());
 				}
 			} else
 			{
-		    	msg.add(ChatColor.RED+"Sorry settlement not found: "+sRegion.getName());
+		    	msg.add(ChatColor.RED+"Sorry regiment not found: "+sRegion.getName());
 			}
 		} else
 		{
-	    	msg.add(ChatColor.RED+"Sorry No settlement "+sRegion.getName());
+	    	msg.add(ChatColor.RED+"Sorry No soperregion found ");
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		page = 0;

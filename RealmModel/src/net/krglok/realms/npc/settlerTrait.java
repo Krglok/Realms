@@ -177,13 +177,12 @@ public class SettlerTrait extends Trait
 	// npc.getBukkitEntity(). It will be null.
 	public void load(DataKey key)
 	{
-//		SomeSetting = key.getBoolean("SomeSetting", plugin.getConfig().getBoolean("Defaults.SomeSetting"));
-		npcType = NPCType.valueOf(key.getString("NPCType", NPCType.BEGGAR.name()));
-		unitType = UnitType.valueOf(key.getString("UnitType", UnitType.SETTLER.name()));
-		settleId = key.getInt("settleId", 0);
-		buildingId = key.getInt("buildingId",0);
-		locationData = LocationData.toLocation(key.getString("targetLocation"));
-		targetLocation = null;
+//		npcType = NPCType.valueOf(key.getString("NPCType", NPCType.BEGGAR.name()));
+//		unitType = UnitType.valueOf(key.getString("UnitType", UnitType.SETTLER.name()));
+//		settleId = key.getInt("settleId", 0);
+//		buildingId = key.getInt("buildingId",0);
+//		locationData = LocationData.toLocation(key.getString("targetLocation"));
+//		targetLocation = null;
 //		System.out.println("[REALMS] Trait load setting : "+key.toString());
 	}
 
@@ -322,7 +321,7 @@ public class SettlerTrait extends Trait
 	@Override
 	public void onAttach()
 	{
-		plugin.getServer().getLogger().info(npc.getName() + " has been assigned SettlerTrait!");
+//		plugin.getServer().getLogger().info(npc.getName() + " has been assigned SettlerTrait!");
 
 		// This will send a empty key to the Load method, forcing it to load the
 		// config.yml defaults.

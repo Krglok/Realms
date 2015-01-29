@@ -8,6 +8,7 @@ import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.trait.LookClose;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.unit.UnitTrait;
 import net.krglok.realms.unit.UnitType;
@@ -42,7 +43,7 @@ public class UnitManager
 		for (NpcData npcData : plugin.getData().getNpcs().values())
 		{
 			if ((npcData.isSpawned == false)
-				&& (npcData.getUnitType() != UnitType.SETTLER)
+				&& (npcData.getNpcType() == NPCType.MILITARY)
 				)
 			{
 				spawnList.add(npcData.getId());
