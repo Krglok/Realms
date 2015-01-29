@@ -1577,11 +1577,18 @@ public class Settlement //implements Serializable
 			while ((installed < building.getWorkerNeeded()) && npcIterator.hasNext())
 			{
 				NpcData npc = npcIterator.next();
-				if (npc.getNpcType() != NPCType.MANAGER)
+				if (npc.getUnitType() == UnitType.SETTLER)
 				{
-					npc.setWorkBuilding(building.getId());
-	//				System.out.println(building.getBuildingType()+" : "+npc.getId());
-					installed++;
+					if ((npc.getNpcType() != NPCType.MANAGER)
+						&& (npc.getNpcType() != NPCType.BUILDER)
+						&& (npc.getNpcType() != NPCType.TRADER)
+						&& (npc.getNpcType() != NPCType.MAPMAKER)
+						)
+					{
+						npc.setWorkBuilding(building.getId());
+		//				System.out.println(building.getBuildingType()+" : "+npc.getId());
+						installed++;
+					}
 				}
 			}
 		}

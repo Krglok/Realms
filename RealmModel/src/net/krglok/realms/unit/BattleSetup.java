@@ -239,7 +239,8 @@ public class BattleSetup
 					{
 						defender.getUnitPlacement().get(BattleFieldPosition.CENTER).add(unit);
 					}
-					defender.getUnitPlacement().put(BattleFieldPosition.CENTERBACK,null);
+					// lösche hintere position
+					defender.getUnitPlacement().get(BattleFieldPosition.CENTERBACK).clear();
 				}
 				break;
 			default:

@@ -5,6 +5,7 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unit.AbstractUnit;
+import net.krglok.realms.unit.UnitAction;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
@@ -48,6 +49,7 @@ public class NpcData
 	public int spawnId ;
 	
 	private NpcAction npcAction;
+	private UnitAction unitAction;
 	private AbstractUnit unit;
 	
 	public NpcData()
@@ -79,6 +81,7 @@ public class NpcData
 		isSpawned = false;
 		spawnId = -1;
 		npcAction = NpcAction.NONE;
+		unitAction = UnitAction.NONE;
 		location = null;
 		this.setHealth(20);
 		this.setRegimentId(0);
@@ -118,6 +121,7 @@ public class NpcData
 		isSpawned = false;
 		spawnId = -1;
 		npcAction = NpcAction.NONE;
+		unitAction = UnitAction.NONE;
 		location = null;
 		this.setHealth(20);
 		this.setRegimentId(0);
@@ -627,6 +631,24 @@ public class NpcData
 	{
 		this.npcAction = npcAction;
 	}
+
+	/**
+	 * @return the unitAction
+	 */
+	public UnitAction getUnitAction()
+	{
+		return unitAction;
+	}
+
+
+	/**
+	 * @param unitAction the unitAction to set
+	 */
+	public void setUnitAction(UnitAction unitAction)
+	{
+		this.unitAction = unitAction;
+	}
+
 
 	/**
 	 * @return the location

@@ -20,6 +20,7 @@ import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;
+import net.krglok.realms.unit.UnitType;
 
 /**
  * Die schedule zeit ist absichtlich versetzt gegenüber dem realmSchedule.
@@ -34,12 +35,10 @@ public class NpcTask implements Runnable
 {
 	
     private final Realms plugin;
-	public long NPC_SCHEDULE =  3;  // 10 * 50 ms 
-	public long DELAY_SCHEDULE =  5;  // 10 * 50 ms 
-    private static int counter = 0;
+	public long NPC_SCHEDULE =  1;  // 10 * 50 ms 
+	public long DELAY_SCHEDULE =  15;  // 10 * 50 ms 
     
     private BlockFace lastPos = BlockFace.NORTH;
-    private int nextPos = 0;
     private Iterator<NpcData> npcIterator;
     private boolean isNpcEnd = true;
     private boolean isNpcDead = false;
@@ -48,9 +47,8 @@ public class NpcTask implements Runnable
     public NpcTask(Realms plugin)
     {
     	this.plugin = plugin;
-    	counter = 0;
+    	
     }
-
 	@Override
 	public void run()
 	{
@@ -59,6 +57,7 @@ public class NpcTask implements Runnable
 		{
 			return;
 		}
+//		System.out.println("[REALMS] SpawnManager : "+plugin.npcManager.isSpawn());
 
 		// make spanw the citizen npc
 		if (plugin.npcManager.isSpawn() == false)
@@ -71,6 +70,7 @@ public class NpcTask implements Runnable
 					spawnNpc(plugin.npcManager);
 				} else
 				{
+					System.out.println("[REALMS] Npc Spawn ENDED : "+plugin.npcManager.getSpawnList().size());
 					plugin.npcManager.setSpawn(true);
 				}
 			}
@@ -134,6 +134,11 @@ public class NpcTask implements Runnable
 		{
 			return;
 		}
+		if (npcData.getUnitType() != UnitType.SETTLER)
+		{
+			return;
+		}
+
 		NPC npc = CitizensAPI.getNPCRegistry().getById(npcData.spawnId);
 		if (npc.isSpawned() == false) 
 		{ 
@@ -342,9 +347,11 @@ public class NpcTask implements Runnable
 	private void spawnNpc(NpcManager npcManager)
 	{
 		NpcData npcData = plugin.getData().getNpcs().get(npcManager.getSpawnList().get(0));
-		if (npcData.isChild() == false)
+		if ((npcData.isChild() == false)
+			&& (npcData.isSpawned == false)
+			)
 		{
-			if (npcData.isSpawned == false)
+			if (npcData.getUnitType() == UnitType.SETTLER)
 			{
 				LocationData position = null;
 	    		Block b = null;
@@ -394,6 +401,9 @@ public class NpcTask implements Runnable
 						{
 		//					System.out.println("[REALMS] next Npc Spawn: "+npcManager.getSpawnList().get(0));
 							npcManager.createNPC(npcData, position);
+						} else
+						{
+							System.out.println("[REALMS) NPC  Spawn NO Position");
 						}
 						
 					} catch (Exception e)
@@ -403,8 +413,8 @@ public class NpcTask implements Runnable
 					}
 	    		}
 			}
-			npcManager.getSpawnList().remove(0);
 		}
+		npcManager.getSpawnList().remove(0);
 	}
 
 	private void doIdleManager(NPC npc, NpcData npcData)
@@ -439,7 +449,7 @@ public class NpcTask implements Runnable
 			lastPos = getNextPos();
 			Location taverne = b.getRelative(lastPos).getLocation();
 			taverne.setZ(taverne.getZ()+1);
-
+			npc.getTrait(Waypoints.class).setWaypointProvider("linear");
 			npc.getNavigator().setTarget(taverne);
 			npc.getNavigator().setPaused(false);
 //			npc.teleport(taverne, TeleportCause.PLUGIN);
@@ -538,6 +548,7 @@ public class NpcTask implements Runnable
 					if (home != null)
 					{
 						npc.teleport(home, TeleportCause.PLUGIN);
+						npc.getTrait(Waypoints.class).setWaypointProvider("wander");
 					}
 				}
 			}

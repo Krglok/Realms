@@ -198,7 +198,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 //					if (data.isConfigurationSection("reputation"+"."+repRef))
 //					{
 				        int value = Integer.valueOf(data.getString( "reputation"+"."+repRef));
-						System.out.println("[REALMS] Reputation :"+repRef+":"+ReputationData.splitNameTyp(repRef)+":"+ReputationData.splitNameName(repRef)+":"+value);
+//						System.out.println("[REALMS] Reputation :"+repRef+":"+ReputationData.splitNameTyp(repRef)+":"+ReputationData.splitNameName(repRef)+":"+value);
 				        ReputationData repData = new ReputationData(ReputationData.splitNameTyp(repRef), ReputationData.splitNameName(repRef),  value);
 				        settle.getReputations().addValue(repData);
 //					}

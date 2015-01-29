@@ -4,11 +4,15 @@ import static org.junit.Assert.fail;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 
 import tiled.core.Map;
 import tiled.core.MapLayer;
@@ -66,7 +70,7 @@ public class DataStorage implements DataInterface
 //	private LogList logList;
 	private SQliteConnection sql; // = new SQliteConnection(pathName);
 
-	private DBWriteCache writeCache;
+	public DBWriteCache writeCache;
 	private OwnerList owners ;
 	private KingdomList kingdoms ;
 	private SettlementList settlements;		// data readed from file
@@ -89,6 +93,7 @@ public class DataStorage implements DataInterface
 	private DataStoreBuilding buildingData;
 	private DataStoreSettlement settlementData;
 	private DataStoreNpc npcDataStore;
+	private DataStoreNpc npcDataConvert;
 	private DataStoreNpcName nameDataStore;
 
 	Boolean isReady = false;
@@ -99,6 +104,21 @@ public class DataStorage implements DataInterface
 	public DataStorage(String path) //, LogList logList)
 	{
 		this.sql = new SQliteConnection(path);
+		try
+		{
+			System.out.println("[REALMS] SQLite database open ");
+			if (sql.open() == false)
+			{
+				System.out.println("[REALMS] SQLite database not initialize !!!");
+				isReady = false;
+			}
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			isReady = false;
+		}
+		
 		this.writeCache = new DBWriteCache(this);
 		this.path = path;
 		// Datafile Handler
@@ -117,7 +137,9 @@ public class DataStorage implements DataInterface
 		settlements = new SettlementList(0);
 		regiments   = new RegimentList(0);
 		caseBooks   = new CaseBookList();
-		npcDataStore = new DataStoreNpc(this.path, null);
+		npcDataStore = new DataStoreNpc(this.path, sql);
+		npcDataConvert = new DataStoreNpc(this.path, null);
+
 	}
 	
 	/**
@@ -678,11 +700,56 @@ public class DataStorage implements DataInterface
 	{
 		npcs = new NpcList();
 		NpcData npc;
-		ArrayList<String> refList = npcDataStore.readDataList();
-		for (String ref : refList)
+		if (npcDataStore.isSql)
 		{
-			npc = npcDataStore.readData(ref);
-			npcs.putNpc(npc);
+			ResultSet result = npcDataStore.readDataList(0);
+			try
+			{
+				if (result.next() == false)
+				{
+					System.out.println("[REALMS] Npc Datbase Convert started ");
+					ArrayList<String> convertList = npcDataConvert.readDataList();
+					if (convertList.size() > 0)
+					{
+						for (String ref : convertList)
+						{
+							npc = npcDataConvert.readData(ref);
+							if (npc != null)
+							{
+								npcs.putNpc(npc);
+								writeCache.addCache(DBCachType.NPC, npc.getId());
+							}
+						}
+					} else
+					{
+						System.out.println("[REALMS] Npc Datbase Convert NOT necessary ");
+					}
+				} else
+				{
+					npcDataStore.config.loadFromString(result.getString(2));
+					ConfigurationSection section = npcDataStore.config.getRoot();
+					npc = npcDataStore.initDataObject(section);
+					npcs.putNpc(npc);
+					while (result.next())
+					{
+						npcDataStore.config.loadFromString(result.getString(2));
+						section = npcDataStore.config.getRoot();
+						npc = npcDataStore.initDataObject(section);
+						npcs.putNpc(npc);
+					}
+				} 
+			} catch (SQLException | InvalidConfigurationException e)
+			{
+				e.printStackTrace();
+			}
+		} else
+		{
+			ArrayList<String> refList = npcDataStore.readDataList();
+			for (String ref : refList)
+			{
+				npc = npcDataStore.readData(ref);
+				npcs.putNpc(npc);
+			}
 		}
 	}
 
@@ -764,10 +831,46 @@ public class DataStorage implements DataInterface
 		return lehenList;
 	}
 
+	public void writeCache(DBCachRef ref)
+	{
+		long time1 = System.nanoTime();
+		long time2 ;
+		switch(ref.getRef())
+		{
+		case NPC:
+			NpcData npc = npcs.get(ref.getId());
+			npcDataStore.writeData(npc,ref.getId());
+			time2 = System.nanoTime();
+		    System.out.println("CacheWrite Npc: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
+			break;
+		case SETTLEMENT:
+			Settlement settle = settlements.getSettlement(ref.getId());
+			settlementData.writeData(settle,ref.getId());
+			time2 = System.nanoTime();
+		    System.out.println("CacheWrite Settle: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
+			break;
+		case BUILDING:
+			Building building = buildings.getBuilding(ref.getId());
+			buildingData.writeData(building,ref.getId());
+			time2 = System.nanoTime();
+		    System.out.println("CacheWrite Building: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
+			break;
+		default:
+			break;
+		}
+
+	}
+	
 	@Override
 	public void writeBuilding(Building building)
 	{
-		buildingData.writeData(building, String.valueOf(building.getId()));
+		if (buildingData.isSql)
+		{
+			writeCache.addCache(DBCachType.BUILDING, building.getId());
+		} else
+		{
+			buildingData.writeData(building, String.valueOf(building.getId()));
+		}
 	}
 
 	@Override
@@ -797,7 +900,13 @@ public class DataStorage implements DataInterface
 	@Override
 	public void writeNpc(NpcData npc)
 	{
-		npcDataStore.writeData(npc,  String.valueOf(npc.getId()));
+		if (npcDataStore.isSql)
+		{
+			writeCache.addCache(DBCachType.NPC, npc.getId());
+		} else
+		{
+			npcDataStore.writeData(npc,  String.valueOf(npc.getId()));
+		}
 	}
 
 	@Override

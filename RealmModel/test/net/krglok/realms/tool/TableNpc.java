@@ -116,4 +116,21 @@ public class TableNpc extends TableYml
 		return npc;
 	}
 	
+	public ResultSet readList()
+	{
+		String selectQuery = "SELECT * "+" FROM "+tablename;		
+		try
+		{
+			ResultSet result = this.sql.query(selectQuery);
+			if (result.next())
+			{
+				return result;
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return  null;
+	}
+	
 }

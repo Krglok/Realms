@@ -21,6 +21,7 @@ public class TableDataTest
 	NpcList npcList = new NpcList();;
 	DataStoreNpc npcDataStore;
 	
+	
 	private void getnpcList()
 	{
 		String pathName = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
@@ -66,19 +67,23 @@ public class TableDataTest
 	}
 	
 	
+	
 	@Test
 	public void test() throws SQLException
 	{
+		
+		
 		getnpcList();
 		String pathName = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		SQliteConnection sql = new SQliteConnection(pathName);
-		TableNpc testTable = new TableNpc(sql, npcDataStore);
-		testTable.makeTableDefinitions("npc");
 		if (sql.open() == false)
 		{
 			System.out.println("SQL not open");
 			return;
 		}
+
+		TableNpc testTable = new TableNpc(sql, npcDataStore);
+		testTable.makeTableDefinitions("npc");
 
 		ResultSet result;
 		System.out.println("DB   "+sql.getDbName());
@@ -90,7 +95,13 @@ public class TableDataTest
 //		System.out.println(result.getString(1));
 //		System.out.println(result.getString(2));
 		
-		int id = 0;
+		int id = 1;
+		result = testTable.readObject(id);
+		if (result.next() == false)
+		{
+			System.out.println("No data found "+id);
+			writeTest(testTable);
+		}
 		result = testTable.readObject(id);
 		System.out.println(result.getString(1));
 		System.out.println(result.getString(2));
@@ -131,8 +142,20 @@ public class TableDataTest
 			System.out.println("MISSED "+dataObject.getId());
 		}
 
+		long time1 = System.nanoTime();
+		result = testTable.readList();
+		long time2 = System.nanoTime();
+    	System.out.println(" Read Time [ms]: "+(time2 - time1)/1000000);
+
+    	int count = 0;
+		while (result.next())
+		{
+//			System.out.println("id: "+result.getString(1));
+			count++;
+		}
 //		writeTest(testTable);
-		
+		System.out.println("size : "+count);
+
 		fail("Not yet implemented");
 	}
 

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.data.SQliteConnection;
+import net.krglok.realms.data.TableData;
 
 public class PriceTable extends TableData
 {

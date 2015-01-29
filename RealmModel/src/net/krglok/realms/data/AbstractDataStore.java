@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import net.krglok.realms.npc.NpcData;
-import net.krglok.realms.tool.TableData;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -413,6 +412,27 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 			 System.out.println(e.getMessage());
 		}
     	return msg; 
+	}
+
+	/*
+	 * read all records from table
+	 */
+	public ResultSet readDataList(int startId)
+	{
+		String objectName = String.valueOf(startId);
+		String selectQuery = "SELECT * "+" FROM "+fileName+ " WHERE "+tableYml.fieldnames[0]+">="+TableYml.makeSqlString(objectName);		
+		try
+		{
+			return this.sql.query(selectQuery);
+//			if (result.next())
+//			{
+//				return result;
+//			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return  null;
 	}
 
 	

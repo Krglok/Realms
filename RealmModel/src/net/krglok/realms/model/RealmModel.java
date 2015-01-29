@@ -756,7 +756,7 @@ public class RealmModel
 		{
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			messageData.log("worker to building");
-			System.out.println("[REALMS] worker to building "+settle.getId());
+//			System.out.println("[REALMS] worker to building "+settle.getId());
 //			settle.setWorkerToBuilding(workerSum);
 		}
 

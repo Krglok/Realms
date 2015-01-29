@@ -56,6 +56,7 @@ public class ConfigBasis implements ConfigInterface
 	public static final double  HUNGER_BEGGAR = -0.7;   //  % satz
 	public static final int NORMAL_AGE = 60;	// Normales Alter ohn alters check
 	
+	public static final double NPC_HEALTH = 20.0;
 	
 	public static final int WAREHOUSE_CHEST_FACTOR = 9;
 	public static final int TRADER_CHEST_FACTOR = 5;

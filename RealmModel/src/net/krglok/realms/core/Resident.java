@@ -588,6 +588,7 @@ public class Resident
 						npc.setSchwanger(ConfigBasis.BREEDING_DELAY);
 					}
 				}
+				data.writeNpc(npc);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import net.aufdemrand.sentry.Sentry;
 import net.citizensnpcs.Citizens;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemListLocation;
@@ -31,6 +32,7 @@ import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;
 import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.UnitTrait;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
@@ -103,10 +105,12 @@ public final class Realms extends JavaPlugin
 	
 	private TickTask tick = null;
 	private TaxTask taxTask = null;
+	private CacheTask cacheTask = null;
 	
 	private final MessageData messageData = new MessageData(log);
 	public ServerListener serverListener; // = new ServerListener(this);
 	public NpcManager npcManager = new NpcManager(this);
+	public UnitManager unitManager = new UnitManager(this);
 	@SuppressWarnings("unused")
 	private Update update; // = new Update(projectId, apiKey);
 
@@ -114,6 +118,7 @@ public final class Realms extends JavaPlugin
 //    public ShopkeepersPlugin sk = null;
 //    public CitizensAPI npcAPI = null;
     public Citizens npc = null;
+    public Sentry npcSentry;
 //    public Vault vault = null;
     public Economy economy = null;
 
@@ -153,7 +158,7 @@ public final class Realms extends JavaPlugin
 		// write NPCData/Trait to file
         log.info("[Realms] Save Npc List");
 		for (NpcData npc : data.getNpcs().values())
-		{
+		{	
 			data.writeNpc(npc);
 			if (npc.isSpawned)
 			{
@@ -210,7 +215,9 @@ public final class Realms extends JavaPlugin
             npc = ((Citizens) citizensPlugin);
     		//Register your trait with Citizens.        
     		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(SettlerTrait.class).withName("settler"));	
+    		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(UnitTrait.class).withName("unit"));	
             this.npcManager.setEnabled(true);
+            this.unitManager.setEnabled(true);
         } else {
             log.warning("[Realms] didnt find Citizens.");
             log.info("[Realms] please install the plugin Citizens 2 .");
@@ -218,6 +225,20 @@ public final class Realms extends JavaPlugin
             this.npcManager.setEnabled(false);
         }
 
+        Plugin sentryPlugin = pm.getPlugin("Sentry");
+        if (sentryPlugin != null) {
+            log.info("[Realms] found Sentry !");
+    		//Register your trait with Citizens.  
+            npcSentry = (Sentry) sentryPlugin;
+//            this.npcManager.setEnabled(true);
+        } else {
+            log.warning("[Realms] didnt find Sentry.");
+            log.info("[Realms] please install the plugin Sentry for Citizen2 .");
+            log.info("[Realms] will disable NPC Manager");
+            this.npcManager.setEnabled(false);
+            this.unitManager.setEnabled(false);
+        }
+        
         Plugin dynmapPlugin = pm.getPlugin("dynmap");
         if (dynmapPlugin != null) {
             log.info("[Realms] found Dynmap ! ");
@@ -287,6 +308,13 @@ public final class Realms extends JavaPlugin
 
         NpcTask npcTask = new NpcTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, npcTask, npcTask.DELAY_SCHEDULE, npcTask.NPC_SCHEDULE);
+        UnitTask unitTask = new UnitTask(this);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, unitTask, unitTask.DELAY_SCHEDULE, unitTask.UNIT_SCHEDULE);
+        
+        cacheTask = new CacheTask(this);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, cacheTask, cacheTask.DELAY_SCHEDULE, cacheTask.CACHE_SCHEDULE);
+        
+        
         
         // realm model init
         if (isReady)
@@ -296,6 +324,7 @@ public final class Realms extends JavaPlugin
         	// Initialize the Model 
         	realmModel.OnEnable();
         	npcManager.initNpc();
+        	unitManager.initNpc();
     		log.info("[Realms] Model is now enabled !");
         } else
         {
@@ -1586,14 +1615,50 @@ public final class Realms extends JavaPlugin
 		}
 	}
 
+	/**
+	 * convert LocationData to LOcation
+	 * 
+	 * @param world
+	 * @param position
+	 * @return 
+	 */
 	public Location makeLocation(World world, LocationData position)
 	{
 		return new Location(world, position.getX(), position.getY(), position.getZ());
 	}
 
+	/**
+	 * convert Location to LocationData 
+	 * @param position
+	 * @return
+	 */
 	public LocationData makeLocationData(Location position)
 	{
 		return new LocationData(position.getWorld().getName(), position.getX(), position.getY(), position.getZ());
 	}
+	
+	/**
+	 * get the block of LocationData or return null
+	 * @param position
+	 * @return
+	 */
+	public Block getLocationBlock(LocationData position)
+	{
+		try
+		{
+			Location location = makeLocation(position);
+			if (location != null)
+			{
+				return location.getBlock();
+			}
+			
+		} catch (Exception e)
+		{
+			return null;
+		}
+		return null;
+		
+	}
+
 	
 }

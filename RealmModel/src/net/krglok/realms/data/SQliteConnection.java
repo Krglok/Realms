@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +28,7 @@ public class SQliteConnection
 	private String fileName = dbName+".db";
 	private File file ;
 	private Statement statement;
-
+	private boolean isDBexist = true;
 	/**
 	 * Holder for the last update count by a query.
 	 */
@@ -51,12 +52,18 @@ public class SQliteConnection
 		File folder;
 		try
 		{
-			folder = new File(this.path);
+			folder = new File(this.path,fileName);
 			if (!folder.exists())
 			{
 				folder.mkdir();
 			}
-			file = new File(folder.getAbsolutePath() + File.separator + fileName);
+//			file = new File(folder.getAbsolutePath() + File.separator + fileName);
+			file = new File(this.path,fileName);
+			if (file.exists() == false)
+			{
+				isDBexist = false;
+				System.out.println("[REALMS] sqlite,JDBC , DB File missed look into ínstallation");
+			}
 		} catch (Exception e)
 		{
 			this.file = null;
@@ -75,6 +82,7 @@ public class SQliteConnection
 		  return false;
 		}
 	}
+	
 
 	/**
 	 * open connection to database with jdbc for SQLite
@@ -86,8 +94,17 @@ public class SQliteConnection
 		
 		if (initialize()) 
 		{
-			connection = DriverManager.getConnection("jdbc:sqlite:" + (file == null ? ":memory:" : file.getAbsolutePath()));
-			this.statement  = connection.createStatement();
+//			this.statement  = connection.createStatement();
+			if (isDBexist == true)
+			{
+				connection = DriverManager.getConnection("jdbc:sqlite:" + (file == null ? ":memory:" : file.getAbsolutePath()));
+				this.statement  = connection.createStatement();
+				isOpen = true;
+			} else
+			{
+				isOpen = false;
+				return false;
+			}
 			return true;
 		} else 
 		{
@@ -104,17 +121,21 @@ public class SQliteConnection
 	 */
 	public boolean isTable(String tableName) throws SQLException
 	{
-		DatabaseMetaData md = null;
-		md = this.connection.getMetaData();
-		ResultSet tables = md.getTables(null, null, tableName, null);
-		if (tables.next()) 
+		if (isOpen)
 		{
-			tables.close();
-			return true;
-		} else {
-			tables.close();
-			return false;
+			DatabaseMetaData md = null;
+			md = this.connection.getMetaData();
+			ResultSet tables = md.getTables(null, null, tableName, null);
+			if (tables.next()) 
+			{
+				tables.close();
+				return true;
+			} else {
+				tables.close();
+				return false;
+			}
 		}
+		return false;
 	}
 	
 	/**
@@ -128,6 +149,15 @@ public class SQliteConnection
 	{
 		return this.statement.executeQuery(query);
 	}
+	
+	public void execute(String query) throws SQLException
+	{
+		this.statement.execute(query);
+//		PreparedStatement pst;
+//		pst = connection.prepareStatement(query);
+//        pst.executeUpdate();
+	}
+	
 	
 	/**
 	 * execute insert, return no resultset 

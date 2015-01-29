@@ -322,7 +322,7 @@ public class SettlerTrait extends Trait
 	@Override
 	public void onAttach()
 	{
-		plugin.getServer().getLogger().info(npc.getName() + " has been assigned MyTrait!");
+		plugin.getServer().getLogger().info(npc.getName() + " has been assigned SettlerTrait!");
 
 		// This will send a empty key to the Load method, forcing it to load the
 		// config.yml defaults.

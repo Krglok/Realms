@@ -112,4 +112,12 @@ public class RegimentList extends HashMap <Integer, Regiment>
 		
 	}
 	
+	public Regiment getRegiment(int regimentId)
+	{
+		if (this.containsKey(regimentId))
+		{
+			return this.get(regimentId);
+		}
+		return null;
+	}
 }

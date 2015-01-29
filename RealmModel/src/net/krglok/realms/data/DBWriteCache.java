@@ -50,24 +50,9 @@ public class DBWriteCache extends HashMap<Integer,DBCachRef>
 		int id = cache.next();
 		
 		DBCachRef ref = this.get(id);
+
+		dataStorage.writeCache(ref);
 		
-		switch(ref.getRef())
-		{
-		case NPC:
-			 NpcData npc = dataStorage.getNpcs().get(ref.getId());
-			 dataStorage.writeNpc(npc);
-			break;
-		case SETTLEMENT:
-			Settlement settle = dataStorage.getSettlements().getSettlement(ref.getId());
-			dataStorage.writeSettlement(settle);
-			break;
-		case BUILDING:
-			Building building = dataStorage.getBuildings().getBuilding(ref.getId());
-			dataStorage.writeBuilding(building);
-			break;
-		default:
-			break;
-		}
 		this.remove(id);
 	}
 }

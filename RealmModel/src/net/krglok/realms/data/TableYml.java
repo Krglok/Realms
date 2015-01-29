@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.krglok.realms.npc.NpcData;
-import net.krglok.realms.tool.TableData;
 
 /**
  * <pre>
@@ -30,6 +29,20 @@ public class TableYml extends TableData
 	{
 		super(sql, tableName);
 		makeDefaultDefinitions(tablename);
+		try
+		{
+			if (sql.isTable(tableName)==false)
+			{
+				if (this.createTable() == false)
+				{
+					System.out.println("[REALMS] SQL TABLE NOT created "+this.tablename);
+				}
+			}
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -55,15 +68,15 @@ public class TableYml extends TableData
 		};
 		this.fieldtypes = new String[]
 		{
-				Integer.class.getName(),
-				String.class.getName()
+				"INTEGER",
+				"TEXT"
 				
 		};
 		this.indexnames = new String[]
 		{
 			tablename+"_idx1"
 		};
-		this.indexnames = new String[]
+		this.indexfields = new String[]
 			{  
 				"ID"
 			};
@@ -85,7 +98,13 @@ public class TableYml extends TableData
 		//		this.resultSet = null;
 		String query = "SELECT * FROM "+tablename+ " WHERE "+fieldnames[0]+"="+makeSqlString(objectName );
 		try {
-			return sql.query(query);
+			if (sql.isOpen())
+			{
+				return sql.query(query);
+			} else
+			{
+				return null;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("[REALMS] Select Error on "+tablename);
