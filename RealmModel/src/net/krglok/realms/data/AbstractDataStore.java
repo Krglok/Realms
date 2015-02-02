@@ -1,13 +1,16 @@
 package net.krglok.realms.data;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 import net.krglok.realms.npc.NpcData;
 
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.MemoryConfiguration;
@@ -170,6 +173,51 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 			value = value + key+": "+section.getString(key)+"\n";
 		}
 		return value;
+	}
+	
+	public void removeData(int Id)
+	{
+		if (isSql)
+		{
+			tableYml.delete(Id);
+		} else
+		{
+			long time1 = System.nanoTime();
+	        File dataFile = new File(dataFolder, fileName+".yml");
+	        if (!dataFile.exists()) 
+	        {
+	        	System.out.println("Error Write : "+sectionName+":"+Id+"::"+dataFolder+":"+fileName+" not Exist !!!");
+	        	return;
+	        }
+	        dataFile.setWritable(true);
+	        String base = sectionName;
+	        
+	        ConfigurationSection objectSection = config.getConfigurationSection(base);
+	        ConfigurationSection newSection = config.createSection(base);
+	        
+			String refId = String.valueOf(Id);
+	        for (String key :objectSection.getKeys(false))
+	        {
+	        	if (key.equalsIgnoreCase(refId) == false)
+	        	{
+	        		newSection.set(key, objectSection.get(key));
+	        	}
+	        }
+	        config.set(base, newSection);
+	        //write data
+	        try
+			{
+	        	config.save(dataFile); // dataFolder+"settlement.yml");
+			} catch (Exception e)
+			{
+	            System.out.println("ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
+			}
+		    long time2 = System.nanoTime();
+		    if (isTimeMessure)
+		    {
+		    	System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
+		    }
+		}
 	}
 
 	public void writeData(T dataObject, int Id)

@@ -1171,7 +1171,7 @@ public class Settlement //implements Serializable
 //		logList.addHappiness("CYCLE", getId(), sumDif, EntertainFactor, SettlerFactor, FoodFactor, "CraftManager", getAge());
 //		resident.setHappiness(sumDif);
 		resident.doSettlerCalculation(buildingList,data);
-		this.getResident().setNpcList(data.getNpcs().getSubList(this.id));
+		this.getResident().setNpcList(data.getNpcs().getSubListSettle(this.id));
 //		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
 		UnitFactory unitFactory = new UnitFactory();
 		for (NpcData unit : barrack.getUnitList())
@@ -1721,7 +1721,8 @@ public class Settlement //implements Serializable
 					// Pruefe ob StorageCapacitaet des Types ausgelastet ist
 					switch (BuildPlanType.getBuildGroup(building.getBuildingType()))
 					{
-						case 200 : // normal production
+						case ConfigBasis.BUILDPLAN_GROUP_EQUIPMENT : 
+						case ConfigBasis.BUILDPLAN_GROUP_PRODUCTION : // normal production
 							if (checkStoreCapacity(server, building))
 							{
 								building.setIsEnabled(true);
@@ -1736,7 +1737,7 @@ public class Settlement //implements Serializable
 							// pruefe ob Stronghold region enabled sind
 							server.checkRegionEnabled(building.getHsRegion());
 							break;
-						case 500: //unit production
+						case ConfigBasis.BUILDPLAN_GROUP_MILITARY: //unit production
 							if (building.getMaxTrain() > 0)
 							{
 								building.setIsEnabled(true);
@@ -1817,14 +1818,14 @@ public class Settlement //implements Serializable
 				building.setBiome(biome);
 			}
 			building.setSales(0.0);
-			building.addIdlleTime();
-			if ((building.isEnabled())
-				&& building.isIdleReady()	
-				)
+			if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
+				|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300))
 			{
-				if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
-					|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300))
+				if ((building.isEnabled())
+					&& building.isIdleReady()	
+					)
 				{
+					building.addIdlleTime();
 					sale = 0.0;
 					cost = 0.0;
 					account = 0.0;
@@ -1939,19 +1940,30 @@ public class Settlement //implements Serializable
 						}
 					}
 //					building.addSales(sale);
-				}
-				
-				// unit production
-				if (BuildPlanType.getBuildGroup(building.getBuildingType())== 5)
+				} else
 				{
-					if (building.isEnabled())
+//					System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
+				}
+			}
+				
+			// unit production
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+			{
+				System.out.println("Train check : "+building.getMaxTrain());
+
+				if (building.isEnabled())
+				{
+					switch(building.getBuildingType())
 					{
-						switch(building.getBuildingType())
+					case ARCHERY:
+					case GUARDHOUSE:
+						// Training activ ?
+						if (building.getMaxTrain() > 0)
 						{
-						case ARCHERY:
-						case GUARDHOUSE:
+							// training must start  OR progress
 							if (building.getTrainCounter() == 0)
 							{
+								// new training start
 								NpcData recrute = resident.findRecrute();
 								if (recrute != null)
 								{
@@ -1959,7 +1971,7 @@ public class Settlement //implements Serializable
 									prodFactor  = 1.0;
 									if (checkStock(prodFactor, ingredients))
 									{
-										System.out.println("Traning Start for Rookie :"+recrute.getId());
+										System.out.println("Traning Start for Rookie settle :"+id+":"+recrute.getId());
 										// ausrüstung abbuchen
 										consumStock(prodFactor, ingredients);
 										// Siedler aus vorrat nehmen
@@ -1974,37 +1986,43 @@ public class Settlement //implements Serializable
 //										resident.depositSettler(-1);
 										// Counter starten
 										building.addTrainCounter(1);
+										data.writeBuilding(building);
 									} else
 									{
 										System.out.println("No Traning Start due to Stock");
 									}
 								} else
 								{
-									System.out.println("No Traning Start due to missing Rookie ");
+									System.out.println("No Traning Start, missing Rookie :"+id+":"+building.getId());
 								}
 		//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							} else
-							{
+							{ // do training progress
 								ingredients = building.militaryConsum();
 								prodFactor  = 1.0;
 								if (checkStock(prodFactor, ingredients))
 								{
 									consumStock(prodFactor, ingredients);
 									building.addTrainCounter(1);
+									data.writeBuilding(building);
+									System.out.println("Traning Consum, training progress");
 								} else
 								{
-									System.out.println("No Traning Consum");
+									System.out.println("No Traning Consum, NO training progress");
 								}
 							}
-							break;
-						default:
-							break;
+						} else
+						{
+							System.out.println("GUARDHOUSE NO train : "+building.getMaxTrain());
 						}
+						break;
+					default:
+						break;
 					}
+				} else
+				{
+					System.out.println("Train not enaled : "+building.getBuildingType());
 				}
-			} else
-			{
-//				System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
 			}
 		}
 		productionOverview.addCycle();
@@ -2057,12 +2075,18 @@ public class Settlement //implements Serializable
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.MILITIA);
-							UnitMilitia.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.MILITIA);
+								UnitMilitia.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(false);
+								building.setTrainCounter(0);
+							} else
+							{
+								System.out.println("[REALMS] Guardhouse Train Recrute not found !");
+							}
 						} else
 						{
 						}

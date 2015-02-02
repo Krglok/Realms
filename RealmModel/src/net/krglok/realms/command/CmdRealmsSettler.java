@@ -263,7 +263,7 @@ public class CmdRealmsSettler extends RealmsCommand
 			settleNpc.setAge(21);
 			settleNpc.setMoney(10.0);
 			plugin.getData().getNpcs().add(settleNpc);
-			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 			plugin.getData().writeNpc(settleNpc);
 			plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
 			
@@ -281,7 +281,7 @@ public class CmdRealmsSettler extends RealmsCommand
 				settleNpc.setAge(21);
 				settleNpc.setMoney(10.0);
 				plugin.getData().getNpcs().add(settleNpc);
-				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 				plugin.getData().writeNpc(settleNpc);
 				plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
 					
@@ -303,7 +303,7 @@ public class CmdRealmsSettler extends RealmsCommand
 				settleNpc.setMoney(10.0);
 				settleNpc.setImmortal(true);
 				plugin.getData().getNpcs().add(settleNpc);
-				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 				plugin.getData().writeNpc(settleNpc);
 				plugin.npcManager.createNPC(settleNpc, plugin.makeLocationData(player.getLocation()));
 				
@@ -332,7 +332,7 @@ public class CmdRealmsSettler extends RealmsCommand
 			settleNpc.setMoney(10.0);
 			plugin.getData().getNpcs().add(settleNpc);
 			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListUnits(settle.getId()));
-			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 			plugin.getData().writeNpc(settleNpc);
 			plugin.unitManager.createUnit(settleNpc, plugin.makeLocationData(player.getLocation()));
     		break;
@@ -349,7 +349,7 @@ public class CmdRealmsSettler extends RealmsCommand
 			settleNpc.setMoney(10.0);
 			plugin.getData().getNpcs().add(settleNpc);
 			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListUnits(settle.getId()));
-			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubList(settle.getId())); 
+			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 			plugin.getData().writeNpc(settleNpc);
 			plugin.unitManager.createUnit(settleNpc, plugin.makeLocationData(player.getLocation()));
     		break;
@@ -429,7 +429,8 @@ public class CmdRealmsSettler extends RealmsCommand
 							}
 						}else
 						{
-					    	msg.add(ChatColor.RED+"Sorry Building not found region: "+region.getID());
+					    	msg.add(ChatColor.RED+"Sorry Building not found in settlement: "+region.getID());
+					    	msg.add(ChatColor.RED+"Is the settlement wrong ?? "+settle.getId());
 						}
 					} else
 					{

@@ -116,18 +116,21 @@ public class CmdSettleCreate extends RealmsCommand
         	
             Map<String, Integer> requirements = currentRegionType.getRequirements();
             HashMap<String, Integer> req = new HashMap<String, Integer>();
-            for (String s : currentRegionType.getRequirements().keySet()) {
+            for (String s : currentRegionType.getRequirements().keySet()) 
+            {
                 req.put(new String(s), new Integer(requirements.get(s)));
             }
             
             //Check for required regions
             List<String> children = currentRegionType.getChildren();
-            if (children != null) {
-                for (String s : children) {
-                    if (!req.containsKey(s))
-                        req.put(new String(s), 1);
-                }
-            }
+//            if (children != null) {
+//                for (String s : children) {
+//                    if (!req.containsKey(s))
+//                        req.put(new String(s), 1);
+//                }
+//            }
+            
+            
             int radius = (int) currentRegionType.getRawRadius();
             for (SuperRegion sr : plugin.stronghold.getRegionManager().getSortedSuperRegions()) 
             {

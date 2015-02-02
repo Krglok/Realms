@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,6 +33,7 @@ public class UnitTrait  extends Trait
 	private ArrayList<String> seenPlayer;
 	private ArrayList<String> enemyPlayer;
 	private HashMap<String,Integer> agroPlayer;
+	public boolean isStuck = false;
 
 
 	public UnitTrait()
@@ -138,6 +140,15 @@ public class UnitTrait  extends Trait
 		this.enemyPlayer = enemyPlayer;
 	}
 
+	public void addEnemyEntity(EntityType entityType)
+	{
+		this.enemyPlayer.add(entityType.name());
+	}
+
+	public void addEnemyPlayer(String playerName)
+	{
+		this.enemyPlayer.add(playerName);
+	}
 
 	public void load(DataKey key)
 	{
@@ -194,6 +205,31 @@ public class UnitTrait  extends Trait
 	}
 	
 	@EventHandler
+	public void onNaviCancel(net.citizensnpcs.api.ai.event.NavigationCancelEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+			return;
+		} else
+		{
+			isStuck = true;
+		}
+	}
+			
+	
+	@EventHandler
+	public void onNaviStuck(net.citizensnpcs.api.ai.event.NavigationStuckEvent event)
+	{
+		if (event.getNPC() != this.getNPC())
+		{
+			return;
+		} else
+		{
+			isStuck = true;
+		}
+	}
+	
+	@EventHandler
 	public void click(net.citizensnpcs.api.event.NPCRightClickEvent event)
 	{
 		// Handle a click on a NPC. The event has a getNPC() method.
@@ -206,7 +242,11 @@ public class UnitTrait  extends Trait
 		} else
 		{
 			System.out.println("[REALMS] Trait Unit , NPC : "+event.getNPC().getId());
-			
+			if (plugin.getData().getNpcs().getCitizenId(this.getNPC().getId()).isAlive() == false)
+			{
+				npc.despawn();
+				return;
+			}
 		}
 		if (event.getClicker().getItemInHand().getType() == Material.BLAZE_ROD)
 		{
@@ -221,11 +261,9 @@ public class UnitTrait  extends Trait
 				event.getClicker().sendMessage("I have no home and hiking around ");
 			}
 			event.getClicker().sendMessage("my name is "+this.getNPC().getFullName()+" | "+npcData.getAge()+" years old "+npcData.getGender());
-			event.getClicker().sendMessage(this.getNPC().getId()+":"+npcData.getId()+" job "+npcData.getNpcAction()+" as "+npcData.getUnitType());
+			event.getClicker().sendMessage(this.getNPC().getId()+":"+npcData.getId()+" job "+npcData.getUnitAction()+" as "+npcData.getUnitType());
+			event.getClicker().sendMessage("stuck : "+isStuck+" GuardPos :"+npcData.guardPos);
 			Equipment equip = npc.getTrait(Equipment.class);
-			equip.set(EquipmentSlot.HAND,new ItemStack(Material.STONE_SWORD,1));
-			equip.set(EquipmentSlot.BOOTS,new ItemStack(Material.LEATHER_BOOTS,1));
-			
 			for (ItemStack item : equip.getEquipment())
 			{
 				if (item != null)
@@ -280,6 +318,11 @@ public class UnitTrait  extends Trait
 		} else
 		{
 			System.out.println("[REALMS] Trait Settler , NPC : "+event.getNPC().getId());
+			if (plugin.getData().getNpcs().getCitizenId(this.getNPC().getId()).isAlive() == false)
+			{
+				npc.despawn();
+				return;
+			}
 		}
 		
 		if (event.getClicker().getItemInHand().getType() == Material.BLAZE_ROD)

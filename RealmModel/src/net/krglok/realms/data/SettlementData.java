@@ -293,7 +293,7 @@ public class SettlementData
         							settle.getId(),
         							0
         							); 
-        		     buildingList.addBuilding(building);
+        		     buildingList.putBuilding(building);
 //        		     buildingData.writeData(building, String.valueOf(building.getId()));
             	}
             	settle.setBuildingList(buildingList.getSubList(settle.getId())); 

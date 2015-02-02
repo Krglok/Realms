@@ -150,6 +150,11 @@ public class BuildingList  extends HashMap<String,Building>
 		return this.get(String.valueOf(id)); 
 	}
 
+	public Building removeBuilding(Building building)
+	{
+		return this.remove(String.valueOf(building.getId())); 
+	}
+	
 	/**
 	 * 
 	 * @return

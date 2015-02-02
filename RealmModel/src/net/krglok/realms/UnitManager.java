@@ -2,6 +2,7 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
+import net.aufdemrand.sentry.SentryTrait;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
@@ -46,7 +47,10 @@ public class UnitManager
 				&& (npcData.getNpcType() == NPCType.MILITARY)
 				)
 			{
-				spawnList.add(npcData.getId());
+				if (npcData.isAlive())
+				{
+					spawnList.add(npcData.getId());
+				}
 			}
 		}
 		isNpcInit = true;
@@ -153,21 +157,59 @@ public class UnitManager
 		unit.setRegimentId(regimentId);
 		unit.setSettleId(settleId);
 		
+		SentryTrait sentry = new SentryTrait();
+		npc.addTrait(sentry);
+		
 		npc.getTrait(LookClose.class).lookClose(true);
 		float newSpeed = (float) 0.8;
 		npc.getNavigator().getDefaultParameters().speedModifier(newSpeed );
-		
+		Equipment equip;
 		switch(unitType)
 		{
 		case MILITIA:
-			Equipment equip = npc.getTrait(Equipment.class);
+			if (sentry.getInstance() != null)
+			{
+				sentry.getInstance().Armor = 10;
+				sentry.getInstance().AttackRateSeconds = 1.0;
+				sentry.getInstance().Strength = 10;
+				sentry.getInstance().sentryHealth = 10.0;
+				sentry.getInstance().HealRate= 0.1;
+				sentry.getInstance().sentryRange = 20;
+			}
+			equip = npc.getTrait(Equipment.class);
 			equip.set(EquipmentSlot.HAND,new ItemStack(Material.STONE_SWORD,1));
 			equip.set(EquipmentSlot.BOOTS,new ItemStack(Material.LEATHER_BOOTS,1));
 			equip.set(EquipmentSlot.LEGGINGS,new ItemStack(Material.LEATHER_LEGGINGS,1));
 			equip.set(EquipmentSlot.CHESTPLATE,new ItemStack(Material.LEATHER_CHESTPLATE,1));
 			equip.set(EquipmentSlot.HELMET,new ItemStack(Material.LEATHER_HELMET,1));
 			break;
+		case ARCHER:
+			if (sentry.getInstance() != null)
+			{
+				sentry.getInstance().Armor = 10;
+				sentry.getInstance().AttackRateSeconds = 1.0;
+				sentry.getInstance().Strength = 10;
+				sentry.getInstance().sentryHealth = 10.0;
+				sentry.getInstance().HealRate= 0.1;
+				sentry.getInstance().sentryRange = 30;
+			}
+			equip = npc.getTrait(Equipment.class);
+			equip.set(EquipmentSlot.HAND,new ItemStack(Material.BOW,1));
+			equip.set(EquipmentSlot.BOOTS,new ItemStack(Material.LEATHER_BOOTS,1));
+			equip.set(EquipmentSlot.LEGGINGS,new ItemStack(Material.LEATHER_LEGGINGS,1));
+			equip.set(EquipmentSlot.CHESTPLATE,new ItemStack(Material.LEATHER_CHESTPLATE,1));
+			equip.set(EquipmentSlot.HELMET,new ItemStack(Material.LEATHER_HELMET,1));
+			break;
 		default:
+			if (sentry.getInstance() != null)
+			{
+				sentry.getInstance().Armor = 10;
+				sentry.getInstance().AttackRateSeconds = 1.0;
+				sentry.getInstance().Strength = 5;
+				sentry.getInstance().sentryHealth = 10.0;
+				sentry.getInstance().HealRate= 0.1;
+				sentry.getInstance().sentryRange = 10;
+			}
 			npc.getTrait(Equipment.class).set(EquipmentSlot.HAND,new ItemStack(Material.STICK,1));
 			npc.getTrait(Equipment.class).set(EquipmentSlot.HELMET,new ItemStack(Material.LEATHER_HELMET,1));
 			npc.getTrait(Equipment.class).set(EquipmentSlot.BOOTS,new ItemStack(Material.LEATHER_BOOTS,1));
@@ -180,14 +222,14 @@ public class UnitManager
 	
 	public int doUnitSpawn(String name, UnitType unitType, LocationData position, int settleId, int regimentId)
 	{
-		System.out.println("[REALMS) Sentry Spawn "+name);
+		System.out.println("[REALMS) Unit Spawn "+name);
 		NPC npc = null;
-		position.setZ(position.getZ()+1);
-		npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Militia");
-		
-		if (npc != null)
+//		position.setZ(position.getZ());
+		npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);
+		Location pos = plugin.makeLocation(position);
+		if ((npc != null) && (pos != null))
 		{
-			Location pos = new Location(plugin.getServer().getWorld(position.getWorld()), position.getX(), position.getY(), position.getZ());
+			 //  new Location(plugin.getServer().getWorld(position.getWorld()), position.getX(), position.getY(), position.getZ());
 			npc.spawn(pos);
 			doAddUnit( npc, unitType,  settleId,  regimentId);
 			return npc.getId();

@@ -18,6 +18,9 @@ public class Barrack
 	private int power;
 	private int powerMax;
 	private int powerPool;
+	private BuildingList watchStations;
+	private BuildingList guardStations;
+	
 
 	public Barrack(int unitMax)
 	{

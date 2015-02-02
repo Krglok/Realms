@@ -153,6 +153,7 @@ public class SettlementList extends HashMap<Integer,Settlement>
 		return this.get(id); 
 	}
 	
+
 	
 	/**
 	 * set Capital refrenz for the Owner if no capital set

@@ -765,20 +765,29 @@ public class Resident
 				}
 			}
 		}
-
+		System.out.println("No beggar ");
 		for (NpcData npc : npcList.values())
 		{
-			if (npc.getWorkBuilding() == 0)
+//			if (npc.getWorkBuilding() == 0)
 			{
 				if ((npc.getGender() != GenderType.WOMAN)
 					&& (npc.isChild() == false)
 					)
 				{
-					return npc;
+					if ((npc.getNpcType() != NPCType.MANAGER)
+						&& (npc.getNpcType() != NPCType.BUILDER)
+						&& (npc.getNpcType() != NPCType.CRAFTSMAN)
+						&&(npc.getNpcType() != NPCType.FARMER)
+						&&(npc.getNpcType() != NPCType.MAPMAKER)
+						)
+					{
+						return npc;
+					}
 				}
 			}
 		}
-		
+		System.out.println("No Settler ");
+
 		return null;
 	}
 	

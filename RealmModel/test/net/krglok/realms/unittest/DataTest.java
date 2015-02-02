@@ -157,16 +157,17 @@ public class DataTest implements DataInterface
 	
 	public void initSettleTest(OwnerList owners)
 	{
-//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 //        File DataFile = new File(path, "Realms");
+//		DataStoreSettlement settleData = new DataStoreSettlement(path);
 		settlementTest = new SettlementList(0);
 //		Settlement settle = null;
 		Owner owner = null;
 //		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = settleTestData.readSettleList();
+		ArrayList<String> sList = settleData.readDataList();
 		for (String sName : sList)
 		{
-			Settlement settle = null; //,this.logList);
+			Settlement settle = settleData.readData(sName);
 			settle.initSettlement(priceList);
 			int ref = settle.getOwnerId();
 			if ((ref == 0))

@@ -1471,6 +1471,20 @@ public class ServerListener implements Listener
 			}
 			return;
 		}		
+		if (l0.equals("[RECIPE]"))
+		{
+	    	Location pos = findSignBase(b);
+
+			Region region = findRegionAtPosition(plugin, pos);
+			if (region != null)
+			{
+				cmdBuildingRecipe(event, b, region);
+			} else
+			{
+				event.getPlayer().sendMessage(ChatColor.DARK_GRAY+"No region found !");
+			}
+			return;
+		}		
 
 		if (l0.contains("[TRAP]"))
 		{
@@ -1703,7 +1717,9 @@ public class ServerListener implements Listener
 					{
 						sign.setLine(1, String.valueOf(building.getTrainType().name()));
 						sign.update();
+						// incresase maxTrain start training process
 						building.addMaxTrain(1);
+						plugin.getData().writeBuilding(building);
 						msg.add("Settlement ["+settle.getId()+"] : "
 								+ChatColor.YELLOW+settle.getName()
 								+ChatColor.GREEN+" Age: "+settle.getAge()
@@ -2364,19 +2380,36 @@ public class ServerListener implements Listener
 
 			l0 = building.getHsRegionType();
 			
-			Iterator<NpcData> npcs = plugin.getData().getNpcs().getBuildingNpc(building.getId()).values().iterator();
-			
-			if (npcs.hasNext())
+			if(BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_HOME)
 			{
-				l1 = npcs.next().getName();
-			}
-			if (npcs.hasNext())
+				Iterator<NpcData> npcs = plugin.getData().getNpcs().getBuildingNpc(building.getId()).values().iterator();
+				
+				if (npcs.hasNext())
+				{
+					l1 = npcs.next().getName();
+				}
+				if (npcs.hasNext())
+				{
+					l2 = npcs.next().getName();
+				}
+				if (npcs.hasNext())
+				{
+					l3 = npcs.next().getName();
+				}
+			} else
 			{
-				l2 = npcs.next().getName();
-			}
-			if (npcs.hasNext())
-			{
-				l3 = npcs.next().getName();
+				l1 = "Worker:"+building.getWorkerInstalled();
+				ItemArray products = building.produce(plugin.getServerData());
+				l2 = "Prod:";
+				if (products.size() > 0)
+				{
+					l2 = l2 + products.get(0).ItemRef()+":"+products.get(0).value();
+				}
+				l3 = "Prod:";
+				if (products.size() > 1)
+				{
+					l3 = l3 + products.get(1).ItemRef()+":"+products.get(1).value();
+				}
 			}
 			sBlock.setLine(0, l0);
 			sBlock.setLine(1, l1);
@@ -2388,7 +2421,57 @@ public class ServerListener implements Listener
 			event.getPlayer().sendMessage(ChatColor.DARK_GRAY+"No building found !");
 		}
 	}
-	
+
+	private void cmdBuildingRecipe(PlayerInteractEvent event, Block b, Region region)
+	{
+		Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
+		if (building != null)
+		{
+			Sign sign = (Sign) b.getState();
+			String l0 = "[RECIPE]";
+			String l1 = "1:";
+			String l2 = "2:";
+			String l3 = "3:";
+
+			Sign sBlock =	((Sign) b.getState());
+
+			l0 = building.getHsRegionType();
+			
+			if(BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_PRODUCTION)
+			{
+				ItemArray products = building.produce(plugin.getServerData());
+				if (products.size() > 0)
+				{
+					ItemList ingedients = plugin.getServerData().getRecipeProd(products.get(0).ItemRef(),building.getHsRegionType());
+					Iterator<Item> items = ingedients.values().iterator();
+					if (items.hasNext() )
+					{
+						Item item = items.next();
+						l1 = l1 + item.ItemRef()+":"+item.value();
+					}
+					if (items.hasNext() )
+					{
+						Item item = items.next();
+						l2 = l2 + item.ItemRef()+":"+item.value();
+					}
+					if (items.hasNext() )
+					{
+						Item item = items.next();
+						l3 = l3 + item.ItemRef()+":"+item.value();
+					}
+				}
+			}
+			sBlock.setLine(0, l0);
+			sBlock.setLine(1, l1);
+			sBlock.setLine(2, l2);
+			sBlock.setLine(3, l3);
+			sBlock.update(true);
+		} else
+		{
+			event.getPlayer().sendMessage(ChatColor.DARK_GRAY+"No building found !");
+		}
+	}
+
 	private void cmdInfo(PlayerInteractEvent event)
 	{
 		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer());

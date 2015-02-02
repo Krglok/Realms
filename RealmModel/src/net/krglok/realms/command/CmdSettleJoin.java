@@ -103,6 +103,9 @@ public class CmdSettleJoin extends RealmsCommand
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);
+		settleId = 0;
+		kingdomId = 0;
+		tributId = 0;
 
 	}
 

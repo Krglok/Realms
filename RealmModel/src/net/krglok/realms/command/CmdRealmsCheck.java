@@ -22,9 +22,7 @@ public class CmdRealmsCheck extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.CHECK);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms CHECK [page]",
-		    	"Show region statistik of the world  ",
-		    	"Show superregions of the world  ",
-		    	"Show distance of the superregions  ",
+		    	"Check region for Building reference ",
 		    	"  "
 			};
 			requiredArgs = 0;
@@ -82,21 +80,25 @@ public class CmdRealmsCheck extends RealmsCommand
         {
         	if (sData.getLocation().getWorld().getName().equalsIgnoreCase(worldName))
         	{
-				String bType = sData.getType();
-				if (buildingStat.containsKey(bType))
-				{
-					buildingStat.put(bType, (buildingStat.get(bType)+1));
-				}else
-				{
-					buildingStat.put(bType, 1);
-				}
+//				String bType = sData.getType();
+//				if (buildingStat.containsKey(bType))
+//				{
+//					buildingStat.put(bType, (buildingStat.get(bType)+1));
+//				}else
+//				{
+//					buildingStat.put(bType, 1);
+//				}
+        		if (plugin.getData().getBuildings().getBuildingByRegion(sData.getID()) == null)
+        		{
+        			System.out.println("region :"+sData.getID()+":"+sData.getType()+":"+sData.getLocation().toString());
+        		}
         	}
         }
-        for (String key : buildingStat.keySet())
-        {
-	    	String sName = ConfigBasis.setStrleft(key, 20);
-	    	msg.add(sName+":"+ChatColor.YELLOW+buildingStat.get(key));
-        }
+//        for (String key : buildingStat.keySet())
+//        {
+//	    	String sName = ConfigBasis.setStrleft(key, 20);
+//	    	msg.add(sName+":"+ChatColor.YELLOW+buildingStat.get(key));
+//        }
 		plugin.getMessageData().printPage(sender, msg, page);
 
 	}

@@ -143,7 +143,10 @@ public class NpcManager
 				&& (npcData.getUnitType() == UnitType.SETTLER)
 				)
 			{
-				spawnList.add(npcData.getId());
+				if (npcData.isAlive())
+				{
+					spawnList.add(npcData.getId());
+				}
 			}
 		}
 		isNpcInit = true;

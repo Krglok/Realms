@@ -16,27 +16,6 @@ public class DataStoreBuilding  extends AbstractDataStore<Building>
 		super(dataFolder, "buildings", "BUILDING", false, sql);
 	}
 	
-	private void printBuildingRow(Building building)
-	{
-		System.out.print(building.getId()+" | "+building.getHsRegion()+" | "+building.getBuildingType()+" | "+building.getSettleId());
-	}
-	
-	public void convertBuildings(SettlementList sList)
-	{
-		System.out.println("[REALMS] Convert BuildingList : ["+sList.size()+"]");
-		for (Settlement settle : sList.values())
-		{
-			System.out.println("Settle :"+settle.getId()+" | "+settle.getName());
-			for (Building building : settle.getBuildingList().values())
-			{
-				building.setSettleId(settle.getId());
-				building.setOwnerId(settle.getOwnerId());
-				printBuildingRow(building);
-				writeData(building, String.valueOf(building.getId()));
-			}
-		}
-	}
-
 	
 	/**
 	 * Override this for the concrete class

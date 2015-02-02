@@ -127,7 +127,7 @@ public class NpcProductionTest
 		data.initData();
 
 		Settlement settle = data.getSettlements().getSettlement(1);
-		settle.getResident().setNpcList(data.getNpcs().getSubList(settle.getId()));
+		settle.getResident().setNpcList(data.getNpcs().getSubListSettle(settle.getId()));
 		System.out.println(" Npc gesamt : "+data.getNpcs().size());
 //		showSettleInfo(settle);
 		int ohneArbeit = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());

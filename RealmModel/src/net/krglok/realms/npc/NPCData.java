@@ -47,7 +47,7 @@ public class NpcData
 	public double hungerCounter;
 	public boolean isSpawned;
 	public int spawnId ;
-	
+	public int guardPos;	// count to 0 zero
 	private NpcAction npcAction;
 	private UnitAction unitAction;
 	private AbstractUnit unit;
@@ -80,6 +80,7 @@ public class NpcData
 		happiness = 0.0;
 		isSpawned = false;
 		spawnId = -1;
+		guardPos = 0;
 		npcAction = NpcAction.NONE;
 		unitAction = UnitAction.NONE;
 		location = null;
@@ -120,6 +121,7 @@ public class NpcData
 		happiness = 0.0;
 		isSpawned = false;
 		spawnId = -1;
+		guardPos = 0;
 		npcAction = NpcAction.NONE;
 		unitAction = UnitAction.NONE;
 		location = null;

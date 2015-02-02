@@ -91,6 +91,7 @@ public class DataStorage implements DataInterface
 	private DataStoreKingdom kingdomData;
 	private DataStoreLehen lehenData;
 	private DataStoreBuilding buildingData;
+	private DataStoreBuilding buildingDataConvert;
 	private DataStoreSettlement settlementData;
 	private DataStoreNpc npcDataStore;
 	private DataStoreNpc npcDataConvert;
@@ -128,7 +129,8 @@ public class DataStorage implements DataInterface
 		ownerData = new DataStoreOwner(this.path);
 		kingdomData = new DataStoreKingdom(this.path);
 		lehenData = new DataStoreLehen(this.path);
-		buildingData = new DataStoreBuilding(this.path, null);
+		buildingData = new DataStoreBuilding(this.path, sql);
+		buildingDataConvert = new DataStoreBuilding(this.path, null);
 		settlementData = new DataStoreSettlement(this.path);
 		priceData = new PriceData(this.path);
 		nameDataStore = new DataStoreNpcName(this.path);
@@ -163,7 +165,7 @@ public class DataStorage implements DataInterface
 			System.out.println("Read old Settlement and Convert");
 			initSettleData();
 			settlementData.convertSettlements(settlements);
-			buildingData.convertBuildings(settlements);
+			convertBuildings(settlements);
 		} else
 		{
 			initSettlementList();
@@ -224,7 +226,7 @@ public class DataStorage implements DataInterface
 			settle.initSettlement(priceList);
 			if (npcs.isEmpty() == false)
 			{
-				settle.getResident().setNpcList(this.getNpcs().getSubList(settle.getId()));
+				settle.getResident().setNpcList(this.getNpcs().getSubListSettle(settle.getId()));
 				settle.getBarrack().setUnitList(this.getNpcs().getSubListUnits(settle.getId()));
 			}
 			settlements.putSettlement(settle);
@@ -249,9 +251,10 @@ public class DataStorage implements DataInterface
 			CreateSettlementNPC();
 			for (Settlement settlement : settlements.values())
 			{
-				settlement.getResident().setNpcList(this.getNpcs().getSubList(settlement.getId()));
+				settlement.getResident().setNpcList(this.getNpcs().getSubListSettle(settlement.getId()));
 			}
 		}
+		System.out.println("[REALMS] Settlement read :"+settlements.size());
 
 	}
 
@@ -269,7 +272,7 @@ public class DataStorage implements DataInterface
 		Owner owner;
 		for (String settleId : settleInit)
 		{
-			settle = readSettlement(Integer.valueOf(settleId),this.priceList,buildingData,buildings);
+			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
 			settle.initSettlement(priceList);
 //			plugin.getMessageData().log("SettleRead: "+settleId );
 			System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
@@ -278,6 +281,7 @@ public class DataStorage implements DataInterface
 			settle.setOwner(owner);
 //			System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
 			settlements.addSettlement(settle);
+			settle.getResident().setNpcList(this.getNpcs().getSubListSettle(settle.getId()));
 		}
 	}
 
@@ -289,6 +293,12 @@ public class DataStorage implements DataInterface
 	{
 		settlementData.writeData(settle, String.valueOf(settle.getId()));
 	}
+	
+	public void removeSettlement(Settlement settle)
+	{
+		settlements.removeSettlement(settle.getId());
+		settlementData.removeData(settle.getId());
+	}
 
 	/**
 	 * <pre>
@@ -299,7 +309,7 @@ public class DataStorage implements DataInterface
 	 * @return the settlement
 	 * </pre>
 	 */
-	private Settlement readSettlement(int id, ItemPriceList priceList, DataStoreBuilding buildingData, BuildingList buildings)
+	private Settlement readSettlement(int id, ItemPriceList priceList)
 	{
 		return settleData.readSettledata(id, priceList, buildings); //, logList);
 	}
@@ -619,21 +629,76 @@ public class DataStorage implements DataInterface
 		}
 	}
 	
+	/**
+	 * 
+	 * read buildings from yml or sql
+	 * initiate convert yml > sql
+	 * 
+	 */
 	private void initBuildingList()
 	{
-		buildings = new BuildingList();
-		ArrayList<String> refList = buildingData.readDataList();
-		Building building;
-		for (String ref : refList)
-		{
-			building = buildingData.readData(ref);
-			if (building.getPosition().getY() == 0.0)
-			{
-				System.out.println("[REALMS] Wrong position building :"+building.getId());
-			}
-			buildings.putBuilding(building);
-		}
 		
+		buildings = new BuildingList();
+		Building building;
+		if (buildingData.isSql)
+		{
+			ResultSet result = buildingData.readDataList(0);
+			try
+			{
+				if (result.next() == false)
+				{
+					System.out.println("[REALMS] Buildings Datbase Convert started ");
+					ArrayList<String> convertList = buildingDataConvert.readDataList();
+					if (convertList.size() > 0)
+					{
+						for (String ref : convertList)
+						{
+							building = buildingDataConvert.readData(ref);
+							if (building != null)
+							{
+								buildings.putBuilding(building);
+								writeCache.addCache(DBCachType.NPC, building.getId());
+							}
+						}
+					} else
+					{
+						System.out.println("[REALMS] Building Datbase Convert NOT necessary ");
+					}
+				} else
+				{
+					// convert sql field to MemorySection
+					buildingData.config.loadFromString(result.getString(2));
+					ConfigurationSection section = buildingData.config.getRoot();
+					// make instance from MemorySection
+					building = buildingData.initDataObject(section);
+					buildings.putBuilding(building);
+					while (result.next())
+					{
+						buildingData.config.loadFromString(result.getString(2));
+						section = buildingData.config.getRoot();
+						building = buildingData.initDataObject(section);
+						buildings.putBuilding(building);
+					}
+					System.out.println("[REALMS] Building Datbase read "+buildings.size());
+				} 
+			} catch (SQLException | InvalidConfigurationException e)
+			{
+				e.printStackTrace();
+			}
+		} else
+		{
+			ArrayList<String> refList = buildingData.readDataList();
+			for (String ref : refList)
+			{
+				building = buildingData.readData(ref);
+				if (building.getPosition().getY() == 0.0)
+				{
+					System.out.println("[REALMS] Wrong position building :"+building.getId());
+				}
+				buildings.putBuilding(building);
+			}
+			System.out.println("[REALMS] Building read "+buildings.size());
+		}
 	}
 
 	private void initOwnerList()
@@ -696,7 +761,11 @@ public class DataStorage implements DataInterface
 		}
 	}
 
-	
+	/*
+	 * read buildings from yml or sql
+	 * initiate convert yml > sql
+	 * 
+	 */
 	private void initNpcList()
 	{
 		npcs = new NpcList();
@@ -738,6 +807,7 @@ public class DataStorage implements DataInterface
 						npc = npcDataStore.initDataObject(section);
 						npcs.putNpc(npc);
 					}
+					System.out.println("[REALMS] Npc Database read :"+npcs.size());
 				} 
 			} catch (SQLException | InvalidConfigurationException e)
 			{
@@ -754,6 +824,9 @@ public class DataStorage implements DataInterface
 		}
 	}
 
+	/**
+	 * read npc names from yml or initialize default name list
+	 */
 	private void initNpcName()
 	{
 		npcNamen = nameDataStore.readData();
@@ -862,6 +935,37 @@ public class DataStorage implements DataInterface
 
 	}
 	
+	private void printBuildingRow(Building building)
+	{
+		System.out.print(building.getId()+" | "+building.getHsRegion()+" | "+building.getBuildingType()+" | "+building.getSettleId());
+	}
+	
+	public void convertBuildings(SettlementList sList)
+	{
+		System.out.println("[REALMS] Convert BuildingList : ["+sList.size()+"]");
+		for (Settlement settle : sList.values())
+		{
+			System.out.println("Settle :"+settle.getId()+" | "+settle.getName());
+			for (Building building : settle.getBuildingList().values())
+			{
+				building.setSettleId(settle.getId());
+				building.setOwnerId(settle.getOwnerId());
+				printBuildingRow(building);
+				writeBuilding(building);
+			}
+		}
+		if (npcs.isEmpty())
+		{
+			System.out.println("[REALMS] recalculate NPC list !");
+			CreateSettlementNPC();
+			for (Settlement settlement : settlements.values())
+			{
+				settlement.getResident().setNpcList(this.getNpcs().getSubListSettle(settlement.getId()));
+			}
+		}
+		
+	}
+	
 	@Override
 	public void writeBuilding(Building building)
 	{
@@ -872,6 +976,12 @@ public class DataStorage implements DataInterface
 		{
 			buildingData.writeData(building, String.valueOf(building.getId()));
 		}
+	}
+	
+	public void removeBuilding(Building building)
+	{
+		buildingData.removeData(building.getId());
+		buildings.removeBuilding(building);
 	}
 
 	@Override

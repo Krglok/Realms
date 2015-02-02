@@ -3,6 +3,7 @@ package net.krglok.realms.npc;
 import java.util.HashMap;
 
 import net.krglok.realms.unit.UnitList;
+import net.krglok.realms.unit.UnitType;
 
 public class NpcList extends HashMap<Integer, NpcData>
 {
@@ -52,14 +53,17 @@ public class NpcList extends HashMap<Integer, NpcData>
 	}
 	
 	
-	public NpcList getSubList(int settleId)
+	public NpcList getSubListSettle(int settleId)
 	{
 		NpcList subList = new NpcList();
 		for (NpcData npc : this.values())
 		{
 			if (npc.getSettleId() == settleId)
 			{
-				subList.putNpc(npc);
+				if (npc.getUnitType() == UnitType.SETTLER)
+				{
+					subList.putNpc(npc);
+				}
 			}
 		}
 		
@@ -418,14 +422,14 @@ public class NpcList extends HashMap<Integer, NpcData>
 		UnitList subList = new UnitList();
 		for (NpcData npc : this.values())
 		{
-			if (npc.getNpcType() == NPCType.MILITARY)
-			{
+//			if (npc.getNpcType() == NPCType.MILITARY)
+//			{
 				if ((npc.getRegimentId() == regimentId)
 					)
 				{
 					subList.putUnit(npc);
 				}
-			}
+//			}
 		}
 		return subList;
 	}

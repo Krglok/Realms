@@ -82,6 +82,20 @@ public class TableYml extends TableData
 			};
 	}
 
+	public void delete(int Id)
+	{
+		String objectName = String.valueOf(Id);
+		String query = "DELETE FROM "+tablename+ " WHERE "+fieldnames[0]+"="+makeSqlString(objectName);
+		try
+		{
+			sql.execute(query);
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			System.out.println("[REALMS] SQL Delete Error on "+tablename);
+
+		}
+	}
 	
 	/**
 	 * <pre>
@@ -107,7 +121,7 @@ public class TableYml extends TableData
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("[REALMS] Select Error on "+tablename);
+			System.out.println("[REALMS] SQL Select Error on "+tablename);
 			return null;
 		}
 	}
@@ -135,6 +149,7 @@ public class TableYml extends TableData
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
+			System.out.println("[REALMS] SQL Contain Error on "+tablename);
 		}
 		return false;
 	}
@@ -149,14 +164,20 @@ public class TableYml extends TableData
 					+" ("+ this.getFieldNames() +") "
 					+" VALUES ("+TableData.makeSqlString(refId)+", "+TableData.makeSqlString(value)+")" 
 					;
-			insert(insertQuery);
+			if (insert(insertQuery) == false)
+			{
+				System.out.println("[REALMS] SQL Insert Error on "+tablename);
+			}
 		} else
 		{
 			String updateQuery = "UPDATE "+tablename
 					+" SET "+fieldnames[1]+"="+makeSqlString(value)
 					+" WHERE "+fieldnames[0]+"="+makeSqlString(refId)
 					;		
-			update(updateQuery);
+			if (update(updateQuery) == false)
+			{
+				System.out.println("[REALMS] SQL Update Error on "+tablename);
+			}
 			
 		}
 

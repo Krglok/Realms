@@ -57,7 +57,10 @@ public class SettlerTrait extends Trait
 	private Location targetLocation;
 	private ArrayList<String> seenPlayer;
 	private boolean isNavi = true;
-
+	public  boolean isStuck = false;
+	
+	
+	
 	public SettlerTrait()
 	{
 		super(traitName);
@@ -211,12 +214,14 @@ public class SettlerTrait extends Trait
 		} else
 		{
 			System.out.println("[REALMS] Trait Settler , NPC : "+event.getNPC().getId());
-			
+			if (plugin.getData().getNpcs().getCitizenId(this.getNPC().getId()).isAlive() == false)
+			{
+				npc.despawn();
+				return;
+			}
 		}
 		if (event.getClicker().getItemInHand().getType() == Material.BLAZE_ROD)
 		{
-			event.getClicker().sendMessage("Hallo,my name is "+this.getNPC().getFullName());
-			event.getClicker().sendMessage("my Job is "+this.getNPC().getTrait(SettlerTrait.class).getsNPCType());
 			NpcData npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
 			if (npcData == null) { return; }
 			Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
@@ -229,6 +234,14 @@ public class SettlerTrait extends Trait
 			}
 			event.getClicker().sendMessage("my name is "+this.getNPC().getFullName()+" | "+npcData.getAge()+" years old "+npcData.getGender());
 			event.getClicker().sendMessage(this.getNPC().getId()+":"+npcData.getId()+" job "+npcData.getNpcAction()+" as "+npcData.getNpcType()+" : pregnant "+npcData.isSchwanger());
+			Equipment equip = npc.getTrait(Equipment.class);
+			for (ItemStack item : equip.getEquipment())
+			{
+				if (item != null)
+				{
+					event.getClicker().sendMessage(": "+item.getType()+":"+item.getAmount()+":"+item.getDurability());
+				}
+			}
 			
 			npc.getTrait(LookClose.class).lookClose(true);
 			return;
@@ -289,6 +302,11 @@ public class SettlerTrait extends Trait
 		} else
 		{
 			System.out.println("[REALMS] Trait Settler , NPC : "+event.getNPC().getId());
+			if (plugin.getData().getNpcs().getCitizenId(this.getNPC().getId()).isAlive() == false)
+			{
+				npc.despawn();
+				return;
+			}
 			
 		}
 		if (event.getClicker().getItemInHand().getType() == Material.BLAZE_ROD)
@@ -371,30 +389,7 @@ public class SettlerTrait extends Trait
 			return;
 		} else
 		{
-			if (this.npcType == NPCType.MANAGER)
-			{
-				if (isNavi)
-				{
-					Location actual = event.getNPC().getEntity().getLocation();
-					if (isCloseDoor(actual))
-					{
-						System.out.println(event.getNPC().getId()+" NPC "+" door opened ");
-					} else
-					{
-						System.out.println(event.getNPC().getId()+" NPC "+" Stuck teleport");
-						if (targetLocation != null)
-						{
-							event.getNPC().teleport(targetLocation, TeleportCause.PLUGIN);
-						}
-					}
-				} else
-				{
-					if (this.npcType == NPCType.MANAGER)
-					{
-						System.out.println(event.getNPC().getId()+" NPC "+" Stuck wander");
-					}
-				}
-			}
+			isStuck = true;
 		}
 	
 	}
@@ -431,35 +426,7 @@ public class SettlerTrait extends Trait
 			return;
 		} else
 		{
-			
-			if (this.npcType == NPCType.MANAGER)
-			{
-//				System.out.println(event.getNPC().getId()+" NPC "+" Cancal navigation ");
-			}
-			Location actual = event.getNPC().getEntity().getLocation();
-			if (isCloseDoor(actual))
-			{
-				System.out.println(event.getNPC().getId()+" NPC "+" door opened ");
-			}
-			if (isNavi)
-			{
-				this.targetLocation = event.getNPC().getNavigator().getTargetAsLocation();
-				isNavi = false;
-				event.getNPC().getTrait(Waypoints.class).setWaypointProvider("wander");
-				if (this.npcType == NPCType.MANAGER)
-				{
-//					System.out.println(event.getNPC().getId()+" NPC "+" set wander ");
-				}
-			} else
-			{
-				event.getNPC().getTrait(Waypoints.class).setWaypointProvider("linear");
-				event.getNPC().getNavigator().setTarget(targetLocation);
-				isNavi = true;
-				if (this.npcType == NPCType.MANAGER)
-				{
-//					System.out.println(event.getNPC().getId()+" NPC "+" Set linear ");
-				}
-			}
+			isStuck = true;
 		}
 	
 	}

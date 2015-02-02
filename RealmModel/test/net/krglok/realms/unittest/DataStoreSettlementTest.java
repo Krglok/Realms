@@ -57,33 +57,33 @@ public class DataStoreSettlementTest
 		
 	}
 	
-	@Test
-	public void testWriteData()
-	{
-		System.out.println("testSettleConvert ============================================");
-		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(); 
-		DataStoreSettlement settleData = new DataStoreSettlement(dataFolder);
-		settleData.readDataList();
-		
-		SettlementList sList = data.getSettlements();
-		System.out.println("Write SettleList : ["+sList.size()+"]");
-		for (Settlement settle : sList.values())
-		{
-				printSettleRow(settle);
-//				settleData.writeData(settle, String.valueOf(settle.getId()));
-		}
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testWriteData()
+//	{
+//		System.out.println("testSettleConvert ============================================");
+//		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
+//		LogList logTest = new LogList(dataFolder);
+//		DataTest data = new DataTest(); 
+//		DataStoreSettlement settleData = new DataStoreSettlement(dataFolder);
+//		settleData.readDataList();
+//		
+//		SettlementList sList = data.getSettlements();
+//		System.out.println("Write SettleList : ["+sList.size()+"]");
+//		for (Settlement settle : sList.values())
+//		{
+//				printSettleRow(settle);
+////				settleData.writeData(settle, String.valueOf(settle.getId()));
+//		}
+//		fail("Not yet implemented");
+//	}
 
 	@Test
 	public void testReadData()
 	{
 		System.out.println("testSettleConvert ============================================");
 		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(); 
+//		LogList logTest = new LogList(dataFolder);
+//		DataTest data = new DataTest(); 
 		DataStoreSettlement settleData = new DataStoreSettlement(dataFolder);
 		ArrayList<String> refList = settleData.readDataList();
 		SettlementList sList = new SettlementList();
@@ -103,24 +103,64 @@ public class DataStoreSettlementTest
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testStoreData()
-	{
-		System.out.println("testSettleConvert ============================================");
-		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(dataFolder);
-		DataTest data = new DataTest(); 
-		SettlementList sList = data.getSettlements();
-		Settlement settlement = null;
-		
-		System.out.println("DataStore SettleList : ["+sList.size()+"]");
-		for (Settlement settle : sList.values())
-		{
-				printSettleRow(settle);
-				printBuildingList(settle.getBuildingList());
-		}
-		
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testRemoveData()
+//	{
+//		System.out.println("testSettleConvert ============================================");
+//		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
+////		LogList logTest = new LogList(dataFolder);
+////		DataTest data = new DataTest(); 
+//		DataStoreSettlement settleData = new DataStoreSettlement(dataFolder);
+//		ArrayList<String> refList = settleData.readDataList();
+//		SettlementList sList = new SettlementList();
+//		Settlement settlement = null;
+//		for (String refId : refList)
+//		{
+//			settlement = settleData.readData(refId);
+//			sList.putSettlement(settlement);
+//		}
+//		
+//		System.out.println("Read SettleList : ["+sList.size()+"]");
+//		for (Settlement settle : sList.values())
+//		{
+//			printSettleRow(settle);
+//		}
+//		sList.clear();
+//		System.out.println("Remove Settle : "+10+"");
+//		settleData.removeData(10);
+//		for (String refId : refList)
+//		{
+//			settlement = settleData.readData(refId);
+//			 sList.putSettlement(settlement);
+//		}
+//		
+//		System.out.println("Read SettleList : ["+sList.size()+"]");
+//		for (Settlement settle : sList.values())
+//		{
+//			printSettleRow(settle);
+//		}
+//		
+//		fail("Not yet implemented");
+//	}
+	
+//	@Test
+//	public void testStoreData()
+//	{
+//		System.out.println("testSettleConvert ============================================");
+//		String dataFolder = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
+//		LogList logTest = new LogList(dataFolder);
+//		DataTest data = new DataTest(); 
+//		SettlementList sList = data.getSettlements();
+//		Settlement settlement = null;
+//		
+//		System.out.println("DataStore SettleList : ["+sList.size()+"]");
+//		for (Settlement settle : sList.values())
+//		{
+//				printSettleRow(settle);
+//				printBuildingList(settle.getBuildingList());
+//		}
+//		
+//		fail("Not yet implemented");
+//	}
 	
 }
