@@ -19,7 +19,9 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
@@ -37,8 +39,8 @@ public class CmdRealmsSettler extends RealmsCommand
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.SETTLER);
 		description = new String[] {
 				ChatColor.YELLOW+"/realms SETTLER   ",
-		    	" Create a Citizen NPC at the  ",
-		    	" you look at. ",
+		    	" Create a Citizen NPC at your position  ",
+		    	" for a settlement or lehen ",
 		    	" The settlerType is chosen by regionType ",
 		    	" "
 			};
@@ -101,6 +103,16 @@ public class CmdRealmsSettler extends RealmsCommand
     		return true;
     	}
     	
+    	return false;
+    }
+
+    public boolean checkBuildingSpace(Realms plugin, Building building )
+    {
+    	int resident = plugin.getData().getNpcs().getBuildingNpc(building.getId()).size();
+    	if (resident < 1)
+    	{
+    		return true;
+    	}
     	return false;
     }
     
@@ -203,6 +215,33 @@ public class CmdRealmsSettler extends RealmsCommand
     	}
     	return result; 
     }
+
+    public NobleLevel nextFreeNobleType(Realms plugin, Lehen lehen, Building building)
+    {
+    	NobleLevel result = null; //NPCType.BEGGAR;
+    	if (building != null)
+    	{
+    		if (lehen != null)
+    		{
+	    		if (checkBuildingSpace(plugin, building) == false)
+	    		{
+	    			return result;
+	    		} else
+	    		{
+	    			switch(building.getBuildingType())
+	    			{
+	    			case KEEP : return NobleLevel.KNIGHT;
+	    			case CASTLE : return NobleLevel.EARL;
+	    			case STRONGHOLD : return NobleLevel.LORD;
+	    			case PALACE : return NobleLevel.KING;
+	    			default: return NobleLevel.COMMONER;
+	    			}
+	    		}
+    		}
+    	}
+    	return result; 
+    }
+    
     
     private boolean checkFullSize(Location pos)
     {
@@ -239,6 +278,7 @@ public class CmdRealmsSettler extends RealmsCommand
     	return spawnPos;
     }
 
+    
     
 	private Location getFreeTarget(Location pos, Location eyelocation)
 	{
@@ -359,10 +399,115 @@ public class CmdRealmsSettler extends RealmsCommand
 		return msg;
 	}
 	
+	
+	
+	
+	
+	private ArrayList<String> makeSettler(Realms plugin, Player player, Settlement settle)
+	{
+		System.out.println("Spawn Settler ");
+    	ArrayList<String> msg = new ArrayList<String>();
+		Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
+		if (region != null)
+		{
+			Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
+			if (building != null)
+			{
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_CONSTRUCT)
+					|| (BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_HOME)
+					)
+				{
+					NPCType nextNpc = nextFreeNpcType(settle, building);
+					if (nextNpc != null)
+					{
+						msg.addAll(makeSettler(plugin, nextNpc, building, settle, player));
+						return msg;
+					} else
+					{
+						return msg;
+					}
+				}
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+					)
+				{
+					
+					UnitType nextUnit = nextFreeUnitType(settle, building, null);
+					if (nextUnit != null)
+					{
+						makeUnit(plugin, nextUnit, building, settle, null, player);
+					} else
+					{
+						return msg;
+					}
+				}
+			}else
+			{
+		    	msg.add(ChatColor.RED+"Sorry Building not found in settlement: "+region.getID());
+		    	msg.add(ChatColor.RED+"Is the settlement wrong ?? "+settle.getId());
+			}
+		} else
+		{
+	    	msg.add(ChatColor.RED+"Sorry Region not found ");
+		}
+		
+    	return msg;
+	}
+
+	private ArrayList<String> makeNoble(Realms plugin, Player player, Lehen lehen)
+	{
+		System.out.println("Spawn Noble ");
+    	ArrayList<String> msg = new ArrayList<String>();
+    	NpcData nobleNpc = null;
+
+		Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
+		if (region != null)
+		{
+			Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
+			if (building != null)
+			{
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_NOBEL)
+					)
+				{
+					NobleLevel noble = nextFreeNobleType(plugin, lehen, building);
+					if (noble != null)
+					{
+						nobleNpc = new NpcData();
+						nobleNpc.setGender(NpcData.findGender());
+						String npcName = plugin.getData().getNpcName().findName(GenderType.MAN);
+						nobleNpc.setName(npcName);
+						nobleNpc.setNpcType(NPCType.NOBLE);
+						nobleNpc.setNoble(noble);
+						nobleNpc.setSettleId(building.getSettleId());
+						nobleNpc.setHomeBuilding(building.getId());
+						nobleNpc.setLehenId(lehen.getId());
+						nobleNpc.setAge(25);
+						nobleNpc.setMoney(1000.0);
+						plugin.getData().getNpcs().add(nobleNpc);
+						plugin.getData().writeNpc(nobleNpc);
+						plugin.nobleManager.createNoble(nobleNpc, plugin.makeLocationData(player.getLocation()));
+						return msg;
+					} else
+					{
+						return msg;
+					}
+				}
+			}else
+			{
+		    	msg.add(ChatColor.RED+"Sorry Building not found in lehen: "+region.getID());
+		    	msg.add(ChatColor.RED+"Is the lehen wrong ?? "+lehen.getId());
+			}
+		} else
+		{
+	    	msg.add(ChatColor.RED+"Sorry Region not found ");
+		}
+		
+    	return msg;
+	}
+	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		System.out.println("Spawn Settler ");
+		System.out.println("Spawn NPC ");
     	ArrayList<String> msg = new ArrayList<String>();
 //		int radius = 5;
 //		int edge = radius * 2 -1;
@@ -382,7 +527,7 @@ public class CmdRealmsSettler extends RealmsCommand
 			spawnPos.setX(spawnPos.getX()+0.5);
 			spawnPos.setZ(spawnPos.getZ()+0.5);
 		}
-		SuperRegion sRegion = findSuperRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
+		SuperRegion sRegion = findSuperRegionAtPosition(plugin, player.getLocation());
 		if (sRegion != null)
 		{
 			if (sRegion.getType() != "CAMP")
@@ -390,59 +535,19 @@ public class CmdRealmsSettler extends RealmsCommand
 				Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
 				if (settle != null)
 				{
-					Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
-					if (region != null)
-					{
-						Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
-						if (building != null)
-						{
-							if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_CONSTRUCT)
-								|| (BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_HOME)
-								)
-							{
-								NPCType nextNpc = nextFreeNpcType(settle, building);
-								if (nextNpc != null)
-								{
-									msg.addAll(makeSettler(plugin, nextNpc, building, settle, player));
-									return;
-								} else
-								{
-									
-									return;
-
-								}
-							}
-							if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_MILITARY)
-								)
-							{
-								
-								UnitType nextUnit = nextFreeUnitType(settle, building, null);
-								if (nextUnit != null)
-								{
-									makeUnit(plugin, nextUnit, building, settle, null, player);
-								} else
-								{
-									
-									return;
-
-								}
-							}
-						}else
-						{
-					    	msg.add(ChatColor.RED+"Sorry Building not found in settlement: "+region.getID());
-					    	msg.add(ChatColor.RED+"Is the settlement wrong ?? "+settle.getId());
-						}
-					} else
-					{
-				    	msg.add(ChatColor.RED+"Sorry Region not found ");
-					}
+					msg.addAll(makeSettler(plugin, player, settle));
+				} 
+				Lehen lehen = plugin.getData().getLehen().getLehen(sRegion.getName());
+				if (lehen != null)
+				{
+					msg.addAll(makeNoble(plugin, player, lehen));
 				} else
 				{
-			    	msg.add(ChatColor.RED+"Sorry settlement not found: "+sRegion.getName());
+			    	msg.add(ChatColor.RED+"Sorry NO settlement or lehen found: "+sRegion.getName());
 				}
 			} else
 			{
-		    	msg.add(ChatColor.RED+"Sorry regiment not found: "+sRegion.getName());
+		    	msg.add(ChatColor.RED+"Sorry regiment not implemented: "+sRegion.getName());
 			}
 		} else
 		{

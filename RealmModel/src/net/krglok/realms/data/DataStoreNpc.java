@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.npc.BackpackList;
 import net.krglok.realms.npc.EthnosType;
 import net.krglok.realms.npc.GenderType;
@@ -55,6 +56,7 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		section.set("id", dataObject.getId());
 		section.set("npcType", dataObject.getNpcType().name());
 		section.set("unitType", dataObject.getUnitType().name());
+		section.set("noble", dataObject.getNoble().name());
 		section.set("name", dataObject.getName());
 		section.set("gender", dataObject.getGender().name());
 		section.set("ageDay", dataObject.getAgeDay());
@@ -105,6 +107,7 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		npc.setId(data.getInt("id"));
 		npc.setNpcType(NPCType.valueOf(data.getString("npcType","BEGGAR")));
 		npc.setUnitType(UnitType.valueOf(data.getString("unitType","SETTLER")));
+		npc.setNoble(NobleLevel.valueOf(data.getString("noble","COMMONER"))); 
 		npc.setName(data.getString("name"));
 		npc.setGender(GenderType.valueOf(data.getString("gender","MAN")));
 		npc.setAgeDay(data.getInt("ageDay"));

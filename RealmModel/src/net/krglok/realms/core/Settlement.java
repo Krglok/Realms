@@ -1327,50 +1327,6 @@ public class Settlement //implements Serializable
 					return ;
 				}
 			}
-			// Mushroom consume before wheat consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = "RED_MUSHROOM";
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
-			{
-				// check for money for food
-				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
-				{
-					if (amount > required)
-					{
-						factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
-						
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
-					}
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
-				}
-			}
-			// Mushroom consume before wheat consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = "BROWN_MUSHROOM";
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
-			{
-				// check for money for food
-				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
-				{
-					if (amount > required)
-					{
-						factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
-						
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
-					}
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
-				}
-			}
 			// Bread consume before wheat consum
 			// if not enough bread then the rest will try to consum wheat
 			foodItem = "BREAD";
@@ -1395,6 +1351,51 @@ public class Settlement //implements Serializable
 				}
 			}
 		}
+		// Mushroom consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "RED_MUSHROOM";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			// check for money for food
+			if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
+			{
+				if (amount > required)
+				{
+					factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
+					
+				} else
+				{
+					required = required - amount;
+					factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
+				}
+				npc.setHappiness(npc.getHappiness() + factor);
+				return ;
+			}
+		}
+		// Mushroom consume before wheat consum
+		// if not enough bread then the rest will try to consum wheat
+		foodItem = "BROWN_MUSHROOM";
+		amount = warehouse.getItemList().getValue(foodItem);
+		if (amount > 0)
+		{
+			// check for money for food
+			if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
+			{
+				if (amount > required)
+				{
+					factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
+					
+				} else
+				{
+					required = required - amount;
+					factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
+				}
+				npc.setHappiness(npc.getHappiness() + factor);
+				return ;
+			}
+		}
+
 		//  Wheat is the last consum item
 		//  without wheat the residents are very unhappy
 		foodItem = "WHEAT";

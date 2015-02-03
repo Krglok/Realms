@@ -107,14 +107,17 @@ public class NpcTask implements Runnable
 				if (npcData != null)
 				{
 //					System.out.println("[REALMS] Npc Action  for: "+npcData.getId());
-					if (npcData.isSpawned)
+					if ((npcData.isSpawned) && (npcData.getNpcType() != NPCType.NOBLE))
 					{
 						doAction(npcData);
 					} else
 					{
 						if (npcData.isAlive())
 						{
-							if ((npcData.isAlive()) && (npcData.getUnitType() == UnitType.SETTLER))
+							if ((npcData.isAlive()) 
+								&& (npcData.getUnitType() == UnitType.SETTLER)
+								&& (npcData.getNpcType() != NPCType.NOBLE)
+								)
 							{
 //								System.out.println("NPC Task reSpawn");
 								npcData.setNpcAction(NpcAction.NONE);

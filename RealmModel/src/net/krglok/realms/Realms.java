@@ -26,6 +26,7 @@ import net.krglok.realms.data.ConfigData;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.MessageData;
 import net.krglok.realms.data.ServerData;
+import net.krglok.realms.kingdom.NobleTrait;
 import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.RealmModel;
@@ -111,6 +112,8 @@ public final class Realms extends JavaPlugin
 	public ServerListener serverListener; // = new ServerListener(this);
 	public NpcManager npcManager = new NpcManager(this);
 	public UnitManager unitManager = new UnitManager(this);
+	public NobleManager nobleManager = new NobleManager(this);
+	
 	@SuppressWarnings("unused")
 	private Update update; // = new Update(projectId, apiKey);
 
@@ -216,13 +219,17 @@ public final class Realms extends JavaPlugin
     		//Register your trait with Citizens.        
     		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(SettlerTrait.class).withName("settler"));	
     		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(UnitTrait.class).withName("unit"));	
+    		net.citizensnpcs.api.CitizensAPI.getTraitFactory().registerTrait(net.citizensnpcs.api.trait.TraitInfo.create(NobleTrait.class).withName("noble"));	
             this.npcManager.setEnabled(true);
             this.unitManager.setEnabled(true);
+            this.nobleManager.setEnabled(true);
         } else {
             log.warning("[Realms] didnt find Citizens.");
             log.info("[Realms] please install the plugin Citizens 2 .");
             log.info("[Realms] will disable NPC Manager");
             this.npcManager.setEnabled(false);
+            this.unitManager.setEnabled(false);
+            this.nobleManager.setEnabled(false);
         }
 
         Plugin sentryPlugin = pm.getPlugin("Sentry");
@@ -237,6 +244,8 @@ public final class Realms extends JavaPlugin
             log.info("[Realms] will disable NPC Manager");
             this.npcManager.setEnabled(false);
             this.unitManager.setEnabled(false);
+            this.nobleManager.setEnabled(false);
+
         }
         
         Plugin dynmapPlugin = pm.getPlugin("dynmap");
@@ -310,6 +319,8 @@ public final class Realms extends JavaPlugin
         getServer().getScheduler().scheduleSyncRepeatingTask(this, npcTask, npcTask.DELAY_SCHEDULE, npcTask.NPC_SCHEDULE);
         UnitTask unitTask = new UnitTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, unitTask, unitTask.DELAY_SCHEDULE, unitTask.UNIT_SCHEDULE);
+        NobleTask nobleTask = new NobleTask(this);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, nobleTask, nobleTask.DELAY_SCHEDULE, nobleTask.NOBLE_SCHEDULE);
         
         cacheTask = new CacheTask(this);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, cacheTask, cacheTask.DELAY_SCHEDULE, cacheTask.CACHE_SCHEDULE);
@@ -325,6 +336,7 @@ public final class Realms extends JavaPlugin
         	realmModel.OnEnable();
         	npcManager.initNpc();
         	unitManager.initNpc();
+        	nobleManager.initNoble();
     		log.info("[Realms] Model is now enabled !");
         } else
         {

@@ -141,6 +141,7 @@ public class NpcManager
 		{
 			if ((npcData.isSpawned == false)
 				&& (npcData.getUnitType() == UnitType.SETTLER)
+				&& (npcData.getNpcType() != NPCType.NOBLE)
 				)
 			{
 				if (npcData.isAlive())

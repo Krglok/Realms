@@ -339,6 +339,10 @@ public abstract class RealmsCommand implements iRealmsCommand
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.TOWN.name()))
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.CITY.name()))
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.METROPOLIS.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_1.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_2.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_3.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_4.name()))
 	    		)
 	    	{
 	    		return sRegion;

@@ -17,6 +17,7 @@ import org.bukkit.material.Openable;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.citizensnpcs.api.astar.pathfinder.BlockExaminer;
+import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.util.DataKey;
@@ -46,7 +47,6 @@ public class SettlerTrait extends Trait
 
 	private static String traitName = "settler";
 	
-	boolean SomeSetting = false;
 	private NPCType npcType ;
 	private UnitType unitType ;
 	private int settleId;
@@ -202,7 +202,7 @@ public class SettlerTrait extends Trait
 	}
 
 	@EventHandler
-	public void click(net.citizensnpcs.api.event.NPCRightClickEvent event)
+	public void click(NPCRightClickEvent event)
 	{
 		// Handle a click on a NPC. The event has a getNPC() method.
 		// Be sure to check event.getNPC() == this.getNPC() so you only handle
@@ -222,72 +222,17 @@ public class SettlerTrait extends Trait
 		}
 		if (event.getClicker().getItemInHand().getType() == Material.BLAZE_ROD)
 		{
-			NpcData npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
-			if (npcData == null) { return; }
-			Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
-			if (settle != null)
-			{
-				event.getClicker().sendMessage("I am a Settler of "+settle.getName());
-			} else
-			{
-				event.getClicker().sendMessage("I have no home and hiking around ");
-			}
-			event.getClicker().sendMessage("my name is "+this.getNPC().getFullName()+" | "+npcData.getAge()+" years old "+npcData.getGender());
-			event.getClicker().sendMessage(this.getNPC().getId()+":"+npcData.getId()+" job "+npcData.getNpcAction()+" as "+npcData.getNpcType()+" : pregnant "+npcData.isSchwanger());
-			Equipment equip = npc.getTrait(Equipment.class);
-			for (ItemStack item : equip.getEquipment())
-			{
-				if (item != null)
-				{
-					event.getClicker().sendMessage(": "+item.getType()+":"+item.getAmount()+":"+item.getDurability());
-				}
-			}
-			
-			npc.getTrait(LookClose.class).lookClose(true);
+			showBlazerod(event);
 			return;
 		}
 		if (event.getClicker().getItemInHand().getType() == Material.STICK)
 		{
-//			event.getClicker().sendMessage("my home is "+this.getNPC().getTrait(SettlerTrait.class).getBuildingId());
-//			event.getClicker().sendMessage("my target is "+this.getNPC().getTrait(SettlerTrait.class).getTargetId());
 			return;
 		} else
 		{
 			// simple message
-			String playerName = "stranger";
-			boolean isSeen = false;
-			if (seenPlayer.contains(event.getClicker().getUniqueId().toString()))
-			{
-				playerName = ChatColor.GREEN+event.getClicker().getDisplayName()+ChatColor.YELLOW;
-				isSeen = true;
-			} else
-			{
-				seenPlayer.add(event.getClicker().getUniqueId().toString());
-			}
-			if (this.npcType == NPCType.CHILD)
-			{
-				event.getClicker().sendMessage("I dont speak with alien !");
-				return;
-			}
-			event.getClicker().sendMessage(ChatColor.YELLOW+"Hallo, "+playerName+". My name is "+this.getNPC().getFullName());
-			if (this.settleId > 0)
-			{
-				event.getClicker().sendMessage("This is the settlement "+plugin.getRealmModel().getSettlements().getSettlement(this.settleId).getName());
-			}
-			if (isSeen)
-			{
-				event.getClicker().sendMessage("I have seen you before ");
-				
-			} else
-			{
-				event.getClicker().sendMessage("I have never seen you before ");
-			}
-			
-//			LocationData pos = plugin.getRealmModel().getSettlements().getSettlement(this.settleId).getPosition();
-//			targetLocation = new Location(plugin.getServer().getWorld(pos.getWorld()),pos.getX(), pos.getY(),pos.getZ());
-//			npc.getNavigator().setTarget(targetLocation);
-//			npc.faceLocation(targetLocation);
-//			npc.getNavigator().setPaused(false);
+			showSimple(event);
+			return;
 		}
 		
 	}
@@ -540,6 +485,66 @@ public class SettlerTrait extends Trait
 		}
 		return false;
 	}
+	
+	private void showBlazerod(NPCRightClickEvent event)
+	{
+		NpcData npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
+		if (npcData == null) { return; }
+		Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
+		if (settle != null)
+		{
+			event.getClicker().sendMessage("I am a Settler of "+settle.getName());
+		} else
+		{
+			event.getClicker().sendMessage("I have no home and hiking around ");
+		}
+		event.getClicker().sendMessage("my name is "+this.getNPC().getFullName()+" | "+npcData.getAge()+" years old "+npcData.getGender());
+		event.getClicker().sendMessage(this.getNPC().getId()+":"+npcData.getId()+" job "+npcData.getNpcAction()+" as "+npcData.getNpcType()+" : pregnant "+npcData.isSchwanger());
+		Equipment equip = npc.getTrait(Equipment.class);
+		for (ItemStack item : equip.getEquipment())
+		{
+			if (item != null)
+			{
+				event.getClicker().sendMessage(": "+item.getType()+":"+item.getAmount()+":"+item.getDurability());
+			}
+		}
+		
+		npc.getTrait(LookClose.class).lookClose(true);
+	}
+	
+	
+	private void showSimple(NPCRightClickEvent event)
+	{
+		String playerName = "stranger";
+		boolean isSeen = false;
+		if (seenPlayer.contains(event.getClicker().getUniqueId().toString()))
+		{
+			playerName = ChatColor.GREEN+event.getClicker().getDisplayName()+ChatColor.YELLOW;
+			isSeen = true;
+		} else
+		{
+			seenPlayer.add(event.getClicker().getUniqueId().toString());
+		}
+		if (this.npcType == NPCType.CHILD)
+		{
+			event.getClicker().sendMessage("I dont speak with alien !");
+			return;
+		}
+		event.getClicker().sendMessage(ChatColor.YELLOW+"Hallo, "+playerName+". My name is "+this.getNPC().getFullName());
+		if (this.settleId > 0)
+		{
+			event.getClicker().sendMessage("This is the settlement "+plugin.getRealmModel().getSettlements().getSettlement(this.settleId).getName());
+		}
+		if (isSeen)
+		{
+			event.getClicker().sendMessage("I have seen you before ");
+			
+		} else
+		{
+			event.getClicker().sendMessage("I have never seen you before ");
+		}
+	}
+	
 	
 //	public void onN
 }

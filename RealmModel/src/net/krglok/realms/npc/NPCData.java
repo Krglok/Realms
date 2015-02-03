@@ -4,6 +4,8 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.NobleLevel;
+import net.krglok.realms.kingdom.NobleAction;
 import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.UnitAction;
 import net.krglok.realms.unit.UnitFactory;
@@ -21,8 +23,10 @@ public class NpcData
 	private int age;	// in days !
 	private EthnosType ethno;
 	private boolean immortal;
+	private NobleLevel noble;
 	
 	private int settleId;
+	private int lehenId;
 	private int homeBuilding;
 	private int workBuilding;
 	
@@ -50,6 +54,7 @@ public class NpcData
 	public int guardPos;	// count to 0 zero
 	private NpcAction npcAction;
 	private UnitAction unitAction;
+	private NobleAction nobleAction;
 	private AbstractUnit unit;
 	
 	public NpcData()
@@ -63,6 +68,7 @@ public class NpcData
 		this.ethno = EthnosType.HUMAN;
 		this.immortal = false;
 		this.settleId = 0;
+		this.lehenId = 0;
 		this.homeBuilding = 0;
 		this.workBuilding = 0;
 		this.money = 0.0;
@@ -83,11 +89,13 @@ public class NpcData
 		guardPos = 0;
 		npcAction = NpcAction.NONE;
 		unitAction = UnitAction.NONE;
+		nobleAction = NobleAction.NONE;
 		location = null;
 		this.setHealth(20);
 		this.setRegimentId(0);
 		this.setPower(1);
 		this.unit = new AbstractUnit(this);
+		this.noble = NobleLevel.COMMONER;
 	}
 	
 	
@@ -100,6 +108,7 @@ public class NpcData
 		this.gender = gender;
 		this.homeBuilding = buildingId;
 		this.settleId = settleId;
+		this.lehenId = 0;
 		this.age = age;
 		this.name = name;
 		
@@ -124,12 +133,14 @@ public class NpcData
 		guardPos = 0;
 		npcAction = NpcAction.NONE;
 		unitAction = UnitAction.NONE;
+		nobleAction = NobleAction.NONE;
 		location = null;
 		this.setHealth(20);
 		this.setRegimentId(0);
 		this.setPower(1);
 		UnitFactory unitFactory = new UnitFactory();
 		this.unit = unitFactory.erzeugeUnit(this.unitType, this);
+		this.noble = NobleLevel.COMMONER;
 	}
 	
 	
@@ -732,6 +743,60 @@ public class NpcData
 	public void setUnit(AbstractUnit unit)
 	{
 		this.unit = unit;
+	}
+
+
+	/**
+	 * @return the noble
+	 */
+	public NobleLevel getNoble()
+	{
+		return noble;
+	}
+
+
+	/**
+	 * @param noble the noble to set
+	 */
+	public void setNoble(NobleLevel noble)
+	{
+		this.noble = noble;
+	}
+
+
+	/**
+	 * @return the nobleAction
+	 */
+	public NobleAction getNobleAction()
+	{
+		return nobleAction;
+	}
+
+
+	/**
+	 * @param nobleAction the nobleAction to set
+	 */
+	public void setNobleAction(NobleAction nobleAction)
+	{
+		this.nobleAction = nobleAction;
+	}
+
+
+	/**
+	 * @return the lehenId
+	 */
+	public int getLehenId()
+	{
+		return lehenId;
+	}
+
+
+	/**
+	 * @param lehenId the lehenId to set
+	 */
+	public void setLehenId(int lehenId)
+	{
+		this.lehenId = lehenId;
 	}
 
 }
