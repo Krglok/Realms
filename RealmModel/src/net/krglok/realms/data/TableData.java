@@ -176,14 +176,15 @@ public abstract class TableData
 			} else
 			{
 				System.out.println("[REALMS] SQL TABLE not found "+this.tablename);
+				return false;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("[REALMS] SQL :"+query);
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	private void createIndex(int index)

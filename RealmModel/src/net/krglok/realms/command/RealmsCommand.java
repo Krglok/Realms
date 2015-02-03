@@ -351,6 +351,37 @@ public abstract class RealmsCommand implements iRealmsCommand
 		return null;
 	}
 
+	protected SuperRegion findSettlementAtPosition(Realms plugin, Location position)
+	{
+	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+	    {
+	    	if ((sRegion.getType().equalsIgnoreCase( SettleType.HAMLET.name()) )
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.TOWN.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.CITY.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.METROPOLIS.name()))
+	    		)
+	    	{
+	    		return sRegion;
+	    	}
+	    }
+		return null;
+	}
+
+	protected SuperRegion findLehenAtPosition(Realms plugin, Location position)
+	{
+	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+	    {
+	    	if ((sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_1.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_2.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_3.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.LEHEN_4.name()))
+	    		)
+	    	{
+	    		return sRegion;
+	    	}
+	    }
+		return null;
+	}
 	
 	public boolean isSettleOwner(Realms plugin, CommandSender sender, int settleID)
 	{

@@ -235,6 +235,7 @@ public class UnitTrait  extends Trait
 		// Handle a click on a NPC. The event has a getNPC() method.
 		// Be sure to check event.getNPC() == this.getNPC() so you only handle
 		// clicks on this NPC!
+		NpcData npcData = null;
 		if (event.getNPC() != this.getNPC())
 		{
 //			System.out.println("[REALMS] Trait Settler , wrong NPC instance !  : "+event.getNPC().getId());
@@ -242,7 +243,14 @@ public class UnitTrait  extends Trait
 		} else
 		{
 			System.out.println("[REALMS] Trait Unit , NPC : "+event.getNPC().getId());
-			if (plugin.getData().getNpcs().getCitizenId(this.getNPC().getId()).isAlive() == false)
+			npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
+			if (npcData == null) 
+			{ 
+				System.out.println("No regular npcData ! ");
+				return; 
+			}
+			
+			if (npcData.isAlive() == false)
 			{
 				npc.despawn();
 				return;
@@ -250,8 +258,6 @@ public class UnitTrait  extends Trait
 		}
 		if (event.getClicker().getItemInHand().getType() == Material.BLAZE_ROD)
 		{
-			NpcData npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
-			if (npcData == null) { return; }
 			Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
 			if (settle != null)
 			{

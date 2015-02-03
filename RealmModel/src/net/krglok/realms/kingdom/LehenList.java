@@ -33,14 +33,11 @@ public class LehenList extends HashMap<Integer,Lehen>
 	
 	public Lehen getLehen(String lehenName)
 	{
-		if (this.containsName(lehenName))
+		for (Lehen lehen : this.values())
 		{
-			for (Lehen lehen : this.values())
+			if (lehen.getName().equalsIgnoreCase(lehenName))
 			{
-				if (lehen.getName().equalsIgnoreCase(lehenName))
-				{
-					return lehen;
-				}
+				return lehen;
 			}
 		}
 		return null;

@@ -645,6 +645,7 @@ public class DataStorage implements DataInterface
 			ResultSet result = buildingData.readDataList(0);
 			try
 			{
+				// check for conversion
 				if (result.next() == false)
 				{
 					System.out.println("[REALMS] Buildings Datbase Convert started ");
@@ -657,7 +658,7 @@ public class DataStorage implements DataInterface
 							if (building != null)
 							{
 								buildings.putBuilding(building);
-								writeCache.addCache(DBCachType.NPC, building.getId());
+								writeCache.addCache(DBCachType.BUILDING, building.getId());
 							}
 						}
 					} else
@@ -927,7 +928,7 @@ public class DataStorage implements DataInterface
 			Building building = buildings.getBuilding(ref.getId());
 			buildingData.writeData(building,ref.getId());
 			time2 = System.nanoTime();
-		    System.out.println("CacheWrite Building: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
+//		    System.out.println("CacheWrite Building: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
 			break;
 		default:
 			break;

@@ -527,31 +527,36 @@ public class CmdRealmsSettler extends RealmsCommand
 			spawnPos.setX(spawnPos.getX()+0.5);
 			spawnPos.setZ(spawnPos.getZ()+0.5);
 		}
-		SuperRegion sRegion = findSuperRegionAtPosition(plugin, player.getLocation());
+		SuperRegion sRegion = findSettlementAtPosition(plugin, player.getLocation());
 		if (sRegion != null)
 		{
-			if (sRegion.getType() != "CAMP")
-			{
-				Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion.getName());
+				System.out.println("search settlement :"+sRegion.getName());
+				Settlement settle = plugin.getData().getSettlements().findName(sRegion.getName());
 				if (settle != null)
 				{
 					msg.addAll(makeSettler(plugin, player, settle));
-				} 
+				} else
+				{
+			    	msg.add(ChatColor.RED+"Sorry No settlement found ");
+				}
+		} else
+		{
+			sRegion = findLehenAtPosition(plugin, player.getLocation());
+			if (sRegion != null)
+			{
+				System.out.println("search lehen :"+sRegion.getName());
 				Lehen lehen = plugin.getData().getLehen().getLehen(sRegion.getName());
 				if (lehen != null)
 				{
 					msg.addAll(makeNoble(plugin, player, lehen));
 				} else
 				{
-			    	msg.add(ChatColor.RED+"Sorry NO settlement or lehen found: "+sRegion.getName());
+			    	msg.add(ChatColor.RED+"Sorry NO lehen found: "+sRegion.getName());
 				}
 			} else
 			{
-		    	msg.add(ChatColor.RED+"Sorry regiment not implemented: "+sRegion.getName());
+		    	msg.add(ChatColor.RED+"Sorry No superregion found ");
 			}
-		} else
-		{
-	    	msg.add(ChatColor.RED+"Sorry No soperregion found ");
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		page = 0;
