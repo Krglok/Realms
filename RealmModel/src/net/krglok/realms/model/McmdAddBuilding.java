@@ -1,9 +1,5 @@
 package net.krglok.realms.model;
 
-import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.Building;
-import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.Settlement;
 
 /**
  * Add region as Building to the Settlement
