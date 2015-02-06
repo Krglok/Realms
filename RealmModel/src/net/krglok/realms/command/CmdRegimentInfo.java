@@ -3,8 +3,6 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Item;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.UnitType;
@@ -91,6 +89,7 @@ public class CmdRegimentInfo extends RealmsCommand
 			msg.add("Bank       : "+ChatColor.GREEN+((int) regiment.getBank().getKonto()));
 			msg.add("Storage   : "+regiment.getWarehouse().getItemMax());
 			msg.add("Food      : WHEAT "+regiment.getWarehouse().getItemList().getValue("WHEAT"));
+			msg.add("Slave    : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().getUnitTypeList(UnitType.SLAVE).size()));
 			msg.add("Settler  : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().getUnitTypeList(UnitType.SETTLER).size()));
 			msg.add("Militia  : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA).size()));
 			msg.add("Archer    : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().getUnitTypeList(UnitType.ARCHER).size()));

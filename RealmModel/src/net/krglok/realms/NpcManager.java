@@ -1,7 +1,19 @@
 package net.krglok.realms;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
+import net.citizensnpcs.trait.Age;
+import net.citizensnpcs.trait.LookClose;
+import net.citizensnpcs.trait.VillagerProfession;
+import net.krglok.realms.core.LocationData;
+import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.SettlerTrait;
+import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -11,31 +23,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-
-
-import net.aufdemrand.sentry.Sentry;
-import net.aufdemrand.sentry.SentryTrait;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
-import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
-import net.citizensnpcs.api.trait.trait.Inventory;
-import net.citizensnpcs.api.trait.trait.MobType;
-import net.citizensnpcs.trait.Age;
-import net.citizensnpcs.trait.Anchors;
-import net.citizensnpcs.trait.LookClose;
-import net.citizensnpcs.trait.VillagerProfession;
-import net.citizensnpcs.trait.waypoint.Waypoints;
-import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.npc.GenderType;
-import net.krglok.realms.npc.NpcData;
-import net.krglok.realms.npc.NPCType;
-import net.krglok.realms.npc.NpcList;
-import net.krglok.realms.npc.SettlerTrait;
-import net.krglok.realms.unit.Regiment;
-import net.krglok.realms.unit.UnitType;
 
 /**
  * <pre>
@@ -411,6 +398,7 @@ public class NpcManager
 	}
 
 	
+	@SuppressWarnings("unused")
 	public int doNPCSpawn(String name, NPCType npcType, LocationData position, int settleId, int buildingId)
 	{
 //		System.out.println("[REALMS) Settler Spawn "+name);
@@ -476,10 +464,8 @@ public class NpcManager
 			equipNpc(npc, npcType);
 //			npc.getTrait(Waypoints.class).setWaypointProvider("wander");
 			return npc.getId();
-		} else
-		{
-			return -1;
-		}
+		} 
+		return -1;
 	}
 
 

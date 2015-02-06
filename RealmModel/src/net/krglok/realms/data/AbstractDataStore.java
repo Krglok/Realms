@@ -1,16 +1,11 @@
 package net.krglok.realms.data;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
-import net.krglok.realms.npc.NpcData;
-
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.MemoryConfiguration;
@@ -153,14 +148,8 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 
 		} catch (Exception e)
 		{
-			 @SuppressWarnings("unused")
-			 String name = "" ;
-			 StackTraceElement[] st = new Throwable().getStackTrace();
-			 if (st.length > 0)
-			 {
-				 name = st[0].getClassName()+":"+st[0].getMethodName();
-			 }
-			 System.out.println("Exception: "+name+" / "+e.getMessage());
+			e.printStackTrace();
+			System.out.println("Exception: writeData / "+e.getMessage());
 		}
 		
 	}
@@ -272,14 +261,8 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 
 		} catch (Exception e)
 		{
-			 @SuppressWarnings("unused")
-			 String name = "" ;
-			 StackTraceElement[] st = new Throwable().getStackTrace();
-			 if (st.length > 0)
-			 {
-				 name = st[0].getClassName()+":"+st[0].getMethodName();
-			 }
-			 System.out.println("Exception: "+name+" / "+e.getMessage());
+			e.printStackTrace();
+			System.out.println("Exception: writeData / "+e.getMessage());
 		}
 		
 	}
@@ -320,14 +303,8 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             
 		}catch (Exception e)
 		{
-			@SuppressWarnings("unused")
-			String name = "" ;
-			StackTraceElement[] st = new Throwable().getStackTrace();
-			if (st.length > 0)
-			{
-				name = st[0].getClassName()+":"+st[0].getMethodName();
-			}
-			System.out.println("Exception: "+name+" / "+e.getMessage());
+			e.printStackTrace();
+			System.out.println("Exception: readData / "+e.getMessage());
 			return null;
 		}
     	
@@ -376,14 +353,8 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             
 		} catch (Exception e)
 		{
-  			 String name = "" ;
-			 StackTraceElement[] st = new Throwable().getStackTrace();
-			 if (st.length > 0)
-			 {
-				 name = st[0].getClassName()+":"+st[0].getMethodName();
-			 }
-			 System.out.println(name);
-			 System.out.println(e.getMessage());
+			e.printStackTrace();
+			System.out.println("Exception: readData / "+e.getMessage());
 		}
 		
 		T dataObject = null;
@@ -406,14 +377,8 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             
 		}catch (Exception e)
 		{
-			@SuppressWarnings("unused")
-			String name = "" ;
-			StackTraceElement[] st = new Throwable().getStackTrace();
-			if (st.length > 0)
-			{
-				name = st[0].getClassName()+":"+st[0].getMethodName();
-			}
-			System.out.println("Exception: "+name+" / "+e.getMessage());
+			e.printStackTrace();
+			System.out.println("Exception: readData / "+e.getMessage());
 			return null;
 		}
     	
@@ -450,14 +415,8 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             }
 		} catch (Exception e)
 		{
-  			 String name = "" ;
-			 StackTraceElement[] st = new Throwable().getStackTrace();
-			 if (st.length > 0)
-			 {
-				 name = st[0].getClassName()+":"+st[0].getMethodName();
-			 }
-			 System.out.println(name);
-			 System.out.println(e.getMessage());
+			e.printStackTrace();
+			System.out.println("Exception: readData / "+e.getMessage());
 		}
     	return msg; 
 	}

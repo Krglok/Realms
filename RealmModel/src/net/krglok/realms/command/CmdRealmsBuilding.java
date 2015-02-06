@@ -1,15 +1,11 @@
 package net.krglok.realms.command;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.tool.StrongholdTools;
-import net.krglok.realms.unittest.RegionConfig;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -135,6 +131,7 @@ public class CmdRealmsBuilding extends RealmsCommand
         		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
     			writeBook(book, msg, "Realm Admin","The BuildingTypes");
     			inventory.addItem(book);
+    			((Player) sender).updateInventory();
     		}
     	} else
     	{

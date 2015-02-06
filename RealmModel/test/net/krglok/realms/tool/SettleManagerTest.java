@@ -100,23 +100,23 @@ public class SettleManagerTest
 		{
 			msg.add("!  Ihre Siedler sind unglücklich. ");
 		}
-		if (settle.getFoodFactor() < 0.0)
-		{
-			msg.add("!  Ihre Siedler leiden Hunger. Das ist wohl der Grund warum sie unglücklich sind!");
-		}
-		if (settle.getSettlerFactor() < 0.0)
-		{
-			msg.add("!  Ihre Siedler haben keinen Wohnraum. Das ist wohl der Grund warum sie unglücklich sind!");
-		}
-		if (settle.getEntertainFactor() < 0.9)
-		{
-			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhltung macht sie glücklicher!");
-		}
-		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
-		{
-			msg.add("!  Ihre Siedler sind verhungert. Sie haben als Verwalter versagt!");
-			msg.add("!  Es würde mich nicht wundern, wenn eine Revolte ausbricht!!");
-		}
+//		if (settle.getFoodFactor() < 0.0)
+//		{
+//			msg.add("!  Ihre Siedler leiden Hunger. Das ist wohl der Grund warum sie unglücklich sind!");
+//		}
+//		if (settle.getSettlerFactor() < 0.0)
+//		{
+//			msg.add("!  Ihre Siedler haben keinen Wohnraum. Das ist wohl der Grund warum sie unglücklich sind!");
+//		}
+//		if (settle.getEntertainFactor() < 0.9)
+//		{
+//			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhltung macht sie glücklicher!");
+//		}
+//		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
+//		{
+//			msg.add("!  Ihre Siedler sind verhungert. Sie haben als Verwalter versagt!");
+//			msg.add("!  Es würde mich nicht wundern, wenn eine Revolte ausbricht!!");
+//		}
 
 		msg.add("  ");
 		msg.add("Wirtschaftsanalyse  ");

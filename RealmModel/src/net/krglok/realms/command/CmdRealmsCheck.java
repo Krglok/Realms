@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.Realms;
-import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

@@ -5,8 +5,6 @@ import java.util.List;
 
 import net.aufdemrand.sentry.SentryTrait;
 import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.ai.AttackStrategy;
-import net.citizensnpcs.api.ai.StuckAction;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.builder.BuildPlanType;
@@ -15,7 +13,6 @@ import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.npc.NPCType;
-import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.unit.UnitAction;
 import net.krglok.realms.unit.UnitTrait;
@@ -26,7 +23,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 public class UnitTask implements Runnable

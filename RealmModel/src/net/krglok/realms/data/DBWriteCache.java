@@ -3,10 +3,6 @@ package net.krglok.realms.data;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import net.krglok.realms.core.Building;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.npc.NpcData;
-
 
 /**
  * <pre>

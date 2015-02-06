@@ -1,14 +1,10 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
-
 import net.krglok.realms.data.DataInterface;
-import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
-import net.krglok.realms.npc.NpcNamen;
 
 /**
  * <pre>

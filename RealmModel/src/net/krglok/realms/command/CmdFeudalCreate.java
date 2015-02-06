@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.checkregiontask.CheckPlayerInRegionThread;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
@@ -297,7 +296,7 @@ public class CmdFeudalCreate extends RealmsCommand
             if (!req.isEmpty()) 
             {
                 errorMsg.add(ChatColor.RED + "[HeroStronghold] Some required regions not found:");
-                int j=0;
+//                int j=0;
                 for (String s : req.keySet()) 
                 {
                 	errorMsg.add(ChatColor.YELLOW +s );

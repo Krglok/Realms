@@ -91,19 +91,19 @@ public class CmdSettleInfo extends RealmsCommand
 		{
 			msg.add("! Ihre Siedler sind unglücklich. ");
 		}
-		if (settle.getFoodFactor() < 0.0)
+		if (settle.getResident().getNpcList().getBeggarNpc().size() > 0)
 		{
-			msg.add("! Ihre Siedler leiden Hunger. ");
+			msg.add("! In der Siedler leiden "+settle.getResident().getNpcList().getBeggarNpc().size()+" Bettler  Hunger. ");
 		}
 		if (settle.getSettlerFactor() < 0.0)
 		{
 			msg.add("! Ihre Siedler haben keinen Wohnraum. ");
 		}
-		if (settle.getEntertainFactor() < 0.9)
-		{
-			msg.add("! Ihre Siedler haben wenig Unterhaltung. ");
-		}
-		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
+//		if (settle.getEntertainFactor() < 0.9)
+//		{
+//			msg.add("! Ihre Siedler haben wenig Unterhaltung. ");
+//		}
+		if ((settle.getResident().getSettlerCount() < 8))
 		{
 			msg.add("! Ihre Siedler sind verhungert. Sie haben als Verwalter versagt!");
 			msg.add("! Es würde mich nicht wundern, wenn eine Revolte ausbricht!!");

@@ -3,26 +3,16 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Settlement;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
-import org.dynmap.markers.Marker;
-import org.dynmap.markers.MarkerIcon;
-import org.dynmap.markers.MarkerSet;
 
 public class CmdRealmsTest extends RealmsCommand
 {
@@ -160,7 +150,7 @@ public class CmdRealmsTest extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (isMaterial(itenName) == false)
+		if (ConfigBasis.isMaterial(itenName) == false)
 		{
 			errorMsg.add(ChatColor.RED+"No valid MaterialName ");
 			return false;

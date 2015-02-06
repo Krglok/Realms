@@ -1321,13 +1321,13 @@ public final class Realms extends JavaPlugin
 	}
 
 	
-	private void getEntityItem(Location position)
-	{
-		for (Entity entity : position.getWorld().getEntities())
-		{
-//			entity.
-		}
-	}
+//	private void getEntityItem(Location position)
+//	{
+//		for (Entity entity : position.getWorld().getEntities())
+//		{
+////			entity.
+//		}
+//	}
 	
 	/**
 	 * read MaterialData from World Position and write into a readRequest

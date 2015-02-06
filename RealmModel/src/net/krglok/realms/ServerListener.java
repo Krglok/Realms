@@ -8,12 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.Util;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionCondition;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
-import net.citizensnpcs.npc.entity.nonliving.TNTPrimedController.TNTPrimedNPC;
-import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.command.CmdFeudalInfo;
 import net.krglok.realms.command.CmdRealmsBookList;
@@ -35,7 +32,6 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemArray;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
@@ -49,14 +45,12 @@ import net.krglok.realms.manager.ReputationType;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NpcData;
-import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.science.Achivement;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
 import net.krglok.realms.science.CaseBook;
 import net.milkbowl.vault.economy.EconomyResponse;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,7 +61,6 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Fireball;
@@ -81,10 +74,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
-import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -94,16 +86,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.util.Vector;
-import org.dynmap.PlayerFaces.FaceType;
 
 /**
  * <pre>
@@ -439,20 +425,6 @@ public class ServerListener implements Listener
 		}
     }
 
-    private String getItemRef(ItemStack itemStack)
-    {
-    	switch (itemStack.getType())
-    	{
-    	case AIR: return itemStack.getType().name();
-    	case SIGN : return Material.SIGN_POST.name();
-    	case WATER : return Material.WATER_BUCKET.name();
-    	case LAVA: return Material.LAVA_BUCKET.name();
-    	default:
-    		return itemStack.getType().name();	
-    	}
-    	
-    	 
-    }
     
     private void clickInventoryBuy(InventoryClickEvent event)
     {
@@ -480,7 +452,7 @@ public class ServerListener implements Listener
 //		case PICKUP_SOME :
 			if (itemStack.getAmount() > 0)
 			{
-				String ItemRef = getItemRef(itemStack);
+				String ItemRef = ConfigBasis.checkItemRefOut(itemStack);
     			double cost = plugin.getData().getPriceList().getBasePrice(ItemRef);
     			if (cost > 0.0)
     			{
@@ -494,6 +466,7 @@ public class ServerListener implements Listener
 	    			{
 	        			player.sendMessage("You sell "+itemStack.getType()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 8));
 	        			settle.getBank().withdrawKonto(cost, "BuyShop", settle.getId());
+	        			settle.getWarehouse().depositItemValue(itemStack.getType().name(), amount);
 	        			plugin.economy.depositPlayer(player.getName(), cost).toString();
 	        			event.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
 	        	    	if (itemStack.getAmount() == 1)
@@ -701,7 +674,7 @@ public class ServerListener implements Listener
 	    	}
 	    	
 	    	// Wallsign action
-	    	ArrayList<String> msg = new ArrayList<String>();
+//	    	ArrayList<String> msg = new ArrayList<String>();
 	    	if (b.getType() == Material.WALL_SIGN)
 	    	{
 	    		if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
@@ -732,7 +705,7 @@ public class ServerListener implements Listener
 	    	{
 	    		Sign sign = (Sign) b.getState();
 	    		String l0 = sign.getLine(0);
-	    		String l1 = sign.getLine(1);
+//	    		String l1 = sign.getLine(1);
 	    		if (l0.contains("[BUILD]"))
 	    		{
 	    			cmdBuildat(event, b);
@@ -872,25 +845,7 @@ public class ServerListener implements Listener
 		}    	
     }
 
-    /**
-     * unused at this time
-     * @param event
-     */
-    private void cmdBuildPlanBook(PlayerInteractEvent event)
-    {
-
-    }
     
-    /**
-     * unused at this time
-     * @param event
-     */
-    private void cmdRequiredBook(PlayerInteractEvent event)
-    {
-    	
-
-    }
-
     
 	private boolean findStrongholdAtLocation(Realms plugin,Location position)
 	{
@@ -1067,7 +1022,7 @@ public class ServerListener implements Listener
 		    			System.out.println("CheckMeta");
 						if (meta.getDisplayName() == "[WHEAT]")
 						{
-							if (buildAt(pos, "WHEAT", player, msg))
+							if (buildAt(pos, "WHEAT", player, msg,"0"))
 							{
 						    	msg.add(":"+meta.getDisplayName()+":");
 								
@@ -1097,17 +1052,33 @@ public class ServerListener implements Listener
 		plugin.getMessageData().printPage(player, msg, 1);
     }
     
-    private boolean buildAt(Location pos, String name, Player player, ArrayList<String> msg)
+    private boolean buildAt(Location pos, String name, Player player, ArrayList<String> msg,String l2)
     {
-		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY(), pos.getZ()+1);
-		String sRegion = findSuperRegionAtLocation(plugin, player); 
-		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+    	Settlement settle = null;
+    	LocationData iLoc = null;
+    	int settleId = 0;
+    	try
+		{
+        	settleId = Integer.valueOf(l2);
+		} catch (Exception e)
+		{
+			settleId = 0;
+		}
+    	if (settleId > 0)
+    	{
+    		settle = plugin.getData().getSettlements().getSettlement(settleId);
+    	} else
+    	{
+			String sRegion = findSuperRegionAtLocation(plugin, player); 
+			settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+    	}
+		iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY(), pos.getZ()+1);
 		if (settle != null)
 		{
 			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
 			{
 //				BuildPlanMap buildPLan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.getBuildPlanType(name), 4, -1);
-				if (checkBuild(pos, name, player, msg))
+				if (checkBuild(pos, name, player, msg,settle))
 				{
 					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
 					McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settle.getId(), bType, iLoc,player);
@@ -1137,11 +1108,11 @@ public class ServerListener implements Listener
 		}
     }
     
-    private boolean checkBuild(Location pos, String name, Player player, ArrayList<String> msg)
+    private boolean checkBuild(Location pos, String name, Player player, ArrayList<String> msg, Settlement settle)
     {
-		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
-		String sRegion = findSuperRegionAtLocation(plugin, player); 
-		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+//		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
+//		String sRegion = findSuperRegionAtLocation(plugin, player); 
+//		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		ItemList needMat = new ItemList();
 		if (settle != null)
 		{
@@ -1174,16 +1145,33 @@ public class ServerListener implements Listener
 		}
     }
 
-    private boolean checkAt(Location pos, String name, Player player, ArrayList<String> msg)
+    private boolean checkAt(Location pos, String name, Player player, ArrayList<String> msg, String l2)
     {
-		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
-		String sRegion = findSuperRegionAtLocation(plugin, player); 
-		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+//		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
+    	Settlement settle ;
+    	int settleId = 0;
+    	try
+		{
+        	settleId = Integer.valueOf(l2);
+		} catch (Exception e)
+		{
+			settleId = 0;
+		}
+    	if (settleId > 0)
+    	{
+    		settle = plugin.getData().getSettlements().getSettlement(settleId);
+    	} else
+    	{
+			String sRegion = findSuperRegionAtLocation(plugin, player); 
+			settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+    	}
+//		String sRegion = findSuperRegionAtLocation(plugin, player); 
+//		settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		if (settle != null)
 		{
 			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
 			{
-				if (checkBuild(pos, name, player, msg))
+				if (checkBuild(pos, name, player, msg,settle))
 				{
 					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
 			    	msg.add("Ready to BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
@@ -1212,12 +1200,12 @@ public class ServerListener implements Listener
     private void  checkSettleChest(InventoryCloseEvent event)
     {
     	Player player = (Player) event.getPlayer();
-		Location pos = event.getPlayer().getLocation();
+		event.getPlayer().getLocation();
 		Inventory inventory = event.getInventory();
 
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-		ItemList needMat = new ItemList();
+		new ItemList();
 		if (settle != null)
 		{
 			String region = findRegionAtLocation(plugin, player);
@@ -1301,10 +1289,10 @@ public class ServerListener implements Listener
     private void cmdTechBook(PlayerInteractEvent event, Block b)
     {
 		Sign sign = (Sign) b.getState();
-		String l0 = sign.getLine(0);
+		sign.getLine(0);
 		String l1 = sign.getLine(1);
-		String l2 = sign.getLine(2);
-		String l3 = sign.getLine(3);
+		sign.getLine(2);
+		sign.getLine(3);
 		if (l1 != "")
 		{
 			if (AchivementName.contains(l1))
@@ -1455,8 +1443,8 @@ public class ServerListener implements Listener
 		Sign sign = (Sign) b.getState();
 		String l0 = sign.getLine(0);
 		String l1 = sign.getLine(1);
-		String l2 = sign.getLine(2);
-		String l3 = sign.getLine(3);
+		sign.getLine(2);
+		sign.getLine(3);
 		if (l0.equals(""))
 		{
 	    	Location pos = findSignBase(b);
@@ -1761,7 +1749,7 @@ public class ServerListener implements Listener
 	    			if (cBook.isEnabled())
 	    			{
 	    				event.getPlayer().sendMessage("You get a new Book");
-	    	    		PlayerInventory inventory = event.getPlayer().getInventory();
+	    	    		event.getPlayer().getInventory();
 	    	    		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 	    	    		book = CaseBook.writeBook(book, cBook);
 	    	    		event.getPlayer().sendMessage("Create Book "+cBook.getId()+" : "+cBook.getAuthor()+" | "+cBook.getTitel());
@@ -1812,7 +1800,7 @@ public class ServerListener implements Listener
 		String l0 = sign.getLine(0);
 		String l1 = sign.getLine(1);
 		String l2 = sign.getLine(2);
-		String l3 = sign.getLine(3);
+		sign.getLine(3);
 
 		if (l0.contains("[SELL]"))
 		{
@@ -1825,7 +1813,6 @@ public class ServerListener implements Listener
 				System.out.println("Check Sell :"+itemRef);
 				if (settle.settleManager().getDontSell().containsKey(itemRef))
 				{
-					l3 = "NO SELL";
 				} else
 				{
 					int amount = 1;
@@ -1843,7 +1830,7 @@ public class ServerListener implements Listener
 					}
 					double price = plugin.getData().getPriceList().getBasePrice(itemRef);
 					price = price * amount;
-					l3 = ConfigBasis.setStrformat2(price,7);
+					ConfigBasis.setStrformat2(price,7);
 				}
 				sign.update();
 			}
@@ -1857,7 +1844,7 @@ public class ServerListener implements Listener
     {
 		Sign sign = (Sign) b.getState();
 		String l0 = sign.getLine(0);
-		String l1 = sign.getLine(1);
+		sign.getLine(1);
     	
 		if (l0.contains("[HUNT]"))
 		{
@@ -2265,8 +2252,7 @@ public class ServerListener implements Listener
 //        tnt.setVelocity(vel.multiply(speed));
 //        tnt.setFireTicks(150);
         Arrow arrow = b.getWorld().spawnArrow(loc, vel, (float) (0.2 * speed), 12);
-//        arrow.setPassenger(arg0);
-		ArrayList<String> lore = new ArrayList<String>();
+new ArrayList<String>();
         arrow.setFireTicks(250);
         arrow.setVelocity(vel.multiply(speed));
         
@@ -2276,16 +2262,18 @@ public class ServerListener implements Listener
 	{
     	ArrayList<String> msg = new ArrayList<String>();
 		Sign sign = (Sign) b.getState();
-		String l0 = sign.getLine(0);
+		sign.getLine(0);
 		String l1 = sign.getLine(1);
+		String l2 = sign.getLine(2);
 //			System.out.println("SignPost");
 		if (l1 != "")
 		{
+			if (l2 == "") {	l2 = "0";	}
 			Location pos = b.getLocation();
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
 	    	{
     			System.out.println("Check");
-	    		checkAt(pos, l1, event.getPlayer(), msg);
+	    		checkAt(pos, l1, event.getPlayer(), msg,l2);
 	    		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 	    		return;
 	    	} else
@@ -2297,7 +2285,7 @@ public class ServerListener implements Listener
     	    		)
     	    	{
 	    			System.out.println("BuildAt");
-	    			if (buildAt( pos, l1, event.getPlayer(), msg))
+	    			if (buildAt( pos, l1, event.getPlayer(), msg,l2))
 	    			{
 				    	msg.add("Build startet  ");
 				    	msg.add(" ");
@@ -2370,7 +2358,7 @@ public class ServerListener implements Listener
 		Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
 		if (building != null)
 		{
-			Sign sign = (Sign) b.getState();
+			b.getState();
 			String l0 = "";
 			String l1 = "";
 			String l2 = "";
@@ -2427,7 +2415,7 @@ public class ServerListener implements Listener
 		Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
 		if (building != null)
 		{
-			Sign sign = (Sign) b.getState();
+			b.getState();
 			String l0 = "[RECIPE]";
 			String l1 = "1:";
 			String l2 = "2:";
@@ -2524,7 +2512,7 @@ public class ServerListener implements Listener
 	private void cmdReputation(PlayerInteractEvent event, Block b)
 	{
     	Player player = (Player) event.getPlayer();
-		Location pos = player.getLocation();
+		player.getLocation();
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		if (settle != null)
@@ -2550,7 +2538,6 @@ public class ServerListener implements Listener
 		    Block bu = base.getRelative(bf);
 		    if((bu.getType() == Material.WOODEN_DOOR)) 
 		    {
-		    	byte openData = 0x4;
 		    	byte doorData = (byte) (bu.getData());
 				System.out.println(" door found "+ (doorData & 0x4));
 				if ((doorData & 0x4) == 0x4)
@@ -2619,7 +2606,7 @@ public class ServerListener implements Listener
 	private void cmdDonate(PlayerInteractEvent event, Block b)
 	{
     	Player player = (Player) event.getPlayer();
-		Location pos = player.getLocation();
+		player.getLocation();
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
 		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
 		if (settle != null)
@@ -2718,7 +2705,7 @@ public class ServerListener implements Listener
 			{
 				if (event.getPlayer().getInventory().getItemInHand().getType() == Material.AIR)
 				{
-					EconomyResponse eResponse = plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
+					plugin.economy.withdrawPlayer(event.getPlayer().getName(), cost);
 					Building building = plugin.getRealmModel().getBuildings().getBuildingByRegion(region.getID());
 					if (building != null)
 					{
@@ -2836,7 +2823,7 @@ public class ServerListener implements Listener
 		int[] row1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		int[] row2 = { 10, 11, 12, 13, 14, 15, 16, 17, 18 };
 		int[] row3 = { 19, 20, 21, 23, 24, 25, 26, 27, 28 };
-		ArrayList<String> loreString = new ArrayList<String>(); // attribute liste
+		new ArrayList<String>();
 		setupShopRow(row1, stockList, settle, player, chest, minAmount);
 		setupShopRow(row2, stockList, settle, player, chest, minAmount);
 		setupShopRow(row3, stockList, settle, player, chest, minAmount);
@@ -2875,7 +2862,6 @@ public class ServerListener implements Listener
 		}
 		
 		isSell = true;
-		String title = "";
 		// create inventory
 		Inventory chest = player.getServer().createInventory(null, 3 * 9, sellInv);
 
@@ -2898,10 +2884,10 @@ public class ServerListener implements Listener
 	private void cmdBuy(PlayerInteractEvent event, Block b)
 	{
 		Sign sign = (Sign) b.getState();
-		String l0 = sign.getLine(0);
+		sign.getLine(0);
 		String l1 = sign.getLine(1);
-		String l2 = sign.getLine(2);
-		String l3 = sign.getLine(3);
+		sign.getLine(2);
+		sign.getLine(3);
 
 		Player player = event.getPlayer();
 		if (isBuy)
@@ -2921,7 +2907,7 @@ public class ServerListener implements Listener
 		
 		if (settle != null)
 		{
-			String itemRef = l1.toUpperCase();
+			l1.toUpperCase();
 //			System.out.println("Buy :"+itemRef);
 			// create inventory
 			Inventory chest = player.getServer().createInventory(null, 3 * 9, buyInv);

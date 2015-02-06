@@ -36,6 +36,7 @@ public class NobleTask implements Runnable
 	@Override
 	public void run()
 	{
+//		return;
 		if (plugin.nobleManager.isEnabled() == false)
 		{
 			return;

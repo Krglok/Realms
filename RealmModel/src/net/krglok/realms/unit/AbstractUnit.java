@@ -1,11 +1,6 @@
 package net.krglok.realms.unit;
 
-import org.bukkit.Material;
-
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
-import net.krglok.realms.core.LocationData;
-import net.krglok.realms.npc.BackpackList;
 import net.krglok.realms.npc.NpcData;
 
 /**

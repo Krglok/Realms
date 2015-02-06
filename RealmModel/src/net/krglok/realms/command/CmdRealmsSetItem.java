@@ -1,13 +1,10 @@
 package net.krglok.realms.command;
 
-import java.util.ArrayList;
-
 import net.krglok.realms.Realms;
-import net.krglok.realms.model.McmdDepositWarehouse;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
 public class CmdRealmsSetItem extends RealmsCommand
@@ -86,12 +83,15 @@ public class CmdRealmsSetItem extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		// set itemRef / amount in warehopuse
-		if (isMaterial(itemRef))
+		if (ConfigBasis.isMaterial(itemRef))
 		{
-			McmdDepositWarehouse cmd = new McmdDepositWarehouse(plugin.getRealmModel(), settleID, itemRef, amount);
-			plugin.getRealmModel().OnCommand(cmd);
-			sender.sendMessage(ChatColor.RED+"Withdraw "+itemRef+" : "+amount);
-			
+			if (plugin.getData().getSettlements().getSettlement(settleID).getWarehouse().depositItemValue(itemRef, amount))
+			{
+				sender.sendMessage(ChatColor.RED+"Deposit "+itemRef+" : "+amount);
+			} else
+			{
+				sender.sendMessage(ChatColor.RED+"NOTHING done !");
+			}
 		} else
 		{
 			sender.sendMessage(ChatColor.RED+"NOT a valid Material name !");
@@ -116,7 +116,7 @@ public class CmdRealmsSetItem extends RealmsCommand
 
 			if (plugin.getRealmModel().getSettlements().containsID(settleID))
 			{
-				if (isMaterial(itemRef) == false)
+				if (ConfigBasis.isMaterial(itemRef) == false)
 				{
 					errorMsg.add("Item  not found !!!");
 					errorMsg.add("A valid MaterialName must be used !");

@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-
 /**
  * <pre>
  * Hier werden zentral die Angebote der Trader gespeichert und verwaltet.

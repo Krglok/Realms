@@ -3,15 +3,11 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentType;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -89,10 +85,11 @@ public class CmdRegimentCreate extends RealmsCommand
 		String world = player.getLocation().getWorld().getName();
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
-		plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0); //, plugin.getLogList());
-		
+		Regiment regiment = plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0);
+		plugin.getData().makeRaiderUnits(regiment);
 		msg.add("[Realm] Regiment created ");
 		msg.add("position 0 0 0  ");
+		msg.add("has 10 MILITIA as units  ");
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
 		name = "";

@@ -117,10 +117,10 @@ public class TickTask implements Runnable
 		
 		plugin.getRealmModel().OnTick();
 //		System.out.println("[Realms] Tick "+counter);
-			plugin.onBuildRequest();
-			plugin.onCleanRequest();
-			plugin.onSignRequest();
-		// startt night Event
+		plugin.onBuildRequest();
+		plugin.onCleanRequest();
+		plugin.onSignRequest();
+		// start night Event
 			
 		for (World world : plugin.getServer().getWorlds())
 		{
@@ -156,9 +156,6 @@ public class TickTask implements Runnable
 							{
 								System.out.println("[Realms] Production "+isProduction+" on "+world.getName());
 							}
-						} else
-						{
-							
 						}
 					}
 					plugin.getRealmModel().OnNight(plugin.getServer().getWorlds().get(0).getTime());

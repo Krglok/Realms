@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.builder.BuildPlan;
-import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
@@ -212,7 +211,7 @@ public class BuildManager
 			doDone(rModel, settle);
 			break;
 		case WAIT : 
-//			System.out.println("run : "+bStatus.name());
+			System.out.println("BuildManager run : "+bStatus.name());
 			doWait();
 			break;
 		default :

@@ -5,9 +5,7 @@ import java.util.HashMap;
 
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.api.util.DataKey;
-import net.citizensnpcs.trait.LookClose;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.npc.NpcData;

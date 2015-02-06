@@ -3,13 +3,10 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.SettleType;
 import net.krglok.realms.science.Achivement;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
-import net.krglok.realms.science.KnowledgeNode;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

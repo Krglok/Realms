@@ -28,6 +28,5 @@ output:
 money-requirement: 20000.0
 upkeep-money-output: -10.0
 super-regions:
-super-regions:
 - Metropolis
 description: produce books and knowledge. Can give Techlevel with TECHBOOK to player  up to tech level 7

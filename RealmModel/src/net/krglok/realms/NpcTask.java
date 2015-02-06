@@ -2,27 +2,23 @@ package net.krglok.realms;
 
 import java.util.Iterator;
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
-
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.trait.Anchors;
 import net.citizensnpcs.trait.waypoint.Waypoints;
-import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.Settlement;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;
-import net.krglok.realms.unit.UnitAction;
 import net.krglok.realms.unit.UnitTrait;
 import net.krglok.realms.unit.UnitType;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 /**
  * Die schedule zeit ist absichtlich versetzt gegenüber dem realmSchedule.

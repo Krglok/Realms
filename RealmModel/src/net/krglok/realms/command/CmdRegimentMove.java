@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.ItemLocation;
-import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unit.Regiment;
 

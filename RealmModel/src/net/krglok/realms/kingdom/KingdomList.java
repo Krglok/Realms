@@ -1,12 +1,8 @@
 package net.krglok.realms.kingdom;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.core.SettlementList;
 
 /**
  * realize a list of all kingdoms in the model

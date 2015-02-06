@@ -5,7 +5,11 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 public class InteractiveTableModel extends AbstractTableModel {
-    public static final int TITLE_INDEX = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2708136973063403181L;
+	public static final int TITLE_INDEX = 0;
     public static final int ARTIST_INDEX = 1;
     public static final int ALBUM_INDEX = 2;
     public static final int HIDDEN_INDEX = 3;

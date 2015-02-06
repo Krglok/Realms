@@ -11,57 +11,56 @@ REGIMENT:
     isActiv: true
     settleId: -1
     MaxUnit: 60
-    unitlist:
-      '19': SETTLER
-      '17': SETTLER
-      '18': SETTLER
-      '15': SETTLER
-      '16': SETTLER
-      '13': SETTLER
-      '14': SETTLER
-      '11': SETTLER
-      '12': SETTLER
-      '3': MILITIA
-      '2': MILITIA
-      '1': MILITIA
-      '10': SETTLER
-      '0': MILITIA
-      '7': MILITIA
-      '6': MILITIA
-      '5': MILITIA
-      '4': MILITIA
-      '9': MILITIA
-      '8': MILITIA
   '2':
     id: 2
     regimentType: PRIVATEER
     regStatus: NONE
     position: :0.0:0.0:0.0
     target: :0.0:0.0:0.0
-    name: Privateer
+    name: 'Privateer'
     owner: 0
     bank: 0.0
     isActiv: true
     settleId: -1
     MaxUnit: 60
-    unitlist:
-      '19': SETTLER
-      '17': SETTLER
-      '18': SETTLER
-      '15': SETTLER
-      '16': SETTLER
-      '13': SETTLER
-      '14': SETTLER
-      '11': SETTLER
-      '12': SETTLER
-      '3': MILITIA
-      '2': MILITIA
-      '1': MILITIA
-      '10': SETTLER
-      '0': MILITIA
-      '7': MILITIA
-      '6': MILITIA
-      '5': MILITIA
-      '4': MILITIA
-      '9': MILITIA
-      '8': MILITIA
+    itemList:
+      GOLD_NUGGET: '5'
+      EMERALD: '55'
+      WOOL: '65'
+      STICK: '64'
+      LOG: '57'
+      NETHER_STALK: '7'
+      TORCH: '10'
+      GLOWSTONE: '1'
+      WATER: '196'
+      GLOWSTONE_DUST: '3'
+      LEATHER: '48'
+      LAPIS_BLOCK: '8'
+      SEEDS: '32'
+      WOOD_PICKAXE: '64'
+      BREAD: '43'
+      GOLD_ORE: '2'
+      WOOD: '196'
+      IRON_ORE: '135'
+      IRON_INGOT: '64'
+      WOOD_AXE: '64'
+      COAL: '12'
+      CARROT: '8'
+      PORK: '8'
+      RAW_CHICKEN: '8'
+      FLINT: '4'
+      SHEARS: '1'
+      WHEAT: '41'
+      SOIL: '201'
+      STONE: '4'
+      DIRT: '197'
+      COBBLESTONE: '133'
+      DIAMOND: '1'
+      GHAST_TEAR: '70'
+      SAND: '65'
+      FEATHER: '8'
+      RAW_BEEF: '8'
+      GRASS: '196'
+      WOOD_HOE: '64'
+      SAPLING: '64'
+    

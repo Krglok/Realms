@@ -5,18 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.Building;
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.SettleType;
-import net.krglok.realms.core.Settlement;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentStatus;
 import net.krglok.realms.unit.RegimentType;
-import net.krglok.realms.unit.UnitFactory;
-import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;

@@ -2,35 +2,25 @@ package net.krglok.realms.npc;
 
 import java.util.ArrayList;
 
+import net.citizensnpcs.api.event.NPCRightClickEvent;
+import net.citizensnpcs.api.trait.Trait;
+import net.citizensnpcs.api.trait.trait.Equipment;
+import net.citizensnpcs.api.util.DataKey;
+import net.citizensnpcs.trait.LookClose;
+import net.citizensnpcs.trait.waypoint.Waypoints;
+import net.krglok.realms.Realms;
+import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.unit.UnitType;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Openable;
-
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import net.citizensnpcs.api.astar.pathfinder.BlockExaminer;
-import net.citizensnpcs.api.event.NPCRightClickEvent;
-import net.citizensnpcs.api.trait.Trait;
-import net.citizensnpcs.api.trait.trait.Equipment;
-import net.citizensnpcs.api.util.DataKey;
-import net.citizensnpcs.npc.ai.CitizensNavigator.DoorExaminer;
-import net.citizensnpcs.trait.LookClose;
-import net.citizensnpcs.trait.waypoint.Waypoints;
-import net.krglok.realms.CommandRealms;
-import net.krglok.realms.NpcManager;
-import net.krglok.realms.Realms;
-import net.krglok.realms.command.CmdRealmsTest;
-import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.unit.UnitType;
 
 /**
  * This is a trait for the realms plugin to handle the special NPC of the
@@ -207,6 +197,7 @@ public class SettlerTrait extends Trait
 		// Handle a click on a NPC. The event has a getNPC() method.
 		// Be sure to check event.getNPC() == this.getNPC() so you only handle
 		// clicks on this NPC!
+		NpcData npcData = null;
 		if (event.getNPC() != this.getNPC())
 		{
 //			System.out.println("[REALMS] Trait Settler , wrong NPC instance !  : "+event.getNPC().getId());
@@ -214,6 +205,12 @@ public class SettlerTrait extends Trait
 		} else
 		{
 			System.out.println("[REALMS] Trait Settler , NPC : "+event.getNPC().getId());
+			npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
+			if (npcData == null) 
+			{ 
+				System.out.println("No regular npcData ! ");
+				return; 
+			}
 			if (plugin.getData().getNpcs().getCitizenId(this.getNPC().getId()).isAlive() == false)
 			{
 				npc.despawn();
@@ -240,6 +237,7 @@ public class SettlerTrait extends Trait
 	@EventHandler
 	public void click(net.citizensnpcs.api.event.NPCLeftClickEvent event)
 	{
+		NpcData npcData = null;
 		if (event.getNPC() != this.getNPC())
 		{
 //			System.out.println("[REALMS] Trait Settler , wrong NPC instance !  : "+event.getNPC().getId());
@@ -247,6 +245,12 @@ public class SettlerTrait extends Trait
 		} else
 		{
 			System.out.println("[REALMS] Trait Settler , NPC : "+event.getNPC().getId());
+			npcData = plugin.getData().getNpcs().getCitizenId(this.getNPC().getId());
+			if (npcData == null) 
+			{ 
+				System.out.println("No regular npcData ! ");
+				return; 
+			}
 			if (plugin.getData().getNpcs().getCitizenId(this.getNPC().getId()).isAlive() == false)
 			{
 				npc.despawn();

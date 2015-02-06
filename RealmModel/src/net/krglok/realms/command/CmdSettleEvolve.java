@@ -3,15 +3,11 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.Realms;
-import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.RegionLocation;
-import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
 import org.bukkit.World;

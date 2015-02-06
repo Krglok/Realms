@@ -103,6 +103,7 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 				writeBook(book, msg, settle.getName(),"Warehouse");
 				inventory.addItem(book);
+    			((Player) sender).updateInventory();
 			}
 	    }
 	    if (page == 0)

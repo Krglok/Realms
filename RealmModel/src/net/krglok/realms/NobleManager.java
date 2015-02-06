@@ -2,28 +2,22 @@ package net.krglok.realms;
 
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Villager.Profession;
-import org.bukkit.inventory.ItemStack;
-
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
-import net.citizensnpcs.trait.Age;
 import net.citizensnpcs.trait.LookClose;
-import net.citizensnpcs.trait.VillagerProfession;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.kingdom.NobleTrait;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
-import net.krglok.realms.npc.SettlerTrait;
 import net.krglok.realms.unit.UnitType;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 public class NobleManager
 {
@@ -154,6 +148,7 @@ public class NobleManager
 		}
 	}
 
+	@SuppressWarnings("unused")
 	public int doNobleSpawn(String name, NobleLevel noble, LocationData position, int settleId, int buildingId)
 	{
 //		System.out.println("[REALMS) Settler Spawn "+name);
@@ -198,10 +193,8 @@ public class NobleManager
 			npc.spawn(pos);
 			equipNoble(npc, noble);
 			return npc.getId();
-		} else
-		{
-			return -1;
 		}
+		return -1;
 	}
 	
 	public NobleTrait doAddTrait(NPC npc, NobleLevel noble, int settleId, int buildingId)

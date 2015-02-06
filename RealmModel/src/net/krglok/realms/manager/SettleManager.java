@@ -430,13 +430,13 @@ public class SettleManager
 	
 	private void checkHunger (RealmModel rModel, Settlement settle)
 	{
-		if (settle.getFoodFactor() < 0)
-		{
-			if (settle.tradeManager().isBuyActiv() == false)
-			{
-				settle.tradeManager().newBuyOrder(settle, Material.WHEAT.name(), 100);
-			}
-		}
+//		if (settle.getFoodFactor() < 0)
+//		{
+//			if (settle.tradeManager().isBuyActiv() == false)
+//			{
+//				settle.tradeManager().newBuyOrder(settle, Material.WHEAT.name(), 100);
+//			}
+//		}
 	}
 	
 	private void checkMoneyLevel( RealmModel rModel, Settlement settle)
@@ -494,6 +494,8 @@ public class SettleManager
 	
 	/**
 	 * check for needed materials of the BuildPlanType
+	 * - set nedMat list
+	 * - set dontSell list 
 	 * 
 	 * @param rModel
 	 * @param settle

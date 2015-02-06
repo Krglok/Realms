@@ -3,7 +3,6 @@ package net.krglok.realms.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * list of items with prices , used as central pricelist  

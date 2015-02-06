@@ -121,23 +121,23 @@ public class ModelLoopTest
 		{
 			msg.add("!  Ihre Siedler sind unglücklich. Das wird sie veranlassen zu verschwinden!");
 		}
-		if (settle.getFoodFactor() < 0.0)
-		{
-			msg.add("!  Ihre Siedler leiden Hunger. Das ist wohl der Grund warum sie unglücklich sind!");
-		}
+//		if (settle.getFoodFactor() < 0.0)
+//		{
+//			msg.add("!  Ihre Siedler leiden Hunger. Das ist wohl der Grund warum sie unglücklich sind!");
+//		}
 		if (settle.getSettlerFactor() < 0.0)
 		{
 			msg.add("!  Ihre Siedler haben keinen Wohnraum. Das ist wohl der Grund warum sie unglücklich sind!");
 		}
-		if (settle.getEntertainFactor() < 0.9)
-		{
-			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhltung macht sie glücklicher!");
-		}
-		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
-		{
-			msg.add("!  Ihre Siedler sind verhungert. Sie haben als Verwalter versagt!");
-			msg.add("!  Es würde mich nicht wundern, wenn eine Revolte ausbricht!!");
-		}
+//		if (settle.getEntertainFactor() < 0.9)
+//		{
+//			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhltung macht sie glücklicher!");
+//		}
+//		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
+//		{
+//			msg.add("!  Ihre Siedler sind verhungert. Sie haben als Verwalter versagt!");
+//			msg.add("!  Es würde mich nicht wundern, wenn eine Revolte ausbricht!!");
+//		}
 
 		msg.add("  ");
 		msg.add("Wirtschaftsanalyse  ");
@@ -183,9 +183,9 @@ public class ModelLoopTest
 		System.out.println("Settler Count  : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerCount());
 		System.out.println("OnProduction Queue: "+rModel.getProductionQueue().size());
 		System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
-		System.out.println("FoodFactor:  "+rModel.getSettlements().getSettlement(1).getFoodFactor());
+//		System.out.println("FoodFactor:  "+rModel.getSettlements().getSettlement(1).getFoodFactor());
 		System.out.println("SettlerFactor: "+rModel.getSettlements().getSettlement(1).getSettlerFactor());
-		System.out.println("Entertain    : "+rModel.getSettlements().getSettlement(1).getEntertainFactor());
+//		System.out.println("Entertain    : "+rModel.getSettlements().getSettlement(1).getEntertainFactor());
 		System.out.println("=========================== "+Settlement.getCounter());
 		for (Settlement settle : rModel.getSettlements().values())
 		{

@@ -1,7 +1,5 @@
 package net.krglok.realms.builder;
 
-import java.io.Serializable;
-
 import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.Material;

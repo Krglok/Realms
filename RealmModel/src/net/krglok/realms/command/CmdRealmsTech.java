@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Owner;
 import net.krglok.realms.science.KnowledgeList;
 import net.krglok.realms.science.KnowledgeNode;
 
@@ -96,6 +95,7 @@ public class CmdRealmsTech extends RealmsCommand
     		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
 			writeBook(book, msg, "Realm Admin","The Techlevel");
 			inventory.addItem(book);
+			((Player) sender).updateInventory();
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);

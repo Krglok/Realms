@@ -1,6 +1,7 @@
 package net.krglok.realms.command;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
 
@@ -80,7 +81,7 @@ public class CmdRealmsGetItem extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		if (isMaterial(itemRef))
+		if (ConfigBasis.isMaterial(itemRef))
 		{
 			if (plugin.getData().getSettlements().getSettlement(settleID).getWarehouse().withdrawItemValue(itemRef, amount))
 			{
@@ -130,7 +131,7 @@ public class CmdRealmsGetItem extends RealmsCommand
 					return false;
 					
 				}
-				if (isMaterial(itemRef) == false)
+				if (ConfigBasis.isMaterial(itemRef) == false)
 				{
 					errorMsg.add("Item  not found !!!");
 					errorMsg.add("A valid MaterialName must be used !");

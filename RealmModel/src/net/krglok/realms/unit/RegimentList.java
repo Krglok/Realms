@@ -81,7 +81,7 @@ public class RegimentList extends HashMap <Integer, Regiment>
 	 * @param logList  
 	 * </pre>
 	 */
-	public void createRegiment(String typ, String name, int settleId) //, LogList logList)
+	public Regiment createRegiment(String typ, String name, int settleId) //, LogList logList)
 	{
 		Regiment regiment;
 		switch (typ)
@@ -94,6 +94,7 @@ public class RegimentList extends HashMap <Integer, Regiment>
 		}
 		int key = nextLastNumber();
 		this.put(key, regiment);
+		return regiment;
 	}
 	
 	/**

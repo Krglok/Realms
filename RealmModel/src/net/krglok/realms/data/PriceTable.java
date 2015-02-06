@@ -2,9 +2,6 @@ package net.krglok.realms.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import com.mysql.jdbc.PreparedStatement;
 
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;

@@ -3,7 +3,6 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
@@ -151,7 +150,7 @@ public class CmdSettleWorkshop extends RealmsCommand
 			}
 
 			itemRef.toUpperCase();
-			if (isMaterial(itemRef) == false)
+			if (ConfigBasis.isMaterial(itemRef) == false)
 			{
 				errorMsg.add("Not a valid MatrialName !!!");
 				return false;

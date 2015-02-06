@@ -2,7 +2,6 @@ package net.krglok.realms.core;
 
 
 import java.util.HashMap;
-import java.util.Map;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.kingdom.Lehen;

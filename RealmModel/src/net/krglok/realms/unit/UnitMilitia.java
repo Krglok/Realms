@@ -1,10 +1,9 @@
 package net.krglok.realms.unit;
 
-import org.bukkit.Material;
-
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.npc.NpcData;
+
+import org.bukkit.Material;
 
 public class UnitMilitia extends AbstractUnit
 {

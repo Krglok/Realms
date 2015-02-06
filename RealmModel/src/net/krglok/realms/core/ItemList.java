@@ -1,12 +1,8 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 
 /**
  * list of items, hold each item type unique

@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
@@ -20,13 +21,14 @@ import net.krglok.realms.model.RealmModel;
  */
 public class ConfigBasis implements ConfigInterface
 {
+	protected static String PLUGIN_VER = "0.3.0";
 	protected static final String CONFIG_SETTLEMENT_COUNTER = "settlementCounter";
 	protected static final String CONFIG_REALM_COUNTER = "realmCounter";
 	protected static final String CONFIG_PLUGIN_VER = "plugin_ver";
 	public static final String CONFIG_PLUGIN_NAME = "plugin_name";
 	public static final String PLUGIN_NAME = "Realms";
-	protected static String PLUGIN_VER = "0.3.0";
 	public static final String NPC_0 = "NONE";
+	public static final String NEW_SETTLEMENT = "New Settlement";
 
 	
 	public final static long dayNight = 24000; //2400 for test ; // serverTicks 
@@ -426,8 +428,9 @@ public class ConfigBasis implements ConfigInterface
 		case CITY   : return 4 * ConfigBasis.CHEST_STORE;
 		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
 		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
+		case CAMP : return 10 * ConfigBasis.CHEST_STORE;
 		default :
-			return 0;
+			return ConfigBasis.CHEST_STORE;
 		}
 	}
 
@@ -482,6 +485,7 @@ public class ConfigBasis implements ConfigInterface
 		case CITY   : return 2 * ConfigBasis.HALL_Settler*3;
 		case METROPOLIS  : return 4 * ConfigBasis.HALL_Settler*4;
 		case FORTRESS : return 5;
+		case CAMP : return ConfigBasis.HALL_Settler*5;
 		default :
 			return ConfigBasis.HALL_Settler;
 		}
@@ -505,7 +509,7 @@ public class ConfigBasis implements ConfigInterface
 	 * calculte ItemMax for the whole settlement
 	 * @return ItemMax
 	 */
-	public static int calcItemMax(BuildingList buildingList, Warehouse warehouse, SettleType settleType)
+	public static int calcItemMax(BuildingList buildingList, SettleType settleType)
 	{
 		int value = 0;
 		if (buildingList != null)
@@ -919,6 +923,55 @@ public class ConfigBasis implements ConfigInterface
 	{
 		return false;
 	}
+
+	public static boolean isMaterial(String value)
+	{
+		for (Material mat : Material.values())
+		{
+			if (mat.name().equalsIgnoreCase(value))
+			{
+				return true;
+			}
+			
+		}
+		return false;
+	}
+	
+    public static String checkItemRefOut(ItemStack itemStack)
+    {
+    	switch (itemStack.getType())
+    	{
+    	case AIR: return itemStack.getType().name();
+    	case SIGN : return Material.SIGN_POST.name();
+    	case WATER : return Material.WATER_BUCKET.name();
+    	case LAVA: return Material.LAVA_BUCKET.name();
+    	case SOIL: return Material.DIRT.name();
+    	
+    	default:
+    		return itemStack.getType().name();	
+    	}
+    }
+
+    public static String checkItemRefBuild(String itemRef)
+    {
+    	if (isMaterial(itemRef) == false)
+    	{
+    		return Material.AIR.name();
+    	}
+    	switch (Material.valueOf(itemRef))
+    	{
+    	case SIGN_POST : return Material.SIGN.name();
+    	case WALL_SIGN : return Material.SIGN.name();
+    	case WATER_BUCKET : return Material.WATER.name();
+    	case LAVA_BUCKET: return Material.LAVA.name();
+    	case SOIL: return Material.DIRT.name();
+    	case GRASS : return Material.DIRT.name();
+    	case DOUBLE_PLANT: return Material.SEEDS.name();
+    	default:
+    		return itemRef;	
+    	}
+    }
+
 
 	@Override
 	public  ArrayList<EntityType> getMobsToRepel() 

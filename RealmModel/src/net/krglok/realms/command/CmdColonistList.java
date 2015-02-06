@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.colonist.ColonyList;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.core.SettlementList;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
 public class CmdColonistList extends RealmsCommand

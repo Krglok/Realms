@@ -1,13 +1,11 @@
 package net.krglok.realms.data;
 
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
-import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.kingdom.Lehen;
+
+import org.bukkit.configuration.ConfigurationSection;
 
 
 

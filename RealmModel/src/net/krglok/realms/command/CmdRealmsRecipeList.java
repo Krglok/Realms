@@ -3,7 +3,6 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 
 import org.bukkit.ChatColor;

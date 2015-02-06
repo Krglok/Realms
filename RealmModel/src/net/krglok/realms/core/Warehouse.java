@@ -2,14 +2,8 @@ package net.krglok.realms.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-
-import org.bukkit.Material;
 
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.model.RealmModel;
 
 
 /**
@@ -164,6 +158,7 @@ public class Warehouse
 		{
 			if ((getFreeCapacity()*64) >= (itemCount+value))
 			{
+				itemRef = ConfigBasis.checkItemRefBuild(itemRef);
 				itemList.depositItem(itemRef, value);
 				itemCount = itemCount + value;
 				return true;
@@ -227,7 +222,8 @@ public class Warehouse
 		for (Item search : searchList.values())
 		{
 //			System.out.println("SearchInList "+search.ItemRef());
-			if (itemList.getValue(search.ItemRef()) < search.value())
+			String itemRef = ConfigBasis.checkItemRefBuild(search.ItemRef());
+			if (itemList.getValue(itemRef) < search.value())
 			{
 				resultList.addItem(new Item(search.ItemRef(), search.value()) );
 			}

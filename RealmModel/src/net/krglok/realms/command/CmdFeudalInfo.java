@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.Lehen;

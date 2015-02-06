@@ -120,6 +120,25 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 	
+	public NpcList getTaxSettler()
+	{
+		NpcList subList = new NpcList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.isAlive())
+			{
+				if (npc.getNpcType() != NPCType.CHILD)
+				{
+					if (npc.getNpcType() != NPCType.BEGGAR)
+					{
+						subList.putNpc(npc);
+					}
+				}
+			}
+		}
+		
+		return subList;
+	}
 	
 	public NpcList getWorkerNpc(int buildingId)
 	{

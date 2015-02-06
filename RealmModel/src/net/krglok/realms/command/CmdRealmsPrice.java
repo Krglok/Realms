@@ -168,7 +168,7 @@ public class CmdRealmsPrice extends RealmsCommand
 	{
 		if (sender.isOp())
 		{
-			if (isMaterial(itemRef) == false)
+			if (ConfigBasis.isMaterial(itemRef) == false)
 			{
 				errorMsg.add("ItemName not a valid Material");
 				errorMsg.add("Give a valid Material Name in uppercase");

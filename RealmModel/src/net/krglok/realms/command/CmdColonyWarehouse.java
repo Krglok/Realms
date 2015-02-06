@@ -6,7 +6,6 @@ import net.krglok.realms.Realms;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
-import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;

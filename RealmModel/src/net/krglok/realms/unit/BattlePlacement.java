@@ -2,8 +2,6 @@ package net.krglok.realms.unit;
 
 import java.util.HashMap;
 
-import net.krglok.realms.core.Settlement;
-
 /**
  * <pre>
  * Container for fighting attacker and defender

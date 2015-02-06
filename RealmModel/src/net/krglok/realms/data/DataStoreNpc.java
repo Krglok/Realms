@@ -3,10 +3,7 @@ package net.krglok.realms.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.configuration.ConfigurationSection;
-
 import net.krglok.realms.core.Item;
-import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.npc.BackpackList;
 import net.krglok.realms.npc.EthnosType;
@@ -14,6 +11,8 @@ import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.unit.UnitType;
+
+import org.bukkit.configuration.ConfigurationSection;
 
 public class DataStoreNpc extends AbstractDataStore<NpcData> 
 {

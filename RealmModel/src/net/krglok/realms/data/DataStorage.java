@@ -1,14 +1,38 @@
 package net.krglok.realms.data;
 
-import static org.junit.Assert.fail;
-
 import java.awt.Rectangle;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import net.krglok.realms.builder.BuildPlanMap;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.BuildingList;
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.NobleLevel;
+import net.krglok.realms.core.Owner;
+import net.krglok.realms.core.OwnerList;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.kingdom.Kingdom;
+import net.krglok.realms.kingdom.KingdomList;
+import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.npc.GenderType;
+import net.krglok.realms.npc.NPCType;
+import net.krglok.realms.npc.NpcAction;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.npc.NpcList;
+import net.krglok.realms.npc.NpcNamen;
+import net.krglok.realms.science.CaseBook;
+import net.krglok.realms.science.CaseBookList;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.RegimentList;
+import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -20,35 +44,6 @@ import tiled.core.Tile;
 import tiled.core.TileLayer;
 import tiled.core.TileSet;
 import tiled.io.TMXMapReader;
-
-import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
-import net.krglok.realms.Realms;
-import net.krglok.realms.builder.BuildPlanMap;
-import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.Building;
-import net.krglok.realms.core.BuildingList;
-import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.ItemPriceList;
-import net.krglok.realms.core.NobleLevel;
-import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.core.SettlementList;
-import net.krglok.realms.core.OwnerList;
-import net.krglok.realms.kingdom.Kingdom;
-import net.krglok.realms.kingdom.KingdomList;
-import net.krglok.realms.kingdom.Lehen;
-import net.krglok.realms.kingdom.LehenList;
-import net.krglok.realms.kingdom.MemberList;
-import net.krglok.realms.npc.GenderType;
-import net.krglok.realms.npc.NPCType;
-import net.krglok.realms.npc.NpcAction;
-import net.krglok.realms.npc.NpcData;
-import net.krglok.realms.npc.NpcList;
-import net.krglok.realms.npc.NpcNamen;
-import net.krglok.realms.science.CaseBook;
-import net.krglok.realms.science.CaseBookList;
-import net.krglok.realms.unit.Regiment;
-import net.krglok.realms.unit.RegimentList;
 
 /**
  * <pre>
@@ -85,7 +80,7 @@ public class DataStorage implements DataInterface
 	private ItemPriceList priceList ;
 	
 	private SettlementData settleData;
-	private RegimentData regData;
+	private DataStoreRegiment regimentData;
 	private DataStoreCaseBook caseBookData;
 	private DataStoreOwner ownerData;
 	private DataStoreKingdom kingdomData;
@@ -124,7 +119,7 @@ public class DataStorage implements DataInterface
 		this.path = path;
 		// Datafile Handler
 		settleData = new SettlementData(this.path);
-		regData    = new RegimentData(this.path);
+		regimentData    = new DataStoreRegiment(this.path);
 		caseBookData = new DataStoreCaseBook(this.path);
 		ownerData = new DataStoreOwner(this.path);
 		kingdomData = new DataStoreKingdom(this.path);
@@ -170,7 +165,7 @@ public class DataStorage implements DataInterface
 		{
 			initSettlementList();
 		}
-		initRegimentData();
+		initRegimentList();
 		initLehenList(owners);
 		initKingdomList(owners);		//		npcRealms(owners.getOwner(NPC_0));
 		initCaseBookData(); 
@@ -320,7 +315,7 @@ public class DataStorage implements DataInterface
 	 */
 	public void writeRegiment(Regiment regiment)
 	{
-		regData.writeRegimentData(regiment);
+		regimentData.writeData(regiment);
 	}
 	
 	/**
@@ -335,7 +330,7 @@ public class DataStorage implements DataInterface
 	 */
 	private Regiment readRegiment(int id)
 	{
-		Regiment regiment = regData.readRegimentData(id);
+		Regiment regiment = regimentData.readData(id);
 		if (regiment != null)
 		{
 			regiment.setBuildPlan(readTMXBuildPlan(BuildPlanType.FORT, 4, 0));
@@ -348,9 +343,9 @@ public class DataStorage implements DataInterface
 	 * @param regInit
 	 * @return
 	 */
-	public void initRegimentData()
+	public void initRegimentList()
 	{
-		ArrayList<String> regInit = regData.readRegimentList();
+		ArrayList<String> regInit = regimentData.readDataList();
 		for (String regId : regInit)
 		{
 //			plugin.getMessageData().log("RegimentRead: "+regId );
@@ -1261,4 +1256,70 @@ public class DataStorage implements DataInterface
 		}
 	}
 
+	/**
+	 * generate 10 MILITIA for a new regiment
+	 * @param regiment
+	 */
+	public void makeRaiderUnits(Regiment regiment)
+	{
+		for (int i=0; i< 10; i++)
+		{
+			makeRaiderUnit( UnitType.MILITIA, regiment);
+		}
+	}
+	
+	/**
+	 * </pre>
+	 * create a unit by type:
+	 * - MILITIA
+	 * - ARCHER
+	 * add unit to the npc list and trhe unitlist of regiment
+	 * 
+	 * @param nextUnit
+	 * @param regiment
+	 * @return
+	 * </pre>
+	 */
+	private void makeRaiderUnit(UnitType nextUnit, Regiment regiment)
+	{
+    	ArrayList<String> msg = new ArrayList<String>();
+    	NpcData settleNpc = null;
+    	String npcName = "";
+    	switch(nextUnit)
+    	{
+    	case MILITIA:
+			settleNpc = new NpcData();
+			settleNpc.setGender(GenderType.MAN);
+			npcName = npcNamen.findName(settleNpc.getGender());
+			settleNpc.setName(npcName);
+			settleNpc.setNpcType(NPCType.MILITARY);
+			settleNpc.setUnitType(nextUnit);
+			settleNpc.setSettleId(0);
+			settleNpc.setHomeBuilding(0);
+			settleNpc.setAge(21);
+			settleNpc.setMoney(10.0);
+			npcs.add(settleNpc);
+			regiment.getBarrack().setUnitList(npcs.getSubListRegiment(regiment.getId()));
+			writeNpc(settleNpc);
+    		break;
+    	case ARCHER:
+			settleNpc = new NpcData();
+			settleNpc.setGender(GenderType.MAN);
+			npcName = npcNamen.findName(settleNpc.getGender());
+			settleNpc.setName(npcName);
+			settleNpc.setNpcType(NPCType.MILITARY);
+			settleNpc.setUnitType(nextUnit);
+			settleNpc.setSettleId(0);
+			settleNpc.setHomeBuilding(0);
+			settleNpc.setAge(21);
+			settleNpc.setMoney(10.0);
+			npcs.add(settleNpc);
+			regiment.getBarrack().setUnitList(npcs.getSubListRegiment(regiment.getId()));
+			writeNpc(settleNpc);
+    		break;
+    	default:
+    		break;
+    	}
+	}
+	
 }

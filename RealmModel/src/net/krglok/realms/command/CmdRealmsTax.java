@@ -5,11 +5,8 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.Lehen;
-import net.krglok.realms.kingdom.LehenList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

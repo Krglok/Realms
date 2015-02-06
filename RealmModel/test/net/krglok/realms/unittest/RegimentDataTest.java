@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.data.DataStoreRegiment;
 import net.krglok.realms.data.RegimentData;
 import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.Regiment;
@@ -31,30 +32,31 @@ public class RegimentDataTest
 	{
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 	
-		RegimentData regData = new RegimentData(path);
+		DataStoreRegiment regData = new DataStoreRegiment(path);
 		LogList logList = new LogList(path);
 		String world = ""; 
 		LocationData position = new LocationData("", 0.0, 0.0, 0.0);
 		RegimentList regiments = new RegimentList(1);
-		ArrayList<String> regList = regData.readRegimentList();
+		ArrayList<String> regList = regData.readDataList();
 		
-		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0); //, logList);
-		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0); //, logList);
+//		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0); //, logList);
+//		regiments.createRegiment(RegimentType.RAIDER.name(), world, 0); //, logList);
 		
-        System.out.println("WRITE  regimentList =============");
-		for (Regiment regiment : regiments.values())
-		{
-//            System.out.println("REGIMENT: "+regiment.getId()+":"+regiment.getName());
-            regData.writeRegimentData(regiment);
-		}
-        System.out.println("READ  regimentList =============");
-		
-		
+//        System.out.println("WRITE  regimentList =============");
+//		for (Regiment regiment : regiments.values())
+//		{
+////            System.out.println("REGIMENT: "+regiment.getId()+":"+regiment.getName());
+//            regData.writeRegimentData(regiment);
+//		}
+
+		System.out.println("READ  regimentList : ["+regList.size()+"]");
 		for (String ref : regList)
 		{
-			Regiment regiment = regData.readRegimentData(Integer.valueOf(ref));
-//            System.out.println("READ: "+regiment.getId()+":"+regiment.getName());
-			
+			Regiment regiment = regData.readData(ref);
+			if (regiment != null)
+			{
+            System.out.println("READ: "+regiment.getId()+":"+regiment.getName()+":"+regiment.getWarehouse().getItemList().size());
+			}
 		}
 		
 		fail("Not yet implemented");

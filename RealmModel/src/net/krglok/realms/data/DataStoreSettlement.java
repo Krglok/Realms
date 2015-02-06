@@ -74,7 +74,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
         section.set( "name", dataObject.getName());
         section.set( "owner", dataObject.getOwnerName());
         section.set( "ownerId", dataObject.getOwnerId());
-        section.set( "kingdomId", dataObject.getKingdomId());
+//        section.set( "kingdomId", dataObject.getKingdomId());
         section.set( "tributId", dataObject.getTributId());
         section.set( "isCapital", dataObject.getIsCapital());
 //        section.set(MemorySection.createPath(settleSec, "isEnabled"), dataObject.isEnabled());
@@ -164,7 +164,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	settle.setOwnerName(data.getString( "owner","0"));
 
 	settle.setOwnerId(data.getInt("ownerId",0));
-	settle.setKingdomId(data.getInt( "kingdomId",0));
+//	settle.setKingdomId(data.getInt( "kingdomId",0));
 	settle.setTributId(data.getInt( "tributId",0));
 	settle.setIsCapital(data.getBoolean( "isCapital",false));
 	settle.setIsActive(data.getBoolean( "isActive"));

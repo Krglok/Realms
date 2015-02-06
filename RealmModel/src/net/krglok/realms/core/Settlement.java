@@ -30,78 +30,51 @@ import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
-//<<<<<<< HEAD
-//=======
-//>>>>>>> origin/PHASE2
-
 /**
  * <pre>
- * represent the whole settlement the central object
- * settlement based on the superregion and region of HeroStronghold
- * incorporate the the rules for production, fertility and money
+ * represent the urban settlement  
+ * settlement based on the superregion of HeroStronghold
+ * incorporate the rules for production, fertility and money
  * simulation of residents and workers
- * make trading and train units for military
+ * has managers for build up building, make trading and train units for military
  * the production will be started from an external task, every ingame day 
- * there are some Managers incorporated to give the settlement the possibility to ruled by a NPC
+ * the settlement pay tax to his liege lord
  * 
- * hint: the settle dont have a kingdomId , only the owner has a kingdomId 
+ * hint: the settlement dont direct link a kingdomId , only the owner has a kingdomId
+ *  
  * </pre>
  * @author Windu
  *
  */
-public class Settlement //implements Serializable
+public class Settlement extends AbstractSettle //implements Serializable
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7534071936212709937L;
-	private static final double MIN_FOODCONSUM_COUNTER = -5.0;
-	private static final double TAVERNE_UNHAPPY_FACTOR = 2.0;
 	private static final double BASE_TAX_FACTOR = ConfigBasis.SALES_TAX;
-	private static double TAVERNE_FREQUENT = 10.0;
 
-	private static final String NEW_SETTLEMENT = "New Settlement";
 
 	
 	private static int COUNTER;
 	
-	private int id;
-	private SettleType settleType = SettleType.NONE;
 	private LocationData position;
-	private String name;
-	private int ownerId;
-	private String ownerName = "";
-	private Owner owner;
-	private int kingdomId;
-	private int tributId;
 	private Boolean isCapital;
-	private Barrack barrack ;
-	private Warehouse warehouse ;
-	private BuildingList buildingList;
+
+	private Owner owner;
 	private Townhall townhall;
-	private Bank bank;
-	private Resident resident;
 	private Trader trader;
 //  private Headquarter headquarter;
-	private ItemList requiredProduction;
-	
-	private Boolean isEnabled;
-	private Boolean isActive;
-	
-//	private double hungerCounter = 0.0;
-//	private double foodConsumCounter;
+
 	private Double buildingTax ;
 	
-	private BoardItemList productionOverview;
 	private BoardItemList taxOverview;
 
-	private double EntertainFactor = 0.0;
-	private double FoodFactor = 0.0;
+//	private double EntertainFactor = 0.0;
+//	private double FoodFactor = 0.0;
 	private double SettlerFactor = 0.0;
 
-	private String world;
 	private Biome biome;
-	private long age;
+	
 	private BuildManager buildManager;
 	private MapManager mapManager;
 	private TradeManager tradeManager;
@@ -110,11 +83,9 @@ public class Settlement //implements Serializable
 	private ArrayList<Item> treasureList;
 	
 	private SignPosList signList;
-	private ReputationList reputations;
 
 	private double sales;
 	private double taxSum;
-//	private LogList logList;
 	
 	/**
 	 * instance empty settlement with
@@ -122,33 +93,16 @@ public class Settlement //implements Serializable
 	 */
 	public Settlement() //LogList logList)
 	{
+		super();
 		COUNTER++;
-		id			= COUNTER;
-		age         = 0;
-		settleType 	= SettleType.NONE;
+		this.id			= COUNTER;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
-		name		= NEW_SETTLEMENT;
-		ownerId 		= 0;
-		setKingdomId(0);
-		tributId = 0;
 		isCapital	= false;
-		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
-		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
-		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
-		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank(); //this.logList);
-		resident	= new Resident();
-		isEnabled   = true;
-		isActive    = true;
-//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
-		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
-		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
-		world = "";
 		setBiome(Biome.SKY);
 		trader = new Trader();
 		buildManager = new BuildManager();
@@ -156,49 +110,24 @@ public class Settlement //implements Serializable
 		tradeManager = new TradeManager ();
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
-		reputations = new ReputationList();
-		
 		setSignList(new SignPosList());
 	}
 
-//<<<<<<< HEAD
 	/**
-	 * used by read from file
+	 * used by read from file DataStore
 	 * @param priceList
 	 */
 	public Settlement(ItemPriceList priceList) //, LogList logList)
-//=======
-//	public Settlement(ItemPriceList priceList)
-//>>>>>>> origin/PHASE2
 	{
 		COUNTER++;
 		id			= COUNTER;
-		age         = 0;
-		settleType 	= SettleType.NONE;
 		position 	= new LocationData("", 0.0, 0.0, 0.0);
-		name		= NEW_SETTLEMENT;
-		ownerId 		= 0;
-		setKingdomId(0);
-		tributId = 0;
 		isCapital	= false;
-//		this.logList = logList;
-		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
-		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
-		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
-		buildingList= new BuildingList();
 		townhall	= new Townhall();
-		bank		= new Bank(); //this.logList);
-		resident	= new Resident();
-		isEnabled   = true;
-		isActive    = true;
-//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
-		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
-		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
-		world = "";
 		setBiome(Biome.SKY);
 		trader = new Trader();
 		buildManager = new BuildManager();
@@ -210,53 +139,39 @@ public class Settlement //implements Serializable
 		setSignList(new SignPosList());
 	}
 	
-	/**
-	 * instances settlement with
-	 * - with sequential ID
-	 * - owner
-	 * 
-	 * @param Owner
-	 */
-	public Settlement(int ownerId, LocationData position) //, LogList logList)
-	{
-		COUNTER++;
-		id			= COUNTER;
-		age         = 0;
-		settleType 	= SettleType.NONE;
-		name		= NEW_SETTLEMENT;
-		this.position 	= position;
-		this.ownerId = ownerId;
-		setKingdomId(0);
-		tributId = 0;
-		isCapital	= false;
-		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
-		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
-		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
-		buildingList= new BuildingList();
-		townhall	= new Townhall();
-//		this.logList = logList;
-		bank		= new Bank(); //this.logList);
-		resident	= new Resident();
-		isEnabled   = true;
-		isActive    = true;
-//		foodConsumCounter = 0.0;
-		sales = 0.0;
-		taxSum = 0.0;
-		requiredProduction = new ItemList();
-		setBuildingTax(BASE_TAX_FACTOR);
-		productionOverview = new BoardItemList();
-		taxOverview = new BoardItemList();
-		world = "";
-		trader = new Trader();
-		setBiome(Biome.SKY);
-		buildManager = new BuildManager();
-		mapManager  = new MapManager(settleType,70,true);
-		tradeManager = new TradeManager ();
-		settleManager = new SettleManager ();
-		treasureList =  new ArrayList<Item>();
-		reputations = new ReputationList();
-		setSignList(new SignPosList());
-}
+//	/**
+//	 * instances settlement with
+//	 * - with sequential ID
+//	 * - owner
+//	 * 
+//	 * @param Owner
+//	 */
+//	public Settlement(int ownerId, LocationData position) //, LogList logList)
+//	{
+//		COUNTER++;
+//		id			= COUNTER;
+//		age         = 0;
+//		settleType 	= SettleType.NONE;
+////		name		= NEW_SETTLEMENT;
+//		this.position 	= position;
+//		this.ownerId = ownerId;
+//		isCapital	= false;
+//		townhall	= new Townhall();
+//		sales = 0.0;
+//		taxSum = 0.0;
+//		requiredProduction = new ItemList();
+//		setBuildingTax(BASE_TAX_FACTOR);
+//		productionOverview = new BoardItemList();
+//		taxOverview = new BoardItemList();
+//		trader = new Trader();
+//		setBiome(Biome.SKY);
+//		buildManager = new BuildManager();
+//		mapManager  = new MapManager(settleType,70,true);
+//		tradeManager = new TradeManager ();
+//		settleManager = new SettleManager ();
+//		treasureList =  new ArrayList<Item>();
+//		setSignList(new SignPosList());
+//}
 
 	/**
 	 * instances settlement with
@@ -270,33 +185,17 @@ public class Settlement //implements Serializable
 	public Settlement(int ownerId, LocationData position, SettleType settleType, String name, Biome biome) //, LogList logList)
 	{
 		COUNTER++;
-		age         = 0;
 		id			= COUNTER;
 		this.settleType = settleType;
 		this.name		= name;
 		this.position 	= position;
 		this.ownerId = ownerId;
-		setKingdomId(0);
-		tributId = 0;
 		isCapital	= false;
-		barrack		= new Barrack(ConfigBasis.defaultUnitMax(settleType));
-		barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
-		warehouse	= new Warehouse(ConfigBasis.defaultItemMax(settleType));
-		buildingList= new BuildingList();
 		townhall	= new Townhall();
-//		this.logList = logList;
-		bank		= new Bank(); //this.logList);
-		resident	= new Resident();
-		isEnabled   = true;
-		isActive    = true;
-//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
-		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
-		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
-		world = "";
 		this.biome = biome;
 		trader = new Trader();
 		buildManager = new BuildManager();
@@ -306,7 +205,7 @@ public class Settlement //implements Serializable
 		treasureList =  new ArrayList<Item>();
 		reputations = new ReputationList();
 		setSignList(new SignPosList());
-}
+	}
 	
 	
 	/**
@@ -341,7 +240,6 @@ public class Settlement //implements Serializable
 		this.settleType = settleType;
 		this.name = name;
 		this.ownerId = ownerId;
-		this.setKingdomId(kingdomId);
 		this.tributId = lehenId;
 		this.isCapital = isCapital;
 		this.position = position;
@@ -352,24 +250,16 @@ public class Settlement //implements Serializable
 		this.townhall = townhall;
 		this.bank = bank;
 		this.resident = resident;
-		isEnabled   = true;
-		isActive    = true;
-//		foodConsumCounter = 0.0;
 		sales = 0.0;
 		taxSum = 0.0;
-		requiredProduction = new ItemList();
 		setBuildingTax(BASE_TAX_FACTOR);
-		productionOverview = new BoardItemList();
 		taxOverview = new BoardItemList();
-		this.world = world;
-		this.setBiome(biome);
 		trader = new Trader();
 		buildManager = new BuildManager();
 		mapManager  = new MapManager(settleType,70,true);
 		tradeManager = new TradeManager (priceList);
 		settleManager = new SettleManager ();
 		treasureList =  new ArrayList<Item>();
-		reputations = new ReputationList();
 		setSignList(new SignPosList());
 }
 
@@ -416,11 +306,10 @@ public class Settlement //implements Serializable
 	
 	public void initSettlement(ItemPriceList priceList)
 	{
+		initSettlement();
 		tradeManager.setPriceList(priceList);
-		warehouse.setItemMax(ConfigBasis.calcItemMax( buildingList,  warehouse,  settleType));
-		setSettlerMax();
 		setWorkerNeeded();
-}
+	}
 	
 	/**
 	 * actual number of the settlement
@@ -746,15 +635,15 @@ public class Settlement //implements Serializable
 //		return foodConsumCounter;
 //	}
 
-	public double getEntertainFactor()
-	{
-		return EntertainFactor;
-	}
+//	public double getEntertainFactor()
+//	{
+//		return EntertainFactor;
+//	}
 
-	public double getFoodFactor()
-	{
-		return FoodFactor;
-	}
+//	public double getFoodFactor()
+//	{
+//		return FoodFactor;
+//	}
 
 	public double getSettlerFactor()
 	{
@@ -763,13 +652,13 @@ public class Settlement //implements Serializable
 
 	public String getWorld()
 	{
-		return world;
+		return position.getWorld();
 	}
 
-	public void setWorld(String world)
-	{
-		this.world = world;
-	}
+//	public void setWorld(String world)
+//	{
+//		this.world = position.getWorld();
+//	}
 
 	public Trader getTrader()
 	{
@@ -1091,20 +980,35 @@ public class Settlement //implements Serializable
 	 * get Taxe from buildings and deposit in bank
 	 * @param server
 	 */
-	public void getTaxe(ServerInterface server)
+	public double getTaxe(ServerInterface server)
 	{
-		double taxSum = 0;
-		for (Building building : buildingList.values())
+		double taxSum = 0.0;
+		double taxSettler = 0.0;
+//		for (Building building : buildingList.values())
+//		{
+//			if (building.isEnabled())
+//			{
+//				taxSum = taxSum + building.getTaxe(server, this.resident.getSettlerCount());
+//			}
+//		}
+		for (NpcData npc : getResident().getNpcList().getTaxSettler().values())
 		{
-			if (building.isEnabled())
+			if (npc.getMoney() > ConfigBasis.SETTLER_TAXE)
 			{
-				taxSum = taxSum + building.getTaxe(server, this.resident.getSettlerCount());
+				taxSettler = taxSettler + ConfigBasis.SETTLER_TAXE;
+				npc.depositMoney((ConfigBasis.SETTLER_TAXE * -1.0));
+			} else
+			{
+				npc.setMoney(0.0);
+				this.getBank().withdrawKonto(ConfigBasis.SETTLER_TAXE, npc.getName(), this.id);
+				taxSettler = taxSettler + ConfigBasis.SETTLER_TAXE;
 			}
 		}
-		taxSum = taxSum + townhall.getWorkerCount() * ConfigBasis.SETTLER_TAXE;
+		taxSum = taxSum + taxSettler;
 //		taxSum = resident.getSettlerCount() * SETTLER_TAXE;
 		System.out.println("Tax Sum : "+String.valueOf(taxSum));
-		bank.addKonto(taxSum,"TAX", getId());
+//		bank.addKonto(taxSum,"TAX", getId());
+		return taxSum;
 	}
 	
 	/**
@@ -1156,335 +1060,6 @@ public class Settlement //implements Serializable
 		return factor;
 	}
 	
-	/**
-	 * calculate the whole happines for the different influences 
-	 */
-	public void doHappiness(DataInterface data)
-	{
-		double sumDif = 0.0;
-//		double resiDif = 0.0;
-		EntertainFactor = calcEntertainment();
-//		SettlerFactor = resident.calcResidentHappiness(SettlerFactor); //resident.getHappiness());
-//		FoodFactor = 
-		consumeFood(); //SettlerFactor);
-		sumDif = EntertainFactor + SettlerFactor + FoodFactor;
-//		logList.addHappiness("CYCLE", getId(), sumDif, EntertainFactor, SettlerFactor, FoodFactor, "CraftManager", getAge());
-//		resident.setHappiness(sumDif);
-		resident.doSettlerCalculation(buildingList,data);
-		this.getResident().setNpcList(data.getNpcs().getSubListSettle(this.id));
-//		logList.addSettler("CYCLE", getId(), resident.getSettlerCount(), resident.getBirthrate(), resident.getDeathrate(), "CraftManager", getAge());
-		UnitFactory unitFactory = new UnitFactory();
-		for (NpcData unit : barrack.getUnitList())
-		{
-			ItemList ingredients = unit.getUnit().getConsumItems();
-			double prodFactor  = 1.0;
-			if (checkStock(prodFactor, ingredients))
-			{
-				consumStock(prodFactor, ingredients);
-				if (unit.getHappiness() < 1.0)
-				{
-					unit.getUnit().addHappiness(0.1);
-				}
-			} else
-			{
-				if (unit.getHappiness() > -1.0)
-				{
-					unit.getUnit().addHappiness(-0.1);
-				}
-			}
-		}
-		int value = (int) (resident.getSettlerCount() * resident.getHappiness()); 
-		barrack.addPower(value);
-	}
-	
-	
-	private double checkConsume(String foodItem , int amount, int required, double happyFactor, NpcData npc, NpcData parent)
-	{
-		double factor = 0.0;
-		double cost = tradeManager.getPriceList().getBasePrice(foodItem);
-		// check for money of food
-		if (parent.getMoney() < cost)
-		{
-//			System.out.println("No food money !"+npc.getId());
-			amount = 0;
-		}
-		if (required > amount)
-		{	
-			// keine Versorgung
-			if (resident.getSettlerCount() > 5)
-			{
-//				System.out.println("keine Versorgung :"+npc.getId());
-//				factor = npc.hungerCounter + ((double)required / (double)resident.getSettlerMax()) * -1.0;
-				factor = -0.1;
-				if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
-				{
-					npc.foodConsumCounter = npc.foodConsumCounter + factor;
-				}
-				// setzte required food
-				requiredProduction.depositItem(foodItem, required);
-				npc.hungerCounter = npc.hungerCounter + factor ; // hungerCounter + factor;
-			}
-		} else
-		{
-			npc.hungerCounter = 0.0;
-			parent.withdrawMoney(cost);
-			bank.depositKonto(cost, "Food", this.id);
-			warehouse.withdrawItemValue(foodItem, required);
-//			System.out.println(foodItem+":"+required);
-			productionOverview.addCycleValue(foodItem, (required* -1));
-//			if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
-//			{
-			npc.foodConsumCounter = npc.foodConsumCounter + (double)required; //((double)resident.getSettlerCount() / 20.0);
-			if (npc.foodConsumCounter > 0)
-			{
-				npc.foodConsumCounter = 0.0; //npc.foodConsumCounter + (double)required; //((double)resident.getSettlerCount() / 20.0);
-			}
-//			}
-			if (npc.foodConsumCounter < 0.0)
-			{
-				
-				// ziemlich tief !! -5.0
-				if (npc.getHappiness() < MIN_FOODCONSUM_COUNTER)
-				{
-					factor = 0.1; //changed
-				} else
-				{
-					factor = happyFactor;
-				}
-//				System.out.println("Min Food Consum"+factor);
-			} else
-			{
-				if (npc.getHappiness() < 0.6)
-				{
-					if (resident.getSettlerMax() > resident.getSettlerCount())
-					{
-						factor = happyFactor;
-					} else
-					{
-						factor = happyFactor/2;
-					}
-//					System.out.println("Low Happiness "+factor);
-				} else
-				{
-//					System.out.println("Normal Happiness"+factor);
-					factor = happyFactor;
-				}
-				npc.foodConsumCounter = 0;
-			}
-		}
-		return factor;
-	}
-	
-	
-	private void  checkNpcFeed(NpcData npc, int required, NpcData parent)
-	{
-		double factor = 0.0; 
-		String foodItem = "";
-		int amount = 0;
-		if (npc.getNpcType() != NPCType.CHILD)
-		{
-			// Fish consume before wheat consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = Material.COOKED_FISH.name();
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
-			{
-				// check for money for food
-				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
-				{
-					if (amount > required)
-					{
-						factor = factor + checkConsume(foodItem, amount, required, 0.3,npc,parent);
-						
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount, 0.3, npc,parent);
-					}
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
-					}
-			}
-			// Mushroom Soup consume before wheat or mushroom consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = "MUSHROOM_SOUP";
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
-			{
-				// check for money for food
-				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
-				{
-					if (amount > required)
-					{
-						factor = factor + checkConsume(foodItem, amount, required,0.3, npc,parent);
-		
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount,0.3, npc,parent);
-					}
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
-				}
-			}
-			// Bread consume before wheat consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = "BREAD";
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
-			{
-				// check for money for food
-				if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
-				{
-					if (amount > required)
-					{
-						factor = factor + checkConsume(foodItem, amount, required, 0.5, npc,parent);
-						
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount, 0.5, npc,parent);
-					}
-		//			System.out.println("BREAD "+factor+":"+(npc.getHappiness() + factor));
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
-				}
-			}
-		}
-		// Mushroom consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "RED_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			// check for money for food
-			if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
-			{
-				if (amount > required)
-				{
-					factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
-					
-				} else
-				{
-					required = required - amount;
-					factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
-				}
-				npc.setHappiness(npc.getHappiness() + factor);
-				return ;
-			}
-		}
-		// Mushroom consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "BROWN_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			// check for money for food
-			if (parent.getMoney() > tradeManager.getPriceList().getBasePrice(foodItem))
-			{
-				if (amount > required)
-				{
-					factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
-					
-				} else
-				{
-					required = required - amount;
-					factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent);
-				}
-				npc.setHappiness(npc.getHappiness() + factor);
-				return ;
-			}
-		}
-
-		//  Wheat is the last consum item
-		//  without wheat the residents are very unhappy
-		foodItem = "WHEAT";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > required)
-		{
-			factor = factor + checkConsume(foodItem, amount, required,0.0, npc,parent);
-			
-		} else
-		{
-			factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent);
-		}
-		npc.setHappiness(npc.getHappiness() + factor);
-//		return factor;
-	}
-	
-	/**
-	 * calculate happines for the food supply of the settlers
-	 * - no influence if fodd supply is guarantee 
-	 * - haevy influence if food supply too low.
-	 * the settlers are all supplied or none  
-	 * @param oldFactor
-	 * @return happiness factor of food supply 
-	 */
-	private void consumeFood() //double oldFactor)
-	{
-//		int required = resident.getSettlerCount();
-		
-//		int notWorker = resident.getSettlerCount()-townhall.getWorkerCount();
-		NpcList homeNpc = resident.getNpcList(); //.getSettleWorker();
-//		Iterator<NpcData> npcIterator = homeNpc.values().iterator();
-		for (NpcData npc : homeNpc.values())
-		{
-			if (npc.isAlive())
-			{
-				if (npc.isChild())
-				{
-					NpcData parent = homeNpc.get(npc.getFather());
-					if (parent != null)
-					{
-						if (parent.isAlive() == false)
-						{
-							parent = null;
-						}
-					}
-					if (parent == null)
-					{
-						parent = homeNpc.get(npc.getMother());
-						if (parent != null)
-						{
-							if (parent.isAlive() == false)
-							{
-								parent = null;
-							}
-						}
-					}
-					if (parent != null)
-					{	
-						if (parent.getMoney() < 1.0)
-						{
-//							System.out.println("Child Money");
-							checkNpcFeed(npc, 1, npc);
-						} else
-						{
-//							System.out.println("Child Parent");
-							checkNpcFeed(npc, 1, parent);
-						}
-					} else
-					{
-//						System.out.println("Child ");
-						checkNpcFeed(npc, 1, npc);
-					}
-						
-				} else
-				{
-					if (npc.getNpcType() == NPCType.MANAGER)
-					{
-						double salery = 3.0;
-						bank.withdrawKonto(salery, "MANAGER", this.id);
-						npc.depositMoney(salery);
-					}
-					checkNpcFeed(npc, 1,npc);
-					
-				}
-			}
-		}
-		
-//		return factor;
-	}
 	
 	/**
 	 * calculte needed worker for buildings
@@ -1797,13 +1372,6 @@ public class Settlement //implements Serializable
 	{
 		// increment age of the Setlement in production cycles
 		age++;
-		double prodFactor = 1;
-		int iValue = 0;
-		double sale = 0.0;
-		double cost = 0.0;
-		double account = 0.0; 
-		ItemArray products;
-		ItemList ingredients;
 		requiredProduction.clear();
 		productionOverview.resetLastAll();
 		setStoreCapacity();
@@ -1818,134 +1386,8 @@ public class Settlement //implements Serializable
 			{
 				building.setBiome(biome);
 			}
-			building.setSales(0.0);
-			if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
-				|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300))
-			{
-				if ((building.isEnabled())
-					&& building.isIdleReady()	
-					)
-				{
-					building.addIdlleTime();
-					sale = 0.0;
-					cost = 0.0;
-					account = 0.0;
-					iValue = 0;
-					products = building.produce(server);
-//					for (Item item : products)
-					if (products.size() > 0)
-					{
-						Item item = products.get(0);
-						
-						switch(building.getBuildingType())
-						{
-						case WORKSHOP:
-							ingredients = server.getRecipe(item.ItemRef());
-							ingredients.remove(item.ItemRef());
-							prodFactor = server.getRecipeFactor(item.ItemRef(),this.biome, item.value());
-//							System.out.println("WS " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							break;
-						case BAKERY:
-							if (building.isSlot())
-							{
-	//							System.out.println("SLOT "+item.ItemRef());
-								ingredients = server.getRecipe(item.ItemRef());
-								ingredients.remove(item.ItemRef());
-							} else
-							{
-								ingredients = server.getRegionUpkeep(building.getHsRegionType());
-							}
-							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome, item.value());
-							break;
-						case TAVERNE:
-							if (resident.getHappiness() > Resident.getBaseHappines())
-							{
-								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness();
-							} else
-							{
-								if (resident.getHappiness() > 0.0)
-								{
-									sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness()*TAVERNE_UNHAPPY_FACTOR;
-								}
-							}
-							if (resident.getDeathrate() > 0)
-							{
-								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * TAVERNE_UNHAPPY_FACTOR;
-							}
-							building.setSales(sale);	
-							ingredients = new ItemList();
-							break;
-						default :
-//							System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
-							ingredients = new ItemList();
-							ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-							prodFactor = 1;
-//								System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+ingredients.size());
-							prodFactor = server.getRecipeFactor(item.ItemRef(), this.biome, item.value());
-//							if (building.getBuildingType() == BuildPlanType.TANNERY)
-//							{
-//								System.out.println(this.getId()+" :item: "+item.ItemRef()+" igred:"+ingredients.size()+": factor:"+prodFactor);
-//							}
-							break;
-						}
-//						System.out.println("check");
-						if (checkStock(prodFactor, ingredients))
-						{
-	//						iValue = item.value();
-							// berechne die MaterialKosten der Produktion
-							cost = server.getRecipePrice(item.ItemRef(), ingredients);
-							// berechne Verkaufpreis der Produktion
-							for (Item product : products)
-							{
-								iValue = (int)((double) product.value() *prodFactor);
-								sale = sale + (building.calcSales(server,product)*iValue);
-//								System.out.println("Prod value" +product.ItemRef()+":"+iValue+" | "+prodFactor+" |"+(building.calcSales(server,product)*iValue));
-								
-//								System.out.println("Prod deposit: "+product.ItemRef()+":"+iValue);
-								warehouse.depositItemValue(product.ItemRef(),iValue);
-								productionOverview.addCycleValue(product.ItemRef(), iValue);
-							}
-							if ((sale - cost) > 0.0)
-							{
-								// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
-								account = (sale-cost); // * (double) iValue / 2;
-//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
-							} else
-							{
-								account =  1.0 * (double) iValue;
-//								logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
-							}
-//							System.out.println("Prod account: "+sale+"-"+cost+"="+account);
-							double salary = account / 3.0 * 2.0;
-							setWorkerSale( building,  salary);
-							account = account - salary;
-							building.addSales(account); //-cost);
-							if (this.ownerId != building.getOwnerId())
-							{
-								Owner bOwner = data.getOwners().getOwner(building.getId());
-								if (bOwner !=null)
-								{
-									bOwner.depositCost(cost);
-									bOwner.depositSales(account);
-								}
-								bank.depositKonto(cost, "ProdCost ", getId());
-								
-							} else
-							{
-								bank.depositKonto(account, "ProdSale ", getId());
-							}
-							consumStock(prodFactor, ingredients);
-						} else
-						{
-//							System.out.println("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
-						}
-					}
-//					building.addSales(sale);
-				} else
-				{
-//					System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
-				}
-			}
+			// doProduction on Building
+			doProduction(server, data, building, biome);
 				
 			// unit production
 			if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
@@ -1954,72 +1396,7 @@ public class Settlement //implements Serializable
 
 				if (building.isEnabled())
 				{
-					switch(building.getBuildingType())
-					{
-					case ARCHERY:
-					case GUARDHOUSE:
-						// Training activ ?
-						if (building.getMaxTrain() > 0)
-						{
-							// training must start  OR progress
-							if (building.getTrainCounter() == 0)
-							{
-								// new training start
-								NpcData recrute = resident.findRecrute();
-								if (recrute != null)
-								{
-									ingredients = building.militaryProduction();
-									prodFactor  = 1.0;
-									if (checkStock(prodFactor, ingredients))
-									{
-										System.out.println("Traning Start for Rookie settle :"+id+":"+recrute.getId());
-										// ausrüstung abbuchen
-										consumStock(prodFactor, ingredients);
-										// Siedler aus vorrat nehmen
-										recrute.setNpcType(NPCType.MILITARY);
-										recrute.setUnitType(UnitType.ROOKIE);
-										recrute.setWorkBuilding(building.getId());
-										if (resident.getNpcList().containsKey(recrute.getId()) == true)
-										{
-											resident.getNpcList().remove(recrute.getId());
-										}
-										barrack.getUnitList().putUnit(recrute);
-//										resident.depositSettler(-1);
-										// Counter starten
-										building.addTrainCounter(1);
-										data.writeBuilding(building);
-									} else
-									{
-										System.out.println("No Traning Start due to Stock");
-									}
-								} else
-								{
-									System.out.println("No Traning Start, missing Rookie :"+id+":"+building.getId());
-								}
-		//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-							} else
-							{ // do training progress
-								ingredients = building.militaryConsum();
-								prodFactor  = 1.0;
-								if (checkStock(prodFactor, ingredients))
-								{
-									consumStock(prodFactor, ingredients);
-									building.addTrainCounter(1);
-									data.writeBuilding(building);
-									System.out.println("Traning Consum, training progress");
-								} else
-								{
-									System.out.println("No Traning Consum, NO training progress");
-								}
-							}
-						} else
-						{
-							System.out.println("GUARDHOUSE NO train : "+building.getMaxTrain());
-						}
-						break;
-					default:
-						break;
-					}
+					doTrainStart(data, building);
 				} else
 				{
 					System.out.println("Train not enaled : "+building.getBuildingType());
@@ -2219,15 +1596,6 @@ public class Settlement //implements Serializable
 		this.treasureList = treasureList;
 	}
 
-	public long getAge()
-	{
-		return age;
-	}
-
-	public void setAge(long value)
-	{
-		this.age = value;
-	}
 
 	public SignPosList getSignList() 
 	{
@@ -2273,16 +1641,13 @@ public class Settlement //implements Serializable
 	 */
 	public int getKingdomId()
 	{
-		return kingdomId;
+		if (owner != null)
+		{
+			return owner.getKingdomId();
+		}
+		return 0;
 	}
 
-	/**
-	 * @param kingdomId the kingdomId to set
-	 */
-	public void setKingdomId(int kingdomId)
-	{
-		this.kingdomId = kingdomId;
-	}
 
 	/**
 	 * @return the lehenId

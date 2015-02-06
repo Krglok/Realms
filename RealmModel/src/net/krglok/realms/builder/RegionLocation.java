@@ -1,6 +1,5 @@
 package net.krglok.realms.builder;
 
-import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
 
 /**

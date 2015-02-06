@@ -7,14 +7,11 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.manager.ReputationData;
 import net.krglok.realms.manager.ReputationStatus;
-import net.krglok.realms.model.McmdDepositWarehouse;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class CmdSettleReputation extends RealmsCommand
 {

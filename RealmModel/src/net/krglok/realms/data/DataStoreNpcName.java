@@ -1,12 +1,10 @@
 package net.krglok.realms.data;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import org.bukkit.configuration.ConfigurationSection;
 
 import net.krglok.realms.npc.NpcNamen;
+
+import org.bukkit.configuration.ConfigurationSection;
 
 public class DataStoreNpcName  extends AbstractDataStore<NpcNamen>
 {

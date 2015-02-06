@@ -38,6 +38,7 @@ public enum BuildPlanType
 	STEEPLE (6),
 	FORT(7),
 	SHIP_0 (20),
+	BOATYARD(40),
 	HALL (51),
 	WAREHOUSE (52),
 	TOWNHALL(53),

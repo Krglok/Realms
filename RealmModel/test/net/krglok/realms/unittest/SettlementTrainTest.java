@@ -1,13 +1,15 @@
 package net.krglok.realms.unittest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -18,7 +20,12 @@ import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.tool.LogList;
+import net.krglok.realms.unit.AbstractUnit;
+import net.krglok.realms.unit.IUnit;
+import net.krglok.realms.unit.UnitFactory;
+import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -26,8 +33,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
-public class SettleBreedingTest
+public class SettlementTrainTest
 {
+
 	private Boolean isOutput = false; // set this to false to suppress println
 	private boolean isMonth = false;
 	private String sb = "";
@@ -40,6 +48,8 @@ public class SettleBreedingTest
 	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
 
 	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 	
 	private double format2(double value)
 	{
@@ -186,6 +196,7 @@ public class SettleBreedingTest
 			ItemPriceList priceList
 			)
 	{
+		UnitFactory unitFactory = new UnitFactory();
 		for (int i = 0; i < MaxLoop; i++)
 		{
 			dayCounter++;
@@ -195,6 +206,7 @@ public class SettleBreedingTest
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.doHappiness(data);
 			settle.doProduce(server,data);
+			settle.doUnitTrain(unitFactory);
 			if (dayCounter == 30)
 			{
 				settle.doCalcTax();
@@ -276,6 +288,8 @@ public class SettleBreedingTest
 		msg.add("freie Siedler : "+(settle.getResident().getSettlerCount()-settle.getTownhall().getWorkerCount()));
 		msg.add("Betten        : "+settle.getResident().getSettlerMax());
 		msg.add("Bankkonto     : "+(int) settle.getBank().getKonto());
+		msg.add("Power         : "+ settle.getPower());
+		msg.add("Anzahl Units  : "+settle.getBarrack().getUnitList().size()+ ":"+settle.getBarrack().getUnitMax());
 		msg.add("Anzahl Gebäude: "+(int) settle.getBuildingList().size());
 		msg.add("Items im Lager: "+(int) settle.getWarehouse().getItemCount());
 		msg.add("fehlende Items: "+(int) settle.getRequiredProduction().size());
@@ -300,7 +314,7 @@ public class SettleBreedingTest
 //		}
 //		if (settle.getEntertainFactor() < 0.9)
 //		{
-//			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhltung macht sie glücklicher!");
+//			msg.add("!  Ihre Siedler haben wenig Unterhaltung. Etwas mehr Unterhaltung macht sie glücklicher!");
 //		}
 //		if ((settle.getFoodFactor() < 0.0) && (settle.getResident().getSettlerCount() < 8))
 //		{
@@ -368,17 +382,16 @@ public class SettleBreedingTest
 	
 	
 	@Test
-	public void testSettlementBreed()
+	public void testSettlementTrain()
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
-		LogList logTest = new LogList(path);
-//		DataTest testData = new DataTest();
-//		OwnerList ownerList =  testData.getOwners();
-		ServerTest server = new ServerTest(data);
 		
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
+		LogList logList = new LogList(dataFolder);
+		DataTest data     = new DataTest();
+		OwnerList ownerList =  data.getOwners();
+		UnitFactory unitFactory = new UnitFactory();
 		ItemPriceList priceList = readPriceData(); 
 		
-//		logTest.addText("TestUser", "testSettlementBreed");
 		ConfigTest config = new ConfigTest();
 		config.initRegionBuilding();
 	
@@ -391,7 +404,7 @@ public class SettleBreedingTest
 		regionTypes.put("4","HOME");
 		regionTypes.put("5","HOME");
 		regionTypes.put("6","HOME");
-		regionTypes.put("7","HOME");
+//		regionTypes.put("7","HOME");
 //		regionTypes.put("8","HOME");
 //		regionTypes.put("9","HOME");
 //		regionTypes.put("10","HOME");
@@ -399,20 +412,17 @@ public class SettleBreedingTest
 //		regionTypes.put("12","HOME");
 //		regionTypes.put("13","HOME");
 //		regionTypes.put("14","HOME");
-		regionTypes.put("61","WHEAT");
-		regionTypes.put("62","WHEAT");
-		regionTypes.put("63","WHEAT");
-		regionTypes.put("64","WHEAT");
 		regionTypes.put("65","WHEAT");
 		regionTypes.put("66","WHEAT");
 		regionTypes.put("67","BAKERY");
 		regionTypes.put("68","BAKERY");
 		regionTypes.put("69","WHEAT");
-		regionTypes.put("70","IRONMINE");
-		regionTypes.put("71","COALMINE");
-		regionTypes.put("72","SMELTER");
+		regionTypes.put("70","WHEAT");
+		regionTypes.put("71","WHEAT");
+		regionTypes.put("72","WHEAT");
 		regionTypes.put("80","WOODCUTTER");
 		regionTypes.put("90","QUARRY");
+		regionTypes.put("100","GUARDHOUSE");
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.HAMLET;
@@ -426,30 +436,38 @@ public class SettleBreedingTest
 				0,
 				regionTypes, 
 				regionBuildings,
-				Biome.HELL
-//				logTest
+				Biome.PLAINS
+//				logList
 				);
 
-		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*2 );
-		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*2 );
+		settle.getWarehouse().depositItemValue("WHEAT",settle.getResident().getSettlerMax()*10 );
+		settle.getWarehouse().depositItemValue("BREAD",settle.getResident().getSettlerMax()*10);
 		settle.getWarehouse().depositItemValue("WOOD_HOE",settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("WOOD_AXE",settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("WOOD_PICKAXE",settle.getResident().getSettlerMax());
 		settle.getWarehouse().depositItemValue("LOG",settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue(Material.STICK.name(),settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue(Material.WOOD.name(),settle.getResident().getSettlerMax());
+		settle.getWarehouse().depositItemValue(Material.STICK.name(),200);
+		settle.getWarehouse().depositItemValue(Material.WOOD.name(),200);
 		settle.getWarehouse().depositItemValue(Material.COBBLESTONE.name(),settle.getResident().getSettlerMax());
-		settle.getWarehouse().depositItemValue(Material.COAL.name(),10);
-		settle.getWarehouse().depositItemValue(Material.BREAD.name(),1000);
-		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(),10);
-		settle.getWarehouse().depositItemValue("WOOD_PICKAXE",200);
+		settle.getWarehouse().depositItemValue(Material.STONE_SWORD.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_BOOTS.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_CHESTPLATE.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_HELMET.name(),2);
+		settle.getWarehouse().depositItemValue(Material.LEATHER_LEGGINGS.name(),2);
 		
-		settle.getResident().setSettlerCount(5);
+		settle.getResident().setSettlerCount(15);
 		settle.setSettlerMax();
 		settle.initTreasureList();
 		settle.expandTreasureList(settle.getBiome(), server);
 		settle.getWarehouse().setStoreCapacity();
 
+		for (Building building : settle.getBuildingList().values())
+		{
+			if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
+			{
+				building.setMaxTrain(2);
+			}
+		}
 		isOutput =   false; //(expected != actual);
 
 		if (isOutput)
@@ -457,7 +475,7 @@ public class SettleBreedingTest
 			System.out.println("==Settlement Breed  Start: "+settle.getResident().getSettlerCount());
 		}
 
-		BreedingLoop(settle, server, 1500, priceList);
+		BreedingLoop(settle, server, 12, priceList);
 
 //		BreedingLoop(settle, server, 410, priceList);
 
@@ -472,29 +490,33 @@ public class SettleBreedingTest
 			makeSettleAnalysis(settle, month, priceList);
 			System.out.println(" ");
 
-			boolean isTreasueList = false;
-			if (isTreasueList)
+			boolean isTrainList = true;
+			if (isTrainList)
 			{
 				System.out.println(" ");
-				System.out.println("Treasure balance = "+settle.getBiome());
+				System.out.println("Train balance = ");
 				ItemList items = new ItemList();
-				for (Item item : settle.getTreasureList())
+				for (Building building : settle.getBuildingList().values())
 				{
-					items.addItem( new Item(item.ItemRef(),settle.getWarehouse().getItemList().getValue(item.ItemRef())));
-				}
-				for (Item item : items.values())
-				{
-					double price = priceList.getBasePrice(item.ItemRef());
+					if (building.getBuildingType() == BuildPlanType.GUARDHOUSE)
+					{
+						IUnit iUnit = unitFactory.erzeugeUnitConfig(building.getTrainType(),new NpcData());
 					System.out.println(
-							ConfigBasis.setStrleft(item.ItemRef(),13)+": "+
-							item.value()
-							);
+							ConfigBasis.setStrleft(building.getBuildingType().name(),13)
+							+": "+building.getUnitSpace()
+							+": "+building.getTrainType()
+							+": "+building.getTrainCounter()
+							+": "+building.getTrainTime()
+							+"| "+BuildPlanType.getBuildGroup(building.getBuildingType())
+					+"| "+building.getMaxTrain()
+					);
+					}
 				}
 			}
-			boolean isWarehouseList = false;
-			if (isWarehouseList)
+			boolean isBarackList = true;
+			if (isBarackList)
 			{
-				System.out.println("Warehouse");
+				System.out.println("Warehouse" );
 				double price = 0.0;
 				double balance = 0.0;
 				for (Item item : settle.getWarehouse().getItemList().values())
@@ -509,27 +531,28 @@ public class SettleBreedingTest
 				System.out.println("Warehouse balance = "+balance);
 				System.out.println("=============================");
 			}
-			boolean isCapacityList = false;
+			boolean isCapacityList = true;
 			if (isCapacityList)
 			{
-				System.out.println("==Store Capacity ==");
-				System.out.print("Item            "+" : "+"Stack");
+				System.out.println("==Barack Capacity ==");
+				System.out.print("UnitType  "+" :"+"Health"+" : "+"Power");
 				System.out.println("");
-				for (String bItem : settle.getWarehouse().getTypeCapacityList().keySet())
+				for (NpcData unit : settle.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA))
 				{
-					System.out.print(ConfigBasis.setStrleft(bItem,16)+" : ");
-					System.out.print(settle.getWarehouse().getTypeCapacityList().get(bItem).value()+ " | ");
-					System.out.print("");
+					System.out.print(ConfigBasis.setStrleft(unit.getUnitType().name(),10)
+							+" : "+unit.getHealth()
+							+"    : "+unit.getPower()
+					);
+				
 					System.out.println("");
 					
 				}
 			}
 			
 		}
-		logTest.run();
+		
 		assertEquals(expected, actual);
 
 	}
-
 
 }

@@ -1,7 +1,6 @@
 package net.krglok.realms.kingdom;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import net.krglok.realms.core.Owner;
 

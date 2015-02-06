@@ -2,23 +2,12 @@ package net.krglok.realms.command;
 
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
-
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.kingdom.Lehen;
@@ -29,6 +18,14 @@ import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.UnitType;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class CmdRealmsSettler extends RealmsCommand
 {
@@ -184,7 +181,7 @@ public class CmdRealmsSettler extends RealmsCommand
     			return result;
     		}
 			// check for resident NpcType 
-	    	NpcList residents = settle.getResident().getNpcList().getBuildingNpc(building.getId());
+//	    	NpcList residents = settle.getResident().getNpcList().getBuildingNpc(building.getId());
 	    	switch (building.getBuildingType())
 	    	{
 	    	case GUARDHOUSE:

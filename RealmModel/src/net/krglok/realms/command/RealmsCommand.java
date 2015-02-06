@@ -542,18 +542,6 @@ public abstract class RealmsCommand implements iRealmsCommand
 
 	}
 	
-	public boolean isMaterial(String value)
-	{
-		for (Material mat : Material.values())
-		{
-			if (mat.name().equalsIgnoreCase(value))
-			{
-				return true;
-			}
-			
-		}
-		return false;
-	}
 	
 	public ItemStack writeBook(ItemStack book, ArrayList<String> msg, String author, String title)
 	{

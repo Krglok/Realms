@@ -1,6 +1,5 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
 
 /**
  * <pre>
