@@ -132,7 +132,10 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
         values = new HashMap<String,String>();
     	for (String itemref : dataObject.getWarehouse().getItemList().keySet())
     	{
-    		values.put(itemref, String.valueOf(dataObject.getWarehouse().getItemList().getValue(itemref)) );
+    		if (dataObject.getWarehouse().getItemList().getValue(itemref) > 0)
+    		{
+    			values.put(itemref, String.valueOf(dataObject.getWarehouse().getItemList().getValue(itemref)) );
+    		}
     	}
         section.set("itemList", values);
 ////        section.set("", dataObject);

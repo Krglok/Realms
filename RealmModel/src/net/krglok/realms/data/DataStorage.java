@@ -22,6 +22,8 @@ import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.KingdomList;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.kingdom.LehenList;
+import net.krglok.realms.manager.CampPosition;
+import net.krglok.realms.manager.CampPositionList;
 import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
@@ -75,6 +77,7 @@ public class DataStorage implements DataInterface
     private BuildingList buildings;
     private NpcList npcs;
     private NpcNamen npcNamen;
+    private CampPositionList campList;
 	
 	private PriceData priceData;
 	private ItemPriceList priceList ;
@@ -91,6 +94,7 @@ public class DataStorage implements DataInterface
 	private DataStoreNpc npcDataStore;
 	private DataStoreNpc npcDataConvert;
 	private DataStoreNpcName nameDataStore;
+	private DataStoreCampPos campDataStore;
 
 	Boolean isReady = false;
 	
@@ -110,7 +114,6 @@ public class DataStorage implements DataInterface
 			}
 		} catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isReady = false;
 		}
@@ -129,8 +132,10 @@ public class DataStorage implements DataInterface
 		settlementData = new DataStoreSettlement(this.path);
 		priceData = new PriceData(this.path);
 		nameDataStore = new DataStoreNpcName(this.path);
+		campDataStore = new DataStoreCampPos(this.path);
 		//DataLists
 		priceList = new ItemPriceList();
+		campList = new CampPositionList();
 		settlements = new SettlementList(0);
 		regiments   = new RegimentList(0);
 		caseBooks   = new CaseBookList();
@@ -150,6 +155,7 @@ public class DataStorage implements DataInterface
 		priceList = priceData.readPriceData();
 //		npcOwners();
 		initNpcName();
+		initCampPos();
 		initNpcList();
 		initOwnerList();
 		initBuildingList();
@@ -315,7 +321,7 @@ public class DataStorage implements DataInterface
 	 */
 	public void writeRegiment(Regiment regiment)
 	{
-		regimentData.writeData(regiment);
+		regimentData.writeData(regiment,regiment.getId());
 	}
 	
 	/**
@@ -337,11 +343,41 @@ public class DataStorage implements DataInterface
 		}
 		return regiment; 
 	}
+	
+	/**
+	 * read CampPosition from datafile
+	 */
+	private void initCampPos()
+	{
+		ArrayList<String> campInit = campDataStore.readDataList();
+		for (String refId : campInit)
+		{
+			CampPosition campPos = campDataStore.readData(refId);
+			if (campPos != null)
+			{
+				campList.putCampPos(campPos);
+			}
+		}
+	}
+
+
+	public CampPositionList getCampList()
+	{
+		return campList;
+	}
+
+	public void writeCampPosition(CampPosition campPos)
+	{
+		campDataStore.writeData(campPos, campPos.getId());
+	}
+	
+	public void removeCampPosition(CampPosition campPos)
+	{
+		campDataStore.removeData(campPos.getId());
+	}
 
 	/**
 	 * read the regiment list from datafile
-	 * @param regInit
-	 * @return
 	 */
 	public void initRegimentList()
 	{
@@ -352,10 +388,12 @@ public class DataStorage implements DataInterface
 			Regiment regiment = readRegiment(Integer.valueOf(regId));
 			if (regiment != null)
 			{
+				regiment.getBarrack().setUnitList(npcs.getSubListRegiment(regiment.getId()));
 				regiments.addRegiment(regiment);
 			}
 		}
 	}
+	
 	
 	@Override
 	public KingdomList getKingdoms()
@@ -726,7 +764,7 @@ public class DataStorage implements DataInterface
 		for (String ref : refList)
 		{
 			lehen = lehenData.readData(ref);
-			lehen.setOwner(owners.getOwnerName(lehen.getOwnerId()));
+			lehen.setOwner(owners.getOwner(lehen.getOwnerId()));
 			lehen.setBuildings(buildings.getSubList(lehen));
 			lehenList.putLehen(lehen);
 		}
@@ -819,6 +857,7 @@ public class DataStorage implements DataInterface
 			}
 		}
 	}
+	
 
 	/**
 	 * read npc names from yml or initialize default name list
@@ -1266,6 +1305,7 @@ public class DataStorage implements DataInterface
 		{
 			makeRaiderUnit( UnitType.MILITIA, regiment);
 		}
+		
 	}
 	
 	/**
@@ -1296,6 +1336,7 @@ public class DataStorage implements DataInterface
 			settleNpc.setUnitType(nextUnit);
 			settleNpc.setSettleId(0);
 			settleNpc.setHomeBuilding(0);
+			settleNpc.setRegimentId(regiment.getId());
 			settleNpc.setAge(21);
 			settleNpc.setMoney(10.0);
 			npcs.add(settleNpc);
@@ -1311,6 +1352,7 @@ public class DataStorage implements DataInterface
 			settleNpc.setUnitType(nextUnit);
 			settleNpc.setSettleId(0);
 			settleNpc.setHomeBuilding(0);
+			settleNpc.setRegimentId(regiment.getId());
 			settleNpc.setAge(21);
 			settleNpc.setMoney(10.0);
 			npcs.add(settleNpc);

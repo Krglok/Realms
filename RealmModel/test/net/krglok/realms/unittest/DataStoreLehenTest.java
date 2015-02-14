@@ -21,7 +21,7 @@ public class DataStoreLehenTest
 		lehen.setName("Freie Soeldner");
 		lehen.setNobleLevel(NobleLevel.KING);
 		lehen.setOwner(null);
-		lehen.setOwnerId("");
+		lehen.setOwnerId(0);
 		lehen.setParentId(0); // 0 = no parent
 		lehen.setSettleType(SettleType.LEHEN_4);
 		
@@ -34,7 +34,7 @@ public class DataStoreLehenTest
 		lehen.setName("Steingau Mine");
 		lehen.setNobleLevel(NobleLevel.COMMONER);
 		lehen.setOwner(null);
-		lehen.setOwnerId("");
+		lehen.setOwnerId(0);
 		lehen.setParentId(0); // 0 = no parent
 		lehen.setSettleType(SettleType.CLAIM);
 		
@@ -47,7 +47,7 @@ public class DataStoreLehenTest
 		lehen.setName("Steingau");
 		lehen.setNobleLevel(NobleLevel.LORD);
 		lehen.setOwner(null);
-		lehen.setOwnerId("");
+		lehen.setOwnerId(0);
 		lehen.setParentId(0); // 0 = no parent
 		lehen.setSettleType(SettleType.LEHEN_3);
 		
@@ -60,7 +60,7 @@ public class DataStoreLehenTest
 		lehen.setName("Nordweg");
 		lehen.setNobleLevel(NobleLevel.LORD);
 		lehen.setOwner(null);
-		lehen.setOwnerId("");
+		lehen.setOwnerId(0);
 		lehen.setParentId(0); // 0 = no parent
 		lehen.setSettleType(SettleType.LEHEN_2);
 		

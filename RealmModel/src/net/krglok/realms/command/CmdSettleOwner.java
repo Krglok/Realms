@@ -17,36 +17,28 @@ import org.bukkit.entity.Player;
 
 public class CmdSettleOwner extends RealmsCommand
 {
+	private int ownerId;
+	private int settleId ;
+
 	public CmdSettleOwner()
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.OWNER);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle OWNER [ID] [playername]",
-				"Set the player as owner to settlement ",
+				ChatColor.YELLOW+"/settle OWNER [ID] [ownerId]",
+				"Set the owner to the settlement ",
 				"Set the playername as owner to every building ",
 		    	"expect the HOME, HOUSE, MANSION ",
 		    	"  "
 		};
 		requiredArgs = 2;
-		this.playername = "";
+		this.ownerId = -1;
 		this.settleId = 0;
 	}
 
-	private String playername;
-	private int settleId ;
 
 	@Override
 	public void setPara(int index, String value)
 	{
-		switch (index)
-		{
-		case 1:
-			playername = value;
-			break;
-		default:
-			break;
-		}
-
 	}
 
 	@Override
@@ -56,6 +48,9 @@ public class CmdSettleOwner extends RealmsCommand
 		{
 		case 0:
 			settleId = value;
+			break;
+		case 1:
+			ownerId = value;
 			break;
 		default:
 			break;
@@ -78,9 +73,7 @@ public class CmdSettleOwner extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName()
-				, String.class.getName()
-				};
+		return new String[] {int.class.getName(), int.class.getName()};
 	}
 
 	@Override
@@ -89,19 +82,15 @@ public class CmdSettleOwner extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		Player player;
 		Owner owner = null;
-		if (sender instanceof Player)
-		{
-			player = (Player) sender;
-			if (playername == "")
-			{
-				playername = player.getPlayerListName();
-			}
-		}
-		owner = plugin.getData().getOwners().getOwnerName(playername);
+		owner = plugin.getData().getOwners().getOwner(ownerId);
 		if (owner == null)
 		{
-			msg.add("No playername is given !");
+			msg.add("No owner is given !");
+			plugin.getMessageData().printPage(sender, msg, 1);
+			return;
 		}
+		String playername = owner.getPlayerName();
+
 		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
 		if ( settle == null)
 		{
@@ -112,37 +101,39 @@ public class CmdSettleOwner extends RealmsCommand
 		{
 			msg.add("Superregion not found !");
 		}
-		
-		List<String> members = new ArrayList<String>();
-		members.add(playername);
-		// check for playername as member of superregion
-		// set it again to delete the member entry
-		if (sRegion.getMembers().containsKey(playername))
-		{
-			plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
-		}
-		// set owner of superregion in addition to existing
-		if (sRegion.getOwners().contains(playername) == false)
-		{
-			sRegion.addOwner(playername);
-		}
 		settle.setOwner(owner);
-//					sRegion.addMember(playername, perms );
-		for (Building building : settle.getBuildingList().values())
+		if (owner.isNPC() == false)
 		{
-			if ((building.getBuildingType() != BuildPlanType.HOME) 
-					&& (building.getBuildingType() != BuildPlanType.HOUSE)
-					&& (building.getBuildingType() != BuildPlanType.MANSION)
-					)
+			List<String> members = new ArrayList<String>();
+			members.add(playername);
+			// check for playername as member of superregion
+			// set it again to delete the member entry
+			if (sRegion.getMembers().containsKey(playername))
 			{
-				Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
-				if (region.getOwners().contains(playername) == false)
+				plugin.stronghold.getRegionManager().setMember(sRegion, settle.getName(), members);
+			}
+			// set owner of superregion in addition to existing
+			if (sRegion.getOwners().contains(playername) == false)
+			{
+				sRegion.addOwner(playername);
+			}
+//					sRegion.addMember(playername, perms );
+			for (Building building : settle.getBuildingList().values())
+			{
+				if ((building.getBuildingType() != BuildPlanType.HOME) 
+						&& (building.getBuildingType() != BuildPlanType.HOUSE)
+						&& (building.getBuildingType() != BuildPlanType.MANSION)
+						)
 				{
-					region.addOwner(playername);
+					Region region = plugin.stronghold.getRegionManager().getRegionByID(building.getHsRegion());
+					if (region.getOwners().contains(playername) == false)
+					{
+						region.addOwner(playername);
+					}
+					System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playername );
+					building.setOwnerId(owner.getId());
+					plugin.getData().writeBuilding(building);
 				}
-				System.out.println(building.getBuildingType().name()+":"+building.getHsRegion()+":"+playername );
-				building.setOwnerId(owner.getId());
-				plugin.getData().writeBuilding(building);
 			}
 		}
 		plugin.getData().writeSettlement(settle);
@@ -159,42 +150,41 @@ public class CmdSettleOwner extends RealmsCommand
 				plugin.getServer().getPlayer(playername).sendMessage(s);
 			}
 		} 
-		for (String s : msg)
-		{
-			sender.sendMessage(s);
-		}
+//		for (String s : msg)
+//		{
+//			sender.sendMessage(s);
+//		}
 
 		plugin.getMessageData().printPage(sender, msg, 1);
-
+		this.ownerId = -1;
+		this.settleId = 0;
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (plugin.getRealmModel().getSettlements().containsID(settleId))
-		{
-			if (isOpOrAdmin(sender) == false)
-			{
-				if (isSettleOwner(plugin, sender, settleId)== false)
-				{
-					errorMsg.add("You are not the owner ! ");
-					return false;
-					
-				}
-			} 
-			if (plugin.getData().getOwners().getOwnerName(playername) == null)
-			{
-					errorMsg.add("Not a regulat Owner ! ");
-					return false;
-			}
-			return true;
-			
-		} else
+		if (plugin.getRealmModel().getSettlements().getSettlement(settleId) == null)
 		{
 			errorMsg.add("Settlement not found ! ");
 			return false;
 			
 		}
+		if (plugin.getData().getOwners().getOwner(ownerId) == null)
+		{
+				errorMsg.add("Not a regulat Owner ! "+ownerId);
+				return false;
+		}
+		if (isOpOrAdmin(sender) == false)
+		{
+			if (isSettleOwner(plugin, sender, settleId)== false)
+			{
+				errorMsg.add("You are not the owner ! ");
+				return false;
+				
+			}
+		} 
+		return true;
+			
 	}
 
 }

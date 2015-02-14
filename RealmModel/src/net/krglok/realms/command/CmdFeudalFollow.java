@@ -125,7 +125,7 @@ public class CmdFeudalFollow extends RealmsCommand
 		
 		if (isOpOrAdmin(sender) == false)
 		{
-			if (plugin.getData().getLehen().getLehen(lehenId).getOwnerId() != owner.getPlayerName())
+			if (plugin.getData().getLehen().getLehen(lehenId).getOwnerId() != owner.getId())
 			{
 				errorMsg.add(ChatColor.RED+"You are not the owner of the Lehen !");
 				return false;
@@ -138,7 +138,7 @@ public class CmdFeudalFollow extends RealmsCommand
 			return false;
 		}
 
-		if (plugin.getData().getLehen().getLehen(lordId).getOwnerId() != owner.getPlayerName())
+		if (plugin.getData().getLehen().getLehen(lordId).getOwnerId() != owner.getId())
 		{
 			if (owner.getNobleLevel() != NobleLevel.KING)
 			{

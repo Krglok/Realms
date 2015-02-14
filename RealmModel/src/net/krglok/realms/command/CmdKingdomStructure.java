@@ -79,7 +79,7 @@ public class CmdKingdomStructure extends RealmsCommand
 		break;
 		case 3: versatz = " +";
 		break;
-		case 4: versatz = "+";
+		case 4: versatz = " + ";
 		break;
 		default :
 			break;

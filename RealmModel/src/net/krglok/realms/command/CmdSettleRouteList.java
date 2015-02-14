@@ -24,6 +24,7 @@ public class CmdSettleRouteList extends RealmsCommand
 		    	"  ",
 		};
 		requiredArgs = 1;
+		settleID = 0;
 		page = 1;
 	}
 
@@ -74,7 +75,7 @@ public class CmdSettleRouteList extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
 		
 		Settlement settle = plugin.getData().getSettlements().getSettlement(settleID);
-		msg.add("List of Route Order ["+settle.getId()+"] "+settle.getName());
+		msg.add("List of Route Order ["+settle.getId()+"] "+settle.getName()+"["+settle.getTrader().getRouteOrders().size()+"]");
 		for (RouteOrder rOrder : settle.getTrader().getRouteOrders().values())
 		{
 			msg.add(rOrder.getTargetId()
@@ -84,9 +85,10 @@ public class CmdSettleRouteList extends RealmsCommand
 					);
 		}
 		msg.add(" ");
-		plugin.getData().writeSettlement(settle);
+//		plugin.getData().writeSettlement(settle);
 		if (page == 0) { page = 1; }
 		plugin.getMessageData().printPage(sender, msg, page);
+		settleID = 0;
 
 	}
 

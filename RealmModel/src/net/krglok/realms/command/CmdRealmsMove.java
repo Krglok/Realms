@@ -84,7 +84,7 @@ public class CmdRealmsMove extends RealmsCommand
 		Location newPos = new Location(world,settle.getPosition().getX(),settle.getPosition().getY(),settle.getPosition().getZ());
 		Player player = (Player) sender;
 		player.teleport(newPos);
-		msg.add(ChatColor.RED+"Settlement not exist!");
+		msg.add(ChatColor.RED+"Settlement teleported!");
 		msg.add(" ");
 				
     	plugin.getMessageData().printPage(sender, msg, page);

@@ -1,7 +1,10 @@
 package net.krglok.realms.core;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.kingdom.Lehen;
@@ -102,19 +105,19 @@ public class BuildingList  extends HashMap<String,Building>
 	/**
 	 * initialize regionList and superRegionList
 	 */
-	public HashMap<BuildPlanType,Integer> initBuildPlanList()
+	public HashMap<String,Integer> initBuildPlanList()
 	{
-		HashMap<BuildPlanType,Integer> subList = new HashMap<BuildPlanType,Integer>();
+		HashMap<String,Integer> subList = new HashMap<String,Integer>();
 		BuildPlanType bType ;
 		for (Building building  : this.values())
 		{
 			bType = building.getBuildingType();
-			if (subList.containsKey(bType))
+			if (subList.containsKey(bType.name()))
 			{
-				subList.put(bType,subList.get(bType)+1);
+				subList.put(bType.name(),subList.get(bType)+1);
 			} else
 			{
-				subList.put(bType,1);
+				subList.put(bType.name(),1);
 			}
 		}
 		return subList;
@@ -179,7 +182,7 @@ public class BuildingList  extends HashMap<String,Building>
 		this.isHall = isHall;
 	}
 
-	public HashMap<BuildPlanType,Integer> getBuildTypeList()
+	public HashMap<String,Integer> getBuildTypeList()
 	{
 		
 		return initBuildPlanList();
@@ -389,6 +392,21 @@ public class BuildingList  extends HashMap<String,Building>
 			}
 		}
 		return result;
+	}
+
+	public ArrayList<String> sortStringList(Set<String> set)
+	{
+		ArrayList<String> sortedItems = new ArrayList<String>();
+		for (String s : set)
+		{
+			sortedItems.add(s);
+		} 
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  String.CASE_INSENSITIVE_ORDER);
+		}
+		return sortedItems;
 	}
 	
 }

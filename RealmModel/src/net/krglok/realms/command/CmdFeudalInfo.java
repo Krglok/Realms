@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.Lehen;
@@ -142,9 +143,10 @@ public class CmdFeudalInfo extends RealmsCommand
 			return false;
 		}
 		Player player = (Player) sender;
+		Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString());
 		if (isOpOrAdmin(sender) == false)
 		{
-			if (plugin.getData().getLehen().getLehen(lehenId).getOwnerId().equalsIgnoreCase(player.getName()))
+			if (plugin.getData().getLehen().getLehen(lehenId).getOwnerId() != owner.getId())
 			{
 				errorMsg.add(ChatColor.RED+"You are not the owner !");
 				return false;

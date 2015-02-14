@@ -42,9 +42,9 @@ public class ModelCmdTest
 	private String getReqList(Settlement settle)
 	{
 		System.out.println("Building List : "+settle.getBuildingList().getBuildTypeList().size());
-		for (BuildPlanType building :settle.getBuildingList().getBuildTypeList().keySet())
+		for (String building :settle.getBuildingList().getBuildTypeList().keySet())
 		{
-				System.out.println(ConfigBasis.setStrleft(building.name(),15)+":"+settle.getBuildingList().getBuildTypeList().get(building));
+				System.out.println(ConfigBasis.setStrleft(building,15)+":"+settle.getBuildingList().getBuildTypeList().get(building));
 		}
 		System.out.println(" ");
 		System.out.println("Warehouse : "+settle.getWarehouse().getItemMax());

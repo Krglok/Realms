@@ -17,19 +17,21 @@ public class CmdOwnerCreate extends RealmsCommand
 {
 	private int page;
 	private String playerName;
+	private int npcId;
 	
 	public CmdOwnerCreate()
 	{
 		super(RealmsCommandType.OWNER, RealmsSubCommandType.CREATE);
 		description = new String[] {
-				ChatColor.YELLOW+"/owner CREATE [NPCName]  ",
+				ChatColor.YELLOW+"/owner CREATE [NpcName] [NpcId] ",
 		    	"Create a  Owner as NPC   ",
 		    	"only for Admin and OPs",
 		    	" "
 			};
-			requiredArgs = 1;
+			requiredArgs = 2;
 			page = 1;
 			playerName = "";
+			npcId = 0;
 	}
 
 	@Override
@@ -66,23 +68,25 @@ public class CmdOwnerCreate extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {String.class.getName() };
+		return new String[] {String.class.getName(), int.class.getName() };
 	}
 
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		Player player = (Player) sender;
 
 		Owner owner = new Owner(playerName, true);
 		owner.getAchivList().add(new Achivement(AchivementType.BOOK, AchivementName.TECH0));
 		owner.setCommonLevel(CommonLevel.COLONIST);
+		owner.setUuid(String.valueOf(npcId));
 		plugin.getData().getOwners().addOwner(owner);
 		plugin.getData().writeOwner(owner);
 		msg.add("Create Owner "+playerName+" as "+owner.getNobleLevel().name());
 		plugin.getMessageData().printPage(sender, msg, page);
 		playerName = "";
+		npcId = 0;
+
 	}
 
 	@Override

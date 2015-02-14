@@ -177,7 +177,7 @@
    <tile gid="25"/>
   </data>
  </layer>
- <layer name="Ebene 1" width="13" height="13" visible="0">
+ <layer name="Ebene 1" width="13" height="13">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -258,7 +258,6 @@
    <tile gid="30"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="146"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -268,7 +267,8 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="146"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -696,7 +696,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 4" width="13" height="13">
+ <layer name="Ebene 4" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -869,7 +869,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 5" width="13" height="13">
+ <layer name="Ebene 5" width="13" height="13" visible="0">
   <data>
    <tile gid="5"/>
    <tile gid="5"/>
@@ -1042,7 +1042,7 @@
    <tile gid="5"/>
   </data>
  </layer>
- <layer name="Ebene 6" width="13" height="13">
+ <layer name="Ebene 6" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1215,7 +1215,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 7" width="13" height="13">
+ <layer name="Ebene 7" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1388,7 +1388,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 8" width="13" height="13">
+ <layer name="Ebene 8" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -1561,7 +1561,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 9" width="13" height="13">
+ <layer name="Ebene 9" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>

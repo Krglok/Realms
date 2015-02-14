@@ -6,45 +6,54 @@ import java.util.List;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.LocationData;
+import net.krglok.realms.manager.CampPosition;
+import net.krglok.realms.manager.HeightAnalysis;
+import net.krglok.realms.manager.PositionFace;
+import net.krglok.realms.model.RealmModel;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
 public class CmdRealmsTest extends RealmsCommand
 {
-    private final String MARKER_SET = "markers";
 	private int page; 
-	private String itenName;
+	private String faceName;
+	private PositionFace face;
+	private int settleId;
 	
 	public CmdRealmsTest( )
 	{
 		super(RealmsCommandType.REALMS, RealmsSubCommandType.TEST);
 		description = new String[] {
-				ChatColor.YELLOW+"/realms TEST [ITEM]   ",
-		    	" Show recipe test  ",
-		    	" "
+				ChatColor.YELLOW+"/realms TEST [page] {settleId} {face} ",
+		    	"Show high analysis for position  ",
+		    	"finding  "
 			};
 			requiredArgs = 1;
-			page = 0;
-			itenName = "";
+			this.page = 0;
+			this.settleId = 0;
+			this.faceName = "";
+			this.face = PositionFace.NORTH;
 	}
 
 	@Override
 	public void setPara(int index, String value)
 	{
-		switch (index)
+		switch(index)
 		{
-		case 0 :
-			itenName = value;
-			break;
+		case 2: faceName = value;
 		default:
 			break;
 		}
-
 	}
 
 	@Override
@@ -52,8 +61,11 @@ public class CmdRealmsTest extends RealmsCommand
 	{
 		switch (index)
 		{
-		case 1 :
+		case 0 :
 			page = value;
+			break;
+		case 1:
+			settleId = value;
 			break;
 		default:
 			break;
@@ -76,62 +88,97 @@ public class CmdRealmsTest extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {String.class.getName(), int.class.getName()  };
+		return new String[] {int.class.getName(), int.class.getName(), String.class.getName()  };
 	}
 
-    public List<Recipe> getRecipesFor(Realms plugin, ItemStack result) 
-    {
-    	if (result == null)
-    	{
-        	System.out.println("Result cannot be null");
-    	}
-        List<Recipe> results = new ArrayList<Recipe>();
-        Iterator<Recipe> iter = plugin.getServer().recipeIterator();
-        while (iter.hasNext()) 
-        {
-            Recipe recipe = iter.next();
-            ItemStack stack = recipe.getResult();
-            if (stack.getType() != result.getType()) 
-            {
-            	continue;
-            }
-            results.add(recipe);
-            
-        }
-        return results;
-    }
-
-	private ArrayList<String> getRecipe(Realms plugin, String itemRef)
+	private boolean isGround(Block block)
 	{
-		ArrayList<String> msg = new ArrayList<String>();
-		ItemStack item = new ItemStack(Material.valueOf(itemRef));
-		List <Recipe> recipes = getRecipesFor(plugin,item);
-		
-		String  line = "";
-//        String line = itemRef+"|";
-        for (Recipe recipe  : recipes) 
-        {
-        	if (recipe instanceof ShapedRecipe)
-        	{
-        		double costSum = 0.0;
-	        	ShapedRecipe me = (ShapedRecipe) recipe;
-	        	for (ItemStack ingred :  me.getIngredientMap().values())
-	        	{
-	        		if (ingred != null)
-	        		{
-	        			double cost = plugin.getData().getPriceList().getBasePrice(ingred.getType().name());
-	        			costSum = costSum + cost;
-	        			msg.add(ingred.getType().name()+":"+ConfigBasis.setStrright(cost, 6));
-	        		}
-	        	}
-    			msg.add("Ingredient :"+ConfigBasis.setStrformat2(costSum, 8));
-    			costSum = costSum * ConfigBasis.SETTLE_SELL_FACTOR;
-    			msg.add(itemRef+":"+ConfigBasis.setStrformat2(costSum, 8));
-        	}
-        }
-        return msg;
-     }
+		switch(block.getType())
+		{
+		case LOG : return false;
+		case LOG_2 : return false;
+		case LEAVES : return false;					
+		case LEAVES_2 : return false;
+		case AIR : return false;
+		case WATER : return false;
+		case STATIONARY_WATER: return false;
+		case LAVA: return false;
+		case STATIONARY_LAVA: return false;
+		default:
+			return true;
+		}
+	}
+	
+	private BlockFace[] getFaceList()
+	{
+		BlockFace[] checkFaces = new BlockFace[] 
+				{BlockFace.NORTH, 
+				BlockFace.NORTH_EAST, 
+				BlockFace.NORTH_WEST, 
+				BlockFace.EAST, 
+				BlockFace.SOUTH_EAST, 
+				BlockFace.SOUTH_WEST, 
+				BlockFace.SOUTH,
+				BlockFace.WEST
+				};
+		return checkFaces;
+	}
+	
+	private Block scanNeibour(Block block)
+	{
+		BlockFace[] faces = getFaceList();
+		for (BlockFace face : faces)
+		{
+			Block faceBlock = block.getRelative(face);
+			Block near = block.getWorld().getHighestBlockAt(faceBlock.getLocation());
+//			System.out.println(face.name()+":"+near.getType().name());
+			if (isGround(near) == true)
+			{
+				return near;
+			}
+		}
+		return null;
+	}
+	
+	private Location findGround(Location position)
+	{
+		Location groundPos = position.clone();
+		Block block = groundPos.getBlock().getRelative(BlockFace.DOWN);
+		if (isGround(block))
+		{
+			System.out.println("Ground found");
+			return block.getLocation();
+		}
+		if (scanNeibour(block) == null)
+		{
+			for (BlockFace face : getFaceList())
+			{
+				Block near = scanNeibour(block.getRelative(face));
+				if (near != null)
+				{
+					System.out.println("Ground found");
+					return near.getLocation(); 
+				}
+			}
+		}
+		System.out.println("Ground NOT found");
+		return groundPos;
+	}
 
+	private boolean findSettleCamp(RealmModel rModel, int settleId, PositionFace face)
+	{
+		for (CampPosition campPos : rModel.getData().getCampList().values())
+		{
+			if (campPos.getSettleId() == settleId)
+			{
+				if (campPos.getFace() == face)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 
 	@Override
@@ -140,30 +187,49 @@ public class CmdRealmsTest extends RealmsCommand
     	ArrayList<String> msg = new ArrayList<String>();
 
 		msg.add(ChatColor.RED+"Realms Test ");
-
-		msg.add(ChatColor.GREEN+"Recipe: "+itenName);
-		msg.addAll(getRecipe(plugin,itenName));
+		
+		face = PositionFace.valueOf(faceName);
+		
+		if (findSettleCamp(plugin.getRealmModel(), settleId, face))
+		{
+			msg.add("CampPosition found "+settleId+":"+face.name());
+			for (CampPosition campPos : plugin.getData().getCampList().values())
+			{
+				if (campPos.getSettleId() == settleId)
+				{
+					if (campPos.getFace() == face)
+					{
+						String s = campPos.getId()+":"+campPos.getSettleId()+":"+campPos.getFace().name();
+						msg.add(s);
+					}
+				}
+			}
+		}
+	
 		plugin.getMessageData().printPage(sender, msg, 1);
-
+		this.settleId = 0;
+		this.faceName = "";
+		this.face = PositionFace.NORTH;
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (ConfigBasis.isMaterial(itenName) == false)
+		if (plugin.getData().getSettlements().getSettlement(settleId) == null)
 		{
-			errorMsg.add(ChatColor.RED+"No valid MaterialName ");
+			errorMsg.add(ChatColor.RED+"Wrong Settlement : "+settleId);
+			return false;
+		}
+			
+		
+		if (PositionFace.contain(faceName) == false)
+		{
+			errorMsg.add(ChatColor.RED+"Wrong PositionFace: "+faceName);
+			errorMsg.add(PositionFace.valueHelp()); 
 			return false;
 		}
 		
 		return true;
-//		if (sender instanceof Player)
-//		{
-//			return true;
-//		}
-//		errorMsg.add("Not a console command !");
-//		errorMsg.add("The command must send by a Player !");
-//		return false;
 	}
 
 }

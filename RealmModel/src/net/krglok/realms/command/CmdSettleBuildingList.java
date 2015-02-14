@@ -1,6 +1,7 @@
 package net.krglok.realms.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
@@ -22,7 +23,7 @@ public class CmdSettleBuildingList extends RealmsCommand
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BUILDINGLIST);
 		description = new String[] {
 				ChatColor.YELLOW+"/settle BUILDINGLIST [page] ",
-				"List Production Overview of the settlelment ",
+				"List Buildings Overview of the settlelment ",
 		    	"  ",
 		};
 		requiredArgs = 1;
@@ -83,11 +84,14 @@ public class CmdSettleBuildingList extends RealmsCommand
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
 		msg.add(ChatColor.YELLOW+"BuildingType___|count|");
-		for (BuildPlanType bItem : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().keySet())
+//		for (BuildPlanType bItem : )
+		HashMap <String,Integer> builpTypList = plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList();
+		for (String ref : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().sortStringList(builpTypList.keySet()))
 		{
-			String name = ConfigBasis.setStrleft(bItem.name()+"__________", 15);
-			String settler = ConfigBasis.setStrright(String.valueOf(plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().get(bItem)), 3);
-			String product = "";
+//			int value = plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().get(ref);
+			String name = ConfigBasis.setStrleft(ref+"__________", 15);
+			String settler = ConfigBasis.setStrright(String.valueOf(builpTypList.get(ref)), 3);
+//			String product = "";
 			msg.add(name +"|"+settler+" |");
 		}
 		
@@ -115,7 +119,6 @@ public class CmdSettleBuildingList extends RealmsCommand
 			product = product+":"+ConfigBasis.setStrright(buildOrder.getPosition().getZ(), 7);
 			msg.add(name +"|"+product+" |");
 		}
-		msg.add("");
 		page = plugin.getMessageData().printPage(sender, msg, page);
 //		page = 1;
 

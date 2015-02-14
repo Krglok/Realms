@@ -611,7 +611,11 @@ public class RealmModel
 			}
 			if (isDay == false)
 			{
-				System.out.println("Pull Up Gate");
+				System.out.println("Regiment next day ");
+				for (Regiment regiment : getData().getRegiments().values())
+				{
+					regiment.doNextDay();
+				}
 			}
 			isDay = true;
 		} catch (Exception e) {

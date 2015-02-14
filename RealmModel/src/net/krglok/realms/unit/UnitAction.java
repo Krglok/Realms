@@ -8,6 +8,9 @@ public enum UnitAction
 	TAVERNE,
 	GUARD,
 	NIGHTWATCH,
+	RAID,
+	ATTACK,
+	PLUNDER,
 	IDLE;
 
 }

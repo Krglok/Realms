@@ -15,11 +15,11 @@ reagents:
 - GOLD_NUGGET.1
 upkeep:
 - BREAD.1
-- CLAY_BALL.64
-- COAL.4
+- COBBLESTONE64
+- COAL.2
 upkeep-chance: 0.01
 output:
-- BRICK.16
+- STONE.16
 money-requirement: 1000.0
 upkeep-money-output: 0.0
 description: produce stone from cobblestone

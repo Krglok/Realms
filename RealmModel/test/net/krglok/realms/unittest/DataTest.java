@@ -937,7 +937,7 @@ public class DataTest implements DataInterface
 	@Override
 	public void writeRegiment(Regiment regiment)
 	{
-		regData.writeRegimentData(regiment);
+//		regData.writeRegimentData(regiment);
 	}
 
 	@Override

@@ -93,7 +93,8 @@ public class RegimentList extends HashMap <Integer, Regiment>
 			break;
 		}
 		int key = nextLastNumber();
-		this.put(key, regiment);
+		this.addRegiment(regiment);
+//		this.put(key, regiment);
 		return regiment;
 	}
 	

@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.DataInterface;
-import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.MapManager;
@@ -16,7 +15,6 @@ import net.krglok.realms.manager.TradeManager;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
-import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.BattleFieldPosition;
 import net.krglok.realms.unit.BattlePlacement;
 import net.krglok.realms.unit.UnitArcher;
@@ -536,47 +534,6 @@ public class Settlement extends AbstractSettle //implements Serializable
 		this.barrack.setUnitMax(buildingList.getMaxUnit());
 		this.warehouse.setItemMax(buildingList.getMaxStorage());
 		this.trader.setOrderMax(buildingList.getMaxOrder());
-//		for(Building building : this.buildingList.values())
-//		{
-//			switch(building.getBuildingType())
-//			{
-//			case HALL: 
-//				this.townhall.setIsEnabled(true);
-//				this.warehouse.setItemMax(ConfigBasis.calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
-//				break;
-//			case WAREHOUSE :
-//				this.warehouse.setItemMax(ConfigBasis.calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
-//				break;
-//			case TRADER :
-//				this.trader.setActive(true);
-//				this.trader.setEnabled(true);
-//				this.warehouse.setItemMax(ConfigBasis.calcItemMax(this.buildingList, this.warehouse, this.getSettleType()));
-//				this.trader.setOrderMax(this.trader.getOrderMax()+5);
-//				break;
-//			case GUARDHOUSE :
-//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-//				break;
-//			case CASERN :
-//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-//				break;
-//			case GARRISON :
-//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-//				break;
-//			case WATCHTOWER :
-//			case DEFENSETOWER :
-//			case BARRACK :
-//			case TOWER :
-//			case HEADQUARTER :
-//			case KEEP:
-//			case CASTLE:
-//			case STRONGHOLD :
-//			case PALACE:
-//				this.barrack.setUnitMax(this.barrack.getUnitMax() + building.getUnitSpace());
-//				break;
-//			default :
-//				break;
-//			}
-//		}
 	}
 	
 
@@ -617,6 +574,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 
 	public void setPosition(LocationData position)
 	{
+		System.out.println("New Position : "+this.id);
 		this.position = position;
 	}
 	
@@ -763,21 +721,21 @@ public class Settlement extends AbstractSettle //implements Serializable
 		return isStock;
 	}
 	
-	/**
-	 * consum items from warehouse
-	 * @param prodFactor
-	 * @param items
-	 */
-	public void consumStock(double prodFactor, ItemList items)
-	{
-		int iValue = 0;
-		for (Item item : items.values())
-		{
-			iValue = (int)((double) item.value() *prodFactor);
-			this.getWarehouse().withdrawItemValue(item.ItemRef(), iValue);
-//			System.out.println("Withdraw-"+item.ItemRef()+":"+iValue+":"+prodFactor);
-		}
-	}
+//	/**
+//	 * consum items from warehouse
+//	 * @param prodFactor
+//	 * @param items
+//	 */
+//	public boolean consumStock(double prodFactor, ItemList items)
+//	{
+//		int iValue = 0;
+//		for (Item item : items.values())
+//		{
+//			iValue = (int)((double) item.value() *prodFactor);
+//			if (this.getWarehouse().withdrawItemValue(item.ItemRef(), iValue);
+////			System.out.println("Withdraw-"+item.ItemRef()+":"+iValue+":"+prodFactor);
+//		}
+//	}
 	
 	@SuppressWarnings("unused")
 	private void checkDecay()
@@ -1399,7 +1357,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 					doTrainStart(data, building);
 				} else
 				{
-					System.out.println("Train not enaled : "+building.getBuildingType());
+					System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
 				}
 			}
 		}

@@ -39,7 +39,7 @@ public class CmdSettleBuild extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BUILD);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle BUILD [ID] [BUILDING]",
+				ChatColor.YELLOW+"/settle BUILD [ID] [BUILDING_TYPE]",
 		    	"Create a new Building {BUILDING_TYPE}  ",
 		    	"at your current position " +
 		    	"the ID is the Settlement Id (0 = no settlement) ",

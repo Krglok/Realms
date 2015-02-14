@@ -1,5 +1,7 @@
 package net.krglok.realms.builder;
 
+import org.bukkit.block.Biome;
+
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.maps.PlanMap;
@@ -66,18 +68,77 @@ public class SettleSchema
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.WOODCUTTER, new LocationData("", -16.0, 0.0, 16.0)));
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT,      new LocationData("",  7.0, 0.0, 16.0)));
 		schema.getbPositions().add(new BuildPosition(BuildPlanType.QUARRY,     new LocationData("",  16.0, 0.0, 16.0)));
-		
+
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.SHEPHERD,  new LocationData("", -7.0, 0.0, -22.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("", -16.0, 0.0, -22.0)));
+
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.BAKERY,      new LocationData("",  7.0, 0.0, -7.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.CARPENTER,     new LocationData("",  16.0, 0.0, -7.0)));
+
 		return schema;
 	}
 	
-	public static SettleSchema initBasicHamlet()
+	public static SettleSchema initBiomeHamlet()
+	{
+		
+		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40,true);
+		schema.setRegiment(false); 
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.KNIFESHOP,     new LocationData("", 25.0, 0.0, -7.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.COWSHED,    new LocationData("", -7.0, 0.0, 25.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("", -16.0, 0.0, 25.0)));
+		return schema;
+	}
+	
+	public static SettleSchema initBiomeHamlet(Biome biome)
 	{
 		SettleSchema schema = new SettleSchema(SettleType.HAMLET, 40,true);
 		schema.setRegiment(false); 
-		schema.getbPositions().add(new BuildPosition(BuildPlanType.SHEPHERD,     new LocationData("", 16.0, 0.0, 16.0)));
-		
-		schema.getbPositions().add(new BuildPosition(BuildPlanType.CARPENTER,    new LocationData("", -25.0, 0.0, 7.0)));
-		schema.getbPositions().add(new BuildPosition(BuildPlanType.CABINETMAKER, new LocationData("", -25.0, 0.0, 16.0)));
+		if (biome.name().contains("PLAIN"))
+		{
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.KNIFESHOP,  new LocationData("", 25.0, 0.0, -7.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.COWSHED,    new LocationData("", -7.0, 0.0, 25.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("", -16.0, 0.0, 25.0)));
+			return schema;
+		}
+		if (biome.name().contains("FOREST"))
+		{
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.CABINETMAKER, new LocationData("", 25.0, 0.0, -7.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.CARPENTER,    new LocationData("", -7.0, 0.0, 25.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("", -16.0, 0.0, 25.0)));
+			return schema;
+		}
+		if ((biome.name().contains("MOUNTAIN"))
+			|| (biome.name().contains("EXTREME"))
+			)
+		{
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.PICKAXESHOP, new LocationData("", 25.0, 0.0, -7.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.STONEMINE,    new LocationData("", -23.0, 0.0, -9.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.SMELTER, new LocationData("", -25.0, 0.0, 7.0)));
+			return schema;
+		}
+		if (biome.name().contains("SWAMP"))
+		{
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.KNIFESHOP,  new LocationData("", 25.0, 0.0, -7.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.SPIDERSHED,    new LocationData("", -7.0, 0.0, 25.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.MUSHROOM, new LocationData("", -16.0, 0.0, 25.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.KITCHEN, new LocationData("", -25.0, 0.0, 7.0)));
+			return schema;
+		}
+		if (biome.name().contains("DESERT"))
+		{
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("", -16.0, 0.0, 25.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.SHEPHERD,     new LocationData("", 25.0, 0.0, -7.0)));
+			schema.getbPositions().add(new BuildPosition(BuildPlanType.SHEPHERD,    new LocationData("", -7.0, 0.0, 25.0)));
+		}
+		if (biome.name().contains("OCEAN"))
+		{
+		}
+		if (biome.name().contains("HELL"))
+		{
+		}
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.BAKERY,     new LocationData("", 25.0, 0.0, -7.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT,    new LocationData("", -7.0, 0.0, 25.0)));
+		schema.getbPositions().add(new BuildPosition(BuildPlanType.WHEAT, new LocationData("", -16.0, 0.0, 25.0)));
 		return schema;
 	}
 	

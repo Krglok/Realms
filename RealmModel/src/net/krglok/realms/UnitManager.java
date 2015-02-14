@@ -163,6 +163,7 @@ public class UnitManager
 		npc.getTrait(LookClose.class).lookClose(true);
 		float newSpeed = (float) 0.8;
 		npc.getNavigator().getDefaultParameters().speedModifier(newSpeed );
+		sentry.getInstance().RespawnDelaySeconds = 60;
 		Equipment equip;
 		switch(unitType)
 		{
@@ -222,7 +223,7 @@ public class UnitManager
 	
 	public int doUnitSpawn(String name, UnitType unitType, LocationData position, int settleId, int regimentId)
 	{
-		System.out.println("[REALMS) Unit Spawn "+name);
+//		System.out.println("[REALMS) Unit Spawn "+name);
 		NPC npc = null;
 //		position.setZ(position.getZ());
 		npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, name);

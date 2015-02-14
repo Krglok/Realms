@@ -19,34 +19,27 @@ public class CmdFeudalOwner extends RealmsCommand
 {
 	int page;
 	private int lehenId;
-	private String playerName;
+	private int ownerId;
 	
 	public CmdFeudalOwner()
 	{
 		super(RealmsCommandType.FEUDAL, RealmsSubCommandType.OWNER);
 		description = new String[] {
-				ChatColor.YELLOW+"/feudal OWNER [lehenId] [playerName] ",
-		    	"Set playerName as owner ",
+				ChatColor.YELLOW+"/feudal OWNER [lehenId] [ownerId] ",
+		    	"Set owner for lehen",
 		    	"The Lehen get the kingdom of the creator ",
 		    	"Only the Owner and the King can set the owner ",
 		    	" "
 			};
 			requiredArgs = 2;
 			lehenId = 0;
+			ownerId = 0;
 			page = 1;
 	}
 
 	@Override
 	public void setPara(int index, String value)
 	{
-		switch (index)
-		{
-		case 1:
-			playerName = value;
-			break;
-		default:
-			break;
-		}
 	}
 
 	@Override
@@ -56,6 +49,9 @@ public class CmdFeudalOwner extends RealmsCommand
 		{
 		case 0:
 			lehenId = value;
+			break;
+		case 1:
+			ownerId = value;
 			break;
 		default:
 			break;
@@ -77,7 +73,7 @@ public class CmdFeudalOwner extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName(), String.class.getName() };
+		return new String[] {int.class.getName(), int.class.getName() };
 	}
 
 	@Override
@@ -85,9 +81,17 @@ public class CmdFeudalOwner extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 //		Player player = (Player) sender;
-		Owner owner = plugin.getData().getOwners().getOwnerName(playerName);
-		
+		Owner owner = plugin.getData().getOwners().getOwner(ownerId);
+		if (owner == null)
+		{
+			return;
+		}
 		Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
+		if (lehen == null)
+		{
+			return;
+		}
+		String playerName = owner.getPlayerName();
 		lehen.setOwner(owner);
 		lehen.setKingdomId(owner.getKingdomId());
 		plugin.getData().writeLehen(lehen);
@@ -158,7 +162,7 @@ public class CmdFeudalOwner extends RealmsCommand
 			errorMsg.add("Lehen not exist, wrong id !");
 			return false;
 		}
-		Owner owner = plugin.getData().getOwners().getOwnerName(playerName);
+		Owner owner = plugin.getData().getOwners().getOwner(ownerId);
 		if (owner == null)
 		{
 			errorMsg.add("New Owner  not exist, wrong name");

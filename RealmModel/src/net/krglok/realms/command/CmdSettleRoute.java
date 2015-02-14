@@ -107,6 +107,9 @@ public class CmdSettleRoute extends RealmsCommand
 						+" | "+rOrder.value()
 						+" | "+rOrder.getFormatedBasePrice()
 						);
+			} else
+			{
+				msg.add(ChatColor.RED+"Order Limit ["+settle.getId()+"] ["+settle.getTrader().getRouteOrders().size()+"]");
 			}
 		} else
 		{
@@ -128,6 +131,10 @@ public class CmdSettleRoute extends RealmsCommand
 			}
 		}
 		plugin.getMessageData().printPage(sender, msg, page);
+		this.itemRef = "";
+		this.settleID = 0;
+		this.amount = 0;  //default value
+		this.page = 1;
 
 	}
 

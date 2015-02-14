@@ -193,9 +193,9 @@ public class ModelLoopTest
 		}
 		
 		System.out.println("Building List : "+rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().size());
-		for (BuildPlanType building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().keySet())
+		for (String building :rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().keySet())
 		{
-				System.out.println(ConfigBasis.setStrleft(building.name(),15)+":"+rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().get(building));
+				System.out.println(ConfigBasis.setStrleft(building,15)+":"+rModel.getSettlements().getSettlement(1).getBuildingList().getBuildTypeList().get(building));
 		}
 		System.out.println(" ");
 		System.out.println("Warehouse : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax());

@@ -197,9 +197,9 @@ public class SettlementDataTest
 		for (BuildPosition bPos : needed.getbPositions())
 		{
 			boolean isFound = false;
-			for (BuildPlanType bType : settle.getBuildingList().getBuildTypeList().keySet())
+			for (String bType : settle.getBuildingList().getBuildTypeList().keySet())
 			{
-				if (bType == bPos.getbType())
+				if (bType == bPos.getbType().name())
 				{
 					isFound = true;
 				}
@@ -220,7 +220,7 @@ public class SettlementDataTest
 		ArrayList<BuildPlanType> notFound = findUnavailableBuilding(settle, SettleSchema.initDefaultHamlet());
 		if (notFound.isEmpty())
 		{
-			notFound = findUnavailableBuilding(settle, SettleSchema.initBasicHamlet());
+			notFound = findUnavailableBuilding(settle, SettleSchema.initBiomeHamlet());
 		}
 		if (notFound.size() > 0)
 		{

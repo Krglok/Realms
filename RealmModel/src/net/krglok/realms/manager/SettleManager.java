@@ -46,7 +46,7 @@ public class SettleManager
 	
 	private ItemList buyList;
 	private ItemList dontSell;
-	private int checkCounter = 0;
+	private int checkCounter = 100;
 	
 	public SettleManager()
 	{
@@ -504,6 +504,7 @@ public class SettleManager
 	 */
 	public ItemList checkBuildingMaterials(RealmModel rModel, Settlement settle, BuildPlanType bType)
 	{
+		ItemList ignoreList = ConfigBasis.initIngnoreList();
 		ItemList needMat = new ItemList();
 		ItemList needReagents = new ItemList();
 		BuildPlanMap buildPLan = rModel.getData().readTMXBuildPlan(bType, 4, -1);
@@ -513,8 +514,18 @@ public class SettleManager
 		needReagents = settle.getWarehouse().searchItemsNotInWarehouse(buildMat);
 		for (Item item : needReagents.values())
 		{
-			needMat.putItem(item.ItemRef(), item.value());
-			dontSell.putItem(item.ItemRef(), item.value());
+			if (ignoreList.containsKey(item.ItemRef()) == false)
+			{
+				needMat.putItem(item.ItemRef(), item.value());
+				dontSell.putItem(item.ItemRef(), item.value());
+			}
+		}
+		for (String ref : ignoreList.keySet())
+		{
+			if (needMat.containsKey(ref))
+			{
+				needMat.remove(ref);
+			}
 		}
 		return needMat;
 	}

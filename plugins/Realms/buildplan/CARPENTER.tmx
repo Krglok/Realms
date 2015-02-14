@@ -61,9 +61,9 @@
   <data>
    <tile gid="30"/>
    <tile gid="5"/>
-   <tile gid="5"/>
-   <tile gid="146"/>
-   <tile gid="5"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="5"/>
    <tile gid="30"/>
    <tile gid="5"/>
@@ -110,21 +110,21 @@
    <tile gid="30"/>
   </data>
  </layer>
- <layer name="Ebene 2" width="7" height="7" visible="0">
+ <layer name="Ebene 2" width="7" height="7">
   <data>
    <tile gid="30"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
    <tile gid="5"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="5"/>
    <tile gid="30"/>
    <tile gid="5"/>
+   <tile gid="91"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="91"/>
-   <tile gid="0"/>
    <tile gid="5"/>
    <tile gid="5"/>
    <tile gid="0"/>

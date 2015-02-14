@@ -188,7 +188,7 @@ public class CmdSettleCheck extends RealmsCommand
 		{
 			if (sender instanceof Player)
 			{
-				name = findSuperRegionAtLocation(plugin, (Player) sender);
+				name = findSuperRegionAtPosition(plugin, ((Player) sender).getLocation()).getName();
 				// pruefe leeren Namen
 				if (name.equals(""))
 				{

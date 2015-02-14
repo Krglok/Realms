@@ -120,6 +120,7 @@ public class TickTask implements Runnable
 		plugin.onBuildRequest();
 		plugin.onCleanRequest();
 		plugin.onSignRequest();
+		plugin.onScanRequest();
 		// start night Event
 			
 		for (World world : plugin.getServer().getWorlds())
@@ -181,6 +182,7 @@ public class TickTask implements Runnable
 							plugin.getRealmModel().OnTrade(world.getName()); 
 							plugin.getLog().info("[Realms] Trader calculation :"+world.getName());
 						}
+						
 					}
 					plugin.getRealmModel().OnDay(world.getTime());
 				} else

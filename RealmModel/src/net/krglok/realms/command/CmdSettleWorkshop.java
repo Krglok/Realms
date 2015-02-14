@@ -116,7 +116,7 @@ public class CmdSettleWorkshop extends RealmsCommand
 	    	Player player = (Player) sender;
 	    	Location loc = player.getLocation();
 
-	    	String settleName = findSuperRegionAtLocation(plugin, player);
+	    	String settleName = findSettlementAtLocation(plugin, player);
 			
 			if (plugin.getRealmModel().getSettlements().containsName(settleName)== false)
 			{

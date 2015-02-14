@@ -156,13 +156,20 @@ public class Warehouse
 	{
 		if (getFreeCapacity() > (value/64))
 		{
-			if ((getFreeCapacity()*64) >= (itemCount+value))
+			itemRef = ConfigBasis.checkItemRefBuild(itemRef);
+			if (itemRef.equalsIgnoreCase("DIRT"))
 			{
-				itemRef = ConfigBasis.checkItemRefBuild(itemRef);
-				itemList.depositItem(itemRef, value);
-				itemCount = itemCount + value;
-				return true;
+				if (itemList.containsKey(itemRef))
+				{
+					if (itemList.getItem(itemRef).value() > 1000)
+					{
+						return true;
+					}
+				}
 			}
+			itemList.depositItem(itemRef, value);
+			itemCount = itemCount + value;
+			return true;
 		}
 		return false;
 	}

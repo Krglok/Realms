@@ -119,7 +119,7 @@ public class CmdFeudalBank extends RealmsCommand
 		}
 		if (isOpOrAdmin(sender) == false)
 		{
-			if (lehen.getOwnerId().equalsIgnoreCase(owner.getPlayerName()) == false)
+			if (lehen.getOwnerId()== owner.getId() == false)
 			{
 				errorMsg.add(ChatColor.RED+"You are not the Owner  !");
 			}

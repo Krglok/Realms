@@ -899,7 +899,7 @@ public class ServerListener implements Listener
 	 * @param position
 	 * @return superregion object  or null
 	 */
-	private SuperRegion findSuperRegionAtPosition(Realms plugin, Location position)
+	protected SuperRegion findSuperRegionAtPosition(Realms plugin, Location position)
 	{
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
 	    {
@@ -979,7 +979,7 @@ public class ServerListener implements Listener
 	 * @param position
 	 * @return  region object
 	 */
-	private Region findRegionAtPosition(Realms plugin,Location position)
+	protected Region findRegionAtPosition(Realms plugin,Location position)
 	{
 	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
 	    {

@@ -114,7 +114,7 @@ public abstract class AbstractSettle
 		this.settleType = settleType;
 	}
 
-	public Boolean getIsEnabled()
+	public Boolean isEnabled()
 	{
 		return isEnabled;
 	}
@@ -124,7 +124,7 @@ public abstract class AbstractSettle
 		this.isEnabled = isEnabled;
 	}
 
-	public Boolean getIsActive()
+	public Boolean isActive()
 	{
 		return isActive;
 	}
@@ -198,7 +198,7 @@ public abstract class AbstractSettle
 	{
 		warehouse.setItemMax(ConfigBasis.calcItemMax( buildingList, settleType));
 		setSettlerMax();
-		
+		setUnitMax();
 	}
 	
 	protected void setSettlerMax()
@@ -214,6 +214,22 @@ public abstract class AbstractSettle
 		resident.setSettlerMax(settlerMax);
 	}
 
+	protected void setUnitMax()
+	{
+		int unitMax = 0;
+		for (Building building : buildingList.values())
+		{
+//			if (building.isEnabled())
+//			{
+				if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500)
+				{
+					unitMax = unitMax + ConfigBasis.getDefaultSettler(building.getBuildingType());
+				}
+//			}
+		}
+		barrack.setUnitMax(unitMax);
+	}
+	
 	protected void doProduction(ServerInterface server, DataInterface data, Building building, Biome biome)
 	{
 		double prodFactor = 1;
@@ -417,7 +433,7 @@ public abstract class AbstractSettle
 				}
 			} else
 			{
-				System.out.println("GUARDHOUSE NO train : "+building.getMaxTrain());
+//				System.out.println("GUARDHOUSE NO train : "+building.getMaxTrain());
 			}
 			break;
 		default:
@@ -442,19 +458,29 @@ public abstract class AbstractSettle
 		this.getResident().setNpcList(data.getNpcs().getSubListSettle(this.id));
 		for (NpcData unit : barrack.getUnitList())
 		{
-			doConsumUnit(unit);
+			doConsumUnit(unit, data);
 		}
 		int value = (int) (resident.getSettlerCount() * resident.getHappiness()); 
 		barrack.addPower(value);
 	}
 	
-	public void doConsumUnit(NpcData unit)
+	/**
+	 * calculate consum for units in settlement or regiment
+	 * 
+	 * @param unit
+	 * @param data
+	 */
+	public void doConsumUnit(NpcData unit, DataInterface data)
 	{
 		ItemList ingredients = unit.getUnit().getConsumItems();
 		double prodFactor  = 1.0;
 		if (checkStock(prodFactor, ingredients))
 		{
-			consumStock(prodFactor, ingredients);
+			if (consumStock(prodFactor, ingredients) == false)
+			{
+				checkNpcFeed(unit, 1,unit,data);
+			}
+
 			if (unit.getHappiness() < 1.0)
 			{
 				unit.getUnit().addHappiness(0.1);
@@ -530,15 +556,19 @@ public abstract class AbstractSettle
 	 * @param prodFactor
 	 * @param items
 	 */
-	protected void consumStock(double prodFactor, ItemList items)
+	protected boolean consumStock(double prodFactor, ItemList items)
 	{
 		int iValue = 0;
 		for (Item item : items.values())
 		{
 			iValue = (int)((double) item.value() *prodFactor);
-			this.getWarehouse().withdrawItemValue(item.ItemRef(), iValue);
+			if (this.getWarehouse().withdrawItemValue(item.ItemRef(), iValue) == false)
+			{
+				return false;
+			}
 //			System.out.println("Withdraw-"+item.ItemRef()+":"+iValue+":"+prodFactor);
 		}
+		return true;
 	}
 
 	/**
@@ -633,9 +663,12 @@ public abstract class AbstractSettle
 						
 				} else
 				{
-					if (npc.getNpcType() == NPCType.MANAGER)
+					if ((npc.getNpcType() != NPCType.MANAGER)
+						|| (npc.getNpcType() != NPCType.BUILDER)
+						|| (npc.getNpcType() != NPCType.MAPMAKER)
+						)
 					{
-						double salery = 3.0;
+						double salery = 2.0;
 						bank.withdrawKonto(salery, "MANAGER", this.id);
 						npc.depositMoney(salery);
 					}

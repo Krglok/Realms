@@ -24,7 +24,7 @@ public class ReputationData
 	{
 		super();
 		this.repTyp = repTyp;
-		this.playerName = playerName;
+		this.playerName = checkPlayerName(playerName);
 		this.value = value;
 		this.itemValues = new  HashMap<String, Integer>();
 		addItemValue(itemName, value);
@@ -34,7 +34,7 @@ public class ReputationData
 	{
 		super();
 		this.repTyp = ReputationType.valueOf(TypeName);
-		this.playerName = playerName;
+		this.playerName = checkPlayerName(playerName);
 		this.value = value;
 		this.itemValues = new  HashMap<String, Integer>();
 	}
@@ -45,6 +45,16 @@ public class ReputationData
 		return getRefName(playerName, repTyp);
 	}
 
+	public static String checkPlayerName(String playerName)
+	{
+        String[] params = playerName.split("_");
+        if (params.length > 1)
+        {
+           	return params[0] + params[1];
+        }
+        return params[0];
+	}
+	
 	/**
 	 * return a formatted string for referenz name
 	 * the separator is "_"
@@ -56,11 +66,13 @@ public class ReputationData
 	
 	public static String getRefName(String playerName, ReputationType repTyp)
 	{
+		playerName = checkPlayerName(playerName);
 		return playerName+"_"+repTyp.name();
 	}
 
 	public static String getRefName(String playerName, String repTypName)
 	{
+		playerName = checkPlayerName(playerName);
 		return playerName+"_"+repTypName;
 	}
 
@@ -84,6 +96,7 @@ public class ReputationData
 
 	public void setPlayerName(String playerName)
 	{
+		playerName = checkPlayerName(playerName);
 		this.playerName = playerName;
 	}
 
@@ -142,7 +155,10 @@ public class ReputationData
 	public static String splitNameTyp(String value)
 	{
         String[] params = value.split("_");
-
+        if (params.length > 2)
+        {
+        	return params[params.length-1];
+        }
 		return params[1];
 	}
 

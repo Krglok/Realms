@@ -26,7 +26,7 @@ public class Lehen
 	private String name;
 	private NobleLevel nobleLevel;
 	private SettleType settleType;
-	private String ownerId;
+	private int ownerId;
 	private Owner owner;
 	private int KingdomId;
 	private int parentId;
@@ -42,7 +42,7 @@ public class Lehen
 		this.name = "Lehen";
 		this.nobleLevel = NobleLevel.COMMONER;
 		this.settleType = SettleType.NONE;
-		this.ownerId = "";
+		this.ownerId = 0;
 		this.owner = null;
 		this.KingdomId = 0;
 		this.parentId = 0;
@@ -71,7 +71,7 @@ public class Lehen
 		this.name = name;
 		this.nobleLevel = nobleLevel;;
 		this.settleType = settleType;
-		this.ownerId = "";
+		this.ownerId = 0;
 		this.owner = owner;
 		this.KingdomId = KingdomId;
 		this.parentId = parentId;
@@ -135,7 +135,7 @@ public class Lehen
 	public void setOwner(Owner owner)
 	{
 		this.owner = owner;
-		this.ownerId = owner.getPlayerName();
+		this.ownerId = owner.getId();
 	}
 
 	public int getId()
@@ -187,7 +187,7 @@ public class Lehen
 	/**
 	 * @return the ownerId
 	 */
-	public String getOwnerId()
+	public int getOwnerId()
 	{
 		return ownerId;
 	}
@@ -195,7 +195,7 @@ public class Lehen
 	/**
 	 * @param ownerId the ownerId to set
 	 */
-	public void setOwnerId(String ownerId)
+	public void setOwnerId(int ownerId)
 	{
 		this.ownerId = ownerId;
 	}

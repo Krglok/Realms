@@ -5,6 +5,8 @@ import java.util.Map;
 
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.manager.CampPosition;
+import net.krglok.realms.manager.PositionFace;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentStatus;
 import net.krglok.realms.unit.RegimentType;
@@ -28,6 +30,7 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
 	public void initDataSection(ConfigurationSection section, Regiment dataObject)
 	{
         section.set("id", dataObject.getId());
+        section.set("age", dataObject.getAge());
         section.set("regimentType", dataObject.getRegimentType().name());
         section.set("regStatus", dataObject.getRegStatus().name());
         section.set("position", LocationData.toString(dataObject.getPosition()));
@@ -35,7 +38,7 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
         section.set("name", dataObject.getName());
         section.set("owner", dataObject.getOwnerId());
         section.set("bank", dataObject.getBank().getKonto());
-        section.set("isActiv", dataObject.getIsActive());
+        section.set("isActiv", dataObject.isActive());
         section.set("settleId", dataObject.getSettleId());
         section.set("MaxUnit", dataObject.getBarrack().getUnitMax());
 		HashMap<String,String> values; // = new HashMap<String,String>();
@@ -49,9 +52,21 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
         values = new HashMap<String,String>();
     	for (String itemref : dataObject.getWarehouse().getItemList().keySet())
     	{
-    		values.put(itemref, String.valueOf(dataObject.getWarehouse().getItemList().getValue(itemref)) );
+    		if (dataObject.getWarehouse().getItemList().getValue(itemref) > 0)
+    		{
+    			values.put(itemref, String.valueOf(dataObject.getWarehouse().getItemList().getValue(itemref)) );
+    		}
     	}
         section.set("itemList", values);
+
+        values = new HashMap<String,String>();
+        for (Integer campPos : dataObject.getCampList().keySet())
+        {
+        	
+        	values.put(String.valueOf(campPos),dataObject.getCampList().get(campPos).name());
+        }
+        section.set("camppos", values);
+        
 	}
 
 
@@ -66,10 +81,11 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
 		Regiment regiment = new Regiment(); //null);
 
     	regiment.setId(data.getInt("id",0));
+    	regiment.setAge(data.getInt("age",0));
     	String sType = data.getString("regimentType","NONE");
     	regiment.setRegimentType(RegimentType.valueOf(sType));
     	regiment.setPosition(LocationData.toLocation(data.getString( "position")));
-    	regiment.setPosition(LocationData.toLocation(data.getString("target")));
+    	regiment.setTarget(LocationData.toLocation(data.getString("target")));
     	regiment.setName(data.getString("name",""));
     	regiment.setOwnerId(data.getInt("owner",0));
     	regiment.setIsActive(data.getBoolean("isActive",true));
@@ -88,11 +104,23 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
 			{
 	        	for (String ref : itemList.keySet())
 	        	{
-	        		int value = config.getInt("itemList."+ref,0);
-	//                System.out.println(ref+":"+value);
+	        		int value = Integer.valueOf(data.getString("itemList."+ref,"0"));
+	                System.out.println(ref+":"+value);
 	                iList.addItem(ref, value);
 	        	}    
 	        	regiment.getWarehouse().setItemList(iList);
+			}
+        }
+        if (data.contains("camppos"))
+        {
+			Map<String,Object> campList = data.getConfigurationSection("camppos").getValues(false);
+			if (campList != null)
+			{
+	        	for (String ref : campList.keySet())
+	        	{
+	        		PositionFace value = PositionFace.valueOf(data.getString("camppos."+ref,"NORTH"));
+	        		regiment.getCampList().put(Integer.valueOf(ref), value);
+	        	}
 			}
         }
 		return regiment;

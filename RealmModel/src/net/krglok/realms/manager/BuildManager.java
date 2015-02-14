@@ -138,15 +138,15 @@ public class BuildManager
 			String sPos = "";
 			this.buildPlan = bPlan;
 			this.buildLocation = centerPos;
-			signText[2] = bPlan.getBuildingType().name().toCharArray();
+//			signText[2] = bPlan.getBuildingType().name().toCharArray();
 			sPos = String.valueOf((int)(centerPos.getX()))+":"+String.valueOf((int)(centerPos.getZ()));
-			signText[2] = sPos.toCharArray();
+//			signText[2] = sPos.toCharArray();
 			bStatus = BuildStatus.PREBUILD;
 			this.ownerName = ownerName;
 			if (buildPlan == null)
 			{
 				bStatus = BuildStatus.NONE;
-				System.out.println("Build Cancelled "+bStatus.name()+":"+bPlan.getBuildingType().name());
+				System.out.println("Build Cancelled "+bStatus.name()+":");
 			}
 		}
 		return false;

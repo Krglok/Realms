@@ -164,7 +164,7 @@ public class NpcTask implements Runnable
 		{ 
 			npc.getTrait(SettlerTrait.class).isStuck = false;
 			npc.getNavigator().setPaused(false);
-			npcData.setNpcAction(NpcAction.IDLE);
+//			npcData.setNpcAction(NpcAction.IDLE);
 			return; 
 		}
 
@@ -231,6 +231,12 @@ public class NpcTask implements Runnable
 		    	}
 		    	if (npcData.getWorkBuilding() > 0)
 		    	{
+		    		if (plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()) == null)
+		    		{
+		    			npcData.setWorkBuilding(0);
+		    			return;
+		    		}
+		    		
 		    		if (plugin.getData().getBuildings().getBuilding(npcData.getWorkBuilding()).getBuildingType() == null)
 		    		{
 		    			npcData.setWorkBuilding(0);

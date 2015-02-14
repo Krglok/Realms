@@ -3,6 +3,8 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanMap;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unit.Regiment;
@@ -92,16 +94,19 @@ public class CmdRegimentMove extends RealmsCommand
 		Player player = (Player) sender;
 		World worldMap = player.getLocation().getWorld();
 		Regiment regiment = plugin.getRealmModel().getRegiments().get(regimentId);
+		// das Target wird überschrieben
 		LocationData center = regiment.getTarget();
 		// set new position
 		center.setWorld(worldMap.getName());
 		center.setX(position.getX()-1);
 		center.setY(position.getY());
 		center.setZ(position.getZ());
+		BuildPlanMap buildPlan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.FORT, 7, 0);
+		regiment.setBuildPlan(buildPlan);
 		regiment.startMove();
 
-		String[] signText = new String[] {"REGIMENT", regiment.getName(), regiment.getOwner().getPlayerName(), "[MOVED]" };
-		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
+//		String[] signText = new String[] {"REGIMENT", regiment.getName(), regiment.getOwner().getPlayerName(), "[MOVED]" };
+//		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
 		msg.add("[Realm] Regiment move at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
@@ -110,8 +115,8 @@ public class CmdRegimentMove extends RealmsCommand
 		position.setY(0);
 		position.setZ(0);
 		regimentId = 0;
-		msg.add("The Colony moved "+regimentId);
-    	msg.add("Set new Sign  ");
+		msg.add("The Regiment moved "+regimentId);
+    	msg.add("Build new FORT  ");
     	plugin.getMessageData().printPage(sender, msg, 1);
 
 	}

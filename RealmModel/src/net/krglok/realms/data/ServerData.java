@@ -367,7 +367,7 @@ public class ServerData implements ServerInterface
 		return recipeData.getRecipe(itemRef);
 	}
 
-	private int plainFactor(Material mat)
+	private int biomePlainFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -399,7 +399,7 @@ public class ServerData implements ServerInterface
 		}
 	}
 
-	private int mountainFactor(Material mat)
+	private int biomeMountainFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -433,41 +433,41 @@ public class ServerData implements ServerInterface
 		}
 	}
 
-	private int hillFactor(Material mat)
-	{
-		switch (mat)
-		{
-		case WATER : return FAKTOR_M;
-		case WHEAT : return FAKTOR_M;
-		case SEEDS : return FAKTOR_M;
-		case COBBLESTONE: return FAKTOR_P;
-		case LOG: return FAKTOR_M;
-		case WOOL : return FAKTOR_0;
-		case GOLD_NUGGET: return FAKTOR_0;
-		case LEATHER : return FAKTOR_0;
-		case RAW_BEEF : return FAKTOR_0;
-		case PORK : return FAKTOR_0;
-		case RAW_CHICKEN : return FAKTOR_0;
-		case FEATHER : return FAKTOR_0;
-		case RAW_FISH : return FAKTOR_MM;
-		case EMERALD : return FAKTOR_0;
-		case RED_MUSHROOM : return FAKTOR_P; 
-		case BROWN_MUSHROOM : return FAKTOR_P; 
-		case IRON_ORE : return FAKTOR_P;
-		case COAL_ORE : return FAKTOR_P;
-		case DIAMOND_ORE : return FAKTOR_P;
-		case EMERALD_ORE : return FAKTOR_P;
-		case REDSTONE_ORE : return FAKTOR_P;
-		case GOLD_ORE : return FAKTOR_P;
-		case LAPIS_ORE : return FAKTOR_P;
-		case GHAST_TEAR : return FAKTOR_MMM;
-		case MAGMA_CREAM : return FAKTOR_MMM;
-		default :
-			return  FAKTOR_0;
-		}
-	}
+//	private int biomeHillFactor(Material mat)
+//	{
+//		switch (mat)
+//		{
+//		case WATER : return FAKTOR_M;
+//		case WHEAT : return FAKTOR_M;
+//		case SEEDS : return FAKTOR_M;
+//		case COBBLESTONE: return FAKTOR_P;
+//		case LOG: return FAKTOR_M;
+//		case WOOL : return FAKTOR_0;
+//		case GOLD_NUGGET: return FAKTOR_0;
+//		case LEATHER : return FAKTOR_0;
+//		case RAW_BEEF : return FAKTOR_0;
+//		case PORK : return FAKTOR_0;
+//		case RAW_CHICKEN : return FAKTOR_0;
+//		case FEATHER : return FAKTOR_0;
+//		case RAW_FISH : return FAKTOR_MM;
+//		case EMERALD : return FAKTOR_0;
+//		case RED_MUSHROOM : return FAKTOR_P; 
+//		case BROWN_MUSHROOM : return FAKTOR_P; 
+//		case IRON_ORE : return FAKTOR_P;
+//		case COAL_ORE : return FAKTOR_P;
+//		case DIAMOND_ORE : return FAKTOR_P;
+//		case EMERALD_ORE : return FAKTOR_P;
+//		case REDSTONE_ORE : return FAKTOR_P;
+//		case GOLD_ORE : return FAKTOR_P;
+//		case LAPIS_ORE : return FAKTOR_P;
+//		case GHAST_TEAR : return FAKTOR_MMM;
+//		case MAGMA_CREAM : return FAKTOR_MMM;
+//		default :
+//			return  FAKTOR_0;
+//		}
+//	}
 	
-	private int swampFactor(Material mat)
+	private int biomeSwampFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -504,7 +504,7 @@ public class ServerData implements ServerInterface
 		}
 	}
 
-	private int oceanFactor(Material mat)
+	private int biomeOceanFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -538,7 +538,7 @@ public class ServerData implements ServerInterface
 		}
 	}
 	
-	private int forestFactor(Material mat)
+	private int biomeForestFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -571,7 +571,7 @@ public class ServerData implements ServerInterface
 		}
 	}
 	
-	private int desertFactor(Material mat)
+	private int biomeDesertFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -606,7 +606,7 @@ public class ServerData implements ServerInterface
 		}
 	}
 
-	private int extremeFactor(Material mat)
+	private int biomeExtremeFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -640,7 +640,7 @@ public class ServerData implements ServerInterface
 		}
 	}
 
-	private int hellFactor(Material mat)
+	private int biomeHellFactor(Material mat)
 	{
 		switch (mat)
 		{
@@ -667,6 +667,31 @@ public class ServerData implements ServerInterface
 		}
 	}
 	
+	private int biomeJungleFactor(Material mat)
+	{
+		switch (mat)
+		{
+		case WATER : return FAKTOR_P;
+		case WHEAT : return FAKTOR_0;
+		case SEEDS : return FAKTOR_0;
+		case WOOL : return FAKTOR_M;
+		case GOLD_NUGGET: return FAKTOR_P;
+		case LEATHER : return FAKTOR_0;
+		case RAW_BEEF : return FAKTOR_0;
+		case PORK : return FAKTOR_0;
+		case RAW_CHICKEN : return FAKTOR_0;
+		case FEATHER : return FAKTOR_0;
+		case RED_MUSHROOM : return FAKTOR_PP; 
+		case BROWN_MUSHROOM : return FAKTOR_PP;
+		case LAVA : return FAKTOR_MM;
+		case POTATO : return FAKTOR_PP;
+		case COCOA : return FAKTOR_PPP;
+		
+		default :
+			return  FAKTOR_MMM;
+		}
+	}
+	
 	@Override
 	public int getBioneFactor(Biome biome, Material mat)
 	{
@@ -677,35 +702,39 @@ public class ServerData implements ServerInterface
 		}
 		if (biome.name().contains("PLAIN"))
 		{
-			factor = factor + plainFactor(mat);
+			factor = factor + biomePlainFactor(mat);
 		}
 		if (biome.name().contains("SWAMP"))
 		{
-			factor = factor + swampFactor(mat);
+			factor = factor + biomeSwampFactor(mat);
 		}
 		if (biome.name().contains("MOUNTAIN"))
 		{
-			factor = factor + mountainFactor(mat);
+			factor = factor + biomeMountainFactor(mat);
 		}
 		if (biome.name().contains("OCEAN"))
 		{
-			factor = factor + oceanFactor(mat);
+			factor = factor + biomeOceanFactor(mat);
 		}
 		if (biome.name().contains("FOREST"))
 		{
-			factor = factor + forestFactor(mat);
+			factor = factor + biomeForestFactor(mat);
 		}
 		if (biome.name().contains("DESERT"))
 		{
-			factor = factor + desertFactor(mat);
+			factor = factor + biomeDesertFactor(mat);
 		}
 		if (biome.name().contains("EXTREME"))
 		{
-			factor = factor + extremeFactor(mat);
+			factor = factor + biomeExtremeFactor(mat);
 		}
 		if (biome.name().contains("HELL"))
 		{
-			factor = factor + hellFactor(mat);
+			factor = factor + biomeHellFactor(mat);
+		}
+		if (biome.name().contains("JUNGLE"))
+		{
+			factor = factor + biomeJungleFactor(mat);
 		}
 		return factor;
 	}

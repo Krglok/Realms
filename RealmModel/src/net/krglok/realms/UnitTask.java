@@ -19,6 +19,7 @@ import net.krglok.realms.unit.UnitTrait;
 import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
@@ -28,8 +29,8 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 public class UnitTask implements Runnable
 {
 
-	private static float MILITEA_RANGE = 40;
-	private static float WANDER_RANGE = 10;
+	private static float MILITEA_RANGE = 70;
+	private static float WANDER_RANGE = 20;
 	private static float ARCHCHER_ATTACK_RANGE = 30;
 	
     private final Realms plugin;
@@ -42,6 +43,8 @@ public class UnitTask implements Runnable
     private Iterator<NpcData> npcIterator;
     private boolean isNpcEnd = true;
     private boolean isNpcAlive = true;
+    
+    private int raidDelay = 0;
 //    private boolean isNpcDead = false;
     
     public UnitTask(Realms plugin)
@@ -63,7 +66,7 @@ public class UnitTask implements Runnable
 		{
 			if (plugin.unitManager.isNpcInit())
 			{
-				System.out.println("[REALMS] next Unit Spawn: "+plugin.unitManager.getSpawnList().size());
+//				System.out.println("[REALMS] next Unit Spawn: "+plugin.unitManager.getSpawnList().size());
 				if (plugin.unitManager.getSpawnList().size() > 0)
 				{
 					spawnUnit(plugin.unitManager);
@@ -216,16 +219,27 @@ public class UnitTask implements Runnable
 		
 	}
 	
-	private LocationData findHighest(LocationData position)
+	private LocationData findHighest10(LocationData position)
 	{
+		int maxHigh = 10;
 		Block b;
-		Location location = plugin.makeLocation(position);
-		if (location != null)
+		Location location;
+		for (int i=maxHigh; i>2; i--)
 		{
-			b = location.getBlock().getLocation().getWorld().getHighestBlockAt(location);
-			return plugin.makeLocationData(b.getRelative(BlockFace.UP).getLocation());
+			location = plugin.makeLocation(position);
+			location.setY(location.getY()+i);
+			if (location.getBlock().getType() != Material.AIR)
+			{
+				if (location.getBlock().getRelative(BlockFace.UP).getType() == Material.AIR)
+				{
+					if (location.getBlock().getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType() == Material.AIR)
+					{
+						return plugin.makeLocationData(location.getBlock().getRelative(BlockFace.UP).getRelative(BlockFace.UP).getLocation());
+					}
+				}
+			}
 		}
-		return null;
+		return position;
 	}
 
 	/**
@@ -264,15 +278,16 @@ public class UnitTask implements Runnable
 //			{
 //				System.out.println("[REALMS] Unit GuardPos : "+npcData.getId()+":"+npcData.getUnitAction()+":"+npcData.guardPos+":"+distance2D(npc.getEntity().getLocation(),npc.getTrait(UnitTrait.class).getTargetLocation()));
 //			}
-		    if (distance2D(npc.getEntity().getLocation(),npc.getTrait(UnitTrait.class).getTargetLocation()) <= 2.5)
+		    if (distance2D(npc.getEntity().getLocation(),npc.getTrait(UnitTrait.class).getTargetLocation()) >= 2.5)
 		    {
 		    	if (npcData.guardPos > 0)
 		    	{
 			    	LocationData newPos = npcData.getLocation();
 			    	newPos.setY(newPos.getY()+1);
-			    	newPos = findHighest(newPos);
+			    	newPos = findHighest10(newPos);
 			    	if (newPos != null)
 			    	{
+			    		System.out.println(npcData.getId()+" Watchguard "+npcData.guardPos+" teleport");
 						npc.teleport(plugin.makeLocation(newPos), TeleportCause.PLUGIN);
 			    		setTarget(npc,newPos);
 			    		npcData.guardPos = 0;
@@ -299,6 +314,7 @@ public class UnitTask implements Runnable
 		    	LocationData position = getNightWatchStart(npcData);
 		    	if (position != null)
 		    	{
+		    		System.out.println(npcData.getId()+" Start Watchguard "+npcData.guardPos+":"+npcData.getUnitAction());
 		    		npcData.guardPos = 1;
 		    		npcData.setLocation(position);
 		    		setTarget(npc, position);
@@ -375,34 +391,67 @@ public class UnitTask implements Runnable
 		}
 		return foundType;
 	}
+
+	private boolean checkUnitWorkBuilding(int buildingId, Settlement settle)
+	{
+		for (NpcData npcData : settle.getBarrack().getUnitList())
+		{
+			if (npcData.getWorkBuilding() == buildingId)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	private LocationData getNightWatchStart(NpcData npcData)
 	{
 		if (npcData.getSettleId() > 0)
 		{
-			Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
-			BuildingList buildings = settle.getBuildingList().getSubList(BuildPlanType.GATE);
-			Iterator<Building> iterator = buildings.values().iterator();
-			if (iterator.hasNext())
+			Settlement settle = null;
+			settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
+			if (settle != null)
 			{
-				Building building = iterator.next();
-				if (building.getWorkerInstalled() == 0)
+				Building building = null;
+				BuildingList buildings = null;
+				buildings = settle.getBuildingList().getSubList(BuildPlanType.GATE);
+				if (npcData.getWorkBuilding() == 0)
 				{
-					building.setWorkerInstalled(1);
-					return building.getPosition();
+					Iterator<Building> iterator = buildings.values().iterator();
+					while (iterator.hasNext())
+					{
+						building = iterator.next();
+						if ( checkUnitWorkBuilding(building.getId(), settle) == false)
+						{
+							npcData.setWorkBuilding(building.getId());
+							return building.getPosition();
+						}
+					}
+					buildings = settle.getBuildingList().getSubList(BuildPlanType.ARCHERY);
+					while (iterator.hasNext())
+					{
+						building = iterator.next();
+						if (building.getId() == npcData.getHomeBuilding())
+						{
+							npcData.setWorkBuilding(0);
+							return findHighest10(building.getPosition());
+						}
+					}
+					npcData.setWorkBuilding(0);
+					return settle.getPosition();
+				} else
+				{
+					building = settle.getBuildingList().getBuilding(npcData.getWorkBuilding());
+					if (building != null)
+					{
+						return building.getPosition();
+					} else
+					{
+						npcData.setWorkBuilding(0);
+						return settle.getPosition();
+					}
 				}
 			}
-			buildings = settle.getBuildingList().getSubList(BuildPlanType.ARCHERY);
-			while (iterator.hasNext())
-			{
-				Building building = iterator.next();
-				if (building.getId() == npcData.getHomeBuilding())
-				{
-					return building.getPosition();
-				}
-			}
-			return settle.getPosition();
-			
 		}
 		return null;
 	}
@@ -481,6 +530,30 @@ public class UnitTask implements Runnable
 
 	}
 	
+	private void doHomeRegiment(NpcData npcData)
+	{
+		if (npcData.getRegimentId() > 0)
+		{
+			LocationData position = null;
+    		Block b = null;
+			if (plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()) != null)
+			{	
+//				System.out.println("[REALMS] Regiment Unit Spawn: "+unitManager.getSpawnList().get(0));
+				b = plugin.getLocationBlock(plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()).getPosition());
+			} else
+			{
+				npcData.setRegimentId(0);
+			}
+			lastPos = getNextPos();
+			position = plugin.makeLocationData(b.getRelative(lastPos).getLocation());
+			position.setZ(position.getZ()+1);
+			npcData.setLocation(position);
+//			npcData.setUnitAction(UnitAction.NONE);
+		}
+		
+	}
+	
+	
 	private void doAction(NpcData npcData)
 	{
 		if (npcData.isSpawned == false)
@@ -499,9 +572,13 @@ public class UnitTask implements Runnable
 		}
 		if (npc.getTrait(UnitTrait.class).isStuck == true) 
 		{ 
+		    if (npcData.getId() == 225)
+		    {
+		    	System.out.println(npcData.getId()+" STUCK "+npcData.getUnitAction());
+		    }
 			npc.getTrait(UnitTrait.class).isStuck = false;
 			npc.getNavigator().setPaused(false);
-			npcData.setUnitAction(UnitAction.IDLE);
+//			npcData.setUnitAction(UnitAction.IDLE);
 			return; 
 		}
 		
@@ -510,7 +587,15 @@ public class UnitTask implements Runnable
 			case MILITIA:
 				if (npcData.getRegimentId() > 0)
 				{
-					
+					if (plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()).isEnabled())
+					{
+						doMilitiaRegiment(npcData, npc);
+					}
+					else
+					{
+						npc.despawn(); 
+					}
+					return;
 				} else
 				{
 					if (npcData.getSettleId() > 0)
@@ -618,7 +703,7 @@ public class UnitTask implements Runnable
 		LocationData homePos = null;
 		if (npcData.getRegimentId() > 0)
 		{
-			
+			homePos = npcData.getLocation();
 		} else
 		{
 			if (npcData.getSettleId() > 0)
@@ -650,6 +735,135 @@ public class UnitTask implements Runnable
 		}
 	}
 	
+	private void doMilitiaRegiment(NpcData npcData, NPC npc)
+	{
+		Location npcRefpos = plugin.makeLocation(npcData.getLocation());
+	    Location actTarget; // = plugin.makeLocation(npcData.getLocation()); 
+
+//	    if (npcData.getId() == 225)
+//	    {
+//	    	System.out.println("Militia regiment"+npcData.getId()+":" +npcData.getUnitAction().name()+":"+raidDelay);
+//	    }
+		switch (npcData.getUnitAction())
+		{
+		case NONE:
+			doHomeRegiment(npcData);
+			setHomePosition(npcData,npc);
+			npcData.setUnitAction(UnitAction.IDLE);
+			break;
+		case HOME: // ab 6:00 gehen sie auf GUARD
+		    if ((npcRefpos.getWorld().getTime() >= 0) && (npcRefpos.getWorld().getTime() < 11000))
+			{
+				npcData.setUnitAction(UnitAction.IDLE);
+			} else
+			{
+			    actTarget = plugin.makeLocation(npcData.getLocation()); 
+			    if (distance2D(npc.getEntity().getLocation(),actTarget) >= 2.5)
+			    {
+			    	LocationData newPos = npcData.getLocation();
+			    	if (newPos != null)
+			    	{
+			    		setTarget(npc,newPos);
+			    	}
+			    }
+			}
+			break;
+		case GUARD: // bis 22:00 sind sie auf GUARD
+		    if ((npcRefpos.getWorld().getTime() >= 11000) && (npcRefpos.getWorld().getTime() < 16000))
+			{
+				npcData.setUnitAction(UnitAction.IDLE);
+			}
+		    actTarget = plugin.makeLocation(npcData.getLocation()); 
+		    if (distance2D(npc.getEntity().getLocation(),actTarget) >= WANDER_RANGE)
+		    {
+		    	LocationData newPos = npcData.getLocation();
+		    	if (newPos != null)
+		    	{
+		    		setTarget(npc,newPos);
+		    	}
+		    }
+		    if (distance2D(npc.getEntity().getLocation(),actTarget) <= 2.5)
+		    {
+		    	doWander(npcData, npc);
+		    }
+		    EntityType scanTarget = scanEnemy(npc);
+		    if (scanTarget != null)
+		    {
+		    	plugin.getServer().broadcastMessage("Militia see enemy :"+scanTarget.name());
+		    	scanTarget = null;
+		    }
+			
+			break;
+		case NIGHTWATCH:
+			npcData.setUnitAction(UnitAction.IDLE);
+			break;
+		case RAID:
+		    actTarget = plugin.makeLocation(plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()).getRaidTarget().getPosition());
+		    if (actTarget != null)
+		    {
+			    actTarget.setX(actTarget.getX()+41);
+		    	LocationData newPos = plugin.makeLocationData(actTarget);
+			    if (distance2D(npc.getEntity().getLocation(),actTarget) >= 2.5)
+			    {
+		    		setTarget(npc,newPos);
+			    	npcData.setUnitAction(UnitAction.RAID);
+			    } else
+			    {
+			    	this.raidDelay = 200; 
+			    	npcData.setUnitAction(UnitAction.ATTACK);
+			    }
+		    } else
+		    {
+		    	
+		    }
+			
+			break;
+		case ATTACK :
+			if (this.raidDelay < 0)
+			{
+		    	npcData.setUnitAction(UnitAction.IDLE);
+			}
+		    actTarget = plugin.makeLocation(plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()).getRaidTarget().getPosition());
+		    actTarget.setX(actTarget.getX());
+		    if (actTarget != null)
+		    {
+		    	LocationData newPos = plugin.makeLocationData(actTarget);
+			    if (distance2D(npc.getEntity().getLocation(),actTarget) <= 2.5)
+			    {
+			    	doWander(npcData, npc);
+			    	npcData.setUnitAction(UnitAction.PLUNDER);
+			    } else
+			    {
+		    		setTarget(npc,newPos);
+			    }
+		    }
+		    raidDelay--;
+			break;
+			
+		case PLUNDER:
+			if (this.raidDelay < 0)
+			{
+		    	npcData.setUnitAction(UnitAction.IDLE);
+			}
+		    raidDelay--;
+			break;
+		default:
+			// 7:00 bis 17:00 GUARD für MILITIA
+		    if ((npcRefpos.getWorld().getTime() >= 500) && (npcRefpos.getWorld().getTime() < 11000))
+			{
+				npcData.setUnitAction(UnitAction.GUARD);
+			}
+		    // 17:00 bis 6:00 go home
+		    if ((npcRefpos.getWorld().getTime() > 11000) && (npcRefpos.getWorld().getTime() < 23999))
+			{
+				npcData.setUnitAction(UnitAction.HOME);
+				doHomeRegiment(npcData);
+				doHome(npcData,npc);
+			}
+			break;
+		}
+
+	}
 
 	
 	/**
@@ -693,6 +907,7 @@ public class UnitTask implements Runnable
 	    			{
 	    				if (plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()) != null)
 	    				{	
+//							System.out.println("[REALMS] Regiment Unit Spawn: "+unitManager.getSpawnList().get(0));
 	    					b = plugin.getLocationBlock(plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()).getPosition());
 	    				} else
 	    				{

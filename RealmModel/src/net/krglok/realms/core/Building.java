@@ -737,6 +737,11 @@ public class Building  implements Serializable
 		return worker;  
 	}
 
+	public void setUnitInstalled(int value)
+	{
+		this.workerInstalled = value;
+	}
+	
 	/**
 	 * @return  reference of the building
 	 */

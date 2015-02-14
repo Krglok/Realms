@@ -1,5 +1,7 @@
 package net.krglok.realms.unit;
 
+import java.util.HashMap;
+
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
@@ -13,12 +15,17 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
+import net.krglok.realms.core.Resident;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.Warehouse;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.manager.CampPositionList;
+import net.krglok.realms.manager.PositionFace;
+import net.krglok.realms.manager.RaiderAction;
+import net.krglok.realms.manager.RaiderManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
 
@@ -56,16 +63,7 @@ public class Regiment extends AbstractSettle
 	private RegimentStatus regStatus = RegimentStatus.NONE;
 	private LocationData position;
 	private LocationData target;
-//	private String name;
-//	private int ownerId;
 	private Owner owner;
-//	private Barrack barrack ;
-//	private Warehouse warehouse ;
-//	private Bank bank;
-//	private ItemList requiredProduction;
-	
-//	private Boolean isEnabled;
-//	private Boolean isActive;
 	private boolean isUncamp;
 	
 	private double hungerCounter = 0.0;
@@ -84,6 +82,7 @@ public class Regiment extends AbstractSettle
 	private BuildPlanMap buildPlan ;
 	private BuildManager buildManager = new BuildManager();
 
+	protected RaiderManager raiderManager = null;
 	//	private Colony colonist;
 	private BattleSetup battle;
 	private AbstractUnit commander = null;
@@ -98,6 +97,8 @@ public class Regiment extends AbstractSettle
 	private int maxTicks;
 	
 	private int settleId = -1;
+	
+	private HashMap<Integer,PositionFace> campList;
 	
 
 	public Regiment() //LogList logList) 
@@ -126,17 +127,45 @@ public class Regiment extends AbstractSettle
 		this.battle 	= new BattleSetup();
 		this.tickCount  = 0;
 		this.maxTicks	= 1;
+		this.raiderManager = new RaiderManager();
+		this.campList = new HashMap<Integer,PositionFace>();
 
 	}
 
 	public static Regiment makeRaider() //LogList logList)
 	{
 		Regiment regiment = new Regiment(); //logList);
+		regiment.setRegimentType(RegimentType.RAIDER);
 		regiment.name		= "Privateer";
 		regiment.ownerId		= 0;
+		regiment.warehouse.getItemList().depositItem("WHEAT", 300);
+		regiment.warehouse.getItemList().depositItem("BREAD", 300);
 		return regiment;
 	}
 
+	
+//	public void newCamp(String name,  String ownerName) //, LogList logList)
+//	{
+//		LocationData position = new LocationData("", 0.0, 0.0,0.0);
+//		newSuperRegion = new RegionLocation("CAMP", position, ownerName, name);
+//		warehouse.depositItemValue(Material.BED.name(), 1);
+//		warehouse.depositItemValue(Material.WOOL.name(), 120);
+//		warehouse.depositItemValue(Material.LOG.name(), 250);
+//		warehouse.depositItemValue(Material.WHEAT.name(), 100);
+//		warehouse.depositItemValue(Material.TORCH.name(), 10);
+//		warehouse.depositItemValue(Material.STONE.name(), 100);
+//		warehouse.depositItemValue(Material.WORKBENCH.name(), 1);
+//		warehouse.depositItemValue(Material.DIRT.name(), 100);
+//		warehouse.depositItemValue(Material.WATER.name(), 10);
+//		warehouse.depositItemValue(Material.COBBLESTONE.name(),100);
+//		warehouse.depositItemValue(Material.WOOD_DOOR.name(), 1);
+//		warehouse.depositItemValue(Material.BEDROCK.name(), 1);
+//		warehouse.depositItemValue(Material.CHEST.name(), 4);
+//		warehouse.depositItemValue(Material.WOOD.name(), 100);
+//		warehouse.depositItemValue(Material.RED_MUSHROOM.name(), 50);
+//		warehouse.depositItemValue(Material.BROWN_MUSHROOM.name(), 50);
+//	}
+	
 	public static int getLfdID() {
 		return lfdID;
 	}
@@ -240,7 +269,7 @@ public class Regiment extends AbstractSettle
 		this.requiredProduction = requiredProduction;
 	}
 
-	public Boolean getIsEnabled() {
+	public Boolean isEnabled() {
 		return isEnabled;
 	}
 
@@ -248,7 +277,7 @@ public class Regiment extends AbstractSettle
 		this.isEnabled = isEnabled;
 	}
 
-	public Boolean getIsActive() {
+	public Boolean isActive() {
 		return isActive;
 	}
 
@@ -349,40 +378,27 @@ public class Regiment extends AbstractSettle
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
 		age++;
-		
+		for (NpcData unit :barrack.getUnitList())
+		{
+			doConsumUnit(unit, data);
+		}
+		resident.getNpcList().clear();
+		resident.setNpcList(barrack.getUnitList().asNpcList());
+		resident.doSettlerCalculation(this.buildingList, data);
 	}
 	
-	public void newCamp(String name,  String ownerName) //, LogList logList)
-	{
-		LocationData position = new LocationData("", 0.0, 0.0,0.0);
-		newSuperRegion = new RegionLocation("CAMP", position, ownerName, name);
-		warehouse.depositItemValue(Material.BED.name(), 1);
-		warehouse.depositItemValue(Material.WOOL.name(), 120);
-		warehouse.depositItemValue(Material.LOG.name(), 250);
-		warehouse.depositItemValue(Material.WHEAT.name(), 100);
-		warehouse.depositItemValue(Material.TORCH.name(), 10);
-		warehouse.depositItemValue(Material.STONE.name(), 100);
-		warehouse.depositItemValue(Material.WORKBENCH.name(), 1);
-		warehouse.depositItemValue(Material.DIRT.name(), 100);
-		warehouse.depositItemValue(Material.WATER.name(), 10);
-		warehouse.depositItemValue(Material.COBBLESTONE.name(),100);
-		warehouse.depositItemValue(Material.WOOD_DOOR.name(), 1);
-		warehouse.depositItemValue(Material.BEDROCK.name(), 1);
-		warehouse.depositItemValue(Material.CHEST.name(), 4);
-		warehouse.depositItemValue(Material.WOOD.name(), 100);
-		warehouse.depositItemValue(Material.RED_MUSHROOM.name(), 50);
-		warehouse.depositItemValue(Material.BROWN_MUSHROOM.name(), 50);
-	}
 
 	/**
-	 * 
+	 * start raid on the given settlement
 	 */
-	public void newRaid(Settlement settle)
+	public void startRaid(Settlement settle)
 	{
 		if (regStatus == RegimentStatus.IDLE)
 		{
 			//configure Battle
+			raiderManager.setHasBattle(true);
 			raidTarget = settle;
+			target =  LocationData.copyLocation(settle.getPosition());
 			battle.setDefender(raidTarget.getDefenders());
 			setDefaultAttackPlan();
 			battle.setAttacker(attackPlan);
@@ -393,6 +409,13 @@ public class Regiment extends AbstractSettle
 			// start Battle
 			battle.startBattle();
 			battle.setNextAttack(true);
+			for (NpcData npc : barrack.getUnitList())
+			{
+				if (npc.isAlive())
+				{
+					npc.setUnitAction(UnitAction.RAID);
+				}
+			}
 			
 		} else
 		{
@@ -438,6 +461,11 @@ public class Regiment extends AbstractSettle
 	public void run(RealmModel rModel)
 	{
 //		System.out.println("Regiment: "+regStatus.name());
+		if (position.getWorld() == "")
+		{
+			regStatus = RegimentStatus.IDLE;
+			return;
+		}
 		switch (regStatus)
 		{
 		case NONE :
@@ -463,6 +491,18 @@ public class Regiment extends AbstractSettle
 			break;
 		case IDLE :
 			doWait(rModel);
+			if (regimentType == RegimentType.RAIDER)
+			{
+				if (raiderManager.hasBattle())
+				{
+					raiderManager.setRaiderAction(RaiderAction.BATTLE_END);
+				}
+				doRaidManager(rModel);
+				if (raiderManager.getRaiderAction() == RaiderAction.MOVE)
+				{
+					startMove();
+				}
+			}
 			break;
 		default :
 			break;
@@ -470,7 +510,7 @@ public class Regiment extends AbstractSettle
 	}
 	
 	/**
-	 * build up the camp with the colonist instance.
+	 * build up the camp with the BuildManager instance.
 	 * when ready go to wait status
 	 *  
 	 * @param rModel
@@ -483,7 +523,13 @@ public class Regiment extends AbstractSettle
 			superRequest = newSuperRegion;
 			System.out.println("Regiment start Wait");
 			regStatus = RegimentStatus.IDLE;
+			raiderManager.setRaiderAction(RaiderAction.DAY1);
 			rModel.getData().writeRegiment(this);
+			// set new position for units
+			for (NpcData npc : barrack.getUnitList())
+			{
+				npc.setLocation(this.position);
+			}
 		} else
 		{
 //    		System.out.println("Regiment Camp "+buildManager.getStatus()+"/"+buildManager.getActualBuild().getBuildingType()+":"+buildManager.getH());
@@ -530,7 +576,12 @@ public class Regiment extends AbstractSettle
 		} else
 		{
 			System.out.println("Regiment start Camp :"+position.getWorld()+":"+position.getX()+":"+position.getY()+":"+position.getZ());
-			buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.FORT, 4, 0);
+			buildPlan = rModel.getData().readTMXBuildPlan(BuildPlanType.FORT, 7, 0);
+			if (buildPlan == null)
+			{
+				System.out.println("TMX buildplan FORT not found");
+				return;
+			}
 			String ownerName;
 			if (owner == null)
 			{
@@ -539,6 +590,7 @@ public class Regiment extends AbstractSettle
 			{
 				ownerName = owner.getPlayerName();
 			}
+			// set BuildManager on PREBUILD
 			buildManager.newBuild(buildPlan, this.position, ownerName);
 			regStatus = RegimentStatus.CAMP;
 		}
@@ -593,8 +645,20 @@ public class Regiment extends AbstractSettle
 				ownerName = owner.getPlayerName();
 			}
 			newSuperRegion = new RegionLocation("CAMP", target, ownerName, name);
-			buildManager.newBuild(buildPlan, position, ownerName);
-			regStatus = RegimentStatus.UNCAMP;
+			if (buildPlan == null)
+			{
+				
+			}
+			if (position.getWorld() == "")
+			{
+				isUncamp =true;
+				regStatus = RegimentStatus.MOVE;
+			} else
+			{
+	
+				buildManager.newBuild(buildPlan, position, ownerName);
+				regStatus = RegimentStatus.UNCAMP;
+			}
 //			colonist.startReinforce(colonist.getSettleSchema().getRadius());
 			
 		} else
@@ -634,6 +698,8 @@ public class Regiment extends AbstractSettle
 		
 	}
 
+	
+	
 	private void doRaid(RealmModel rModel)
 	{
 		while ((fightCount < firstWave) && (battle.winBattle() == false))
@@ -641,7 +707,7 @@ public class Regiment extends AbstractSettle
 				if (battle.isNextAttack())
 				{
 					battle.run();
-					showBattleStatus(battle);
+//					showBattleStatus(battle);
 				} else
 				{
 					battle.setBattleEnd(true);
@@ -659,7 +725,7 @@ public class Regiment extends AbstractSettle
 		
 		if (battle.winBattle() == true)
 		{
-			System.out.print("Battle WIN defeat Defender");
+			System.out.print("WIN: Attacker WIN Battle, defeat Defender");
 			battle.setBattleEnd(true);
 			transferWarehouse(raidTarget.getWarehouse(), 25);
 			endRaid();
@@ -670,7 +736,7 @@ public class Regiment extends AbstractSettle
 		{
 			if (battle.isBattleEnd() == true)
 			{
-				System.out.print("END Battle LOST defeat Attacker");
+				System.out.print("END: Defender WIN  Battle , defeat Attacker ");
 				endRaid();
 				rModel.getData().writeRegiment(this);
 				regStatus = RegimentStatus.IDLE; 
@@ -790,7 +856,25 @@ public class Regiment extends AbstractSettle
 	public void setOwner(Owner owner)
 	{
 		this.owner = owner;
+		this.ownerId = owner.getId();
+		this.ownerName = owner.getPlayerName();
 	}
+
+	/**
+	 * @return the campList
+	 */
+	public HashMap<Integer,PositionFace> getCampList()
+	{
+		return campList;
+	}
+
+//	/**
+//	 * @param campList the campList to set
+//	 */
+//	public void setCampList(HashMap<Integer,PositionFace> campList)
+//	{
+//		this.campList = campList;
+//	}
 
 	/**
 	 * @return the commander
@@ -808,5 +892,35 @@ public class Regiment extends AbstractSettle
 		this.commander = commander;
 	}
 
+	public Settlement getRaidTarget()
+	{
+		return raidTarget;
+	}
+
+	public void setRaidTarget(Settlement raidTarget)
+	{
+		this.raidTarget = raidTarget;
+	}
+
+	/**
+	 * run the raiderManager for 1 tick
+	 * communication with the world due to commandLists in RealmModel
+	 * 
+	 * @param rModel
+	 */
+	public void doRaidManager(RealmModel rModel)
+	{
+		raiderManager.run(rModel, this);
+	}
+	
+	/**
+	 * toggle of raiderAction
+	 * hint: used within realms.onDay()
+	 */
+	public void doNextDay()
+	{
+		raiderManager.nextDay();
+	}
+	
 }
 

@@ -54,84 +54,84 @@ public class RegimentData
      * @param regiment
      * </pre>
      */
-	public void writeRegimentData(Regiment regiment) 
-	{
-		try
-		{ 
-			long time1 = System.nanoTime();
-            File regFile = new File(dataFolder, fileName+".yml");
-            if (!regFile.exists()) 
-            {
-            	System.out.println("WRITE :  "+regiment.getId()+":"+dataFolder+""+" not Exist !!!");
-            	regFile.createNewFile();
-	            return;
-            }
-            regFile.setWritable(true);
-            String base = getRegimentKey(regiment.getId());
-            
-            ConfigurationSection section = config.createSection(base);
-//            System.out.println("SECTION: "+regiment.getId()+": "+base);
-        
-            config.set(MemorySection.createPath(section, "id"), regiment.getId());
-            config.set(MemorySection.createPath(section, "regimentType"), regiment.getRegimentType().name());
-            config.set(MemorySection.createPath(section, "regStatus"), regiment.getRegStatus().name());
-            config.set(MemorySection.createPath(section, "position"), LocationData.toString(regiment.getPosition()));
-            config.set(MemorySection.createPath(section, "target"), LocationData.toString(regiment.getTarget()));
-            config.set(MemorySection.createPath(section, "name"), regiment.getName());
-            config.set(MemorySection.createPath(section, "owner"), regiment.getOwnerId());
-            config.set(MemorySection.createPath(section, "bank"), regiment.getBank().getKonto());
-            config.set(MemorySection.createPath(section, "isActiv"), regiment.getIsActive());
-            config.set(MemorySection.createPath(section, "settleId"), regiment.getSettleId());
-            config.set(MemorySection.createPath(section, "MaxUnit"), regiment.getBarrack().getUnitMax());
-            //Unitlist write		
-			HashMap<String,String> values; // = new HashMap<String,String>();
+//	public void writeRegimentData(Regiment regiment) 
+//	{
+//		try
+//		{ 
+//			long time1 = System.nanoTime();
+//            File regFile = new File(dataFolder, fileName+".yml");
+//            if (!regFile.exists()) 
+//            {
+//            	System.out.println("WRITE :  "+regiment.getId()+":"+dataFolder+""+" not Exist !!!");
+//            	regFile.createNewFile();
+//	            return;
+//            }
+//            regFile.setWritable(true);
+//            String base = getRegimentKey(regiment.getId());
+//            
+//            ConfigurationSection section = config.createSection(base);
+////            System.out.println("SECTION: "+regiment.getId()+": "+base);
+//        
+//            config.set(MemorySection.createPath(section, "id"), regiment.getId());
+//            config.set(MemorySection.createPath(section, "regimentType"), regiment.getRegimentType().name());
+//            config.set(MemorySection.createPath(section, "regStatus"), regiment.getRegStatus().name());
+//            config.set(MemorySection.createPath(section, "position"), LocationData.toString(regiment.getPosition()));
+//            config.set(MemorySection.createPath(section, "target"), LocationData.toString(regiment.getTarget()));
+//            config.set(MemorySection.createPath(section, "name"), regiment.getName());
+//            config.set(MemorySection.createPath(section, "owner"), regiment.getOwnerId());
+//            config.set(MemorySection.createPath(section, "bank"), regiment.getBank().getKonto());
+//            config.set(MemorySection.createPath(section, "isActiv"), regiment.isActive());
+//            config.set(MemorySection.createPath(section, "settleId"), regiment.getSettleId());
+//            config.set(MemorySection.createPath(section, "MaxUnit"), regiment.getBarrack().getUnitMax());
+//            //Unitlist write		
+//			HashMap<String,String> values; // = new HashMap<String,String>();
+////            values = new HashMap<String,String>();
+////            int index = 0;
+////        	for (Unit unit : regiment.getBarrack().getUnitList())
+////        	{
+//////                System.out.println("UNITLIST: "+index+": "+unit.getUnitType().name());
+////        		values.put(String.valueOf(index), unit.getUnitType().name());
+////        		index++;
+////        	}
+////            config.set(MemorySection.createPath(section,"unitlist"), values);
+//            //warehouse write
 //            values = new HashMap<String,String>();
-//            int index = 0;
-//        	for (Unit unit : regiment.getBarrack().getUnitList())
+//        	values.put("itemMax", String.valueOf(regiment.getWarehouse().getItemMax()));
+//        	values.put("itemCount", String.valueOf(regiment.getWarehouse().getItemCount()));
+//        	values.put("isEnabled", regiment.getWarehouse().getIsEnabled().toString());
+//            config.set(MemorySection.createPath(section,"warehouse"), values);
+//
+//            values = new HashMap<String,String>();
+//        	for (String itemref : regiment.getWarehouse().getItemList().keySet())
 //        	{
-////                System.out.println("UNITLIST: "+index+": "+unit.getUnitType().name());
-//        		values.put(String.valueOf(index), unit.getUnitType().name());
-//        		index++;
+//        		values.put(itemref, String.valueOf(regiment.getWarehouse().getItemList().getValue(itemref)) );
 //        	}
-//            config.set(MemorySection.createPath(section,"unitlist"), values);
-            //warehouse write
-            values = new HashMap<String,String>();
-        	values.put("itemMax", String.valueOf(regiment.getWarehouse().getItemMax()));
-        	values.put("itemCount", String.valueOf(regiment.getWarehouse().getItemCount()));
-        	values.put("isEnabled", regiment.getWarehouse().getIsEnabled().toString());
-            config.set(MemorySection.createPath(section,"warehouse"), values);
-
-            values = new HashMap<String,String>();
-        	for (String itemref : regiment.getWarehouse().getItemList().keySet())
-        	{
-        		values.put(itemref, String.valueOf(regiment.getWarehouse().getItemList().getValue(itemref)) );
-        	}
-            config.set(MemorySection.createPath(section,"itemList"), values);
-
-            try
-			{
-//	            System.out.println("SAVE: "+regiment.getId()+": "+dataFolder+""+"regiment.yml");
-            	config.save(regFile); // dataFolder+"settlement.yml");
-			} catch (Exception e)
-			{
-	            System.out.println("ECXEPTION : "+regiment.getId()+": "+dataFolder+""+"regiment.yml");
-			}
-		    long time2 = System.nanoTime();
-		    System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
-
-
-		} catch (Exception e)
-		{
-			 @SuppressWarnings("unused")
-			String name = "" ;
-			 StackTraceElement[] st = new Throwable().getStackTrace();
-			 if (st.length > 0)
-			 {
-				 name = st[0].getClassName()+":"+st[0].getMethodName();
-			 }
-			 System.out.println("Exception: "+name+" / "+e.getMessage());
-		}
-	}
+//            config.set(MemorySection.createPath(section,"itemList"), values);
+//
+//            try
+//			{
+////	            System.out.println("SAVE: "+regiment.getId()+": "+dataFolder+""+"regiment.yml");
+//            	config.save(regFile); // dataFolder+"settlement.yml");
+//			} catch (Exception e)
+//			{
+//	            System.out.println("ECXEPTION : "+regiment.getId()+": "+dataFolder+""+"regiment.yml");
+//			}
+//		    long time2 = System.nanoTime();
+//		    System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
+//
+//
+//		} catch (Exception e)
+//		{
+//			 @SuppressWarnings("unused")
+//			String name = "" ;
+//			 StackTraceElement[] st = new Throwable().getStackTrace();
+//			 if (st.length > 0)
+//			 {
+//				 name = st[0].getClassName()+":"+st[0].getMethodName();
+//			 }
+//			 System.out.println("Exception: "+name+" / "+e.getMessage());
+//		}
+//	}
 	
 	
 	/**
@@ -143,76 +143,76 @@ public class RegimentData
 	 * @param logList
 	 * @return  regiment object, should be add to the regiment list
 	 */
-	public Regiment readRegimentData(int id) 
-	{
-		Regiment regiment = new Regiment(); //null);
-		try
-		{ 
-	        String section = getRegimentKey(id);
-			long time1 = System.nanoTime();
-            if (config.isConfigurationSection(section))
-            {
-            	regiment.setId(config.getInt(section+".id"));
-            	regiment.setRegimentType(RegimentType.valueOf(config.getString(section+".regimentType")));
-            	regiment.setPosition(LocationData.toLocation(config.getString(section+".position")));
-            	regiment.setPosition(LocationData.toLocation(config.getString(section+".target")));
-            	regiment.setName(config.getString(section+".name"));
-            	regiment.setOwnerId(Integer.valueOf(config.getString(section+".owner","0")));
-            	regiment.setIsActive(config.getBoolean(section+".isActive"));
-            	regiment.setSettleId(config.getInt(section+".settleId"));
-            	regiment.getBarrack().setUnitMax(config.getInt(section+".MaxUnit"));
-            }
-            regiment.setRegStatus(RegimentStatus.IDLE);
-            
-//        	UnitFactory uFactory = new UnitFactory();
-//			Map<String,Object> uList = config.getConfigurationSection(section+".unitlist").getValues(false);
-//			if (uList != null)
+//	public Regiment readRegimentData(int id) 
+//	{
+//		Regiment regiment = new Regiment(); //null);
+//		try
+//		{ 
+//	        String section = getRegimentKey(id);
+//			long time1 = System.nanoTime();
+//            if (config.isConfigurationSection(section))
+//            {
+//            	regiment.setId(config.getInt(section+".id"));
+//            	regiment.setRegimentType(RegimentType.valueOf(config.getString(section+".regimentType")));
+//            	regiment.setPosition(LocationData.toLocation(config.getString(section+".position")));
+//            	regiment.setPosition(LocationData.toLocation(config.getString(section+".target")));
+//            	regiment.setName(config.getString(section+".name"));
+//            	regiment.setOwnerId(Integer.valueOf(config.getString(section+".owner","0")));
+//            	regiment.setIsActive(config.getBoolean(section+".isActive"));
+//            	regiment.setSettleId(config.getInt(section+".settleId"));
+//            	regiment.getBarrack().setUnitMax(config.getInt(section+".MaxUnit"));
+//            }
+//            regiment.setRegStatus(RegimentStatus.IDLE);
+//            
+////        	UnitFactory uFactory = new UnitFactory();
+////			Map<String,Object> uList = config.getConfigurationSection(section+".unitlist").getValues(false);
+////			if (uList != null)
+////			{
+////	        	for (Object ref : uList.values())
+////	        	{
+////	        		String uType = (String) ref;
+////	        		regiment.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
+////	//                System.out.println(ref+":");
+////	        	}
+////			}
+//
+//            
+//            regiment.getWarehouse().setItemMax(Integer.valueOf(config.getString(section+".warehouse"+".itemMax","0")));
+//            regiment.getWarehouse().setIsEnabled(Boolean.valueOf(config.getString(section+".warehouse"+".isEnable","false")));
+//            
+//            if (config.isConfigurationSection(section+".itemList"))
+//            {
+//	            ItemList iList = new ItemList();
+//				Map<String,Object> itemList = config.getConfigurationSection(section+".itemList").getValues(false);
+//				if (itemList != null)
+//				{
+//		        	for (String ref : itemList.keySet())
+//		        	{
+//		        		int value = Integer.valueOf(config.getString(section+".itemList."+ref,"0"));
+//		//                System.out.println(ref+":"+value);
+//		                iList.addItem(ref, value);
+//		        	}    
+//		        	regiment.getWarehouse().setItemList(iList);
+//				}
+//            }
+//		    long time2 = System.nanoTime();
+////		    System.out.println("Regiment "+id+": Time [ms]: "+(time2 - time1)/1000000);
+//		    
+//            
+//		}catch (Exception e)
+//		{
+//			@SuppressWarnings("unused")
+//			String name = "" ;
+//			StackTraceElement[] st = new Throwable().getStackTrace();
+//			if (st.length > 0)
 //			{
-//	        	for (Object ref : uList.values())
-//	        	{
-//	        		String uType = (String) ref;
-//	        		regiment.getBarrack().getUnitList().add(uFactory.erzeugeUnit(UnitType.getBuildPlanType(uType)));
-//	//                System.out.println(ref+":");
-//	        	}
+//				name = st[0].getClassName()+":"+st[0].getMethodName();
 //			}
-
-            
-            regiment.getWarehouse().setItemMax(Integer.valueOf(config.getString(section+".warehouse"+".itemMax","0")));
-            regiment.getWarehouse().setIsEnabled(Boolean.valueOf(config.getString(section+".warehouse"+".isEnable","false")));
-            
-            if (config.isConfigurationSection(section+".itemList"))
-            {
-	            ItemList iList = new ItemList();
-				Map<String,Object> itemList = config.getConfigurationSection(section+".itemList").getValues(false);
-				if (itemList != null)
-				{
-		        	for (String ref : itemList.keySet())
-		        	{
-		        		int value = Integer.valueOf(config.getString(section+".itemList."+ref,"0"));
-		//                System.out.println(ref+":"+value);
-		                iList.addItem(ref, value);
-		        	}    
-		        	regiment.getWarehouse().setItemList(iList);
-				}
-            }
-		    long time2 = System.nanoTime();
-//		    System.out.println("Regiment "+id+": Time [ms]: "+(time2 - time1)/1000000);
-		    
-            
-		}catch (Exception e)
-		{
-			@SuppressWarnings("unused")
-			String name = "" ;
-			StackTraceElement[] st = new Throwable().getStackTrace();
-			if (st.length > 0)
-			{
-				name = st[0].getClassName()+":"+st[0].getMethodName();
-			}
-			System.out.println("Exception: "+name+" / "+e.getMessage());
-			return null;
-		}
-	    return regiment; 
-	}
+//			System.out.println("Exception: "+name+" / "+e.getMessage());
+//			return null;
+//		}
+//	    return regiment; 
+//	}
 	
 	/**
 	 * read the regiment id from datafile  

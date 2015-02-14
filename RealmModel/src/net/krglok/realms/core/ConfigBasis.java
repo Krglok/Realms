@@ -448,6 +448,7 @@ public class ConfigBasis implements ConfigInterface
 		case LANE : return 0;
 		case ROAD : return 0;
 		case STEEPLE : return 0;
+		case SHIP_0: return 2;
 		case TAVERNE : return 0;
 		case WALL : return 0;
 		case PILLAR : return 0;
@@ -565,6 +566,7 @@ public class ConfigBasis implements ConfigInterface
 		 //value + (building.getWorkerNeeded()*WarehouseItemMaxFactor);
 	}
 
+	
 	/**
 	 * calculate extend for ItemMax for trader building
 	 * @param building
@@ -850,6 +852,19 @@ public class ConfigBasis implements ConfigInterface
 		return subList;
 	}
 
+	public static ItemList initIngnoreList()
+	{
+		ItemList subList = new ItemList();
+
+		subList.addItem(Material.DIRT.name(),0);
+		subList.addItem(Material.SOIL.name(),0);
+		subList.addItem(Material.GRASS.name(),0);
+		subList.addItem(Material.WATER.name(),0);
+//		subList.addItem(Material..name(),0);
+			
+		return subList;
+	}
+	
 	public static int getCreateMinPower(SettleType sType)
 	{
 		switch(sType)
@@ -963,10 +978,15 @@ public class ConfigBasis implements ConfigInterface
     	case SIGN_POST : return Material.SIGN.name();
     	case WALL_SIGN : return Material.SIGN.name();
     	case WATER_BUCKET : return Material.WATER.name();
+    	case STATIONARY_WATER : return Material.WATER.name();
     	case LAVA_BUCKET: return Material.LAVA.name();
+    	case STATIONARY_LAVA : return Material.LAVA.name();
     	case SOIL: return Material.DIRT.name();
     	case GRASS : return Material.DIRT.name();
     	case DOUBLE_PLANT: return Material.SEEDS.name();
+    	case COAL_ORE: return Material.COAL.name();
+    	case EMERALD_ORE: return Material.EMERALD.name();
+    	case REDSTONE_ORE : return Material.REDSTONE.name();
     	default:
     		return itemRef;	
     	}

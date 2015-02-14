@@ -3,7 +3,6 @@ package net.krglok.realms.unit;
 
 public enum RegimentStatus {
 	NONE,
-	SEARCHPOS,
 	CAMP,
 	UNCAMP,
 	MOVE,

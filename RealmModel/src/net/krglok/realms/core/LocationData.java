@@ -1,20 +1,14 @@
 package net.krglok.realms.core;
 
-import java.io.Serializable;
-
 
 /**
- * Independent  location definition, seperate the model from minecraft server
+ * Independent  location definition, separate the model from minecraft server
+ * 
  * @author Windu
  *
  */
-public class LocationData  implements Serializable
+public class LocationData  
 {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5829724671027753674L;
 	private String world;
     private double posX;
     private double posY;
@@ -36,6 +30,7 @@ public class LocationData  implements Serializable
 		this.posZ = posZ;
 	}
 
+	
 	public String getWorld()
 	{
 		return world;
@@ -129,6 +124,16 @@ public class LocationData  implements Serializable
     	String sLocation = position.getWorld()+":"+String.valueOf(position.getX())+":"+String.valueOf(position.getY())+":"+String.valueOf(position.getZ()); 
     	return sLocation ;
     }
+
+    public String toString()
+    {
+    	if (this.getWorld() == null)
+    	{
+    		this.world = "";
+    	}
+    	String sLocation = this.getWorld()+":"+String.valueOf(this.getX())+":"+String.valueOf(this.getY())+":"+String.valueOf(this.getZ()); 
+    	return sLocation ;
+    }
     
     /**
      * Erzeugt aus einem String eine Location
@@ -153,5 +158,9 @@ public class LocationData  implements Serializable
     	return new LocationData("", 0.0, 0.0, 0.0); 
     }
     
+    public static LocationData copyLocation(LocationData position)
+    {
+    	return new LocationData(position.getWorld(), position.getX(), position.getY(), position.getZ());
+    }
 }
 

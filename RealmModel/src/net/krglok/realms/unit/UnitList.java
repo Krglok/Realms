@@ -49,4 +49,14 @@ public class UnitList extends ArrayList<NpcData>
 	{
 		this.add(npc);
 	}
+	
+	public NpcList asNpcList()
+	{
+		NpcList npcs = new NpcList();
+		for (NpcData npc : this)
+		{
+			npcs.putNpc(npc);
+		}
+		return npcs;
+	}
 }

@@ -10,12 +10,12 @@
  </layer>
  <layer name="Kachelebene 1" width="9" height="9">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYCIDyyBhctXAAC41DATUYAMyBOSJVcMAlZcDYlYoBrEnYREDAFpTArk=
+   eJxjYmBgYCIDyyBhctXAAC41DATUYAMyBOSJVcMAlZdD4suh0TA2AE1bAhM=
   </data>
  </layer>
  <layer name="Kachelebene 2" width="9" height="9">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYCIDyyBhbPIwgEsNAwE12IAMAXli1TBgURMKpZegqZEDYlYoloOKo4sBAEsXAsQ=
+   eJxjYmBgYCIDyyBhbPIwgEsNAwE12IAMAXli1TBgURMKpZegqZFD4suh0TA2AEmHArA=
   </data>
  </layer>
  <layer name="Kachelebene 3" width="9" height="9">
@@ -28,7 +28,7 @@
    eJxjYmBgYKIyRgeE5IeCGnwYAEi8AGk=
   </data>
  </layer>
- <layer name="Kachelebene 5" width="9" height="9" visible="0">
+ <layer name="Kachelebene 5" width="9" height="9">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYMKDGQjIk4uRwWBWQ8j/IAAAVOwAfQ==
   </data>

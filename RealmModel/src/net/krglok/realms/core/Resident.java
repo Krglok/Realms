@@ -516,7 +516,7 @@ public class Resident
 							{
 								if (npc.isBeggar() == false)
 								{
-									System.out.println("Settler "+npc.getId()+" rankdown to BEGGAR ");
+									System.out.println("[REALMS] Settler "+npc.getId()+" rankdown to BEGGAR ");
 									npc.setNpcType(NPCType.BEGGAR);
 								}
 							}
@@ -531,7 +531,7 @@ public class Resident
 								{
 									if (npc.getMoney() > 0.3)
 									{
-										System.out.println("Beagger "+npc.getId()+" rankup to SETTLER ");
+										System.out.println("[REALMS] Beagger "+npc.getId()+" rankup to SETTLER ");
 										npc.setNpcType(NPCType.SETTLER);
 									}
 								}
@@ -543,20 +543,20 @@ public class Resident
 				{
 					if (npc.getAge() >= 14)
 					{
-						System.out.println("Child "+npc.getId()+" Growing to Settler with age "+npc.getAge());
+						System.out.println("[REALMS] Child "+npc.getId()+" Growing to Settler with age "+npc.getAge());
 						npc.setNpcType(NPCType.SETTLER);
 						npc.depositMoney(10.0);
 					}
 				}
 				if (npc.getId() == 2)
 				{
-					System.out.println("Schwanger "+npc.getId()+":"+npc.getSchwanger());
+					System.out.println("[REALMS] Schwanger "+npc.getId()+":"+npc.getSchwanger());
 				}
 				if (npc.isSchwanger())
 				{
 					if (npc.getSchwanger() > ConfigBasis.BREEDING_DAYS)
 					{
-						System.out.println("ENtbindung "+npc.getId());
+						System.out.println("[REALMS] childbirth  "+npc.getId());
 						Building building = buildings.getBuilding(npc.getHomeBuilding());
 						if (building != null)
 						{
@@ -567,10 +567,10 @@ public class Resident
 								newChild.setSettleId(building.getSettleId());
 								data.getNpcs().add(newChild);
 								data.writeNpc(newChild);
-								System.out.println("New Child "+newChild.getId()+" born into "+building.getId());
+								System.out.println("[REALMS] New Child "+newChild.getId()+" born into "+building.getId());
 							} else
 							{
-								System.out.println("Baby is die ! "+npc.getId()+" Bewohner "+npcList.getBuildingNpc(building.getId()).size()+" < "+building.getSettler());
+								System.out.println("[REALMS] Baby is die ! "+npc.getId()+" Bewohner "+npcList.getBuildingNpc(building.getId()).size()+" < "+building.getSettler());
 							}
 						}else
 						{
@@ -579,7 +579,7 @@ public class Resident
 							newChild.setSettleId(building.getSettleId());
 							npcList.add(newChild);
 							data.writeNpc(newChild);
-							System.out.println("New Child "+newChild.getId()+" born living as BEGGAR ");
+							System.out.println("[REALMS] New Child "+newChild.getId()+" born living as BEGGAR ");
 						}
 						npc.setSchwanger(ConfigBasis.BREEDING_DELAY);
 					}

@@ -111,7 +111,7 @@ public class BuildingListTest
 		if (expected != actual)
 		{
 			System.out.println("== Test BuildTypeList ==");
-			for (BuildPlanType key : bList.getBuildTypeList().keySet())
+			for (String key : bList.getBuildTypeList().keySet())
 			{
 				System.out.println(key+":"+bList.getBuildTypeList().get(key));
 			}

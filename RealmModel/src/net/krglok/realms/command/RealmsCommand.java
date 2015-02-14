@@ -6,9 +6,12 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.kingdom.Request;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.unit.Regiment;
 
@@ -306,17 +309,15 @@ public abstract class RealmsCommand implements iRealmsCommand
      * @param player
      * @return superregion name
      */
-	protected String findSuperRegionAtLocation(Realms plugin, Player player)
+	protected String findSettlementAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
-		SuperRegion sRegion =  findSuperRegionAtPosition( plugin,  position);
-		if (sRegion != null)
-		{
-	    	SettleType settleType = plugin.getConfigData().superRegionToSettleType(sRegion.getType());
-	    	if ((settleType == SettleType.HAMLET)
-	    		|| (settleType == SettleType.TOWN)
-	    		|| (settleType == SettleType.CITY)
-	    		|| (settleType == SettleType.METROPOLIS)
+	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
+	    {
+	    	if ((sRegion.getType().equalsIgnoreCase( SettleType.HAMLET.name()) )
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.TOWN.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.CITY.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.METROPOLIS.name()))
 	    		)
 	    	{
 	    		return sRegion.getName();
@@ -571,4 +572,38 @@ public abstract class RealmsCommand implements iRealmsCommand
 
 		return book;
 	}
+	
+	/**
+	 * do the join and set all lehen to the new Kingdom
+	 * @param plugin
+	 * @return
+	 */
+	public ArrayList<String> joinOwnerToKingdom(Realms plugin, int kingdomId, Owner owner)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		owner.setKingdomId(kingdomId);
+		plugin.getData().writeOwner(owner);
+		msg.add("Owner set to Kingdom"+kingdomId);
+		// root of new kingdom
+		Lehen parent = plugin.getData().getLehen().getKingdomRoot(kingdomId);
+		for (Lehen lehen :plugin.getData().getLehen().getSubList(owner.getPlayerName()).values())
+		{
+			lehen.setKingdomId(kingdomId);
+			if (lehen.getParentId() == 0)
+			{
+				if (lehen.getNobleLevel() != NobleLevel.KING)
+				{
+				  lehen.setParentId(parent.getId());
+				} else
+				{
+					lehen.setParentId(0);
+				}
+			}
+			plugin.getData().writeLehen(lehen);
+			plugin.getData().writeOwner(owner);
+			msg.add("Lehen "+lehen.getId()+" set to Kingdom"+kingdomId);
+		}
+		return msg;
+	}
+
 }

@@ -29,6 +29,7 @@ public enum RealmsSubCommandType
 	DELETE ,
 	DEPOSIT ,
 	DESTROY ,
+	ENABLE,
 	EVOLVE,
 	FOUNDING,
 	FOLLOW,

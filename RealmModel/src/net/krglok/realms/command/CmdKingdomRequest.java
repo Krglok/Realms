@@ -89,39 +89,6 @@ public class CmdKingdomRequest extends RealmsCommand
 		return new String[] {int.class.getName(), int.class.getName(), int.class.getName(), String.class.getName()  };
 	}
 	
-	/**
-	 * do the join and set all lehen to the new Kingdom
-	 * @param plugin
-	 * @return
-	 */
-	private ArrayList<String> joinOwnerToKingdom(Realms plugin)
-	{
-		ArrayList<String> msg = new ArrayList<String>();
-		Request request = plugin.getData().getKingdoms().getKingdom(kingdomId).getJoinRequests().get(requestId);
-		Owner owner = plugin.getData().getOwners().getOwner(request.getOwnerId());
-		owner.setKingdomId(kingdomId);
-		plugin.getData().writeOwner(owner);
-		msg.add("Owner set to Kingdom"+kingdomId);
-		// root of new kingdom
-		Lehen parent = plugin.getData().getLehen().getKingdomRoot(kingdomId);
-		for (Lehen lehen :plugin.getData().getLehen().getSubList(owner.getPlayerName()).values())
-		{
-			lehen.setKingdomId(kingdomId);
-			if (lehen.getParentId() == 0)
-			{
-				if (lehen.getNobleLevel() != NobleLevel.KING)
-				{
-				  lehen.setParentId(parent.getId());
-				} else
-				{
-					lehen.setParentId(0);
-				}
-			}
-			plugin.getData().writeLehen(lehen);
-			msg.add("Lehen "+lehen.getId()+" set to Kingdom"+kingdomId);
-		}
-		return msg;
-	}
 
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
@@ -146,7 +113,9 @@ public class CmdKingdomRequest extends RealmsCommand
 				if (accept.equalsIgnoreCase("accept"))
 				{
 					plugin.getData().getKingdoms().getKingdom(kingdomId).getJoinRequests().get(requestId).setStatus(Request.REQUEST_STATUS_ACCEPT);
-					msg.addAll(joinOwnerToKingdom(plugin));
+					Request request = plugin.getData().getKingdoms().getKingdom(kingdomId).getJoinRequests().get(requestId);
+					Owner owner = plugin.getData().getOwners().getOwner(request.getOwnerId());
+					msg.addAll(joinOwnerToKingdom(plugin, kingdomId, owner));
 					msg.add(ChatColor.GREEN+"Request accepted: "+requestId);
 				}
 				if (accept.equalsIgnoreCase("REJECT"))

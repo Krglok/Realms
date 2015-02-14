@@ -15,14 +15,14 @@ public class CmdKingdomJoin extends RealmsCommand
 {
 	private int page;
 	private int kingdomId;
-	private String playerName;
+	private int ownerId; // playerName;
 	Owner owner ;
 	
 	public CmdKingdomJoin()
 	{
 		super(RealmsCommandType.KINGDOM, RealmsSubCommandType.JOIN);
 		description = new String[] {
-				ChatColor.YELLOW+"/kingdom JOIN [kingdomId] {playerName}  ",
+				ChatColor.YELLOW+"/kingdom JOIN [kingdomId] {ownerId} ",
 		    	"Send request for join to kingdom to the king  ",
 		    	"this is a loyalty oath ",
 		    	"All your Lehen and Settlement going to the kingdom. ",
@@ -31,21 +31,13 @@ public class CmdKingdomJoin extends RealmsCommand
 			};
 			requiredArgs = 1;
 			page = 0;
-			playerName = "";
+			ownerId = -1;
 			owner = null;
 	}
 
 	@Override
 	public void setPara(int index, String value)
 	{
-		switch (index)
-		{
-		case 1:
-			playerName = value;
-			break;
-		default :
-			break;
-		}
 	}
 
 	@Override
@@ -56,6 +48,8 @@ public class CmdKingdomJoin extends RealmsCommand
 		case 0:
 			kingdomId = value;
 			break;
+		case 1:
+			ownerId = value;
 		default :
 			break;
 		}
@@ -76,26 +70,36 @@ public class CmdKingdomJoin extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName(), String.class.getName()  };
+		return new String[] {int.class.getName(), int.class.getName()  };
 	}
 
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-
-		Request request = new Request();
-		request.setOwnerId(owner.getId());
-		request.setStatus(Request.REQUEST_STATUS_OPEN);
-		
-		plugin.getData().getKingdoms().getKingdom(kingdomId).getJoinRequests().addRequest(request);
-		
-		msg.add("You send a join request to kingdom "+kingdomId);
-		
+		if (ownerId >= 0)
+		{
+			owner = plugin.getData().getOwners().getOwner(ownerId);
+		} else
+		{
+			owner = plugin.getData().getOwners().getOwnerName(((Player) sender).getName());
+		}
+		if (owner.isNPC() == false)
+		{
+			Request request = new Request();
+			request.setOwnerId(owner.getId());
+			request.setStatus(Request.REQUEST_STATUS_OPEN);
+			
+			plugin.getData().getKingdoms().getKingdom(kingdomId).getJoinRequests().addRequest(request);
+			
+			msg.add("You send a join request to kingdom "+kingdomId);
+		} else
+		{
+			msg.addAll(joinOwnerToKingdom(plugin, kingdomId, owner));
+		}
 		plugin.getMessageData().printPage(sender, msg, page);
 		owner = null;
 		kingdomId = 0;
-		playerName = "";
 
 	}
 
@@ -103,14 +107,14 @@ public class CmdKingdomJoin extends RealmsCommand
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
 		Player player = (Player) sender;
-		if (playerName != "")
+		if (ownerId >= 0)
 		{
 			if (isOpOrAdmin(sender) == false)
 			{
 				errorMsg.add(ChatColor.RED+"Only Admins can Requst for other");
 				return false;
 			}
-			owner = plugin.getData().getOwners().getOwnerName(playerName);
+			owner = plugin.getData().getOwners().getOwner(ownerId);
 		} else
 		{
 			owner = plugin.getData().getOwners().getOwnerName(player.getName());

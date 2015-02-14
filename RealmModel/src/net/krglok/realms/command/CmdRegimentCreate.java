@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentType;
 
@@ -15,7 +16,7 @@ public class CmdRegimentCreate extends RealmsCommand
 {
 	private String name;
 	private LocationData position;
-	private String owner;
+	private String ownerName;
 
 
 	public CmdRegimentCreate()
@@ -27,12 +28,12 @@ public class CmdRegimentCreate extends RealmsCommand
 				"The regiment is a Raider ",
 		    	"The position is 0 0 0 , and the ",
 		    	"regiment is hidden  ",
-		    	"Move it to the rogth position  "
+		    	"Move it to the rigth position  "
 		};
 		requiredArgs = 1;
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		this.name = "";
-		this.owner = "";
+		this.ownerName = "";
 	}
 
 	@Override
@@ -52,28 +53,24 @@ public class CmdRegimentCreate extends RealmsCommand
 	@Override
 	public void setPara(int index, int value)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void setPara(int index, boolean value)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void setPara(int index, double value)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String[] getParaTypes()
 	{
-		// TODO Auto-generated method stub
 		return new String[] {String.class.getName()  };
 	}
 
@@ -86,14 +83,22 @@ public class CmdRegimentCreate extends RealmsCommand
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
 		Regiment regiment = plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0);
-		plugin.getData().makeRaiderUnits(regiment);
+		Owner owner = plugin.getData().getOwners().getOwner(0);
+		regiment.setOwner(owner);
+		regiment.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListRegiment(regiment.getId()));
+		if (regiment.getBarrack().getUnitList().size() == 0)
+		{
+			plugin.getData().makeRaiderUnits(regiment);
+			regiment.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListRegiment(regiment.getId()));
+		}
+		plugin.getData().writeRegiment(regiment);
 		msg.add("[Realm] Regiment created ");
 		msg.add("position 0 0 0  ");
 		msg.add("has 10 MILITIA as units  ");
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
 		name = "";
-		owner = "";
+		ownerName = "";
 
 	}
 

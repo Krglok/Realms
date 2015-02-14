@@ -84,7 +84,7 @@ public class CmdRegimentInfo extends RealmsCommand
 	    if (regiment != null)
 	    {
 			msg.add("Regiment ["+regiment.getId()+"] : "+regiment.getName()+" [ "+regiment.getRegStatus().name()+" ]");
-			msg.add("Position : "+(int)regiment.getPosition().getX()+":"+(int)regiment.getPosition().getY()+":"+(int)regiment.getPosition().getZ());
+			msg.add("Position : "+(int)regiment.getPosition().getX()+":"+(int)regiment.getPosition().getY()+":"+(int)regiment.getPosition().getZ()+" Age: "+regiment.getAge()+" days");
 			msg.add("Barracks  : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().size())+"/"+regiment.getBarrack().getUnitMax());
 			msg.add("Bank       : "+ChatColor.GREEN+((int) regiment.getBank().getKonto()));
 			msg.add("Storage   : "+regiment.getWarehouse().getItemMax());

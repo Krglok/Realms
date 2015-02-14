@@ -19,6 +19,7 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
 import net.krglok.realms.core.TradeMarketOrder;
@@ -29,6 +30,9 @@ import net.krglok.realms.data.ServerData;
 import net.krglok.realms.kingdom.NobleTrait;
 import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.manager.CampPosition;
+import net.krglok.realms.manager.HeightAnalysis;
+import net.krglok.realms.manager.PositionFace;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;
@@ -379,122 +383,10 @@ public final class Realms extends JavaPlugin
 	
 	public void setShopPrice(Location position)
 	{
-//		Block bs = position.getWorld().getBlockAt(position);
-//		String shopkeeperId = "73a11c97-b21c-4c3c-b7fe-d4e6053edc14";
-//		String shopName = "Test";
-//		Shopkeeper shop = null;
-//		
-//		for (Shopkeeper  obj : sk.getActiveShopkeepers() )
-//		{
-//			System.out.println("SHopName: "+obj.getName()); 
-//			if (obj.getName().equalsIgnoreCase(shopName))
-//			{
-//				shop = obj;
-//			}
-//		}
-//		
-//		
-//		if ( shop != null)
-//		{
-//			if (shop.getType().isPlayerShopType())
-//			{
-//				NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
-//		    	System.out.println("PlayerShop found :"+nShop.getCosts().size());
-//				ItemStack item ;
-//				Cost cost; 
-//				ItemStack stock;
-//
-//				if (nShop != null)
-//				{
-//					nShop.setName("NewShop");
-//			    	System.out.println("Realms New shop");
-//					int index = 0;
-//					int maxRecipe = 8;
-//					
-//					Map<ItemStack, Cost> costs =  nShop.getCosts();
-//					
-//					System.out.println("Costs size: "+nShop.getCosts().size());
-//					item = new ItemStack(Material.COBBLESTONE);
-//					
-//					stock = new ItemStack(Material.COBBLESTONE);
-//					stock.setAmount(128);
-//	    	
-//				}
-//			}
-//		}
 	}
 	
 	public void setShop(Player player, Location position, Settlement settle)
 	{
-//		Block bs = position.getWorld().getBlockAt(position);
-//		Block cs = bs.getRelative(BlockFace.DOWN);
-//		cs.setType(Material.CHEST);
-//		Chest chest = (Chest) cs.getState();
-//		bs.setType(Material.AIR);
-//		if (sk == null) {System.out.println("Shop not loaded isnull");  return; }
-////		sk.getShopTypeRegistry().register(DefaultShopTypes.PLAYER_NORMAL);
-////		sk.getShopObjectTypeRegistry().register(LivingEntityType.VILLAGER.getObjectType());
-////		System.out.println("Costs size: "+sk.getShopTypeRegistry().numberOfRegisteredTypes());
-//		ShopType<?> shopType =  sk.getShopTypeRegistry().get("PLAYER_NORMAL");   //getDefaultSelection(player);
-//		ShopObjectType shopObjType = sk.getShopObjectTypeRegistry().get("VILLAGER");  //getDefaultSelection(player);
-//
-//		if (player == null) {System.out.println("Player isnull"); }
-//
-//		ShopCreationData shopCreationData = new ShopCreationData(player, shopType, cs, position, shopObjType);
-//		Shopkeeper shop = ShopkeepersPlugin.getInstance().createNewPlayerShopkeeper(shopCreationData ); 
-//		//(player, cs, position, shopType,shopObjectType);    
-//
-//		ItemStack item ;
-//		Cost cost; 
-//		ItemStack stock;
-//
-//		if (shop != null)
-//		{
-//			shop.setName("NewShop");
-//			NormalPlayerShopkeeper nShop = (NormalPlayerShopkeeper) shop;
-//	    	System.out.println("Realms New shop");
-//	    	ItemList overStock = settle.settleManager().getOverStock(realmModel, settle);
-//			int index = 0;
-//			int maxRecipe = 8;
-//			
-//			Map<ItemStack, Cost> costs =  nShop.getCosts();
-//			
-//			System.out.println("Costs size: "+nShop.getCosts().size());
-////			item = new ItemStack(Material.COBBLESTONE);
-////			nShop.getCosts().put(item, new NormalPlayerShopkeeper.Cost(64,1)); 
-//			
-//			stock = new ItemStack(Material.COBBLESTONE);
-//			stock.setAmount(128);
-////			
-////			
-////			item = new ItemStack(Material.LOG);
-////			
-////			stock = new ItemStack(Material.LOG);
-////			stock.setAmount(128);
-////			chest.getInventory().addItem(stock);
-//			
-////			for (Item stock : overStock.values())
-////			{
-////		    	System.out.println("Realms Stock "+stock.ItemRef());
-////				//(int index = 0; index < scsAPI.getShopInventory(bs, true).getSize(); index++)
-////				if (index < shop.getStorage().getSize() )
-////				{
-////					int amount = stock.value();
-////					if (amount > 64)
-////					{
-////						amount = 64;
-////					}
-////					ItemStack item = new ItemStack(Material.getMaterial(stock.ItemRef()),amount);
-////					if (item != null)
-////					{  
-////						shop.setItem(index, item);
-////				    	System.out.println("Realms Price "+stock.ItemRef()+":"+amount);
-////					}
-////					index++;
-////				}
-////			}
-//			
-//		}
 	}
 
 	
@@ -558,7 +450,7 @@ public final class Realms extends JavaPlugin
 	{
 	  if ((iLoc.itemRef() == Material.WALL_SIGN) || (iLoc.itemRef() == Material.SIGN_POST))
 	  {
-		  System.out.println("Set Sign !");
+//		  System.out.println("Set Sign !");
 		  Location position = new Location(world,(int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()-1);
 		  setSignText( position,  signText);
 	  }		
@@ -677,7 +569,7 @@ public final class Realms extends JavaPlugin
 				break;
 			case BED:
 			case BED_BLOCK:
-				System.out.println("Set Bed !");
+//				System.out.println("Set Bed !");
 	            BlockState bedFoot = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ()).getState();
 	            BlockState bedHead = bedFoot.getBlock().getRelative(BlockFace.SOUTH).getState();
 				bedFoot.setType(Material.BED_BLOCK);
@@ -961,6 +853,31 @@ public final class Realms extends JavaPlugin
 			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
 		}
 	}
+
+	private void getBedBlock(Block block,  BuildManager buildManager, Material mat, Material resulMat)
+	{
+		if (block.getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
+			buildManager.resultBlockRequest().add(new ItemLocation(resulMat, new LocationData(block.getWorld().getName(), block.getX(),block.getY()+1, block.getZ())));
+		}
+		if (block.getRelative(BlockFace.SOUTH, 1).getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			block.getRelative(BlockFace.SOUTH, 1).getRelative(BlockFace.UP, 1).setType(Material.AIR);
+		}
+		if (block.getRelative(BlockFace.WEST, 1).getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			block.getRelative(BlockFace.WEST, 1).getRelative(BlockFace.UP, 1).setType(Material.AIR);
+		}
+		if (block.getRelative(BlockFace.EAST, 1).getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			block.getRelative(BlockFace.EAST, 1).getRelative(BlockFace.UP, 1).setType(Material.AIR);
+		}
+		if (block.getRelative(BlockFace.NORTH, 1).getRelative(BlockFace.UP, 1).getType() == mat)
+		{
+			block.getRelative(BlockFace.NORTH, 1).getRelative(BlockFace.UP, 1).setType(Material.AIR);
+		}
+	}
 	
 	private void getFluid(Block block,  BuildManager buildManager, Material mat, Material resulMat)
 	{
@@ -1183,6 +1100,14 @@ public final class Realms extends JavaPlugin
 	 */
 	protected Material getBlock(World world, ItemLocation iLoc, BuildManager buildManager)
 	{
+		if (world == null)
+		{
+			return null;
+		}
+		if (iLoc == null)
+		{
+			return null;
+		}
 		Block block ;
 		Material mat ;
 		block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
@@ -1196,6 +1121,8 @@ public final class Realms extends JavaPlugin
 			}
 		}
 		getDoorBlock(block,  buildManager, Material.WOOD_DOOR, Material.WOODEN_DOOR);
+		//look for bedblocks
+		getBedBlock(block,  buildManager, Material.WOOD_DOOR, Material.BED_BLOCK);
 		// lava suchen 
 		getFluid(block,  buildManager, Material.LAVA, Material.LAVA_BUCKET);
 		// wasser suchen 
@@ -1218,7 +1145,7 @@ public final class Realms extends JavaPlugin
 		case BEDROCK: return Material.AIR;
 		case PORTAL : return Material.AIR;
 		case WOOD_DOOR : 
-			System.out.println("GetDoor !");
+//			System.out.println("GetDoor !");
 			block = world.getBlockAt((int)iLoc.position().getX(), (int)iLoc.position().getY(), (int)iLoc.position().getZ());
 			block.getRelative(BlockFace.UP, 1).setType(Material.AIR);
 			mat = block.getType();
@@ -1227,7 +1154,7 @@ public final class Realms extends JavaPlugin
 			Chest chest = (Chest) block.getState();
 			if(chest instanceof Chest )
 			{
-				System.out.println("Clean up : Chest found with "+chest.getInventory().getSize());
+//				System.out.println("Clean up : Chest found with "+chest.getInventory().getSize());
 				for (int i=0; i < chest.getInventory().getSize(); i++)
 				{
 					ItemStack item = chest.getInventory().getItem(i);
@@ -1246,7 +1173,7 @@ public final class Realms extends JavaPlugin
 				DoubleChest dChest = (DoubleChest) block.getState();
 				if (dChest instanceof DoubleChest)
 				{
-					System.out.println("Clean up : DoublChest found with "+dChest.getInventory().getSize());
+//					System.out.println("Clean up : DoublChest found with "+dChest.getInventory().getSize());
 					for (int i=0; i < dChest.getInventory().getSize(); i++)
 					{
 						ItemStack item = dChest.getInventory().getItem(i);
@@ -1342,8 +1269,14 @@ public final class Realms extends JavaPlugin
 //				System.out.println("Colony Clean request");
 				ItemLocation iLoc =  settle.buildManager().getCleanRequest().get(i);
 				World world = getServer().getWorld(iLoc.position().getWorld());
-				Material mat = getBlock(world, iLoc,settle.buildManager());
-				settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+				if (world != null)
+				{	
+					Material mat = getBlock(world, iLoc,settle.buildManager());
+					if (mat != null)
+					{
+						settle.buildManager().resultBlockRequest().add(new ItemLocation(mat, new LocationData(iLoc.position().getWorld(), iLoc.position().getX(),iLoc.position().getY(), iLoc.position().getZ())));
+					}
+				}
 			}
 			settle.buildManager().getCleanRequest().clear();
 		}
@@ -1386,6 +1319,7 @@ public final class Realms extends JavaPlugin
 		}
 
 	}
+	
 	
 	/**
 	 * run an update on the registered signs of an settlement
@@ -1669,7 +1603,171 @@ public final class Realms extends JavaPlugin
 			return null;
 		}
 		return null;
+	}
+
+	/**
+	 * <pre>
+	 * realize Block scan of a worldMap
+	 * - regiment campPosition
+	 * 
+	 * </pre>
+	 */
+	public void onScanRequest()
+	{
+		for (CampPosition campPos : getData().getCampList().values())
+		{
+			if (campPos.isActiv())
+			{
+				doCampScan(campPos);
+				campPos.setActiv(false);
+				return;
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @return list of BlockFace for scan
+	 */
+	private BlockFace[] getFaceList()
+	{
+		BlockFace[] checkFaces = new BlockFace[] 
+				{BlockFace.NORTH, 
+				BlockFace.NORTH_EAST, 
+				BlockFace.NORTH_WEST, 
+				BlockFace.EAST, 
+				BlockFace.SOUTH_EAST, 
+				BlockFace.SOUTH_WEST, 
+				BlockFace.SOUTH,
+				BlockFace.WEST
+				};
+		return checkFaces;
+	}
+	
+	/**
+	 * Scan for ground block in neighborhood of block
+	 *  
+	 * @param block
+	 * @return
+	 */
+	private Block scanNeibour(Block block, HeightAnalysis analysis)
+	{
+		BlockFace[] faces = getFaceList();
+		for (BlockFace face : faces)
+		{
+			Block faceBlock = block.getRelative(face);
+			Block near = block.getWorld().getHighestBlockAt(faceBlock.getLocation());
+//			System.out.println(face.name()+":"+near.getType().name());
+			if (analysis.checkGround(near.getType()) == true)
+			{
+				return near;
+			}
+		}
+		return null;
+	}
+	
+	private Location findGround(Location position, HeightAnalysis analysis)
+	{
+		Location groundPos = position.clone();
+		Block block = groundPos.getBlock().getRelative(BlockFace.DOWN);
+		if (analysis.checkGround(block.getType()))
+		{
+//			System.out.println("Ground found");
+			return block.getLocation();
+		}
+		if (scanNeibour(block, analysis) == null)
+		{
+			for (BlockFace face : getFaceList())
+			{
+				Block near = scanNeibour(block.getRelative(face),analysis);
+				if (near != null)
+				{
+//					System.out.println("Ground found");
+					return near.getLocation(); 
+				}
+			}
+		}
+//		System.out.println("Ground NOT found");
+		return groundPos;
+	}
+
+	/**
+	 * 
+	 * @param sType
+	 * @return scan radius for setlement type
+	 */
+	public int setRange(SettleType sType)
+	{
+		switch(sType)
+		{
+		case HAMLET: return 40 + 60;
+		case TOWN: return 70 + 60;
+		case CITY: return 100 + 60;
+		case METROPOLIS: return 200 + 60;
+		default :
+			return 10;
+		}
+	}
+	
+	
+	public void doCampScan( CampPosition campPos)
+	{
+		long time1 = System.nanoTime();
+		if (campPos.getSettleId() == 0)
+		{
+			System.out.println("NO camp scan for settle "+campPos.getSettleId());
+			return;
+		}
+		PositionFace face = campPos.getFace();
+		int range = setRange(data.getSettlements().getSettlement(campPos.getSettleId()).getSettleType());
+		LocationData stayPos = PositionFace.getScanPos(face, data.getSettlements().getSettlement(campPos.getSettleId()).getPosition(),range);
+		Location mesPos = makeLocation(stayPos);
+		int mesHigh = mesPos.getWorld().getHighestBlockAt(mesPos).getY();
+		Location newPos = makeLocation(stayPos);
+//		newPos.setY(mesHigh+1);
+		mesPos.setY(mesHigh-1);
+		int radius =  10;
+		HeightAnalysis analysis = campPos.getAnalysis();
+		Location center = findGround(newPos, analysis);
+		campPos.setPosition(makeLocationData(center));
+		int left = (int) (center.getZ()-radius);
+		int edge = (radius*2)-1;
+		analysis.setStart((int) center.getY());
+		center.setX(center.getX()-radius);
+		center.setZ(left);
+		for(int i=0; i<edge; i++)
+		{
+			center.setX(center.getX()+1);
+			center.setZ(left);
+			String line =ConfigBasis.setStrright(i, 2)+"|";
+			for(int j=0; j<edge; j++)
+			{
+				center.setZ(center.getZ()+1);
+				Block block = center.getWorld().getHighestBlockAt(center).getRelative(BlockFace.DOWN); 
+				if (analysis.checkGround(block.getType()) == true)
+				{
+					analysis.setIsGround(true);
+					int high = block.getY();
+//					System.out.println(block.getType().name());
+					analysis.addValue(high);
+				}
+//				block.setType(Material.GLASS);
+			}
+		}
+		campPos.setActiv(false);
 		
+		if (serverListener.findRegionAtPosition(this, newPos) != null)
+		{
+			analysis.setRegion(true);
+		}
+		if (serverListener.findSuperRegionAtPosition(this, newPos ) != null)
+		{
+			analysis.setSettlement(true);
+		}
+		
+		campPos.setValid(campPos.getAnalysis().isValid());
+	    long time2 = System.nanoTime();
+	    System.out.println(campPos.getSettleId()+"Valid : "+analysis.isValid()+" scan analysis Time [ms]: "+(time2 - time1)/1000000);
 	}
 
 	
