@@ -27,23 +27,23 @@ public class UnitMilitia extends AbstractUnit
 		unit.maxStorage = 27;
 		
 		// required
-		unit.requiredItems = unit.initRequired();
+		unit.requiredItems = getRequiredList();
 		unit.requiredCost = 0.0;
 		unit.requiredTime = 10;
 		unit.requiredUnits = new UnitList();
 		
 		//consum
-		unit.consumItems = unit.initConsum();
+		unit.consumItems = getConsumList();
 		unit.consumCost  = 0.1;
 		unit.consumTime  = 10;
 		
 	}
 	
-	@Override
-	public ItemList initRequired()
-	{
-		return getRequiredList();
-	}
+//	@Override
+//	public ItemList initRequired()
+//	{
+//		return getRequiredList();
+//	}
 	
 	
 	public static ItemList getRequiredList()
@@ -60,11 +60,11 @@ public class UnitMilitia extends AbstractUnit
 		
 	}
 	
-	@Override
-	public ItemList initConsum()
-	{
-		return getConsumList();
-	}
+//	@Override
+//	public ItemList initConsum()
+//	{
+//		return getConsumList();
+//	}
 
 	public static ItemList getConsumList()
 	{

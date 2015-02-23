@@ -49,6 +49,11 @@ import org.bukkit.block.Biome;
  * - regiment vs settlement
  * the regiment is a superregion in HeroStronghold, because this region type can easy destroy and create
  * 
+ * the regiment has a buildManager for buildup and remove the CAMP.
+ * 
+ * a regiment is a  finite state machine. all action done by the RegimentStatus. The run will be trigered by an external tick.
+ * the regiment self has no time or timing. 
+ * 
  * @author Windu
  * </pre>
  */
@@ -63,6 +68,7 @@ public class Regiment extends AbstractSettle
 	private RegimentStatus regStatus = RegimentStatus.NONE;
 	private LocationData position;
 	private LocationData target;
+	private LocationData homePosition;
 	private Owner owner;
 	private boolean isUncamp;
 	
@@ -185,6 +191,16 @@ public class Regiment extends AbstractSettle
 	public BuildManager buildManager()
 	{
 		return buildManager;
+	}
+
+	public RaiderManager getRaiderManager()
+	{
+		return raiderManager;
+	}
+
+	public void setRaiderManager(RaiderManager raiderManager)
+	{
+		this.raiderManager = raiderManager;
 	}
 
 	public RegimentType getRegimentType() {
@@ -377,6 +393,7 @@ public class Regiment extends AbstractSettle
 
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
+		System.out.println("[REALMS] unit consum");
 		age++;
 		for (NpcData unit :barrack.getUnitList())
 		{
@@ -521,14 +538,15 @@ public class Regiment extends AbstractSettle
 		{
 			// set superRegionRequest, it will automaticly used , after request fulfill it is NULL
 			superRequest = newSuperRegion;
-			System.out.println("Regiment start Wait");
+			System.out.println("Regiment Camp Action NONE / No DAY cycle");
 			regStatus = RegimentStatus.IDLE;
-			raiderManager.setRaiderAction(RaiderAction.DAY1);
+			raiderManager.setRaiderAction(RaiderAction.NONE);
 			rModel.getData().writeRegiment(this);
 			// set new position for units
 			for (NpcData npc : barrack.getUnitList())
 			{
 				npc.setLocation(this.position);
+				npc.setUnitAction(UnitAction.STARTUP);
 			}
 		} else
 		{
@@ -549,7 +567,7 @@ public class Regiment extends AbstractSettle
 		// Ready is the last status for clean old camp,
 		if (buildManager.getStatus() == BuildStatus.READY)
 		{
-			buildManager.runClean(rModel, warehouse, null);
+			buildManager.runRebuild(rModel, warehouse, null);
 			System.out.println("Regiment start Move :"+buildManager.getStatus()+this.maxTicks);
 			rModel.getServer().destroySuperRegion(name);
 			isUncamp =true;
@@ -557,7 +575,7 @@ public class Regiment extends AbstractSettle
 		} else
 		{
 //    		System.out.println("Regiment UnCamp "+buildManager.getStatus());
-			buildManager.runClean(rModel, warehouse, null);
+			buildManager.runRebuild(rModel, warehouse, null);
 		}
 	}
 	
@@ -900,6 +918,22 @@ public class Regiment extends AbstractSettle
 	public void setRaidTarget(Settlement raidTarget)
 	{
 		this.raidTarget = raidTarget;
+	}
+
+	/**
+	 * @return the homePosition
+	 */
+	public LocationData getHomePosition()
+	{
+		return homePosition;
+	}
+
+	/**
+	 * @param homePosition the homePosition to set
+	 */
+	public void setHomePosition(LocationData homePosition)
+	{
+		this.homePosition = homePosition;
 	}
 
 	/**

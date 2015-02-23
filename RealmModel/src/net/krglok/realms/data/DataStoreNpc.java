@@ -10,6 +10,13 @@ import net.krglok.realms.npc.EthnosType;
 import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.unit.UnitArcher;
+import net.krglok.realms.unit.UnitCommander;
+import net.krglok.realms.unit.UnitHeavyInfantry;
+import net.krglok.realms.unit.UnitKnight;
+import net.krglok.realms.unit.UnitLightInfantry;
+import net.krglok.realms.unit.UnitMilitia;
+import net.krglok.realms.unit.UnitSettler;
 import net.krglok.realms.unit.UnitType;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -160,6 +167,35 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		    	}
 		    	npc.setBackPack(iList);
 			}
+		}
+		switch(npc.getUnitType())
+		{
+		case MILITIA:
+			UnitMilitia.initData(npc.getUnit());
+			break;
+		case ARCHER:
+			UnitArcher.initData(npc.getUnit());
+			break;
+		case LIGHT_INFANTRY:
+			UnitLightInfantry.initData(npc.getUnit());
+			break;
+		case HEAVY_INFANTRY:
+			UnitHeavyInfantry.initData(npc.getUnit());
+			break;
+		case KNIGHT:
+			UnitKnight.initData(npc.getUnit());
+			break;
+		case COMMANDER:
+			UnitCommander.initData(npc.getUnit());
+			break;
+		case SETTLER:
+			UnitSettler.initData(npc.getUnit());
+			break;
+		case SLAVE:
+			UnitSettler.initData(npc.getUnit());
+			break;
+		default:
+		break;
 		}
 		return npc;
 	}

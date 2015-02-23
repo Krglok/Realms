@@ -576,7 +576,7 @@ public class Resident
 						{
 							NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
 							newChild.setHomeBuilding(0);
-							newChild.setSettleId(building.getSettleId());
+							newChild.setSettleId(0);
 							npcList.add(newChild);
 							data.writeNpc(newChild);
 							System.out.println("[REALMS] New Child "+newChild.getId()+" born living as BEGGAR ");
@@ -724,9 +724,12 @@ public class Resident
 	 */
 	public void doSettlerCalculation(BuildingList buildings, DataInterface data)
 	{
-		doLifeCycle(buildings, data);
-		doBirthrate();
-		doDeathrate(data);
+		if (this.npcList != null)
+		{
+			doLifeCycle(buildings, data);
+			doBirthrate();
+			doDeathrate(data);
+		}
 //		settlerCount = settlerCount + settlerBirthrate - settlerDeathrate;
 	}
 

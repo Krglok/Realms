@@ -168,7 +168,7 @@ public class UnitTrait  extends Trait
 	@Override
 	public void onAttach()
 	{
-		plugin.getServer().getLogger().info(npc.getName() + " has been assigned UnitTrait!");
+//		plugin.getServer().getLogger().info(npc.getName() + " has been assigned UnitTrait!");
 
 		// This will send a empty key to the Load method, forcing it to load the
 		// config.yml defaults.
@@ -266,7 +266,8 @@ public class UnitTrait  extends Trait
 			}
 			event.getClicker().sendMessage("my name is "+this.getNPC().getFullName()+" | "+npcData.getAge()+" years old "+npcData.getGender());
 			event.getClicker().sendMessage(this.getNPC().getId()+":"+npcData.getId()+" job "+npcData.getUnitAction()+" as "+npcData.getUnitType());
-			event.getClicker().sendMessage("stuck : "+isStuck+" GuardPos :"+npcData.guardPos);
+			event.getClicker().sendMessage("Regiment : "+npcData.getRegimentId()+" GuardPos :"+npcData.guardPos);
+			event.getClicker().sendMessage("isAlive : "+npcData.isAlive()+" Type :"+npcData.getNpcType()+ " Happy "+npcData.getHappiness());
 			Equipment equip = npc.getTrait(Equipment.class);
 			for (ItemStack item : equip.getEquipment())
 			{

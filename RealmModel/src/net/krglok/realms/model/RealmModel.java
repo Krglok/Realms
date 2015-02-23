@@ -85,6 +85,7 @@ public class RealmModel
 	private ArrayList<Settlement> productionQueue;	// List von Settlements , die abgearbeitet werden muessen
 	private ArrayList<Settlement> taxQueue;			// List von Settlements , die abgearbeitet werden muessen
 	private HashMap<Integer,Integer> storeQueue;	// Liste von Settlement Id, die gepeichert werden sollen
+	private ArrayList<Regiment> regimentProductionQueue;	// List of Regiments for production, daily event
 
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
@@ -132,7 +133,7 @@ public class RealmModel
 		productionQueue = new ArrayList<Settlement>();
 		taxQueue = new ArrayList<Settlement>();
 		storeQueue = new HashMap<Integer,Integer>();
-		
+		regimentProductionQueue = new ArrayList<Regiment>();
 //		this.logList = logList;
 		owners = new OwnerList();
 		kingdoms = new KingdomList(realmCounter);
@@ -596,6 +597,11 @@ public class RealmModel
 		}
 	}
 	
+	/**
+	 * do daily event 
+	 * 
+	 * @param dayTime
+	 */
 	public void OnDay(long dayTime)
 	{
 		try 
@@ -611,11 +617,6 @@ public class RealmModel
 			}
 			if (isDay == false)
 			{
-				System.out.println("Regiment next day ");
-				for (Regiment regiment : getData().getRegiments().values())
-				{
-					regiment.doNextDay();
-				}
 			}
 			isDay = true;
 		} catch (Exception e) {
@@ -627,19 +628,10 @@ public class RealmModel
 	}
 
 	/**
-	 * ruft den BuildManager jedes Settlement auf und laesst ihn eine Runde arbeiten
+	 * start buildManager of each Colony for 1 tick
 	 */
 	private void colonyManagersRun()
 	{
-//		for (Settlement settle : settlements.getSettlements().values())
-//		{
-////			if (settle.buildManager().getStatus().equalsIgnoreCase("None") == false)
-//			{
-//				settle.buildManager().run(this, settle.getWarehouse(),settle);
-//			}
-//
-//		}
-		
 		for (Colony colony : colonys.values())
 		{
 //			System.out.println("Colony Buildmanager");
@@ -657,7 +649,7 @@ public class RealmModel
 	}
 	
 	/**
-	 * Arbeitet fuer jedes Settlement die Manager ab
+	 * start each manager for each settlement for 1 tick 
 	 */
 	private void managersRun()
 	{
@@ -666,11 +658,12 @@ public class RealmModel
 			settle.settleManager().run(this, settle);
 			settle.buildManager().run(this, settle.getWarehouse(),settle);
 			settle.tradeManager().run(this, settle);
-			
 		}
-		
 	}
 	
+	/**
+	 * start the regiment run for each regiment  for 1 tick
+	 */
 	private void regimentRun()
 	{
 		if (regiments == null)
@@ -679,7 +672,6 @@ public class RealmModel
 		}
 		for (Regiment regiment : regiments.values())
 		{
-			
 			regiment.run(this);
 		}
 	}
@@ -690,7 +682,11 @@ public class RealmModel
 		return ModelStatus.MODEL_ENABLED;
 	}
 	
-	
+	/**
+	 * start the next command in the queue
+	 * only bank command wil be executed
+	 * @return
+	 */
 	private ModelStatus nextCommandQueue()
 	{
 //		System.out.println("Before CommandQueue ");
@@ -699,7 +695,6 @@ public class RealmModel
 			return ModelStatus.MODEL_ENABLED;
 		}
 		// do Command
-//		System.out.println("Before GetCommand ");
 		modelStatus = ModelStatus.MODEL_COMMAND;
 		iModelCommand command = commandQueue.get(0);
 		if (command == null)
@@ -707,7 +702,6 @@ public class RealmModel
 			System.out.println("Command NULL");
 			return modelStatus;
 		}
-//		System.out.println("Before Can Execute");
 		if (command.canExecute())
 		{
 //			System.out.println("Before Switch");
@@ -786,46 +780,57 @@ public class RealmModel
 				productionQueue.add(settle);
 			}
 		}
+		for (Regiment regiment : regiments.values())
+		{
+			if (regiment.isEnabled() && (regiment.getPosition().getWorld().equalsIgnoreCase(worldName)))
+			{
+				regimentProductionQueue.add(regiment);
+			}
+		}
 		return ModelStatus.MODEL_PRODUCTION;
 	}
 
 	private ModelStatus nextProductionQueue()
 	{
-		if (productionQueue.isEmpty())
+		if (productionQueue.isEmpty() == false)
 		{
-			System.out.println("[REALMS] production ended");
-			return ModelStatus.MODEL_ENABLED;
+			Settlement settle = productionQueue.get(0);
+	//		System.out.println("[REALMS] Reset Daily Reputation");
+			settle.getReputations().resetDaily();
+			messageData.log("settle");
+			settle.setSettlerMax();
+			messageData.log("settler max");
+			settle.checkBuildingsEnabled(server);
+			messageData.log("Building enable");
+			settle.setWorkerNeeded();
+			messageData.log("worker needed");
+	//		settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
+			settle.doHappiness(data);
+			messageData.log("happiness");
+			settle.doProduce(server, data);
+			messageData.log("produce");
+			settle.doUnitTrain(unitFactory);
+			data.writeSettlement(settle);
+			
+	//		storeQueue.put(settle.getId(), settle.getId());
+			productionQueue.remove(0);
+	//		System.out.println("remove 0");
+			messageData.log("remove 0");
+	//		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
+			return ModelStatus.MODEL_PRODUCTION;
 		}
-		Settlement settle = productionQueue.get(0);
-//		System.out.println("[REALMS] Reset Daily Reputation");
-		settle.getReputations().resetDaily();
-		messageData.log("settle");
-		settle.setSettlerMax();
-		messageData.log("settler max");
-		settle.checkBuildingsEnabled(server);
-		messageData.log("Building enable");
-		settle.setWorkerNeeded();
-		messageData.log("worker needed");
-//		settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-//		messageData.log("worker to building");
-		settle.doHappiness(data);
-		messageData.log("happiness");
-		settle.doProduce(server, data);
-		messageData.log("produce");
-		settle.doUnitTrain(unitFactory);
 		
-		data.writeSettlement(settle);
-		
-//		storeQueue.put(settle.getId(), settle.getId());
-		productionQueue.remove(0);
-//		System.out.println("remove 0");
-		messageData.log("remove 0");
-//		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
-		if (productionQueue.isEmpty())
+		if (regimentProductionQueue.isEmpty() == false)
 		{
-			return ModelStatus.MODEL_ENABLED;
+			Regiment regiment = regimentProductionQueue.get(0);
+			System.out.println("[REALMS] regiment production ");
+			regiment.doProduce(server, data);
+			data.writeRegiment(regiment);
+			regimentProductionQueue.remove(0);
+			return ModelStatus.MODEL_PRODUCTION;
 		}
-		return ModelStatus.MODEL_PRODUCTION;
+		System.out.println("[REALMS] production ended");
+		return ModelStatus.MODEL_ENABLED;
 	}
 
 	

@@ -12,9 +12,9 @@ import net.krglok.realms.core.ItemList;
 public interface IUnit
 {
 	
-	public ItemList initRequired();
-	
-	public ItemList initConsum();
+//	public ItemList initRequired();
+//	
+//	public ItemList initConsum();
 
 	public abstract int getSpeed();
 

@@ -11,6 +11,7 @@ import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.NpcList;
 import net.krglok.realms.unit.UnitFactory;
+import net.krglok.realms.unit.UnitMilitia;
 import net.krglok.realms.unit.UnitType;
 
 /**
@@ -487,6 +488,7 @@ public abstract class AbstractSettle
 			}
 		} else
 		{
+			checkNpcFeed(unit, 1,unit,data);
 			if (unit.getHappiness() > -1.0)
 			{
 				unit.getUnit().addHappiness(-0.1);
@@ -503,6 +505,11 @@ public abstract class AbstractSettle
 	 */
 	protected boolean checkStock(double prodFactor, ItemList items)
 	{
+		if (items.size() == 0)
+		{
+			System.out.println("[REALMS] checkStock NO items ");
+			return false;
+		} 
 		int iValue = 0;
 		// Check amount in warehouse
 		boolean isStock = true;
@@ -566,7 +573,6 @@ public abstract class AbstractSettle
 			{
 				return false;
 			}
-//			System.out.println("Withdraw-"+item.ItemRef()+":"+iValue+":"+prodFactor);
 		}
 		return true;
 	}

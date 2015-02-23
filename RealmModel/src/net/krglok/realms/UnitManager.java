@@ -44,7 +44,7 @@ public class UnitManager
 		for (NpcData npcData : plugin.getData().getNpcs().values())
 		{
 			if ((npcData.isSpawned == false)
-				&& (npcData.getNpcType() == NPCType.MILITARY)
+				&& (npcData.getUnitType()  != UnitType.SETTLER)
 				)
 			{
 				if (npcData.isAlive())
@@ -137,7 +137,16 @@ public class UnitManager
 		{
 			if (npc.getUnitType() != UnitType.SETTLER)
 			{
-				int spawnId = doUnitSpawn( npc.getName(), npc.getUnitType(), position,npc.getSettleId(), npc.getRegimentId()); // npc.getHomeBuilding()) ;
+				EntityType eType;
+				try
+				{
+					eType = EntityType.valueOf(npc.getEntityType());
+
+				} catch (Exception e)
+				{
+					eType = EntityType.PLAYER;
+				}
+				int spawnId = doUnitSpawn( npc.getName(), npc.getUnitType(), position,npc.getSettleId(), npc.getRegimentId(), eType); // npc.getHomeBuilding()) ;
 				if (spawnId >= 0)
 				{
 					npc.isSpawned = true;
@@ -149,21 +158,23 @@ public class UnitManager
 	}
 	
 
-	public void doAddUnit(NPC npc, UnitType unitType, int settleId, int regimentId)
+	public void doAddUnit(NPC npc, UnitType unitType, int settleId, int regimentId, EntityType eType)
 	{
 		UnitTrait unit;
 		unit = new UnitTrait();
 		npc.addTrait(unit);
 		unit.setRegimentId(regimentId);
 		unit.setSettleId(settleId);
-		
 		SentryTrait sentry = new SentryTrait();
 		npc.addTrait(sentry);
-		
+        npc.data().set(NPC.DAMAGE_OTHERS_METADATA, true);
 		npc.getTrait(LookClose.class).lookClose(true);
+//		npc.setBukkitEntityType(eType);
 		float newSpeed = (float) 0.8;
 		npc.getNavigator().getDefaultParameters().speedModifier(newSpeed );
 		sentry.getInstance().RespawnDelaySeconds = 60;
+		sentry.getInstance().GreetingMessage = "";
+		sentry.getInstance().WarningMessage = "Wait stranger we need your equipment";
 		Equipment equip;
 		switch(unitType)
 		{
@@ -176,6 +187,7 @@ public class UnitManager
 				sentry.getInstance().sentryHealth = 10.0;
 				sentry.getInstance().HealRate= 0.1;
 				sentry.getInstance().sentryRange = 20;
+				sentry.getInstance().WarningRange = 5;
 			}
 			equip = npc.getTrait(Equipment.class);
 			equip.set(EquipmentSlot.HAND,new ItemStack(Material.STONE_SWORD,1));
@@ -193,6 +205,7 @@ public class UnitManager
 				sentry.getInstance().sentryHealth = 10.0;
 				sentry.getInstance().HealRate= 0.1;
 				sentry.getInstance().sentryRange = 30;
+				sentry.getInstance().WarningRange = 5;
 			}
 			equip = npc.getTrait(Equipment.class);
 			equip.set(EquipmentSlot.HAND,new ItemStack(Material.BOW,1));
@@ -210,6 +223,7 @@ public class UnitManager
 				sentry.getInstance().sentryHealth = 10.0;
 				sentry.getInstance().HealRate= 0.1;
 				sentry.getInstance().sentryRange = 10;
+				sentry.getInstance().WarningRange = 25;
 			}
 			npc.getTrait(Equipment.class).set(EquipmentSlot.HAND,new ItemStack(Material.STICK,1));
 			npc.getTrait(Equipment.class).set(EquipmentSlot.HELMET,new ItemStack(Material.LEATHER_HELMET,1));
@@ -221,7 +235,7 @@ public class UnitManager
 	}
 	
 	
-	public int doUnitSpawn(String name, UnitType unitType, LocationData position, int settleId, int regimentId)
+	public int doUnitSpawn(String name, UnitType unitType, LocationData position, int settleId, int regimentId, EntityType eType)
 	{
 //		System.out.println("[REALMS) Unit Spawn "+name);
 		NPC npc = null;
@@ -232,7 +246,7 @@ public class UnitManager
 		{
 			 //  new Location(plugin.getServer().getWorld(position.getWorld()), position.getX(), position.getY(), position.getZ());
 			npc.spawn(pos);
-			doAddUnit( npc, unitType,  settleId,  regimentId);
+			doAddUnit( npc, unitType,  settleId,  regimentId, eType);
 			return npc.getId();
 		} else
 		{

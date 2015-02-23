@@ -408,7 +408,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 		UnitList subList = new UnitList();
 		for (NpcData npc : this.values())
 		{
-			if (npc.getNpcType() == NPCType.MILITARY)
+			if (npc.getUnitType() != UnitType.SETTLER)
 			{
 				subList.putUnit(npc);
 			}
@@ -422,7 +422,7 @@ public class NpcList extends HashMap<Integer, NpcData>
 		UnitList subList = new UnitList();
 		for (NpcData npc : this.values())
 		{
-			if (npc.getNpcType() == NPCType.MILITARY)
+			if (npc.getUnitType() != UnitType.SETTLER)
 			{
 				if ((npc.getSettleId() == settleId)
 					&& (npc.getRegimentId() == 0)

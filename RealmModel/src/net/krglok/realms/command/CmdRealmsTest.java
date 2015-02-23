@@ -7,10 +7,12 @@ import java.util.List;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.manager.CampPosition;
 import net.krglok.realms.manager.HeightAnalysis;
 import net.krglok.realms.manager.PositionFace;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.unit.Regiment;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -165,20 +167,20 @@ public class CmdRealmsTest extends RealmsCommand
 		return groundPos;
 	}
 
-	private boolean findSettleCamp(RealmModel rModel, int settleId, PositionFace face)
-	{
-		for (CampPosition campPos : rModel.getData().getCampList().values())
-		{
-			if (campPos.getSettleId() == settleId)
-			{
-				if (campPos.getFace() == face)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+//	private boolean findSettleCamp(RealmModel rModel, int settleId, PositionFace face)
+//	{
+//		for (CampPosition campPos : rModel.getData().getCampList().values())
+//		{
+//			if (campPos.getSettleId() == settleId)
+//			{
+//				if (campPos.getFace() == face)
+//				{
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
 
 
 	@Override
@@ -189,23 +191,27 @@ public class CmdRealmsTest extends RealmsCommand
 		msg.add(ChatColor.RED+"Realms Test ");
 		
 		face = PositionFace.valueOf(faceName);
-		
-		if (findSettleCamp(plugin.getRealmModel(), settleId, face))
+		CampPosition campPos = null;
+		Regiment regiment = plugin.getData().getRegiments().getRegiment(1);
+		if (regiment.getRaiderManager().checkSettleCamp(plugin.getRealmModel(), settleId, face) == false)
 		{
-			msg.add("CampPosition found "+settleId+":"+face.name());
-			for (CampPosition campPos : plugin.getData().getCampList().values())
-			{
-				if (campPos.getSettleId() == settleId)
-				{
-					if (campPos.getFace() == face)
-					{
-						String s = campPos.getId()+":"+campPos.getSettleId()+":"+campPos.getFace().name();
-						msg.add(s);
-					}
-				}
-			}
+			campPos = regiment.getRaiderManager().getNewScanPosition(plugin.getRealmModel(), regiment,settleId, face);
+			plugin.doNewCampScan( campPos);
+			msg.add("CampPosition New ");
+		} else
+		{
+			campPos = plugin.getData().getCampList().getCampPosition(settleId, face);
+			msg.add("CampPosition found ");
 		}
-	
+		Location location = plugin.makeLocation(campPos.getPosition());
+		Player player = (Player) sender;
+		player.teleport(location);
+		Settlement settle = plugin.getData().getSettlements().getSettlement(settleId);
+		msg.add("CampPos : "+settleId+":"+settle.getName()+":"+campPos.getFace().name());
+		msg.add("Avaerage: "+campPos.getAnalysis().getAverage()+"  Start: "+campPos.getAnalysis().getStart());
+		msg.add("Min: "+campPos.getAnalysis().getMin()+" Max: "+campPos.getAnalysis().getMax()+" Diff: "+(campPos.getAnalysis().getMax()-campPos.getAnalysis().getMin()));
+		msg.add("Coverage: "+campPos.getAnalysis().scale()+"   Valid: "+campPos.getAnalysis().isValid());
+		msg.add("Position: "+campPos.getPosition().toString());
 		plugin.getMessageData().printPage(sender, msg, 1);
 		this.settleId = 0;
 		this.faceName = "";

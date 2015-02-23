@@ -7,6 +7,8 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.unit.Regiment;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -106,6 +108,10 @@ public class TickTask implements Runnable
 		{
 			return;
 		}
+		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
+		{
+			return;
+		}
 		
 		counter++;
 //		taxCounter++;
@@ -177,6 +183,14 @@ public class TickTask implements Runnable
 						doGateOpen(world);
 						isGateOpen.put(world.getName(), true);
 						isGateClose.put(world.getName(), false);
+						for (Regiment regiment : plugin.getData().getRegiments().values())
+						{	
+							if (regiment.getPosition().getWorld().equalsIgnoreCase(world.getName()))
+							{
+								System.out.println("[REALMS] Regiment next day ");
+								regiment.doNextDay();
+							}
+						}
 						if (isProduction)
 						{
 							plugin.getRealmModel().OnTrade(world.getName()); 

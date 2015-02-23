@@ -17,10 +17,12 @@ public class CampPosition
 	private int settleId;
 	private PositionFace face;
 	private LocationData position;
-	private boolean isCamp = false;
+	private boolean isCamp;
 	protected  HeightAnalysis analysis;
-	private boolean isActiv = true;	// scan work in progress
-	private boolean isValid = false;  // scan give valid position
+	private boolean isActiv;	// scan work in progress
+	private boolean isValid;  // scan give valid position
+	private int redo;
+	
 	
 	public CampPosition()
 	{
@@ -29,6 +31,10 @@ public class CampPosition
 		this.face = PositionFace.NORTHWEST;
 		this.position = new LocationData("", 0.0, 0.0, 0.0);
 		this.analysis = new HeightAnalysis(11);
+		this.isActiv = true;
+		this.isValid = false;
+		this.isCamp = false;
+		this.setRedo(0);
 	}
 
 	public static void initCOUNTER(int init)
@@ -132,5 +138,25 @@ public class CampPosition
 	{
 		this.isValid = value;
 	}
+
+	/**
+	 * @return the redo
+	 */
+	public int getRedo()
+	{
+		return redo;
+	}
+
+	/**
+	 * @param redo the redo to set
+	 */
+	public void setRedo(int redo)
+	{
+		this.redo = redo;
+	}
 	
+	public void addRedo()
+	{
+		this.redo++;
+	}
 }

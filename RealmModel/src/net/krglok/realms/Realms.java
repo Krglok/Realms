@@ -19,7 +19,6 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SignPos;
 import net.krglok.realms.core.TradeMarketOrder;
@@ -32,7 +31,6 @@ import net.krglok.realms.manager.BiomeLocation;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.manager.CampPosition;
 import net.krglok.realms.manager.HeightAnalysis;
-import net.krglok.realms.manager.PositionFace;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;
@@ -1618,7 +1616,7 @@ public final class Realms extends JavaPlugin
 		{
 			if (campPos.isActiv())
 			{
-				doCampScan(campPos);
+				doNewCampScan(campPos);
 				campPos.setActiv(false);
 				return;
 			}
@@ -1666,6 +1664,12 @@ public final class Realms extends JavaPlugin
 		return null;
 	}
 	
+	/**
+	 * find nearby blocks not LOG and not LEAVES 
+	 * @param position
+	 * @param analysis
+	 * @return
+	 */
 	private Location findGround(Location position, HeightAnalysis analysis)
 	{
 		Location groundPos = position.clone();
@@ -1691,45 +1695,56 @@ public final class Realms extends JavaPlugin
 		return groundPos;
 	}
 
+	
 	/**
-	 * 
-	 * @param sType
-	 * @return scan radius for setlement type
+	 * do Scan analysis, make height correction, make groung calculation for center
+	 * radius = 12 blocks
+	 * @param campPos
 	 */
-	public int setRange(SettleType sType)
+	public void doNewCampScan( CampPosition campPos)
 	{
-		switch(sType)
-		{
-		case HAMLET: return 40 + 60;
-		case TOWN: return 70 + 60;
-		case CITY: return 100 + 60;
-		case METROPOLIS: return 200 + 60;
-		default :
-			return 10;
-		}
-	}
-	
-	
-	public void doCampScan( CampPosition campPos)
-	{
-		long time1 = System.nanoTime();
 		if (campPos.getSettleId() == 0)
 		{
 			System.out.println("NO camp scan for settle "+campPos.getSettleId());
 			return;
 		}
-		PositionFace face = campPos.getFace();
-		int range = setRange(data.getSettlements().getSettlement(campPos.getSettleId()).getSettleType());
-		LocationData stayPos = PositionFace.getScanPos(face, data.getSettlements().getSettlement(campPos.getSettleId()).getPosition(),range);
-		Location mesPos = makeLocation(stayPos);
-		int mesHigh = mesPos.getWorld().getHighestBlockAt(mesPos).getY();
+		if (campPos.isActiv() == false)
+		{
+			System.out.println("Camp scan not activ "+campPos.getId());
+			return;
+		}
+		// scan position , no height correction
+		LocationData stayPos = campPos.getPosition(); 
+		Location stayLoc = makeLocation(stayPos);
+		// get Highest block for height correction
+		int mesHigh = stayLoc.getWorld().getHighestBlockAt(stayLoc).getY();
+		stayPos.setY(mesHigh);
+//		System.out.println("Base : "+stayPos.toString());
 		Location newPos = makeLocation(stayPos);
-//		newPos.setY(mesHigh+1);
-		mesPos.setY(mesHigh-1);
-		int radius =  10;
+		int radius =  10;  // radius of analysis 
 		HeightAnalysis analysis = campPos.getAnalysis();
+		// calculate height correction based on ground block (no LOG and no SPRUCE)
 		Location center = findGround(newPos, analysis);
+		// make height correction to +1 over ground, othererwise go deeper and deeper on rescan
+		center.getBlock().setType(Material.GLASS);
+		center.setY(center.getY()+1);
 		campPos.setPosition(makeLocationData(center));
+		doPositionScan(campPos,center, radius);
+	}
+
+	/**
+	 * make height analysis on location,
+	 *  
+	 * @param campPos
+	 * @param center location
+	 * @param radius of scan
+	 */
+	public void doPositionScan( CampPosition campPos, Location center, int radius)
+	{
+//		System.out.println("Start: "+campPos.getPosition().toString());
+		long time1 = System.nanoTime();
+		Location newPos = makeLocation(campPos.getPosition());
+		HeightAnalysis analysis = campPos.getAnalysis();
 		int left = (int) (center.getZ()-radius);
 		int edge = (radius*2)-1;
 		analysis.setStart((int) center.getY());
@@ -1767,8 +1782,35 @@ public final class Realms extends JavaPlugin
 		
 		campPos.setValid(campPos.getAnalysis().isValid());
 	    long time2 = System.nanoTime();
-	    System.out.println(campPos.getSettleId()+"Valid : "+analysis.isValid()+" scan analysis Time [ms]: "+(time2 - time1)/1000000);
-	}
+	    System.out.println("[REALMS] World Scan Settle "+campPos.getSettleId()+":"+campPos.getFace().name()+" Valid : "+analysis.isValid()+" analysis Time [ms]: "+(time2 - time1)/1000000);
+		
+	}	
 
+//    public List<Village> getCoreVillagesNearLocation(Location location, int maxDistance) {
+//        WorldServer worldServer = ((CraftWorld) location.getWorld()).getHandle();
+//        List<Village> nearby = new ArrayList<>();
+//        double closestDistance = maxDistance * maxDistance;
+//
+//        // 
+//        List<PersistentVillage> pVillages = worldServer.ae().getVillages();
+//        List<Village> coreVillages = worldServer.ae().getVillages();
+//        for (Village coreVillage : coreVillages) 
+//        {
+//            double centerToEdgeDistanceSquared = coreVillage.getSize() * coreVillage.getSize();
+//            double distance = location.distanceSquared(new Location(location.getWorld(), coreVillage.getCenter().x, coreVillage.getCenter().y, coreVillage.getCenter().z)) - centerToEdgeDistanceSquared;
+//            if (distance < closestDistance) {
+//                closestDistance = distance;
+//                nearby.add(coreVillage);
+//            }
+//        }
+//        return nearby;
+//        //return worldServer.villages.getClosestVillage(location.getBlockX(), location.getBlockY(), location.getBlockZ(), maxDistance);
+//    }
+	
+	public void scanVillages(Location center)
+	{
+		Block block = center.getBlock();
+//		getServer().get
+	}
 	
 }

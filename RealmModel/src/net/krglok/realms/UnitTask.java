@@ -3,6 +3,7 @@ package net.krglok.realms;
 import java.util.Iterator;
 import java.util.List;
 
+import net.aufdemrand.sentry.SentryInstance;
 import net.aufdemrand.sentry.SentryTrait;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -12,8 +13,11 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unit.RegimentType;
 import net.krglok.realms.unit.UnitAction;
 import net.krglok.realms.unit.UnitTrait;
 import net.krglok.realms.unit.UnitType;
@@ -60,7 +64,10 @@ public class UnitTask implements Runnable
 		{
 			return;
 		}
-
+		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
+		{
+			return;
+		}
 		// make spanw the citizen npc
 		if (plugin.unitManager.isSpawn() == false)
 		{
@@ -99,7 +106,7 @@ public class UnitTask implements Runnable
 						doAction(npcData);
 					} else
 					{
-						if ((npcData.isAlive()) && (npcData.getNpcType() == NPCType.MILITARY))
+						if ((npcData.isAlive()) && (npcData.getUnitType() != UnitType.SETTLER) && (npcData.getUnitType() != UnitType.SLAVE))
 						{
 //							System.out.println("Unit Task reSpawn");
 							npcData.setUnitAction(UnitAction.NONE);
@@ -330,35 +337,55 @@ public class UnitTask implements Runnable
 	
 	private void setEnemy(NpcData npcData, NPC npc)
 	{
-		if (npcData.getUnitType() == UnitType.ARCHER)
+		if ((npcData.getUnitType() == UnitType.ARCHER)
+			|| (npcData.getUnitType() == UnitType.MILITIA)
+			)
 		{
-			npc.getNavigator().getLocalParameters().attackRange(ARCHCHER_ATTACK_RANGE);
-			npc.getTrait(UnitTrait.class).addEnemyEntity(EntityType.SPIDER);
-			npc.getTrait(UnitTrait.class).addEnemyEntity(EntityType.ZOMBIE);
-			npc.getTrait(UnitTrait.class).addEnemyEntity(EntityType.SKELETON);
-			npc.getTrait(UnitTrait.class).addEnemyEntity(EntityType.CREEPER);
-			if (npc.getTrait(SentryTrait.class).getInstance().validTargets.contains(EntityType.SPIDER.name()) == false)
+//			System.out.println("[REALMS] Set enemy ");
+			SentryInstance inst =	npc.getTrait(SentryTrait.class).getInstance();
+			String arg = "ENTITY:ZOMBIE";
+			if (!inst.containsTarget(arg.toUpperCase())) 
 			{
-				npc.getTrait(SentryTrait.class).getInstance().validTargets.add(EntityType.SPIDER.name());
+				inst.validTargets.add(arg.toUpperCase());
+				inst.processTargets();
 			}
-			if (npc.getTrait(SentryTrait.class).getInstance().validTargets.contains(EntityType.ZOMBIE.name()) == false)
+			arg = "ENTITY:SKELETON";
+			if (!inst.containsTarget(arg.toUpperCase())) 
 			{
-				npc.getTrait(SentryTrait.class).getInstance().validTargets.add(EntityType.ZOMBIE.name());
+				inst.validTargets.add(arg.toUpperCase());
+				inst.processTargets();
+				inst.setTarget(null, false);
 			}
-			if (npc.getTrait(SentryTrait.class).getInstance().validTargets.contains(EntityType.SKELETON.name()) == false)
+			arg = "ENTITY:SPIDER";
+			if (!inst.containsTarget(arg.toUpperCase())) 
 			{
-				npc.getTrait(SentryTrait.class).getInstance().validTargets.add(EntityType.SKELETON.name());
+				inst.validTargets.add(arg.toUpperCase());
+				inst.processTargets();
+				inst.setTarget(null, false);
 			}
-			if (npc.getTrait(SentryTrait.class).getInstance().validTargets.contains(EntityType.CREEPER.name()) == false)
+			arg = "ENTITY:CREEPER";
+			if (!inst.containsTarget(arg.toUpperCase())) 
 			{
-				npc.getTrait(SentryTrait.class).getInstance().validTargets.add(EntityType.CREEPER.name());
+				inst.validTargets.add(arg.toUpperCase());
+				inst.processTargets();
+				inst.setTarget(null, false);
 			}
+			inst.UpdateWeapon();
+
 			npc.getTrait(SentryTrait.class).getInstance().UpdateWeapon();
 			npc.getTrait(SentryTrait.class).getInstance().setHealth(10);
 			npc.setProtected(false);
 			npc.getTrait(SentryTrait.class).getInstance().Targetable = true;
-			npc.getTrait(SentryTrait.class).getInstance().sentryRange = 30;
-			npc.getTrait(SentryTrait.class).getInstance().IgnoreLOS = true;
+			if (npcData.getUnitType() == UnitType.ARCHER)
+			{
+				npc.getNavigator().getLocalParameters().attackRange(ARCHCHER_ATTACK_RANGE);
+				npc.getTrait(SentryTrait.class).getInstance().sentryRange = 30;
+			} else
+			{
+				npc.getNavigator().getLocalParameters().attackRange(20);
+				npc.getTrait(SentryTrait.class).getInstance().sentryRange = 20;
+			}
+			npc.getTrait(SentryTrait.class).getInstance().IgnoreLOS = false;
 			npc.getTrait(SentryTrait.class).getInstance().NightVision = 16;
 		}
 		
@@ -556,12 +583,14 @@ public class UnitTask implements Runnable
 	
 	private void doAction(NpcData npcData)
 	{
+		
 		if (npcData.isSpawned == false)
 		{
 			return;
 		}
-		if (npcData.getNpcType() != NPCType.MILITARY)
+		if ((npcData.getUnitType() == UnitType.SETTLER) || (npcData.getUnitType() == UnitType.SLAVE))
 		{
+			System.out.println("[REALMS] doAction Unit as SETTLER "+npcData.getId());
 			return;
 		}
 
@@ -572,10 +601,6 @@ public class UnitTask implements Runnable
 		}
 		if (npc.getTrait(UnitTrait.class).isStuck == true) 
 		{ 
-		    if (npcData.getId() == 225)
-		    {
-		    	System.out.println(npcData.getId()+" STUCK "+npcData.getUnitAction());
-		    }
 			npc.getTrait(UnitTrait.class).isStuck = false;
 			npc.getNavigator().setPaused(false);
 //			npcData.setUnitAction(UnitAction.IDLE);
@@ -740,16 +765,20 @@ public class UnitTask implements Runnable
 		Location npcRefpos = plugin.makeLocation(npcData.getLocation());
 	    Location actTarget; // = plugin.makeLocation(npcData.getLocation()); 
 
-//	    if (npcData.getId() == 225)
-//	    {
-//	    	System.out.println("Militia regiment"+npcData.getId()+":" +npcData.getUnitAction().name()+":"+raidDelay);
-//	    }
 		switch (npcData.getUnitAction())
 		{
 		case NONE:
 			doHomeRegiment(npcData);
 			setHomePosition(npcData,npc);
 			npcData.setUnitAction(UnitAction.IDLE);
+    		setEnemy(npcData,npc);
+			break;
+		case STARTUP:
+			doHomeRegiment(npcData);
+			setHomePosition(npcData,npc);
+			npc.teleport(plugin.makeLocation(npcData.getLocation()), TeleportCause.PLUGIN);
+			npcData.setUnitAction(UnitAction.IDLE);
+			System.out.println("NPC STARTUP "+npcData.getId());
 			break;
 		case HOME: // ab 6:00 gehen sie auf GUARD
 		    if ((npcRefpos.getWorld().getTime() >= 0) && (npcRefpos.getWorld().getTime() < 11000))
@@ -851,11 +880,13 @@ public class UnitTask implements Runnable
 			// 7:00 bis 17:00 GUARD für MILITIA
 		    if ((npcRefpos.getWorld().getTime() >= 500) && (npcRefpos.getWorld().getTime() < 11000))
 			{
+		    	npc.getTrait(SentryTrait.class).getInstance().UpdateWeapon();
 				npcData.setUnitAction(UnitAction.GUARD);
 			}
 		    // 17:00 bis 6:00 go home
 		    if ((npcRefpos.getWorld().getTime() > 11000) && (npcRefpos.getWorld().getTime() < 23999))
 			{
+		    	npc.getTrait(SentryTrait.class).getInstance().UpdateWeapon();
 				npcData.setUnitAction(UnitAction.HOME);
 				doHomeRegiment(npcData);
 				doHome(npcData,npc);
@@ -905,10 +936,16 @@ public class UnitTask implements Runnable
 	    			}
 	    			if (npcData.getRegimentId() > 0)
 	    			{
-	    				if (plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()) != null)
+	    				Regiment regiment = plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()); 
+	    				if (regiment != null)
 	    				{	
 //							System.out.println("[REALMS] Regiment Unit Spawn: "+unitManager.getSpawnList().get(0));
 	    					b = plugin.getLocationBlock(plugin.getData().getRegiments().getRegiment(npcData.getRegimentId()).getPosition());
+	    					if (regiment.getRegimentType() == RegimentType.RAIDER)
+	    					{
+	    						
+	    						npcData.setEntityType(EntityType.PIG_ZOMBIE.name());
+	    					}
 	    				} else
 	    				{
 	    					npcData.setRegimentId(0);

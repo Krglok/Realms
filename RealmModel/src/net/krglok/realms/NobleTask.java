@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.kingdom.NobleAction;
+import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
@@ -36,7 +37,12 @@ public class NobleTask implements Runnable
 	@Override
 	public void run()
 	{
-//		return;
+//		
+		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
+		{
+			return;
+		}
+
 		if (plugin.nobleManager.isEnabled() == false)
 		{
 			return;

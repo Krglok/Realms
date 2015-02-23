@@ -26,19 +26,19 @@ public class UnitHeavyInfantry  extends AbstractUnit
 		unit.maxStorage = 27;
 		
 		// required
-		unit.requiredItems = unit.initRequired();
+		unit.requiredItems = getRequiredList();
 		unit.requiredCost = 0.0;
 		unit.requiredTime = 10;
 		unit.requiredUnits = new UnitList();
 		
 		//consum
-		unit.consumItems = unit.initConsum();
+		unit.consumItems = getConsumList();
 		unit.consumCost  = 0.8;
 		unit.consumTime  = 10;
 	}
 
-	@Override
-	public ItemList initRequired()
+//	@Override
+	public static ItemList getRequiredList()
 	{
 		ItemList subList = new ItemList();
 		
@@ -51,16 +51,18 @@ public class UnitHeavyInfantry  extends AbstractUnit
 		return subList;
 	}
 
-	@Override
-	public ItemList initConsum()
+//	@Override
+//	public ItemList initConsum()
+//	{
+//		return getConsumList();
+//	}
+		
+	public static ItemList getConsumList()
 	{
 		ItemList subList = new ItemList();
-		
 		subList.addItem(Material.BREAD.name(),1);
 		subList.addItem(Material.COOKED_BEEF.name(),1);
-		
 		return subList;
 	}
-		
 	
 }

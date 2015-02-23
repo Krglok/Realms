@@ -270,7 +270,7 @@ public class AbstractUnit  implements IUnit
 
 
 
-	/* (non-Javadoc)
+	/**
 	 * @see net.krglok.realms.unit.iUnitData#getConsumItems()
 	 */
 	@Override
@@ -302,19 +302,19 @@ public class AbstractUnit  implements IUnit
 
 
 
-	@Override
-	public ItemList initRequired()
-	{
-		return new ItemList();
-	}
-
-
-
-	@Override
-	public ItemList initConsum()
-	{
-		return new ItemList();
-	}
+//	@Override
+//	public ItemList initRequired()
+//	{
+//		return new ItemList();
+//	}
+//
+//
+//
+//	@Override
+//	public ItemList initConsum()
+//	{
+//		return new ItemList();
+//	}
 
 
 

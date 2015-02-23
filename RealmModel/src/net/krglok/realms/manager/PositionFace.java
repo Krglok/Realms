@@ -57,6 +57,14 @@ public enum PositionFace
 		return s;
 	}
 	
+	/**
+	 * calculate Position based on face, with angel of 45 degree
+	 * 
+	 * @param face
+	 * @param position
+	 * @param range
+	 * @return  new Location
+	 */
 	public static LocationData getScanPos(PositionFace face, LocationData position, int range)
 	{
 		LocationData newPosition = LocationData.copyLocation(position);

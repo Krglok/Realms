@@ -27,8 +27,12 @@ import org.bukkit.Material;
  * - buildup the standard buildings
  * - buildup the mine(s)
  * the manager can interact with the world and send commands and requests to other managers
- * the build manager receive a BuildingType and position to buildup a building
- * the building process is a  finite state machine 
+ * the buildManager receive a BuildingType and position to buildup a building
+ *
+ * the buildManager send signals in queue out of the model into the plugin level.
+ * based on these signals the plugin manipulate the minecraft world.
+ * 
+ * the buildManager work as a  finite state machine. all action done by the BuildStatus. 
  	NONE		, do nothing,
 	PREBUILD	, startup the build process, do somthing before building
 	READY,		, prebuild Ready, do something if nessary
@@ -36,6 +40,8 @@ import org.bukkit.Material;
 	POSTBUILD	, do something after building fullfill
 	DONE,		, do 
 	WAIT;
+ * the run() will be triggered by an external tick.
+ * the buildManager self has no time or timing. 
 
  * @author oduda
  *
@@ -151,8 +157,14 @@ public class BuildManager
 		}
 		return false;
 	}
-	
 
+	/**
+	 * clean up whole building cube with underground
+	 * 
+	 * @param rModel
+	 * @param warehouse
+	 * @param settle
+	 */
 	public void runClean(RealmModel rModel, Warehouse warehouse, Settlement settle)
 	{
 		switch (bStatus)
@@ -160,6 +172,33 @@ public class BuildManager
 		case  PREBUILD: 
 //			System.out.println("run : "+bStatus.name());
 			preBuild(warehouse);
+			break;
+		case READY : 
+//			System.out.println("run : "+bStatus.name());
+			bStatus = BuildStatus.DONE;
+			
+			break;
+		default :
+//			System.out.println(bStatus.name());
+			bStatus = BuildStatus.NONE;
+		
+		}
+		signText[1] = bStatus.toString().toCharArray(); 
+	}
+
+	/**
+	 * run the rebuild process to destroy building without unterground
+	 * @param rModel
+	 * @param warehouse
+	 * @param settle
+	 */
+	public void runRebuild(RealmModel rModel, Warehouse warehouse, Settlement settle)
+	{
+		switch (bStatus)
+		{
+		case  PREBUILD: 
+//			System.out.println("run : "+bStatus.name());
+			rebuildBuild(warehouse);
 			break;
 		case READY : 
 //			System.out.println("run : "+bStatus.name());
@@ -221,6 +260,11 @@ public class BuildManager
 		signText[1] = bStatus.toString().toCharArray(); 
 	}
 
+	/**
+	 * create cleanRequest for the building cube of buildPlan
+	 * make radius +1 above offset (the underground rows)
+	 * 
+	 */
 	private void doCleanStep()
 	{
 		int radius = buildPlan.getRadius(); 
@@ -274,10 +318,13 @@ public class BuildManager
 		}
 		
 	}
-	
+
 	/**
 	 * do something before build the Building
-	 * cleanUp Building area
+	 * cleanUp Building area, the whole cube
+	 * make radius +1 above offset (the underground rows)
+	 * make 1 additional row above cube clean
+	 * @param warehouse
 	 */
 	private void preBuild(Warehouse warehouse)
 	{
@@ -340,7 +387,76 @@ public class BuildManager
 		
 	}
 	
-	
+
+	/**
+	 * do something to destroy or rebuild the building
+	 * cleanUp Building area  ignore underground rows
+	 * make radius +1 above offset (the underground rows)
+	 * make 1 additional row above cube clean
+	 */
+	private void rebuildBuild(Warehouse warehouse)
+	{
+//		System.out.println("pre : "+bStatus.name());
+		if (buildPlan == null)
+		{
+			System.out.println("No Plan"+bStatus.name());
+			return;
+		}
+		if (buildLocation.getWorld() == "")
+		{
+			System.out.println("BuildManager No World "+bStatus.name());
+			return;
+		}
+		if (h+buildPlan.getOffsetY() < 1 )
+		{
+			h = 1;
+		}
+		
+		if (bStatus == BuildStatus.PREBUILD)
+		{
+//			System.out.println("BuildManager Clean "+h);
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			// buildfaster for test only !!
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			doCleanStep();
+			// buildfaster for test only !!
+			
+		}
+		// ein level oberhalb mit abraeumen
+		int edge = (buildPlan.getRadius()+1) * 2 -1; 
+		if (h >= edge)
+		{
+			h = 0;
+			r = 0;
+			c = -1;  // for iteration start
+			bStatus = BuildStatus.READY;
+//			System.out.println("BuildManager deposit Warehouse");
+			for (ItemLocation iLoc   : resultBlockRequest)
+			{
+				if (iLoc.itemRef() != Material.AIR)
+				{
+					warehouse.depositItemValue(iLoc.itemRef().name(), 1);
+				}
+			}
+		} 
+	}
+//		System.out.println((""+h+":"+r+":"+c)+" >");
+
 	/**
 	 * go to BuildStatus.STARTED if readiness is given
 	 * 

@@ -127,8 +127,7 @@ public class NpcManager
 		for (NpcData npcData : plugin.getData().getNpcs().values())
 		{
 			if ((npcData.isSpawned == false)
-				&& (npcData.getUnitType() == UnitType.SETTLER)
-				&& (npcData.getNpcType() != NPCType.NOBLE)
+				&& (npcData.getNpcType() != NPCType.MILITARY)
 				)
 			{
 				if (npcData.isAlive())

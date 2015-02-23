@@ -35,6 +35,7 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
         section.set("regStatus", dataObject.getRegStatus().name());
         section.set("position", LocationData.toString(dataObject.getPosition()));
         section.set("target", LocationData.toString(dataObject.getTarget()));
+        section.set("home", LocationData.toString(dataObject.getHomePosition()));
         section.set("name", dataObject.getName());
         section.set("owner", dataObject.getOwnerId());
         section.set("bank", dataObject.getBank().getKonto());
@@ -86,6 +87,7 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
     	regiment.setRegimentType(RegimentType.valueOf(sType));
     	regiment.setPosition(LocationData.toLocation(data.getString( "position")));
     	regiment.setTarget(LocationData.toLocation(data.getString("target")));
+    	regiment.setHomePosition(LocationData.toLocation(data.getString("home")));
     	regiment.setName(data.getString("name",""));
     	regiment.setOwnerId(data.getInt("owner",0));
     	regiment.setIsActive(data.getBoolean("isActive",true));

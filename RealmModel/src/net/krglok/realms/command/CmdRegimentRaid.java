@@ -29,7 +29,7 @@ public class CmdRegimentRaid extends RealmsCommand
 		    	" and search for a new target ",
 		    	" "
 			};
-			requiredArgs = 2;
+			requiredArgs = 1;
 			this.regID =0;
 			this.settleID = 0;
 	}
@@ -109,15 +109,22 @@ public class CmdRegimentRaid extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
+		if (plugin.getRealmModel().getModelStatus() != ModelStatus.MODEL_ENABLED)
 		{
 			errorMsg.add(ChatColor.RED+"[Realm Model] NOT enabled or too busy");
 			errorMsg.add("Try later again");
 			return false;
 		}
 		Regiment regiment = plugin.getData().getRegiments().getRegiment(regID);
+		settleID = regiment.getSettleId();
 		Settlement settle = plugin.getData().getSettlements().getSettlement(settleID);
-		if (regiment != null)
+		if (settle == null)
+		{
+			errorMsg.add(ChatColor.RED+"Settlement not found !!!");
+			errorMsg.add("Has the regiment a camp position ?");
+			return false;
+		}
+		if (regiment == null)
 		{
 			errorMsg.add(ChatColor.RED+"Regiment not found !!!");
 			errorMsg.add("The ID is wrong or not a number ?");

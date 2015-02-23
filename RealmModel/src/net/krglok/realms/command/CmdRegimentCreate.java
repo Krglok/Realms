@@ -2,13 +2,18 @@ package net.krglok.realms.command;
 
 import java.util.ArrayList;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanMap;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentType;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -83,6 +88,8 @@ public class CmdRegimentCreate extends RealmsCommand
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
 		Regiment regiment = plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0);
+		regiment.setHomePosition(center);
+		regiment.setTarget(center);
 		Owner owner = plugin.getData().getOwners().getOwner(0);
 		regiment.setOwner(owner);
 		regiment.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListRegiment(regiment.getId()));
@@ -92,10 +99,15 @@ public class CmdRegimentCreate extends RealmsCommand
 			regiment.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListRegiment(regiment.getId()));
 		}
 		plugin.getData().writeRegiment(regiment);
-		msg.add("[Realm] Regiment created ");
-		msg.add("position 0 0 0  ");
-		msg.add("has 10 MILITIA as units  ");
-		msg.add(" ");
+		BuildPlanMap buildPlan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.FORT, 7, 0);
+		regiment.setBuildPlan(buildPlan);
+		regiment.startMove();
+		msg.add(ChatColor.GREEN+"[Realm] Raider regiment created, build a FORT at given position ");
+		msg.add(ChatColor.GREEN+"position : "+center.toString());
+		msg.add(ChatColor.GREEN+"has 10 MILITIA as units  ");
+		msg.add(ChatColor.YELLOW+"they will travel around and plunder the settlements ! ");
+		msg.add(ChatColor.YELLOW+"they do it by their own, you cannot control them ! ");
+		msg.add(ChatColor.YELLOW+"they are skilled raiders ! ");
 		plugin.getMessageData().printPage(sender, msg, 1);
 		name = "";
 		ownerName = "";
@@ -105,25 +117,49 @@ public class CmdRegimentCreate extends RealmsCommand
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (sender.isOp())
+		if (sender.isOp() == false)
 		{
-			if (sender instanceof Player)
-			{
-				if (name.equals(""))
-				{
-					errorMsg.add("You must give a name for the new settlement !");
-					errorMsg.add(" ");
-					return false;
-				}
-				return true;
-			}
-			errorMsg.add("The World can NOT be set correct !");
-			errorMsg.add("The command can NOT be send from console");
-		} else
-		{
-			errorMsg.add("You are not a OP");
+			errorMsg.add(ChatColor.RED+"You are not a OP");
+			return false;
 		}
-		return false;
+		if ((sender instanceof Player) == false)
+		{
+			errorMsg.add(ChatColor.RED+"The World can NOT be set correct !");
+			errorMsg.add("The command can NOT be send from console");
+			return false;
+		}
+		if (name.equals(""))
+		{
+			errorMsg.add("You must give a name for the new settlement !");
+			return false;
+		}
+		
+		Player player = (Player) sender;
+		String world = player.getLocation().getWorld().getName();
+		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
+		Location position = plugin.makeLocation(center);
+		ArrayList<Region> foundRegion = plugin.stronghold.getRegionManager().getContainingRegions(position, 15);
+		if (foundRegion.size() > 0)
+		{
+			errorMsg.add(ChatColor.RED+"You cannot create a regiment in other regions !");
+			errorMsg.add("Take a different place !");
+			return false;
+		}
+		
+		ArrayList<SuperRegion> foundSuper = plugin.stronghold.getRegionManager().getContainingSuperRegions(position);
+		if (foundSuper.size() > 0)
+		{
+			errorMsg.add(ChatColor.RED+"You cannot create a regiment in other superRegions !");
+			errorMsg.add("Take a different place !");
+			return false;
+		}
+		if (plugin.getData().getSettlements().size() < 5)
+		{
+			errorMsg.add(ChatColor.RED+"The raider cannot exist without 5 settlements minimum !");
+			errorMsg.add("Build some more settlements  !");
+			return false;
+		}
+		return true;
 	}
 
 }

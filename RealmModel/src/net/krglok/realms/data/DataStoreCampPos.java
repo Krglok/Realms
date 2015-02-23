@@ -27,6 +27,7 @@ public class DataStoreCampPos  extends AbstractDataStore<CampPosition>
 		section.set("settleId", dataObject.getSettleId());
 		section.set("position", dataObject.getPosition().toString());
 		section.set("face", dataObject.getFace().name());
+		section.set("redo", dataObject.getRedo());
 		section.set("activ", dataObject.isActiv());
 		section.set("camp", dataObject.isCamp());
 		section.set("valid", dataObject.isValid());
@@ -54,9 +55,10 @@ public class DataStoreCampPos  extends AbstractDataStore<CampPosition>
 //		// 
 		CampPosition campPos = new CampPosition();
 		campPos.setId(data.getInt("id",0));
-		campPos.setId(data.getInt("settleId",0));
+		campPos.setSettleId(data.getInt("settleId",0));
 		campPos.setPosition(LocationData.toLocation(data.getString("position","")));
 		campPos.setFace(PositionFace.valueOf((data.getString("face","NORTH"))));
+		campPos.setRedo(data.getInt("redo",0));
 		campPos.setActiv(data.getBoolean("activ",false));
 		campPos.setCamp(data.getBoolean("camp",false));
 		campPos.setValid(data.getBoolean("valid",false));

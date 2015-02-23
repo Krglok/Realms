@@ -52,6 +52,21 @@ public class CampPositionList  extends HashMap<Integer,CampPosition>
 		}
 		return null;
 	}
+
+	public CampPosition getCampPosition(int settleId, PositionFace face)
+	{
+		for (CampPosition camp : this.values())
+		{
+			if (camp.getSettleId() == settleId)
+			{
+				if (camp.getFace() == face)
+				{
+					return camp;
+				}
+			}
+		}
+		return null;
+	}
 	
 	public CampPositionList getSubList(int settleId)
 	{

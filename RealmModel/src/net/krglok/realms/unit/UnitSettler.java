@@ -38,22 +38,25 @@ public class UnitSettler extends AbstractUnit
 	}
 
 
-	@Override
-	public ItemList initRequired() 
-	{
-		ItemList subList = new ItemList();
-		
-		return subList;
-	}
+//	@Override
+//	public ItemList initRequired() 
+//	{
+//		ItemList subList = new ItemList();
+//		
+//		return subList;
+//	}
+//
+//	@Override
+//	public ItemList initConsum() 
+//	{
+//		return new ItemList();
+//	}
 
-	@Override
-	public ItemList initConsum() 
-	{
-		ItemList subList = new ItemList();
-		
-		subList.addItem(Material.BREAD.name(),1);
-		
-		return subList;
-	}
+//	public static ItemList getConsumList()
+//	{
+//		ItemList subList = new ItemList();
+//		subList.addItem(Material.BREAD.name(),1);
+//		return subList;
+//	}
 
 }

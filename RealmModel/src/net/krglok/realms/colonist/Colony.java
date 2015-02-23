@@ -35,7 +35,13 @@ import org.bukkit.block.Biome;
  * ths is a automatic settlement builder, the configuration is read from the settleSchema
  * the colony can be moved
  * the colony has a command to start the build
- * the colony work as a  finite state machine 
+ * the colony send signals in queue out of the model into the plugin level.
+ * based on these signals the plugin manipulate the minecraft world.
+ * 
+ * the colony work as a  finite state machine. all action done by the ColonyStatus. 
+ * the run() will be triggered by an external tick.
+ * the Colony self has no time or timing. 
+ * 
  * </pre>
  * @author Windu
  *

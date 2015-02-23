@@ -24,6 +24,7 @@ public class NpcData
 	private EthnosType ethno;
 	private boolean immortal;
 	private NobleLevel noble;
+	private String entityType;
 	
 	private int settleId;
 	private int lehenId;
@@ -96,6 +97,7 @@ public class NpcData
 		this.setPower(1);
 		this.unit = new AbstractUnit(this);
 		this.noble = NobleLevel.COMMONER;
+		this.entityType = "PLAYER";
 	}
 	
 	
@@ -141,6 +143,7 @@ public class NpcData
 		UnitFactory unitFactory = new UnitFactory();
 		this.unit = unitFactory.erzeugeUnit(this.unitType, this);
 		this.noble = NobleLevel.COMMONER;
+		this.entityType = "PLAYER";
 	}
 	
 	
@@ -797,6 +800,24 @@ public class NpcData
 	public void setLehenId(int lehenId)
 	{
 		this.lehenId = lehenId;
+	}
+
+
+	/**
+	 * @return the entityType
+	 */
+	public String getEntityType()
+	{
+		return entityType;
+	}
+
+
+	/**
+	 * @param entityType the entityType to set
+	 */
+	public void setEntityType(String entityType)
+	{
+		this.entityType = entityType;
 	}
 
 }

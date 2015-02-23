@@ -85,10 +85,10 @@ public class CmdRegimentInfo extends RealmsCommand
 	    {
 			msg.add("Regiment ["+regiment.getId()+"] : "+regiment.getName()+" [ "+regiment.getRegStatus().name()+" ]");
 			msg.add("Position : "+(int)regiment.getPosition().getX()+":"+(int)regiment.getPosition().getY()+":"+(int)regiment.getPosition().getZ()+" Age: "+regiment.getAge()+" days");
-			msg.add("Barracks  : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().size())+"/"+regiment.getBarrack().getUnitMax());
+			msg.add("Barracks  : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().size())+"/"+regiment.getBarrack().getUnitMax()+" | cycle "+regiment.getRaiderManager().getRaiderAction().name());  
 			msg.add("Bank       : "+ChatColor.GREEN+((int) regiment.getBank().getKonto()));
 			msg.add("Storage   : "+regiment.getWarehouse().getItemMax());
-			msg.add("Food      : WHEAT "+regiment.getWarehouse().getItemList().getValue("WHEAT"));
+			msg.add("Food      : WHEAT "+regiment.getWarehouse().getItemList().getValue("WHEAT")+"| BREAD "+regiment.getWarehouse().getItemList().getValue("BREAD"));
 			msg.add("Slave    : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().getUnitTypeList(UnitType.SLAVE).size()));
 			msg.add("Settler  : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().getUnitTypeList(UnitType.SETTLER).size()));
 			msg.add("Militia  : "+ChatColor.YELLOW+(regiment.getBarrack().getUnitList().getUnitTypeList(UnitType.MILITIA).size()));

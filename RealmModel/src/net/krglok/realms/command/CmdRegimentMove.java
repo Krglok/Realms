@@ -18,19 +18,19 @@ import org.bukkit.entity.Player;
 public class CmdRegimentMove extends RealmsCommand
 {
 	private int regimentId;
-	LocationData position;
+//	LocationData position;
 
 	public CmdRegimentMove()
 	{
 		super(RealmsCommandType.REGIMENT, RealmsSubCommandType.MOVE);
 		description = new String[] {
-				ChatColor.YELLOW+"/regiment MOVE [ID] [X] [Y] [Z] ",
-				"Move a Colonist with <ID> to the position ",
-		    	"positioning a sign at the position ",
-		    	" You cannot change the World !!! "
+				ChatColor.YELLOW+"/regiment MOVE [ID] ",
+				"Move a Colonist with <ID> to the home position",
+		    	"this is the positioning of during creating ",
+		    	"the regiment, the position is hidden stored "
 		};
-		requiredArgs = 4;
-		position = new LocationData("", 0.0, 0.0, 0.0);
+		requiredArgs = 1;
+//		position = new LocationData("", 0.0, 0.0, 0.0);
 		this.regimentId = 0;
 	}
 
@@ -64,27 +64,27 @@ public class CmdRegimentMove extends RealmsCommand
 	@Override
 	public void setPara(int index, double value)
 	{
-		switch (index)
-		{
-		case 1 :
-			position.setX(value);
-			break;
-		case 2 :
-			position.setY(value);
-		break;
-		case 3 :
-			position.setZ(value);
-		break;
-		default:
-			break;
-		}
+//		switch (index)
+//		{
+//		case 1 :
+//			position.setX(value);
+//			break;
+//		case 2 :
+//			position.setY(value);
+//		break;
+//		case 3 :
+//			position.setZ(value);
+//		break;
+//		default:
+//			break;
+//		}
 
 	}
 
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName(),  double.class.getName(), double.class.getName(), double.class.getName() };
+		return new String[] {int.class.getName()};
 	}
 
 	@Override
@@ -95,25 +95,25 @@ public class CmdRegimentMove extends RealmsCommand
 		World worldMap = player.getLocation().getWorld();
 		Regiment regiment = plugin.getRealmModel().getRegiments().get(regimentId);
 		// das Target wird überschrieben
-		LocationData center = regiment.getTarget();
+		regiment.setTarget(LocationData.copyLocation(regiment.getHomePosition()));
+		regiment.setSettleId(0);
+		LocationData center = regiment.getHomePosition();
 		// set new position
 		center.setWorld(worldMap.getName());
-		center.setX(position.getX()-1);
-		center.setY(position.getY());
-		center.setZ(position.getZ());
+		center.setX(center.getX());
 		BuildPlanMap buildPlan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.FORT, 7, 0);
 		regiment.setBuildPlan(buildPlan);
 		regiment.startMove();
 
 //		String[] signText = new String[] {"REGIMENT", regiment.getName(), regiment.getOwner().getPlayerName(), "[MOVED]" };
 //		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
-		msg.add("[Realm] Regiment move at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
+		msg.add("[Realm] Regiment move to "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
 
-		position.setX(0);
-		position.setY(0);
-		position.setZ(0);
+//		position.setX(0);
+//		position.setY(0);
+//		position.setZ(0);
 		regimentId = 0;
 		msg.add("The Regiment moved "+regimentId);
     	msg.add("Build new FORT  ");
@@ -137,19 +137,22 @@ public class CmdRegimentMove extends RealmsCommand
 			errorMsg.add(" ");
 			return false;
 		}
-		if (sender.isOp())
+		if (sender.isOp() == false)
 		{
-			return true;
-			
-		} else
-		{
-			if (isRegimentOwner(plugin, sender, regimentId))
+			if (isRegimentOwner(plugin, sender, regimentId)== false)
 			{
-				return true;
+				errorMsg.add("You are not the Owner");
+				return false;
 			}
 		}
-		errorMsg.add("You are not the Owner");
-		return false;
+		if (regiment.getHomePosition().getY() < 2.0)
+		{
+			errorMsg.add(ChatColor.RED+"The home position is near height 0 , this is not valid !");
+			errorMsg.add(ChatColor.WHITE+"Shut down the the server and set a correct home position");
+			errorMsg.add(ChatColor.WHITE+"in the regiment.yml or destroy the regiment and recreate");
+			return false;
+		}
+		return true;
 	}
 
 }

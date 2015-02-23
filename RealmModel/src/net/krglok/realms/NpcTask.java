@@ -8,6 +8,7 @@ import net.citizensnpcs.trait.Anchors;
 import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
 import net.krglok.realms.npc.NpcData;
@@ -52,6 +53,11 @@ public class NpcTask implements Runnable
 	public void run()
 	{
 		// do nothing, when citizens not available
+		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
+		{
+			return;
+		}
+
 		if (plugin.npcManager.isEnabled() == false)
 		{
 			return;
