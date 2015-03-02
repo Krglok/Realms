@@ -295,7 +295,9 @@ public abstract class AbstractSettle
 						{
 							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * TAVERNE_UNHAPPY_FACTOR;
 						}
-						building.setSales(sale);	
+						double salary = sale / 3.0 * 1.5;
+						setWorkerSale( building,  salary);
+						building.setSales((sale-salary));	
 						ingredients = new ItemList();
 						break;
 					default :

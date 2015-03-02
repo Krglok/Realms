@@ -114,7 +114,7 @@ public class BuildingList  extends HashMap<String,Building>
 			bType = building.getBuildingType();
 			if (subList.containsKey(bType.name()))
 			{
-				subList.put(bType.name(),subList.get(bType)+1);
+				subList.put(bType.name(),subList.get(bType.name())+1);
 			} else
 			{
 				subList.put(bType.name(),1);

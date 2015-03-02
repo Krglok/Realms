@@ -16,19 +16,21 @@ public class CmdSettleNoSell extends RealmsCommand
 
 	int settleID;
 	Integer page ;
+	String itemName;
 
 	public CmdSettleNoSell()
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.NOSELL);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle NOSELL [SettleID] [page] ",
+				ChatColor.YELLOW+"/settle NOSELL [SettleID] [page] {ITEM_NAME} ",
 		    	"List of required Items for the settlement",
-		    	"  "
+		    	"give ITEMNAME for required item by you  ",
+		    	"set required amiount to 128 "
 			};
-			requiredArgs = 0;
 			requiredArgs = 1;
 			this.settleID = 0;
 			this.page = 1;  //default value
+			this.itemName = "";
 	}
 
 
@@ -40,7 +42,14 @@ public class CmdSettleNoSell extends RealmsCommand
 	@Override
 	public void setPara(int index, String value)
 	{
-
+		switch(index)
+		{
+			case 2:
+				itemName = value;
+				break;
+			default:
+				break;
+		}
 	}
 
 	@Override
@@ -75,7 +84,7 @@ public class CmdSettleNoSell extends RealmsCommand
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] { int.class.getName(), int.class.getName() };
+		return new String[] { int.class.getName(), int.class.getName(), String.class.getName() };
 	}
 
 	@Override
@@ -85,6 +94,11 @@ public class CmdSettleNoSell extends RealmsCommand
 	    Settlement  settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 	    if (settle != null)
 	    {
+	    	if (itemName != "")
+	    	{
+	    		settle.settleManager().getDontSell().addItem(new Item(itemName, 128));
+				msg.add("Set : "+itemName+": 128");
+	    	}
 			msg.add("Settlement ["+settle.getId()+"] : "+settle.getName());
 			msg.add(settle.getName()+" No sell  [ "+settle.settleManager().getDontSell().size() +" ]");
 		    for (Item item : settle.settleManager().getDontSell().values())
@@ -97,34 +111,46 @@ public class CmdSettleNoSell extends RealmsCommand
 	    	page = 1;
 	    }
 	    page = plugin.getMessageData().printPage(sender, msg, page);
+		this.settleID = 0;
+		this.page = 1;  //default value
+		this.itemName = "";
 
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_ENABLED)
+		if (plugin.getRealmModel().getModelStatus() != ModelStatus.MODEL_ENABLED)
 		{
-			if (plugin.getRealmModel().getSettlements().getSettlement(settleID) != null)
-			{
-				if (isOpOrAdmin(sender) == false)
-				{
-					if (isSettleOwner(plugin, sender, settleID) == false)
-					{
-						errorMsg.add("You are not the Owner !");
-						errorMsg.add(" ");
-						return false;
-					}
-				}
-				return true;
-			}
+			errorMsg.add("[Realm Model] NOT enabled or too busy");
+			errorMsg.add("Try later again");
+			return false;
+		}
+		if (plugin.getRealmModel().getSettlements().getSettlement(settleID) == null)
+		{
 			errorMsg.add("Settlement not found !!!");
 			errorMsg.add("The ID is wrong or not a number ?");
 			return false;
 		}
-		errorMsg.add("[Realm Model] NOT enabled or too busy");
-		errorMsg.add("Try later again");
-		return false;
+		if (itemName != "")
+		{
+			if (ConfigBasis.isMaterial(itemName) == false)
+			{
+				errorMsg.add("Not a regular MATERIALNAME!");
+				errorMsg.add("You can find regular Material in the pricelist!");
+				return false;
+			}
+		}
+		if (isOpOrAdmin(sender) == false)
+		{
+			if (isSettleOwner(plugin, sender, settleID) == false)
+			{
+				errorMsg.add("You are not the Owner !");
+				errorMsg.add(" ");
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

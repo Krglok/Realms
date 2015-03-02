@@ -90,7 +90,7 @@ public class CmdFeudalInfo extends RealmsCommand
 			msg.add(ChatColor.GREEN+"Your Lord is "+ChatColor.YELLOW+parent.getOwner().getNobleLevel()+" "+parent.getOwner().getPlayerName()+" from "+parent.getName());
 		}
 		msg.add(ChatColor.GREEN+"Your Building are :");
-		for (Building building : lehen.getBuildings().values())
+		for (Building building : lehen.getBuildingList().values())
 		{
     		msg.add(ChatColor.YELLOW+"+"+building.getId()
     				+" | "+ChatColor.YELLOW+building.getBuildingType()

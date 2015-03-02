@@ -26,11 +26,6 @@ public class CmdSettleBuilding extends RealmsCommand
 				ChatColor.YELLOW+"/settle BUILDING [buildungId] {false} ",
 		    	"Show info of building Id  ",
 		    	"and set Enable to false " +
-		    	"the ID is the Settlement Id (0 = no settlement) ",
-		    	"the command create the HeroStronghold region ",
-		    	"and a building for realms ",
-		    	"You must place the fullfil the requirements ",
-		    	"You must pay the building cost ",
 		    	" "
 			};
 			requiredArgs = 1;

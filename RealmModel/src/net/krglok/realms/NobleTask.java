@@ -19,7 +19,7 @@ public class NobleTask implements Runnable
 	
     private final Realms plugin;
 	public long NOBLE_SCHEDULE =  1;  // 10 * 50 ms 
-	public long DELAY_SCHEDULE =  15;  // 10 * 50 ms 
+	public long DELAY_SCHEDULE =  150;  // 10 * 50 ms 
     
     private BlockFace lastPos = BlockFace.NORTH;
     private Iterator<NpcData> npcIterator;

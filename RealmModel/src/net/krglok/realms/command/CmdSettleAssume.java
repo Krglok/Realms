@@ -28,7 +28,7 @@ public class CmdSettleAssume extends RealmsCommand
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.ASSUME);
 		description = new String[] {
-				ChatColor.YELLOW+"/realms ASSUME [settleID] ",
+				ChatColor.YELLOW+"/settle ASSUME [settleID] ",
 				"Assume the HAMLET from the NPC Owner ",
 				"You must have reputation and money",
 		    	"You will be owner of all buildings without ",

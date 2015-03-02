@@ -2,15 +2,17 @@ package net.krglok.realms.command;
 
 import java.util.ArrayList;
 
+import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.manager.CampPosition;
+import net.krglok.realms.manager.PositionFace;
 import net.krglok.realms.unit.Regiment;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,26 +20,40 @@ import org.bukkit.entity.Player;
 public class CmdRegimentMove extends RealmsCommand
 {
 	private int regimentId;
+	private int settleId;
+	private String faceName;
 //	LocationData position;
 
 	public CmdRegimentMove()
 	{
 		super(RealmsCommandType.REGIMENT, RealmsSubCommandType.MOVE);
-		description = new String[] {
-				ChatColor.YELLOW+"/regiment MOVE [ID] ",
-				"Move a Colonist with <ID> to the home position",
-		    	"this is the positioning of during creating ",
-		    	"the regiment, the position is hidden stored "
-		};
-		requiredArgs = 1;
+		description = new String[] 
+				{
+				ChatColor.YELLOW+"/regiment MOVE [ID] [settleID] [Face] ",
+				"Move a Regiment with <ID> to the settlement position",
+		    	"Face = NORTH,EAST,SOUTH,WEST ",
+		    	"the regiment positioned ",
+		    	"NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST "
+				};
+		requiredArgs = 2;
 //		position = new LocationData("", 0.0, 0.0, 0.0);
 		this.regimentId = 0;
+		this.settleId = 0;
+		this.faceName = "";
 	}
 
 
 	@Override
 	public void setPara(int index, String value)
 	{
+		switch (index)
+		{
+		case 2 :
+			faceName = value;
+			break;
+		default:
+			break;
+		}
 
 	}
 
@@ -48,6 +64,9 @@ public class CmdRegimentMove extends RealmsCommand
 		{
 		case 0 :
 			regimentId = value;
+			break;
+		case 1 :
+			settleId = value;
 			break;
 		default:
 			break;
@@ -64,27 +83,13 @@ public class CmdRegimentMove extends RealmsCommand
 	@Override
 	public void setPara(int index, double value)
 	{
-//		switch (index)
-//		{
-//		case 1 :
-//			position.setX(value);
-//			break;
-//		case 2 :
-//			position.setY(value);
-//		break;
-//		case 3 :
-//			position.setZ(value);
-//		break;
-//		default:
-//			break;
-//		}
 
 	}
 
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {int.class.getName()};
+		return new String[] {int.class.getName(), int.class.getName(), String.class.getName()};
 	}
 
 	@Override
@@ -92,32 +97,30 @@ public class CmdRegimentMove extends RealmsCommand
 	{
 		ArrayList<String> msg = new ArrayList<String>();
 		Player player = (Player) sender;
-		World worldMap = player.getLocation().getWorld();
 		Regiment regiment = plugin.getRealmModel().getRegiments().get(regimentId);
 		// das Target wird überschrieben
-		regiment.setTarget(LocationData.copyLocation(regiment.getHomePosition()));
-		regiment.setSettleId(0);
-		LocationData center = regiment.getHomePosition();
+		PositionFace face = PositionFace.valueOf(faceName);
+		CampPosition campPos = plugin.getData().getCampList().getCampPosition(settleId, face);
+		
+		regiment.setTarget(LocationData.copyLocation(campPos.getPosition()));
+		regiment.setSettleId(settleId);
+		LocationData center = LocationData.copyLocation(campPos.getPosition());
 		// set new position
-		center.setWorld(worldMap.getName());
-		center.setX(center.getX());
 		BuildPlanMap buildPlan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.FORT, 7, 0);
 		regiment.setBuildPlan(buildPlan);
 		regiment.startMove();
 
-//		String[] signText = new String[] {"REGIMENT", regiment.getName(), regiment.getOwner().getPlayerName(), "[MOVED]" };
-//		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
 		msg.add("[Realm] Regiment move to "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
 		msg.add(" ");
 		plugin.getMessageData().printPage(sender, msg, 1);
 
-//		position.setX(0);
-//		position.setY(0);
-//		position.setZ(0);
 		regimentId = 0;
 		msg.add("The Regiment moved "+regimentId);
     	msg.add("Build new FORT  ");
     	plugin.getMessageData().printPage(sender, msg, 1);
+		this.regimentId = 0;
+		this.settleId = 0;
+		this.faceName = "";
 
 	}
 
@@ -145,13 +148,44 @@ public class CmdRegimentMove extends RealmsCommand
 				return false;
 			}
 		}
-		if (regiment.getHomePosition().getY() < 2.0)
+		Location position = plugin.makeLocation(regiment.getHomePosition());
+		ArrayList<Region> foundRegion = plugin.stronghold.getRegionManager().getContainingRegions(position, 15);
+		if (foundRegion.size() > 0)
 		{
-			errorMsg.add(ChatColor.RED+"The home position is near height 0 , this is not valid !");
-			errorMsg.add(ChatColor.WHITE+"Shut down the the server and set a correct home position");
-			errorMsg.add(ChatColor.WHITE+"in the regiment.yml or destroy the regiment and recreate");
+			errorMsg.add(ChatColor.RED+"You cannot move a regiment into other regions !");
+			errorMsg.add("Take a different place !");
 			return false;
 		}
+		if (plugin.getData().getSettlements().getSettlement(settleId) == null)
+		{
+			errorMsg.add(ChatColor.RED+"Settlement not found !");
+			errorMsg.add("See  /settle list ");
+			return false;
+		}
+		if (plugin.getData().getSettlements().getSettlement(settleId).getPosition().getWorld().equalsIgnoreCase(regiment.getPosition().getWorld()) == false)
+		{
+			errorMsg.add(ChatColor.RED+"Regiments can not go to other worlds "+plugin.getData().getSettlements().getSettlement(settleId).getPosition().getWorld()+":"+regiment.getPosition().getWorld());
+			errorMsg.add("See  /settle list ");
+			return false;
+		}
+		if (PositionFace.contain(faceName)== false)
+		{
+			errorMsg.add(ChatColor.RED+"Wrong face !");
+			errorMsg.add("Try :");
+			for (CampPosition campPos : plugin.getData().getCampList().getSubList(settleId).values())
+			{
+				errorMsg.add("Camp "+settleId+" : "+campPos.getFace().name()+" : "+campPos.isValid());
+			}
+			return false;
+		}
+		PositionFace face = PositionFace.valueOf(faceName);
+		if (plugin.getData().getCampList().getCampPosition(settleId, face) == null)
+		{
+			errorMsg.add(ChatColor.RED+"That is not a valid camp position !");
+			errorMsg.add("Try other face ");
+			return false;
+		}
+		
 		return true;
 	}
 

@@ -50,7 +50,7 @@ public class LehenList extends HashMap<Integer,Lehen>
 		{
 			ref++;
 		}
-		Lehen.initID(ref);
+		Lehen.initLfdID(ref);
 		return ref;
 	}
 	

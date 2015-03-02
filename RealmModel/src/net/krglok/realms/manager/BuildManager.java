@@ -215,8 +215,13 @@ public class BuildManager
 	
 	
 	/**
-	 * run on TickTask to build one block tick
+	 * <pre>
+	 * active tick for the Manager 
+	 * the manager is is a finite state machine
+	 * send buildRequest for block 
+	 * 
 	 * if owner is not a Settlement set null to parameter !!! 
+	 * </pre>
 	 * @param rModel
 	 * @param warehouse
 	 * @param settle

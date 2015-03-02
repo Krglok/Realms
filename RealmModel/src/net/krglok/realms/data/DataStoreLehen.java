@@ -40,6 +40,7 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 		section.set("owner", dataObject.getOwner().getPlayerName());
 		section.set("kingdomId", dataObject.getKingdomId());
 		section.set("parentId", dataObject.getParentId());
+		section.set("supportId", dataObject.getSupportId());
         section.set( "bank", dataObject.getBank().getKonto());
     	section.set("position", LocationData.toString(dataObject.getPosition()));
 		
@@ -66,6 +67,7 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 		lehen.setOwnerId(data.getInt("owner"));
 		lehen.setKingdomId(data.getInt("kingdomId", 0));
 		lehen.setParentId(data.getInt("parentId",0));
+		lehen.setSupportId(data.getInt("supportId",0));
 		lehen.getBank().addKonto(data.getDouble( "bank",0.0),"SettleRead",lehen.getId());
 		LocationData position = LocationData.toLocation(data.getString("position"));
 		lehen.setPosition(position);

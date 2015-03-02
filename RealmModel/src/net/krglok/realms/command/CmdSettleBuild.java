@@ -290,14 +290,14 @@ public class CmdSettleBuild extends RealmsCommand
     		{
     			if (owner.getAchivList().contains(aName) == false)
     			{
-	    			owner.getAchivList().add(new Achivement(AchivementType.BUILD, aName));
+	    			owner.getAchivList().add(new Achivement(AchivementType.BUILD, aName, true));
 	    			plugin.getData().writeOwner(owner);
 	    	    	msg.add(ChatColor.GOLD+"You earn Achivement "+regionType+" for building ");
     			}
     			AchivementName nextTech = plugin.getRealmModel().getKnowledgeData().getKnowledgeList().checkNextRank(owner.getAchivList());
     			if (nextTech != AchivementName.NONE)
     			{
-	    			owner.getAchivList().add(new Achivement(AchivementType.BUILD, nextTech));
+	    			owner.getAchivList().add(new Achivement(AchivementType.BUILD, nextTech, true));
 	    			plugin.getData().writeOwner(owner);
 	    	    	msg.add(ChatColor.GOLD+"You earn Techlevel "+nextTech.name()+" for building ");
     			}
@@ -358,6 +358,7 @@ public class CmdSettleBuild extends RealmsCommand
 			{
 				errorMsg.add(ChatColor.RED+"You not have the required permission !");
 				errorMsg.add(ChatColor.YELLOW+"Try /owner INFO  for check your achivements");
+				errorMsg.add(ChatColor.YELLOW+"You need "+bType.name());
 				return false;
 			}
 		}

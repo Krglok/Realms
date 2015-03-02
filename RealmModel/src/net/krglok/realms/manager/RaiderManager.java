@@ -13,13 +13,16 @@ import net.krglok.realms.unit.RegimentStatus;
 
 
 /**
+ * <pre>
  * the regiment manager realize the controller and manager of an regiment.
  * the regiment manager make the the decisions and define the rules of engagement
  * only a player can make different decisions.
  * 
  * the manager can interact with the world and send commands and requests to other managers
+ * the RaiderManager work as a  finite state machine. all action done by RaiderCycle and RaiderAction. 
+
  * @author Windu
- *
+ * </pre>
  */
 public class RaiderManager 
 {
@@ -218,7 +221,7 @@ public class RaiderManager
 	
 	/**
 	 *  make new ScanPos based on settlement, and PositionFace
-	 *  
+	 *  only scan on same world
 	 * @param rModel
 	 * @param regiment
 	 */
@@ -226,18 +229,22 @@ public class RaiderManager
 	{
 		if (rModel.getData().getSettlements().getSettlement(lastSettleId) != null)
 		{
-			CampPosition campPos = new CampPosition();
-			campPos.setSettleId(lastSettleId);
-			int range = setRange(rModel.getData().getSettlements().getSettlement(campPos.getSettleId()).getSettleType());
-			LocationData pos = rModel.getData().getSettlements().getSettlement(campPos.getSettleId()).getPosition();
-			campPos.setPosition(PositionFace.getScanPos(lastFace,pos ,range));
-			campPos.setFace(lastFace);
-			campPos.setActiv(true);
-			rModel.getData().getCampList().addCampPosition(campPos);
-			rModel.getData().writeCampPosition(campPos);
-			actualCampPos = campPos.getId();
-//			System.out.println("[REALMS) New Scan Pos "+scanCounter+"  Settle "+lastSettleId+" : "+lastFace.name()+":"+range);
-			return campPos; 
+			// only scan on same world
+			if (regiment.getPosition().getWorld().equalsIgnoreCase(rModel.getData().getSettlements().getSettlement(lastSettleId).getPosition().getWorld()))
+			{
+				CampPosition campPos = new CampPosition();
+				campPos.setSettleId(lastSettleId);
+				int range = setRange(rModel.getData().getSettlements().getSettlement(campPos.getSettleId()).getSettleType());
+				LocationData pos = rModel.getData().getSettlements().getSettlement(campPos.getSettleId()).getPosition();
+				campPos.setPosition(PositionFace.getScanPos(lastFace,pos ,range));
+				campPos.setFace(lastFace);
+				campPos.setActiv(true);
+				rModel.getData().getCampList().addCampPosition(campPos);
+				rModel.getData().writeCampPosition(campPos);
+				actualCampPos = campPos.getId();
+	//			System.out.println("[REALMS) New Scan Pos "+scanCounter+"  Settle "+lastSettleId+" : "+lastFace.name()+":"+range);
+				return campPos;
+			}
 		}
 		return null;
 	}
@@ -403,13 +410,17 @@ public class RaiderManager
 //		int foundSettle = 0;
 		for (CampPosition campPos : rModel.getData().getCampList().values())
 		{
-			if (campPos.isValid())
+			// only move to settlement on same world
+			if (regiment.getPosition().getWorld().equalsIgnoreCase(campPos.getPosition().getWorld()))
 			{
-				if (regiment.getSettleId() != campPos.getSettleId())
+				if (campPos.isValid())
 				{
-					if (isOldCamp(regiment, campPos.getSettleId()) == false)
+					if (regiment.getSettleId() != campPos.getSettleId())
 					{
-						return campPos.getId();
+						if (isOldCamp(regiment, campPos.getSettleId()) == false)
+						{
+							return campPos.getId();
+						}
 					}
 				}
 			}

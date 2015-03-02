@@ -564,9 +564,12 @@ public class NpcData
 
 	public boolean isBeggar()
 	{
-		if (this.getNpcType() == NPCType.BEGGAR)
+		if (this.isAlive)
 		{
-			return true;
+			if (this.getNpcType() == NPCType.BEGGAR)
+			{
+				return true;
+			}
 		}
 		return false;
 	}

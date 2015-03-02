@@ -39,7 +39,7 @@ public class UnitTask implements Runnable
 	
     private final Realms plugin;
 	public long UNIT_SCHEDULE =  5;  // 10 * 50 ms 
-	public long DELAY_SCHEDULE =  15;  // 10 * 50 ms 
+	public long DELAY_SCHEDULE =  150;  // 10 * 50 ms 
     private static int counter = 0;
     
     private BlockFace lastPos = BlockFace.NORTH;

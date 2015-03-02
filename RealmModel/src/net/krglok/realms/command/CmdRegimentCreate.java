@@ -28,14 +28,14 @@ public class CmdRegimentCreate extends RealmsCommand
 	{
 		super(RealmsCommandType.REGIMENT, RealmsSubCommandType.CREATE);
 		description = new String[] {
-				ChatColor.YELLOW+"/regiment CREATE [Name]  ",
+				ChatColor.YELLOW+"/regiment CREATE [Name] [X] [Y] [Z] ",
 				"Create a Regiment with <Name> ",
 				"The regiment is a Raider ",
 		    	"The position is 0 0 0 , and the ",
 		    	"regiment is hidden  ",
 		    	"Move it to the rigth position  "
 		};
-		requiredArgs = 1;
+		requiredArgs = 4;
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		this.name = "";
 		this.ownerName = "";
@@ -70,13 +70,26 @@ public class CmdRegimentCreate extends RealmsCommand
 	@Override
 	public void setPara(int index, double value)
 	{
-
+		switch (index)
+		{
+		case 1 :
+			position.setX(value);
+			break;
+		case 2 :
+			position.setY(value);
+		break;
+		case 3 :
+			position.setZ(value);
+		break;
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public String[] getParaTypes()
 	{
-		return new String[] {String.class.getName()  };
+		return new String[] {String.class.getName(), double.class.getName(), double.class.getName(), double.class.getName()  };
 	}
 
 	@Override
@@ -88,7 +101,8 @@ public class CmdRegimentCreate extends RealmsCommand
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
 		Regiment regiment = plugin.getRealmModel().getRegiments().createRegiment(RegimentType.PRIVATEER.name(),name, 0);
-		regiment.setHomePosition(center);
+		regiment.setPosition(LocationData.copyLocation(center));
+		regiment.setHomePosition(LocationData.copyLocation(center));
 		regiment.setTarget(center);
 		Owner owner = plugin.getData().getOwners().getOwner(0);
 		regiment.setOwner(owner);
@@ -111,6 +125,10 @@ public class CmdRegimentCreate extends RealmsCommand
 		plugin.getMessageData().printPage(sender, msg, 1);
 		name = "";
 		ownerName = "";
+		position.setWorld("");
+		position.setX(0);
+		position.setY(0);
+		position.setZ(0);
 
 	}
 
@@ -133,7 +151,12 @@ public class CmdRegimentCreate extends RealmsCommand
 			errorMsg.add("You must give a name for the new settlement !");
 			return false;
 		}
-		
+		if (position.getX() < 10)
+		{
+			errorMsg.add(ChatColor.RED+"Regiment cannot create below level 10!");
+			errorMsg.add("Take a different place !");
+			return false;
+		}
 		Player player = (Player) sender;
 		String world = player.getLocation().getWorld().getName();
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
@@ -141,7 +164,7 @@ public class CmdRegimentCreate extends RealmsCommand
 		ArrayList<Region> foundRegion = plugin.stronghold.getRegionManager().getContainingRegions(position, 15);
 		if (foundRegion.size() > 0)
 		{
-			errorMsg.add(ChatColor.RED+"You cannot create a regiment in other regions !");
+			errorMsg.add(ChatColor.RED+"You cannot create a regiment into other regions !");
 			errorMsg.add("Take a different place !");
 			return false;
 		}
@@ -149,8 +172,14 @@ public class CmdRegimentCreate extends RealmsCommand
 		ArrayList<SuperRegion> foundSuper = plugin.stronghold.getRegionManager().getContainingSuperRegions(position);
 		if (foundSuper.size() > 0)
 		{
-			errorMsg.add(ChatColor.RED+"You cannot create a regiment in other superRegions !");
+			errorMsg.add(ChatColor.RED+"You cannot create a regiment into other superRegions !");
 			errorMsg.add("Take a different place !");
+			return false;
+		}
+		if ( plugin.stronghold.getRegionManager().getSuperRegionNames().contains(name))
+		{
+			errorMsg.add(ChatColor.RED+"A superRegion of that name always exist !");
+			errorMsg.add("Take a different name !");
 			return false;
 		}
 		if (plugin.getData().getSettlements().size() < 5)

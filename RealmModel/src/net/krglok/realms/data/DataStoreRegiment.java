@@ -40,7 +40,9 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
         section.set("owner", dataObject.getOwnerId());
         section.set("bank", dataObject.getBank().getKonto());
         section.set("isActiv", dataObject.isActive());
+        section.set("isPlayer", dataObject.isPlayer());
         section.set("settleId", dataObject.getSettleId());
+        section.set("supportId", dataObject.getSupportId());
         section.set("MaxUnit", dataObject.getBarrack().getUnitMax());
 		HashMap<String,String> values; // = new HashMap<String,String>();
         //warehouse write
@@ -91,7 +93,9 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
     	regiment.setName(data.getString("name",""));
     	regiment.setOwnerId(data.getInt("owner",0));
     	regiment.setIsActive(data.getBoolean("isActive",true));
+    	regiment.setIsPlayer(data.getBoolean("isPlayer",false));
     	regiment.setSettleId(data.getInt("settleId",0));
+    	regiment.setSupportId(data.getInt("supportId",0));
     	regiment.getBarrack().setUnitMax(data.getInt("MaxUnit",0));
         regiment.setRegStatus(RegimentStatus.IDLE);
 

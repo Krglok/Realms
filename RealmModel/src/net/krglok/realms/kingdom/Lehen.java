@@ -1,43 +1,46 @@
 package net.krglok.realms.kingdom;
 
+import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.Bank;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.data.DataInterface;
+import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NpcData;
 
 
 /**
  * <pre>
  * the Lehen is the Basic object of of a feudal system.
  * The id= 0 is not allowed , because no should have id=0 !
+ * The lehen is a settlement with NOBLE citizen, servant and military units.
+ * 
  * 
  * @author Windu
  * </pre>
  */
 
-public class Lehen
+public class Lehen  extends AbstractSettle
 {
 
-	private static int ID;
+	private static int lfdID = 0;
 	
-	private int id;
-	private String name;
 	private NobleLevel nobleLevel;
-	private SettleType settleType;
-	private int ownerId;
 	private Owner owner;
 	private int KingdomId;
 	private int parentId;
-	private Bank bank;
 	private double sales;
 	private LocationData position;
-	private BuildingList buildings;
+	private int supportId;
 	
 	
 	public Lehen()
 	{
+		super();
 		this.id = 0;
 		this.name = "Lehen";
 		this.nobleLevel = NobleLevel.COMMONER;
@@ -46,10 +49,10 @@ public class Lehen
 		this.owner = null;
 		this.KingdomId = 0;
 		this.parentId = 0;
-		this.setBank(new Bank());
+		this.supportId = 0;
 		this.sales = 0;
+		this.age = 0;
 		this.position = new LocationData("", 0.0, 0.0, 0.0);
-		this.buildings = new BuildingList();
 	}
 
 	/**
@@ -75,38 +78,38 @@ public class Lehen
 		this.owner = owner;
 		this.KingdomId = KingdomId;
 		this.parentId = parentId;
-		this.setBank(new Bank());
+		this.supportId = 0;
 		this.sales = 0;
+		this.age = 0;
 		this.position = position;
-		this.buildings = new BuildingList();
 	}
 
-	public static int getID()
+	public static int getLfdID()
 	{
-		return ID;
+		return lfdID;
 	}
 
-	public static void initID(int iD)
+	public static void initLfdID(int iD)
 	{
-		ID = iD;
+		lfdID = iD;
 	}
 
 	public static int nextID()
 	{
-		ID++;
-		return ID; 
+		lfdID++;
+		return lfdID; 
 	}
 	
 	public String getName()
 	{
-		return name;
+		return this.getName();
 	}
-
+	
 	public void setName(String name)
 	{
 		this.name = name;
 	}
-
+	
 	public NobleLevel getNobleLevel()
 	{
 		return nobleLevel;
@@ -115,16 +118,6 @@ public class Lehen
 	public void setNobleLevel(NobleLevel nobleLevel)
 	{
 		this.nobleLevel = nobleLevel;
-	}
-
-	public SettleType getSettleType()
-	{
-		return settleType;
-	}
-
-	public void setSettleType(SettleType settleType)
-	{
-		this.settleType = settleType;
 	}
 
 	public Owner getOwner()
@@ -137,17 +130,6 @@ public class Lehen
 		this.owner = owner;
 		this.ownerId = owner.getId();
 	}
-
-	public int getId()
-	{
-		return id;
-	}
-	
-	public void setId(int value)
-	{
-		this.id = value;
-	}
-
 
 	/**
 	 * @return the parentId
@@ -200,21 +182,6 @@ public class Lehen
 		this.ownerId = ownerId;
 	}
 
-	/**
-	 * @return the bank
-	 */
-	public Bank getBank()
-	{
-		return bank;
-	}
-
-	/**
-	 * @param bank the bank to set
-	 */
-	public void setBank(Bank bank)
-	{
-		this.bank = bank;
-	}
 
 	/**
 	 * @return the position
@@ -268,22 +235,43 @@ public class Lehen
 		this.sales = this.sales - value;
 	}
 
-	/**
-	 * @return the buildings
-	 */
-	public BuildingList getBuildings()
+
+	public int getSupportId()
 	{
-		return buildings;
+		return supportId;
 	}
 
-	/**
-	 * @param buildings the buildings to set
-	 */
-	public void setBuildings(BuildingList buildings)
+	public void setSupportId(int supportId)
 	{
-		this.buildings = buildings;
+		this.supportId = supportId;
 	}
-	
-	
+
+	public void doProduce(ServerInterface server, DataInterface data)
+	{
+		if (supportId > 0)
+		{
+			this.warehouse = data.getSettlements().getSettlement(supportId).getWarehouse();
+		}
+		System.out.println("[REALMS] unit consum");
+		age++;
+		for (NpcData unit :barrack.getUnitList())
+		{
+			doConsumUnit(unit, data);
+		}
+		resident.getNpcList().clear();
+		resident.setNpcList(barrack.getUnitList().asNpcList());
+		resident.doSettlerCalculation(this.buildingList, data);
+	}
+
+	/*
+	 * <pre>
+	 * active tick for the Manager 
+	 * the manager is is a finite state machine
+	 * </pre>
+	 */
+	public void run(RealmModel rModel)
+	{
+		
+	}
 	
 }

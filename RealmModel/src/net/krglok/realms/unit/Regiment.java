@@ -51,8 +51,16 @@ import org.bukkit.block.Biome;
  * 
  * the regiment has a buildManager for buildup and remove the CAMP.
  * 
- * a regiment is a  finite state machine. all action done by the RegimentStatus. The run will be trigered by an external tick.
+ * a regiment has 2 modes
+ * - PlayerMode, all action cammonds by player
+ * - NPC mode, all action controlled by Managers
+ *   - raiderManager
+ *   - regimentManager 
+ * 
+ * a regiment is a  finite state machine. all action done by the RegimentStatus. 
+ * the run() must be trigered by an external tick.
  * the regiment self has no time or timing. 
+ * 
  * 
  * @author Windu
  * </pre>
@@ -71,6 +79,8 @@ public class Regiment extends AbstractSettle
 	private LocationData homePosition;
 	private Owner owner;
 	private boolean isUncamp;
+	private boolean isPlayer;
+	private int supportId;
 	
 	private double hungerCounter = 0.0;
 	private double foodConsumCounter = 0.0;
@@ -113,22 +123,18 @@ public class Regiment extends AbstractSettle
 		lfdID++;
 		this.id			= lfdID;
 		this.settleType = SettleType.CAMP;
-//		this.age         = 0;
 		this.position 	= new LocationData("", 0.0, 0.0, 0.0);
 		this.target 	= new LocationData("", 0.0, 0.0, 0.0);
-//		this.world 		= "";
 		this.biome		= null;
 		this.name		= "Regiment";
 		this.ownerId	= 0;
 		this.owner 		= null;
-//		this.bank		= new Bank(); //logList);
+		this.supportId = 0;
 		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
 		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
-//		this.isEnabled  = true;
-//		this.isActive   = true;
 		this.isUncamp 	= true;
+		this.isPlayer   = false;
 		this.battleOverview = new BoardItemList();
-//		this.colonist =  Colony.newCamp(this.name, this.owner, logList);
 		this.attackPlan = new BattlePlacement();
 		this.battle 	= new BattleSetup();
 		this.tickCount  = 0;
@@ -475,6 +481,12 @@ public class Regiment extends AbstractSettle
 		
 	}
 	
+	/*
+	 * <pre>
+	 * active tick for the Manager 
+	 * the manager is is a finite state machine
+	 * </pre>
+	 */
 	public void run(RealmModel rModel)
 	{
 //		System.out.println("Regiment: "+regStatus.name());
@@ -508,16 +520,21 @@ public class Regiment extends AbstractSettle
 			break;
 		case IDLE :
 			doWait(rModel);
-			if (regimentType == RegimentType.RAIDER)
+			
+			// raiderMabager only activ in NPC Mode
+			if (isPlayer == false)
 			{
-				if (raiderManager.hasBattle())
+				if (regimentType == RegimentType.RAIDER)
 				{
-					raiderManager.setRaiderAction(RaiderAction.BATTLE_END);
-				}
-				doRaidManager(rModel);
-				if (raiderManager.getRaiderAction() == RaiderAction.MOVE)
-				{
-					startMove();
+					if (raiderManager.hasBattle())
+					{
+						raiderManager.setRaiderAction(RaiderAction.BATTLE_END);
+					}
+					doRaidManager(rModel);
+					if (raiderManager.getRaiderAction() == RaiderAction.MOVE)
+					{
+						startMove();
+					}
 				}
 			}
 			break;
@@ -934,6 +951,38 @@ public class Regiment extends AbstractSettle
 	public void setHomePosition(LocationData homePosition)
 	{
 		this.homePosition = homePosition;
+	}
+
+	/**
+	 * @return the isPlayer
+	 */
+	public boolean isPlayer()
+	{
+		return isPlayer;
+	}
+
+	/**
+	 * @param isPlayer the isPlayer to set
+	 */
+	public void setIsPlayer(boolean isPlayer)
+	{
+		this.isPlayer = isPlayer;
+	}
+
+	/**
+	 * @return the supporter
+	 */
+	public int getSupportId()
+	{
+		return supportId;
+	}
+
+	/**
+	 * @param supporter the supporter to set
+	 */
+	public void setSupportId(int supporter)
+	{
+		this.supportId = supporter;
 	}
 
 	/**

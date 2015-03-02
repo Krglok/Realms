@@ -86,6 +86,7 @@ public class RealmModel
 	private ArrayList<Settlement> taxQueue;			// List von Settlements , die abgearbeitet werden muessen
 	private HashMap<Integer,Integer> storeQueue;	// Liste von Settlement Id, die gepeichert werden sollen
 	private ArrayList<Regiment> regimentProductionQueue;	// List of Regiments for production, daily event
+	private ArrayList<Lehen> lehenProductionQueue;	// List of Regiments for production, daily event
 
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
@@ -134,6 +135,7 @@ public class RealmModel
 		taxQueue = new ArrayList<Settlement>();
 		storeQueue = new HashMap<Integer,Integer>();
 		regimentProductionQueue = new ArrayList<Regiment>();
+		lehenProductionQueue = new ArrayList<Lehen>();
 //		this.logList = logList;
 		owners = new OwnerList();
 		kingdoms = new KingdomList(realmCounter);
@@ -479,6 +481,25 @@ public class RealmModel
 //		return;
 //	}
 	
+	/**
+	 * <pre>
+	 * trigger the tick action for the different objects
+	 * - transport
+	 * - tradeMarket
+	 * - Managers
+	 *   - colonyBuilder
+	 *   - colony
+	 *   - settlement
+	 *   - regiment
+	 *   - lehen
+	 *   
+	 * finite state machine for 
+	 * - Production
+	 * - Tax
+	 * - ModelCommand
+	 * 
+	 * </pre>
+	 */
 	public void OnTick()
 	{
 		try
@@ -489,10 +510,11 @@ public class RealmModel
 			tradeTransport.runTick();
 			tradeMarket.runTick();
 			// Builder
-			colonyManagersRun();
-			managersRun();
-			colonyRun();
-			regimentRun();
+			colonyBuilderRun();
+			settlementManagerRun();
+			colonyManagerRun();
+			regimentManagerRun();
+			lehenManagerRun();
 			switch (modelStatus)
 			{
 			case MODEL_ENABLED :
@@ -630,7 +652,7 @@ public class RealmModel
 	/**
 	 * start buildManager of each Colony for 1 tick
 	 */
-	private void colonyManagersRun()
+	private void colonyBuilderRun()
 	{
 		for (Colony colony : colonys.values())
 		{
@@ -639,7 +661,7 @@ public class RealmModel
 		}
 	}
 	
-	private void colonyRun()
+	private void colonyManagerRun()
 	{
 		for (Colony colony : colonys.values())
 		{
@@ -651,7 +673,7 @@ public class RealmModel
 	/**
 	 * start each manager for each settlement for 1 tick 
 	 */
-	private void managersRun()
+	private void settlementManagerRun()
 	{
 		for (Settlement settle : settlements.values())
 		{
@@ -664,7 +686,7 @@ public class RealmModel
 	/**
 	 * start the regiment run for each regiment  for 1 tick
 	 */
-	private void regimentRun()
+	private void regimentManagerRun()
 	{
 		if (regiments == null)
 		{
@@ -673,6 +695,14 @@ public class RealmModel
 		for (Regiment regiment : regiments.values())
 		{
 			regiment.run(this);
+		}
+	}
+	
+	private void lehenManagerRun()
+	{
+		for (Lehen lehen : data.getLehen().values())
+		{
+			lehen.run(this);
 		}
 	}
 	
@@ -780,6 +810,14 @@ public class RealmModel
 				productionQueue.add(settle);
 			}
 		}
+		for (Lehen lehen : data.getLehen().values())
+		{
+			if (lehen.isEnabled() && (lehen.getPosition().getWorld().equalsIgnoreCase(worldName)))
+			{
+				lehenProductionQueue.add(lehen);
+			}
+		}
+		
 		for (Regiment regiment : regiments.values())
 		{
 			if (regiment.isEnabled() && (regiment.getPosition().getWorld().equalsIgnoreCase(worldName)))
@@ -790,6 +828,15 @@ public class RealmModel
 		return ModelStatus.MODEL_PRODUCTION;
 	}
 
+	/**
+	 * <pre>
+	 * run the production cycle for the settlement, lehen and regiments
+	 * for each tick only 1 settlement are calculated
+	 * first all settlement , then all lehen and then all regiment
+	 * 
+	 * @return ModelStatus : MODEL_PRODUCTION | MODEL_ENABLED
+	 * </pre>
+	 */
 	private ModelStatus nextProductionQueue()
 	{
 		if (productionQueue.isEmpty() == false)
@@ -817,6 +864,16 @@ public class RealmModel
 	//		System.out.println("remove 0");
 			messageData.log("remove 0");
 	//		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
+			return ModelStatus.MODEL_PRODUCTION;
+		}
+
+		if (lehenProductionQueue.isEmpty() == false)
+		{
+			Lehen lehen = lehenProductionQueue.get(0);
+			System.out.println("[REALMS] lehen production ");
+			lehen.doProduce(server, data);
+			data.writeLehen(lehen);
+			lehenProductionQueue.remove(0);
 			return ModelStatus.MODEL_PRODUCTION;
 		}
 		

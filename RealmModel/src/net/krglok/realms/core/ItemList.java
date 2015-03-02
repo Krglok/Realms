@@ -249,5 +249,27 @@ public class ItemList  extends  HashMap<String, Item>
 		}
 		return itemArray;
 	}
-	
+
+	/**
+	 * make a dowb count for required list by the amopunt
+	 * 
+	 */
+	public void reduceRequired()
+	{
+		ArrayList<String> deleteList = new ArrayList<String>();
+		for (Item item : this.values())
+		{
+			if (item.value() > 0)
+			{
+				item.setValue(item.value()-1);
+			} else
+			{
+				deleteList.add(item.ItemRef());
+			}
+		}
+		for (String key : deleteList )
+		{
+			this.remove(key);
+		}
+	}
 }

@@ -135,6 +135,18 @@ public class CmdSettleWorkshop extends RealmsCommand
 				}
 				
 			}
+			if (slot < 0 )
+			{
+				errorMsg.add(ChatColor.RED+"Slot number must positive ");
+				errorMsg.add("Numbers valid 0..4 ");
+				return false;
+			}
+			if (slot > 4 )
+			{
+				errorMsg.add(ChatColor.RED+"Slot number to high ");
+				errorMsg.add("Numbers valid 0..4 ");
+				return false;
+			}
 	    	ArrayList<Region>  regions = plugin.stronghold.getRegionManager().getContainingRegions(loc);
 	    	if (regions.size() == 0)
 			{

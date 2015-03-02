@@ -32,7 +32,7 @@ import org.bukkit.block.Biome;
 /**
  * <pre>
  * the colony has the special task to buildup a settlement 
- * ths is a automatic settlement builder, the configuration is read from the settleSchema
+ * this is a automatic settlement builder, the configuration is read from the settleSchema
  * the colony can be moved
  * the colony has a command to start the build
  * the colony send signals in queue out of the model into the plugin level.
@@ -378,7 +378,10 @@ public class Colony
 	}
 	
 	/**
-	 * 
+	 * <pre>
+	 * active tick for the Manager 
+	 * the manager is is a finite state machine
+	 * </pre>
 	 */
 	public void run (RealmModel rModel, Warehouse warehouse)
 	{

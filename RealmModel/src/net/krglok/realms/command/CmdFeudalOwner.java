@@ -110,7 +110,7 @@ public class CmdFeudalOwner extends RealmsCommand
 		{
 			sRegion.addOwner(playerName);
 		}
-		for (Building building : lehen.getBuildings().values())
+		for (Building building : lehen.getBuildingList().values())
 		{
 			if (building.getLehenId() == lehen.getId())
 			{

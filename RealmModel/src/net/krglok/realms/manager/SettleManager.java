@@ -26,6 +26,7 @@ import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.model.iModelCommand;
 
 /**
+ * <pre>
  * the SettleManager realize the Controller and Manager for the Settlement
  * - basic trading management
  * - basic mission management
@@ -33,7 +34,7 @@ import net.krglok.realms.model.iModelCommand;
  * the manager can interact with the world and send commands and requests to other managers
  * 
  * @author oduda
- *
+ *</pre>
  */
 public class SettleManager
 {
@@ -84,6 +85,15 @@ public class SettleManager
 		
 	}
 	
+	/**
+	 * <pre>
+	 * active tick for the Manager 
+	 * the manager is NOT a finite state machine
+	 * 
+	 * @param rModel
+	 * @param settle
+	 * </pre>
+	 */
 	public void run(RealmModel rModel, Settlement settle)
 	{
 		// check for optional actions

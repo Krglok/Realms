@@ -5,7 +5,7 @@ public class CacheTask implements Runnable
 
     private final Realms plugin;
 	public long CACHE_SCHEDULE =  10;  // 10 * 50 ms 
-	public long DELAY_SCHEDULE =  25;  // 10 * 50 ms 
+	public long DELAY_SCHEDULE =  150;  // 10 * 50 ms 
 
 	
 	public CacheTask(Realms plugin)

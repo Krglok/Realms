@@ -506,35 +506,29 @@ public class Resident
 			{
 				npc.addAgeDay();
 				// check for new Status
-				if (npc.getMoney() <= 0.3)
+				if (npc.hungerCounter < ConfigBasis.HUNGER_BEGGAR)
 				{
-					if (npc.hungerCounter < ConfigBasis.HUNGER_BEGGAR)
+					if (npc.isChild() == false)
 					{
-						if (npc.isChild() == false)
+						if (npc.getMoney() < 0.3)
 						{
-							if (npc.getMoney() < 0.3)
+							if (npc.isBeggar() == false)
 							{
-								if (npc.isBeggar() == false)
-								{
-									System.out.println("[REALMS] Settler "+npc.getId()+" rankdown to BEGGAR ");
-									npc.setNpcType(NPCType.BEGGAR);
-								}
+								System.out.println("[REALMS] Settler "+npc.getId()+" rankdown to BEGGAR ");
+								npc.setNpcType(NPCType.BEGGAR);
 							}
 						}
-					} else
+					}
+				} else
+				{
+					if (npc.isBeggar())
 					{
-						if (npc.isBeggar())
+						if (npc.hungerCounter >= 0.0)
 						{
-							if (npc.hungerCounter > 0.0)
+							if (npc.getHomeBuilding() != 0)
 							{
-								if (npc.getHomeBuilding() != 0)
-								{
-									if (npc.getMoney() > 0.3)
-									{
-										System.out.println("[REALMS] Beagger "+npc.getId()+" rankup to SETTLER ");
-										npc.setNpcType(NPCType.SETTLER);
-									}
-								}
+								System.out.println("[REALMS] Beggar "+npc.getId()+" rankup to SETTLER ");
+								npc.setNpcType(NPCType.SETTLER);
 							}
 						}
 					}

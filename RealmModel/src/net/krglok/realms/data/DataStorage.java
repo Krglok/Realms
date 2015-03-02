@@ -765,7 +765,7 @@ public class DataStorage implements DataInterface
 		{
 			lehen = lehenData.readData(ref);
 			lehen.setOwner(owners.getOwner(lehen.getOwnerId()));
-			lehen.setBuildings(buildings.getSubList(lehen));
+			lehen.setBuildingList(buildings.getSubList(lehen));
 			lehenList.putLehen(lehen);
 		}
 	}
@@ -948,19 +948,29 @@ public class DataStorage implements DataInterface
 		{
 		case NPC:
 			NpcData npc = npcs.get(ref.getId());
-			npcDataStore.writeData(npc,ref.getId());
+			if (npc != null)
+			{
+				npcDataStore.writeData(npc,ref.getId());
+			}
 			time2 = System.nanoTime();
+				
 //		    System.out.println("CacheWrite Npc: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
 			break;
 		case SETTLEMENT:
 			Settlement settle = settlements.getSettlement(ref.getId());
-			settlementData.writeData(settle,ref.getId());
+			if (settle != null)
+			{
+				settlementData.writeData(settle,ref.getId());
+			}
 			time2 = System.nanoTime();
 		    System.out.println("CacheWrite Settle: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
 			break;
 		case BUILDING:
 			Building building = buildings.getBuilding(ref.getId());
-			buildingData.writeData(building,ref.getId());
+			if (building != null)
+			{
+				buildingData.writeData(building,ref.getId());
+			}
 			time2 = System.nanoTime();
 //		    System.out.println("CacheWrite Building: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
 			break;

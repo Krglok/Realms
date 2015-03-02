@@ -38,7 +38,7 @@ public enum PositionFace
 	{
 		for (PositionFace face : PositionFace.values())
 		{
-			if (face.name().equals(value))
+			if (face.name().equalsIgnoreCase(value))
 			{
 				return true;
 			}

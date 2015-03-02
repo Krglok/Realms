@@ -1330,7 +1330,8 @@ public class Settlement extends AbstractSettle //implements Serializable
 	{
 		// increment age of the Setlement in production cycles
 		age++;
-		requiredProduction.clear();
+		// redude required list by production cycle 
+		requiredProduction.reduceRequired(); 
 		productionOverview.resetLastAll();
 		setStoreCapacity();
 		initTreasureList();
