@@ -872,6 +872,8 @@ public class RealmModel
 			Lehen lehen = lehenProductionQueue.get(0);
 			System.out.println("[REALMS] lehen production ");
 			lehen.doProduce(server, data);
+			lehen.doHappiness(data);
+			messageData.log("Lehen happiness");
 			data.writeLehen(lehen);
 			lehenProductionQueue.remove(0);
 			return ModelStatus.MODEL_PRODUCTION;

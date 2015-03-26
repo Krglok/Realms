@@ -22,7 +22,7 @@ public class CmdKingdomOwner extends RealmsCommand
 	{
 		super(RealmsCommandType.KINGDOM, RealmsSubCommandType.OWNER);
 		description = new String[] {
-				ChatColor.YELLOW+"/kingdom REQUEST [kingdomId] [playerName] ",
+				ChatColor.YELLOW+"/kingdom OWNER [kingdomId] [playerName] ",
 		    	"The king set to the playername ",
 		    	"The player set also as owner of the king lehen ",
 		    	" "

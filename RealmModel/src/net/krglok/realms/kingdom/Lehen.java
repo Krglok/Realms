@@ -1,16 +1,32 @@
 package net.krglok.realms.kingdom;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.Bank;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.core.TradeTransport;
+import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.unit.UnitArcher;
+import net.krglok.realms.unit.UnitFactory;
+import net.krglok.realms.unit.UnitHeavyInfantry;
+import net.krglok.realms.unit.UnitKnight;
+import net.krglok.realms.unit.UnitLightInfantry;
+import net.krglok.realms.unit.UnitMilitia;
+import net.krglok.realms.unit.UnitType;
 
 
 /**
@@ -27,6 +43,7 @@ import net.krglok.realms.npc.NpcData;
 public class Lehen  extends AbstractSettle
 {
 
+	private final int  SELL_DELAY   = 1200;
 	private static int lfdID = 0;
 	
 	private NobleLevel nobleLevel;
@@ -36,7 +53,11 @@ public class Lehen  extends AbstractSettle
 	private double sales;
 	private LocationData position;
 	private int supportId;
+	private Trader trader;
+	private BuildManager buildManager;
 	
+	private int delayRoutes = 0;
+
 	
 	public Lehen()
 	{
@@ -53,6 +74,7 @@ public class Lehen  extends AbstractSettle
 		this.sales = 0;
 		this.age = 0;
 		this.position = new LocationData("", 0.0, 0.0, 0.0);
+		trader = new Trader();
 	}
 
 	/**
@@ -248,12 +270,9 @@ public class Lehen  extends AbstractSettle
 
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
-		if (supportId > 0)
-		{
-			this.warehouse = data.getSettlements().getSettlement(supportId).getWarehouse();
-		}
 		System.out.println("[REALMS] unit consum");
 		age++;
+
 		for (NpcData unit :barrack.getUnitList())
 		{
 			doConsumUnit(unit, data);
@@ -261,17 +280,175 @@ public class Lehen  extends AbstractSettle
 		resident.getNpcList().clear();
 		resident.setNpcList(barrack.getUnitList().asNpcList());
 		resident.doSettlerCalculation(this.buildingList, data);
+		// unit production
+		for (Building building : buildingList.values())
+		{
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+			{
+				System.out.println("Train check : "+building.getMaxTrain());
+	
+				if (building.isEnabled())
+				{
+					doTrainStart(data, building);
+				} else
+				{
+					System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
+				}
+			}
+		}
+		
+	}
+	
+	public void doUnitTrain(UnitFactory unitFactory)
+	{
+		for (Building building : buildingList.values())
+		{
+			// unit production
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())== 500)
+			{
+				if (building.isEnabled())
+				{
+					switch(building.getBuildingType())
+					{
+					case GUARDHOUSE:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.MILITIA);
+								UnitMilitia.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(false);
+								building.setTrainCounter(0);
+							} else
+							{
+								System.out.println("[REALMS] Guardhouse Train Recrute not found !");
+							}
+						} else
+						{
+						}
+						break;
+					case ARCHERY:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.ARCHER);
+							UnitArcher.initData(recrute.getUnit());
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					case BARRACK:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.LIGHT_INFANTRY);
+							UnitLightInfantry.initData(recrute.getUnit());
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					case CASERN:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.HEAVY_INFANTRY);
+							UnitHeavyInfantry.initData(recrute.getUnit());
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					case TOWER:
+						if (building.isTrainReady())
+						{
+//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
+							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
+							recrute.setWorkBuilding(0);
+							recrute.setUnitType(UnitType.KNIGHT);
+							UnitKnight.initData(recrute.getUnit());
+							building.addMaxTrain(-1);
+							building.setIsEnabled(false);
+							building.setTrainCounter(0);
+						} else
+						{
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	/*
 	 * <pre>
 	 * active tick for the Manager 
 	 * the manager is is a finite state machine
+	 * The Lehen Manager realize the functions of a TradeManager but not in the same way 
+	 * Here are the basic supply chain for the lehen
 	 * </pre>
 	 */
 	public void run(RealmModel rModel)
 	{
+		// check for RouteOrders
+		if (delayRoutes > (SELL_DELAY / 20))
+		{
+			checksupport(rModel, rModel.getTradeTransport(), rModel.getSettlements());
+			delayRoutes = 0;
+		} else
+		{
+			delayRoutes++;
+		}
 		
+	}
+	
+	private void checksupport(RealmModel rModel,TradeTransport transport, SettlementList settlements)
+	{
+		SettlementList subList = settlements.getSubList(owner);
+		if (this.supportId > 0)
+		{
+			Settlement settle = settlements.getSettlement(supportId);	
+			subList.addSettlement(settle);
+		}
+		int requiredWhet = this.getSupported();
+		Item item = new Item("WHEAT",requiredWhet);
+		this.requiredProduction.addItem(item);
+	}
+	
+	/**
+	 * count for residents, units in barrack and units in buildings
+	 *  
+	 * @return  count of resident and units
+	 */
+	private int getSupported()
+	{
+		int value = 2;
+		value = value + resident.getSettlerCount();
+		value = value + barrack.getUnitList().size();
+		for (Building building : buildingList.values())
+		{
+			value = value + building.getSettler();
+		}
+		return  value;
 	}
 	
 }

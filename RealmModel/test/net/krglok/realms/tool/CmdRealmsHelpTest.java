@@ -4,35 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.command.CmdColonistCreate;
-import net.krglok.realms.command.CmdColonyBuild;
-import net.krglok.realms.command.CmdColonyHelp;
-import net.krglok.realms.command.CmdRealmNone;
-import net.krglok.realms.command.CmdRealmsActivate;
-import net.krglok.realms.command.CmdRealmsCheck;
-import net.krglok.realms.command.CmdRealmsDeactivate;
-import net.krglok.realms.command.CmdRealmsGetItem;
-import net.krglok.realms.command.CmdRealmsHelp;
-import net.krglok.realms.command.CmdRealmsMap;
-import net.krglok.realms.command.CmdRealmsPricelistInfo;
-import net.krglok.realms.command.CmdRealmsProduce;
-import net.krglok.realms.command.CmdRealmsSetItem;
-import net.krglok.realms.command.CmdRealmsVersion;
-import net.krglok.realms.command.CmdSettleAddBuilding;
-import net.krglok.realms.command.CmdSettleBank;
-import net.krglok.realms.command.CmdSettleBuild;
-import net.krglok.realms.command.CmdSettleBuy;
-import net.krglok.realms.command.CmdSettleCheck;
-import net.krglok.realms.command.CmdSettleCreate;
-import net.krglok.realms.command.CmdSettleGetItem;
-import net.krglok.realms.command.CmdSettleHelp;
-import net.krglok.realms.command.CmdSettleInfo;
-import net.krglok.realms.command.CmdSettleList;
-import net.krglok.realms.command.CmdSettleSell;
-import net.krglok.realms.command.CmdSettleSetItem;
-import net.krglok.realms.command.CmdSettleTrader;
-import net.krglok.realms.command.CmdSettleWarehouse;
-import net.krglok.realms.command.RealmsCommand;
+import net.krglok.realms.command.*;
 
 import org.junit.Test;
 
@@ -43,34 +15,105 @@ public class CmdRealmsHelpTest
 	{
 		RealmsCommand[] commandList = new RealmsCommand[] {
 				new CmdRealmNone(),
-				new CmdRealmsVersion(),
+				new CmdRealmsActivate(),
+				new CmdRealmsBuildingList(),
+				new CmdRealmsBuilding(),
+				new CmdRealmsBook(),
+				new CmdRealmsBookRead(),
+				new CmdRealmsBookList(),
+				new CmdRealmsCheck(),
+				new CmdRealmsDeactivate(),
+				new CmdRealmsGetItem(),
 				new CmdRealmsHelp(),
 				new CmdRealmsPricelistInfo(),
-				new CmdRealmsActivate(),
-				new CmdRealmsDeactivate(),
-				new CmdRealmsProduce(),
-				new CmdRealmsCheck(),
-				new CmdRealmsSetItem(),
-				new CmdRealmsGetItem(),
 				new CmdRealmsMap(),
+				new CmdRealmsMove(),
+				new CmdRealmsProduce(),
+				new CmdRealmsPrice(),
+				new CmdRealmsPlayer(),
+				new CmdRealmsRecipeList(),
+				new CmdRealmsSettler(),
+				new CmdRealmsSetItem(),
+				new CmdRealmsSettlement(),
+				new CmdRealmsSign(),
+				new CmdRealmsTax(),
+				new CmdRealmsTech(),
+				new CmdWallSign(),
+				new CmdRealmsVersion(),
 				new CmdRealmNone(),
+				new CmdSettleAddBuilding(),
+				new CmdSettleAddMember(),
+				new CmdSettleAssume(),
+				new CmdSettleBank(),
+				new CmdSettleBiome(),
+				new CmdSettleBuild(),
+				new CmdSettleBuilding(),
+				new CmdSettleBuildingList(),
+				new CmdSettleBuy(),
 				new CmdSettleCheck(),
 				new CmdSettleCreate(),
+				new CmdSettleCredit(),
+				new CmdSettleDelete(),
+				new CmdSettleDestroyBuilding(),
+				new CmdSettleEvolve(),
+				new CmdSettleGetItem(),
 				new CmdSettleHelp(),
-				new CmdSettleList(),
 				new CmdSettleInfo(),
-				new CmdSettleWarehouse(),
-				new CmdSettleBank(),
-				new CmdSettleBuy(),
+				new CmdSettleJoin(),
+				new CmdSettleList(),
+				new CmdSettleMarket(),
+				new CmdSettleNoSell(),
+				new CmdSettleOwner(),
+				new CmdSettleProduction(),
+				new CmdSettleReputation(),
+				new CmdSettleRequired(),
+				new CmdSettleRoute(),
+				new CmdSettleRouteList(),
 				new CmdSettleSell(),
 				new CmdSettleSetItem(),
-				new CmdSettleGetItem(),
+				new CmdSettleSettler(),
 				new CmdSettleTrader(),
-				new CmdSettleBuild(),
+				new CmdSettleTrain(),
+				new CmdSettleWarehouse(),
+				new CmdSettleWorkshop(),
 				new CmdColonistCreate(),
 				new CmdColonyBuild(),
-				new CmdSettleAddBuilding(),
-				new CmdColonyHelp()
+				new CmdColonistList(),
+				new CmdColonyHelp(),
+				new CmdColonyWarehouse(),
+				new CmdColonistMove(),
+				new CmdOwnerCreate(),
+				new CmdOwnerHelp(),
+				new CmdOwnerInfo(),
+				new CmdOwnerList(),
+				new CmdOwnerSet(),
+				new CmdOwnerSettlement(),
+				new CmdFeudalBank(),
+				new CmdFeudalFollow(),
+				new CmdFeudalHelp(),
+				new CmdFeudalInfo(),
+				new CmdFeudalList(),
+				new CmdFeudalCreate(),
+				new CmdFeudalOwner(),
+				new CmdKingdomList(),
+				new CmdKingdomCreate(),
+				new CmdKingdomGive(),
+				new CmdKingdomHelp(),
+				new CmdKingdomInfo(),
+				new CmdKingdomJoin(),
+				new CmdKingdomMember(),
+				new CmdKingdomOwner(),
+				new CmdKingdomRequest(),
+				new CmdKingdomRelease(),
+				new CmdKingdomStructure(),
+				new CmdRegimentCreate(),
+				new CmdRegimentHome(),
+				new CmdRegimentList(),
+				new CmdRegimentMove(),
+				new CmdRegimentWarehouse(),
+				new CmdRegimentRaid(),
+				new CmdRegimentInfo(),
+				new CmdRegimentHelp(),
 //				new CmdRealmsTest()
 			
 		};
@@ -81,17 +124,28 @@ public class CmdRealmsHelpTest
 	@Test
 	public void testHelpCommand()
 	{
-		CmdRealmsHelp cmdHelp = new CmdRealmsHelp();
-
 		ArrayList<String> msg = new ArrayList<String>();
+
+		CmdOwnerHelp cmdOHelp = new CmdOwnerHelp();
+		msg = cmdOHelp.makeHelpPage(makeCommandList(),  msg, "" );
 		
-		msg = cmdHelp.makeHelpPage(makeCommandList(),  msg, "" );
+		CmdRegimentHelp cmdRHelp = new CmdRegimentHelp();
+		msg = cmdRHelp.makeHelpPage(makeCommandList(),  msg, "" );
 
-		CmdSettleHelp cmdSetleHelp = new CmdSettleHelp();
-		msg = cmdSetleHelp.makeHelpPage(makeCommandList(),  msg, "" );
+		CmdFeudalHelp cmdFHelp = new CmdFeudalHelp();
+		msg = cmdFHelp.makeHelpPage(makeCommandList(),  msg, "" );
 
-		CmdColonyHelp cmdColonyHelp = new CmdColonyHelp();
-		msg = cmdColonyHelp.makeHelpPage(makeCommandList(),  msg, "" );
+		CmdKingdomHelp cmdKHelp = new CmdKingdomHelp();
+		msg = cmdKHelp.makeHelpPage(makeCommandList(),  msg, "" );
+
+//		CmdRealmsHelp cmdHelp = new CmdRealmsHelp();
+//		msg = cmdHelp.makeHelpPage(makeCommandList(),  msg, "" );
+//		
+//		CmdSettleHelp cmdSetleHelp = new CmdSettleHelp();
+//		msg = cmdSetleHelp.makeHelpPage(makeCommandList(),  msg, "" );
+//
+//		CmdColonyHelp cmdColonyHelp = new CmdColonyHelp();
+//		msg = cmdColonyHelp.makeHelpPage(makeCommandList(),  msg, "" );
 		
 		for (String s : msg)
 		{

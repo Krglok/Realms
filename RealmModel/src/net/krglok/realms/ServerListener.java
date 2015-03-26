@@ -670,7 +670,9 @@ public class ServerListener implements Listener
     		 */
 	    	if (b.getType() == Material.IRON_BLOCK)
 	    	{
+				event.getPlayer().sendMessage("You click a iron block");
 	    		doCatapult(event, b);
+	    		return;
 	    	}
 	    	
 	    	// Wallsign action
@@ -2244,17 +2246,16 @@ public class ServerListener implements Listener
         //Calculate trajectory of the arrow
         Location loc = b.getRelative(BlockFace.UP, 2).getLocation();
 //        Location playerLoc = player.getLocation();
-        Vector vel = new Vector(loc.getX()-30, loc.getY(), loc.getZ());
+        Vector direction = new Vector(loc.getX()-30, loc.getY()+30, loc.getZ()-30);
 //        
 //        //Spawn and set velocity of the arrow
-        double speed = 0.5;
+        double speed = 3.0;
 //        Entity tnt = b.getWorld().spawnEntity(loc, EntityType.PRIMED_TNT);
 //        tnt.setVelocity(vel.multiply(speed));
 //        tnt.setFireTicks(150);
-        Arrow arrow = b.getWorld().spawnArrow(loc, vel, (float) (0.2 * speed), 12);
-new ArrayList<String>();
+        Arrow arrow = b.getWorld().spawnArrow(loc, direction, (float) (1.0 * speed), 12);
         arrow.setFireTicks(250);
-        arrow.setVelocity(vel.multiply(speed));
+//        arrow.setVelocity(vel.multiply(speed));
         
 	}
 
@@ -2589,7 +2590,7 @@ new ArrayList<String>();
 		{
 			redstone = b.getRelative(BlockFace.DOWN);
 		}
-		if (event.getPlayer().getItemInHand().getType() == Material.FLINT_AND_STEEL)
+		if (event.getPlayer().getItemInHand().getType() == Material.STICK)
 		{
 			if((chest != null) && (redstone != null))
 			{
@@ -2599,6 +2600,9 @@ new ArrayList<String>();
 				event.getPlayer().getWorld().playSound(b.getLocation(), Sound.FIREWORK_BLAST, loud, pitch);
 				shotArrow(b);
 			}
+		} else
+		{
+			event.getPlayer().sendMessage("You need a stick");
 		}
 		
 	}

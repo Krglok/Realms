@@ -17,7 +17,8 @@ public class CmdRealmsBookList extends RealmsCommand
 	{
 		super(RealmsCommandType.REALMS,RealmsSubCommandType.BOOKLIST);
 		description = new String[] {
-				ChatColor.YELLOW+"/realms BOOKLIST {page} , list the books in sektion 0 ",
+				ChatColor.YELLOW+"/realms BOOKLIST {page} ",
+				"list the books in sektion 0 ",
 		    	"The section 0 nbooks are not linked to an settlement  ",
 		    	"For settlement books use the book list of a ",
 		    	"bibliothek building ",

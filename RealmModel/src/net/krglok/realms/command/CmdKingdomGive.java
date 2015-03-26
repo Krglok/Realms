@@ -23,7 +23,7 @@ public class CmdKingdomGive extends RealmsCommand
 	{
 		super(RealmsCommandType.KINGDOM, RealmsSubCommandType.GIVE);
 		description = new String[] {
-				ChatColor.YELLOW+"/kingdom REQUEST [kingdomId] [lehenId] [ownerName] ",
+				ChatColor.YELLOW+"/kingdom GIVE [kingdomId] [lehenId] [ownerName] ",
 		    	"The king give a lehen to his liege ",
 		    	"The king give land for loyalty ",
 		    	"both are bound to the loyalty ",
