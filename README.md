@@ -1,6 +1,6 @@
 Realms
 ======
-Bukkit Plugin for managing Realms and settlements. Do NO protections . 
+Bukkit Plugin for managing Realms and settlements. Do protection with HeroStronghold . 
 Based on the ideas of Dominion from Pico52, this plugin was designed and created.
 I want to resolve some design issues in the dominion design.
 After some analysis of the dominion design i made the decision to make  a new design 
