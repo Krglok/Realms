@@ -267,6 +267,11 @@ public class Lehen  extends AbstractSettle
 	{
 		this.supportId = supportId;
 	}
+	
+	public boolean isFreeNPC()
+	{
+		return true;
+	}
 
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
@@ -421,6 +426,12 @@ public class Lehen  extends AbstractSettle
 		
 	}
 	
+	/**
+	 * add Wheat  to Requestlist
+	 * @param rModel
+	 * @param transport
+	 * @param settlements
+	 */
 	private void checksupport(RealmModel rModel,TradeTransport transport, SettlementList settlements)
 	{
 		SettlementList subList = settlements.getSubList(owner);

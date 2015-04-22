@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <CommunicationClass name="net.krglok.realms.command.iRealmsCommand"
+        x="492" y="362"/>
+    <CommunicationClass name="net.krglok.realms.UnitTask" x="16" y="187">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.command.CmdRealmsTest"
+        x="101" y="459">
+        <Extension destinationClassName="net.krglok.realms.command.RealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.Realms">
+            <Point x="262" y="391"/>
+        </Communication>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.Realms" x="231" y="190">
+        <Association
+            destinationClassName="net.krglok.realms.ServerListener"
+            endpointName="serverListener" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.ServerListener">
+            <Point x="266" y="75"/>
+        </Communication>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.command.RealmsCommand"
+        x="695" y="498">
+        <Extension destinationClassName="net.krglok.realms.command.iRealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.command.iRealmsCommand"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.command.CommandParser"
+        x="699" y="279">
+        <Association
+            destinationClassName="net.krglok.realms.command.RealmsCommand"
+            endpointName="commandList" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.command.iRealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.command.RealmsCommand"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.ServerListener" x="553" y="54">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms">
+            <Point x="608" y="158"/>
+            <Point x="327" y="161"/>
+        </Communication>
+    </CommunicationClass>
+</ClassDiagram>

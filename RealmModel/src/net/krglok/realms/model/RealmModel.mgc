@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="net.krglok.realms.model.CommandQueue" x="346" y="661">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.core.TradeMarket" x="1228" y="546">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.core.TradeTransport" x="836" y="722">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.model.McmdBuilder" x="127" y="730">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.krglok.realms.model.iModelCommand"/>
+        <Association
+            destinationClassName="net.krglok.realms.model.RealmModel"
+            endpointName="rModel" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+    </Class>
+    <Class name="net.krglok.realms.data.DataStorage" x="1628" y="38">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.model.ModelStatus" x="487" y="44">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.model.iModelCommand" x="131" y="956">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.model.RealmModel" x="115" y="45">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.core.TradeTransport"
+            endpointName="tradeTransport" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.model.CommandQueue"
+            endpointName="commandQueue" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.core.TradeMarket"
+            endpointName="tradeMarket" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStorage"
+            endpointName="data" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.model.ModelStatus"
+            endpointName="modelStatus" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.core.TradeTransport"/>
+        <Communication destinationClassName="net.krglok.realms.core.TradeMarket"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.model.iModelCommand"/>
+    </Class>
+</ClassDiagram>

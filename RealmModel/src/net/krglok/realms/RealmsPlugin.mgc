@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="net.krglok.realms.command.iRealmsCommand" x="1280" y="626">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.UnitTask" x="538" y="1162">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </Class>
+    <Class name="net.krglok.realms.Realms" x="62" y="307">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.CommandRealms"
+            endpointName="commandRealms" kind="Simple">
+            <Point x="772" y="646"/>
+        </Association>
+        <Association destinationClassName="net.krglok.realms.TickTask"
+            endpointName="tick" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.TaxTask"
+            endpointName="taxTask" kind="Simple">
+            <Point x="589" y="826"/>
+        </Association>
+        <Association
+            destinationClassName="net.krglok.realms.ServerListener"
+            endpointName="serverListener" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStorage"
+            endpointName="data" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.ServerData"
+            endpointName="server" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.CacheTask"
+            endpointName="cacheTask" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.CommandRealms"/>
+        <Communication destinationClassName="net.krglok.realms.data.ServerData"/>
+        <Communication destinationClassName="net.krglok.realms.TickTask"/>
+        <Communication destinationClassName="net.krglok.realms.ServerListener"/>
+    </Class>
+    <Class name="net.krglok.realms.command.RealmsSubCommandType"
+        x="1956" y="224">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.ServerListener" x="576" y="-14">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.data.ServerData"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </Class>
+    <Class name="net.krglok.realms.NpcTask" x="798" y="1164">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </Class>
+    <Class name="net.krglok.realms.data.DataStorage" x="1606" y="-12">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.CommandRealms" x="772" y="734">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.command.RealmsCommand"
+            endpointName="cmdList" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.command.CommandParser"
+            endpointName="parser" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple">
+            <Point x="577" y="710"/>
+        </Association>
+        <Communication destinationClassName="net.krglok.realms.command.RealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.command.CommandParser"/>
+        <Communication destinationClassName="net.krglok.realms.command.RealmsCommandType"/>
+    </Class>
+    <Class name="net.krglok.realms.data.ServerData" x="1056" y="182">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+    </Class>
+    <Class name="net.krglok.realms.command.CmdRealmsTest" x="1364" y="1214">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.krglok.realms.command.RealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </Class>
+    <Class name="net.krglok.realms.CacheTask" x="912" y="1046">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+    </Class>
+    <Class name="net.krglok.realms.command.RealmsCommand" x="1171" y="866">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.krglok.realms.command.iRealmsCommand"/>
+        <Association
+            destinationClassName="net.krglok.realms.command.RealmsSubCommandType"
+            endpointName="subCommand" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.command.RealmsCommandType"
+            endpointName="command" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.command.iRealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.command.RealmsSubCommandType"/>
+    </Class>
+    <Class name="net.krglok.realms.NobleTask" x="318" y="1164">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </Class>
+    <Class name="net.krglok.realms.command.CommandParser" x="914" y="857">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.command.RealmsCommand"
+            endpointName="commandList" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.command.iRealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.command.RealmsCommand"/>
+        <Communication destinationClassName="net.krglok.realms.command.RealmsSubCommandType"/>
+    </Class>
+    <Class name="net.krglok.realms.command.RealmsCommandType" x="1096" y="622">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.TickTask" x="58" y="1164">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </Class>
+    <Class name="net.krglok.realms.TaxTask" x="914" y="942">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple">
+            <Point x="641" y="813"/>
+        </Association>
+    </Class>
+</ClassDiagram>

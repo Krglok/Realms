@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="net.krglok.realms.core.TradeMarket" x="244" y="1395">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+    </Class>
+    <Class name="net.krglok.realms.core.TradeTransport" x="124" y="1225">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+    </Class>
+    <Class name="net.krglok.realms.data.DataStoreSettlement" x="1627" y="17">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+    </Class>
+    <Class name="net.krglok.realms.unit.BattleSetup" x="1424" y="1226">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.BattleStatus"
+            endpointName="battleStatus" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.BattlePlacement"
+            endpointName="defenders" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.BattlePlacement"
+            endpointName="attackers" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.unit.BattleStatus"/>
+        <Communication destinationClassName="net.krglok.realms.unit.BattlePlacement"/>
+    </Class>
+    <Class name="net.krglok.realms.colonist.Colony" x="734" y="2188">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.colonist.Colony.ColonyStatus"
+            endpointName="cStatus" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.colonist.Colony.ColonyStatus"
+            endpointName="nextStatus" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+        <Communication destinationClassName="net.krglok.realms.model.RealmModel"/>
+    </Class>
+    <Class name="net.krglok.realms.Realms" x="589" y="3">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.TickTask"
+            endpointName="tick" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.model.RealmModel"
+            endpointName="realmModel" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStorage"
+            endpointName="data" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.colonist.Colony"/>
+        <Communication destinationClassName="net.krglok.realms.model.RealmModel"/>
+        <Communication destinationClassName="net.krglok.realms.unit.Regiment"/>
+        <Communication destinationClassName="net.krglok.realms.TickTask"/>
+    </Class>
+    <Class name="net.krglok.realms.unit.RegimentStatus" x="1062" y="1590">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.unit.BattleStatus" x="1622" y="1018">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.unit.BattlePlacement" x="1204" y="1016">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.core.Settlement" x="722" y="708">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Association destinationClassName="net.krglok.realms.core.Owner"
+            endpointName="owner" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.unit.BattlePlacement"/>
+        <Communication destinationClassName="net.krglok.realms.core.Owner"/>
+    </Class>
+    <Class name="net.krglok.realms.unit.Regiment" x="728" y="1238">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.BattleSetup"
+            endpointName="battle" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.core.Owner"
+            endpointName="owner" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.RegimentStatus"
+            endpointName="regStatus" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.core.Settlement"
+            endpointName="raidTarget" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.BattlePlacement"
+            endpointName="attackPlan" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.unit.BattleSetup"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.unit.BattlePlacement"/>
+        <Communication destinationClassName="net.krglok.realms.core.Owner"/>
+    </Class>
+    <Class name="net.krglok.realms.colonist.Colony.ColonyStatus"
+        x="1082" y="2374">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.kingdom.Lehen" x="734" y="1864">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Association destinationClassName="net.krglok.realms.core.Owner"
+            endpointName="owner" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.core.Owner"/>
+    </Class>
+    <Class name="net.krglok.realms.data.DataStoreRegiment" x="1632" y="265">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.unit.Regiment"/>
+    </Class>
+    <Class name="net.krglok.realms.data.DataStoreOwner" x="1648" y="604">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.core.Owner"/>
+    </Class>
+    <Class name="net.krglok.realms.data.DataStorage" x="1208" y="188">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStoreOwner"
+            endpointName="ownerData" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStoreLehen"
+            endpointName="lehenData" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStoreSettlement"
+            endpointName="settlementData" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStoreRegiment"
+            endpointName="regimentData" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.kingdom.Lehen"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStoreSettlement"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+        <Communication destinationClassName="net.krglok.realms.core.Owner"/>
+        <Communication destinationClassName="net.krglok.realms.unit.Regiment"/>
+    </Class>
+    <Class name="net.krglok.realms.data.DataStoreLehen" x="1647" y="461">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.kingdom.Lehen"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+    </Class>
+    <Class name="net.krglok.realms.core.AbstractSettle" x="1250" y="1476">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.core.SettleType"
+            endpointName="settleType" kind="Simple"/>
+    </Class>
+    <Class name="net.krglok.realms.model.RealmModel" x="121" y="527">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.core.TradeTransport"
+            endpointName="tradeTransport" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.core.Settlement"
+            endpointName="taxQueue" kind="Simple">
+            <Point x="510" y="955"/>
+        </Association>
+        <Association
+            destinationClassName="net.krglok.realms.core.Settlement"
+            endpointName="tradeQueue" kind="Simple">
+            <Point x="514" y="892"/>
+        </Association>
+        <Association
+            destinationClassName="net.krglok.realms.core.TradeMarket"
+            endpointName="tradeMarket" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.data.DataStorage"
+            endpointName="data" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.Regiment"
+            endpointName="regimentProductionQueue" kind="Simple">
+            <Point x="594" y="1086"/>
+        </Association>
+        <Association
+            destinationClassName="net.krglok.realms.core.Settlement"
+            endpointName="productionQueue" kind="Simple">
+            <Point x="530" y="802"/>
+        </Association>
+        <Association
+            destinationClassName="net.krglok.realms.kingdom.Lehen"
+            endpointName="lehenProductionQueue" kind="Simple">
+            <Point x="617" y="1528"/>
+            <Point x="616" y="1769"/>
+        </Association>
+        <Communication destinationClassName="net.krglok.realms.kingdom.Lehen"/>
+        <Communication destinationClassName="net.krglok.realms.core.TradeTransport"/>
+        <Communication destinationClassName="net.krglok.realms.core.TradeMarket"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
+        <Communication destinationClassName="net.krglok.realms.colonist.Colony"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+        <Communication destinationClassName="net.krglok.realms.core.Owner"/>
+        <Communication destinationClassName="net.krglok.realms.unit.Regiment"/>
+    </Class>
+    <Class name="net.krglok.realms.core.Owner" x="262" y="1770">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.core.SettleType" x="1592" y="1490">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.TickTask" x="110" y="0">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+        <Communication destinationClassName="net.krglok.realms.model.RealmModel"/>
+        <Communication destinationClassName="net.krglok.realms.unit.Regiment"/>
+    </Class>
+</ClassDiagram>
