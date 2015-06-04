@@ -47,6 +47,8 @@ public enum BuildPlanType
 	HOME (101),
 	HOUSE (110),
 	MANSION (120),
+	CABIN (130),
+	COTTAGE(131),
 	WHEAT(202),
 	WOODCUTTER (203),
 	QUARRY (204),

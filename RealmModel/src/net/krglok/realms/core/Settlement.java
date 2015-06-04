@@ -55,12 +55,10 @@ public class Settlement extends AbstractSettle //implements Serializable
 	
 	private static int COUNTER;
 	
-	private LocationData position;
 	private Boolean isCapital;
 
 	private Owner owner;
 	private Townhall townhall;
-	private Trader trader;
 //  private Headquarter headquarter;
 
 	private Double buildingTax ;
@@ -567,16 +565,6 @@ public class Settlement extends AbstractSettle //implements Serializable
 		this.resident = resident;
 	}
 
-	public LocationData getPosition()
-	{
-		return position;
-	}
-
-	public void setPosition(LocationData position)
-	{
-		System.out.println("New Position : "+this.id);
-		this.position = position;
-	}
 	
 	public Double getBuildingTax()
 	{
@@ -618,15 +606,6 @@ public class Settlement extends AbstractSettle //implements Serializable
 //		this.world = position.getWorld();
 //	}
 
-	public Trader getTrader()
-	{
-		return trader;
-	}
-
-	public void setTrader(Trader trader)
-	{
-		this.trader = trader;
-	}
 
 	public BoardItemList getProductionOverview()
 	{

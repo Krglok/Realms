@@ -471,13 +471,15 @@ public class Trader
 	}
 	
 	/**
-	 * 
+	 * make a RouteOrder for AbstractSettle to Settlement
+	 * RouteOrder is a imperative tradeOrder with a predifined target
+	 *  
 	 * @param tradeMarket
 	 * @param rOrder
 	 * @param settle
 	 * @param settlements
 	 */
-	public void makeRouteOrder(TradeMarket tradeMarket, RouteOrder rOrder,  TradeTransport transport, Settlement settle, SettlementList settlements)
+	public void makeRouteOrder(TradeMarket tradeMarket, RouteOrder rOrder,  TradeTransport transport, AbstractSettle settle, SettlementList settlements)
 	{
 		Settlement targetSettle = settlements.getSettlement(rOrder.getTargetId());
 		

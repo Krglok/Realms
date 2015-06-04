@@ -12,7 +12,9 @@ package net.krglok.realms.core;
  * 
  * Eine routeOrder wird regelmässig ausgeführt und speichert den Zustand des Auftrages.
  * Eine routeOrder läuft endlos weiter und mus manuelll deaktiviert werden.
- *  *    
+ *
+ * Die Id wird automatisch von der RouteOrderList vergeben
+ *      
  * @author Windu
  *
  * </pre>

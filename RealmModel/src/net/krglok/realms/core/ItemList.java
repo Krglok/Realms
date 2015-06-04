@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 /**
  * list of items, hold each item type unique
+ * if item exists the value are added 
+ *  
  * @author oduda
  *
  */
@@ -34,7 +36,7 @@ public class ItemList  extends  HashMap<String, Item>
 	
 	/**
 	 * add item to the list
-	 * if exist values are  overwrite
+	 * if exist values are  add to exiting items
 	 * @param item
 	 */
 	public boolean addItem(Item item)

@@ -11,6 +11,8 @@ public enum SettleType
 	NONE (0),
 	CLAIM(10),
 	ENCLAVE(20),
+	BERTH(30),
+	VILLAGE(105),
 	HAMLET (110),
 	TOWN (120),
 	CITY (130),

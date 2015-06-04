@@ -1,0 +1,24 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 6
+requirements:
+- WOODEN_DOOR.1
+- COBBLESTONE.20
+- WOOD.10
+- LOG.8
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output:
+- WHEAT.2
+money-requirement: 500.0
+upkeep-money-output: 1.0
+housing: 5
+description: Hold settler. A better and greater villager building. Large villager building can used in realms.

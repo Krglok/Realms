@@ -1,0 +1,26 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 3
+requirements:
+- WOODEN_DOOR.1
+- COBBLESTONE.10
+- LOG.5
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output:
+- WHEAT.1
+money-requirement: 100.0
+upkeep-money-output: 0.0
+housing: 2
+power-drain: 0.0
+group: home
+biome: [] 
+description: Hold a settler. A basic villager building. Small viilager building can used in realms.

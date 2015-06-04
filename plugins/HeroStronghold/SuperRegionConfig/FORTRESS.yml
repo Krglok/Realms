@@ -17,6 +17,8 @@ daily-power-increase: 50
 charter: 0
 children:
 - CLAIM
+- BERTH
+- VILLAGE
 - HAMLET
 - TOWN
 - CITY

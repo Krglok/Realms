@@ -22,8 +22,10 @@ max-power: 1500
 daily-power-increase: 20
 charter: 2
 children:
+- BERTH
 - CLAIM
 - ENCLAVE
+- VILLAGE
 - HAMLET
 - FORTRESS
 - LEHEN_1

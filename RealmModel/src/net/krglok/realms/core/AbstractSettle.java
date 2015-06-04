@@ -51,13 +51,16 @@ public abstract class AbstractSettle
 //	protected int kingdomId;
 	protected int tributId;
 	protected long age;
+	protected LocationData position;
 
+	protected Trader trader;
 	protected Bank bank;
 	protected Warehouse warehouse;
 	protected Resident resident;
 	protected Barrack barrack;
 	protected BuildingList buildingList;
 
+	
 	protected ItemList requiredProduction;
 	protected BoardItemList productionOverview;
 	protected ReputationList reputations;
@@ -143,6 +146,27 @@ public abstract class AbstractSettle
 	public void setAge(long value)
 	{
 		this.age = value;
+	}
+	
+	public LocationData getPosition()
+	{
+		return position;
+	}
+
+	public void setPosition(LocationData position)
+	{
+		System.out.println("New Position : "+this.id);
+		this.position = position;
+	}
+
+	public Trader getTrader()
+	{
+		return trader;
+	}
+
+	public void setTrader(Trader trader)
+	{
+		this.trader = trader;
 	}
 	
 	public Bank getBank()
@@ -231,6 +255,15 @@ public abstract class AbstractSettle
 		barrack.setUnitMax(unitMax);
 	}
 	
+	/**
+	 * make a production for all buildings in a settlement
+	 * only allowed for urban settlement
+	 * 
+	 * @param server
+	 * @param data
+	 * @param building
+	 * @param biome
+	 */
 	protected void doProduction(ServerInterface server, DataInterface data, Building building, Biome biome)
 	{
 		double prodFactor = 1;

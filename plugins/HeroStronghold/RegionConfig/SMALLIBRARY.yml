@@ -1,0 +1,27 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 5
+requirements:
+- WOODEN_DOOR.1
+- BOOKSHELF.7
+- WOOD.20
+- COBBLESTONE.20
+- WORKBENCH.1
+- WOOD_STAIRS.5
+- THIN_GLASS.14
+reagents:
+- GOLD_NUGGET.2
+upkeep: 
+- WHEAT.2
+upkeep-chance: 0.001
+output: 
+- PAPER.1
+money-requirement: 1000.0
+upkeep-money-output: 0.0
+housing: 2
+description: A better and greater villager building. Large villager building can used in realms.

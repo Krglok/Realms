@@ -7,6 +7,7 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
@@ -460,6 +461,19 @@ public class Lehen  extends AbstractSettle
 			value = value + building.getSettler();
 		}
 		return  value;
+	}
+
+	public ItemList getrequiredItems()
+	{
+		return this.requiredProduction;
+	}
+
+	/**
+	 * @return the trader
+	 */
+	public Trader getTrader()
+	{
+		return trader;
 	}
 	
 }

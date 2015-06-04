@@ -439,6 +439,9 @@ public class ConfigBasis implements ConfigInterface
 		switch(buildingType)
 		{
 		case NONE : return 0;
+		
+		case CABIN: return 2;
+		case COTTAGE : return 5;
 		case HOME : return SETTLER_COUNT;
 		case HOUSE : return (2 * SETTLER_COUNT);
 		case MANSION : return (3 * SETTLER_COUNT);

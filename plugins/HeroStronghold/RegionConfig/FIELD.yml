@@ -1,0 +1,22 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+radius: 3
+requirements:
+- LOG.10
+- SOIL.10
+reagents:
+- GOLD_NUGGET.1
+upkeep: []
+upkeep-chance: 0.001
+output:
+- WHEAT.4
+- CARROT.4
+- POTATO.4
+money-requirement: 500.0
+upkeep-money-output: 0.0
+description: Produce food. A basic villager building. Small villager building can used in realms.
