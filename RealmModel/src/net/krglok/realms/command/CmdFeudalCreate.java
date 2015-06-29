@@ -39,10 +39,12 @@ public class CmdFeudalCreate extends RealmsCommand
 		description = new String[] {
 				ChatColor.YELLOW+"/feudal CREATE [Level] [lehenName] [playerName] [parentId]",
 		    	"create a Lehen  of Level (1-4) ",
+		    	"playerName = Owner ",
+		    	"parentId = lehenId of the landlord ",
 		    	"the Lehen get the kingdom of the creator ",
 		    	ChatColor.YELLOW+"Player can only create in Kingdom 0 ",
 		    	ChatColor.DARK_PURPLE+"The King can create in his own kingdom ",
-		    	" "
+		    	ChatColor.DARK_PURPLE+"and give the Lehen to one of his favorite "
 			};
 			requiredArgs = 3;
 			level = 0;
@@ -307,6 +309,7 @@ public class CmdFeudalCreate extends RealmsCommand
         }
         return true;
 	}
+
 	
 	public boolean checkOwnerPower(Realms plugin, Owner owner, int power)
 	{
@@ -329,6 +332,50 @@ public class CmdFeudalCreate extends RealmsCommand
 	}
 	
 
+	public void checkForSettlement(Realms plugin, Lehen lehen)
+	{
+		SuperRegionType currentRegionType = plugin.stronghold.getRegionManager().getSuperRegionType(lehen.getName());
+        double x = lehen.getPosition().getX();
+        double y = lehen.getPosition().getY();
+        double z = lehen.getPosition().getZ();
+        int radius1 = currentRegionType.getRawRadius();
+        for (SuperRegion r : plugin.stronghold.getRegionManager().getSortedSuperRegions()) 
+        {	  	
+            Location l = r.getLocation();
+            if (l.getX() + radius1 < x) 
+            {
+                break;
+            }
+
+            if (l.getX() - radius1 < x 
+            		&& l.getY() + radius1 > y 
+            		&& l.getY() - radius1 < y 
+            		&& l.getZ() + radius1 > z 
+            		&& l.getZ() - radius1 < z 
+            		&& l.getWorld().getName().equals(lehen.getPosition().getWorld()
+            				))  
+            {
+    			if (r.getType() == SettleType.HAMLET.name()
+    				|| (r.getType() == SettleType.TOWN.name())
+    				|| (r.getType() == SettleType.CITY.name())
+    				|| (r.getType() == SettleType.METROPOLIS.name())	    				)
+    				
+    			{
+    				String settleName = r.getName();
+    				Settlement settle = plugin.getData().getSettlements().findName(settleName);
+    				if (settle != null)
+    				{
+    					if (settle.getOwner().getId() == 0)
+						{
+							settle.setTributId(lehen.getId());
+						}
+    				}
+    			}
+            }
+        }
+		
+	}
+	
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{

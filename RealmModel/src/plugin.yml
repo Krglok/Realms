@@ -1,7 +1,7 @@
 name: Realms
 database: false
 main: net.krglok.realms.Realms
-version: 0.9.5.1
+version: 0.9.5.3
 description: Allows you to create settlements based on herostronghold regions. Expand the settlement with buildings. Trade with other settlements. Build Kingdoms.
 author: krglok
 startup: postworld

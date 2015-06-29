@@ -125,7 +125,7 @@ public class Lehen  extends AbstractSettle
 	
 	public String getName()
 	{
-		return this.getName();
+		return this.name;
 	}
 	
 	public void setName(String name)

@@ -122,6 +122,7 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.FARMHOUSE);
 		kNode.addBuildPlan(BuildPlanType.STONEMINE);
 		kNode.addBuildPlan(BuildPlanType.COWSHED);
+		kNode.addBuildPlan(BuildPlanType.GUARDHOUSE);
 		kNode.addBuildPlan(BuildPlanType.SPIDERSHED);
 		kNode.addBuildPlan(BuildPlanType.CHICKENHOUSE);
 		kNode.addBuildPlan(BuildPlanType.TAVERNE);
@@ -151,7 +152,6 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.FARM);
 		kNode.addBuildPlan(BuildPlanType.SMELTER);
 		kNode.addBuildPlan(BuildPlanType.ARCHERY);
-		kNode.addBuildPlan(BuildPlanType.GUARDHOUSE);
 		kNode.addBuildPlan(BuildPlanType.WATCHTOWER);
 
 		kNode.addBuildPlan(BuildPlanType.BIBLIOTHEK);
