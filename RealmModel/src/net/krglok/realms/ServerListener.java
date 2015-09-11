@@ -13,6 +13,7 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionConditio
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.command.CmdFeudalInfo;
+import net.krglok.realms.command.CmdFeudalWarehouse;
 import net.krglok.realms.command.CmdRealmsBookList;
 import net.krglok.realms.command.CmdRealmsPricelistInfo;
 import net.krglok.realms.command.CmdSettleAddBuilding;
@@ -1561,6 +1562,19 @@ public class ServerListener implements Listener
 			{
 				CmdSettleWarehouse cmdWare = new CmdSettleWarehouse();
 				cmdWare.setPara(0, settle.getId());
+				cmdWare.setPara(1, this.lastPage);
+				if (cmdWare.canExecute(plugin, event.getPlayer()))
+				{
+//					cmdWare.execute(plugin, event.getPlayer());
+					cmdWare.execute(plugin, event.getPlayer());
+					lastPage = cmdWare.getPage()+1;
+				}
+			}
+			Lehen lehen = plugin.getRealmModel().getData().getLehen().findName(sRegion);
+			if (lehen != null)
+			{
+				CmdFeudalWarehouse cmdWare = new CmdFeudalWarehouse();
+				cmdWare.setPara(0, lehen.getId());
 				cmdWare.setPara(1, this.lastPage);
 				if (cmdWare.canExecute(plugin, event.getPlayer()))
 				{

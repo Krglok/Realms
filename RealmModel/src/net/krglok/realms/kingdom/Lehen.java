@@ -276,7 +276,7 @@ public class Lehen  extends AbstractSettle
 
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
-		System.out.println("[REALMS] unit consum");
+		System.out.println("[REALMS] unit consum :"+barrack.getUnitList().size());
 		age++;
 
 		for (NpcData unit :barrack.getUnitList())

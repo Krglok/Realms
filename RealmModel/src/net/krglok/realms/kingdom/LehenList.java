@@ -5,8 +5,6 @@ import java.util.Iterator;
 
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
-import net.krglok.realms.core.Settlement;
-import net.krglok.realms.core.SettlementList;
 
 public class LehenList extends HashMap<Integer,Lehen>
 {
@@ -269,4 +267,19 @@ public class LehenList extends HashMap<Integer,Lehen>
 		}
 		return result;
 	}
+	
+	public Lehen findName(String lehenName)
+	{
+		for (Lehen lehen : this.values())
+		{
+			if (lehen.getName().equalsIgnoreCase(lehenName))
+			{
+				return lehen;
+			}
+			
+		}
+		
+		return null;
+	}
+	
 }

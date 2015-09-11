@@ -70,6 +70,7 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		section.set("immortal", dataObject.isImmortal());
 		section.set("isAlive", dataObject.isAlive());
 		section.set("settleId", dataObject.getSettleId());
+		section.set("lehenId", dataObject.getLehenId());
 		section.set("homeBuilding", dataObject.getHomeBuilding());
 		section.set("workBuilding", dataObject.getWorkBuilding());
 		section.set("money", dataObject.getMoney());
@@ -123,6 +124,7 @@ public class DataStoreNpc extends AbstractDataStore<NpcData>
 		npc.setMaried(data.getBoolean("isMaried",false));
 		npc.setImmortal(data.getBoolean("immortal",false));
 		npc.setSettleId(data.getInt("settleId",0));
+		npc.setLehenId(data.getInt("lehenId",0));
 		npc.setHomeBuilding(data.getInt("homeBuilding",0));
 		npc.setWorkBuilding(data.getInt("workBuilding",0));
 		npc.setMoney(data.getDouble("money",0.0));

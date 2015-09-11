@@ -52,7 +52,11 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return null;
 	}
 	
-	
+	/**
+	 * Erstellt eine Sublist fuer alle NPC eines settlement
+	 * @param settleId
+	 * @return
+	 */
 	public NpcList getSubListSettle(int settleId)
 	{
 		NpcList subList = new NpcList();
@@ -64,6 +68,27 @@ public class NpcList extends HashMap<Integer, NpcData>
 				{
 					subList.putNpc(npc);
 				}
+			}
+		}
+		
+		return subList;
+	}
+
+	/**
+	 * erstellt eien Sublist fuer alle NPC eines Lehens
+	 * 
+	 * @param lehenId
+	 * @return
+	 */
+	public NpcList getSubListLehen(int lehenId)
+	{
+		NpcList subList = new NpcList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.getLehenId() == lehenId)
+			{
+				// achtung hier werden alle NPC genommen, auch di in einem Regiment etc.
+				subList.putNpc(npc);
 			}
 		}
 		

@@ -766,6 +766,12 @@ public class DataStorage implements DataInterface
 			lehen = lehenData.readData(ref);
 			lehen.setOwner(owners.getOwner(lehen.getOwnerId()));
 			lehen.setBuildingList(buildings.getSubList(lehen));
+			if (npcs.isEmpty() == false)
+			{
+				lehen.getResident().setNpcList(this.getNpcs().getSubListLehen(lehen.getId()));
+//				lehen.getBarrack().setUnitList(this.getNpcs().getSubListUnits(lehen.getId()));
+			}
+
 			lehenList.putLehen(lehen);
 		}
 	}

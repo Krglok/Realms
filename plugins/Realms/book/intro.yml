@@ -1,0 +1,15 @@
+TEXTBOOK:
+  'intro':
+    refId: 'intro'
+    group: ''
+    titel: Player Intro
+    author: drAdmin
+    isEnabled: true
+    pages:
+      '1': 'Beginner Instruction are described as goals.'
+      '2': 'Goal : Make money to build up the basic buildings. Sell items to the settlements. You can find the sign [BUY]bin the HALL of a settlement. WIth this sign the settlement buy items from you. A inventory pop up. You can only click click items in your own part of the inventory. '
+      '3': '<LeftClick> buy 1 item , <RightClick> buy half stack The amount and money shown in the chat.With the command /realms PRICELIST 1 you get a pricelist as book from the settlement.'
+      '4': 'Tip: Sell ironingot that has a good yield. For every buy and sell you get reputation points. The reputation you need later for acquire a building or assume a settlement. The reputation is separated for each settlement.'
+      '5': 'Goal: Build basic building with command. With the command /realms BUILDING <BuildingType> you get the detailed requirements for the building type to build up. With the command /owner info yiu can see which build permission are you own. Collect or buy the necessary blocks. Dont forget the reagents for the center chest. Set the blocks in the required range. Remember that a building area is a cube. A radius of 4 give a cube of 7x7x7 blocks for the building.'
+      '6': 'The center chest will automatic set by the build command at creation. Put the required reagents in the chest. Otherwise the building give no protection and dont produce. You must stay at the centerposition of the cube when you send the command ! With the command /settle BUILD [ID] [ BuildingType] the building will created. The command check the requirements and give a hint message if somethong is wrong.' 
+      '7': 'At the beginning you are not the member of any settlement. So you give 0 as the settle ID. Later when you you are a member of the settlement you give the settlement number. All building areas are protected after creation against build and break of other players.'

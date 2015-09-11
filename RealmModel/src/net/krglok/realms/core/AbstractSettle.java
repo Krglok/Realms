@@ -512,8 +512,10 @@ public abstract class AbstractSettle
 		double prodFactor  = 1.0;
 		if (checkStock(prodFactor, ingredients))
 		{
+			System.out.println("[REALMS] lehen consum ! :"+ingredients.size());
 			if (consumStock(prodFactor, ingredients) == false)
 			{
+				System.out.println("[REALMS] lehen food ! ");
 				checkNpcFeed(unit, 1,unit,data);
 			}
 
@@ -523,6 +525,7 @@ public abstract class AbstractSettle
 			}
 		} else
 		{
+			System.out.println("[REALMS] lehen has no food ! ");
 			checkNpcFeed(unit, 1,unit,data);
 			if (unit.getHappiness() > -1.0)
 			{

@@ -35,6 +35,11 @@ public class CmdFeudalWarehouse extends RealmsCommand
 			lehenId = 0;
 	}
 	
+	public int getPage()
+	{
+		return page;
+	}
+	
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -94,6 +99,12 @@ public class CmdFeudalWarehouse extends RealmsCommand
 		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",12)+":"+ConfigBasis.setStrright(item.value(),5)+"\n");
 		    	}
 		    }
+			msg.add(ChatColor.ITALIC+"Required Items : "+lehen.getrequiredItems().size());
+			for (String itemRef : lehen.getrequiredItems().keySet())
+			{
+				Item item = lehen.getrequiredItems().getItem(itemRef);
+				msg.add(ChatColor.ITALIC+" -"+item.ItemRef()+" : "+item.value());
+			}
 	    	if (sender instanceof Player)
 			{
 	        	PlayerInventory inventory = ((Player) sender).getInventory();
