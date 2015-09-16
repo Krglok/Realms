@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <CommunicationClass name="net.krglok.realms.NobleManager" x="842" y="201">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.CommandRealms" x="720" y="70">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.UnitTask" x="195" y="473">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.Realms" x="480" y="179">
+        <Association
+            destinationClassName="net.krglok.realms.CommandRealms"
+            endpointName="commandRealms" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.TickTask"
+            endpointName="tick" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.ServerListener"
+            endpointName="serverListener" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.TaxTask"
+            endpointName="taxTask" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.NobleManager"
+            endpointName="nobleManager" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.CacheTask"
+            endpointName="cacheTask" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.NobleManager"/>
+        <Communication destinationClassName="net.krglok.realms.CommandRealms"/>
+        <Communication destinationClassName="net.krglok.realms.ServerListener"/>
+        <Communication destinationClassName="net.krglok.realms.TickTask">
+            <Point x="415" y="341"/>
+            <Point x="436" y="438"/>
+        </Communication>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.CacheTask" x="124" y="337">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.ServerListener" x="168" y="51">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms"/>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.TickTask" x="499" y="614">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.Realms">
+            <Point x="648" y="588"/>
+            <Point x="635" y="243"/>
+            <Point x="509" y="116"/>
+        </Communication>
+    </CommunicationClass>
+    <CommunicationClass name="net.krglok.realms.TaxTask" x="116" y="228">
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+    </CommunicationClass>
+</ClassDiagram>

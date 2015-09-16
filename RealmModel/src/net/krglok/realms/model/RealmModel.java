@@ -68,7 +68,7 @@ import net.krglok.realms.unit.UnitFactory;
 public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
-	private static final String REALM_MODEL_VER = "0.9.0";
+	private static final String REALM_MODEL_VER = "0.9.5";
 	private static int garbageCounterLimit = 57;
 	
 	private ModelStatus modelStatus;

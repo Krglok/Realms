@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="net.krglok.realms.Realms" x="409" y="49">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.TaxTask"
+            endpointName="taxTask" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.model.RealmModel"
+            endpointName="realmModel" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.model.RealmModel"/>
+    </Class>
+    <Class name="net.krglok.realms.model.RealmModel" x="71" y="686">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.TaxTask" x="145" y="47">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association destinationClassName="net.krglok.realms.Realms"
+            endpointName="plugin" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.model.RealmModel"/>
+    </Class>
+</ClassDiagram>
