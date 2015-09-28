@@ -423,7 +423,7 @@ public class ServerData implements ServerInterface
 		case COAL_ORE : return FAKTOR_P;
 		case DIAMOND_ORE : return FAKTOR_P;
 		case EMERALD_ORE : return FAKTOR_P;
-		case REDSTONE_ORE : return FAKTOR_P;
+		case REDSTONE_ORE : return FAKTOR_0;
 		case GOLD_ORE : return FAKTOR_P;
 		case LAPIS_ORE : return FAKTOR_P;
 		case GHAST_TEAR : return FAKTOR_MMM;
@@ -520,7 +520,7 @@ public class ServerData implements ServerInterface
 		case PORK : return FAKTOR_M;
 		case RAW_CHICKEN : return FAKTOR_M;
 		case FEATHER : return FAKTOR_M;
-		case RAW_FISH : return FAKTOR_PPP;
+		case COOKED_FISH : return FAKTOR_PPP;
 		case EMERALD : return FAKTOR_MM;
 		case RED_MUSHROOM : return FAKTOR_MM; 
 		case BROWN_MUSHROOM : return FAKTOR_MM; 
@@ -630,7 +630,7 @@ public class ServerData implements ServerInterface
 		case COAL_ORE : return FAKTOR_PP;
 		case DIAMOND_ORE : return FAKTOR_P;
 		case EMERALD_ORE : return FAKTOR_P;
-		case REDSTONE_ORE : return FAKTOR_P;
+		case REDSTONE_ORE : return FAKTOR_0;
 		case LAPIS_ORE : return FAKTOR_P;
 		case GOLD_ORE : return FAKTOR_0;
 		case GHAST_TEAR : return FAKTOR_MMM;

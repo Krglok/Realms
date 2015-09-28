@@ -9,6 +9,7 @@ import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.RecipeData;
 import net.krglok.realms.data.ServerInterface;
@@ -42,14 +43,14 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	
 	private RecipeData recipeData;
 
-	DataStorage data;
+	DataInterface data;
 	
 	public ItemList getDefaultItems()
 	{
 		return null; //defaultItems;
 	}
 
-	public ServerTest(DataStorage data)
+	public ServerTest(DataInterface data)
 	{
 		this.data = data;
 //		initItemList();
@@ -372,7 +373,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case COAL_ORE : return FAKTOR_P;
 		case DIAMOND_ORE : return FAKTOR_P;
 		case EMERALD_ORE : return FAKTOR_P;
-		case REDSTONE_ORE : return FAKTOR_P;
+		case REDSTONE_ORE : return FAKTOR_0;
 		case GOLD_ORE : return FAKTOR_P;
 		case LAPIS_ORE : return FAKTOR_P;
 		default :
@@ -426,7 +427,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case PORK : return FAKTOR_M;
 		case RAW_CHICKEN : return FAKTOR_M;
 		case FEATHER : return FAKTOR_M;
-		case RAW_FISH : return FAKTOR_PPP;
+//		case RAW_FISH : return FAKTOR_PPP;
+		case COOKED_FISH : return FAKTOR_PPP;
 		case EMERALD : return FAKTOR_MM;
 		case RED_MUSHROOM : return FAKTOR_MM; 
 		case BROWN_MUSHROOM : return FAKTOR_MM; 
@@ -528,7 +530,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		case COAL_ORE : return FAKTOR_PP;
 		case DIAMOND_ORE : return FAKTOR_P;
 		case EMERALD_ORE : return FAKTOR_P;
-		case REDSTONE_ORE : return FAKTOR_P;
+		case REDSTONE_ORE : return FAKTOR_0;
 		case LAPIS_ORE : return FAKTOR_P;
 		case GOLD_ORE : return FAKTOR_0;
 		default :

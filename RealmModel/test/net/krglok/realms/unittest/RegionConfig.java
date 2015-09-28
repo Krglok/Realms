@@ -3,6 +3,9 @@ package net.krglok.realms.unittest;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
+
 import org.bukkit.inventory.ItemStack;
 
 public class RegionConfig
@@ -57,14 +60,27 @@ public class RegionConfig
 	
 	    }
 	    
-	    public RegionConfig(String name, String group, ArrayList<String> friendlyClasses,
-	            ArrayList<String> enemyClasses, ArrayList<String> effects,
-	            int radius, int buildRadius, ArrayList<ItemStack> requirements, List<String> superRegions,
-	            ArrayList<ItemStack> reagents, ArrayList<ItemStack> upkeep,
-	            ArrayList<ItemStack> output, double upkeepChance,
-	            double moneyRequirement, double moneyOutput, double exp,
-	            String description, int powerDrain,
-	            int housing, List<String> biome) 
+	    public RegionConfig(String name
+	    		, String group
+	    		, ArrayList<String> friendlyClasses
+	    		, ArrayList<String> enemyClasses
+	    		, ArrayList<String> effects
+	    		, int radius
+	    		, int buildRadius
+	    		, ArrayList<ItemStack> requirements
+	    		, List<String> superRegions
+	    		, ArrayList<ItemStack> reagents
+	    		, ArrayList<ItemStack> upkeep
+	    		, ArrayList<ItemStack> output
+	    		, double upkeepChance
+	    		, double moneyRequirement
+	    		, double moneyOutput
+	    		, double exp
+	    		, String description
+	    		, int powerDrain
+	    		, int housing
+	    		, List<String> biome
+	    		) 
 	    {
 	        this.name = name;
 	        this.group = group;
@@ -145,6 +161,16 @@ public class RegionConfig
 			return requirements;
 		}
 
+		public ItemList getRequirementsItem()
+		{
+			ItemList subList = new ItemList();
+			for (ItemStack item : requirements)
+			{
+				subList.addItem(item.getType().name(), item.getAmount());
+			}
+			return subList;
+		}
+		
 		public void setRequirements(ArrayList<ItemStack> requirements)
 		{
 			this.requirements = requirements;
@@ -153,6 +179,16 @@ public class RegionConfig
 		public ArrayList<ItemStack> getReagents()
 		{
 			return reagents;
+		}
+		
+		public ItemList getReagentsItem()
+		{
+			ItemList subList = new ItemList();
+			for (ItemStack item : reagents)
+			{
+				subList.addItem(item.getType().name(), item.getAmount());
+			}
+			return subList;
 		}
 
 		public void setReagents(ArrayList<ItemStack> reagents)
@@ -165,6 +201,16 @@ public class RegionConfig
 			return upkeep;
 		}
 
+		public ItemList getUpkeepItem()
+		{
+			ItemList subList = new ItemList();
+			for (ItemStack item : upkeep)
+			{
+				subList.addItem(item.getType().name(), item.getAmount());
+			}
+			return subList;
+		}
+		
 		public void setUpkeep(ArrayList<ItemStack> upkeep)
 		{
 			this.upkeep = upkeep;
@@ -175,6 +221,16 @@ public class RegionConfig
 			return output;
 		}
 
+		public ItemList getOutputItem()
+		{
+			ItemList subList = new ItemList();
+			for (ItemStack item : output)
+			{
+				subList.addItem(item.getType().name(), item.getAmount());
+			}
+			return subList;
+		}
+		
 		public void setOutput(ArrayList<ItemStack> output)
 		{
 			this.output = output;

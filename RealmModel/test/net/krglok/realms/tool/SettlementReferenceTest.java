@@ -27,8 +27,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
+/**
+ * @author Windu
+ * 
+ * description :
+ * The is a reporting modul for the settlements.It can used offline in the deveplopment 
+ * 
+ */
 public class SettlementReferenceTest
 {
+	
 	private ItemPriceList readPriceData() 
 	{
         String base = "BASEPRICE";
@@ -60,7 +68,6 @@ public class SettlementReferenceTest
 		}
 		return items;
 	}
-	
 	
 	private String getRequired(Settlement settle, int index)
 	{
@@ -357,16 +364,16 @@ public class SettlementReferenceTest
 		LogList logList = new LogList(path);
 		DataTest data     = new DataTest();
 		ItemPriceList priceList = readPriceData();
-        File DataFile = new File(path, "Realms");
-		SettlementData sData = new SettlementData(path);
-		SettlementList settleList = new SettlementList(0);
+//      File DataFile = new File(path, "Realms");
+//		SettlementData sData = new SettlementData(path);
+		SettlementList settleList = data.getTestSettlements(); //new SettlementList(0);
 
 		System.out.println("==Read Settlement from File ==");
-		ArrayList<String> sList = sData.readSettleList();
-		for (String sName : sList)
-		{
-//			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList())); //,logList));
-		}
+//		ArrayList<String> sList =  sData.readSettleList();
+//		for (String sName : sList)
+//		{
+////			settleList.addSettlement(sData.readSettledata(Integer.valueOf(sName),data.getPriceList())); //,logList));
+//		}
 		System.out.println("Settle Overview ");
 		System.out.print("id"+"|Name        ");
 		System.out.print(" |"+"Setler");

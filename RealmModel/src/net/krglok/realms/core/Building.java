@@ -302,121 +302,72 @@ public class Building  implements Serializable
 		}
 	}
 
-	
-	
-	private void setWorkerDefault(BuildPlanType buildingType)
+	public static int getDefaultWorker(BuildPlanType buildingType)
 	{
 		switch(buildingType)
 		{
-		case NONE : setWorkerNeeded(0);
-		break;
-		case ARCHERY : setWorkerNeeded(1);
-		break;
-		case AXESHOP : setWorkerNeeded(2);
-		break;
-		case BAKERY : setWorkerNeeded(1);
-		break;
-		case BIBLIOTHEK : setWorkerNeeded(1);
-		break;
-		case BARRACK : setWorkerNeeded(2);
-		break;
-		case BRICKWORK : setWorkerNeeded(2);
-		break;
-		case BLACKSMITH : setWorkerNeeded(1);
-		break;
-		case BOWMAKER : setWorkerNeeded(1);
-		break;
-		case CHARBURNER : setWorkerNeeded(1);
-		break;
-		case CHICKENHOUSE : setWorkerNeeded(1);
-		break;
-		case COWSHED : setWorkerNeeded(1);
-		break;
-		case CARPENTER : setWorkerNeeded(2);
-		break;
-		case CABINETMAKER : setWorkerNeeded(5);
-		break;
-		case DIAMONDMINE : setWorkerNeeded(10);
-		break;
-		case DEFENSETOWER : setWorkerNeeded(1);
-		break;
-		case FARMHOUSE : setWorkerNeeded(2);
-		break;
-		case FARM : setWorkerNeeded(5);
-		break;
-		case FISHERHOOD : setWorkerNeeded(1);
-		break;
-		case FLETCHER : setWorkerNeeded(1);
-		break;
-		case GATE : setWorkerNeeded(2);
-		break;
-		case GARRISON : setWorkerNeeded(5);
-		break;
-		case GUARDHOUSE : setWorkerNeeded(1);
-		break;
-		case GOLDMINE : setWorkerNeeded(5);
-		break;
-		case GOLDSMELTER : setWorkerNeeded(5);
-		break;
-		case HALL : setWorkerNeeded(0);
-		break;
-		case HOME : setWorkerNeeded(0);
-		break;
-		case HOESHOP : setWorkerNeeded(1);
-		break;
-		case HUNTER : setWorkerNeeded(2);
-		break;
-		case KNIFESHOP : setWorkerNeeded(1);
-		break;
-		case LIBRARY : setWorkerNeeded(5);
-		break;
-		case PICKAXESHOP : setWorkerNeeded(1);
-		break;
-		case PIGPEN : setWorkerNeeded(1);
-		break;
-		case QUARRY : setWorkerNeeded(1);
-		break;
-		case SHEPHERD : setWorkerNeeded(1);
-		break;
-		case SMELTER : setWorkerNeeded(3);
-		break;
-		case SPADESHOP : setWorkerNeeded(1);
-		break;
-		case SPIDERSHED : setWorkerNeeded(1);
-		break;
-		case STONEMINE : setWorkerNeeded(3);
-		break;
-		case STONEYARD : setWorkerNeeded(1);
-		break;
-		case IRONMINE : setWorkerNeeded(5);
-		break;
-		case COALMINE : setWorkerNeeded(5);
-		break;
-		case EMERALDMINE : setWorkerNeeded(5);
-		break;
-		case TAMER : setWorkerNeeded(2);
-		break;
-		case TAVERNE : setWorkerNeeded(3);
-		break;
-		case TANNERY : setWorkerNeeded(4);
-		break;
-		case TRADER : setWorkerNeeded(5);
-		break;
-		case WHEAT : setWorkerNeeded(1);
-		break;
-		case WATCHTOWER : setWorkerNeeded(0);
-		break;
-		case WAREHOUSE : setWorkerNeeded(3);
-		break;
-		case WOODCUTTER : setWorkerNeeded(1);
-		break;
-		case WORKSHOP : setWorkerNeeded(5);
-		break;
+		case NONE : return 0;
+		case ARCHERY : return 1;
+		case AXESHOP : return 2;
+		case BAKERY : return 1;
+		case BIBLIOTHEK : return 1;
+		case BARRACK : return 2;
+		case BRICKWORK : return 2;
+		case BLACKSMITH : return 1;
+		case BOWMAKER : return 1;
+		case CHARBURNER : return 1;
+		case CHICKENHOUSE : return 1;
+		case COWSHED : return 1;
+		case CARPENTER : return 2;
+		case CABINETMAKER : return 5;
+		case DIAMONDMINE : return 10;
+		case DEFENSETOWER : return 1;
+		case FARMHOUSE : return 2;
+		case FARM : return 5;
+		case FISHERHOOD : return 1;
+		case FLETCHER : return 1;
+		case GATE : return 2;
+		case GARRISON : return 5;
+		case GUARDHOUSE : return 1;
+		case GOLDMINE : return 5;
+		case GOLDSMELTER : return 5;
+		case HALL : return 0;
+		case HOME : return 0;
+		case HOESHOP : return 1;
+		case HUNTER : return 2;
+		case KNIFESHOP : return 1;
+		case LIBRARY : return 5;
+		case PICKAXESHOP : return 1;
+		case PIGPEN : return 1;
+		case QUARRY : return 1;
+		case SHEPHERD : return 1;
+		case SMELTER : return 3;
+		case SPADESHOP : return 1;
+		case SPIDERSHED : return 1;
+		case STONEMINE : return 3;
+		case STONEYARD : return 1;
+		case IRONMINE : return 5;
+		case COALMINE : return 5;
+		case EMERALDMINE : return 5;
+		case TAMER : return 2;
+		case TAVERNE : return 3;
+		case TANNERY : return 4;
+		case TRADER : return 5;
+		case WHEAT : return 1;
+		case WATCHTOWER : return 0;
+		case WAREHOUSE : return 3;
+		case WOODCUTTER : return 1;
+		case WORKSHOP : return 5;
 		default :
-			setWorkerNeeded(1);
-			break;
+			return 1;
 		}
 		 
+	}
+
+	
+	public void setWorkerDefault(BuildPlanType buildingType)
+	{
+		setWorkerNeeded(getDefaultWorker(buildingType));
 	}
 	
 
@@ -595,7 +546,7 @@ public class Building  implements Serializable
 	 */
 	public int getWorkerNeeded()
 	{
-		return workerNeeded;
+	return workerNeeded;
 	}
 
 	/**

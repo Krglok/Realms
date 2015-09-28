@@ -62,6 +62,18 @@ public class Resident
 	}
 
 	/**
+	 * return the number of settler stored in the database
+	 * the number will read from datafile.
+	 * This is helpful, when npcList is not available
+	 * 
+	 * @return  number of settlers
+	 */
+	public int getPopulation()
+	{
+		return oldPopulation;
+	}
+	
+	/**
 	 * 
 	 * @return  number of residents in settlement
 	 */
@@ -76,6 +88,7 @@ public class Resident
 		}
 	}
 
+	
 	/**
 	 * Set resident number , no check for conditions 
 	 * @param residentCount
