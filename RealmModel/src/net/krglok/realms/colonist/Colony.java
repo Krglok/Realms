@@ -31,16 +31,20 @@ import org.bukkit.block.Biome;
 
 /**
  * <pre>
- * the colony has the special task to buildup a settlement 
- * this is a automatic settlement builder, the configuration is read from the settleSchema
- * the colony can be moved
- * the colony has a command to start the build
- * the colony send signals in queue out of the model into the plugin level.
- * based on these signals the plugin manipulate the minecraft world.
+ * <TODO> Make a Abstract Settlement
+ * The colony has the special task to buildup a settlement 
+ * This is a automatic settlement builder, the configuration is read from the settleSchema
+ * The colony can be moved
+ * The colony has a command to start the build
+ * The colony send signals in queue out of the model into the plugin level.
+ * Based on these signals the plugin manipulate the minecraft world.
+ * The colony has no consum.
+ * It hold the basic settlers (managers) and create the other settlers at the
+ * end of settlement creation.
  * 
- * the colony work as a  finite state machine. all action done by the ColonyStatus. 
- * the run() will be triggered by an external tick.
- * the Colony self has no time or timing. 
+ * The colony work as a  finite state machine. all action done by the ColonyStatus. 
+ * The run() will be triggered by an external tick.
+ * The Colony self has no time or timing. 
  * 
  * </pre>
  * @author Windu

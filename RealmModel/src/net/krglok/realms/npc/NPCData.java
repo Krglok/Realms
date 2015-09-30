@@ -11,6 +11,29 @@ import net.krglok.realms.unit.UnitAction;
 import net.krglok.realms.unit.UnitFactory;
 import net.krglok.realms.unit.UnitType;
 
+/**
+ * <pre>
+ * The NpcData is the nonvisual object of the settlers.
+ * They have different types and task
+ * - settler
+ * -- manager
+ * -- settler
+ * -- child
+ * - unit
+ * -- rookie
+ * -- militia
+ * -- archer
+ * - noble
+ * Settlers can breed and produce child.
+ * All npc grow up , get older and die.
+ * Each npc has an individual lifecycle.
+ * They are most influence by happyness.
+ * Npc will be stored persistent.
+ * 
+ * </pre>
+ * @author olaf.duda
+ *
+ */
 public class NpcData
 {
 	private static int COUNTER;

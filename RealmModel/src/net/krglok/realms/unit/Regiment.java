@@ -34,32 +34,33 @@ import org.bukkit.block.Biome;
 
 /**
  * <pre>
- * the regiment is a military formation to hold military units and command them
- * the regiment is something organize as a settlement with
- * - warehouse
- * - bank
- * - unitlist (Militia, Archer, LightInfantry, HeavyInfantry, Knight, Commander)
- * but the most important aspect is the power of a regiment 
+ * The regiment is a military formation to hold military units and command them
+ * Use the inherited managers for 
+ * - build a FORTRESS as regiment home 
+ * Has a RaiderManager for controlling and managing the regiment.
+ * Can not produce anything. It will be supported by his owner.
+ * But the most important aspect is the power of a regiment 
  * and the actions like
  * - move
  * - battle
  * - raid
- * the regiments are the basic for battles
+ * The regiments are the basic for battles
  * - regiment vs regiment
  * - regiment vs settlement
- * the regiment is a superregion in HeroStronghold, because this region type can easy destroy and create
+ * The regiment is a superregion in HeroStronghold, because this regiontype 
+ * can easy destroyed and create.
  * 
- * the regiment has a buildManager for buildup and remove the CAMP.
+ * The regiment has a buildManager for buildup and remove the CAMP.
  * 
- * a regiment has 2 modes
+ * A regiment has 2 modes
  * - PlayerMode, all action cammonds by player
  * - NPC mode, all action controlled by Managers
  *   - raiderManager
  *   - regimentManager 
  * 
- * a regiment is a  finite state machine. all action done by the RegimentStatus. 
- * the run() must be trigered by an external tick.
- * the regiment self has no time or timing. 
+ * A regiment is a  finite state machine. all action done by the RegimentStatus. 
+ * The run() must be trigered by an external tick.
+ * The Regiment class self has no time or timing. 
  * 
  * 
  * @author Windu

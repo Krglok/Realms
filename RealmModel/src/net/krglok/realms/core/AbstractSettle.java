@@ -29,8 +29,10 @@ import net.krglok.realms.unit.UnitType;
  * - settler breeding
  * - settler lifecycle 
  * - consumFood
- * The algoritmen based on single object. 
- * No list calculation, so the distinct class can define and control the rules.
+ * - automatic trading
+ * - can automatic create a building  
+ * incorporate the rules for production, fertility and money
+ * The algoritmen based on the actual single object.
  * 
  * @author Windu
  * </pre>

@@ -30,13 +30,17 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 /**
  * <pre>
- * represent the urban settlement  
- * settlement based on the superregion of HeroStronghold
- * incorporate the rules for production, fertility and money
- * simulation of residents and workers
- * has managers for build up building, make trading and train units for military
- * the production will be started from an external task, every ingame day 
- * the settlement pay tax to his liege lord
+ * Represent the urban settlement  
+ * Settlement based on the superregion of HeroStronghold
+ * Simulation of residents and workers
+ * Use the inherited managers for 
+ * - build up building, 
+ * - make trading 
+ * - train units for military
+ * Has a settleManager for controlling and managing the settlement
+ * The production will be started from an external task, every ingame day 
+ * The settlement pay tax to his liege lord
+ * The objects of this class are stored persistent 
  * 
  * hint: the settlement dont direct link a kingdomId , only the owner has a kingdomId
  *  

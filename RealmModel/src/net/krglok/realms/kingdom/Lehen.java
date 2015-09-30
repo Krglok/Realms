@@ -35,6 +35,15 @@ import net.krglok.realms.unit.UnitType;
  * the Lehen is the Basic object of of a feudal system.
  * The id= 0 is not allowed , because no should have id=0 !
  * The lehen is a settlement with NOBLE citizen, servant and military units.
+ * Use the inherited managers for 
+ * - build up building, 
+ * - make trading 
+ * - train units for military
+ * Has a lehenManager for controlling and managing the Lehen.
+ * Can not produce anything. Collect food and equipment from the support 
+ * settlement or buy from other settlements.
+ * Get tax from controlled settlements.
+ * Can create regiments and control them.
  * 
  * 
  * @author Windu

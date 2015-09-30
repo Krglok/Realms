@@ -15,10 +15,16 @@ import net.krglok.realms.unit.UnitType;
 
 /**
  * <pre>
- * realize the building of a settlement and hold settlers and make production
- * the building have different types in the settlement
- * they include a region from herostronghold for the buildup requirements
+ * Realize the building of a settlement for 
+ * - administration
+ * - settlers home
+ * - production
+ * - military units
+ * - entertain
+ * They include a region from herostronghold for the buildup requirements
  * and the production recipe
+ * Building objects are stored persistent.
+ * Buildings can not moved!
  * </pre>
  * @author oduda
  *
