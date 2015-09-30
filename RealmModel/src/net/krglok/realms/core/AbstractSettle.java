@@ -108,6 +108,14 @@ public abstract class AbstractSettle
 		this.id = id;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public SettleType getSettleType()
 	{
 		return settleType;
@@ -404,6 +412,13 @@ public abstract class AbstractSettle
 		
 	}
 	
+	/**
+	 * Start training for units
+	 * do training progress for units in training
+	 *  
+	 * @param data
+	 * @param building
+	 */
 	protected void doTrainStart(DataInterface data, Building building)
 	{
 		double prodFactor = 1;

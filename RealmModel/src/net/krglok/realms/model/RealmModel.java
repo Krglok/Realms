@@ -839,9 +839,15 @@ public class RealmModel
 	 */
 	private ModelStatus nextProductionQueue()
 	{
+		int lSize = productionQueue.size(); 
 		if (productionQueue.isEmpty() == false)
 		{
 			Settlement settle = productionQueue.get(0);
+			System.out.println("[REALMS] Settle production:"+settle.getId()+":"+lSize);
+			if (settle.getId()==6)
+			{
+				System.out.println("[REALMS] Settle production:"+settle.getId()+":"+lSize);
+			}
 	//		System.out.println("[REALMS] Reset Daily Reputation");
 			settle.getReputations().resetDaily();
 			messageData.log("settle");

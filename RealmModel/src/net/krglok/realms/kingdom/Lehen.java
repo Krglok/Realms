@@ -63,6 +63,7 @@ public class Lehen  extends AbstractSettle
 	public Lehen()
 	{
 		super();
+		warehouse.setItemMax(0);
 		this.id = 0;
 		this.name = "Lehen";
 		this.nobleLevel = NobleLevel.COMMONER;
@@ -274,18 +275,68 @@ public class Lehen  extends AbstractSettle
 		return true;
 	}
 
+//	/**
+//	 * do the happy for the lehen
+//	 * that is in major the supply of the resident and the units
+//	 * 
+//	 */
+//	public void doHappiness(DataInterface data)
+//	{
+//		System.out.println("[REALMS] unit consum :"+barrack.getUnitList().size());
+//		age++;
+//
+//		for (NpcData unit :barrack.getUnitList())
+//		{
+//			doConsumUnit(unit, data);
+//		}
+//		resident.getNpcList().clear();
+//		resident.setNpcList(barrack.getUnitList().asNpcList());
+//		resident.doSettlerCalculation(this.buildingList, data);
+//
+//	}
+
+	/**
+	 * get 10% of settlement warehouse and deposit in own Warehouse
+	 * 
+	 * @param settle
+	 * @param subList
+	 */
+	private void getWarehousePercentage(Settlement settle, ItemList subList)
+	{
+		for (Item item : subList.values())
+		{
+			int amount = settle.getWarehouse().getItemList().getValue(item.ItemRef()) / 10;
+			if (amount > 0)
+			{
+				if (warehouse.depositItemValue(item.ItemRef(), amount))
+				{
+					settle.getWarehouse().depositItemValue(item.ItemRef() , -amount);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * do training for units no other production is allowed in lehen
+	 * 
+	 * @param server
+	 * @param data
+	 */
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
-		System.out.println("[REALMS] unit consum :"+barrack.getUnitList().size());
-		age++;
+		warehouse.setStoreCapacity();
 
-		for (NpcData unit :barrack.getUnitList())
+		// supporter material abholen, damit wird der Bedarf gedeckt
+		if (supportId > 0)
 		{
-			doConsumUnit(unit, data);
+			Settlement settle = data.getSettlements().getSettlement(supportId);
+			getWarehousePercentage(settle, ConfigBasis.initBuildMaterial() );
+			getWarehousePercentage(settle, ConfigBasis.initFoodMaterial() );
+//			getWarehousePercentage(settle, ConfigBasis.initMaterial() );
+			getWarehousePercentage(settle, ConfigBasis.initArmor() );
+			getWarehousePercentage(settle, ConfigBasis.initWeapon() );
 		}
-		resident.getNpcList().clear();
-		resident.setNpcList(barrack.getUnitList().asNpcList());
-		resident.doSettlerCalculation(this.buildingList, data);
+		
 		// unit production
 		for (Building building : buildingList.values())
 		{

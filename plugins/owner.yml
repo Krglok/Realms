@@ -1,0 +1,18 @@
+OWNER:
+  '0':
+    id: 0
+    uuid: NONE
+    nobleLevel: COMMONER
+    commonLevel: MAYOR
+    capital: 0
+    playerName: NONE
+    realmId: 0
+    isNPC: true
+    sales: 0.0
+    isUser: false
+    Achivement:
+      BOOK_TECH4: 'true'
+      BOOK_TECH0: 'true'
+      BOOK_TECH1: 'true'
+      BOOK_TECH2: 'true'
+      BOOK_TECH3: 'true'

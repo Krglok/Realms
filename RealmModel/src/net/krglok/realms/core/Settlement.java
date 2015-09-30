@@ -336,15 +336,15 @@ public class Settlement extends AbstractSettle //implements Serializable
 		this.settleType = settleType;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
+//	public String getName()
+//	{
+//		return name;
+//	}
+//
+//	public void setName(String name)
+//	{
+//		this.name = name;
+//	}
 
 	public int getOwnerId()
 	{

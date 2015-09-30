@@ -1,0 +1,6 @@
+KINGDOM:
+  '0':
+    id: 0
+    name: Freie Siedler
+    ownerId: 0
+    isNPC: true

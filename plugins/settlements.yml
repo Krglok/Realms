@@ -1,0 +1,865 @@
+SETTLEMENT:
+  '1':
+    id: 1
+    settleType: CITY
+    position: SteamHaven:-469.51819223615206:72.0:-1236.6592548015324
+    biome: PLAINS
+    age: 9364
+    name: NewHaven
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 1577.175000012906
+    townhall:
+      workerNeeded: '0'
+      workerCount: '21'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '132'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '96'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '6912'
+      isEnabled: 'false'
+    itemList: {}
+  '2':
+    id: 2
+    settleType: TOWN
+    position: SteamHaven:-519.5118200333327:68.0:-1415.4833680460988
+    biome: PLAINS
+    age: 9364
+    name: Dujar
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 2729.2543333327403
+    townhall:
+      workerNeeded: '0'
+      workerCount: '21'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '50'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '4'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '3':
+    id: 3
+    settleType: HAMLET
+    position: SteamHaven:-819.4781162473687:113.0:-1066.476041578252
+    biome: FOREST
+    age: 9340
+    name: Erfaring
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 104132.71666666961
+    townhall:
+      workerNeeded: '0'
+      workerCount: '13'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '45'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '4':
+    id: 4
+    settleType: CITY
+    position: DRASKORIA:3274.6082491634193:82.0:-1070.4945489254965
+    biome: PLAINS
+    age: 9335
+    name: Borum
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 129653.47000004504
+    townhall:
+      workerNeeded: '0'
+      workerCount: '38'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '202'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '6912'
+      isEnabled: 'false'
+    itemList: {}
+  '5':
+    id: 5
+    settleType: HAMLET
+    position: SteamHaven:-79.0:79.0:-832.0
+    biome: SWAMPLAND
+    age: 9335
+    name: Lozaran
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 15412.266666663783
+    townhall:
+      workerNeeded: '0'
+      workerCount: '4'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '22'
+      fertilityCounter: '5533.000000000003'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '6':
+    id: 6
+    settleType: TOWN
+    position: DRASKORIA:1954.300000011921:70.0:-1032.300000011921
+    biome: FOREST
+    age: 9329
+    name: Drachenhorst
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 178203.83666661257
+    townhall:
+      workerNeeded: '0'
+      workerCount: '21'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '72'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '7':
+    id: 7
+    settleType: CITY
+    position: DRASKORIA:353.30000001192093:79.0:-1866.5194136674072
+    biome: PLAINS
+    age: 9328
+    name: Falkenhagen
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 81202.2666666882
+    townhall:
+      workerNeeded: '0'
+      workerCount: '32'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '129'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '6912'
+      isEnabled: 'false'
+    itemList: {}
+  '8':
+    id: 8
+    settleType: TOWN
+    position: DRASKORIA:3065.5720473026104:72.0:-54.64852275048187
+    biome: PLAINS
+    age: 9319
+    name: Legario
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 184130.13766668923
+    townhall:
+      workerNeeded: '0'
+      workerCount: '32'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '72'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '9':
+    id: 9
+    settleType: HAMLET
+    position: DRASKORIA:3090.0:78.0:-1132.0
+    biome: PLAINS
+    age: 9308
+    name: Furthagen
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 39249.24999999651
+    townhall:
+      workerNeeded: '0'
+      workerCount: '9'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '45'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '10':
+    id: 10
+    settleType: HAMLET
+    position: DRASKORIA:3092.0:77.0:-895.0
+    biome: PLAINS
+    age: 9307
+    name: Sturmwies
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 90270.51333333559
+    townhall:
+      workerNeeded: '0'
+      workerCount: '16'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '46'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '11':
+    id: 11
+    settleType: CITY
+    position: DRASKORIA:2524.6425620561977:72.0:1832.6687665695492
+    biome: PLAINS
+    age: 9164
+    name: Steingau
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 36302.41000002336
+    townhall:
+      workerNeeded: '0'
+      workerCount: '9'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '65'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '6912'
+      isEnabled: 'false'
+    itemList: {}
+  '12':
+    id: 12
+    settleType: TOWN
+    position: SteamHaven:-1215.6704984377348:103.0:-1210.300000011921
+    biome: PLAINS
+    age: 8881
+    name: Helnrau
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 22853.79999999514
+    townhall:
+      workerNeeded: '0'
+      workerCount: '12'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '51'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '13':
+    id: 13
+    settleType: HAMLET
+    position: SteamHaven:-27.43239447331125:64.0:-262.42828465469825
+    biome: EXTREME_HILLS
+    age: 8869
+    name: Noevtarn
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 27909.29999999771
+    townhall:
+      workerNeeded: '0'
+      workerCount: '8'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '18'
+      fertilityCounter: '5533.000000000003'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '14':
+    id: 14
+    settleType: HAMLET
+    position: SteamHaven:576.0:74.0:-29.0
+    biome: EXTREME_HILLS
+    age: 8619
+    name: Salichort
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 12309.166666665318
+    townhall:
+      workerNeeded: '0'
+      workerCount: '4'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '14'
+      fertilityCounter: '5643.545000000003'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '15':
+    id: 15
+    settleType: TOWN
+    position: DRASKORIA:1944.440832821191:71.0:-348.47531272766247
+    biome: PLAINS
+    age: 7663
+    name: Koenigweg
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 15759.89999999585
+    townhall:
+      workerNeeded: '0'
+      workerCount: '11'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '39'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '17':
+    id: 17
+    settleType: CITY
+    position: DRASKORIA:2368.4325539298684:73.0:41.464796231739186
+    biome: PLAINS
+    age: 7596
+    name: Koelln
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 133362.7800000158
+    townhall:
+      workerNeeded: '0'
+      workerCount: '33'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '84'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '6912'
+      isEnabled: 'false'
+    itemList: {}
+  '16':
+    id: 16
+    settleType: TOWN
+    position: DRASKORIA:1417.5787424776886:72.0:400.48697872675183
+    biome: PLAINS
+    age: 7662
+    name: Steinheim
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 29246.239999993704
+    townhall:
+      workerNeeded: '0'
+      workerCount: '16'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '38'
+      fertilityCounter: '5533.000000000003'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '19':
+    id: 19
+    settleType: METROPOLIS
+    position: DRASKORIA:-3308.3173099811893:70.0:3784.316254556179
+    biome: PLAINS
+    age: 7327
+    name: Whurola
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 516926.8126663727
+    townhall:
+      workerNeeded: '0'
+      workerCount: '85'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '275'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '6912'
+      isEnabled: 'false'
+    itemList: {}
+  '18':
+    id: 18
+    settleType: HAMLET
+    position: DRASKORIA:-108.38533455190455:71.0:-2365.6312313824333
+    biome: FOREST_HILLS
+    age: 7528
+    name: Kieckut
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 178079.14333330194
+    townhall:
+      workerNeeded: '0'
+      workerCount: '16'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '46'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '21':
+    id: 21
+    settleType: TOWN
+    position: DRASKORIA:-2481.699999988079:71.0:5038.300000011921
+    biome: PLAINS
+    age: 7023
+    name: Brasweg
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 57507.48666666685
+    townhall:
+      workerNeeded: '0'
+      workerCount: '12'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '45'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '20':
+    id: 20
+    settleType: TOWN
+    position: DRASKORIA:-3480.5400252400545:69.0:4076.4394092694947
+    biome: PLAINS
+    age: 7322
+    name: WhurolaHafen
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 45858.29333333691
+    townhall:
+      workerNeeded: '0'
+      workerCount: '22'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '53'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '23':
+    id: 23
+    settleType: HAMLET
+    position: DRASKORIA:-2327.0:73.0:3100.0
+    biome: PLAINS
+    age: 6869
+    name: Utklamm
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 14.166666666587759
+    townhall:
+      workerNeeded: '0'
+      workerCount: '11'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '22'
+      fertilityCounter: '5533.000000000003'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '22':
+    id: 22
+    settleType: TOWN
+    position: DRASKORIA:-3632.4611508878415:66.0:2337.55356886976
+    biome: PLAINS
+    age: 6894
+    name: Elblingen
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 32392.62666666722
+    townhall:
+      workerNeeded: '0'
+      workerCount: '10'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '48'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '25':
+    id: 25
+    settleType: TOWN
+    position: DRASKORIA:-3448.6556693356483:65.0:-2208.698955063476
+    biome: PLAINS
+    age: 6770
+    name: AndamarHafen
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 41612.03333333711
+    townhall:
+      workerNeeded: '0'
+      workerCount: '11'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '72'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '24':
+    id: 24
+    settleType: HAMLET
+    position: DRASKORIA:-259.0:65.0:-3964.0
+    biome: FOREST
+    age: 6837
+    name: Holzheim
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 20572.25333333054
+    townhall:
+      workerNeeded: '0'
+      workerCount: '4'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '22'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '17280'
+      isEnabled: 'false'
+    itemList: {}
+  '27':
+    id: 27
+    settleType: TOWN
+    position: DRASKORIA:-2679.411906350951:71.0:-1838.4460186128515
+    biome: PLAINS
+    age: 6765
+    name: Drachenwald
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 39662.55333333759
+    townhall:
+      workerNeeded: '0'
+      workerCount: '23'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '101'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}
+  '26':
+    id: 26
+    settleType: TOWN
+    position: DRASKORIA:-3119.8048678125774:68.0:-992.4658948240449
+    biome: PLAINS
+    age: 6767
+    name: Andamar
+    owner: NONE
+    ownerId: 0
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 27063.94999999772
+    townhall:
+      workerNeeded: '0'
+      workerCount: '14'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '74'
+      fertilityCounter: '5432.400000000002'
+      workerCount: '0'
+      settlerMax: '5'
+      population: '0'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '0'
+      itemMax: '20736'
+      isEnabled: 'false'
+    itemList: {}

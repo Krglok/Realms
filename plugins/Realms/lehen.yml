@@ -4,19 +4,21 @@ LEHEN:
     name: Nymphenburg
     nobleLevel: KING
     settleType: LEHEN_4
-    owner: KoenigKaarborg
+    owner: NPC0
     kingdomId: 5
     parentId: 0
-    bank: 0.0
+    supportId: 4
+    bank: 2.099999999999993
     position: DRASKORIA:753.6999999880791:77.0:1257.577817996648
   '2':
     id: 2
     name: Kreuzwald
     nobleLevel: KING
     settleType: LEHEN_4
-    owner: Fallen
+    owner: NPC0
     kingdomId: 1
     parentId: 0
+    supportId: 0
     bank: 0.0
     position: SteamHaven:41.519124492471015:65.0:24.50140278624114
   '3':
@@ -24,9 +26,10 @@ LEHEN:
     name: Salich
     nobleLevel: EARL
     settleType: LEHEN_2
-    owner: SalichSon
+    owner: NPC0
     kingdomId: 1
     parentId: 2
+    supportId: 0
     bank: 0.0
     position: SteamHaven:576.2951491182979:74.0:-29.463283201664513
   '4':
@@ -34,9 +37,10 @@ LEHEN:
     name: Marnumen
     nobleLevel: KING
     settleType: LEHEN_4
-    owner: Anion
+    owner: NPC0
     kingdomId: 0
     parentId: 0
+    supportId: 0
     bank: 0.0
     position: DRASKORIA:-3119.6029671469746:68.0:-992.4891100649713
   '5':
@@ -44,9 +48,10 @@ LEHEN:
     name: WhurolaCentrum
     nobleLevel: KING
     settleType: LEHEN_4
-    owner: Nikoda
+    owner: NPC0
     kingdomId: 3
     parentId: 0
+    supportId: 0
     bank: 0.0
     position: DRASKORIA:-3308.4373708223916:70.0:3784.3043265511515
   '6':
@@ -54,9 +59,10 @@ LEHEN:
     name: Kaerum
     nobleLevel: KING
     settleType: LEHEN_4
-    owner: Asher
+    owner: NPC0
     kingdomId: 4
     parentId: 1
+    supportId: 0
     bank: 0.0
     position: DRASKORIA:5891.490138682248:79.0:3676.403211841252
   '7':
@@ -64,9 +70,10 @@ LEHEN:
     name: Furgenson
     nobleLevel: KNIGHT
     settleType: LEHEN_1
-    owner: Eisenhammer
+    owner: NPC0
     kingdomId: 5
     parentId: 1
+    supportId: 0
     bank: 0.0
     position: DRASKORIA:1953.6772839787657:70.0:-1031.5475004331536
   '8':
@@ -74,8 +81,9 @@ LEHEN:
     name: Charup
     nobleLevel: KING
     settleType: LEHEN_4
-    owner: Salim
+    owner: NPC0
     kingdomId: 6
     parentId: 0
+    supportId: 0
     bank: 0.0
     position: DRASKORIA:-311.4525391165358:63.0:10302.479846702625

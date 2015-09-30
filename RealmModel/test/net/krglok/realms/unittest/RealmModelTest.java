@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.McmdColonistCreate;
 import net.krglok.realms.model.McmdColonyBuild;
@@ -13,6 +14,23 @@ import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.tool.LogList;
 
 import org.junit.Test;
+
+/**
+ * <pre>
+ * Simple Test for Model Funktions.
+ * Needs many predefined Data, so a Snapshot of the real serverdata should be used.
+ * Multiple Events will be tested
+ * - testRealmsModel , simple instantiate test
+ * - testOnCommand
+ * - testOnDisable
+ * - testOnEnable
+ * - testOnProduction
+ * - testOnTick
+ * 
+ * </pre>
+ * @author olaf.duda
+ *
+ */
 
 public class RealmModelTest
 {
@@ -40,6 +58,8 @@ public class RealmModelTest
 		LogList logTest = new LogList(path);
 		DataStorage testData = new DataStorage(path);
 		ServerTest server = new ServerTest(data);
+
+		testData.initData();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -80,6 +100,7 @@ public class RealmModelTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataStorage testData = new DataStorage(path);
+		testData.initData();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -125,6 +146,7 @@ public class RealmModelTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataStorage testData = new DataStorage(path);
+		testData.initData();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -167,6 +189,7 @@ public class RealmModelTest
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataStorage testData = new DataStorage(path);
+		testData.initData();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -210,10 +233,12 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		ServerTest server = new ServerTest(data);
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
+		String path = "D:\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
 		LogList logTest = new LogList(path);
 		DataStorage testData = new DataStorage(path);
 		MessageTest message = new MessageTest();
+		
+		testData.initData();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
@@ -228,6 +253,7 @@ public class RealmModelTest
 		Boolean expected = true; 
 		Boolean actual = false; 
 		rModel.OnEnable();
+		Settlement settle = rModel.getSettlements().getSettlement(1);
 		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
 
 		rModel.OnProduction("SteamHaven");
@@ -288,6 +314,8 @@ public class RealmModelTest
 		LogList logTest = new LogList(path);
 		DataStorage testData = new DataStorage(path);
 		MessageTest message = new MessageTest();
+		
+		testData.initData();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
