@@ -139,10 +139,17 @@ public class CmdFeudalCreate extends RealmsCommand
         
     	SuperRegionType currentRegionType = plugin.stronghold.getRegionManager().getSuperRegionType(regionType);
         Location currentLocation = player.getLocation();
-        
-		if (plugin.stronghold.getRegionManager().addSuperRegion(name, currentLocation , regionType, owners, members, currentRegionType.getDailyPower(), balance) == false)
+		if (plugin.stronghold.getRegionManager().addSuperRegion(name, currentLocation , regionType, owners, members, currentRegionType.getDailyPower(), balance ) == false)
 		{
-			msg.add(ChatColor.RED+"SuperRegion cannot not create !");
+			msg.add(ChatColor.RED+"Superregion not created : "+name);
+			System.out.println("SuperRegion not created ");
+			System.out.println("Name : "+name);
+			System.out.println("currentLocation : "+currentLocation.toString());
+			System.out.println("regionType : "+regionType);
+			System.out.println("owners : "+owners);
+			System.out.println("members : "+members);
+			System.out.println("Power : "+currentRegionType.getDailyPower());
+			System.out.println("balance : "+balance);
 			return;
 		}
 
@@ -162,14 +169,9 @@ public class CmdFeudalCreate extends RealmsCommand
 		Lehen lehen = new Lehen(owner.getKingdomId(), name, nobleLevel, sType, owner, parentId,position);
 		plugin.getData().getLehen().addLehen(lehen);
 		plugin.getData().writeLehen(lehen);
-		
 		SuperRegion sRegion = plugin.stronghold.getRegionManager().getSuperRegion(name);
-		if (sRegion == null)
-		{
-			msg.add(ChatColor.RED+"SuperRegion "+name+" cannot not found !");
-			return;
-		}
 		msg.add("");
+		
 		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
 		{
     		msg.add("  "+region.getType()+" : "+ChatColor.YELLOW+region.getID()+" : "+" Owner: "+region.getOwners());
@@ -218,18 +220,6 @@ public class CmdFeudalCreate extends RealmsCommand
 
 	}
 	
-	private Boolean findChildName( List<String> children, String value)
-	{
-		for (String s : children)
-		{
-			if (s.equalsIgnoreCase(value))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	public boolean checkSuperChildren(Realms plugin, String regionTypeName, Location currentLocation)
 	{
 		SuperRegionType currentRegionType = plugin.stronghold.getRegionManager().getSuperRegionType(regionTypeName);
@@ -246,7 +236,7 @@ public class CmdFeudalCreate extends RealmsCommand
 	        List<String> children = currentRegionType.getChildren();
 	        if (children != null) 
 	        {
-        		System.out.println(regionTypeName+": ChildrenList");
+	        	System.out.println("ChildrenList :"+regionTypeName);
 	        	for (String s : children)
 	        	{
 	        		System.out.println(regionTypeName+":"+s);
@@ -260,12 +250,10 @@ public class CmdFeudalCreate extends RealmsCommand
 		                if (sr.getLocation().distance(currentLocation) < radius + plugin.stronghold.getRegionManager().getSuperRegionType(sr.getType()).getRawRadius())
 		                {
 		                	System.out.println("distance : "+sr.getType()+":"+sr.getLocation().distance(currentLocation));
-		                	//search for incorect child superregion
-		                	if (sr.getType().equalsIgnoreCase(regionTypeName) == true) 
+		                	if (children.contains(sr.getType()) == false) 
 		                	{
 			                	System.out.println("contain children : "+sr.getType()+":"+"false");
 		                		errorMsg.add(ChatColor.RED + "[HeroStronghold] " + sr.getName() + " is already here.");
-		                		errorMsg.add(ChatColor.RED + "[HeroStronghold] " + children + " is already here.");
 		                    	return false;
 		                	}
 		                }
