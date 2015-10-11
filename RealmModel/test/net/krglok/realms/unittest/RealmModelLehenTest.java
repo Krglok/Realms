@@ -1,4 +1,4 @@
-package net.krglok.realms.kingdom;
+package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
@@ -11,12 +11,10 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.tool.LogList;
-import net.krglok.realms.unittest.ConfigTest;
-import net.krglok.realms.unittest.MessageTest;
-import net.krglok.realms.unittest.ServerTest;
 
 import org.bukkit.ChatColor;
 import org.junit.Test;

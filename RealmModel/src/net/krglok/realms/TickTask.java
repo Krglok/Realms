@@ -102,11 +102,15 @@ public class TickTask implements Runnable
 	{
 		doDynMapUpdate();
 		
-		
 		// dont run until init done
 		if (plugin.getRealmModel().isInit() == false)
 		{
 			return;
+		} else
+		{
+			if (plugin.npcManager.isSpawn() == false) return;
+			if (plugin.unitManager.isSpawn() == false) return;
+			if (plugin.nobleManager.isSpawn() == false) return;
 		}
 		if (plugin.getRealmModel().getModelStatus() == ModelStatus.MODEL_DISABLED)
 		{

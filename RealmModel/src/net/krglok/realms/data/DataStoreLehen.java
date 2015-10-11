@@ -1,5 +1,9 @@
 package net.krglok.realms.data;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.SettleType;
@@ -33,6 +37,9 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 //		private Owner owner;
 //		private int KingdomId;
 //		private int parentId;
+
+		HashMap<String,String> values; // = new HashMap<String,String>();
+
 		section.set("id", dataObject.getId());
 		section.set("name", dataObject.getName());
 		section.set("nobleLevel", dataObject.getNobleLevel().name());
@@ -43,7 +50,23 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 		section.set("supportId", dataObject.getSupportId());
         section.set( "bank", dataObject.getBank().getKonto());
     	section.set("position", LocationData.toString(dataObject.getPosition()));
-		
+
+        values = new HashMap<String,String>();
+    	values.put("itemMax", String.valueOf(dataObject.getWarehouse().getItemMax()));
+    	values.put("itemCount", String.valueOf(dataObject.getWarehouse().getItemCount()));
+    	values.put("isEnabled", dataObject.getWarehouse().getIsEnabled().toString());
+        section.set("warehouse", values);
+
+        values = new HashMap<String,String>();
+    	for (String itemref : dataObject.getWarehouse().getItemList().keySet())
+    	{
+    		if (dataObject.getWarehouse().getItemList().getValue(itemref) > 0)
+    		{
+    			values.put(itemref, String.valueOf(dataObject.getWarehouse().getItemList().getValue(itemref)) );
+    		}
+    	}
+        section.set("itemList", values);
+    	
 	}
 
 
@@ -71,6 +94,24 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 		lehen.getBank().addKonto(data.getDouble( "bank",0.0),"SettleRead",lehen.getId());
 		LocationData position = LocationData.toLocation(data.getString("position"));
 		lehen.setPosition(position);
+		System.out.println("Lehen read Warehouse");
+		lehen.getWarehouse().setItemMax(Integer.valueOf(data.getString( "warehouse"+".itemMax","0")));
+		lehen.getWarehouse().setIsEnabled(Boolean.valueOf(data.getString( "warehouse"+".isEnable","true")));
+	    
+		System.out.println("Lehen read Itemlist");
+	    ItemList iList = new ItemList();
+		Map<String,Object> itemList = data.getConfigurationSection( "itemList").getValues(false);
+		if (itemList != null)
+		{
+	    	for (String refKey : itemList.keySet())
+	    	{
+	    		int value = Integer.valueOf(data.getString( "itemList."+refKey,"0"));
+//	                System.out.println(ref+":"+value);
+	            iList.addItem(refKey, value);
+	    	}    
+	    	lehen.getWarehouse().setItemList(iList);
+		}
+		
 		return lehen;
 	}
 	

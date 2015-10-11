@@ -132,9 +132,16 @@ public class CmdFeudalBank extends RealmsCommand
 			}
 		} else
 		{
-			if (plugin.getData().getLehen().getLehen(lehenId).getBank().getKonto() > amount)
+			if (amount < 0.0)
+			{	
+				if (lehen.getBank().getKonto() > amount)
+				{
+					errorMsg.add(ChatColor.RED+"The lehen has not enough money !");
+				}
+			} else
 			{
-				errorMsg.add(ChatColor.RED+"The lehen has not enough money !");
+				errorMsg.add(ChatColor.RED+"Amount is wrong !");
+				return false;
 			}
 		}
 		

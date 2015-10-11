@@ -317,8 +317,10 @@ public class Lehen  extends AbstractSettle
 			int amount = settle.getWarehouse().getItemList().getValue(item.ItemRef()) / 10;
 			if (amount > 0)
 			{
+				System.out.println("lehen: "+item.ItemRef()+":"+amount);
 				if (warehouse.depositItemValue(item.ItemRef(), amount))
 				{
+					System.out.println("settle: "+item.ItemRef()+":"+-amount);
 					settle.getWarehouse().depositItemValue(item.ItemRef() , -amount);
 				}
 			}
@@ -334,16 +336,19 @@ public class Lehen  extends AbstractSettle
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
 		warehouse.setStoreCapacity();
-
+		System.out.println("Produce Lehen : "+ this.id+" : "+supportId);
 		// supporter material abholen, damit wird der Bedarf gedeckt
 		if (supportId > 0)
 		{
 			Settlement settle = data.getSettlements().getSettlement(supportId);
-			getWarehousePercentage(settle, ConfigBasis.initBuildMaterial() );
-			getWarehousePercentage(settle, ConfigBasis.initFoodMaterial() );
-//			getWarehousePercentage(settle, ConfigBasis.initMaterial() );
-			getWarehousePercentage(settle, ConfigBasis.initArmor() );
-			getWarehousePercentage(settle, ConfigBasis.initWeapon() );
+			if (settle != null) 
+			{
+				getWarehousePercentage(settle, ConfigBasis.initBuildMaterial() );
+				getWarehousePercentage(settle, ConfigBasis.initFoodMaterial() );
+	//			getWarehousePercentage(settle, ConfigBasis.initMaterial() );
+				getWarehousePercentage(settle, ConfigBasis.initArmor() );
+				getWarehousePercentage(settle, ConfigBasis.initWeapon() );
+			}
 		}
 		
 		// unit production
