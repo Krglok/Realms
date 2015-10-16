@@ -10,8 +10,6 @@
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Vault.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Citizens.jar" sourcepath="D:/GIT/OwnPlugins/CitizensAPI"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/citizensapi-2.0.11-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="D:/GIT/PluginRef/Shopkeepers.jar"/>
-	<classpathentry kind="lib" path="D:/GIT/PluginRef/ChestShop.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.8-R0.1-SNAPSHOT.jar" sourcepath="D:/GIT/SpigotBuild/CraftBukkit/src/main/java/net/minecraft/server"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/dynmap-HEAD.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/sentry.jar" sourcepath="/CitizenSentry"/>

@@ -163,7 +163,7 @@ public class DataStorage implements DataInterface
 		// converter settlements / buildings
 		if (settlementData.checkSettlements() == false)
 		{
-			System.out.println("Read old Settlement and Convert");
+			System.out.println("[REALMS] Read old Settlement and Convert");
 			initSettleData();
 			settlementData.convertSettlements(settlements);
 			convertBuildings(settlements);
@@ -276,7 +276,7 @@ public class DataStorage implements DataInterface
 			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
 			settle.initSettlement(priceList);
 //			plugin.getMessageData().log("SettleRead: "+settleId );
-			System.out.println("read Settle"+settle.getId()+" OwnerId "+"NPC_0");
+			System.out.println("[REALMS] read Settle"+settle.getId()+" OwnerId "+"NPC_0");
 			owner = owners.findPlayername(ConfigBasis.NPC_0);
 			settle.setOwner(owner);
 			settle.setOwner(owner);
@@ -639,7 +639,7 @@ public class DataStorage implements DataInterface
 			buildPlan.setCube(newCube);
 		} catch (Exception e)
 		{
-			System.out.println("TMX File not found :"+filename);
+			System.out.println("[REALMS] TMX File not found :"+filename);
 //			e.printStackTrace();
 		}
 		return buildPlan;
@@ -969,7 +969,7 @@ public class DataStorage implements DataInterface
 				settlementData.writeData(settle,ref.getId());
 			}
 			time2 = System.nanoTime();
-		    System.out.println("CacheWrite Settle: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
+		    System.out.println("[REALMS] CacheWrite Settle: "+writeCache.size()+" Time [ms]: "+(time2 - time1)/1000000);
 			break;
 		case BUILDING:
 			Building building = buildings.getBuilding(ref.getId());

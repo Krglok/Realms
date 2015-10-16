@@ -4,14 +4,14 @@ SETTLEMENT:
     settleType: CITY
     position: SteamHaven:-469.51819223615206:72.0:-1236.6592548015324
     biome: PLAINS
-    age: 16051
+    age: 16071
     name: NewHaven
     owner: NONE
     ownerId: 31
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 372691.06000000867
+    bank: 372271.99333332287
     townhall:
       workerNeeded: '17'
       workerCount: '17'
@@ -20,7 +20,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '133'
-      fertilityCounter: '4280.919999999998'
+      fertilityCounter: '5789.920000000004'
       workerCount: '0'
       settlerMax: '133'
       population: '96'
@@ -31,72 +31,72 @@ SETTLEMENT:
       ZabulaLegato_TRADE: '3'
     routes: {}
     warehouse:
-      itemCount: '10363'
+      itemCount: '11544'
       itemMax: '22464'
       isEnabled: 'false'
     itemList:
       SIGN: '30'
       GOLD_NUGGET: '5'
       EMERALD: '103'
-      WOOL: '42'
-      LOG: '3354'
+      WOOL: '77'
+      LOG: '2882'
       TORCH: '23'
       GLOWSTONE: '1'
       WORKBENCH: '78'
       WALL_SIGN: '64'
-      WATER: '47'
+      WATER: '51'
       GLOWSTONE_DUST: '3'
       COOKED_BEEF: '9'
       WOOD_DOOR: '2'
-      BREAD: '21'
+      BREAD: '22'
       GOLD_ORE: '2'
-      WOOD: '1466'
+      WOOD: '2069'
       WOOD_AXE: '64'
       CARROT: '8'
-      PORK: '12'
-      RAW_CHICKEN: '65'
+      PORK: '14'
+      RAW_CHICKEN: '69'
       SOIL: '196'
       STONE: '1'
       DIAMOND: '64'
-      SAND: '83'
-      FEATHER: '10'
+      SAND: '92'
+      FEATHER: '12'
       WOODEN_DOOR: '22'
       GRASS: '64'
       WOOD_HOE: '64'
-      STICK: '1338'
+      STICK: '1948'
       NETHER_STALK: '7'
-      LEATHER: '53'
+      LEATHER: '55'
       LAPIS_BLOCK: '8'
-      SEEDS: '54'
+      SEEDS: '62'
       CHEST: '78'
       WOOD_PICKAXE: '64'
-      IRON_ORE: '717'
-      IRON_INGOT: '81'
+      IRON_ORE: '721'
+      IRON_INGOT: '90'
       FURNACE: '78'
       COAL: '12'
       FLINT: '4'
       SHEARS: '1'
-      WHEAT: '1189'
-      DIRT: '490'
+      WHEAT: '1356'
+      DIRT: '680'
       COBBLESTONE: '4'
       PAPER: '8'
       BED: '78'
       GHAST_TEAR: '70'
-      RAW_BEEF: '62'
+      RAW_BEEF: '65'
       SAPLING: '64'
   '2':
     id: 2
     settleType: TOWN
     position: SteamHaven:-519.5118200333327:68.0:-1415.4833680460988
     biome: PLAINS
-    age: 16051
+    age: 16066
     name: Dujar
     owner: NONE
     ownerId: 31
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 40512.65999999921
+    bank: 40896.25999999909
     townhall:
       workerNeeded: '12'
       workerCount: '11'
@@ -105,7 +105,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '26'
-      fertilityCounter: '4252.284999999998'
+      fertilityCounter: '5761.2850000000035'
       workerCount: '0'
       settlerMax: '37'
       population: '4'
@@ -121,7 +121,7 @@ SETTLEMENT:
         isEnabled: 'true'
         itemref: BREAD
     warehouse:
-      itemCount: '15911'
+      itemCount: '16511'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
@@ -131,7 +131,7 @@ SETTLEMENT:
       WATER_BUCKET: '8'
       WOOL: '64'
       STICK: '17'
-      LOG: '7047'
+      LOG: '7227'
       DISPENSER: '1'
       TORCH: '64'
       WATER: '12'
@@ -140,7 +140,7 @@ SETTLEMENT:
       WOOD_DOOR: '1'
       SEEDS: '32'
       WOOD_PICKAXE: '37'
-      BREAD: '722'
+      BREAD: '977'
       WOOD: '721'
       IRON_ORE: '163'
       IRON_INGOT: '64'
@@ -152,14 +152,14 @@ SETTLEMENT:
       STATIONARY_WATER: '8'
       FLINT: '8'
       SOIL: '196'
-      WHEAT: '42'
+      WHEAT: '57'
       IRON_SPADE: '1'
       IRON_PICKAXE: '2'
       ENDER_PEARL: '1'
       APPLE: '8'
       GOLD_HELMET: '1'
-      COBBLESTONE: '5890'
-      DIRT: '247'
+      COBBLESTONE: '5980'
+      DIRT: '307'
       ARROW: '29'
       SAND: '64'
       FENCE: '30'
@@ -177,14 +177,14 @@ SETTLEMENT:
     settleType: HAMLET
     position: SteamHaven:-819.4781162473687:113.0:-1066.476041578252
     biome: FOREST
-    age: 16027
+    age: 16042
     name: Erfaring
     owner: dradmin
     ownerId: 1
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 762152.1083337538
+    bank: 762524.975000419
     townhall:
       workerNeeded: '6'
       workerCount: '13'
@@ -193,7 +193,7 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '28'
-      fertilityCounter: '4230.169999999998'
+      fertilityCounter: '5739.170000000004'
       workerCount: '0'
       settlerMax: '29'
       population: '0'
@@ -207,7 +207,7 @@ SETTLEMENT:
         isEnabled: 'true'
         itemref: LOG
     warehouse:
-      itemCount: '6757'
+      itemCount: '7267'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
@@ -233,7 +233,7 @@ SETTLEMENT:
       SEEDS: '61'
       WOOD_PICKAXE: '29'
       WOOD_STAIRS: '1'
-      BREAD: '903'
+      BREAD: '1218'
       WOOD: '85'
       IRON_INGOT: '64'
       IRON_ORE: '64'
@@ -243,11 +243,11 @@ SETTLEMENT:
       GRAVEL: '10'
       ANVIL: '1'
       SOIL: '196'
-      WHEAT: '302'
+      WHEAT: '317'
       SLIME_BALL: '5'
-      DIRT: '235'
+      DIRT: '295'
       LEATHER_HELMET: '1'
-      COBBLESTONE: '532'
+      COBBLESTONE: '652'
       DIAMOND_HELMET: '1'
       NAME_TAG: '1'
       RAILS: '8'
@@ -292,16 +292,34 @@ SETTLEMENT:
       Eisenhammer_FOOD: '2'
       dradmin_REQUIRED: '4'
     routes:
-      '3': &id001
+      '3':
         amount: '16'
         id: '3'
         price: '4.65'
         targetId: '9'
         isEnabled: 'true'
         itemref: WOOD_SWORD
-      '2': *id001
-      '1': *id001
-      '0': *id001
+      '2':
+        amount: '16'
+        id: '3'
+        price: '4.65'
+        targetId: '9'
+        isEnabled: 'true'
+        itemref: WOOD_SWORD
+      '1':
+        amount: '16'
+        id: '3'
+        price: '4.65'
+        targetId: '9'
+        isEnabled: 'true'
+        itemref: WOOD_SWORD
+      '0':
+        amount: '16'
+        id: '3'
+        price: '4.65'
+        targetId: '9'
+        isEnabled: 'true'
+        itemref: WOOD_SWORD
     warehouse:
       itemCount: '11980'
       itemMax: '22464'
@@ -369,14 +387,14 @@ SETTLEMENT:
     settleType: HAMLET
     position: SteamHaven:-79.0:79.0:-832.0
     biome: SWAMPLAND
-    age: 16022
+    age: 16037
     name: Lozaran
     owner: NONE
     ownerId: 31
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 73642.87333334348
+    bank: 73775.54000001031
     townhall:
       workerNeeded: '3'
       workerCount: '3'
@@ -385,14 +403,14 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '5'
-      fertilityCounter: '4244.354999999998'
+      fertilityCounter: '5753.355000000003'
       workerCount: '0'
       settlerMax: '21'
       population: '0'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '7574'
+      itemCount: '8114'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
@@ -456,10 +474,10 @@ SETTLEMENT:
       FLINT: '8'
       SHEARS: '1'
       STONE_PICKAXE: '2'
-      WHEAT: '1344'
+      WHEAT: '1824'
       APPLE: '8'
-      DIRT: '102'
-      COBBLESTONE: '1456'
+      DIRT: '132'
+      COBBLESTONE: '1486'
       FENCE: '64'
       BED: '5'
       CROPS: '8'
@@ -957,14 +975,14 @@ SETTLEMENT:
     settleType: TOWN
     position: SteamHaven:-1215.6704984377348:103.0:-1210.300000011921
     biome: PLAINS
-    age: 15568
+    age: 15583
     name: Helnrau
     owner: sebbra
     ownerId: 3
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 344294.86833353137
+    bank: 345082.66833352786
     townhall:
       workerNeeded: '18'
       workerCount: '18'
@@ -973,14 +991,14 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '44'
-      fertilityCounter: '4290.699999999998'
+      fertilityCounter: '5799.7000000000035'
       workerCount: '0'
       settlerMax: '45'
       population: '0'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '28141'
+      itemCount: '29536'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
@@ -994,13 +1012,13 @@ SETTLEMENT:
       TORCH: '46'
       WORKBENCH: '3'
       WATER: '196'
-      COOKED_BEEF: '1140'
+      COOKED_BEEF: '1290'
       WOOD_DOOR: '1'
-      LEATHER: '258'
+      LEATHER: '333'
       SEEDS: '32'
       CHEST: '5'
       WOOD_PICKAXE: '45'
-      BREAD: '902'
+      BREAD: '1217'
       WOOD_STAIRS: '1'
       IRON_ORE: '211'
       IRON_INGOT: '64'
@@ -1012,11 +1030,11 @@ SETTLEMENT:
       RAW_CHICKEN: '19'
       STATIONARY_WATER: '8'
       GRAVEL: '49'
-      WHEAT: '2694'
+      WHEAT: '3399'
       SOIL: '196'
       STONE: '2'
       COBBLESTONE: '589'
-      DIRT: '616'
+      DIRT: '766'
       SAND: '64'
       FEATHER: '8'
       RAW_BEEF: '21'
@@ -1029,14 +1047,14 @@ SETTLEMENT:
     settleType: HAMLET
     position: SteamHaven:-27.43239447331125:64.0:-262.42828465469825
     biome: EXTREME_HILLS
-    age: 15556
+    age: 15571
     name: Noevtarn
     owner: dradmin
     ownerId: 1
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 31630.319999989995
+    bank: 31980.119999989995
     townhall:
       workerNeeded: '9'
       workerCount: '9'
@@ -1045,14 +1063,14 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '15'
-      fertilityCounter: '4268.704999999998'
+      fertilityCounter: '5777.705000000004'
       workerCount: '0'
       settlerMax: '17'
       population: '0'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '10857'
+      itemCount: '12216'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
@@ -1063,9 +1081,9 @@ SETTLEMENT:
       GOLD_NUGGET: '32'
       EMERALD: '8'
       WOOL: '53'
-      STICK: '694'
-      LOG: '30'
-      BROWN_MUSHROOM: '336'
+      STICK: '904'
+      LOG: '46'
+      BROWN_MUSHROOM: '456'
       TORCH: '25'
       WORKBENCH: '2'
       LAPIS_ORE: '48'
@@ -1073,16 +1091,16 @@ SETTLEMENT:
       CHEST: '2'
       DIAMOND_ORE: '48'
       WOOD_PICKAXE: '17'
-      WOOD: '826'
+      WOOD: '1036'
       IRON_INGOT: '64'
       IRON_ORE: '32'
       WOOD_AXE: '17'
       CARROT: '8'
-      WHEAT: '6958'
+      WHEAT: '7431'
       SOIL: '196'
-      COBBLESTONE: '668'
-      DIRT: '156'
-      RED_MUSHROOM: '336'
+      COBBLESTONE: '848'
+      DIRT: '186'
+      RED_MUSHROOM: '456'
       SAND: '64'
       GRASS: '64'
       WOOD_HOE: '17'
@@ -1092,14 +1110,14 @@ SETTLEMENT:
     settleType: HAMLET
     position: SteamHaven:576.0:74.0:-29.0
     biome: EXTREME_HILLS
-    age: 15306
+    age: 15321
     name: Salichort
     owner: dradmin
     ownerId: 1
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 160234.6199999876
+    bank: 160801.61999998734
     townhall:
       workerNeeded: '10'
       workerCount: '10'
@@ -1108,14 +1126,14 @@ SETTLEMENT:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '18'
-      fertilityCounter: '4289.334999999998'
+      fertilityCounter: '5798.335000000004'
       workerCount: '0'
       settlerMax: '31'
       population: '0'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '10979'
+      itemCount: '12629'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
@@ -1141,10 +1159,10 @@ SETTLEMENT:
       CARROT: '8'
       WOOD_PLATE: '8'
       SOIL: '196'
-      RED_MUSHROOM: '900'
+      RED_MUSHROOM: '1200'
       OBSIDIAN: '8'
       SAND: '64'
-      MUSHROOM_SOUP: '1008'
+      MUSHROOM_SOUP: '1368'
       IRON_BLOCK: '8'
       GRASS: '31'
       BOOKSHELF: '6'
@@ -1153,7 +1171,7 @@ SETTLEMENT:
       EMERALD_ORE: '7'
       THIN_GLASS: '8'
       STICK: '64'
-      BROWN_MUSHROOM: '850'
+      BROWN_MUSHROOM: '1150'
       LAPIS_ORE: '48'
       BEDROCK: '1'
       CHEST: '64'
@@ -1163,11 +1181,11 @@ SETTLEMENT:
       IRON_ORE: '32'
       DOUBLE_STEP: '8'
       COBBLESTONE_STAIRS: '8'
-      WHEAT: '2160'
+      WHEAT: '2640'
       PUMPKIN: '30'
       ARROW: '64'
-      DIRT: '85'
-      COBBLESTONE: '668'
+      DIRT: '115'
+      COBBLESTONE: '848'
       BED: '36'
       FENCE: '1'
       REDSTONE: '8'

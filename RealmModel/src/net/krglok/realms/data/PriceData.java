@@ -50,7 +50,7 @@ public class PriceData
 			
 		} catch (Exception e)
 		{
-			System.out.println("writePricedata"+ e.getMessage());
+			System.out.println("[REALMS] writePricedata"+ e.getMessage());
 		}
 	
 
@@ -70,7 +70,7 @@ public class PriceData
             
             FileConfiguration config = new YamlConfiguration();
             config.load(DataFile);
-            System.out.println("Read Pricelist");
+            System.out.println("[REALMS] Read Pricelist");
             
             if (config.isConfigurationSection(base))
             {
@@ -86,7 +86,7 @@ public class PriceData
             }
 		} catch (Exception e)
 		{
-			System.out.println("readSettledata"+ e.getMessage());
+			System.out.println("[REALMS] readSettledata"+ e.getMessage());
 		}
 		return items;
 	}

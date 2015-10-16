@@ -111,7 +111,7 @@ public class DataStoreRegiment extends AbstractDataStore<Regiment>
 	        	for (String ref : itemList.keySet())
 	        	{
 	        		int value = Integer.valueOf(data.getString("itemList."+ref,"0"));
-	                System.out.println(ref+":"+value);
+//	                System.out.println(ref+":"+value);
 	                iList.addItem(ref, value);
 	        	}    
 	        	regiment.getWarehouse().setItemList(iList);

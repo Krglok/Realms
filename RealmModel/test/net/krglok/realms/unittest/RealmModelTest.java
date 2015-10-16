@@ -17,14 +17,9 @@ import org.junit.Test;
 
 /**
  * <pre>
- * Simple Test for Model Funktions.
+ * Test for Model Funktions.
  * Needs many predefined Data, so a Snapshot of the real serverdata should be used.
- * Multiple Events will be tested
- * - testRealmsModel , simple instantiate test
- * - testOnCommand
- * - testOnDisable
- * - testOnEnable
- * - testOnProduction
+ * Event will be tested
  * - testOnTick
  * 
  * </pre>
@@ -42,263 +37,6 @@ public class RealmModelTest
 	DataStorage data = new DataStorage(dataFolder);
 
 
-	@Test
-	public void testRealmModel() 
-	{
-		ConfigTest config = new ConfigTest();
-		config.initConfigData();
-		config.initRegionBuilding();
-		config.initSuperSettleTypes();
-
-
-		int realmCounter = config.getRealmCounter();
-		int settlementCounter = config.getSettlementCounter();
-				
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataStorage testData = new DataStorage(path);
-		ServerTest server = new ServerTest(data);
-
-		testData.initData();
-		
-		RealmModel rModel = new RealmModel(
-				realmCounter, 
-				settlementCounter,
-				server,
-				config,
-				testData,
-				null
-//				logTest
-				);
-		
-//		rModel.setOwners(ownerList);
-//		rModel.setRealms(realmList);
-//		rModel.setSettlements(settleList);
-
-		Boolean expected = false;
-		Boolean actual = rModel.isInit(); 
-		
-		isOutput = (expected != actual);
-		if (isOutput)
-		{
-			System.out.println(rModel.getModelName()+":"+rModel.getModelVersion());
-
-		}
-		assertEquals(expected, actual);
-		
-	}
-
-	@Test
-	public void testOnEnable() {
-		ConfigTest config = new ConfigTest();
-		
-		ServerTest server = new ServerTest(data);
-		
-		int realmCounter = config.getRealmCounter();
-		int settlementCounter = config.getSettlementCounter();
-				
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataStorage testData = new DataStorage(path);
-		testData.initData();
-		
-		RealmModel rModel = new RealmModel(
-				realmCounter, 
-				settlementCounter,
-				server,
-				config,
-				testData,
-				null
-//				logTest
-				);
-		
-//		rModel.setOwners(ownerList);
-//		rModel.setRealms(realmList);
-//		rModel.setSettlements(settleList);
-
-		Boolean expected = true; //rModel.isInit();
-		Boolean actual = false; 
-		
-		rModel.OnEnable();
-		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_ENABLED);
-		isOutput = (expected != actual); //true;
-		if (isOutput)
-		{
-			System.out.println(rModel.getModelName()+":"+rModel.getModelVersion());
-			System.out.println("onEnable  : "+rModel.getModelStatus());
-
-		}
-		assertEquals(expected, actual);
-	}
-
-	@Test
-	public void testOnDisable() {
-		ConfigTest config = new ConfigTest();
-		config.initConfigData();
-		config.initRegionBuilding();
-		config.initSuperSettleTypes();
-		
-		int realmCounter = config.getRealmCounter();
-		int settlementCounter = config.getSettlementCounter();
-				
-		ServerTest server = new ServerTest(data);
-
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataStorage testData = new DataStorage(path);
-		testData.initData();
-		
-		RealmModel rModel = new RealmModel(
-				realmCounter, 
-				settlementCounter,
-				server,
-				config,
-				testData,
-				null
-//				logTest
-				);
-				
-		Boolean expected = true; //rModel.isInit();
-		Boolean actual = false; 
-		
-		rModel.OnDisable();
-		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_DISABLED);
-		isOutput = (expected != actual); //true;
-		if (isOutput)
-		{
-			System.out.println(rModel.getModelName()+":"+rModel.getModelVersion());
-			System.out.println("onDisable  : "+rModel.getModelStatus());
-
-		}
-		assertEquals(expected, actual);
-	}
-
-	@Test
-	public void testOnCommand() {
-		ConfigTest config = new ConfigTest();
-		config.initConfigData();
-		config.initRegionBuilding();
-//		config.initSuperBuilding();
-		config.initSuperSettleTypes();
-		
-		int realmCounter = config.getRealmCounter();
-		int settlementCounter = config.getSettlementCounter();
-				
-		ServerTest server = new ServerTest(data);
-
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataStorage testData = new DataStorage(path);
-		testData.initData();
-		
-		RealmModel rModel = new RealmModel(
-				realmCounter, 
-				settlementCounter,
-				server,
-				config,
-				testData,
-				null
-//				logTest
-				);
-		
-//		String command = RealmsCommandType.REALMS.name();
-//		String subCommand = "version";
-		McmdEnable modelCommand = new McmdEnable(rModel);
-		
-//		rModel.OnEnable();
-		rModel.OnCommand(modelCommand);
-		
-		Boolean expected = rModel.isInit();
-		Boolean actual = false; 
-
-		actual =  (rModel.getcommandQueue().size() == 0);
-
-		isOutput = (expected != actual); //true;
-		if (isOutput)
-		{
-			System.out.println(rModel.getModelName()+":"+rModel.getcommandQueue().size());
-			System.out.println("CommandQueue  : "+rModel.getcommandQueue().size());
-
-		}
-		assertEquals(expected, actual);
-	}
-
-	@Test
-	public void testOnProduction() {
-		ConfigTest config = new ConfigTest();
-		config.initConfigData();
-		config.initRegionBuilding();
-		config.initSuperSettleTypes();
-		int realmCounter = config.getRealmCounter();
-		int settlementCounter = config.getSettlementCounter();
-
-		ServerTest server = new ServerTest(data);
-		String path = "D:\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataStorage testData = new DataStorage(path);
-		MessageTest message = new MessageTest();
-		
-		testData.initData();
-		
-		RealmModel rModel = new RealmModel(
-				realmCounter, 
-				settlementCounter,
-				server,
-				config,
-				testData,
-				message
-//				logTest
-				);
-		
-		Boolean expected = true; 
-		Boolean actual = false; 
-		rModel.OnEnable();
-		Settlement settle = rModel.getSettlements().getSettlement(1);
-		rModel.getSettlements().getSettlement(1).getWarehouse().depositItemValue("LOG", 32);
-
-		rModel.OnProduction("SteamHaven");
-		if (rModel.getProductionQueue().size() > 0)
-		{
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-			rModel.OnProduction("SteamHaven");
-//			rModel.OnProduction();
-		}
-		
-		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_PRODUCTION);
-
-		isOutput = (expected != actual); //true;
-		if (isOutput)
-		{
-			System.out.println(rModel.getModelName()+":"+rModel.getProductionQueue().size());
-			System.out.println("Settlement List: "+rModel.getSettlements().count());
-			System.out.println("Settler Max    : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerMax());
-			System.out.println("Settler Count  : "+rModel.getSettlements().getSettlement(1).getResident().getSettlerCount());
-			System.out.println("OnProduction Queue: "+rModel.getProductionQueue().size());
-			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
-			for (Building building :rModel.getSettlements().getSettlement(1).getBuildingList().values())
-			{
-				if (building.getBuildingType() != BuildPlanType.HOME)
-				{
-					System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getHsRegionType()+" : "+building.getWorkerInstalled());
-				}
-			}
-			System.out.println("Warehouse : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemMax());
-			for (String itemRef : rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().keySet())
-			{
-				System.out.println(itemRef+" : "+rModel.getSettlements().getSettlement(1).getWarehouse().getItemList().getValue(itemRef));
-			}
-		}
-		assertEquals(expected, actual);
-	}
-
 
 	@Test
 	public void testOnTick() {
@@ -310,19 +48,19 @@ public class RealmModelTest
 		int settlementCounter = config.getSettlementCounter();
 
 		ServerTest server = new ServerTest(data);
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
-		LogList logTest = new LogList(path);
-		DataStorage testData = new DataStorage(path);
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; //\\Realms";
+//		LogList logTest = new LogList(path);
+//		DataStorage testData = new DataStorage(path);
 		MessageTest message = new MessageTest();
 		
-		testData.initData();
+		data.initData();
 		
 		RealmModel rModel = new RealmModel(
 				realmCounter, 
 				settlementCounter,
 				server,
 				config,
-				testData,
+				data,
 				message
 //				logTest
 				);

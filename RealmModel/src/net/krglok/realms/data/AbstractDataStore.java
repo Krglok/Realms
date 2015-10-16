@@ -113,7 +113,7 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 	{
 		if (isSql == true)
 		{
-			System.out.println("Sql access: "+fileName+" / String not valid as PRIMARY key !");
+			System.out.println("[REALMS] Sql access: "+fileName+" / String not valid as PRIMARY key !");
 			return ;
 		}
 
@@ -123,9 +123,9 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             File dataFile = new File(dataFolder, fileName+".yml");
             if (!dataFile.exists()) 
             {
-            	System.out.println("Error Write : "+sectionName+":"+refId+"::"+dataFolder+":"+fileName+" not Exist !!!");
+            	System.out.println("[REALMS] Error Write : "+sectionName+":"+refId+"::"+dataFolder+":"+fileName+" not Exist !!!");
             	dataFile.createNewFile();
-            	System.out.println("Create Datafile : "+dataFile.getPath());
+            	System.out.println("[REALMS] Create Datafile : "+dataFile.getPath());
             }
             dataFile.setWritable(true);
             String base = getKey(refId);
@@ -138,18 +138,18 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             	config.save(dataFile); // dataFolder+"settlement.yml");
 			} catch (Exception e)
 			{
-	            System.out.println("ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
+	            System.out.println("[REALMS] ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
 			}
 		    long time2 = System.nanoTime();
 		    if (isTimeMessure)
 		    {
-		    	System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
+		    	System.out.println("[REALMS] Write Time [ms]: "+(time2 - time1)/1000000);
 		    }
 
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Exception: writeData / "+e.getMessage());
+			System.out.println("[REALMS] Exception: writeData / "+e.getMessage());
 		}
 		
 	}
@@ -175,7 +175,7 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 	        File dataFile = new File(dataFolder, fileName+".yml");
 	        if (!dataFile.exists()) 
 	        {
-	        	System.out.println("Error Write : "+sectionName+":"+Id+"::"+dataFolder+":"+fileName+" not Exist !!!");
+	        	System.out.println("[REALMS] Error Write : "+sectionName+":"+Id+"::"+dataFolder+":"+fileName+" not Exist !!!");
 	        	return;
 	        }
 	        dataFile.setWritable(true);
@@ -199,12 +199,12 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 	        	config.save(dataFile); // dataFolder+"settlement.yml");
 			} catch (Exception e)
 			{
-	            System.out.println("ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
+	            System.out.println("[REALMS] ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
 			}
 		    long time2 = System.nanoTime();
 		    if (isTimeMessure)
 		    {
-		    	System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
+		    	System.out.println("[REALMS] Write Time [ms]: "+(time2 - time1)/1000000);
 		    }
 		}
 	}
@@ -237,9 +237,9 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             File dataFile = new File(dataFolder, fileName+".yml");
             if (!dataFile.exists()) 
             {
-            	System.out.println("Error Write : "+sectionName+":"+dataFolder+":"+fileName+" not Exist !!!");
+            	System.out.println("[REALMS] Error Write : "+sectionName+":"+dataFolder+":"+fileName+" not Exist !!!");
             	dataFile.createNewFile();
-            	System.out.println("Create Datafile : "+dataFile.getPath());
+            	System.out.println("[REALMS] Create Datafile : "+dataFile.getPath());
             }
             dataFile.setWritable(true);
             
@@ -251,18 +251,18 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             	config.save(dataFile); // dataFolder+"settlement.yml");
 			} catch (Exception e)
 			{
-	            System.out.println("ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
+	            System.out.println("[REALMS] ECXEPTION save "+objectSection+ ":"+dataFolder+":"+fileName);
 			}
 		    long time2 = System.nanoTime();
 		    if (isTimeMessure)
 		    {
-		    	System.out.println("Write Time [ms]: "+(time2 - time1)/1000000);
+		    	System.out.println("[REALMS] Write Time [ms]: "+(time2 - time1)/1000000);
 		    }
 
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Exception: writeData / "+e.getMessage());
+			System.out.println("[REALMS] Exception: writeData / "+e.getMessage());
 		}
 		
 	}
@@ -281,7 +281,7 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 		T dataObject = null;
 		if (isSql == true)
 		{
-			System.out.println("Sql access: "+fileName+" / String not valid as PRIMARY key !");
+			System.out.println("[REALMS] Sql access: "+fileName+" / String not valid as PRIMARY key !");
 			return null;
 		}
 		try
@@ -297,14 +297,14 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             long time2 = System.nanoTime();
 		    if (isTimeMessure)
 		    {
-		    	System.out.println("Read " +refId+" Time [ms]: "+(time2 - time1)/1000000);
+		    	System.out.println("[REALMS] Read " +refId+" Time [ms]: "+(time2 - time1)/1000000);
 		    }
 		    
             
 		}catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Exception: readData / "+e.getMessage());
+			System.out.println("[REALMS] Exception: readData / "+e.getMessage());
 			return null;
 		}
     	
@@ -342,11 +342,11 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 		try
 		{
             File regFile = new File(dataFolder, fileName+".yml");
-			System.out.println("Read DataStore: "+dataFolder+":"+fileName+".yml");
+			System.out.println("[REALMS] Read DataStore: "+dataFolder+":"+fileName+".yml");
             if (regFile.exists() == false) 
             {
             	regFile.createNewFile();
-    			System.out.println("NEW File: "+dataFolder+":"+fileName+".yml");
+    			System.out.println("[REALMS] NEW File: "+dataFolder+":"+fileName+".yml");
             }
             // load data from file
             config.load(regFile);
@@ -354,7 +354,7 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Exception: readData / "+e.getMessage());
+			System.out.println("[REALMS] Exception: readData / "+e.getMessage());
 		}
 		
 		T dataObject = null;
@@ -371,14 +371,14 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
             long time2 = System.nanoTime();
 		    if (isTimeMessure)
 		    {
-		    	System.out.println("Read " +sectionName+" Time [ms]: "+(time2 - time1)/1000000);
+		    	System.out.println("[REALMS] Read " +sectionName+" Time [ms]: "+(time2 - time1)/1000000);
 		    }
 		    
             
 		}catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Exception: readData / "+e.getMessage());
+			System.out.println("[REALMS] Exception: readData / "+e.getMessage());
 			return null;
 		}
     	
@@ -396,11 +396,11 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 		try
 		{
             File regFile = new File(dataFolder, fileName+".yml");
-			System.out.println("Read DataStore: "+dataFolder+":"+fileName+".yml");
+			System.out.println("[REALMS] Read DataStore: "+dataFolder+":"+fileName+".yml");
             if (regFile.exists() == false) 
             {
             	regFile.createNewFile();
-    			System.out.println("NEW File: "+dataFolder+":"+fileName+".yml");
+    			System.out.println("[REALMS] NEW File: "+dataFolder+":"+fileName+".yml");
             }
             // load data from file
             config.load(regFile);
@@ -416,7 +416,7 @@ public abstract class AbstractDataStore<T> implements IDataStore<T>
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("Exception: readData / "+e.getMessage());
+			System.out.println("[REALMS] Exception: readData / "+e.getMessage());
 		}
     	return msg; 
 	}
