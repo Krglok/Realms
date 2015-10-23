@@ -31,7 +31,6 @@ import org.junit.Test;
 public class SettleManagerTest
 {
 	private int dayCounter = 0;
-	private int month;
 	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
 
 	DataStorage data = new DataStorage(dataFolder);
@@ -332,7 +331,7 @@ public class SettleManagerTest
 	@Test
 	public void testSettleMgrModel()
 	{
-		LogList logTest = new LogList(dataFolder);
+		new LogList(dataFolder);
 		DataStorage testData = new DataStorage(dataFolder);
 		ConfigTest config = new ConfigTest();
 		MessageTest   msg = new MessageTest();
@@ -344,36 +343,18 @@ public class SettleManagerTest
 
 		Settlement settle = rModel.getSettlements().getSettlement(settleId);
 		double expected = settle.getBank().getKonto();
-		double amount = 1000;
-		String userName = "TestUser";
-//		McmdDepositeBank bankCommand = new McmdDepositeBank(rModel, settleId, amount , userName );
-		
 		BuildPlanType bType = BuildPlanType.HOME;
 		LocationData position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
 		Player player = null;
 		McmdBuilder builderCommand    = new McmdBuilder(rModel, settleId, bType, position, player);
 
 		String itemRef = "WHEAT";
-		int value = 500;
-		double price = testData.getPriceList().getBasePrice(itemRef);
-		int delayDays = 10;
-//		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
-
+		testData.getPriceList().getBasePrice(itemRef);
 		itemRef = "LOG";
-		value = 500;
-		price = testData.getPriceList().getBasePrice(itemRef);
-		delayDays = 10;
-//		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
-
+		testData.getPriceList().getBasePrice(itemRef);
 		itemRef = "WOOL";
-		value = 500;
-		price = testData.getPriceList().getBasePrice(itemRef);
-		delayDays = 10;
-//		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
+		testData.getPriceList().getBasePrice(itemRef);
 		
-		String name = "NewColonist";
-//		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
-		String owner = "NPC1";
 		
 //		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
 		

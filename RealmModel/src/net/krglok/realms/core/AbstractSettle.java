@@ -165,7 +165,7 @@ public abstract class AbstractSettle
 
 	public void setPosition(LocationData position)
 	{
-		System.out.println("New Position : "+this.id);
+//		System.out.println("New Position : "+this.id);
 		this.position = position;
 	}
 
