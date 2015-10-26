@@ -34,7 +34,8 @@ public class CmdSettleWorkshop extends RealmsCommand
 			};
 			requiredArgs = 2;
 			this.settleID = 0;
-//			this.buildingId = 1;  
+//			this.buildingId = 1;
+			this.itemRef = "";
 			this.slot = 0;
 	}
 
@@ -161,6 +162,7 @@ public class CmdSettleWorkshop extends RealmsCommand
 				return false;
 			}
 
+			
 			itemRef.toUpperCase();
 			if (ConfigBasis.isMaterial(itemRef) == false)
 			{

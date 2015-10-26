@@ -9,16 +9,20 @@ package net.krglok.realms.core;
 public class BoardItem
 {
 	private String name;
-	private Double lastValue;
-	private Double cycleSum;
+	private Double inputValue;
+	private Double inputSum;
 	private Double periodSum;
+	private Double outputValue;
+	private Double outputSum;
 	
 	public BoardItem(String name)
 	{
 		this.name 	= name;
-		lastValue 	= 0.0;
-		cycleSum  	= 0.0;
+		inputValue 	= 0.0;
+		inputSum  	= 0.0;
 		periodSum	= 0.0;
+		setOutputValue(0.0);
+		setOutputSum(0.0);
 	}
 
 	public String getName()
@@ -31,25 +35,25 @@ public class BoardItem
 		this.name = name;
 	}
 
-	public double getLastValue()
+	public double getInputValue()
 	{
-		return lastValue;
+		return inputValue;
 	}
 
-	public void setLastValue(Double lastValue)
+	public void setInputValue(Double lastValue)
 	{
-		this.lastValue = lastValue;
+		this.inputValue = lastValue;
 	}
 
 
-	public double getCycleSum()
+	public double getInputSum()
 	{
-		return cycleSum;
+		return inputSum;
 	}
 
-	public void setCycleSum(Double cycleSum)
+	public void setInputSum(Double cycleSum)
 	{
-		this.cycleSum = cycleSum;
+		this.inputSum = cycleSum;
 	}
 
 
@@ -61,6 +65,38 @@ public class BoardItem
 	public void setPeriodSum(Double periodSum)
 	{
 		this.periodSum = periodSum;
+	}
+
+	/**
+	 * @return the outputValue
+	 */
+	public Double getOutputValue()
+	{
+		return outputValue;
+	}
+
+	/**
+	 * @param outputValue the outputValue to set
+	 */
+	public void setOutputValue(Double outputValue)
+	{
+		this.outputValue = outputValue;
+	}
+
+	/**
+	 * @return the outputSum
+	 */
+	public Double getOutputSum()
+	{
+		return outputSum;
+	}
+
+	/**
+	 * @param outputSum the outputSum to set
+	 */
+	public void setOutputSum(Double outputSum)
+	{
+		this.outputSum = outputSum;
 	}
 	
 }

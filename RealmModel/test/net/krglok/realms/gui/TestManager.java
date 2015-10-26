@@ -155,8 +155,8 @@ public class TestManager
 //		{
 			BoardItem bItem = settle.getProductionOverview().get(id);
 			System.out.print(ConfigBasis.setStrleft(bItem.getName(),16)+" : ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()) ,7)+ " | ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputValue()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getPeriodSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(bItem.getName()) ) ,7)+ " | ");
 			System.out.print("");

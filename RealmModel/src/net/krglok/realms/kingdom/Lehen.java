@@ -314,18 +314,99 @@ public class Lehen  extends AbstractSettle
 	{
 		for (Item item : subList.values())
 		{
-			int amount = settle.getWarehouse().getItemList().getValue(item.ItemRef()) / 10;
-			if (amount > 0)
+			if (settle.getProductionOverview().get(item.ItemRef()) != null)
 			{
-				System.out.println("lehen: "+item.ItemRef()+":"+amount);
-				if (warehouse.depositItemValue(item.ItemRef(), amount))
+				int amount = (int) (settle.getProductionOverview().get(item.ItemRef()).getInputSum() / 10);
+				if (amount > 0)
 				{
-					System.out.println("settle: "+item.ItemRef()+":"+-amount);
-					settle.getWarehouse().depositItemValue(item.ItemRef() , -amount);
+					if (settle.getWarehouse().getItemList().getValue(item.ItemRef()) > amount)
+					{
+						System.out.println("lehen: "+item.ItemRef()+":"+amount);
+						if (warehouse.depositItemValue(item.ItemRef(), amount))
+						{
+							System.out.println("settle: "+item.ItemRef()+":"+-amount);
+							settle.getWarehouse().depositItemValue(item.ItemRef() , -amount);
+						}
+					}
 				}
 			}
 		}
 	}
+	
+	private void getProductionPercentage(Settlement settle, ItemList subList, DataInterface data)
+	{
+		for (Item item : subList.values())
+		{
+			if (settle.getProductionOverview().get(item.ItemRef()) != null)
+			{
+				int amount = (int) (settle.getProductionOverview().get(item.ItemRef()).getInputSum() / 10);
+				if (amount > 0)
+				{
+					double price = data.getPriceList().getBasePrice(item.ItemRef()) * amount;
+					
+					if (price > 0)
+					{
+						System.out.println("lehen money: "+item.ItemRef()+":"+price);
+						this.bank.depositKonto(price, "Tax", settle.getId());
+						System.out.println("settle money: "+item.ItemRef()+":"+-price);
+						settle.getBank().depositKonto(-price, "Noble", this.id);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * do Lehen production to get Food tax and other money tax
+	 * 
+	 * @param server
+	 * @param data
+	 * @param day
+	 */
+	public void doProduce(ServerInterface server, DataInterface data, int day)
+	{
+		// increment age of the Lehen in production cycles
+		age++;
+		// is Sunday get Resources from settlement
+		if (day == 0)
+		{
+			warehouse.setStoreCapacity();
+//			System.out.println("Produce Lehen : "+ this.id+" : "+supportId);
+			// supporter material abholen, damit wird der Bedarf gedeckt
+			if (supportId > 0)
+			{
+				Settlement settle = data.getSettlements().getSettlement(supportId);
+				if (settle != null) 
+				{
+					getWarehousePercentage(settle, ConfigBasis.initFoodMaterial() );
+					getProductionPercentage(settle, ConfigBasis.initBuildMaterial(),  data);
+					getProductionPercentage(settle, ConfigBasis.initMaterial(),  data);
+					getProductionPercentage(settle, ConfigBasis.initArmor(),  data);
+					getProductionPercentage(settle, ConfigBasis.initWeapon(),  data);
+				}
+			}
+		} else
+		{
+			// unit production
+			for (Building building : buildingList.values())
+			{
+				if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+				{
+					System.out.println("Train check : "+building.getMaxTrain());
+		
+					if (building.isEnabled())
+					{
+						doTrainStart(data, building);
+					} else
+					{
+						System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
+					}
+				}
+			}
+		}
+		
+	}
+	
 	
 	/**
 	 * do training for units no other production is allowed in lehen
@@ -333,43 +414,6 @@ public class Lehen  extends AbstractSettle
 	 * @param server
 	 * @param data
 	 */
-	public void doProduce(ServerInterface server, DataInterface data)
-	{
-		warehouse.setStoreCapacity();
-		System.out.println("Produce Lehen : "+ this.id+" : "+supportId);
-		// supporter material abholen, damit wird der Bedarf gedeckt
-		if (supportId > 0)
-		{
-			Settlement settle = data.getSettlements().getSettlement(supportId);
-			if (settle != null) 
-			{
-				getWarehousePercentage(settle, ConfigBasis.initBuildMaterial() );
-				getWarehousePercentage(settle, ConfigBasis.initFoodMaterial() );
-	//			getWarehousePercentage(settle, ConfigBasis.initMaterial() );
-				getWarehousePercentage(settle, ConfigBasis.initArmor() );
-				getWarehousePercentage(settle, ConfigBasis.initWeapon() );
-			}
-		}
-		
-		// unit production
-		for (Building building : buildingList.values())
-		{
-			if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
-			{
-				System.out.println("Train check : "+building.getMaxTrain());
-	
-				if (building.isEnabled())
-				{
-					doTrainStart(data, building);
-				} else
-				{
-					System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
-				}
-			}
-		}
-		
-	}
-	
 	public void doUnitTrain(UnitFactory unitFactory)
 	{
 		for (Building building : buildingList.values())

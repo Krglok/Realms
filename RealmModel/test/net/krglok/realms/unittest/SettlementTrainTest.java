@@ -205,7 +205,7 @@ public class SettlementTrainTest
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.doHappiness(data);
-			settle.doProduce(server,data);
+			settle.doProduce(server,data,1);
 			settle.doUnitTrain(unitFactory);
 			if (dayCounter == 30)
 			{
@@ -370,8 +370,8 @@ public class SettlementTrainTest
 		for (BoardItem bItem : settle.getProductionOverview().values())
 		{
 			System.out.print(ConfigBasis.setStrleft(bItem.getName(),16)+" : ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()) ,7)+ " | ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputValue()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getPeriodSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(bItem.getName()) ) ,7)+ " | ");
 			System.out.print("");
@@ -387,7 +387,8 @@ public class SettlementTrainTest
 		
 //		String path = "\\GIT\\OwnPlugins\\Realms\\plugins";
 		LogList logList = new LogList(dataFolder);
-		DataTest data     = new DataTest();
+//		DataTest data     = new DataTest();
+		data.initData();
 		OwnerList ownerList =  data.getOwners();
 		UnitFactory unitFactory = new UnitFactory();
 		ItemPriceList priceList = readPriceData(); 

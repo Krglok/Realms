@@ -106,6 +106,7 @@ public class RealmModel
 	
 	private boolean isDay = false;
 	private boolean isNight = false;
+	private int dayOfWeek = 0;
 	
 	/**
 	 * instances an empty Model , must be initialize external !
@@ -394,7 +395,8 @@ public class RealmModel
 			break;
 		case MODEL_PRODUCTION :
 			// NextProduction
-			modelStatus = nextProductionQueue();
+			modelStatus = initProductionQueue(worldName);
+//			modelStatus = nextProductionQueue();
 			break;
 		default :
 			//modelStatus = initProductionQueue();
@@ -483,6 +485,8 @@ public class RealmModel
 	
 	/**
 	 * <pre>
+	 * this represent the time aspect of the model.
+	 * age of realms is measured by the first settlement
 	 * trigger the tick action for the different objects
 	 * - transport
 	 * - tradeMarket
@@ -504,6 +508,11 @@ public class RealmModel
 	{
 		try
 		{
+			// age of realms is measured by the first settlement 
+			if (settlements.getSettlement(1) != null)
+			{	
+				dayOfWeek = settlements.getSettlement(1).getDayofWeek();
+			}
 //			System.out.println("OnTick : "+modelStatus);
 			// make timer run for trade  every tick 
 			// check transportqueues for fullfill 
@@ -546,7 +555,7 @@ public class RealmModel
 				break;
 			case MODEL_PRODUCTION :
 				// nextProduction
-//				System.out.println("Next Produktion");
+				System.out.println("Next Produktion");
 				messageData.log("Next Produktion");
 				modelStatus = nextProductionQueue();
 				// endProduction
@@ -843,12 +852,11 @@ public class RealmModel
 		if (productionQueue.isEmpty() == false)
 		{
 			Settlement settle = productionQueue.get(0);
-			System.out.println("[REALMS] Settle production:"+settle.getId()+":"+lSize);
+			System.out.println("[REALMS] Settle production:"+settle.getId()+":"+lSize+":"+this.dayOfWeek);
 			if (settle.getId()==6)
 			{
 				System.out.println("[REALMS] Settle production:"+settle.getId()+":"+lSize);
 			}
-	//		System.out.println("[REALMS] Reset Daily Reputation");
 			settle.getReputations().resetDaily();
 			messageData.log("settle");
 			settle.setSettlerMax();
@@ -857,27 +865,24 @@ public class RealmModel
 			messageData.log("Building enable");
 			settle.setWorkerNeeded();
 			messageData.log("worker needed");
-	//		settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.doHappiness(data);
 			messageData.log("happiness");
-			settle.doProduce(server, data);
+			settle.doProduce(server, data, this.dayOfWeek);
 			messageData.log("produce");
 			settle.doUnitTrain(unitFactory);
 			data.writeSettlement(settle);
 			
-	//		storeQueue.put(settle.getId(), settle.getId());
 			productionQueue.remove(0);
-	//		System.out.println("remove 0");
 			messageData.log("remove 0");
-	//		System.out.println("[Realms] production calculation ["+productionQueue.size()+"] ");
 			return ModelStatus.MODEL_PRODUCTION;
 		}
 
+		lSize = lehenProductionQueue.size(); 
 		if (lehenProductionQueue.isEmpty() == false)
 		{
 			Lehen lehen = lehenProductionQueue.get(0);
-			System.out.println("[REALMS] lehen production ");
-			lehen.doProduce(server, data);
+			System.out.println("[REALMS] lehen production:"+lSize+":"+lehen.getName()+lehen.getId()+":"+lehen.getSupportId());
+			lehen.doProduce(server, data, this.dayOfWeek);
 			lehen.doHappiness(data);
 			messageData.log("Lehen happiness");
 			data.writeLehen(lehen);

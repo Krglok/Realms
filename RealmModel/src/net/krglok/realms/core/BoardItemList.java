@@ -88,12 +88,12 @@ public class BoardItemList extends HashMap<String,BoardItem>
 		{
 			boardItem = this.addBoardItem(name);
 		}
-		boardItem.setLastValue(0.0);
+		boardItem.setInputValue(0.0);
 	}
 	
 	
 	/**
-	 * add vallue to Last , cycleSum and periodSum
+	 * add value to Input , InputSum and periodSum
 	 * @param name
 	 * @param value
 	 */
@@ -107,11 +107,31 @@ public class BoardItemList extends HashMap<String,BoardItem>
 		{
 			boardItem = this.addBoardItem(name);
 		}
-		boardItem.setLastValue(value);
-		boardItem.setCycleSum(boardItem.getCycleSum()+value);
+		boardItem.setInputValue(value);
+		boardItem.setInputSum(boardItem.getInputSum()+value);
 		boardItem.setPeriodSum(boardItem.getPeriodSum()+value);
 	}
 
+	/**
+	 * add value to Output , OutputSum and periodSum
+	 * @param name
+	 * @param value
+	 */
+	public void addOutValue(String name, double value)
+	{
+		BoardItem boardItem;
+		if (this.containsKey(name))
+		{
+			boardItem = this.get(name) ;
+		} else
+		{
+			boardItem = this.addBoardItem(name);
+		}
+		boardItem.setOutputValue(value);
+		boardItem.setOutputSum(boardItem.getInputSum()+value);
+		boardItem.setPeriodSum(boardItem.getPeriodSum()+value);
+	}
+	
 	public void addCycle()
 	{
 		this.cycleCount++;
@@ -126,7 +146,8 @@ public class BoardItemList extends HashMap<String,BoardItem>
 		this.cycleCount = 0;
 		for (BoardItem b : this.values())
 		{
-			b.setCycleSum(0.0);
+			b.setInputSum(0.0);
+			b.setOutputSum(0.0);
 		}
 	}
 

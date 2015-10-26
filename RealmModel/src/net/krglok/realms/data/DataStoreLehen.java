@@ -50,6 +50,7 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 		section.set("supportId", dataObject.getSupportId());
         section.set( "bank", dataObject.getBank().getKonto());
     	section.set("position", LocationData.toString(dataObject.getPosition()));
+    	section.set("isEnabled", dataObject.isEnabled());
 
         values = new HashMap<String,String>();
     	values.put("itemMax", String.valueOf(dataObject.getWarehouse().getItemMax()));
@@ -94,24 +95,27 @@ public class DataStoreLehen extends AbstractDataStore<Lehen>
 		lehen.getBank().addKonto(data.getDouble( "bank",0.0),"SettleRead",lehen.getId());
 		LocationData position = LocationData.toLocation(data.getString("position"));
 		lehen.setPosition(position);
-		System.out.println("Lehen read Warehouse");
+		lehen.setIsEnabled(Boolean.valueOf(data.getString( "isEnable","true")));
+//		System.out.println("Lehen read Warehouse");
 		lehen.getWarehouse().setItemMax(Integer.valueOf(data.getString( "warehouse"+".itemMax","0")));
 		lehen.getWarehouse().setIsEnabled(Boolean.valueOf(data.getString( "warehouse"+".isEnable","true")));
 	    
-		System.out.println("Lehen read Itemlist");
-	    ItemList iList = new ItemList();
-		Map<String,Object> itemList = data.getConfigurationSection( "itemList").getValues(false);
-		if (itemList != null)
+//		System.out.println("Lehen read Itemlist");
+		if (data.isConfigurationSection("itemList"))
 		{
-	    	for (String refKey : itemList.keySet())
-	    	{
-	    		int value = Integer.valueOf(data.getString( "itemList."+refKey,"0"));
-//	                System.out.println(ref+":"+value);
-	            iList.addItem(refKey, value);
-	    	}    
-	    	lehen.getWarehouse().setItemList(iList);
+		    ItemList iList = new ItemList();
+			Map<String,Object> itemList = data.getConfigurationSection( "itemList").getValues(false);
+			if (itemList != null)
+			{
+		    	for (String refKey : itemList.keySet())
+		    	{
+		    		int value = Integer.valueOf(data.getString( "itemList."+refKey,"0"));
+	//	                System.out.println(ref+":"+value);
+		            iList.addItem(refKey, value);
+		    	}    
+		    	lehen.getWarehouse().setItemList(iList);
+			}
 		}
-		
 		return lehen;
 	}
 	

@@ -300,7 +300,7 @@ public class Trader
 					settle.getBank().withdrawKonto(cost, "Trader "+settle.getId(),settle.getId());
 					tmo.setStatus(TradeStatus.WAIT);
 					foundOrder.setStatus(TradeStatus.NONE);
-//					settle.getLogList().addOrder("TRANSPORT", tmo.getSettleID(), settle.getId(), foundOrder.ItemRef(), amount, tmo.getBasePrice(), travelTime, "Trader");
+//					System.out.println("[REALMS] TRANSPORT "+settle.getId()+":"+foundOrder.ItemRef()+":"+amount+" =====");
 				}
 			}	
 		}
@@ -431,7 +431,7 @@ public class Trader
 								// target has enough space in warehouse
 								if (settlements.getSettlement(rOrder.getTargetId()).getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
 								{
-									System.out.println("[REALMS] Make route "+settle.getId()+" to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
+//									System.out.println("[REALMS] Make route "+settle.getId()+" to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
 									makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, settlements);
 								}
 							}
@@ -524,8 +524,7 @@ public class Trader
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() +1);
 					settle.getWarehouse().withdrawItemValue(itemRef, amount);
 					targetSettle.getBank().withdrawKonto(cost, "Trader "+settle.getId(),settle.getId());
-//					rOrder.setStatus(TradeStatus.WAIT);
-//					settle.getLogList().addOrder("TRANSPORT", settle.getId(), targetSettle.getId(), rOrder.ItemRef(), amount, rOrder.getBasePrice(), travelTime, "Route");
+//					System.out.println("[REALMS] ROUTE   "+settle.getId()+">"+targetSettle.getId()+":"+rOrder.ItemRef()+":"+amount+"="+ConfigBasis.setStrformat2(cost, 11));
 				}
 			}	
 		}

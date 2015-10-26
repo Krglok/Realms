@@ -11,7 +11,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 1577.175000012906
+    bank: 1577.17
     townhall:
       workerNeeded: '0'
       workerCount: '21'
@@ -43,7 +43,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 2729.2543333327403
+    bank: 2729.0
     townhall:
       workerNeeded: '0'
       workerCount: '21'
@@ -75,7 +75,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 104132.71666666961
+    bank: 1041.7
     townhall:
       workerNeeded: '0'
       workerCount: '13'
@@ -107,7 +107,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 129653.47000004504
+    bank: 1296.47
     townhall:
       workerNeeded: '0'
       workerCount: '38'
@@ -139,7 +139,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 15412.266666663783
+    bank: 1541.26
     townhall:
       workerNeeded: '0'
       workerCount: '4'
@@ -171,7 +171,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 178203.83666661257
+    bank: 1782.83
     townhall:
       workerNeeded: '0'
       workerCount: '21'
@@ -203,7 +203,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 81202.2666666882
+    bank: 8120.26
     townhall:
       workerNeeded: '0'
       workerCount: '32'
@@ -235,7 +235,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 184130.13766668923
+    bank: 1841.13
     townhall:
       workerNeeded: '0'
       workerCount: '32'
@@ -267,7 +267,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 39249.24999999651
+    bank: 3924.24
     townhall:
       workerNeeded: '0'
       workerCount: '9'
@@ -299,7 +299,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 90270.51333333559
+    bank: 9027.51
     townhall:
       workerNeeded: '0'
       workerCount: '16'
@@ -331,7 +331,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 36302.41000002336
+    bank: 3630.41
     townhall:
       workerNeeded: '0'
       workerCount: '9'
@@ -363,7 +363,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 22853.79999999514
+    bank: 2285.79
     townhall:
       workerNeeded: '0'
       workerCount: '12'
@@ -395,7 +395,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 27909.29999999771
+    bank: 2790.29
     townhall:
       workerNeeded: '0'
       workerCount: '8'
@@ -427,7 +427,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 12309.166666665318
+    bank: 1230.16
     townhall:
       workerNeeded: '0'
       workerCount: '4'
@@ -459,7 +459,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 15759.89999999585
+    bank: 1575.89
     townhall:
       workerNeeded: '0'
       workerCount: '11'
@@ -491,7 +491,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 133362.7800000158
+    bank: 1333.78
     townhall:
       workerNeeded: '0'
       workerCount: '33'
@@ -523,7 +523,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 29246.239999993704
+    bank: 2924.23
     townhall:
       workerNeeded: '0'
       workerCount: '16'
@@ -555,7 +555,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 516926.8126663727
+    bank: 5169.81
     townhall:
       workerNeeded: '0'
       workerCount: '85'
@@ -587,7 +587,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 178079.14333330194
+    bank: 1780.14
     townhall:
       workerNeeded: '0'
       workerCount: '16'
@@ -619,7 +619,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 57507.48666666685
+    bank: 5750.48
     townhall:
       workerNeeded: '0'
       workerCount: '12'
@@ -651,7 +651,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 45858.29333333691
+    bank: 4585.29
     townhall:
       workerNeeded: '0'
       workerCount: '22'
@@ -683,7 +683,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 14.166666666587759
+    bank: 14.16
     townhall:
       workerNeeded: '0'
       workerCount: '11'
@@ -715,7 +715,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 32392.62666666722
+    bank: 3239.62
     townhall:
       workerNeeded: '0'
       workerCount: '10'
@@ -747,7 +747,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 41612.03333333711
+    bank: 4161.03
     townhall:
       workerNeeded: '0'
       workerCount: '11'
@@ -779,7 +779,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 20572.25333333054
+    bank: 2057.25
     townhall:
       workerNeeded: '0'
       workerCount: '4'
@@ -811,7 +811,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 39662.55333333759
+    bank: 3966.55
     townhall:
       workerNeeded: '0'
       workerCount: '23'
@@ -843,7 +843,7 @@ SETTLEMENT:
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 27063.94999999772
+    bank: 2706.94
     townhall:
       workerNeeded: '0'
       workerCount: '14'

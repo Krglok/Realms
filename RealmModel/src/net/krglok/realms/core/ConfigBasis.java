@@ -863,6 +863,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.SOIL.name(),0);
 		subList.addItem(Material.GRASS.name(),0);
 		subList.addItem(Material.WATER.name(),0);
+		subList.addItem(Material.SAND.name(),0);
 //		subList.addItem(Material..name(),0);
 			
 		return subList;

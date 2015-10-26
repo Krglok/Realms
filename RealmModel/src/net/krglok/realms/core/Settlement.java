@@ -282,6 +282,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 		COUNTER = iD;
 	}
 	
+	
 //	public void setLogList(LogList logList)
 //	{
 //		this.logList = logList;
@@ -1309,43 +1310,50 @@ public class Settlement extends AbstractSettle //implements Serializable
 	 * each Building will separate calculate 
 	 * @param server
 	 */
-	public void doProduce(ServerInterface server, DataInterface data)
+	public void doProduce(ServerInterface server, DataInterface data, int day)
 	{
 		// increment age of the Setlement in production cycles
 		age++;
-		// redude required list by production cycle 
-		requiredProduction.reduceRequired(); 
-		productionOverview.resetLastAll();
-		setStoreCapacity();
-		initTreasureList();
-		expandTreasureList(getBiome(), server);
-//		checkDecay();
-		checkFoundItems(server);
-		for (Building building : buildingList.values())
+		// is not Sunday
+		if (day != 0)  
 		{
-			// setze defaultBiome auf Settlement Biome 
-			if (building.getBiome() == null)
+			// redude required list by production cycle 
+			requiredProduction.reduceRequired(); 
+			productionOverview.resetLastAll();
+			setStoreCapacity();
+			initTreasureList();
+			expandTreasureList(getBiome(), server);
+	//		checkDecay();
+			checkFoundItems(server);
+			for (Building building : buildingList.values())
 			{
-				building.setBiome(biome);
-			}
-			// doProduction on Building
-			doProduction(server, data, building, biome);
-				
-			// unit production
-			if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
-			{
-				System.out.println("Train check : "+building.getMaxTrain());
-
-				if (building.isEnabled())
+				// setze defaultBiome auf Settlement Biome 
+				if (building.getBiome() == null)
 				{
-					doTrainStart(data, building);
-				} else
+					building.setBiome(biome);
+				}
+				// doProduction on Building
+				doProduction(server, data, building, biome);
+					
+				// unit production
+				if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
 				{
-					System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
+					System.out.println("Train check : "+building.getMaxTrain());
+	
+					if (building.isEnabled())
+					{
+						doTrainStart(data, building);
+					} else
+					{
+						System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
+					}
 				}
 			}
+			productionOverview.addCycle();
+		} else
+		{
+			
 		}
-		productionOverview.addCycle();
 	}
 
 	/**

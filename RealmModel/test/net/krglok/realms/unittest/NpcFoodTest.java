@@ -90,7 +90,7 @@ public class NpcFoodTest
 			System.out.println("Day :"+i);
 			settle.doHappiness(data);
 //			settle.getWarehouse().depositItemValue("BREAD", 1+i);
-			settle.doProduce(server, data);
+			settle.doProduce(server, data,1);
 		}
 			
 		showNpcList(settle.getResident().getNpcList());

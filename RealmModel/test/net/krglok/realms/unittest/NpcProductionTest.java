@@ -92,8 +92,8 @@ public class NpcProductionTest
 		for (BoardItem item : settle.getProductionOverview().values())
 		{
 			System.out.print(" |"+ConfigBasis.setStrleft(item.getName(),12));
-			System.out.print(" |"+ConfigBasis.setStrformat2(item.getLastValue(),6));
-			System.out.print(" |"+ConfigBasis.setStrformat2(item.getCycleSum(),6));
+			System.out.print(" |"+ConfigBasis.setStrformat2(item.getInputValue(),6));
+			System.out.print(" |"+ConfigBasis.setStrformat2(item.getInputSum(),6));
 			System.out.print(" |"+ConfigBasis.setStrformat2(item.getPeriodSum(),6));
 			System.out.print(" |"+ConfigBasis.setStrformat2(settle.getWarehouse().getItemList().getValue(item.getName()),6));
 			System.out.println("");
@@ -142,11 +142,11 @@ public class NpcProductionTest
 			building.setSales(0.0);
 		}
 		
-		settle.doProduce(server, data);
+		settle.doProduce(server, data,1);
 		showRequired(settle);
 		showProduction(settle);
 
-		settle.doProduce(server, data);
+		settle.doProduce(server, data,2);
 		ShowSale(settle);
 		showRequired(settle);
 		showProduction(settle);

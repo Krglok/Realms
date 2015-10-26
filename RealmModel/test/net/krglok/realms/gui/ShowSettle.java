@@ -412,8 +412,8 @@ public class ShowSettle extends JDialog
 //			if (index <100)
 			{
 				dataRows[index][0] = item.getName();
-				dataRows[index][1] = (int)item.getLastValue();
-				dataRows[index][2] = (int)item.getCycleSum();
+				dataRows[index][1] = (int)item.getInputValue();
+				dataRows[index][2] = (int)item.getInputSum();
 				dataRows[index][3] = (int)item.getPeriodSum();
 				dataRows[index][4] = "";
 			}

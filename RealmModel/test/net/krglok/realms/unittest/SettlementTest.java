@@ -217,7 +217,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
 		settle.getWarehouse().getItemList().setValue("WHEAT", 0);
 		double settleKonto = settle.getBank().getKonto();
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 		
 		int expected = 180; // weil Biome Plains
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
@@ -332,7 +332,7 @@ public class SettlementTest
 		System.out.println("Npcs size: "+data.getNpcs().size());
 		for (int i = 0; i < 51; i++)
 		{
-			settle.doProduce(server,data);
+			settle.doProduce(server,data,1);
 			settle.doHappiness(data);
 			dayCount++;
 			if (dayCount == 30)
@@ -613,7 +613,7 @@ public class SettlementTest
 		settle.getBank().initKonto(0.0, settle.getId());
 		settle.setWorkerNeeded();
 		
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 		settle.doHappiness(data);
 
 		settle.getBank().initKonto(0.0, settle.getId());
@@ -622,7 +622,7 @@ public class SettlementTest
 		settle.getResident().setSettlerCount(30);
 		settle.setWorkerNeeded();
 		int freeSettler = settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 		settle.doHappiness(data);
 
 		settle.getBank().initKonto(0.0, settle.getId());
@@ -692,7 +692,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 64);
 		settle.getWarehouse().depositItemValue(Material.WOOD_HOE.name(), 64);
 		
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 		
 		int expected = 96;	// wegen Biome PLAINS 
 		int actual = settle.getWarehouse().getItemList().getValue("WHEAT"); 
@@ -784,7 +784,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.IRON_INGOT.name(), 32);
 		settle.getWarehouse().depositItemValue(Material.LEATHER.name(), 32);
 		
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 //		settle.produce(server);
 //		settle.produce(server);
 //		settle.produce(server);
@@ -882,7 +882,7 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.COAL.name(), 512);
 		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 //		settle.produce(server);
 //		settle.produce(server);
 //		settle.produce(server);
@@ -1006,11 +1006,11 @@ public class SettlementTest
 		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,2);
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,3);
 		
 		int expected = 2;
 		int actual = 0; 
@@ -1142,7 +1142,7 @@ public class SettlementTest
 //		settle.getWarehouse().depositItemValue(Material.IRON_ORE.name(), 512);
 		
 		settle.checkBuildingsEnabled(server);
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
 //		settle.checkBuildingsEnabled(server);
 //		settle.doProduce(server);
 //		settle.checkBuildingsEnabled(server);
@@ -1163,7 +1163,7 @@ public class SettlementTest
 			}
 			for (BoardItem b : settle.getProductionOverview().values())
 			{
-				System.out.println(b.getName()+": "+b.getLastValue()+ " | "+settle.getProductionOverview().getCycleCount()+" | "+b.getCycleSum()+" | "+settle.getProductionOverview().getPeriodCount()+" | "+b.getPeriodSum());
+				System.out.println(b.getName()+": "+b.getInputValue()+ " | "+settle.getProductionOverview().getCycleCount()+" | "+b.getInputSum()+" | "+settle.getProductionOverview().getPeriodCount()+" | "+b.getPeriodSum());
 				
 			}
 		}

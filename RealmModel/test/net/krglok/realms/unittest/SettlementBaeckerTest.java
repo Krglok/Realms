@@ -138,14 +138,14 @@ public class SettlementBaeckerTest
 		settle.getWarehouse().depositItemValue(Material.LEATHER.name(), 50);
 		
        long time1 = System.nanoTime();
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,1);
        long time2 = System.nanoTime();
        System.out.println("Update Time [ms]: "+(time2 - time1)/1000000);
-		settle.doProduce(server,data);
-		settle.doProduce(server,data);
-		settle.doProduce(server,data);
-		settle.doProduce(server,data);
-		settle.doProduce(server,data);
+		settle.doProduce(server,data,2);
+		settle.doProduce(server,data,3);
+		settle.doProduce(server,data,4);
+		settle.doProduce(server,data,5);
+		settle.doProduce(server,data,6);
 		
 		int expected = 2;
 		int actual = settle.getWarehouse().getItemList().getValue(Material.BREAD.name()); 
@@ -175,8 +175,8 @@ public class SettlementBaeckerTest
 			{
 				BoardItem bItem = settle.getProductionOverview().get(ref);
 				System.out.print(ConfigBasis.setStrleft(bItem.getName(),12));
-				System.out.print("|"+ConfigBasis.setStrright(bItem.getLastValue(),9));
-				System.out.print("|"+ConfigBasis.setStrright(bItem.getCycleSum(),9));
+				System.out.print("|"+ConfigBasis.setStrright(bItem.getInputValue(),9));
+				System.out.print("|"+ConfigBasis.setStrright(bItem.getInputSum(),9));
 				System.out.print("|"+ConfigBasis.setStrright(settle.getWarehouse().getItemList().getValue(bItem.getName()),7));
 				System.out.println("");
 			}

@@ -229,6 +229,19 @@ public abstract class AbstractSettle
 		this.buildingList = buildingList;
 	}
 	
+	public int getDayofWeek()
+	{
+		int year = (int) (age / (12 * 30));
+		int restYear = (int) (age - (year * 12 * 30));
+		int month = restYear / 30;
+		int restMonth = restYear - (month * 30);
+		int week = restMonth / 7;
+		int day = restMonth - (week * 7);
+		
+		return day;
+	}
+
+	
 	protected void initSettlement()
 	{
 		warehouse.setItemMax(ConfigBasis.calcItemMax( buildingList, settleType));
@@ -367,38 +380,37 @@ public abstract class AbstractSettle
 						{
 							iValue = (int)((double) product.value() *prodFactor);
 							sale = sale + (building.calcSales(server,product)*iValue);
-//							System.out.println("Prod value" +product.ItemRef()+":"+iValue+" | "+prodFactor+" |"+(building.calcSales(server,product)*iValue));
-							
-//							System.out.println("Prod deposit: "+product.ItemRef()+":"+iValue);
 							warehouse.depositItemValue(product.ItemRef(),iValue);
 							productionOverview.addCycleValue(product.ItemRef(), iValue);
 						}
 						if ((sale - cost) > 0.0)
 						{
 							// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
-							account = (sale-cost); // * (double) iValue / 2;
-//							logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
+							account = (sale-cost); 
 						} else
 						{
+							// berechne Minimal Ertrag
 							account =  1.0 * (double) iValue;
-//							logList.addProductionSale(building.getBuildingType().name(), getId(), building.getId(), account, "CraftManager",getAge());
 						}
-//						System.out.println("Prod account: "+sale+"-"+cost+"="+account);
-						double salary = account / 3.0 * 2.0;
+						// berechnet Ertrag 
+						double salary = account / 2.0; //* 3.0 * 2.0;
+						// Nicht weniger als 1 Kupfer pro Tag
+						if (account < 1.0) { account = 1.0; }
+						// Ertrag , EInkommen des NPC
 						setWorkerSale( building,  salary);
 						account = account - salary;
-						building.addSales(account); //-cost);
-//						if (this.ownerId != building.getOwnerId())
-//						{
-//							Owner bOwner = data.getOwners().getOwner(building.getId());
-//							if (bOwner !=null)
-//							{
-//								bOwner.depositCost(cost);
-//								bOwner.depositSales(account);
-//							}
-//						}
-						bank.depositKonto(account, "ProdSale ", getId());
+						// Ertrag / Einkommen des Building
+						building.addSales(salary);
+						// das Settlement bezahlt die NPC
+						bank.depositKonto(-salary, "ProdSale ", getId());
+
+						// money to Settlement is deleted , because the settlement get the item !
+//						bank.depositKonto(salary/2.0, "ProdSale ", getId());
+//						bank.depositKonto(salary/10.0, "ProdSale ", getId());
+						
+						// material consum get from warehouse
 						consumStock(prodFactor, ingredients);
+
 					} else
 					{
 //						System.out.println("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
@@ -507,8 +519,11 @@ public abstract class AbstractSettle
 		EntertainFactor = calcEntertainment();
 		consumeFood(data); //SettlerFactor);
 		sumDif = EntertainFactor; // + SettlerFactor + FoodFactor;
-		resident.doSettlerCalculation(buildingList,data);
-		this.getResident().setNpcList(data.getNpcs().getSubListSettle(this.id));
+		if (data.getNpcs().size() > 0)
+		{
+			resident.doSettlerCalculation(buildingList,data);
+			this.getResident().setNpcList(data.getNpcs().getSubListSettle(this.id));
+		}
 		for (NpcData unit : barrack.getUnitList())
 		{
 			doConsumUnit(unit, data);
@@ -628,6 +643,7 @@ public abstract class AbstractSettle
 			{
 				return false;
 			}
+			productionOverview.addOutValue(item.ItemRef(), (iValue));
 		}
 		return true;
 	}
@@ -911,7 +927,7 @@ public abstract class AbstractSettle
 			bank.depositKonto(cost, "Food", this.id);
 			warehouse.withdrawItemValue(foodItem, required);
 //			System.out.println(foodItem+":"+required);
-			productionOverview.addCycleValue(foodItem, (required* -1));
+			productionOverview.addOutValue(foodItem, (required));
 //			if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
 //			{
 			npc.foodConsumCounter = npc.foodConsumCounter + (double)required; //((double)resident.getSettlerCount() / 20.0);

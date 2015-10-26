@@ -40,6 +40,8 @@ public class SettleBreedingTest
 	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
 
 	DataStorage data = new DataStorage(dataFolder);
+
+	ServerTest server = new ServerTest(data);
 	
 	private double format2(double value)
 	{
@@ -186,15 +188,17 @@ public class SettleBreedingTest
 			ItemPriceList priceList
 			)
 	{
+		int dayOfWeek = 0;
 		for (int i = 0; i < MaxLoop; i++)
 		{
 			dayCounter++;
+			dayOfWeek = settle.getDayofWeek();
 			settle.setSettlerMax();
 			settle.checkBuildingsEnabled(server);
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.doHappiness(data);
-			settle.doProduce(server,data);
+			settle.doProduce(server,data,dayOfWeek);
 			if (dayCounter == 30)
 			{
 				settle.doCalcTax();
@@ -356,8 +360,8 @@ public class SettleBreedingTest
 		for (BoardItem bItem : settle.getProductionOverview().values())
 		{
 			System.out.print(ConfigBasis.setStrleft(bItem.getName(),16)+" : ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()) ,7)+ " | ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputValue()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getPeriodSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(bItem.getName()) ) ,7)+ " | ");
 			System.out.print("");
@@ -370,6 +374,8 @@ public class SettleBreedingTest
 	@Test
 	public void testSettlementBreed()
 	{
+		data.initData();
+		
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		LogList logTest = new LogList(path);
 //		DataTest testData = new DataTest();

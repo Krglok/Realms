@@ -63,8 +63,8 @@ public class RealmModelLehenTest {
 		{
 			BoardItem bItem = settle.getProductionOverview().get(ref);
 			String name = ConfigBasis.setStrleft(bItem.getName()+"__________", 12);
-			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getLastValue()), 9);
-			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getCycleSum()), 9);
+			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getInputValue()), 9);
+			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getInputSum()), 9);
 			String period = ConfigBasis.setStrright(String.valueOf((int)  settle.getWarehouse().getItemList().getValue(bItem.getName())), 6);
 			msg.add(name +"|"+last+"|"+cycle+"|"+period+"|");
 		}

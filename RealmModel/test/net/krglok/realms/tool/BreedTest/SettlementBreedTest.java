@@ -223,7 +223,7 @@ public class SettlementBreedTest
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
 			settle.doHappiness(data);
-			settle.doProduce(server,data);
+			settle.doProduce(server,data,1);
 			if ((dayCounter % 30) == 0)
 			{
 				settle.doCalcTax();
@@ -324,8 +324,8 @@ public class SettlementBreedTest
 		for (BoardItem bItem : settle.getProductionOverview().values())
 		{
 			System.out.print(ConfigBasis.setStrleft(bItem.getName(),16)+" : ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getLastValue()) ,7)+ " | ");
-			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getCycleSum()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputValue()) ,7)+ " | ");
+			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getInputSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(bItem.getPeriodSum()) ,7)+ " | ");
 			System.out.print(ConfigBasis.setStrright(String.valueOf(settle.getWarehouse().getItemList().getValue(bItem.getName()) ) ,7)+ " | ");
 			System.out.print("");
