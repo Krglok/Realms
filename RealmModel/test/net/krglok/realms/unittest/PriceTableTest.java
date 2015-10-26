@@ -4,11 +4,16 @@ import static org.junit.Assert.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.DataStorePrice;
 import net.krglok.realms.data.PriceTable;
 import net.krglok.realms.data.SQliteConnection;
@@ -18,57 +23,111 @@ import org.junit.Test;
 
 public class PriceTableTest
 {
+	private ArrayList<String> printPricelist(DataStorage data)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add("============================");
+		msg.add("Pricelist for Realms 0.9.5.3");
+		for (String key : data.getPriceList().sortItems())
+		{
+			String s = ConfigBasis.setStrleft(key,14);
+			s = s + ":"+ConfigBasis.setStrformat2(data.getPriceList().getBasePrice(key),8);
+			msg.add(s);
+		}
+		return msg;
+	}
 
+	
+	private ArrayList<String> printBuildinglist(ServerTest server)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add("============================");
+		msg.add("Productionlist Realms 0.9.5.3");
+		String s = ConfigBasis.setStrleft("Name",15)
+		+"|"+ConfigBasis.setStrright("ID", 3)
+		+ "|"+ConfigBasis.setStrleft("Product",12)
+		+ "|"+ConfigBasis.setStrleft("Anz",3)
+		+"|"+ConfigBasis.setStrleft("Price",7)
+		+"|"+ConfigBasis.setStrleft("Umsatz",7)
+		+"|"+ConfigBasis.setStrleft("Kosten",7)
+		+"|"+ConfigBasis.setStrleft("Ertrag",7)
+		+"|"+ConfigBasis.setStrleft("   Npc",7);
+		msg.add(s);
+		for (BuildPlanType bType : BuildPlanType.values())
+		{
+			if ((BuildPlanType.getBuildGroup(bType) == 200 )
+				&& (bType.getValue() != 231)
+				&& (bType.getValue() != 232)
+				&& (bType.getValue() != 233)
+				&& (bType.getValue() != 234)
+				&& (bType.getValue() != 236)
+				&& (bType.getValue() != 239)
+				)
+			{
+				s = ConfigBasis.setStrleft(bType.name(),15)
+						+"|"+ConfigBasis.setStrright(bType.getValue(), 3);
+				ItemList output = server.getRegionOutput(bType.name());
+				ItemList input = server.getRegionUpkeep(bType.name());
+				if (output.size() > 0)
+				{
+					// hole das ItemRef des ersten OutputItem
+					String refItem = output.values().iterator().next().ItemRef();
+					// berechne Maetrialksoten
+					double cost = server.getRecipePrice(refItem, input);
+					// berechne Materialkostenanteil pro Item der Outputlist
+					cost = cost / output.size();
+					//erstelle Output liste 
+					for (Item item : output.values())
+					{
+						double umsatz = server.data.getPriceList().getBasePrice(item.ItemRef())*item.value();
+						String sOut = s 
+								+ "|"+ConfigBasis.setStrleft(item.ItemRef(),12)
+								+ "|"+ConfigBasis.setStrright(item.value(),3);
+						sOut = sOut
+							+"|"+ConfigBasis.setStrformat2(server.data.getPriceList().getBasePrice(item.ItemRef()),7)
+							+"|"+ConfigBasis.setStrformat2(umsatz,7)
+							+"|"+ConfigBasis.setStrformat2(cost,7)
+							+"|"+ConfigBasis.setStrformat2(umsatz - cost,7)
+							+"|"+ConfigBasis.setStrformat2((umsatz - cost)/2,7);
+						msg.add(sOut);
+					}
+				}
+			}
+		}
+		return msg;
+	}
+	
+	
+	/**
+	 * Ausgabe einer Stringliste zur Console
+	 * Die String mueessen bereits formatiert sein
+	 * 
+	 * @param msg
+	 */
+	public void printConsole(ArrayList<String> msg)
+	{
+		for (int i = 0; i < msg.size(); i++)
+		{
+			System.out.println(msg.get(i));
+		}
+	}
+	
 	@Test
 	public void test()
 	{
-	       String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
-	       String basekey = "BASEPRICE";
-	       String fileName = "pricetest";
-	       Logger logger = Logger.getAnonymousLogger();
-//			SQLite(Logger logger, String prefix, String directory, String filename) 
-	       DataStorePrice dPrice = new DataStorePrice(path, fileName, basekey, true); 
-			
-	       ItemPriceList items = new ItemPriceList();
-	       for (Material mat : Material.values())
-	       {
-	    	   if (mat.name().contains("IRON"))
-	    	   {
-					items.add(mat.name(), 1.0);
-	    	   }
-	       }
-	       items.add("WHEAT", 0.30);
-	       items.add("LOG", 0.5);
-	       items.add("COBBLESTONE", 0.5);
-	       items.add("SAND", 0.5);
-	       items.add("STONE", 1.7);
-	       items.add("IRON_INGOT", 56.0);
-	       items.add("GOLD_INGOT", 400.0);
-	       items.add("WOOD", 0.1666);
-	       items.add("STICK", 0.0555);
-	       items.add("WOOD_AXE", 1.25);
-	       items.add("WOOD_PICKAXE", 1.25);
-	       items.add("WOOD_HOE", 1.00);
-	       items.add("WOOD_SWORD", 0.6);
-	       items.add("BREAD", 1.0);
-	       items.add("COAL", 3.0);
-	       items.add("IRON_ORE", 15.0);
-	       items.add("IRON_SWORD", 235.0);
-	       dPrice.writeData(items, "");
-
-	       items.clear();
-	       dPrice.readDataList();
-	       items = dPrice.readData("");
-		   System.out.print(ConfigBasis.setStrleft("ItenName",13));
-		   System.out.print(":"+ConfigBasis.setStrright("Value",5));
-		   System.out.println();
-		   for (ItemPrice item : items.values())
-		   {
-    		   System.out.print(ConfigBasis.setStrleft(item.ItemRef(),13));
-    		   System.out.print(":"+ConfigBasis.setStrright(item.getBasePrice(),7));
-    		   System.out.println();
-		   }
-	       System.out.print("ENDE");
+		Logger logger = Logger.getAnonymousLogger();
+		String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+		DataStorage data = new DataStorage(dataFolder);
+		data.initData();
+		ServerTest server = new ServerTest(data);
+		
+		ArrayList<String> msg = new ArrayList<String>();
+		msg = printPricelist(data);
+		printConsole(msg);
+		msg = printBuildinglist(server);
+		printConsole(msg);
+		
+		System.out.print("ENDE");
 	}
 
 }
