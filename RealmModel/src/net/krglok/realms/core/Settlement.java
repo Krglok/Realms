@@ -463,7 +463,10 @@ public class Settlement extends AbstractSettle //implements Serializable
 	}
 	
 	
-	
+	/**
+	 * Initialisiert die globale Treasure List
+	 * Achtung: Die Liste ist nicht vom Biome abhaengig
+	 */
 	public void initTreasureList()
 	{
 		treasureList.clear();
@@ -814,36 +817,23 @@ public class Settlement extends AbstractSettle //implements Serializable
 		addTreasure2List(server, biome, Material.GOLD_ORE );
 	}
 
-	
+	/**
+	 * Ermittelt das gefundeneItem bei einer Schatzsuche fuer Bettler
+	 * 
+	 * @return  String, Materialname des gefundenen Item
+	 */
 	private String getFoundItem()
 	{
 		int Dice = treasureList.size()-1;
 		int wuerfel = (int) (Math.random()*Dice+1);
 		return treasureList.get(wuerfel).ItemRef();
-//		switch (wuerfel)
-//		{
-//		case 1 : return Material.WOOD.name();
-//		case 2 : return Material.STICK.name();
-//		case 3 : return Material.IRON_ORE.name();
-//		case 4 : return Material.IRON_INGOT.name();
-//		case 5 : return Material.LOG.name();
-//		case 6 : return Material.SEEDS.name();
-//		case 7 : return Material.WOOD.name();
-//		case 8 : return Material.DIRT.name();
-//		case 9 : return Material.SEEDS.name();
-//		case 10 : return Material.CARROT.name();
-//		case 11 : return Material.BREAD.name();
-//		case 12 : return Material.WATER.name();
-//		case 13 : return Material.WOOL.name();
-//		case 14 : return Material.EMERALD.name();
-//		case 15 : return Material.DIRT.name();
-//		case 16 : return Material.SAND.name();
-//		case 20 : return Material.GOLD_NUGGET.name();
-//		default :
-//			return Material.AIR.name();
-//		}
 	}
 	
+	/**
+	 * Wuerfelt fuer einen NPC ob er ein Schatzitem findet.
+	 * @param server
+	 * @param npc
+	 */
 	private void getTreasue(ServerInterface server, NpcData npc)
 	{
 		int Dice = 100;
@@ -851,7 +841,10 @@ public class Settlement extends AbstractSettle //implements Serializable
 		String foundItem = "";
 
 		wuerfel = (int) (Math.random()*Dice+1);
-		if (wuerfel < 8)
+//		if (wuerfel < 8)
+		//  Wahrscheinlichkeit stark erhoeht um verhungern zu verhindern
+		//  wenn zuwenig Arbeit da ist.
+		if (wuerfel < 75)
 		{
 			foundItem = getFoundItem();
 			if (foundItem != Material.AIR.name())
