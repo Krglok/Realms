@@ -3,7 +3,7 @@ package net.krglok.realms.science;
 
 /**
  * Der Name ist absichtlicht falsch geschrieben damit eine relevance zu den MC achievements besteht 
- * aber doch ein Unterschied besteht, der klar macht, dass dies ICHT die gleichen ojeekte sind.
+ * aber doch ein Unterschied besteht, der klar macht, dass dies NICHT die gleichen ojeekte sind.
  *    
  * @author Windu
  *

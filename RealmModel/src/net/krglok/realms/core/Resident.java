@@ -513,7 +513,12 @@ public class Resident
 	 */
 	private void doLifeCycle(BuildingList buildings, DataInterface data)
 	{
-		for (NpcData npc : npcList.values())
+		NpcList lifeList = new NpcList();
+		for (NpcData npc : this.npcList.values())
+		{
+			lifeList.add(npc);
+		}
+		for (NpcData npc : lifeList.values())
 		{
 			if (npc.isAlive())
 			{
