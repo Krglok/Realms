@@ -97,6 +97,7 @@ public class DataStorage implements DataInterface
 	private DataStoreCampPos campDataStore;
 
 	Boolean isReady = false;
+//	Boolean isNpcReady = false;
 	
 	private String path;
 //	private Realms plugin;
@@ -179,6 +180,16 @@ public class DataStorage implements DataInterface
 		return isReady;
 	}
 	
+//	public Boolean IsNpcReady()
+//	{
+//		return isNpcReady;
+//	}
+//
+//	public void setIsNpcReady(Boolean isNpcReady)
+//	{
+//		this.isNpcReady = isNpcReady;
+//	}
+
 	/**
 	 * write pricelist to datafile
 	 * 
@@ -769,6 +780,7 @@ public class DataStorage implements DataInterface
 			if (npcs.isEmpty() == false)
 			{
 				lehen.getResident().setNpcList(this.getNpcs().getSubListLehen(lehen.getId()));
+//				System.out.println("Lehen "+lehen.getId()+"  resident: "+lehen.getResident().getNpcList().size());
 //				lehen.getBarrack().setUnitList(this.getNpcs().getSubListUnits(lehen.getId()));
 			}
 
@@ -1122,7 +1134,14 @@ public class DataStorage implements DataInterface
 	}
 	
 	
-	
+	/**
+	 * create a complete family for a urban settlement home
+	 * This methode is for creating new urban settlement uesd
+	 * 
+	 * @param building
+	 * @param npcNameList
+	 * @param maxChild
+	 */
 	public void makeFamily(Building building, NpcNamen npcNameList, int maxChild)
 	{
 		int max = ConfigBasis.getDefaultSettler(building.getBuildingType());
@@ -1197,6 +1216,13 @@ public class DataStorage implements DataInterface
 		}
 	}
 	
+	/**
+	 * create the 5 Managers for a urban Settlement.
+	 * This methode is for creating new urban settlement uesd
+	 * 
+	 * @param building
+	 * @param npcNameList
+	 */
 	public void makeManager(Building building, NpcNamen npcNameList)
 	{
 		int max = 5;
@@ -1249,6 +1275,51 @@ public class DataStorage implements DataInterface
 		mother.setHomeBuilding(building.getId());
 		this.getNpcs().add(mother);
 		this.writeNpc(mother);
+		
+	}
+
+	/**
+	 * create a noble family with the given nobleLevel.
+	 * No children are generated
+	 * create a noble Commoner as a servant
+	 * This methode is for creating new Lehen uesd
+	 * 
+	 * @param building
+	 * @param npcNameList
+	 * @param nobleLevel
+	 */
+	public void makeNobleFamily(Building building, NpcNamen npcNameList, NobleLevel nobleLevel )
+	{
+//		int max = ConfigBasis.getDefaultSettler(building.getBuildingType());
+		NpcData father = makeFather(npcNameList);
+		father.setLehenId(building.getLehenId());
+		father.setHomeBuilding(building.getId());
+		father.setNpcAction(NpcAction.NONE);
+		father.setNpcType(NPCType.NOBLE);
+		father.setNoble(nobleLevel);
+		father.setMoney(1000.0);
+		this.getNpcs().add(father);
+		NpcData mother = makeMother(npcNameList);
+		mother.setLehenId(building.getLehenId());
+		mother.setHomeBuilding(building.getId());
+		mother.setNpcType(NPCType.NOBLE);
+		mother.setNoble(nobleLevel);
+		mother.setNpcAction(NpcAction.NONE);
+		mother.setMoney(1000.0);
+
+		makePair(father, mother);
+		this.getNpcs().add(mother);
+		this.writeNpc(father);
+		this.writeNpc(mother);
+		
+		NpcData servant = makeFather(npcNameList);
+		servant.setGender(NpcData.findGender());
+		servant.setName(npcNameList.findName(servant.getGender()));
+		servant.setNpcType(NPCType.SETTLER);
+		// the nobleLevel always COMMONER
+		servant.setNoble(NobleLevel.COMMONER);
+		servant.setMoney(10.0);
+		this.getNpcs().add(servant);
 		
 	}
 	

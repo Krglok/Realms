@@ -8,7 +8,11 @@ import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdSettleProduction extends RealmsCommand
 {
@@ -78,6 +82,7 @@ public class CmdSettleProduction extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
+		ArrayList<String> msg1 = new ArrayList<String>();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
 		msg.add("Item              |    Day  |    Month |  Store ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().getPeriodCount()+"]");
@@ -89,6 +94,20 @@ public class CmdSettleProduction extends RealmsCommand
 			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getInputSum()), 9);
 			String period = ConfigBasis.setStrright(String.valueOf((int)  plugin.getRealmModel().getSettlements().getSettlement(settleId).getWarehouse().getItemList().getValue(bItem.getName())), 6);
 			msg.add(name +"|"+last+"|"+cycle+"|"+period+"|");
+			msg1.add(name+last+period);
+		}
+    	if (sender instanceof Player)
+		{
+    		Player player = ((Player) sender);
+        	PlayerInventory inventory = player.getInventory();
+        	ItemStack holdItem = player.getItemInHand();
+        	if (holdItem.getData().getItemType() != Material.BOOK_AND_QUILL)
+        	{
+    		 holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+        	}
+			writeBook(holdItem, msg1, plugin.getRealmModel().getSettlements().getSettlement(settleId).getName(),"Production");
+//			inventory.addItem(holdItem);
+			((Player) sender).updateInventory();
 		}
 		msg.add("");
 		page = plugin.getMessageData().printPage(sender, msg, page);

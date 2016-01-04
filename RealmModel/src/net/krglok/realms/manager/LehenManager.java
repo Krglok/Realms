@@ -39,6 +39,7 @@ public class LehenManager
     public void run(RealmModel rModel, Lehen lehen)
     {
 	    //  not on each tick 
+    	
     	if(delayRoutes > ROUTEDELAY)
 	    {
 	      if(needResources(lehen))

@@ -204,7 +204,7 @@ public class SettlementTrainTest
 			settle.checkBuildingsEnabled(server);
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-			settle.doHappiness(data);
+			settle.doResident(data);
 			settle.doProduce(server,data,1);
 			settle.doUnitTrain(unitFactory);
 			if (dayCounter == 30)

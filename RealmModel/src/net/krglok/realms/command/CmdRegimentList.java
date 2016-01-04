@@ -5,11 +5,16 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
+import net.krglok.realms.data.BookStringList;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdRegimentList extends RealmsCommand
 {
@@ -71,6 +76,7 @@ public class CmdRegimentList extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
+		BookStringList msg1 = new BookStringList();
 		RegimentList  rList = plugin.getRealmModel().getRegiments();
 	    if (rList.size() > 0)
 	    {
@@ -81,7 +87,11 @@ public class CmdRegimentList extends RealmsCommand
 	    				+" : "+ChatColor.YELLOW+regiment.getName()
 	    				+" : "+ChatColor.GOLD+regiment.getRegStatus().name()
 	    				+" Owner: "+regiment.getOwner()
-	    				+" in "+regiment.getPosition().getWorld());
+	    				+" in "+regiment.getPosition().getWorld()
+	    				);
+	    		msg1.add(regiment.getId()
+	    				+" : "+regiment.getName()
+	    				);
 		    }
 	    } else
 	    {
@@ -89,6 +99,20 @@ public class CmdRegimentList extends RealmsCommand
 	    	msg.add("/regiment LIST [page] ");
 	    	msg.add("NO regiments found !!");
 	    }
+    	if (sender instanceof Player)
+		{
+    		Player player = ((Player) sender);
+        	PlayerInventory inventory = player.getInventory();
+        	ItemStack holdItem = player.getItemInHand();
+        	if (holdItem.getData().getItemType() != Material.WRITTEN_BOOK)
+        	{
+    		 holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+        	}
+			writeBook(holdItem, msg1, "Realms","Regimentlist");
+			inventory.addItem(holdItem);
+			((Player) sender).updateInventory();
+		}
+	    
 		plugin.getMessageData().printPage(sender, msg, page);
 
 	}

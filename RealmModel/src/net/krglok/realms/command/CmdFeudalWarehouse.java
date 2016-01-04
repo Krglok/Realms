@@ -6,6 +6,7 @@ import net.krglok.realms.Realms;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Owner;
+import net.krglok.realms.data.BookStringList;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.Lehen;
 
@@ -84,33 +85,40 @@ public class CmdFeudalWarehouse extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		ArrayList<String> msg = new ArrayList<String>();
+//		ArrayList<String> msg = new ArrayList<String>();
+		BookStringList msg = new BookStringList();
 		Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
 	    if (lehen != null)
 	    {
-			msg.add("["+lehen.getId()+"] : "+lehen.getName()+"\n");
+			msg.add("["+lehen.getId()+"] : "+lehen.getName());
 			
-			msg.add("Store [ "+lehen.getWarehouse().getUsedCapacity() +" ]/["+lehen.getWarehouse().getFreeCapacity()+"]"+"\n");
+			msg.add("Store [ "+lehen.getWarehouse().getUsedCapacity() +" ]/["+lehen.getWarehouse().getFreeCapacity()+"] ");
+			
 		    for (String itemref : lehen.getWarehouse().sortItems())
 		    {
 		    	Item item = lehen.getWarehouse().getItemList().get(itemref);
 		    	if (item.value() > 0)
 		    	{
-		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",12)+":"+ConfigBasis.setStrright(item.value(),5)+"\n");
+		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",12)+":"+ConfigBasis.setStrright(item.value(),5));
 		    	}
 		    }
-			msg.add(ChatColor.ITALIC+"Required Items : "+lehen.getrequiredItems().size());
+			msg.add("Required Items : "+lehen.getrequiredItems().size());
 			for (String itemRef : lehen.getrequiredItems().keySet())
 			{
 				Item item = lehen.getrequiredItems().getItem(itemRef);
-				msg.add(ChatColor.ITALIC+" -"+item.ItemRef()+" : "+item.value());
+				msg.add(" -"+item.ItemRef()+" : "+item.value());
 			}
 	    	if (sender instanceof Player)
 			{
-	        	PlayerInventory inventory = ((Player) sender).getInventory();
-	    		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-				writeBook(book, msg, lehen.getName(),"Warehouse");
-				inventory.addItem(book);
+	    		Player player = ((Player) sender);
+	        	PlayerInventory inventory = player.getInventory();
+	        	ItemStack holdItem = player.getItemInHand();
+	        	if (holdItem.getData().getItemType() != Material.WRITTEN_BOOK)
+	        	{
+	        		holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+	        		inventory.addItem(holdItem);
+	        	}
+				writeBook(holdItem, msg, lehen.getName(),"Warehouse");
     			((Player) sender).updateInventory();
 			}
 	    }

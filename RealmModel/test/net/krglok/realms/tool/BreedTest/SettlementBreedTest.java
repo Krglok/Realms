@@ -222,7 +222,7 @@ public class SettlementBreedTest
 			settle.checkBuildingsEnabled(server);
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-			settle.doHappiness(data);
+			settle.doResident(data);
 			settle.doProduce(server,data,1);
 			if ((dayCounter % 30) == 0)
 			{

@@ -139,39 +139,6 @@ public class Settlement extends AbstractSettle //implements Serializable
 		setSignList(new SignPosList());
 	}
 	
-//	/**
-//	 * instances settlement with
-//	 * - with sequential ID
-//	 * - owner
-//	 * 
-//	 * @param Owner
-//	 */
-//	public Settlement(int ownerId, LocationData position) //, LogList logList)
-//	{
-//		COUNTER++;
-//		id			= COUNTER;
-//		age         = 0;
-//		settleType 	= SettleType.NONE;
-////		name		= NEW_SETTLEMENT;
-//		this.position 	= position;
-//		this.ownerId = ownerId;
-//		isCapital	= false;
-//		townhall	= new Townhall();
-//		sales = 0.0;
-//		taxSum = 0.0;
-//		requiredProduction = new ItemList();
-//		setBuildingTax(BASE_TAX_FACTOR);
-//		productionOverview = new BoardItemList();
-//		taxOverview = new BoardItemList();
-//		trader = new Trader();
-//		setBiome(Biome.SKY);
-//		buildManager = new BuildManager();
-//		mapManager  = new MapManager(settleType,70,true);
-//		tradeManager = new TradeManager ();
-//		settleManager = new SettleManager ();
-//		treasureList =  new ArrayList<Item>();
-//		setSignList(new SignPosList());
-//}
 
 	/**
 	 * instances settlement with
@@ -1296,6 +1263,11 @@ public class Settlement extends AbstractSettle //implements Serializable
 		{
 //			System.out.println("No NPC");
 		}
+	}
+	
+	public void doResident(DataInterface data)
+	{
+		this.doHappiness(data);
 	}
 	
 	/**

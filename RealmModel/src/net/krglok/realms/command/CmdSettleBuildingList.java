@@ -10,7 +10,11 @@ import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdSettleBuildingList extends RealmsCommand
 {
@@ -94,7 +98,20 @@ public class CmdSettleBuildingList extends RealmsCommand
 //			String product = "";
 			msg.add(name +"|"+settler+" |");
 		}
-		
+    	if (sender instanceof Player)
+		{
+    		Player player = ((Player) sender);
+        	PlayerInventory inventory = player.getInventory();
+        	ItemStack holdItem = player.getItemInHand();
+        	if (holdItem.getData().getItemType() != Material.BOOK_AND_QUILL)
+        	{
+    		 holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+        	}
+			writeBook(holdItem, msg, plugin.getRealmModel().getSettlements().getSettlement(settleId).getName(),"Warehouse");
+			inventory.addItem(holdItem);
+			((Player) sender).updateInventory();
+		}
+
 		msg.add(ChatColor.YELLOW+"BuildManager : ");
 		String sBuilding = "";
 		String status = "";
@@ -109,8 +126,8 @@ public class CmdSettleBuildingList extends RealmsCommand
 		}
 		msg.add(sBuilding +"|"+status+" |");
 		
-		msg.add("Cmd          |Position        |");
 		msg.add(ChatColor.YELLOW+"Build command in queue : ");
+		msg.add("Cmd          |Position        |");
 		for (McmdBuilder buildOrder : plugin.getRealmModel().getSettlements().getSettlement(settleId).settleManager().getCmdBuilder())
 		{
 			String name = ConfigBasis.setStrleft(buildOrder.getbType().name(), 15);

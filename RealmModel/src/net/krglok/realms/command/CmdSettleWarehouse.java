@@ -6,6 +6,7 @@ import net.krglok.realms.Realms;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.BookStringList;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
@@ -82,7 +83,7 @@ public class CmdSettleWarehouse extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		ArrayList<String> msg = new ArrayList<String>();
+		BookStringList msg = new BookStringList();
 	    Settlement  settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 	    if (settle != null)
 	    {
@@ -99,10 +100,15 @@ public class CmdSettleWarehouse extends RealmsCommand
 		    }
 	    	if (sender instanceof Player)
 			{
-	        	PlayerInventory inventory = ((Player) sender).getInventory();
-	    		ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
-				writeBook(book, msg, settle.getName(),"Warehouse");
-				inventory.addItem(book);
+	    		Player player = ((Player) sender);
+	        	PlayerInventory inventory = player.getInventory();
+	        	ItemStack holdItem = player.getItemInHand();
+	        	if (holdItem.getData().getItemType() != Material.WRITTEN_BOOK)
+	        	{
+	        		holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+					inventory.addItem(holdItem);
+	        	}
+				writeBook(holdItem, msg, settle.getName(),"Warehouse");
     			((Player) sender).updateInventory();
 			}
 	    }

@@ -187,6 +187,7 @@ public class NobleTask implements Runnable
 	    			lastPos = getNextPos();
 	    			position = plugin.makeLocationData(b.getRelative(lastPos).getLocation());
 	    			position.setZ(position.getZ()+1);
+	    			position.setX(position.getX()+1);
 	
 					try
 					{

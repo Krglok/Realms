@@ -294,12 +294,23 @@ public class RealmModel
 	}
 
 
+	/**
+	 * activate the model run by set ModelStatus = MODEL_ENABLED
+	 * check for 
+	 * - isInit
+	 * - isNpcReady
+	 * 
+	 */
 	public void OnEnable()
 	{
 		switch (modelStatus)
 		{
 		case MODEL_DISABLED :
-			if (initModel())
+			if (this.isInit == false)
+			{
+				initModel();
+			}
+			if (this.isInit == true)
 			{
 				this.modelStatus = ModelStatus.MODEL_ENABLED;
 			}
@@ -865,7 +876,7 @@ public class RealmModel
 			messageData.log("Building enable");
 			settle.setWorkerNeeded();
 			messageData.log("worker needed");
-			settle.doHappiness(data);
+			settle.doResident(data);
 			messageData.log("happiness");
 			settle.doProduce(server, data, this.dayOfWeek);
 			messageData.log("produce");
@@ -881,9 +892,9 @@ public class RealmModel
 		if (lehenProductionQueue.isEmpty() == false)
 		{
 			Lehen lehen = lehenProductionQueue.get(0);
-			System.out.println("[REALMS] lehen production:"+lSize+":"+lehen.getName()+lehen.getId()+":"+lehen.getSupportId());
+			System.out.println("[REALMS] lehen produce:"+lehen.getName()+":"+lehen.getId()+" Settle:"+lehen.getSupportId()+" day"+this.dayOfWeek);
 			lehen.doProduce(server, data, this.dayOfWeek);
-			lehen.doHappiness(data);
+			lehen.doResident(data);
 			messageData.log("Lehen happiness");
 			data.writeLehen(lehen);
 			lehenProductionQueue.remove(0);

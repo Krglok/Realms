@@ -7,12 +7,17 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.data.BookStringList;
 import net.krglok.realms.kingdom.Kingdom;
 import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.npc.GenderType;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdFeudalInfo extends RealmsCommand
 {
@@ -25,7 +30,9 @@ public class CmdFeudalInfo extends RealmsCommand
 		super(RealmsCommandType.FEUDAL, RealmsSubCommandType.INFO);
 		description = new String[] {
 				ChatColor.YELLOW+"/feudal INFO [lehenId] [page]  ",
-		    	"List Lehen data  ",
+				"Show a overview Information of the Lehen",
+		    	"Resident, Units, Bankaccount",
+		    	"Happines, Fertility and Foodstorage",
 		    	"and the vasale references",
 		    	" "
 			};
@@ -77,58 +84,88 @@ public class CmdFeudalInfo extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		ArrayList<String> msg = new ArrayList<String>();
+		BookStringList msg = new BookStringList();
 		Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
 		Lehen parent = plugin.getData().getLehen().getLehen(lehen.getParentId());
 		Kingdom kingdom = plugin.getData().getKingdoms().getKingdom(lehen.getKingdomId());
-		msg.add(ChatColor.GREEN+"Lehen "+ChatColor.YELLOW+lehen.getId()+" : "+lehen.getName()+ChatColor.GREEN+" Kingdom "+ChatColor.YELLOW+kingdom.getId()+" : "+kingdom.getName());
-		msg.add(ChatColor.GREEN+"Your Title is "+ChatColor.DARK_PURPLE+lehen.getNobleLevel()+" ");
-		msg.add(ChatColor.GREEN+"Your bank is "+ChatColor.YELLOW+ConfigBasis.setStrformat2(lehen.getBank().getKonto(),11));
+		// create list
+		msg.add("Lehen "+lehen.getId());
+		msg.add(" "+lehen.getName());
+		msg.add("Kingdom "+kingdom.getId());
+		msg.add(" "+kingdom.getName());
+		msg.add("Title "+lehen.getNobleLevel());
 		
 		if (parent != null)
 		{
-			msg.add(ChatColor.GREEN+"Your Lord is "+ChatColor.YELLOW+parent.getOwner().getNobleLevel()+" "+parent.getOwner().getPlayerName()+" from "+parent.getName());
+			msg.add("Landlord "+parent.getOwner().getNobleLevel());
+			msg.add(" "+parent.getOwner().getPlayerName());
+			msg.add(" from "+parent.getName());
 		}
-		msg.add(ChatColor.GREEN+"Your Building are :");
-		for (Building building : lehen.getBuildingList().values())
-		{
-    		msg.add(ChatColor.YELLOW+"+"+building.getId()
-    				+" | "+ChatColor.YELLOW+building.getBuildingType()
-    				+" | "+ChatColor.GOLD+building.getSettler()
-    				+" Train: "+building.getTrainType()
-    				);
-		}
+		msg.add("Beds : "+lehen.getSettlerMax());
+		msg.add("Settlers : "+lehen.getResident().getSettlerCount());
+		msg.add("Happiness: "+(int) (lehen.getResident().getHappiness()));
+		int breed = lehen.getResident().getNpcList().getSchwanger().size();
+		int breedBase = lehen.getResident().getNpcList().getGender(GenderType.WOMAN).size();
+		int child = lehen.getResident().getNpcList().getChild().size();
+		msg.add("Fertility: "+breed+"/"+breedBase+" child: "+child);
+		msg.add("Barrack : "+(lehen.getBarrack().getUnitList().size())+"/"+lehen.getBarrack().getUnitMax());
+		msg.add("Bank  : "+((int) lehen.getBank().getKonto()));
+//		msg.add("Power     : "+lehen.getPower());
+
+		msg.add("Buildings : ["+lehen.getBuildingList().size()+"]");
+//		for (Building building : lehen.getBuildingList().values())
+//		{
+//    		msg.add(ChatColor.YELLOW+"+"+building.getId()
+//    				+" | "+ChatColor.YELLOW+building.getBuildingType()
+//    				+" | "+ChatColor.GOLD+building.getSettler()
+//    				+" Train: "+building.getTrainType()
+//    				);
+//		}
 		
-		msg.add(ChatColor.GREEN+"Your settlement are :");
+		msg.add("Your tributs are");
 	    for (Settlement settle : plugin.getData().getSettlements().values())
 	    {
 	    	
 	    	if (settle.getTributId() == lehenId)
 	    	{
-	    		msg.add(ChatColor.YELLOW+"+"+settle.getId()
-	    				+" | "+ChatColor.YELLOW+settle.getName()
-	    				+" | "+ChatColor.GOLD+settle.getSettleType().name()
-	    				+" Owner: "+settle.getOwnerId()
-	    				+" in "+settle.getPosition().getWorld());
+	    		msg.add("+"+settle.getId()
+	    				+" | "+settle.getName()
+//	    				+" | "+settle.getSettleType().name()
+//	    				+" Owner: "+settle.getOwnerId()
+//	    				+" in "+settle.getPosition().getWorld()
+	    				);
 	    	}
 	    }
 
-		msg.add(ChatColor.GREEN+"Your liege are :");
+		msg.add("Your liege are :");
 		for (Lehen vasal : plugin.getData().getLehen().values())
 		{
 			if (vasal.getParentId() == lehen.getId())
 			{
-	    		msg.add(ChatColor.YELLOW+" "+vasal.getId()
-	    				+" | "+ChatColor.YELLOW+vasal.getName()
-	    				+" | "+ChatColor.DARK_PURPLE+vasal.getNobleLevel()
-	    				+" | "+ChatColor.YELLOW+vasal.getOwnerId()
-	    				+" | "+ChatColor.GOLD+vasal.getKingdomId()
+	    		msg.add(" "+vasal.getId()
+	    				+" | "+vasal.getName()
+	    				+" | "+vasal.getNobleLevel()
+//	    				+" | "+vasal.getOwnerId()
+//	    				+" | "+vasal.getKingdomId()
 	    				);
 			}
 		}
 		
 		
 		msg.add(" ");
+    	if (sender instanceof Player)
+		{
+    		Player player = ((Player) sender);
+        	PlayerInventory inventory = player.getInventory();
+        	ItemStack holdItem = player.getItemInHand();
+        	if (holdItem.getData().getItemType() != Material.WRITTEN_BOOK)
+        	{
+        		holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+   				inventory.addItem(holdItem);
+        	}
+			writeBook(holdItem, msg, lehen.getName(),"Lehen Info");
+			((Player) sender).updateInventory();
+		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);
 

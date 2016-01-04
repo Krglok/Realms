@@ -197,7 +197,7 @@ public class SettleBreedingTest
 			settle.checkBuildingsEnabled(server);
 			settle.setWorkerNeeded();
 			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-			settle.doHappiness(data);
+			settle.doResident(data);
 			settle.doProduce(server,data,dayOfWeek);
 			if (dayCounter == 30)
 			{

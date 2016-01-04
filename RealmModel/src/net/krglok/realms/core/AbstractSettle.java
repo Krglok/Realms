@@ -456,7 +456,7 @@ public abstract class AbstractSettle
 						prodFactor  = 1.0;
 						if (checkStock(prodFactor, ingredients))
 						{
-							System.out.println("Traning Start for Rookie settle :"+id+":"+recrute.getId());
+							System.out.println(this.settleType+"Traning Start for Rookie settle :"+id+":"+recrute.getId());
 							// ausrüstung abbuchen
 							consumStock(prodFactor, ingredients);
 							// Siedler aus vorrat nehmen
@@ -474,11 +474,11 @@ public abstract class AbstractSettle
 							data.writeBuilding(building);
 						} else
 						{
-							System.out.println("No Traning Start due to Stock");
+							System.out.println(this.settleType+"No Traning Start due to Stock");
 						}
 					} else
 					{
-						System.out.println("No Traning Start, missing Rookie :"+id+":"+building.getId());
+						System.out.println(this.settleType+" No Traning Start, missing Rookie :"+id+":"+building.getId());
 					}
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 				} else
@@ -512,17 +512,20 @@ public abstract class AbstractSettle
 	 * 
 	 * @param data
 	 */
-	public void doHappiness(DataInterface data)
+	protected void doHappiness(DataInterface data)
 	{
 		double EntertainFactor = 0.0;
 		double sumDif = 0.0;
 		EntertainFactor = calcEntertainment();
 		consumeFood(data); //SettlerFactor);
 		sumDif = EntertainFactor; // + SettlerFactor + FoodFactor;
-		if (data.getNpcs().size() > 0)
+		
+		if (resident.getNpcList().size() > 0)
 		{
+			System.out.println("[REALMS] "+this.getSettleType()+" Resident:"+resident.getNpcList().size());
 			resident.doSettlerCalculation(buildingList,data);
-			this.getResident().setNpcList(data.getNpcs().getSubListSettle(this.id));
+			// resident npc werden nach geladen ! NICHT erlaubt !!!!!!!!!!!!!!!!!!!
+//			this.getResident().setNpcList(data.getNpcs().getSubListSettle(this.id));
 		}
 		for (NpcData unit : barrack.getUnitList())
 		{
@@ -538,16 +541,16 @@ public abstract class AbstractSettle
 	 * @param unit
 	 * @param data
 	 */
-	public void doConsumUnit(NpcData unit, DataInterface data)
+	protected void doConsumUnit(NpcData unit, DataInterface data)
 	{
 		ItemList ingredients = unit.getUnit().getConsumItems();
 		double prodFactor  = 1.0;
 		if (checkStock(prodFactor, ingredients))
 		{
-			System.out.println("[REALMS] lehen consum ! :"+ingredients.size());
+//			System.out.println("[REALMS] lehen consum ! :"+ingredients.size());
 			if (consumStock(prodFactor, ingredients) == false)
 			{
-				System.out.println("[REALMS] lehen food ! ");
+//				System.out.println("[REALMS] lehen food ! ");
 				checkNpcFeed(unit, 1,unit,data);
 			}
 
@@ -557,7 +560,7 @@ public abstract class AbstractSettle
 			}
 		} else
 		{
-			System.out.println("[REALMS] lehen has no food ! ");
+			System.out.println("[REALMS] "+this.settleType+" has no food ! ");
 			checkNpcFeed(unit, 1,unit,data);
 			if (unit.getHappiness() > -1.0)
 			{
@@ -577,7 +580,7 @@ public abstract class AbstractSettle
 	{
 		if (items.size() == 0)
 		{
-			System.out.println("[REALMS] checkStock NO items ");
+			System.out.println("[REALMS] "+this.settleType+" checkStock NO items ");
 			return false;
 		} 
 		int iValue = 0;
@@ -691,11 +694,7 @@ public abstract class AbstractSettle
 	 */
 	private void consumeFood(DataInterface data) //double oldFactor)
 	{
-//		int required = resident.getSettlerCount();
-		
-//		int notWorker = resident.getSettlerCount()-townhall.getWorkerCount();
 		NpcList homeNpc = resident.getNpcList(); //.getSettleWorker();
-//		Iterator<NpcData> npcIterator = homeNpc.values().iterator();
 		for (NpcData npc : homeNpc.values())
 		{
 			if (npc.isAlive())
@@ -749,9 +748,20 @@ public abstract class AbstractSettle
 						bank.withdrawKonto(salery, "MANAGER", this.id);
 						npc.depositMoney(salery);
 					}
+					if (this.settleType == SettleType.LEHEN_1)
+					{
+						System.out.println("[REALMS] consumFood "+npc.getId()+": "+npc.getNpcType());
+					}
 					checkNpcFeed(npc, 1,npc,data);
 					
 				}
+			} else
+			{
+				if (this.settleType == SettleType.LEHEN_1)
+				{
+					System.out.println("[REALMS] isDead "+npc.getId()+": "+npc.getNpcType());
+				}
+				
 			}
 		}
 		
@@ -890,6 +900,10 @@ public abstract class AbstractSettle
 		{
 			factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent,data);
 		}
+//		if (this.settleType == SettleType.LEHEN_1)
+//		{
+//			System.out.println("[REALMS] checkNpcFeed "+npc.getId()+": "+factor);
+//		}
 		npc.setHappiness(npc.getHappiness() + factor);
 //		return factor;
 	}
@@ -901,6 +915,10 @@ public abstract class AbstractSettle
 		// check for money of food
 		if (parent.getMoney() < cost)
 		{
+//			if (this.settleType == SettleType.LEHEN_1)
+//			{
+//				System.out.println("[REALMS] checkConsume "+npc.getId()+": No food money ! "+npc.hungerCounter);
+//			}
 //			System.out.println("No food money !"+npc.getId());
 			amount = 0;
 		}
@@ -909,7 +927,7 @@ public abstract class AbstractSettle
 			// keine Versorgung
 			if (resident.getSettlerCount() > 5)
 			{
-//				System.out.println("keine Versorgung :"+npc.getId());
+				System.out.println(this.getSettleType()+" :"+this.id+" keine Versorgung :"+npc.getId());
 //				factor = npc.hungerCounter + ((double)required / (double)resident.getSettlerMax()) * -1.0;
 				factor = -0.1;
 				if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
@@ -919,6 +937,10 @@ public abstract class AbstractSettle
 				// setzte required food
 				requiredProduction.depositItem(foodItem, required);
 				npc.hungerCounter = npc.hungerCounter + factor ; // hungerCounter + factor;
+//				if (this.settleType == SettleType.LEHEN_1)
+//				{
+//					System.out.println("[REALMS] checkConsume "+npc.getId()+": hunger "+npc.hungerCounter);
+//				}
 			}
 		} else
 		{
@@ -947,7 +969,11 @@ public abstract class AbstractSettle
 				{
 					factor = happyFactor;
 				}
-//				System.out.println("Min Food Consum"+factor);
+//				if (this.settleType == SettleType.LEHEN_1)
+//				{
+//					System.out.println("[REALMS] checkConsume "+npc.getId()+": Min Food Consum"+factor);
+//				}
+				//System.out.println("Min Food Consum"+factor);
 			} else
 			{
 				if (npc.getHappiness() < 0.6)
@@ -959,6 +985,10 @@ public abstract class AbstractSettle
 					{
 						factor = happyFactor/2;
 					}
+//					if (this.settleType == SettleType.LEHEN_1)
+//					{
+//						System.out.println("[REALMS] checkConsume "+npc.getId()+": Low Happiness "+factor);
+//					}
 //					System.out.println("Low Happiness "+factor);
 				} else
 				{

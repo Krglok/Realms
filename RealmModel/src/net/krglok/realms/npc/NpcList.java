@@ -109,6 +109,19 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 
+	public NpcData getBuildingNpcFirst(int buildingId)
+	{
+		for (NpcData npc : this.values())
+		{
+			if (npc.getHomeBuilding() == buildingId)
+			{
+				return npc;
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	public NpcList getBuildingWorker(int buildingId)
 	{

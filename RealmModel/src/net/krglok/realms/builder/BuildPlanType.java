@@ -103,14 +103,14 @@ public enum BuildPlanType
 	TOWER (520),
 	CASERN (530),
 	GARRISON (531),
-	HEADQUARTER(550),
 	TAVERNE(601),
 	BIBLIOTHEK(602),
 	LIBRARY(603),
 	KEEP (901),
 	CASTLE(902),
 	STRONGHOLD(903),
-	PALACE(904)
+	PALACE(904),
+	HEADQUARTER(910)
 	;
 	
 	private final int value;

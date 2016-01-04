@@ -220,11 +220,15 @@ public class CmdRealmsSettler extends RealmsCommand
     	{
     		if (lehen != null)
     		{
-	    		if (checkBuildingSpace(plugin, building) == false)
+    			int maxSettler = ConfigBasis.getDefaultSettler(building.getBuildingType());
+    			//  spare space for children
+    			maxSettler = maxSettler - 3;
+    			// 
+    	    	int resident = plugin.getData().getNpcs().getBuildingNpc(building.getId()).size();
+    			switch(resident)
 	    		{
-	    			return result;
-	    		} else
-	    		{
+    			case 0 :
+    			case 1 :
 	    			switch(building.getBuildingType())
 	    			{
 	    			case KEEP : return NobleLevel.KNIGHT;
@@ -233,6 +237,7 @@ public class CmdRealmsSettler extends RealmsCommand
 	    			case PALACE : return NobleLevel.KING;
 	    			default: return NobleLevel.COMMONER;
 	    			}
+    			default: return NobleLevel.COMMONER;
 	    		}
     		}
     	}
@@ -455,6 +460,7 @@ public class CmdRealmsSettler extends RealmsCommand
 		System.out.println("Spawn Noble ");
     	ArrayList<String> msg = new ArrayList<String>();
     	NpcData nobleNpc = null;
+    	NpcData nobleHusband = null;
 
 		Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
 		if (region != null)
@@ -462,23 +468,60 @@ public class CmdRealmsSettler extends RealmsCommand
 			Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
 			if (building != null)
 			{
-				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_NOBEL)
-					)
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_NOBEL))
 				{
 					NobleLevel noble = nextFreeNobleType(plugin, lehen, building);
 					if (noble != null)
 					{
+						int resident = plugin.getData().getNpcs().getBuildingNpc(building.getId()).size();
+						String npcName = "";
 						nobleNpc = new NpcData();
-						nobleNpc.setGender(NpcData.findGender());
-						String npcName = plugin.getData().getNpcName().findName(GenderType.MAN);
+						switch (resident)
+						{
+						case 0:
+							nobleNpc.setGender(GenderType.MAN);
+							npcName = plugin.getData().getNpcName().findName(nobleNpc.getGender());
+							nobleNpc.setNpcType(NPCType.NOBLE);
+							nobleNpc.setNoble(noble);
+							nobleNpc.setMoney(1000.0);
+							break;
+						case 1 :
+							nobleHusband = plugin.getData().getNpcs().getBuildingNpcFirst(building.getId());
+							nobleNpc.setGender(GenderType.WOMAN);
+							npcName = plugin.getData().getNpcName().findName(nobleNpc.getGender());
+							nobleNpc.setNpcType(NPCType.NOBLE);
+							nobleNpc.setMoney(1000.0);
+							// the npc get the nobleLevel from the husband
+							if (nobleHusband != null)
+							{
+								nobleNpc.setNoble(nobleHusband.getNoble());
+								if (nobleHusband.isAlive())
+								{
+									nobleHusband.setMaried(true);
+									nobleHusband.setNpcHusband(nobleNpc.getId());
+									nobleNpc.setMaried(true);
+									nobleNpc.setNpcHusband(nobleHusband.getId());
+								}
+							} else
+							{
+								nobleNpc.setNoble(noble);
+							}	
+
+							break;
+						default:
+							nobleNpc.setGender(NpcData.findGender());
+							npcName = plugin.getData().getNpcName().findName(nobleNpc.getGender());
+							nobleNpc.setNpcType(NPCType.SETTLER);
+							// the nobleLevel always COMMONER
+							nobleNpc.setNoble(NobleLevel.COMMONER);
+							nobleNpc.setMoney(10.0);
+						}
 						nobleNpc.setName(npcName);
-						nobleNpc.setNpcType(NPCType.NOBLE);
-						nobleNpc.setNoble(noble);
-						nobleNpc.setSettleId(building.getSettleId());
+//						nobleNpc.setSettleId(building.getSettleId());
 						nobleNpc.setHomeBuilding(building.getId());
 						nobleNpc.setLehenId(lehen.getId());
 						nobleNpc.setAge(25);
-						nobleNpc.setMoney(1000.0);
+						lehen.getResident().getNpcList().add(nobleNpc);
 						plugin.getData().getNpcs().add(nobleNpc);
 						plugin.getData().writeNpc(nobleNpc);
 						plugin.nobleManager.createNoble(nobleNpc, plugin.makeLocationData(player.getLocation()));

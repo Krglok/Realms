@@ -45,7 +45,7 @@ public class CmdSettleBuild extends RealmsCommand
 		    	"the ID is the Settlement Id (0 = no settlement) ",
 		    	"the command create the HeroStronghold region ",
 		    	"and a building for realms ",
-		    	"You must place the fullfil the requirements ",
+		    	"You must fullfil the requirements ",
 		    	"You must pay the building cost ",
 		    	" "
 			};
@@ -340,6 +340,17 @@ public class CmdSettleBuild extends RealmsCommand
 			errorMsg.add(ChatColor.RED+"NoName Default = WHEAT ");
 			errorMsg.add(getDescription()[0]);
 			return false;
+		}
+		// check for feudal buildings
+		if (settleId > 0)
+		{
+			if ( BuildPlanType.getBuildGroup(bType) == 900)
+			{
+				errorMsg.add(ChatColor.RED+"Wrong BuildPlanType !");
+				errorMsg.add(ChatColor.RED+"Lehen buildings not allowed ");
+				errorMsg.add(getDescription()[0]);
+				return false;
+			}
 		}
 		Player player = (Player) sender;
 		// check for realms achivement

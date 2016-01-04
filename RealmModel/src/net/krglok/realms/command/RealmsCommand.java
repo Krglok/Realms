@@ -1,6 +1,7 @@
 package net.krglok.realms.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
@@ -543,10 +544,24 @@ public abstract class RealmsCommand implements iRealmsCommand
 
 	}
 	
-	
+	/**
+	 * overwrite the book with the new content
+	 * 
+	 * @param book
+	 * @param msg
+	 * @param author
+	 * @param title
+	 * @return
+	 */
 	public ItemStack writeBook(ItemStack book, ArrayList<String> msg, String author, String title)
 	{
 		final BookMeta bm = (BookMeta) book.getItemMeta();
+		if (bm.hasPages())
+		{
+			// Pages alle loeschen
+			ArrayList<String> newPages = new ArrayList<String>();
+			bm.setPages(newPages);
+		}
 		String sPage = "";
 		int line = 0;
 		int bookPage = 0;

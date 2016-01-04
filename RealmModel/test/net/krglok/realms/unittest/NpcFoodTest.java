@@ -88,7 +88,7 @@ public class NpcFoodTest
 		for (int i = 0; i < 240; i++)
 		{
 			System.out.println("Day :"+i);
-			settle.doHappiness(data);
+			settle.doResident(data);
 //			settle.getWarehouse().depositItemValue("BREAD", 1+i);
 			settle.doProduce(server, data,1);
 		}

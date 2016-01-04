@@ -8,7 +8,11 @@ import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NpcData;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdSettleSettler extends RealmsCommand
 {
@@ -78,7 +82,7 @@ public class CmdSettleSettler extends RealmsCommand
 		for (NpcData npc : plugin.getData().getSettlements().getSettlement(settleId).getResident().getNpcList().values())
 		{
 			String s = ConfigBasis.setStrright(npc.getId(),4)
-					+"|"+ChatColor.YELLOW+ConfigBasis.setStrleft(npc.getName()+"____________",18)
+					+"|"+ChatColor.YELLOW+ConfigBasis.setStrleft(npc.getName()+"____________",11)
 					+"|"+ChatColor.WHITE+ConfigBasis.setStrleft(npc.getNpcType().name(), 7)
 					+ "|"+ChatColor.YELLOW+ConfigBasis.setStrright(npc.getHomeBuilding(),4)
 					+ "|"+ChatColor.GREEN+ConfigBasis.setStrright(npc.getWorkBuilding(),4)
@@ -86,6 +90,17 @@ public class CmdSettleSettler extends RealmsCommand
 					;
 			msg.add(s);
 			
+		}
+    	if (sender instanceof Player)
+		{
+    		Player player = ((Player) sender);
+        	PlayerInventory inventory = player.getInventory();
+        	ItemStack holdItem = player.getItemInHand();
+        	if (holdItem.getData().getItemType() == Material.WRITTEN_BOOK)
+        	{
+    			writeBook(holdItem, msg, "Realms","SettlementList");
+    			((Player) sender).updateInventory();
+        	}
 		}
 
 		page = plugin.getMessageData().printPage(sender, msg, page);

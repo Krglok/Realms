@@ -575,20 +575,23 @@ public class Resident
 							if (npcList.getBuildingNpc(building.getId()).size() < building.getSettler())
 							{
 								NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
+								newChild.setNoble(npc.getNoble());
 								newChild.setHomeBuilding(npc.getHomeBuilding());
 								newChild.setSettleId(building.getSettleId());
 								data.getNpcs().add(newChild);
+								npcList.add(newChild);
 								data.writeNpc(newChild);
 								System.out.println("[REALMS] New Child "+newChild.getId()+" born into "+building.getId());
 							} else
 							{
-								System.out.println("[REALMS] Baby is die ! "+npc.getId()+" Bewohner "+npcList.getBuildingNpc(building.getId()).size()+" < "+building.getSettler());
+								System.out.println("[REALMS] Baby is die ! "+npc.getId()+" Citizen "+npcList.getBuildingNpc(building.getId()).size()+" < "+building.getSettler());
 							}
 						}else
 						{
 							NpcData newChild = NpcData.makeChild( data.getNpcName(), npc.getProducer(), npc.getId());
 							newChild.setHomeBuilding(0);
 							newChild.setSettleId(0);
+							data.getNpcs().add(newChild);
 							npcList.add(newChild);
 							data.writeNpc(newChild);
 							System.out.println("[REALMS] New Child "+newChild.getId()+" born living as BEGGAR ");
@@ -621,7 +624,11 @@ public class Resident
 		
 	}
 
-	
+	/**
+	 * check for husband and set to 0
+	 * 
+	 * @param npc
+	 */
 	private void checkLegacy(NpcData npc)
 	{
 		if (npc.getNpcHusband() > 0)

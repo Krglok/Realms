@@ -181,9 +181,11 @@ public class CmdFeudalCreate extends RealmsCommand
 			BuildPlanType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
 			if (BuildPlanType.getBuildGroup(buildingType) == 900)
 			{
+				Building building;
+				// is region not in the building list , then create a building in buildinglist 
 				if (plugin.getData().getBuildings().containRegion(hsRegion) == false)
 				{
-					Building building = new Building(
+					building = new Building(
 						buildingType, 
 						hsRegion, 
 						new LocationData(
@@ -195,18 +197,22 @@ public class CmdFeudalCreate extends RealmsCommand
 						);
 					building.setLehenId(lehen.getId());
 					plugin.getRealmModel().getBuildings().addBuilding(building);
+					lehen.getBuildingList().addBuilding(building);
 					plugin.getData().writeBuilding(building);
 					System.out.println("[REALMS] Lehen "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
 				} else
 				{
-					Building building = plugin.getData().getBuildings().getBuildingByRegion(hsRegion);
-					if ((building.getSettleId() == 0) && (building.getLehenId() == 0))
+					building = plugin.getData().getBuildings().getBuildingByRegion(hsRegion);
+					if (building.getLehenId() == 0)
 					{
 						building.setLehenId(lehen.getId());
+						lehen.getBuildingList().addBuilding(building);
 						plugin.getData().writeBuilding(building);
 						System.out.println("[REALMS] Lehen "+building.getBuildingType()+":"+building.getId()+":"+building.getHsRegion());
 					}
 				}
+				// create noblefamily without children
+				plugin.getData().makeNobleFamily(building, plugin.getData().getNpcName(), nobleLevel);
 			}
 		}
 

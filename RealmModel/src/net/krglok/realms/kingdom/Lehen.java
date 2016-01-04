@@ -284,26 +284,29 @@ public class Lehen  extends AbstractSettle
 		return true;
 	}
 
-//	/**
-//	 * do the happy for the lehen
-//	 * that is in major the supply of the resident and the units
-//	 * 
-//	 */
-//	public void doHappiness(DataInterface data)
-//	{
-//		System.out.println("[REALMS] unit consum :"+barrack.getUnitList().size());
-//		age++;
-//
-//		for (NpcData unit :barrack.getUnitList())
-//		{
-//			doConsumUnit(unit, data);
-//		}
-//		resident.getNpcList().clear();
-//		resident.setNpcList(barrack.getUnitList().asNpcList());
-//		resident.doSettlerCalculation(this.buildingList, data);
-//
-//	}
-
+	/**
+	 * do the happy for the lehen
+	 * that is in major the supply of the resident and the units
+	 * Give the npc money for buying food
+	 * 
+	 */
+	public void doResident(DataInterface data)
+	{
+//		System.out.println("[REALMS] "+this.settleType+" consum :"+resident.getNpcList().size());
+		for (NpcData npc :this.resident.getNpcList().values())
+		{
+			if (npc.getMoney() < 10.0)
+			{
+				double salery = 3.0;
+				bank.withdrawKonto(salery, "FOOD", this.id);
+				npc.depositMoney(salery);
+			}
+				
+		}
+		this.doHappiness(data);
+	}
+	
+	
 	/**
 	 * get 10% of settlement warehouse and deposit in own Warehouse
 	 * 
@@ -321,10 +324,10 @@ public class Lehen  extends AbstractSettle
 				{
 					if (settle.getWarehouse().getItemList().getValue(item.ItemRef()) > amount)
 					{
-						System.out.println("lehen: "+item.ItemRef()+":"+amount);
+						System.out.println("lehen: "+this.id+" :"+item.ItemRef()+":"+amount);
 						if (warehouse.depositItemValue(item.ItemRef(), amount))
 						{
-							System.out.println("settle: "+item.ItemRef()+":"+-amount);
+							System.out.println("settle: "+settle.getId()+" :"+item.ItemRef()+":"+-amount);
 							settle.getWarehouse().depositItemValue(item.ItemRef() , -amount);
 						}
 					}
@@ -346,9 +349,9 @@ public class Lehen  extends AbstractSettle
 					
 					if (price > 0)
 					{
-						System.out.println("lehen money: "+item.ItemRef()+":"+price);
+						System.out.println("lehen money: "+this.id+" :"+item.ItemRef()+":"+price);
 						this.bank.depositKonto(price, "Tax", settle.getId());
-						System.out.println("settle money: "+item.ItemRef()+":"+-price);
+						System.out.println("settle money: "+settle.getId()+" :"+item.ItemRef()+":"+-price);
 						settle.getBank().depositKonto(-price, "Noble", this.id);
 					}
 				}
@@ -385,6 +388,8 @@ public class Lehen  extends AbstractSettle
 					getProductionPercentage(settle, ConfigBasis.initWeapon(),  data);
 				}
 			}
+			//  reset the required itm list
+			this.requiredProduction.clear();
 		} else
 		{
 			// unit production
@@ -583,6 +588,25 @@ public class Lehen  extends AbstractSettle
 	public Trader getTrader()
 	{
 		return trader;
+	}
+
+	/**
+	 * count beds for lehen buildings.
+	 * NOT for military units
+	 *  
+	 * @return
+	 */
+	public int getSettlerMax()
+	{
+		int sum = 0;
+		for (Building building: this.buildingList.values())
+		{
+			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 900 )
+			{
+				sum = sum + building.getSettler();
+			}
+		}
+		return sum;
 	}
 	
 }

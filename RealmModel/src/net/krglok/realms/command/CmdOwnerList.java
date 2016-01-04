@@ -6,7 +6,11 @@ import net.krglok.realms.Realms;
 import net.krglok.realms.core.Owner;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class CmdOwnerList  extends RealmsCommand
 {
@@ -96,6 +100,19 @@ public class CmdOwnerList  extends RealmsCommand
 		    				);
 				}
 			}
+		}
+    	if (sender instanceof Player)
+		{
+    		Player player = ((Player) sender);
+        	PlayerInventory inventory = player.getInventory();
+        	ItemStack holdItem = player.getItemInHand();
+        	if (holdItem.getData().getItemType() != Material.BOOK_AND_QUILL)
+        	{
+    		 holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+        	}
+			writeBook(holdItem, msg, "Realms","Ownerlist");
+			inventory.addItem(holdItem);
+			((Player) sender).updateInventory();
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);
