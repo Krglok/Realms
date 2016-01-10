@@ -5,7 +5,7 @@ effects:
 - denyfirenoreagent
 - denyliquidnoreagent
 - denyexplosionnoreagent
-radius: 220
+radius: 450
 requirements:
 - STRONGHOLD.1
 central-structure: STRONGHOLD

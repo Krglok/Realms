@@ -37,6 +37,7 @@ public enum BuildPlanType
 	ROAD (5),
 	STEEPLE (6),
 	FORT(7),
+	// Managment Group
 	SHIP_0 (20),
 	BOATYARD(40),
 	HALL (51),
@@ -44,11 +45,13 @@ public enum BuildPlanType
 	TOWNHALL(53),
 	GATE(60),
 	CITYGATE(61),
+	// Home group
 	HOME (101),
 	HOUSE (110),
 	MANSION (120),
 	CABIN (130),
 	COTTAGE(131),
+	// Production Group
 	WHEAT(202),
 	WOODCUTTER (203),
 	QUARRY (204),
@@ -95,6 +98,7 @@ public enum BuildPlanType
 	ARMOURER (331),
 	CHAINMAKER (340),
 	TRADER (401),
+	// Millitary Group
 	GUARDHOUSE (501),
 	WATCHTOWER (502),
 	DEFENSETOWER(503),
@@ -103,9 +107,11 @@ public enum BuildPlanType
 	TOWER (520),
 	CASERN (530),
 	GARRISON (531),
+	// Education Group
 	TAVERNE(601),
 	BIBLIOTHEK(602),
 	LIBRARY(603),
+	// Lehen Group
 	KEEP (901),
 	CASTLE(902),
 	STRONGHOLD(903),

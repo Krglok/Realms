@@ -164,7 +164,7 @@ public class CmdFeudalInfo extends RealmsCommand
    				inventory.addItem(holdItem);
         	}
 			writeBook(holdItem, msg, lehen.getName(),"Lehen Info");
-			((Player) sender).updateInventory();
+			player.updateInventory();
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);

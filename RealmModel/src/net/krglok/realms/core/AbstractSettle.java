@@ -229,6 +229,25 @@ public abstract class AbstractSettle
 		this.buildingList = buildingList;
 	}
 	
+	public ReputationList getReputations()
+	{
+		return reputations;
+	}
+	
+	public void setReputationList(ReputationList repList)
+	{
+		this.reputations = repList;
+	}
+
+	/**
+	 * 
+	 * @return list of required items from last production cycle
+	 */
+	public ItemList getRequiredProduction()
+	{
+		return requiredProduction;
+	}
+	
 	public int getDayofWeek()
 	{
 		int year = (int) (age / (12 * 30));

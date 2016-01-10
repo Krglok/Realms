@@ -1,9 +1,12 @@
 package net.krglok.realms.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
@@ -19,6 +22,7 @@ import net.krglok.realms.unit.Regiment;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -621,4 +625,82 @@ public abstract class RealmsCommand implements iRealmsCommand
 		return msg;
 	}
 
+	public Map<Integer, Integer> checkRegionRequirements(Realms plugin, Location currentLocation, String regionType)
+	{
+
+		// Prepare a requirements checklist
+		RegionType currentRegionType =	plugin.stronghold.getRegionManager().getRegionType(regionType);
+		ArrayList<ItemStack> requirements = currentRegionType.getRequirements();
+		Map<Integer, Integer> reqMap = null;
+		if (!requirements.isEmpty())
+		{
+			reqMap = new HashMap<Integer, Integer>();
+			for (ItemStack currentIS : requirements)
+			{
+				reqMap.put(new Integer(currentIS.getTypeId()), new Integer(currentIS.getAmount()));
+			}
+
+			// Check the area for required blocks
+			int radius = (int) Math.sqrt(currentRegionType.getBuildRadius());
+
+			int lowerLeftX = (int) currentLocation.getX() - radius;
+			int lowerLeftY = (int) currentLocation.getY() - radius;
+			lowerLeftY = lowerLeftY < 0 ? 0 : lowerLeftY;
+			int lowerLeftZ = (int) currentLocation.getZ() - radius;
+
+			int upperRightX = (int) currentLocation.getX() + radius;
+			int upperRightY = (int) currentLocation.getY() + radius;
+			upperRightY = upperRightY > 255 ? 255 : upperRightY;
+			int upperRightZ = (int) currentLocation.getZ() + radius;
+
+			World world = currentLocation.getWorld();
+
+			outer: for (int x = lowerLeftX; x < upperRightX; x++)
+			{
+
+				for (int z = lowerLeftZ; z < upperRightZ; z++)
+				{
+
+					for (int y = lowerLeftY; y < upperRightY; y++)
+					{
+
+						int type = world.getBlockTypeIdAt(x, y, z);
+						if (type != 0 && reqMap.containsKey(type))
+						{
+							if (reqMap.get(type) < 2)
+							{
+								reqMap.remove(type);
+								if (reqMap.isEmpty())
+								{
+									break outer;
+								}
+							} else
+							{
+								reqMap.put(type, reqMap.get(type) - 1);
+							}
+						}
+					}
+
+				}
+
+			}
+		}
+		return reqMap;
+	}
+
+	public ArrayList<String> faultList(Map<Integer,Integer> reqMap)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add(ChatColor.RED+"You don't have all of the required blocks in this structure.");
+		int j = 0;
+		for (int type : reqMap.keySet())
+		{
+			int reqAmount = reqMap.get(type);
+			String reqType = Material.getMaterial(type).name();
+			msg.add(ChatColor.GOLD + reqType+":"+reqAmount);
+		}
+		return msg;
+		
+	}
+	
 }

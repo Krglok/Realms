@@ -1,11 +1,11 @@
-effects:
+ffects:
 - denyblockbuildnoreagent
 - denyblockbreaknoreagent
 - denyfriendlyfirenoreagent
 - denyfirenoreagent
 - denyliquidnoreagent
 - denyexplosionnoreagent
-radius: 220
+radius: 650
 requirements:
 - PALACE.1
 central-structure: KEEP

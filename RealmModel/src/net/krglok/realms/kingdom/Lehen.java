@@ -397,7 +397,7 @@ public class Lehen  extends AbstractSettle
 			{
 				if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
 				{
-					System.out.println("Train check : "+building.getMaxTrain());
+					System.out.println(building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
 		
 					if (building.isEnabled())
 					{

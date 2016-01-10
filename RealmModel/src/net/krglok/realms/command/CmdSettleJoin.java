@@ -89,9 +89,12 @@ public class CmdSettleJoin extends RealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 
 		Settlement settle = plugin.getData().getSettlements().getSettlement(settleId);
-//		settle.setKingdomId(kingdomId);
 		settle.setTributId(tributId);
 		plugin.getData().writeSettlement(settle);
+
+		Lehen lehen =  plugin.getData().getLehen().getLehen(tributId);
+		lehen.setSupportId(settleId);
+		plugin.getData().writeLehen(lehen);
 		
 		msg.add("Your settlement join to kingdom "+kingdomId);
 		if (tributId > 0)

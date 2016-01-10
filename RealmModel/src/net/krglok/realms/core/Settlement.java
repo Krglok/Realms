@@ -1237,14 +1237,6 @@ public class Settlement extends AbstractSettle //implements Serializable
 		}
 	}
 
-	/**
-	 * 
-	 * @return list of required items from last production cycle
-	 */
-	public ItemList getRequiredProduction()
-	{
-		return requiredProduction;
-	}
 
 	public void setWorkerSale(Building building, double account)
 	{
@@ -1541,15 +1533,6 @@ public class Settlement extends AbstractSettle //implements Serializable
 		return owner;
 	}
 
-	public ReputationList getReputations()
-	{
-		return reputations;
-	}
-	
-	public void setReputationList(ReputationList repList)
-	{
-		this.reputations = repList;
-	}
 
 	/**
 	 * @return the kingdomId

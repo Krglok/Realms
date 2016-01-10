@@ -27,6 +27,7 @@ import net.krglok.realms.command.CmdSettleRequired;
 import net.krglok.realms.command.CmdSettleTrader;
 import net.krglok.realms.command.CmdSettleWarehouse;
 import net.krglok.realms.command.RealmsPermission;
+import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.CommonLevel;
 import net.krglok.realms.core.ConfigBasis;
@@ -924,7 +925,7 @@ public class ServerListener implements Listener
 	 * @param player
 	 * @return buildungtype as string
 	 */
-	private String findRegionAtLocation(Realms plugin, Player player)
+	private int findRegionAtLocation(Realms plugin, Player player)
 	{
 		Location position = player.getLocation();
 		Region region = findRegionAtPosition( plugin, position);
@@ -933,11 +934,12 @@ public class ServerListener implements Listener
 	    	BuildPlanType bType = plugin.getConfigData().regionToBuildingType(region.getType());
 	    	if (bType != BuildPlanType.NONE)
 	    	{
-	    		return bType.name();
+	    		return region.getID();
 	    	}
 	    }
-		return "";
+		return 0;
 	}
+	
 	
 	private BuildPlanType findBuildingTypeAtLocation(Realms plugin, Player player)
 	{
@@ -1205,31 +1207,47 @@ public class ServerListener implements Listener
     	Player player = (Player) event.getPlayer();
 		event.getPlayer().getLocation();
 		Inventory inventory = event.getInventory();
-
+		
+		int regionId = findRegionAtLocation(plugin, player);
+		Building building = plugin.getData().getBuildings().getBuildingByRegion(regionId);
+		AbstractSettle aSettle = null; 
 		String sRegion = findSuperRegionAtLocation(plugin, player); 
-		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-		new ItemList();
-		if (settle != null)
+		// get Settlement or Lehen as AbstractSettlement
+		if (building.getSettleId() > 0)
 		{
-			String region = findRegionAtLocation(plugin, player);
+			aSettle = plugin.getData().getSettlements().getSettlement(building.getSettleId());
+		} 
+		if (building.getLehenId() > 0)
+		{
+			aSettle = plugin.getData().getLehen().getLehen(building.getLehenId());
+		} 
 			
-			if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
-					|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
+		new ItemList();
+		if (aSettle != null)
+		{
+			if ((building.getBuildingType() == BuildPlanType.HALL)
+				|| (building.getBuildingType() == BuildPlanType.TOWNHALL)
+				|| (building.getBuildingType() == BuildPlanType.KEEP)
+				|| (building.getBuildingType() == BuildPlanType.CASTLE)
+				|| (building.getBuildingType() == BuildPlanType.STRONGHOLD)
+				|| (building.getBuildingType() == BuildPlanType.PALACE)
+				)
+				
 			{
-				if (settle.getWarehouse().getFreeCapacity() < 10)
-				{
-					player.sendMessage(ChatColor.RED+"No Capacy free in Warehouse");
-					for (ItemStack itemStack :inventory.getContents())
-					{
-						if (itemStack != null)
-						{
-							player.getInventory().addItem(new ItemStack(itemStack.getType(),itemStack.getAmount()));
-						}
-					}
-					player.updateInventory();
-					inventory.clear();
-					return;
-				}
+//				if (aSettle.getWarehouse().getFreeCapacity() < 10)
+//				{
+//					player.sendMessage(ChatColor.RED+"No Capacy free in Warehouse");
+//					for (ItemStack itemStack :inventory.getContents())
+//					{
+//						if (itemStack != null)
+//						{
+//							player.getInventory().addItem(new ItemStack(itemStack.getType(),itemStack.getAmount()));
+//						}
+//					}
+//					player.updateInventory();
+//					inventory.clear();
+//					return;
+//				}
 				
 				if (event.getView().getType() == InventoryType.CHEST)
 				{
@@ -1241,40 +1259,40 @@ public class ServerListener implements Listener
 							if (itemStack != null)
 							{
 								String name = itemStack.getType().name();
-								if (settle.getWarehouse().depositItemValue(name, itemStack.getAmount()) == false)
+								if (aSettle.getWarehouse().depositItemValue(name, itemStack.getAmount()) == false)
 								{
 									System.out.println("[REALMS) DONATE Warehouse deposit FALSE");
 								}
 								if (ConfigBasis.initFoodMaterial().containsKey(name))
 								{
-									settle.getReputations().addValue(ReputationType.FOOD, player.getName(), name, ConfigBasis.VALUABLE_POINT);
+									aSettle.getReputations().addValue(ReputationType.FOOD, player.getName(), name, ConfigBasis.VALUABLE_POINT);
 									System.out.println(" REPUTATION VALUABLE : "+name+": 1");
 									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
 									
 								} else 
 								if (ConfigBasis.initValuables().containsKey(name))
 								{
-									settle.getReputations().addValue(ReputationType.VALUABLE, player.getName(), name, ConfigBasis.VALUABLE_POINT);
+									aSettle.getReputations().addValue(ReputationType.VALUABLE, player.getName(), name, ConfigBasis.VALUABLE_POINT);
 									System.out.println(" REPUTATION VALUABLE : "+name+": 1");
 									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
 									
 								} else 
 								{
-									if (settle.getReputations().containsKey(ReputationData.getRefName(player.getName(), ReputationType.DONATION)))
+									if (aSettle.getReputations().containsKey(ReputationData.getRefName(player.getName(), ReputationType.DONATION)))
 									{
-											settle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
+										aSettle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
 											System.out.println(" REPUTATION DONATION : "+name+": 1");
 											player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
 									} else
 									{
-										settle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
+										aSettle.getReputations().addValue(ReputationType.DONATION, player.getName(), name, ConfigBasis.DONATION_POINT);
 										System.out.println(" REPUTATION DONATION : "+name+": 1");
 										player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
 									}
 								}
-								if (settle.getRequiredProduction().containsKey(name))
+								if (aSettle.getRequiredProduction().containsKey(name))
 								{
-									settle.getReputations().addValue(ReputationType.REQUIRED, player.getName(), name, ConfigBasis.REQUIRED_POINT);
+									aSettle.getReputations().addValue(ReputationType.REQUIRED, player.getName(), name, ConfigBasis.REQUIRED_POINT);
 									System.out.println("REPUTATION REQUIRED: "+name+": 1");
 									player.sendMessage(ChatColor.GREEN+"You get Reputation for your donation");
 									
@@ -1326,10 +1344,10 @@ public class ServerListener implements Listener
     private void cmdKnowledge(PlayerInteractEvent event, Block b)
     {
     	Player player = event.getPlayer();
-		String region = findRegionAtLocation(plugin, player);
+		BuildPlanType region = findBuildingTypeAtLocation(plugin, player);
 		
 		
-		if (region.equalsIgnoreCase(BuildPlanType.BIBLIOTHEK.name()))
+		if (region==BuildPlanType.BIBLIOTHEK)
 		{
 			ItemStack item = event.getPlayer().getItemInHand();
 			if (item.getType() != Material.BOOK)
@@ -1388,7 +1406,7 @@ public class ServerListener implements Listener
 			item.getItemMeta().setLore(lore);
 			
 		}
-		if (region.equalsIgnoreCase(BuildPlanType.LIBRARY.name()))
+		if (region ==BuildPlanType.LIBRARY)
 		{
 			ItemStack item = event.getPlayer().getItemInHand();
 			if (item.getType() != Material.BOOK)
@@ -1710,34 +1728,54 @@ public class ServerListener implements Listener
 		if (l0.contains("[TRAIN]"))
 		{
 	    	ArrayList<String> msg = new ArrayList<String>();
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			Integer regionId = findRegionIdAtLocation(plugin, event.getPlayer());
-			for (Building building : settle.getBuildingList().values())
+	    	int regionId = findRegionAtLocation(plugin, event.getPlayer());
+	    	Building building = plugin.getData().getBuildings().getBuildingByRegion(regionId);
+	    	
+			if (building.getSettleId() > 0)
 			{
-				if (regionId == building.getHsRegion())
+				Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(building.getSettleId());
+				if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500 )
 				{
-					if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500 )
-					{
-						sign.setLine(1, String.valueOf(building.getTrainType().name()));
-						sign.update();
-						// incresase maxTrain start training process
-						building.addMaxTrain(1);
-						plugin.getData().writeBuilding(building);
-						msg.add("Settlement ["+settle.getId()+"] : "
-								+ChatColor.YELLOW+settle.getName()
-								+ChatColor.GREEN+" Age: "+settle.getAge()
-								+":"+settle.getProductionOverview().getCycleCount());
-						msg.add("Building: "+building.getBuildingType().name());
-						msg.add("Train   : "+ChatColor.YELLOW+building.getTrainType().name());
-						msg.add("Need    : "+ChatColor.YELLOW+ConfigBasis.setStrright(building.getTrainTime(),4)+" Cycles");
-					} else
-					{
-						msg.add("Building: "+building.getBuildingType().name());
-						msg.add("Train   : "+ChatColor.RED+"not possible !");
-					}
-					plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+					sign.setLine(1, String.valueOf(building.getTrainType().name()));
+					sign.update();
+					// incresase maxTrain start training process
+					building.addMaxTrain(1);
+					plugin.getData().writeBuilding(building);
+					msg.add("Settlement ["+settle.getId()+"] : "
+							+ChatColor.YELLOW+settle.getName()
+							+ChatColor.GREEN+" Age: "+settle.getAge()
+							+":"+settle.getProductionOverview().getCycleCount());
+					msg.add("Building: "+building.getBuildingType().name());
+					msg.add("Train   : "+ChatColor.YELLOW+building.getTrainType().name());
+					msg.add("Need    : "+ChatColor.YELLOW+ConfigBasis.setStrright(building.getTrainTime(),4)+" Cycles");
+				} else
+				{
+					msg.add("Building: "+building.getBuildingType().name());
+					msg.add("Train   : "+ChatColor.RED+"not possible !");
 				}
+			}
+			if (building.getLehenId() > 0)
+			{
+				Lehen lehen = plugin.getData().getLehen().getLehen(building.getLehenId());
+				if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500 )
+				{
+					sign.setLine(1, String.valueOf(building.getTrainType().name()));
+					sign.update();
+					// incresase maxTrain start training process
+					building.addMaxTrain(1);
+					plugin.getData().writeBuilding(building);
+					msg.add("Lehen ["+lehen.getId()+"] : "
+							+ChatColor.YELLOW+lehen.getName()
+							);
+					msg.add("Building: "+building.getBuildingType().name());
+					msg.add("Train   : "+ChatColor.YELLOW+building.getTrainType().name());
+					msg.add("Need    : "+ChatColor.YELLOW+ConfigBasis.setStrright(building.getTrainTime(),4)+" Cycles");
+				} else
+				{
+					msg.add("Building: "+building.getBuildingType().name());
+					msg.add("Train   : "+ChatColor.RED+"not possible !");
+				}
+				plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 			}
 			return;
 		}
@@ -1803,7 +1841,6 @@ public class ServerListener implements Listener
 		{
 			event.getPlayer().sendMessage(ChatColor.GREEN+"Put items in chest for donation !");
 			event.getPlayer().sendMessage(ChatColor.GREEN+"You will earn some reputation");
-			event.getPlayer().sendMessage(ChatColor.GREEN+"You stay in HALL or TOWNHALL");
 			cmdDonate(event, b);
 			return;
 		}
@@ -2625,16 +2662,41 @@ public class ServerListener implements Listener
 	{
     	Player player = (Player) event.getPlayer();
 		player.getLocation();
-		String sRegion = findSuperRegionAtLocation(plugin, player); 
-		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-		if (settle != null)
+		int regionId = findRegionAtLocation(plugin, player);
+		Building building = plugin.getData().getBuildings().getBuildingByRegion(regionId);
+		// do Donation for Settlement
+		if (building.getSettleId() > 0)
 		{
-			String region = findRegionAtLocation(plugin, player);
-			if ((region.equalsIgnoreCase(BuildPlanType.HALL.name()))
-				|| (region.equalsIgnoreCase(BuildPlanType.TOWNHALL.name())))
+			Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(building.getSettleId());
+			if (settle != null)
 			{
-				Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
-				player.openInventory(chest);
+				if ((building.getBuildingType() == BuildPlanType.HALL)
+					|| (building.getBuildingType() == BuildPlanType.TOWNHALL))
+				{
+					Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
+					player.openInventory(chest);
+				}
+			}
+			return;
+		}
+		// do Donation for Lehen
+		if (building.getLehenId() > 0)
+		{
+			Lehen lehen = plugin.getData().getLehen().getLehen(building.getLehenId());
+			if (lehen != null)
+			{
+				if ((building.getBuildingType() == BuildPlanType.KEEP)
+					|| (building.getBuildingType() == BuildPlanType.CASTLE)
+					|| (building.getBuildingType() == BuildPlanType.STRONGHOLD)
+					|| (building.getBuildingType() == BuildPlanType.PALACE)
+					)
+					{
+						Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
+						player.openInventory(chest);
+					}
+			} else
+			{
+				System.out.println("No Lehen found "+building.getLehenId());
 			}
 		}
 

@@ -5,7 +5,7 @@ effects:
 - denyfirenoreagent
 - denyliquidnoreagent
 - denyexplosionnoreagent
-radius: 110
+radius: 350
 requirements:
 - CASTLE.1
 central-structure: CASTLE

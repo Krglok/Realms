@@ -6,6 +6,7 @@ import java.util.HashMap;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.data.BookStringList;
 import net.krglok.realms.model.McmdBuilder;
 import net.krglok.realms.model.ModelStatus;
 
@@ -84,32 +85,30 @@ public class CmdSettleBuildingList extends RealmsCommand
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
-		ArrayList<String> msg = new ArrayList<String>();
+		BookStringList msg = new BookStringList();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
-				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add(ChatColor.YELLOW+"BuildingType___|count|");
-//		for (BuildPlanType bItem : )
+				+"] ");
+		msg.add(plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
+		msg.add("Building  |Count|");
 		HashMap <String,Integer> builpTypList = plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList();
 		for (String ref : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().sortStringList(builpTypList.keySet()))
 		{
-//			int value = plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList().get(ref);
-			String name = ConfigBasis.setStrleft(ref+"__________", 15);
+			String name = ConfigBasis.setStrleft(ref+"__________", 14);
 			String settler = ConfigBasis.setStrright(String.valueOf(builpTypList.get(ref)), 3);
-//			String product = "";
-			msg.add(name +"|"+settler+" |");
+			msg.add(name +": "+settler);
 		}
     	if (sender instanceof Player)
 		{
     		Player player = ((Player) sender);
         	PlayerInventory inventory = player.getInventory();
         	ItemStack holdItem = player.getItemInHand();
-        	if (holdItem.getData().getItemType() != Material.BOOK_AND_QUILL)
+        	if (holdItem.getData().getItemType() != Material.WRITTEN_BOOK)
         	{
-    		 holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+        		holdItem  = new ItemStack(Material.WRITTEN_BOOK, 1);
+   				inventory.addItem(holdItem);
         	}
-			writeBook(holdItem, msg, plugin.getRealmModel().getSettlements().getSettlement(settleId).getName(),"Warehouse");
-			inventory.addItem(holdItem);
-			((Player) sender).updateInventory();
+			writeBook(holdItem, msg, plugin.getRealmModel().getSettlements().getSettlement(settleId).getName(),"Building Info");
+			player.updateInventory();
 		}
 
 		msg.add(ChatColor.YELLOW+"BuildManager : ");
@@ -121,20 +120,20 @@ public class CmdSettleBuildingList extends RealmsCommand
 			status = plugin.getRealmModel().getSettlements().getSettlement(settleId).buildManager().getStatus().name();
 		} else
 		{
-			sBuilding = ChatColor.YELLOW+"NO Build";
+			sBuilding = "NO Build";
 			status = plugin.getRealmModel().getSettlements().getSettlement(settleId).buildManager().getStatus().name();
 		}
 		msg.add(sBuilding +"|"+status+" |");
 		
-		msg.add(ChatColor.YELLOW+"Build command in queue : ");
-		msg.add("Cmd          |Position        |");
+		msg.add("Build command in queue : ");
+		msg.add("Cmd BuildType");
 		for (McmdBuilder buildOrder : plugin.getRealmModel().getSettlements().getSettlement(settleId).settleManager().getCmdBuilder())
 		{
 			String name = ConfigBasis.setStrleft(buildOrder.getbType().name(), 15);
-			String product = ""+ConfigBasis.setStrright(buildOrder.getPosition().getX(), 7);
-			product = product+":"+ConfigBasis.setStrright(buildOrder.getPosition().getY(), 5);
-			product = product+":"+ConfigBasis.setStrright(buildOrder.getPosition().getZ(), 7);
-			msg.add(name +"|"+product+" |");
+//			String product = ""+ConfigBasis.setStrright(buildOrder.getPosition().getX(), 7);
+//			product = product+":"+ConfigBasis.setStrright(buildOrder.getPosition().getY(), 5);
+//			product = product+":"+ConfigBasis.setStrright(buildOrder.getPosition().getZ(), 7);
+			msg.add(name );
 		}
 		page = plugin.getMessageData().printPage(sender, msg, page);
 //		page = 1;

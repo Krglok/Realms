@@ -109,6 +109,7 @@ public class CommandRealms
 			new CmdOwnerSet(),
 			new CmdOwnerSettlement(),
 			new CmdFeudalBank(),
+			new CmdFeudalBuild(),
 			new CmdFeudalFollow(),
 			new CmdFeudalHelp(),
 			new CmdFeudalInfo(),

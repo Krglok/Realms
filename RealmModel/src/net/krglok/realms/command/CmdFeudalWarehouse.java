@@ -106,7 +106,7 @@ public class CmdFeudalWarehouse extends RealmsCommand
 			for (String itemRef : lehen.getrequiredItems().keySet())
 			{
 				Item item = lehen.getrequiredItems().getItem(itemRef);
-				msg.add(" -"+item.ItemRef()+" : "+item.value());
+				msg.add(" -"+ConfigBasis.setStrleft(item.ItemRef(),12)+" : "+ConfigBasis.setStrright(item.value(),4));
 			}
 	    	if (sender instanceof Player)
 			{

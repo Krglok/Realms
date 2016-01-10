@@ -1,7 +1,6 @@
 package net.krglok.realms.command;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
@@ -13,38 +12,35 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.Settlement;
-import net.krglok.realms.model.McmdBuilder;
+import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.science.Achivement;
-import net.krglok.realms.science.AchivementList;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-//import net.krglok.realms.core.Position;
 
-public class CmdSettleBuild extends RealmsCommand
+public class CmdFeudalBuild extends RealmsCommand
 {
 	LocationData position;
 	String buildName;
 	BuildPlanType bType;
-	int settleId ;
-	
-	public CmdSettleBuild( )
+	int lehenId ;
+
+	public CmdFeudalBuild()
 	{
-		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BUILD);
+		super(RealmsCommandType.FEUDAL, RealmsSubCommandType.BUILD);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle BUILD [ID] [BUILDING_TYPE]",
+				ChatColor.YELLOW+"/feudal BUILD [ID] [BUILDING_TYPE]",
 		    	"Create a new Building {BUILDING_TYPE}  ",
 		    	"at your current position " +
-		    	"the ID is the Settlement Id (0 = no settlement) ",
+		    	"the ID is the Lehen Id, the ID must valid ",
 		    	"the command create the HeroStronghold region ",
-		    	"and a building for realms ",
+		    	"and a building for Realms ",
 		    	"You must fullfil the requirements ",
 		    	"You must pay the building cost ",
 		    	" "
@@ -53,9 +49,9 @@ public class CmdSettleBuild extends RealmsCommand
 			position = new LocationData("", 0.0, 0.0, 0.0);
 			buildName = "";
 			bType = BuildPlanType.NONE;
-			settleId = 0;
+			lehenId = 0;
 	}
-
+	
 	@Override
 	public void setPara(int index, String value)
 	{
@@ -67,7 +63,6 @@ public class CmdSettleBuild extends RealmsCommand
 		default:
 			break;
 		}
-	
 	}
 
 	@Override
@@ -76,12 +71,11 @@ public class CmdSettleBuild extends RealmsCommand
 		switch (index)
 		{
 		case 0 :
-			settleId = value;
+			lehenId = value;
 		break;
 		default:
 			break;
 		}
-
 	}
 
 	@Override
@@ -93,6 +87,7 @@ public class CmdSettleBuild extends RealmsCommand
 	@Override
 	public void setPara(int index, double value)
 	{
+
 	}
 
 	@Override
@@ -100,10 +95,7 @@ public class CmdSettleBuild extends RealmsCommand
 	{
 		return new String[] {int.class.getName(), String.class.getName() };
 	}
-	
-	
 
-	
 	@Override
 	public void execute(Realms plugin, CommandSender sender)
 	{
@@ -166,15 +158,14 @@ public class CmdSettleBuild extends RealmsCommand
 		}
 		double cost = plugin.getServerData().getRegionTypeCost(buildName);
 		plugin.economy.withdrawPlayer(ownerName, cost);
-		Building building = new Building(bType, region.getID(), iLoc, settleId);
+		Building building = new Building(bType, region.getID(), iLoc, lehenId);
 		plugin.getRealmModel().getBuildings().addBuilding(building);
 		plugin.getRealmModel().getData().writeBuilding(building);
 		
-		if (settleId != 0)
+		if (lehenId != 0)
 		{
-			Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
-			settle.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(settleId));
-			settle.initSettlement(plugin.getData().getPriceList());
+			Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
+			lehen.setBuildingList(plugin.getRealmModel().getBuildings().getSubList(lehenId));
 		}
 
 		RegionType rConfig = plugin.stronghold.getRegionManager().getRegionType(regionType);
@@ -214,21 +205,20 @@ public class CmdSettleBuild extends RealmsCommand
     	}
     	
 		plugin.getMessageData().printPage(sender, msg, 1);
-		
 	}
 
 	@Override
 	public boolean canExecute(Realms plugin, CommandSender sender)
 	{
-		if (settleId > 0)
+		if (lehenId > 0)
 		{
-			if (plugin.getRealmModel().getSettlements().containsID(settleId) == false)
+			if (plugin.getRealmModel().getSettlements().containsID(lehenId) == false)
 			{
 				errorMsg.add(ChatColor.RED+"Wrong Settlement ID !");
 				errorMsg.add(getDescription()[0]);
 				return false;
 			}
-			if (isSettleOwner(plugin, sender, settleId) == false)
+			if (isSettleOwner(plugin, sender, lehenId) == false)
 			{
 				errorMsg.add("ChatColor.RED+You are not the Owner !");
 				errorMsg.add(" ");
@@ -250,14 +240,19 @@ public class CmdSettleBuild extends RealmsCommand
 			errorMsg.add(getDescription()[0]);
 			return false;
 		}
+
 		// check for feudal buildings
-		if (settleId > 0)
+		if (lehenId > 0)
 		{
-			if ( BuildPlanType.getBuildGroup(bType) == 900)
+			if (( BuildPlanType.getBuildGroup(bType) == 900)
+				|| ( BuildPlanType.getBuildGroup(bType) == 500)
+				)
+			{
+				
+			} else
 			{
 				errorMsg.add(ChatColor.RED+"Wrong BuildPlanType !");
-				errorMsg.add(ChatColor.RED+"Lehen buildings not allowed ");
-				errorMsg.add(getDescription()[0]);
+				errorMsg.add(ChatColor.RED+"Settlement buildings not allowed ");
 				return false;
 			}
 		}

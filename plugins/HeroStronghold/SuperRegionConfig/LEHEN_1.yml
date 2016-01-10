@@ -5,7 +5,7 @@ effects:
 - denyfirenoreagent
 - denyliquidnoreagent
 - denyexplosionnoreagent
-radius: 70
+radius: 200
 requirements:
 - KEEP.1
 central-structure: KEEP

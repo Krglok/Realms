@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.data.BookStringList;
 import net.krglok.realms.model.ModelStatus;
 
 import org.bukkit.ChatColor;
@@ -82,7 +83,7 @@ public class CmdSettleProduction extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		ArrayList<String> msg1 = new ArrayList<String>();
+		BookStringList msg1 = new BookStringList();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
 		msg.add("Item              |    Day  |    Month |  Store ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getProductionOverview().getPeriodCount()+"]");
