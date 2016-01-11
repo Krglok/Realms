@@ -181,6 +181,7 @@ public class TickTask implements Runnable
 						)
 				{
 		//			System.out.print("Day:"+plugin.getServer().getWorlds().get(0).getTime());
+					! nicht enthalten in Liste
 					if (isGateOpen.get(world.getName()) == false)
 					{
 						plugin.getLog().info("[Realms] Gate DAY Event : "+world.getName());
