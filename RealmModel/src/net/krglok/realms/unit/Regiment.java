@@ -75,7 +75,7 @@ public class Regiment extends AbstractSettle
 //	private int id;
 	private RegimentType regimentType = RegimentType.PRIVATEER;
 	private RegimentStatus regStatus = RegimentStatus.NONE;
-	private LocationData position;
+//	private LocationData position;  // ist in AbstractClass
 	private LocationData target;
 	private LocationData homePosition;
 	private Owner owner;
@@ -132,6 +132,7 @@ public class Regiment extends AbstractSettle
 		this.owner 		= null;
 		this.supportId = 0;
 		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
+		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
 		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
 		this.isUncamp 	= true;
 		this.isPlayer   = false;

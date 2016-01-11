@@ -28,7 +28,7 @@ public class LehenManager
 	private int ROUTEDELAY = 20;
 	private int delayRoutes;
 	private LehenStatus lStatus ;
-	private Settlement settle;
+	private Lehen lehen;
 
 	public LehenManager()
 	{
@@ -103,7 +103,7 @@ public class LehenManager
     	Item item = lehen.getrequiredItems().values().iterator().next();
     	Double price = rModel.getData().getPriceList().getBasePrice(item.ItemRef()); 
     	RouteOrder rOrder = new RouteOrder(0, lehen.getId(), item.ItemRef(), item.value(), price, true);
-		lehen.getTrader().makeRouteOrder(rModel.getTradeMarket(), rOrder, rModel.getTradeTransport(), settle, rModel.getSettlements());
+		lehen.getTrader().makeRouteOrder(rModel.getTradeMarket(), rOrder, rModel.getTradeTransport(), lehen, rModel.getSettlements());
 		// item can remove by itenname, because items are unique in the list
 		lehen.getrequiredItems().remove(item.ItemRef());
     }

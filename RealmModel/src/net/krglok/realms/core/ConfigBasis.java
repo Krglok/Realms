@@ -71,6 +71,11 @@ public class ConfigBasis implements ConfigInterface
 	public static final int CITY_Power = 10000;
 	public static final int METROPOL_Power = 30000;
 	public static final int CASTLE_Power = 5000;
+	public static final int CAMP_Power = 100; 
+	public static final int LEHEN_1_Power = 100; 
+	public static final int LEHEN_2_Power = 1500; 
+	public static final int LEHEN_3_Power = 10000;
+	public static final int LEHEN_4_Power = 30000;
 	
 	public static final int DONATION_POINT = 1;
 	public static final int REQUIRED_POINT = 1;
@@ -429,6 +434,10 @@ public class ConfigBasis implements ConfigInterface
 		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
 		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
 		case CAMP : return 10 * ConfigBasis.CHEST_STORE;
+		case LEHEN_1 : return 10 * ConfigBasis.CHEST_STORE;
+		case LEHEN_2 : return 12 * ConfigBasis.CHEST_STORE;
+		case LEHEN_3 : return 14 * ConfigBasis.CHEST_STORE;
+		case LEHEN_4 : return 16 * ConfigBasis.CHEST_STORE;
 		default :
 			return ConfigBasis.CHEST_STORE;
 		}
@@ -490,6 +499,10 @@ public class ConfigBasis implements ConfigInterface
 		case METROPOLIS  : return 4 * ConfigBasis.HALL_Settler*4;
 		case FORTRESS : return 5;
 		case CAMP : return ConfigBasis.HALL_Settler*5;
+		case LEHEN_1 : return 1 * ConfigBasis.HALL_Settler;
+		case LEHEN_2   : return 1 * ConfigBasis.HALL_Settler*2;
+		case LEHEN_3   : return 2 * ConfigBasis.HALL_Settler*3;
+		case LEHEN_4  : return 4 * ConfigBasis.HALL_Settler*4;
 		default :
 			return ConfigBasis.HALL_Settler;
 		}
@@ -504,6 +517,11 @@ public class ConfigBasis implements ConfigInterface
 		case CITY   : return ConfigBasis.CITY_Power;
 		case METROPOLIS  : return ConfigBasis.METROPOL_Power;
 		case FORTRESS : return ConfigBasis.CASTLE_Power;
+		case CAMP 	: return ConfigBasis.HALL_Power; 
+		case LEHEN_1 	: return ConfigBasis.LEHEN_1_Power; 
+		case LEHEN_2 	: return ConfigBasis.LEHEN_2_Power; 
+		case LEHEN_3 	: return ConfigBasis.LEHEN_3_Power; 
+		case LEHEN_4 	: return ConfigBasis.LEHEN_4_Power; 
 		default :
 			return 100;
 		}

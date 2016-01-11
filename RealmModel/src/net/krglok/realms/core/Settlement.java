@@ -306,6 +306,10 @@ public class Settlement extends AbstractSettle //implements Serializable
 	public void setSettleType(SettleType settleType)
 	{
 		this.settleType = settleType;
+		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
+		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
+		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+
 	}
 
 //	public String getName()

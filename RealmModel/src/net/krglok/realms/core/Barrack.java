@@ -5,7 +5,8 @@ import net.krglok.realms.unit.AbstractUnit;
 import net.krglok.realms.unit.UnitList;
 
 /**
- * not yet implemented
+ * Hold the list of Units, the military npc in the realms plugin. 
+ * 
  * @author oduda
  * 
  */

@@ -98,6 +98,9 @@ public abstract class AbstractSettle
 	{
 		super();
 		this.settleType = settleType;
+		// reinit Warehouse
+		this.warehouse = new Warehouse(ConfigBasis.defaultItemMax(settleType)); 
+		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
 	}
 
 	public int getId()

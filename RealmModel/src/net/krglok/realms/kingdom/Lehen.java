@@ -61,7 +61,7 @@ public class Lehen  extends AbstractSettle
 	private int KingdomId;
 	private int parentId;
 	private double sales;
-	private LocationData position;
+//	private LocationData position; // ist in AbstractClass
 	private int supportId;
 	private Trader trader;
 	private BuildManager buildManager;
@@ -86,6 +86,9 @@ public class Lehen  extends AbstractSettle
 		this.age = 0;
 		this.position = new LocationData("", 0.0, 0.0, 0.0);
 		trader = new Trader();
+		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
+		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
+		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
 	}
 
 	/**
@@ -115,6 +118,9 @@ public class Lehen  extends AbstractSettle
 		this.sales = 0;
 		this.age = 0;
 		this.position = position;
+		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
+		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
+		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
 	}
 
 	public static int getLfdID()
