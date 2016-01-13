@@ -51,6 +51,7 @@ import net.krglok.realms.science.Achivement;
 import net.krglok.realms.science.AchivementName;
 import net.krglok.realms.science.AchivementType;
 import net.krglok.realms.science.CaseBook;
+import net.krglok.realms.unit.Regiment;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 import org.bukkit.ChatColor;
@@ -1301,6 +1302,32 @@ public class ServerListener implements Listener
 							}
 						}
 						inventory.clear();
+						switch (aSettle.getSettleType())
+						{
+						case HAMLET :
+						case TOWN :
+						case CITY :
+						case METROPOLIS:
+							{
+								plugin.getData().writeSettlement((Settlement) aSettle);
+								break;
+							}
+						case LEHEN_1 :
+						case LEHEN_2 :
+						case LEHEN_3 :
+						case LEHEN_4 :
+							{
+								plugin.getData().writeLehen((Lehen) aSettle);
+								break;
+							}
+						case CAMP :
+							{
+								plugin.getData().writeRegiment((Regiment) aSettle);
+								break;
+							}
+						default:
+							break;
+						}
 					}
 				}
 			}

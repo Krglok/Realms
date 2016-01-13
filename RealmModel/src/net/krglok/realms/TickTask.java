@@ -181,27 +181,29 @@ public class TickTask implements Runnable
 						)
 				{
 		//			System.out.print("Day:"+plugin.getServer().getWorlds().get(0).getTime());
-					! nicht enthalten in Liste
-					if (isGateOpen.get(world.getName()) == false)
+					if (isGateOpen.containsKey(world.getName()) == true)
 					{
-						plugin.getLog().info("[Realms] Gate DAY Event : "+world.getName());
-						doGateOpen(world);
-						isGateOpen.put(world.getName(), true);
-						isGateClose.put(world.getName(), false);
-						for (Regiment regiment : plugin.getData().getRegiments().values())
-						{	
-							if (regiment.getPosition().getWorld().equalsIgnoreCase(world.getName()))
-							{
-								System.out.println("[REALMS] Regiment next day ");
-								regiment.doNextDay();
-							}
-						}
-						if (isProduction)
+						if (isGateOpen.get(world.getName()) == false)
 						{
-							plugin.getRealmModel().OnTrade(world.getName()); 
-							plugin.getLog().info("[Realms] Trader calculation :"+world.getName());
+							plugin.getLog().info("[Realms] Gate DAY Event : "+world.getName());
+							doGateOpen(world);
+							isGateOpen.put(world.getName(), true);
+							isGateClose.put(world.getName(), false);
+							for (Regiment regiment : plugin.getData().getRegiments().values())
+							{	
+								if (regiment.getPosition().getWorld().equalsIgnoreCase(world.getName()))
+								{
+									System.out.println("[REALMS] Regiment next day ");
+									regiment.doNextDay();
+								}
+							}
+							if (isProduction)
+							{
+								plugin.getRealmModel().OnTrade(world.getName()); 
+								plugin.getLog().info("[Realms] Trader calculation :"+world.getName());
+							}
+							
 						}
-						
 					}
 					plugin.getRealmModel().OnDay(world.getTime());
 				} else

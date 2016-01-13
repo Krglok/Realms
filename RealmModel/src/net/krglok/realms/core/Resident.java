@@ -799,6 +799,7 @@ public class Resident
 						&&(npc.getNpcType() != NPCType.MAPMAKER)
 						)
 					{
+						System.out.println("Recrute found "+npc.getId()+" : "+npc.getName());
 						return npc;
 					}
 				}
