@@ -38,6 +38,7 @@ public enum RealmsSubCommandType
 //	GET,
 	GIVE,
 	HOME,
+	HIRE,
 	INFO ,
 	JOIN,
 //	LIMIT,

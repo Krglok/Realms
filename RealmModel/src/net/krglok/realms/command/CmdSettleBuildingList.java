@@ -89,11 +89,11 @@ public class CmdSettleBuildingList extends RealmsCommand
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] ");
 		msg.add(plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add("Building  |Count|");
+		msg.add("Building    |Count");
 		HashMap <String,Integer> builpTypList = plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().getBuildTypeList();
 		for (String ref : plugin.getRealmModel().getSettlements().getSettlement(settleId).getBuildingList().sortStringList(builpTypList.keySet()))
 		{
-			String name = ConfigBasis.setStrleft(ref+"__________", 14);
+			String name = ConfigBasis.setStrleft(ref+"__________", 12);
 			String settler = ConfigBasis.setStrright(String.valueOf(builpTypList.get(ref)), 3);
 			msg.add(name +": "+settler);
 		}

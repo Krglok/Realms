@@ -241,6 +241,12 @@ public abstract class AbstractSettle
 	{
 		this.reputations = repList;
 	}
+	
+	public BoardItemList getProductionOverview()
+	{
+		return productionOverview;
+	}
+	
 
 	/**
 	 * 
@@ -515,7 +521,9 @@ public abstract class AbstractSettle
 						System.out.println("Traning Consum, training progress");
 					} else
 					{
-						System.out.println("No Traning Consum, NO training progress");
+						this.requiredProduction.addAll(ingredients);
+						String consum = ingredients.asString();
+						System.out.println("No Traning Consum, "+consum);
 					}
 				}
 			} else
@@ -582,7 +590,7 @@ public abstract class AbstractSettle
 			}
 		} else
 		{
-			System.out.println("[REALMS] "+this.settleType+" has no food ! ");
+			System.out.println("[REALMS] "+this.settleType+" has no required food ! ");
 			checkNpcFeed(unit, 1,unit,data);
 			if (unit.getHappiness() > -1.0)
 			{

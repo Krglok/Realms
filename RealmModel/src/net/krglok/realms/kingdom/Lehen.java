@@ -439,7 +439,6 @@ public class Lehen  extends AbstractSettle
 					case GUARDHOUSE:
 						if (building.isTrainReady())
 						{
-//						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
@@ -449,12 +448,15 @@ public class Lehen  extends AbstractSettle
 								building.addMaxTrain(-1);
 								building.setIsEnabled(false);
 								building.setTrainCounter(0);
+								System.out.println("[REALMS] GUARDHOUSE "+building.getId()+" : RECRUTE "+recrute.getId() );
 							} else
 							{
+								building.setTrainCounter(0);
 								System.out.println("[REALMS] Guardhouse Train Recrute not found !");
 							}
 						} else
 						{
+//							System.out.println("Train NOT Ready ["+building.getId()+"] "+building.getTrainCounter()+":"+building.getTrainTime());
 						}
 						break;
 					case ARCHERY:

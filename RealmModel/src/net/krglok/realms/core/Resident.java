@@ -66,8 +66,11 @@ public class Resident
 	 * the number will read from datafile.
 	 * This is helpful, when npcList is not available
 	 * 
+	 *  ! Only useful for conversion old NPCList in new NPCList !
+	 * 
 	 * @return  number of settlers
 	 */
+	@Deprecated
 	public int getPopulation()
 	{
 		return oldPopulation;
@@ -84,7 +87,8 @@ public class Resident
 			return settlerCount;
 		} else
 		{
-			return npcList.getAliveNpc().size();
+			return npcList.getAdultNpc().size();
+//			return npcList.getAliveNpc().size();
 		}
 	}
 
@@ -773,9 +777,8 @@ public class Resident
 	{
 		for (NpcData npc : npcList.values())
 		{
-			if ((npc.getGender() != GenderType.WOMAN)
-				&& (npc.isChild() == false)
-				)
+//			if ((npc.getGender() != GenderType.WOMAN)
+			if  (npc.isChild() == false)
 			{
 				if (npc.isBeggar())
 				{
@@ -788,9 +791,8 @@ public class Resident
 		{
 //			if (npc.getWorkBuilding() == 0)
 			{
-				if ((npc.getGender() != GenderType.WOMAN)
-					&& (npc.isChild() == false)
-					)
+//				if ((npc.getGender() != GenderType.WOMAN)
+				if (npc.isChild() == false)
 				{
 					if ((npc.getNpcType() != NPCType.MANAGER)
 						&& (npc.getNpcType() != NPCType.BUILDER)

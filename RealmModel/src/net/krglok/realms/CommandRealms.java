@@ -117,6 +117,7 @@ public class CommandRealms
 			new CmdFeudalCreate(),
 			new CmdFeudalWarehouse(),
 			new CmdFeudalOwner(),
+			new CmdFeudalHire(),
 			new CmdKingdomList(),
 			new CmdKingdomCreate(),
 			new CmdKingdomGive(),

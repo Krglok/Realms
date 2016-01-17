@@ -3,6 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.Settlement;
@@ -166,59 +167,37 @@ public class CmdSettleInfo extends RealmsCommand
 			int month = 1;
 			if (settle != null)
 			{
-//				msg.add("Settlement ["+settle.getId()+"] : "
-//						+ChatColor.YELLOW+settle.getName()
-//						+ChatColor.GREEN+" Age: "+settle.getAge()
-//						+":"+settle.getProductionOverview().getCycleCount());
-//				msg.add("Owner "+ChatColor.YELLOW+settle.getOwnerId()+ChatColor.WHITE+" : Tribut to "
-//						+ChatColor.GREEN+settle.getTributId()
-//						+ChatColor.WHITE+" | Kingdom: "+ChatColor.DARK_PURPLE+settle.getKingdomId());
-//				msg.add("Biome: "+settle.getBiome()+"  Enable:"+settle.isEnabled()+" Activ: "+settle.isActive());
-//				msg.add("Beds       : "+ChatColor.YELLOW+settle.getResident().getSettlerMax());
-//				msg.add("Settlers  : "+ChatColor.GOLD+settle.getResident().getSettlerCount());
-//				msg.add("Workers  : "+ChatColor.GOLD+settle.getTownhall().getWorkerCount());
-//				msg.add("Happiness: "+ChatColor.GOLD+(int) (settle.getResident().getHappiness()));
-//				int breed = settle.getResident().getNpcList().getSchwanger().size();
-//				int breedBase = settle.getResident().getNpcList().getGender(GenderType.WOMAN).size();
-//				int child = settle.getResident().getNpcList().getChild().size();
-//				msg.add("Fertility: "+ChatColor.GOLD+breed+"/"+breedBase+" child: "+child);
-////				msg.add("Deathrate: "+ChatColor.RED+settle.getResident().getDeathrate());
-//				msg.add("Barracks  : "+ChatColor.YELLOW+(settle.getBarrack().getUnitList().size())+"/"+settle.getBarrack().getUnitMax());
-//				msg.add("Bank       : "+ChatColor.GREEN+((int) settle.getBank().getKonto()));
-//				msg.add("Storage   : "+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax());
-//				msg.add("Power     : "+settle.getPower());
-//				msg.add("Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT")+"|"+"BREAD "+settle.getWarehouse().getItemList().getValue("BREAD"));
-//				msg.add("====================== ");
-//				msg.add(ChatColor.ITALIC+"Required Items : "+settle.getRequiredProduction().size());
-				msg.add("Settlement ["+settle.getId()+"] : "
-						+settle.getName()
-						+" Age: "+settle.getAge()
-						+" :"+settle.getProductionOverview().getCycleCount());
-				msg.add(" Owner "+settle.getOwnerId()+" : Tribut to "
-						+settle.getTributId()
-						+" | Kingdom: "+settle.getKingdomId());
-				msg.add(" Biome: "+settle.getBiome()+"  Enable:"+settle.isEnabled()+" Activ: "+settle.isActive());
-				msg.add(" Beds : "+settle.getResident().getSettlerMax());
-				msg.add(" Settlers: "+settle.getResident().getSettlerCount());
-				msg.add(" Workers : "+settle.getTownhall().getWorkerCount());
-				msg.add(" Happi: "+(int) (settle.getResident().getHappiness()));
+				msg.add("Settlement ["+settle.getId()+"] ");
+				msg.add(": "+settle.getName());
+				msg.add(" Age: "+settle.getAge()+" :"+settle.getProductionOverview().getCycleCount());
+				msg.add(" Owner "+settle.getOwnerId());
+				msg.add(" : Tribut to "+settle.getTributId());
+				msg.add(" : Kingdom: "+settle.getKingdomId());
+				msg.add("Biome: "+settle.getBiome());
+				msg.add(" Enable:"+settle.isEnabled());
+				msg.add(" Activ: "+settle.isActive());
+				msg.add("Beds : "+settle.getResident().getSettlerMax());
+				msg.add("Settlers: "+settle.getResident().getSettlerCount());
+				msg.add("Workers : "+settle.getTownhall().getWorkerCount());
+				msg.add("Happi: "+(int) (settle.getResident().getHappiness()));
 				int breed = settle.getResident().getNpcList().getSchwanger().size();
 				int breedBase = settle.getResident().getNpcList().getGender(GenderType.WOMAN).size();
 				int child = settle.getResident().getNpcList().getChild().size();
-				msg.add(" Fertility: "+breed+"/"+breedBase+" child: "+child);
+				msg.add("Fertility: "+breed+"/"+breedBase);
+				msg.add(": child: "+child);
 //				msg.add("Deathrate: "+ChatColor.RED+settle.getResident().getDeathrate());
-				msg.add(" Barrack: "+(settle.getBarrack().getUnitList().size())+"/"+settle.getBarrack().getUnitMax());
-				msg.add(" Bank   : "+((int) settle.getBank().getKonto()));
-				msg.add(" Storage: "+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax());
-				msg.add(" Power  : "+settle.getPower());
-				msg.add(" Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
-				msg.add(" Food : BREAD "+settle.getWarehouse().getItemList().getValue("BREAD"));
-				msg.add(" =================");
-				msg.add(" Required Items : "+settle.getRequiredProduction().size());
+				msg.add("Barrack: "+(settle.getBarrack().getUnitList().size())+"/"+settle.getBarrack().getUnitMax());
+				msg.add("Bank   : "+((int) settle.getBank().getKonto()));
+				msg.add("Storage: "+settle.getWarehouse().getItemCount()+"/"+settle.getWarehouse().getItemMax());
+				msg.add("Power  : "+settle.getPower());
+				msg.add("Food : WHEAT "+settle.getWarehouse().getItemList().getValue("WHEAT"));
+				msg.add("Food : BREAD "+settle.getWarehouse().getItemList().getValue("BREAD"));
+				msg.add("=================");
+				msg.add("Required Items : "+settle.getRequiredProduction().size());
 				for (String itemRef : settle.getRequiredProduction().keySet())
 				{
 					Item item = settle.getRequiredProduction().getItem(itemRef);
-					msg.add(" "+item.ItemRef()+":"+item.value());
+					msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",12)+":"+ConfigBasis.setStrright(item.value(),5));
 				}
 				msg.addAll(makeSettleAnalysis( settle, month, priceList));
 		    	if (sender instanceof Player)

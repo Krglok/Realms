@@ -896,6 +896,7 @@ public class RealmModel
 			lehen.doProduce(server, data, this.dayOfWeek);
 			lehen.doResident(data);
 			messageData.log("Lehen happiness");
+			lehen.doUnitTrain(unitFactory);
 			data.writeLehen(lehen);
 			lehenProductionQueue.remove(0);
 			return ModelStatus.MODEL_PRODUCTION;

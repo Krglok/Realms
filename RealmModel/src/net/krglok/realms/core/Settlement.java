@@ -586,10 +586,6 @@ public class Settlement extends AbstractSettle //implements Serializable
 //	}
 
 
-	public BoardItemList getProductionOverview()
-	{
-		return productionOverview;
-	}
 
 	public BoardItemList getTaxOverview()
 	{
@@ -1306,7 +1302,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 						doTrainStart(data, building);
 					} else
 					{
-						System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
+						System.out.println("Train not enabled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
 					}
 				}
 			}

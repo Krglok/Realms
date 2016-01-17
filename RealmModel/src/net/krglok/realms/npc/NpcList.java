@@ -342,7 +342,6 @@ public class NpcList extends HashMap<Integer, NpcData>
 		NpcList subList = new NpcList();
 		for (NpcData npc : this.values())
 		{
-			// kind des NPC
 			if (npc.isAlive() == true)
 			{
 				subList.putNpc(npc);
@@ -350,7 +349,23 @@ public class NpcList extends HashMap<Integer, NpcData>
 		}
 		return subList;
 	}
-	
+
+	public NpcList getAdultNpc()
+	{
+		NpcList subList = new NpcList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.isAlive() == true)
+			{
+				if (npc.isChild() == false)
+				{
+					subList.putNpc(npc);
+				}
+			}
+		}
+		return subList;
+	}
+
 	
 	public NpcList getBeggarNpc()
 	{

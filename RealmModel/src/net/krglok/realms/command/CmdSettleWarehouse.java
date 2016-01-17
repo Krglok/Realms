@@ -87,15 +87,15 @@ public class CmdSettleWarehouse extends RealmsCommand
 	    Settlement  settle = plugin.getRealmModel().getSettlements().getSettlement(settleID);
 	    if (settle != null)
 	    {
-			msg.add("["+settle.getId()+"] : "+settle.getName()+"\n");
+			msg.add("["+settle.getId()+"] : "+settle.getName());
 			
-			msg.add("Store [ "+settle.getWarehouse().getUsedCapacity() +" ]/["+settle.getWarehouse().getFreeCapacity()+"]"+"\n");
+			msg.add("Store [ "+settle.getWarehouse().getUsedCapacity() +" ]/["+settle.getWarehouse().getFreeCapacity()+"]");
 		    for (String itemref : settle.getWarehouse().sortItems())
 		    {
 		    	Item item = settle.getWarehouse().getItemList().get(itemref);
 		    	if (item.value() > 0)
 		    	{
-		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",12)+":"+ConfigBasis.setStrright(item.value(),5)+"\n");
+		    		msg.add(ConfigBasis.setStrleft(item.ItemRef()+"__________",12)+":"+ConfigBasis.setStrright(item.value(),5));
 		    	}
 		    }
 	    	if (sender instanceof Player)

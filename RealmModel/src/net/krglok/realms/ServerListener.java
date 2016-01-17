@@ -1757,6 +1757,8 @@ public class ServerListener implements Listener
 	    	ArrayList<String> msg = new ArrayList<String>();
 	    	int regionId = findRegionAtLocation(plugin, event.getPlayer());
 	    	Building building = plugin.getData().getBuildings().getBuildingByRegion(regionId);
+			sign.setLine(2, String.valueOf(""));
+			sign.update();
 	    	
 			if (building.getSettleId() > 0)
 			{
@@ -1775,11 +1777,14 @@ public class ServerListener implements Listener
 					msg.add("Building: "+building.getBuildingType().name());
 					msg.add("Train   : "+ChatColor.YELLOW+building.getTrainType().name());
 					msg.add("Need    : "+ChatColor.YELLOW+ConfigBasis.setStrright(building.getTrainTime(),4)+" Cycles");
+					sign.setLine(2, String.valueOf("count: "+building.getMaxTrain()));
+					sign.update();
 				} else
 				{
 					msg.add("Building: "+building.getBuildingType().name());
 					msg.add("Train   : "+ChatColor.RED+"not possible !");
 				}
+				plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 			}
 			if (building.getLehenId() > 0)
 			{
@@ -1797,6 +1802,8 @@ public class ServerListener implements Listener
 					msg.add("Building: "+building.getBuildingType().name());
 					msg.add("Train   : "+ChatColor.YELLOW+building.getTrainType().name());
 					msg.add("Need    : "+ChatColor.YELLOW+ConfigBasis.setStrright(building.getTrainTime(),4)+" Cycles");
+					sign.setLine(2, String.valueOf("count: "+building.getMaxTrain()));
+					sign.update();
 				} else
 				{
 					msg.add("Building: "+building.getBuildingType().name());

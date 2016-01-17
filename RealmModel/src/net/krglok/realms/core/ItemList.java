@@ -3,6 +3,7 @@ package net.krglok.realms.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * list of items, hold each item type unique
@@ -273,5 +274,22 @@ public class ItemList  extends  HashMap<String, Item>
 		{
 			this.remove(key);
 		}
+	}
+	
+	public String asString()
+	{
+		int count = 0;
+		String value ="";
+		for (String key : this.keySet())
+		{
+			if (count == 0)
+			{
+				value = key;
+			} else
+			{
+				value = value + ", "+key ;
+			}
+		}
+		return value;
 	}
 }

@@ -20,5 +20,7 @@ public enum ModelCommandType
 	WITHDRAWBANK,
 	SETSETTLER,
 	SELLITEM,
-	BUYITEM;
+	BUYITEM,
+	HIRESETTLER
+	;
 }

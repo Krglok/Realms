@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
@@ -16,12 +17,15 @@ import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.DataStoreSettlement;
 import net.krglok.realms.data.SettlementData;
+import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.tool.LogList;
 import net.krglok.realms.unit.AbstractUnit;
@@ -35,7 +39,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Test;
 
-public class SettlementTrainTest
+public class LehenTrainTest
 {
 
 	private Boolean isOutput = false; // set this to false to suppress println
@@ -192,7 +196,7 @@ public class SettlementTrainTest
 	}
 	
 	private void BreedingLoop(
-			Settlement settle,
+			Lehen lehen,
 			ServerTest server,
 			int MaxLoop, 
 			ItemPriceList priceList
@@ -202,77 +206,17 @@ public class SettlementTrainTest
 		for (int i = 0; i < MaxLoop; i++)
 		{
 			dayCounter++;
-			settle.setSettlerMax();
-			settle.checkBuildingsEnabled(server);
-			settle.setWorkerNeeded();
-			settle.setWorkerToBuilding(settle.getResident().getSettlerCount());
-			settle.doResident(data);
-			settle.doProduce(server,data,1);
-			settle.doUnitTrain(unitFactory);
-			if (dayCounter == 30)
+			if (dayCounter > 6)
 			{
-				settle.doCalcTax();
 				dayCounter = 0;
 			}
+			lehen.doResident(data);
+			lehen.doProduce(server,data,dayCounter);
+			lehen.doUnitTrain(unitFactory);
 			
 			showSettler = true;	
 			isMonth = false;
-			
-			if ((i %30) == 0)
-			{
-				isMonth = true;
-				month++;
-			} 
-			
-			if (settle.getResident().getSettlerCount() > maxResidents)
-			{
-				maxResidents = settle.getResident().getSettlerCount();
-			}
-			
-			sb = ConfigBasis.setStrleft(showBalkenHappy(settle, isMonth,showSettler),20);
-			if (isOutput)
-			{
-				if (isMonth)
-				{
-					System.out.println(
-							ConfigBasis.setStrright(String.valueOf(settle.getAge()),4)+sb
-//							+"/S:"+settle.getSettlerFactor()
-//							+"/E:"+settle.getEntertainFactor()
-							+"|D:"+settle.getResident().getDeathrate()
-							+"|B:"+settle.getResident().getBirthrate()
-//							+"/Wo:"+settle.getTownhall().getWorkerCount()
-//							+"/Wn:"+settle.getTownhall().getWorkerNeeded()
-//							+"/M:"+(int)settle.getBank().getKonto()
-//							+"/R:"+settle.getRequiredProduction().size()+getReqList(settle)
-//							+"|Fo:"+format2(settle.getFoodFactor())
-							+"|Se:"+format2(settle.getSettlerFactor())
-//							+"|fe:"+settle.getResident().getFertilityCounter()
-							+"|W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
-							);
-				} else
-				{
-//					if ((i % 10) == 0)
-					{
-						System.out.println(
-								ConfigBasis.setStrright(String.valueOf(settle.getAge()),4)+sb
-	//							+"/ F:"+settle.getFoodFactor()
-	//							+"/S:"+settle.getSettlerFactor()
-	//							+"/E:"+settle.getEntertainFactor()
-								+"|D:"+settle.getResident().getDeathrate()
-								+"|B:"+settle.getResident().getBirthrate()
-	//							+"/Wo:"+settle.getTownhall().getWorkerCount()
-	//							+"/Wn:"+settle.getTownhall().getWorkerNeeded()
-	//							+"/M:"+(int)settle.getBank().getKonto()
-//								+"/G:"+settle.getWarehouse().getItemList().getValue("GOLD_NUGGET")
-//								+"/R:"+settle.getRequiredProduction().size()+getReqList(settle)
-//								+"|Fo:"+format2(settle.getFoodFactor())
-								+"|Se:"+format2(settle.getSettlerFactor())
-//								+"|fe:"+settle.getResident().getFertilityCounter()
-								+"|W:"+settle.getWarehouse().getItemList().getValue("WHEAT")
-								);
-					}
-				}
-			}
+
 			System.out.println("STEP========");
 
 		}
@@ -370,7 +314,7 @@ public class SettlementTrainTest
 		
 	}
 	
-	private void pritProduction(Settlement settle)
+	private  void printProduction(AbstractSettle settle)
 	{
 		System.out.println("==ProductionOverview ==");
 		System.out.print("Item            "+" : "+"   Last"+" | "+"  Monat"+" | "+"   Jahr"+"  Store");
@@ -389,7 +333,7 @@ public class SettlementTrainTest
 	}
 	
 
-	private void printWarehouseBalance(Settlement settle,ItemPriceList priceList)
+	private void printWarehouseBalance(AbstractSettle settle,ItemPriceList priceList)
 	{
 			System.out.println("Warehouse" );
 			double price = 0.0;
@@ -407,7 +351,7 @@ public class SettlementTrainTest
 			System.out.println("=============================");
 	}
 	
-	private void printTrainBalance(Settlement settle, UnitFactory unitFactory)
+	private void printTrainBalance(AbstractSettle settle, UnitFactory unitFactory)
 	{
 		System.out.println(" ");
 		System.out.println("Train balance = ");
@@ -431,7 +375,7 @@ public class SettlementTrainTest
 		}
 	}
 
-	private void printBarrackBalance(Settlement settle)
+	private void printBarrackBalance(AbstractSettle settle)
 	{
 		System.out.println("==Barack Capacity ==");
 		System.out.print("UnitType  "+" :"+"Health"+" : "+"Power");
@@ -450,7 +394,7 @@ public class SettlementTrainTest
 	}
 	
 	@Test
-	public void testSettlementTrain()
+	public void testLehenTrain()
 	{
 		
 		LogList logList = new LogList(dataFolder);
@@ -460,67 +404,83 @@ public class SettlementTrainTest
 		ItemPriceList priceList = readPriceData(); 
 		
 		ConfigTest config = new ConfigTest();
+		int lehenId = 2;
+		Settlement settleS = data.getSettlements().getSettlement(1);
+		// Settlement zum support fuer lehen machen
+		settleS.setTributId(lehenId);
+		Lehen lehen = data.getLehen().getLehen(lehenId);
+		// Building in Lehen verschieben
+		Building building = data.getBuildings().getBuilding(26);
+		building.setSettleId(0);
+		building.setLehenId(lehenId);
+		lehen.getBuildingList().addBuilding(building);
 		
-		Settlement settle = data.getSettlements().getSettlement(1);
+		lehen.getBuildingList().getBuilding(26).addMaxTrain(1);
+		lehen.getBuildingList().getBuilding(26).setIsEnabled(true);
 		
-		settle.getBuildingList().getBuilding(26).addMaxTrain(1);
-		settle.getBuildingList().getBuilding(26).setIsEnabled(true);
+		lehen.getWarehouse().depositItemValue("LEATHER_HELMET", 1);
+		lehen.getWarehouse().depositItemValue("COBBLESTONE",85);
+		lehen.getWarehouse().depositItemValue("LEATHER_BOOTS",1);
+		lehen.getWarehouse().depositItemValue("LOG",378);
+		lehen.getWarehouse().depositItemValue("LEATHER_LEGGINGS",1);
+		lehen.getWarehouse().depositItemValue("STONE_SWORD",1);
+		lehen.getWarehouse().depositItemValue("WHEAT",152);
+		lehen.getWarehouse().depositItemValue("LEATHER_CHESTPLATE",1);
+		
+		lehen.getBank().depositKonto(10000.0, "Test", 1);
 
-		settle.getWarehouse().depositItemValue("LEATHER_HELMET", 1);
-		settle.getWarehouse().depositItemValue("COBBLESTONE",85);
-		settle.getWarehouse().depositItemValue("LEATHER_BOOTS",1);
-		settle.getWarehouse().depositItemValue("LOG",378);
-		settle.getWarehouse().depositItemValue("LEATHER_LEGGINGS",1);
-		settle.getWarehouse().depositItemValue("STONE_SWORD",1);
-	    settle.getWarehouse().depositItemValue("WHEAT",152);
-	    settle.getWarehouse().depositItemValue("LEATHER_CHESTPLATE",1);
+		NpcData npc = data.getNpcs().get(1);
+		npc.setNpcType(NPCType.SETTLER);
+		npc.setNoble(NobleLevel.COMMONER);
+		npc.setUnitType(UnitType.SETTLER);
+		npc.setSettleId(0);
+		npc.setLehenId(lehenId);
+		lehen.getResident().setNpcList(data.getNpcs().getSubListLehen(lehenId));
 		
-	    settle.getBank().depositKonto(10000.0, "Test", 1);
-	    
 		isOutput =   false; //(expected != actual);
 
 		int loopCount = 12;
 		System.out.println("START LOOP =======================");
 
-		BreedingLoop(settle, server, loopCount, priceList);
+		BreedingLoop(lehen, server, loopCount, priceList);
 
 //		BreedingLoop(settle, server, 410, priceList);
 
 		int expected = 1;
-		int actual = settle.getResident().getSettlerCount(); 
+		int actual = lehen.getResident().getSettlerCount(); 
 		System.out.println("END LOOP =="+loopCount);
 
 		isOutput = (expected != actual);
 		if (isOutput)
 		{
 			System.out.println(" ");
-			System.out.println("== Laufzeit "+settle.getAge()+" Tage ");
+			System.out.println("== Laufzeit "+lehen.getAge()+" Tage ");
 			boolean isAnalysis = true;
 			if (isAnalysis)
 			{
-				makeSettleAnalysis(settle, month, priceList);
+//				makeSettleAnalysis(settle, month, priceList);
 			}
 			boolean isProduction= false;
 			if (isProduction)
 			{
-				pritProduction(settle);
+				printProduction(lehen);
 			}
 			System.out.println(" ");
 
 			boolean isTrainList = true;
 			if (isTrainList)
 			{
-				printTrainBalance(settle,unitFactory);			
+				printTrainBalance(lehen,unitFactory);			
 			}
 			boolean isWarehouseList = false;
 			if (isWarehouseList)
 			{
-				printWarehouseBalance(settle,priceList);
+				printWarehouseBalance(lehen,priceList);
 			}
 			boolean isCapacityList = true;
 			if (isCapacityList)
 			{
-				printBarrackBalance(settle);
+				printBarrackBalance(lehen);
 			}
 			
 		}
