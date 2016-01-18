@@ -258,7 +258,7 @@ public class Trader
 	 * @param transport
 	 * @param SettleId
 	 */
-	public void makeTransportOrder(TradeMarketOrder tmo, TradeOrder foundOrder, TradeTransport transport , Settlement settle, double distance)
+	public void makeTransportOrder(TradeMarketOrder tmo, TradeOrder foundOrder, TradeTransport transport , AbstractSettle settle, double distance)
 	{
 		int amount = 0;
 		double cost = 0.0 ;
@@ -341,10 +341,10 @@ public class Trader
 	 * @param tradeTransport
 	 * @param settle
 	 */
-	public void checkMarket(TradeMarket tm, TradeTransport tradeTransport, Settlement settle,SettlementList settlements )
+	public void checkMarket(TradeMarket tm, TradeTransport tradeTransport, AbstractSettle settle,SettlementList targets )
 	{
 		double distance = 0.0;
-		TradeMarket tradeMarket = tm.getDistantOrders(settlements, settle.getId());
+		TradeMarket tradeMarket = tm.getDistantOrders(targets, settle.getId());
 		TradeOrder foundOrder = null;
 		if (tradeMarket.isEmpty())
 		{
@@ -361,7 +361,7 @@ public class Trader
 //				System.out.println(foundOrder.getId()+":"+foundOrder.ItemRef());
 					if (tradeTransport.countSender(settle.getId()) < caravanMax)
 					{
-						distance = settle.getPosition().distance2D(settlements.getSettlement(tmo.getSettleID()).getPosition());
+						distance = settle.getPosition().distance2D(targets.getSettlement(tmo.getSettleID()).getPosition());
 						makeTransportOrder(tmo, foundOrder, tradeTransport, settle, distance );
 					} else
 					{
@@ -411,7 +411,7 @@ public class Trader
 	 * @param settle
 	 * @param settlements
 	 */
-	public void checkRoutes(TradeMarket tradeMarket, TradeTransport tradeTransport, Settlement settle,SettlementList settlements)
+	public void checkRoutes(TradeMarket tradeMarket, TradeTransport tradeTransport, AbstractSettle settle, SettlementList targets)
 	{
 		// es wird eine zusätzliche Caravan erzeugt, damit der TRansport nicht vollstaendig unterdrueckt wird 
 		if (tradeTransport.countSender(settle.getId()) <= caravanMax)
@@ -426,13 +426,13 @@ public class Trader
 						if (settle.getWarehouse().getItemList().getValue(rOrder.ItemRef()) >= rOrder.value())
 						{
 							// target exist
-							if (settlements.containsKey(rOrder.getTargetId()))
+							if (targets.containsKey(rOrder.getTargetId()))
 							{
 								// target has enough space in warehouse
-								if (settlements.getSettlement(rOrder.getTargetId()).getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
+								if (targets.getSettlement(rOrder.getTargetId()).getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
 								{
 //									System.out.println("[REALMS] Make route "+settle.getId()+" to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
-									makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, settlements);
+									makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, targets);
 								}
 							}
 						}
@@ -479,9 +479,9 @@ public class Trader
 	 * @param settle
 	 * @param settlements
 	 */
-	public void makeRouteOrder(TradeMarket tradeMarket, RouteOrder rOrder,  TradeTransport transport, AbstractSettle settle, SettlementList settlements)
+	public void makeRouteOrder(TradeMarket tradeMarket, RouteOrder rOrder,  TradeTransport transport, AbstractSettle settle, SettlementList targets)
 	{
-		Settlement targetSettle = settlements.getSettlement(rOrder.getTargetId());
+		Settlement targetSettle = targets.getSettlement(rOrder.getTargetId());
 		
 		double distance = settle.getPosition().distance2D(targetSettle.getPosition());
 

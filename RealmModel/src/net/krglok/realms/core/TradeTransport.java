@@ -95,7 +95,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 	 * 
 	 * @param settle der Absender der Ware 
 	 */
-	public void fullfillSender(Settlement settle)
+	public void fullfillSender(AbstractSettle settle)
 	{
 		double cost = 0.0;
 		for (TradeMarketOrder to : this.values())
@@ -125,7 +125,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 	 * 
 	 * @param settle
 	 */
-	public void fullfillTarget(Settlement settle)
+	public void fullfillTarget(AbstractSettle settle)
 	{
 		for (TradeMarketOrder to : this.values())
 		{

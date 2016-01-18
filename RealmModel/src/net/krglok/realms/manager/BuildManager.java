@@ -9,6 +9,7 @@ import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemListLocation;
 import net.krglok.realms.builder.ItemLocation;
 import net.krglok.realms.builder.RegionLocation;
+import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
@@ -226,7 +227,7 @@ public class BuildManager
 	 * @param warehouse
 	 * @param settle
 	 */
-	public void run(RealmModel rModel, Warehouse warehouse, Settlement settle)
+	public void run(RealmModel rModel, Warehouse warehouse, AbstractSettle settle)
 	{
 //		if (buildPlan == null)
 //		{
@@ -611,7 +612,7 @@ public class BuildManager
 	/**
 	 * go to BuildStatus.NONE
 	 */
-	private void doDone(RealmModel rModel, Settlement settle)
+	private void doDone(RealmModel rModel, AbstractSettle settle)
 	{
 		String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
 		if (regionRequest.isEmpty())
