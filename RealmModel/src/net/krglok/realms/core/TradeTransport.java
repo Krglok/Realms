@@ -181,14 +181,17 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 		return false;
 	}
 	
-	public int countSender(int senderId)
+	public int countSender(int senderId, SettleType settleType)
 	{
 		int count = 0;
 		for (TradeMarketOrder tOrder : this.values())
 		{
-			if (tOrder.getSettleID() == senderId)
+			if (tOrder.getSettleType() == settleType)
 			{
-				count ++;
+				if (tOrder.getSettleID() == senderId)
+				{
+					count ++;
+				}
 			}
 		}
 		return count;

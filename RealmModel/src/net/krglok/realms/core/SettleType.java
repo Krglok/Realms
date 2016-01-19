@@ -51,4 +51,12 @@ public enum SettleType
 		
 	}
 
+	public static boolean isLehen(SettleType settleType)
+	{
+		if (settleType == LEHEN_1) return true;
+		if (settleType == LEHEN_2) return true;
+		if (settleType == LEHEN_3) return true;
+		if (settleType == LEHEN_4) return true;
+		return false;
+	}
 }

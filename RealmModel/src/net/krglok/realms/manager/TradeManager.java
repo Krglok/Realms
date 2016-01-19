@@ -1,6 +1,8 @@
 package net.krglok.realms.manager;
 
+import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.ItemPriceList;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
@@ -173,7 +175,7 @@ public class TradeManager
 
 	public void newBuyOrder(Settlement settle, String itemRef, int amount)
 	{
-		buyOrder = new TradeOrder(settle.getId(), TradeType.BUY, itemRef, amount, 0.0, BUY_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
+		buyOrder = new TradeOrder(settle.getId(),TradeType.BUY, itemRef, amount, 0.0, BUY_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0,SettleType.NONE);
 		
 	}
 	
@@ -183,7 +185,7 @@ public class TradeManager
 	 * @param rModel
 	 * @param settle
 	 */
-	public void run(RealmModel rModel, Settlement settle)
+	public void run(RealmModel rModel, AbstractSettle settle)
 	{
 		// check for RouteOrders
 		if (delayRoutes > (SELL_DELAY / 20))
@@ -204,8 +206,15 @@ public class TradeManager
 			delaySell++;
 		}
 		// check for Transport to fulfill
-		rModel.getTradeTransport().fullfillTarget(settle);
-		rModel.getTradeTransport().fullfillSender(settle);
+		if (settle.getSettleType().isLehen(settle.getSettleType()))
+		{
+			rModel.getLehenTransport().fullfillTarget(settle);
+			rModel.getLehenTransport().fullfillSender(settle);
+		} else
+		{
+			rModel.getTradeTransport().fullfillTarget(settle);
+			rModel.getTradeTransport().fullfillSender(settle);
+		}
 		// work on Sell Command
 		if (sellOrder != null)
 		{
@@ -215,7 +224,7 @@ public class TradeManager
 				if (sellOrder.getAmount() > 0 )
 				{
 					boolean isSellOrder = false;
-					for (TradeMarketOrder tOrder : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
+					for (TradeMarketOrder tOrder : rModel.getTradeMarket().getSettleOrders(settle.getId(), settle.getSettleType()).values())
 					{
 						if (tOrder.ItemRef().equalsIgnoreCase(sellOrder.getItemRef()))
 						{
@@ -304,7 +313,7 @@ public class TradeManager
 		
 	}
 
-	private int sellValuePrice(RealmModel rModel, Settlement settle, McmdSellOrder sellOrder)
+	private int sellValuePrice(RealmModel rModel, AbstractSettle settle, McmdSellOrder sellOrder)
 	{
 //		boolean isRest = true;
 		if (sellOrder != null)
@@ -336,7 +345,7 @@ public class TradeManager
 	
 			int id = rModel.getTradeMarket().nextLastNumber();
 	//		System.out.println("Market id : "+id);
-			TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, sellPrice, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
+			TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, sellPrice, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0,SettleType.NONE);
 			settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, order);
 			sellOrder.setTarget(sellOrder.getTarget()+sellAmount);
 			if ((amount-sellAmount) > 0)
@@ -353,7 +362,7 @@ public class TradeManager
 	}
 	
 	
-	private void buyValuePrice(RealmModel rModel, Settlement settle, TradeOrder buyOrder)
+	private void buyValuePrice(RealmModel rModel, AbstractSettle settle, TradeOrder buyOrder)
 	{
 		double buyPrice = priceList.getBasePrice(buyOrder.ItemRef());
 		int buyAmount = buyOrder.value();
@@ -373,7 +382,7 @@ public class TradeManager
 		{
 			buyOrder.setValue(0);
 		}
-		TradeOrder order = new TradeOrder(-1, TradeType.BUY, buyOrder.ItemRef(), buyAmount, buyPrice, BUY_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0);
+		TradeOrder order = new TradeOrder(-1, TradeType.BUY, buyOrder.ItemRef(), buyAmount, buyPrice, BUY_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0,SettleType.NONE);
 		settle.getTrader().makeBuyOrder(order);
 	}
 	
@@ -383,7 +392,7 @@ public class TradeManager
 	 * @param settle
 	 * @return true if itemRef in Trader buyOrdr list
 	 */
-	private boolean checkBuyValid(RealmModel rModel, Settlement settle)
+	private boolean checkBuyValid(RealmModel rModel, AbstractSettle settle)
 	{
 		for (TradeOrder order : settle.getTrader().getBuyOrders().values())
 		{

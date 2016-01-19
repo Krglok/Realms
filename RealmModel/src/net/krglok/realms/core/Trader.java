@@ -15,7 +15,7 @@ package net.krglok.realms.core;
  * sellOrders, sind die Verkaufsaktionen des Settlements
  * routeOrder, sind die regelmässigen Warentransporte zwischen zwei settlement des gleichen Owner
  * 
- * Hinweis: das building Trader erhoeht nur die Anzahl der Karawanen
+ * Das Target ist immer ein Settlement, kein AbstractSelltement !
  * </pre>
  * @author Windu
  *
@@ -280,10 +280,11 @@ public class Trader
 			}
 			if (settle.getBank().getKonto() >= cost)
 			{
-				if (transport.countSender(settle.getId()) < caravanMax)
+				if (transport.countSender(settle.getId(),settle.getSettleType()) < caravanMax)
 				{
 					TradeMarketOrder tto = new TradeMarketOrder(
 							tmo.getSettleID(),			// ID des Absenders
+							settle.getSettleType(),
 							tmo.getId(),				// Id der sellOrder
 							TradeType.TRANSPORT, 
 							foundOrder.ItemRef(), 		// Ware
@@ -293,7 +294,8 @@ public class Trader
 							0, 							// abgelaufene Transportzeit
 							TradeStatus.STARTED, 		// automatischer Start des Transport
 							tmo.getWorld(),				// ZielWelt
-							settle.getId()					// ID des Ziel Settlement
+							settle.getId(),					// ID des Ziel Settlement
+							settle.getSettleType()
 							);			
 					transport.addOrder(tto);
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() +1);
@@ -359,7 +361,7 @@ public class Trader
 				if (settle.getPosition().getWorld().equalsIgnoreCase(foundOrder.getWorld())==true)
 				{
 //				System.out.println(foundOrder.getId()+":"+foundOrder.ItemRef());
-					if (tradeTransport.countSender(settle.getId()) < caravanMax)
+					if (tradeTransport.countSender(settle.getId(),settle.getSettleType()) < caravanMax)
 					{
 						distance = settle.getPosition().distance2D(targets.getSettlement(tmo.getSettleID()).getPosition());
 						makeTransportOrder(tmo, foundOrder, tradeTransport, settle, distance );
@@ -382,13 +384,13 @@ public class Trader
 	 * @param settle
 	 * @param sellOrder
 	 */
-	public void makeSellOrder(TradeMarket tradeMarket, Settlement settle, TradeOrder sellOrder)
+	public void makeSellOrder(TradeMarket tradeMarket, AbstractSettle settle, TradeOrder sellOrder)
 	{
 		if (settle.getWarehouse().getItemList().getValue(sellOrder.ItemRef())>= sellOrder.value())
 		{
 			settle.getWarehouse().withdrawItemValue(sellOrder.ItemRef(), sellOrder.value());
 			sellOrder.setStatus(TradeStatus.STARTED);
-			TradeMarketOrder tmo = new TradeMarketOrder(settle.getId(), sellOrder);
+			TradeMarketOrder tmo = new TradeMarketOrder(settle.getId(), settle.getSettleType(), sellOrder);
 			tradeMarket.addOrder(tmo);
 			orderCount++;
 		}
@@ -414,7 +416,7 @@ public class Trader
 	public void checkRoutes(TradeMarket tradeMarket, TradeTransport tradeTransport, AbstractSettle settle, SettlementList targets)
 	{
 		// es wird eine zusätzliche Caravan erzeugt, damit der TRansport nicht vollstaendig unterdrueckt wird 
-		if (tradeTransport.countSender(settle.getId()) <= caravanMax)
+		if (tradeTransport.countSender(settle.getId(),settle.getSettleType()) <= caravanMax)
 		{
 			for (RouteOrder rOrder : routeOrders.values())
 			{
@@ -509,6 +511,7 @@ public class Trader
 				{
 					TradeMarketOrder tto = new TradeMarketOrder(
 							settle.getId(),			// ID des Absenders
+							settle.getSettleType(),
 							0 ,				// Id der sellOrder
 							TradeType.TRANSPORT, 
 							rOrder.ItemRef(), 		// Ware
@@ -518,7 +521,8 @@ public class Trader
 							0, 							// abgelaufene Transportzeit
 							TradeStatus.STARTED, 		// automatischer Start des Transport
 							targetWorld,				// ZielWelt
-							targetSettle.getId()					// ID des Ziel Settlement
+							targetSettle.getId(),					// ID des Ziel Settlement
+							targetSettle.getSettleType()
 							);			
 					transport.addOrder(tto);
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() +1);

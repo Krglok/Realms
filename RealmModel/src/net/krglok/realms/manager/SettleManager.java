@@ -122,17 +122,17 @@ public class SettleManager
 			// check for overpopulation
 			
 //				System.out.println("6");
-				if (checkBuildMaterials(rModel, settle))
-				{
+			if (checkBuildMaterials(rModel, settle))
+			{
 //					System.out.println("6.1");
-					buildOrder(rModel,settle);
-					checkCounter = 0;
-				} else
-				{	
+				buildOrder(rModel,settle);
+				checkCounter = 0;
+			} else
+			{	
 //					System.out.println("6.2");
-					buyBuildMaterials(rModel, settle);
-					checkCounter = 100;
-				}
+				buyBuildMaterials(rModel, settle);
+				checkCounter = 100;
+			}
 //			System.out.println("7");
 			checkSellOrder(rModel, settle);
 //			System.out.println("8");
@@ -420,7 +420,7 @@ public class SettleManager
 			for (Item sellItem : sellItems.values())
 			{
 				boolean isCmdFound = false;
-				for (TradeMarketOrder order : rModel.getTradeMarket().getSettleOrders(settle.getId()).values())
+				for (TradeMarketOrder order : rModel.getTradeMarket().getSettleOrders(settle.getId(), settle.getSettleType()).values())
 				{
 					if (order.ItemRef().equalsIgnoreCase(sellItem.ItemRef()))
 					{

@@ -92,8 +92,8 @@ public class CmdSettleTrader extends RealmsCommand
 							+" ["+order.getStatus()+"]"
 							);
 				}
-				msg.add("SellOrder: ["+plugin.getRealmModel().getTradeMarket().getSettleOrders(settleID).size()+"/"+settle.getTrader().getOrderMax()+"]");
-				for (TradeMarketOrder order : plugin.getRealmModel().getTradeMarket().getSettleOrders(settleID).values())
+				msg.add("SellOrder: ["+plugin.getRealmModel().getTradeMarket().getSettleOrders(settleID, settle.getSettleType()).size()+"/"+settle.getTrader().getOrderMax()+"]");
+				for (TradeMarketOrder order : plugin.getRealmModel().getTradeMarket().getSettleOrders(settleID, settle.getSettleType()).values())
 				{
 					msg.add(""+ ConfigBasis.setStrright(String.valueOf(order.getId()),4)
 							+":"+ChatColor.GREEN+ ConfigBasis.setStrright(String.valueOf(order.getSettleID()),2)
@@ -103,7 +103,7 @@ public class CmdSettleTrader extends RealmsCommand
 							+" ["+order.getStatus()+"]"
 							);
 				}
-				int caravanCount = plugin.getRealmModel().getTradeTransport().countSender(settle.getId());
+				int caravanCount = plugin.getRealmModel().getTradeTransport().countSender(settle.getId(),settle.getSettleType());
 				msg.add("Transport: ["+caravanCount+"/"+settle.getTrader().getCaravanMax()+"]");
 				for (TradeMarketOrder order : plugin.getRealmModel().getTradeTransport().getSubList(settle.getId()).values())
 				{

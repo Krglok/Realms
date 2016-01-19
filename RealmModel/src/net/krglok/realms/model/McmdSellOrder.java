@@ -1,6 +1,7 @@
 package net.krglok.realms.model;
 
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarket;
 import net.krglok.realms.core.TradeOrder;
@@ -124,7 +125,7 @@ public class McmdSellOrder implements iModelCommand
 			delayDays = 1;
 		}
 		long maxTicks = ConfigBasis.GameDay * delayDays;
-		TradeOrder sellOrder = new TradeOrder(id , TradeType.SELL, itemRef, amount, price, maxTicks, 0L, TradeStatus.STARTED, settle.getPosition().getWorld(), 0);
+		TradeOrder sellOrder = new TradeOrder(id , TradeType.SELL, itemRef, amount, price, maxTicks, 0L, TradeStatus.STARTED, settle.getPosition().getWorld(), 0,SettleType.NONE);
 		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, sellOrder);
 	}
 

@@ -31,16 +31,19 @@ import org.junit.Test;
 public class TraderTest
 {
 
-	private Boolean isOutput = false; // set this to false to suppress println
+	private Boolean isOutput = true; // set this to false to suppress println
 	LocationData pos = new LocationData("SteamHaven",-469.51,72,-1236.65);
 	private Logger logMarket = Logger.getLogger("Market"); 
+	private String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
+	DataTest testData = new DataTest();
 
 	@Test
 	public void testTrader() throws SecurityException, IOException
 	{
+		System.out.println("testTrader");
 		Trader trader = new Trader();
 //		TradeOrder sellOrder = new TradeOrder(0, TradeType.SELL, "WOOD", 64 , 0.2 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
-		TradeOrder buyOrder = new TradeOrder(0, TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "WORLD",0);
+		TradeOrder buyOrder = new TradeOrder(0, TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "WORLD",0, SettleType.NONE);
 		String msg = "0,BUY, WHEAT, 64 , 0 , 1, 0L, NONE,WORLD,0";
 		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
 		Handler handler = new FileHandler(path+"\\trader.log");
@@ -50,16 +53,20 @@ public class TraderTest
 		
 		int expected = 1;
 		int actual = trader.getBuyOrders().size();
+		
 		assertEquals(expected, actual);
 		
 	}
-
 	
-	private Settlement createSettlement()
+	/**
+	 * initialisiert ein Settlement mit Testdaten
+	 * 
+	 * @param settleName
+	 * @return
+	 */
+	private Settlement createSettlement(String settleName)
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins"; //\\Realms";
 		LogList logTest = new LogList(path);
-		DataTest testData = new DataTest();
 		OwnerList ownerList =  testData.getOwners();
 		
 		ConfigTest config = new ConfigTest();
@@ -95,7 +102,6 @@ public class TraderTest
 		HashMap<String,String> regionBuildings = config. makeRegionBuildingTypes(regionTypes);
 
 		SettleType settleType = SettleType.HAMLET;
-		String settleName = "New Haven";
 		
 		Settlement settle = Settlement.createSettlement(
 				pos, 
@@ -126,9 +132,10 @@ public class TraderTest
 	@Test
 	public void testcheckSellOrder()
 	{
+		System.out.println("testcheckSellOrder");
 //		ServerTest server = new ServerTest();
-		Settlement sender = createSettlement();
-		Settlement target = createSettlement();
+		Settlement sender = createSettlement("Sender");
+		Settlement target = createSettlement("Target");
 		sender.setId(0);
 		target.setId(1);
 		target.getBank().depositKonto(10000.0, "Admin",target.getId());
@@ -144,12 +151,12 @@ public class TraderTest
 		sender.getWarehouse().depositItemValue("WOOD", 1000);
 		
 		
-		TradeOrder sellOrder = new TradeOrder(sender.getId(), TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		TradeOrder sellOrder = new TradeOrder(1, TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0, SettleType.NONE);
 //		TradeOrder buyOrder = new TradeOrder(target.getId(), TradeType.BUY, "WHEAT", 64 , 0 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
 		
 //		target.getTrader().getBuyOrders().put(1, new TradeOrder(1, TradeType.BUY, "WHEAT", 64 , 0.3 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0));
 //		target.getTrader().getBuyOrders().put(2, new TradeOrder(2, TradeType.BUY, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.DECLINE, "",0));
-		target.getTrader().getBuyOrders().put(3, new TradeOrder(3, TradeType.BUY, "WOOD", 64 , 0.5 , ConfigBasis.GameDay, 0L, TradeStatus.STARTED, "",0));
+		target.getTrader().getBuyOrders().put(3, new TradeOrder(3, TradeType.BUY, "WOOD", 64 , 0.5 , ConfigBasis.GameDay, 0L, TradeStatus.STARTED, "",0,SettleType.NONE));
 
 //		settle.getWarehouse().depositItemValue(Material.WHEAT.name(), 52);
 //		settle.getWarehouse().depositItemValue(Material.BREAD.name(), 120);
@@ -159,8 +166,8 @@ public class TraderTest
 		TradeMarket tm = new TradeMarket();
 		if (isOutput)
 		{
-			System.out.println("Sender  : "+sender.getId());
-			System.out.println("Target  : "+target.getId());
+			System.out.println("Sender  : "+sender.getId()+" : "+sender.getName());
+			System.out.println("Target  : "+target.getId()+" : "+target.getName());
 			System.out.println("Sender Bank : "+sender.getBank().getKonto());
 			System.out.println("Target Bank : "+target.getBank().getKonto());
 			System.out.println("Distance    : "+ (int)sender.getPosition().distance(setteList.getSettlement(1).getPosition()));
@@ -224,10 +231,10 @@ public class TraderTest
 	@Test
 	public void testcheckDistanceOrder()
 	{
-//		ServerTest server = new ServerTest();
-		Settlement sender = createSettlement();
-		Settlement target = createSettlement();
-		Settlement second = createSettlement();
+		System.out.println("testcheckDistanceOrder");
+		Settlement sender = createSettlement("Sender");
+		Settlement target = createSettlement("Target");
+		Settlement second = createSettlement("Second");
 		sender.setId(0);
 		target.setId(1);
 		second.setId(2);
@@ -254,18 +261,18 @@ public class TraderTest
 		TradeTransport tpo = new TradeTransport();
 		TradeMarket tm = new TradeMarket();
 		int orderId = -1;
-		TradeOrder sellOrder = new TradeOrder(orderId, TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		TradeOrder sellOrder = new TradeOrder(orderId, TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0, SettleType.NONE);
 		sender.getTrader().makeSellOrder(tm, sender, sellOrder);
-		TradeOrder sellOrder1 = new TradeOrder(orderId, TradeType.SELL, "WHEAT", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		TradeOrder sellOrder1 = new TradeOrder(orderId, TradeType.SELL, "WHEAT", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0, SettleType.NONE);
 		sender.getTrader().makeSellOrder(tm, sender, sellOrder1);
-		TradeOrder sellOrder2 = new TradeOrder(orderId, TradeType.SELL, "LOG", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		TradeOrder sellOrder2 = new TradeOrder(orderId, TradeType.SELL, "LOG", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0, SettleType.NONE);
 		sender.getTrader().makeSellOrder(tm, sender, sellOrder2);
 
-		TradeOrder sellOrder4 = new TradeOrder(orderId, TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		TradeOrder sellOrder4 = new TradeOrder(orderId, TradeType.SELL, "WOOD", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0, SettleType.NONE);
 		second.getTrader().makeSellOrder(tm, second, sellOrder4);
-		TradeOrder sellOrder5 = new TradeOrder(orderId, TradeType.SELL, "WHEAT", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		TradeOrder sellOrder5 = new TradeOrder(orderId, TradeType.SELL, "WHEAT", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0, SettleType.NONE);
 		second.getTrader().makeSellOrder(tm, second, sellOrder5);
-		TradeOrder sellOrder6 = new TradeOrder(orderId, TradeType.SELL, "LOG", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0);
+		TradeOrder sellOrder6 = new TradeOrder(orderId, TradeType.SELL, "LOG", 64 , 0.4 , ConfigBasis.GameDay, 0L, TradeStatus.NONE, "",0, SettleType.NONE);
 		second.getTrader().makeSellOrder(tm, second, sellOrder6);
 
 //		target.getTrader().getBuyOrders().put(3, new TradeOrder(3, TradeType.BUY, "WOOD", 64 , 0.5 , ConfigBasis.GameDay, 0L, TradeStatus.STARTED, "",0));
@@ -302,9 +309,10 @@ public class TraderTest
 	@Test
 	public void testcheckRouteOrder()
 	{
-		Settlement sender = createSettlement();
-		Settlement target = createSettlement();
-		Settlement second = createSettlement();
+		System.out.println("testcheckRouteOrder");
+		Settlement sender = createSettlement("Sender");
+		Settlement target = createSettlement("Target");
+		Settlement second = createSettlement("Second");
 		sender.setId(0);
 		target.setId(1);
 		second.setId(2);

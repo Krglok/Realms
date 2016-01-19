@@ -22,6 +22,7 @@ public class TradeOrder extends ItemPrice
 	private TradeStatus status;
 	private String world;
 	private int targetId;
+	private SettleType targetType;
 	
 	
 	public TradeOrder()
@@ -34,13 +35,14 @@ public class TradeOrder extends ItemPrice
 		status = TradeStatus.NONE;
 		world ="";
 		targetId = 0;
+		targetType = SettleType.NONE;
 	}
 
 
 
 	public TradeOrder(int id, TradeType tradeType, String itemRef , int value, double price, 
 			long maxTicks, long tickCount,
-			TradeStatus status, String world, int targetId)
+			TradeStatus status, String world, int targetId, SettleType settleType)
 	{
 		super(itemRef, value, price);
 		this.setId(id);
@@ -50,6 +52,7 @@ public class TradeOrder extends ItemPrice
 		this.status = status;
 		this.world =world;
 		this.targetId = targetId;
+		this.targetType = settleType;
 	}
 
 	public String getWorld()
@@ -138,6 +141,16 @@ public class TradeOrder extends ItemPrice
 		this.targetId = targetId;
 	}
 
+	public SettleType getTargetType()
+	{
+		return targetType;
+	}
+	
+	public void setTargetType(SettleType settleType)
+	{
+		this.targetType = settleType;
+	}
+	
 
 
 	public void runTick(int value)

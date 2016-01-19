@@ -148,15 +148,17 @@ public class TradeMarket extends HashMap<Integer,TradeMarketOrder>
 		return tmo;
 	}
 	
-	public TradeMarket getSettleOrders(int settleId)
+	public TradeMarket getSettleOrders(int settleId, SettleType settleType)
 	{
 		TradeMarket subList = new TradeMarket();
 		for (TradeMarketOrder tmo : this.values())
 		{
-			if (tmo.getSettleID() == settleId)
+			if (tmo.getSettleType() == settleType)
 			{
-//				this.lastNumber++;
-				subList.put(tmo.getId(),tmo);
+				if (tmo.getSettleID() == settleId)
+				{
+					subList.put(tmo.getId(),tmo);
+				}
 			}
 		}
 		

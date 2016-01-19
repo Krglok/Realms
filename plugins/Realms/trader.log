@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2014-12-19T10:30:47</date>
-  <millis>1418981447011</millis>
+  <date>2016-01-19T16:09:22</date>
+  <millis>1453216162243</millis>
   <sequence>0</sequence>
   <logger>Market</logger>
   <level>INFO</level>

@@ -19,6 +19,9 @@ import net.krglok.realms.core.Trader;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.ServerInterface;
 import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.manager.LehenManager;
+import net.krglok.realms.manager.SettleManager;
+import net.krglok.realms.manager.TradeManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.unit.UnitArcher;
@@ -65,6 +68,8 @@ public class Lehen  extends AbstractSettle
 	private int supportId;
 	private Trader trader;
 	private BuildManager buildManager;
+	private TradeManager tradeManager;
+	private LehenManager lehenManager;
 	
 	private int delayRoutes = 0;
 
@@ -283,6 +288,24 @@ public class Lehen  extends AbstractSettle
 	public void setSupportId(int supportId)
 	{
 		this.supportId = supportId;
+	}
+
+	/**
+	 * @return the buildManager
+	 */
+	public BuildManager buildManager()
+	{
+		return buildManager;
+	}
+
+	public TradeManager tradeManager()
+	{
+		return tradeManager;
+	}
+
+	public LehenManager lehenManager()
+	{
+		return lehenManager;
 	}
 	
 	public boolean isFreeNPC()
@@ -563,7 +586,7 @@ public class Lehen  extends AbstractSettle
 			Settlement settle = settlements.getSettlement(supportId);	
 			subList.addSettlement(settle);
 		}
-		int requiredWhet = this.getSupported();
+		int requiredWhet = this.getFoodForSupported();
 		Item item = new Item("WHEAT",requiredWhet);
 		this.requiredProduction.addItem(item);
 	}
@@ -573,7 +596,7 @@ public class Lehen  extends AbstractSettle
 	 *  
 	 * @return  count of resident and units
 	 */
-	private int getSupported()
+	private int getFoodForSupported()
 	{
 		int value = 2;
 		value = value + resident.getSettlerCount();

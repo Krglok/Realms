@@ -71,13 +71,15 @@ public class TradeOrderList extends HashMap<Integer,TradeOrder>
 	public TradeOrder addTradeOrder(TradeType tradeType, 
 			String itemRef , int value, double price, 
 			long maxTicks, long tickCount,
-			TradeStatus status, String world, int targetId)
+			TradeStatus status, String world, int targetId,  
+			SettleType targetType)
 	{
 		int id = lastNumber++;
 		TradeOrder to = new TradeOrder(id, tradeType, 
 				itemRef , value, price, 
 				maxTicks, tickCount,
-				status, world, targetId);
+				status, world, targetId,
+				targetType);
 		this.put(id, to);
 		return to;
 	}
