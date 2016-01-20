@@ -127,10 +127,10 @@ public class TickTask implements Runnable
 		
 		plugin.getRealmModel().OnTick();
 //		System.out.println("[Realms] Tick "+counter);
-		plugin.onBuildRequest();
-		plugin.onCleanRequest();
-		plugin.onSignRequest();
-		plugin.onScanRequest();
+		plugin.doBuildRequest();
+		plugin.doCleanRequest();
+		plugin.doSignRequest();
+		plugin.doScanRequest();
 		// start night Event
 			
 		for (World world : plugin.getServer().getWorlds())

@@ -706,7 +706,7 @@ public final class Realms extends JavaPlugin
 	 * ALLE Request pro Colony und Tick werden erledigt.
 	 * Dadurch bestimmt der RequestSender wieviel bearbeitet wird pro tick!!
 	 */
-	public void onBuildRequest()
+	public void doBuildRequest()
 	{
 		for (Settlement settle : realmModel.getSettlements().values())
 		{
@@ -1257,7 +1257,7 @@ public final class Realms extends JavaPlugin
 	/**
 	 * read MaterialData from World Position and write into a readRequest
 	 */
-	public void onCleanRequest()
+	public void doCleanRequest()
 	{
 		for (Settlement settle : realmModel.getSettlements().values())
 		{
@@ -1371,7 +1371,7 @@ public final class Realms extends JavaPlugin
 	 * set Sign text of registered Sign of a Settlement
 	 * will be called on each from TickTask 
 	 */
-	public void onSignRequest()
+	public void doSignRequest()
 	{
 		for (Settlement settle : realmModel.getSettlements().values())
 		{
@@ -1610,7 +1610,7 @@ public final class Realms extends JavaPlugin
 	 * 
 	 * </pre>
 	 */
-	public void onScanRequest()
+	public void doScanRequest()
 	{
 		for (CampPosition campPos : getData().getCampList().values())
 		{
