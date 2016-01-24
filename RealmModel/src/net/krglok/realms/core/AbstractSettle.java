@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
+
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
@@ -66,6 +68,7 @@ public abstract class AbstractSettle
 	protected ItemList requiredProduction;
 	protected BoardItemList productionOverview;
 	protected ReputationList reputations;
+	protected ArrayList<String> msg = new ArrayList<String>();
 
 	
 	public AbstractSettle()
@@ -257,6 +260,12 @@ public abstract class AbstractSettle
 		return requiredProduction;
 	}
 	
+	public 	ArrayList<String> getMsg()
+	{
+		return this.msg;
+	}
+
+	
 	public int getDayofWeek()
 	{
 		int year = (int) (age / (12 * 30));
@@ -305,17 +314,8 @@ public abstract class AbstractSettle
 		}
 		barrack.setUnitMax(unitMax);
 	}
-	
-	/**
-	 * make a production for all buildings in a settlement
-	 * only allowed for urban settlement
-	 * 
-	 * @param server
-	 * @param data
-	 * @param building
-	 * @param biome
-	 */
-	protected void doProduction(ServerInterface server, DataInterface data, Building building, Biome biome)
+
+	protected void doService(ServerInterface server, DataInterface data, Building building, Biome biome)
 	{
 		double prodFactor = 1;
 		int iValue = 0;
@@ -326,8 +326,8 @@ public abstract class AbstractSettle
 		ItemList ingredients;
 
 		building.setSales(0.0);
-		if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
-			|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300))
+		if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 600)
+			)
 		{
 			if ((building.isEnabled())
 				&& building.isIdleReady()	
@@ -346,55 +346,44 @@ public abstract class AbstractSettle
 					
 					switch(building.getBuildingType())
 					{
-					case WORKSHOP:
+					case TAVERNE:
 						ingredients = server.getRecipe(item.ItemRef());
 						ingredients.remove(item.ItemRef());
 						prodFactor = server.getRecipeFactor(item.ItemRef(),biome, item.value());
-//						System.out.println("WS " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
-						break;
-					case BAKERY:
-						if (building.isSlot())
-						{
-//							System.out.println("SLOT "+item.ItemRef());
-							ingredients = server.getRecipe(item.ItemRef());
-							ingredients.remove(item.ItemRef());
-						} else
-						{
-							ingredients = server.getRegionUpkeep(building.getHsRegionType());
-						}
-						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
-						break;
-					case TAVERNE:
+						building.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						building.getMsg().add("Ingredients:");
+						building.getMsg().addAll(ingredients.keySet());
 						if (resident.getHappiness() > Resident.getBaseHappines())
 						{
 							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness();
+							building.getMsg().add("resident.getHappiness() > Resident.getBaseHappines()");
 						} else
 						{
 							if (resident.getHappiness() > 0.0)
 							{
 								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness()*TAVERNE_UNHAPPY_FACTOR;
+								building.getMsg().add("resident.getHappiness() > 0.0");
+							} else
+							{
+								sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * resident.getHappiness()*TAVERNE_UNHAPPY_FACTOR;
+								building.getMsg().add("resident.getHappiness() < 0.0");
 							}
 						}
 						if (resident.getDeathrate() > 0)
 						{
 							sale = resident.getSettlerCount() * TAVERNE_FREQUENT / 100.0 * TAVERNE_UNHAPPY_FACTOR;
+							building.getMsg().add("resident.getDeathrate() > 0");
 						}
 						double salary = sale / 3.0 * 1.5;
 						setWorkerSale( building,  salary);
 						building.setSales((sale-salary));	
+						building.getMsg().add(" Sale :"+ConfigBasis.setStrright((sale-salary),8));
+						building.getMsg().add(" NPC  :"+ConfigBasis.setStrright((salary),8));
 						ingredients = new ItemList();
 						break;
 					default :
-//						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
 						ingredients = new ItemList();
-						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
 						prodFactor = 1;
-//							System.out.println(this.getId()+" :doProd:"+building.getHsRegionType()+":"+ingredients.size());
-						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
-//						if (building.getBuildingType() == BuildPlanType.TANNERY)
-//						{
-//							System.out.println(this.getId()+" :item: "+item.ItemRef()+" igred:"+ingredients.size()+": factor:"+prodFactor);
-//						}
 						break;
 					}
 //					System.out.println("check");
@@ -441,13 +430,147 @@ public abstract class AbstractSettle
 
 					} else
 					{
-//						System.out.println("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
+						building.getMsg().add("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
 					}
 				}
 //				building.addSales(sale);
 			} else
 			{
-//				System.out.println(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
+				building.getMsg().add(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
+			}
+		}
+
+		
+	}
+
+	
+	/**
+	 * make a production for all buildings in a settlement
+	 * only allowed for urban settlement
+	 * 
+	 * @param server
+	 * @param data
+	 * @param building
+	 * @param biome
+	 */
+	protected void doProduction(ServerInterface server, DataInterface data, Building building, Biome biome)
+	{
+		double prodFactor = 1;
+		int iValue = 0;
+		double sale = 0.0;
+		double cost = 0.0;
+		double account = 0.0; 
+		ItemArray products;
+		ItemList ingredients;
+
+		building.setSales(0.0);
+		if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
+			|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300)
+			|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 600)
+			)
+		{
+			if ((building.isEnabled())
+				&& building.isIdleReady()	
+				)
+			{
+				building.addIdlleTime();
+				sale = 0.0;
+				cost = 0.0;
+				account = 0.0;
+				iValue = 0;
+				products = building.produce(server);
+//				for (Item item : products)
+				if (products.size() > 0)
+				{
+					Item item = products.get(0);
+					
+					switch(building.getBuildingType())
+					{
+					case WORKSHOP:
+						ingredients = server.getRecipe(item.ItemRef());
+						ingredients.remove(item.ItemRef());
+						prodFactor = server.getRecipeFactor(item.ItemRef(),biome, item.value());
+						building.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						building.getMsg().add("Ingredients:");
+						building.getMsg().addAll(ingredients.keySet());
+						break;
+					case BAKERY:
+						if (building.isSlot())
+						{
+//							System.out.println("SLOT "+item.ItemRef());
+							ingredients = server.getRecipe(item.ItemRef());
+							ingredients.remove(item.ItemRef());
+						} else
+						{
+							ingredients = server.getRegionUpkeep(building.getHsRegionType());
+						}
+						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
+						building.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						building.getMsg().add("Ingredients:");
+						building.getMsg().addAll(ingredients.keySet());
+						break;
+					default :
+//						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
+						ingredients = new ItemList();
+						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
+						prodFactor = 1;
+						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
+						building.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						building.getMsg().add("Ingredients:");
+						building.getMsg().addAll(ingredients.keySet());
+						break;
+					}
+//					System.out.println("check");
+					if (checkStock(prodFactor, ingredients))
+					{
+//						iValue = item.value();
+						// berechne die MaterialKosten der Produktion
+						cost = server.getRecipePrice(item.ItemRef(), ingredients);
+						// berechne Verkaufpreis der Produktion
+						for (Item product : products)
+						{
+							iValue = (int)((double) product.value() *prodFactor);
+							sale = sale + (building.calcSales(server,product)*iValue);
+							warehouse.depositItemValue(product.ItemRef(),iValue);
+							productionOverview.addCycleValue(product.ItemRef(), iValue);
+						}
+						if ((sale - cost) > 0.0)
+						{
+							// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
+							account = (sale-cost); 
+						} else
+						{
+							// berechne Minimal Ertrag
+							account =  1.0 * (double) iValue;
+						}
+						// berechnet Ertrag 
+						double salary = account / 2.0; //* 3.0 * 2.0;
+						// Nicht weniger als 1 Kupfer pro Tag
+						if (account < 1.0) { account = 1.0; }
+						// Ertrag , EInkommen des NPC
+						setWorkerSale( building,  salary);
+						account = account - salary;
+						// Ertrag / Einkommen des Building
+						building.addSales(salary);
+						// das Settlement bezahlt die NPC
+						bank.depositKonto(-salary, "ProdSale ", getId());
+
+						// money to Settlement is deleted , because the settlement get the item !
+//						bank.depositKonto(salary/2.0, "ProdSale ", getId());
+//						bank.depositKonto(salary/10.0, "ProdSale ", getId());
+						
+						// material consum get from warehouse
+						consumStock(prodFactor, ingredients);
+
+					} else
+					{
+						building.getMsg().add("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
+					}
+				}
+//				building.addSales(sale);
+			} else
+			{
+				building.getMsg().add(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
 			}
 		}
 
@@ -484,7 +607,7 @@ public abstract class AbstractSettle
 						prodFactor  = 1.0;
 						if (checkStock(prodFactor, ingredients))
 						{
-							System.out.println(this.settleType+"Traning Start for Rookie settle :"+id+":"+recrute.getId());
+							building.getMsg().add(this.settleType+"Traning Start for Rookie settle :"+id+":"+recrute.getId());
 							// ausrüstung abbuchen
 							consumStock(prodFactor, ingredients);
 							// Siedler aus vorrat nehmen
@@ -500,13 +623,14 @@ public abstract class AbstractSettle
 							// Counter starten
 							building.addTrainCounter(1);
 							data.writeBuilding(building);
+							data.writeNpc(recrute);
 						} else
 						{
-							System.out.println(this.settleType+"No Traning Start due to Stock");
+							building.getMsg().add(this.settleType+"No Traning Start due to Stock");
 						}
 					} else
 					{
-						System.out.println(this.settleType+" No Traning Start, missing Rookie :"+id+":"+building.getId());
+						building.getMsg().add(this.settleType+" No Traning Start, missing Rookie :"+id+":"+building.getId());
 					}
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 				} else
@@ -518,12 +642,12 @@ public abstract class AbstractSettle
 						consumStock(prodFactor, ingredients);
 						building.addTrainCounter(1);
 						data.writeBuilding(building);
-						System.out.println("Traning Consum, training progress");
+						building.getMsg().add("Traning Consum, training progress");
 					} else
 					{
 						this.requiredProduction.addAll(ingredients);
 						String consum = ingredients.asString();
-						System.out.println("No Traning Consum, "+consum);
+						building.getMsg().add("No Traning Consum, "+consum);
 					}
 				}
 			} else

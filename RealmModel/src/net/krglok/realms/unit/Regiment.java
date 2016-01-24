@@ -401,7 +401,7 @@ public class Regiment extends AbstractSettle
 
 	public void doProduce(ServerInterface server, DataInterface data)
 	{
-		System.out.println("[REALMS] unit consum");
+		this.getMsg().add("[REALMS] unit consum");
 		age++;
 		for (NpcData unit :barrack.getUnitList())
 		{

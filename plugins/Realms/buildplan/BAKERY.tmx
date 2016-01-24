@@ -269,7 +269,7 @@
    <tile gid="5"/>
   </data>
  </layer>
- <layer name="Ebene 5" width="7" height="7" visible="0">
+ <layer name="Ebene 5" width="7" height="7">
   <data>
    <tile gid="0"/>
    <tile gid="5"/>
@@ -322,7 +322,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 6" width="7" height="7" visible="0">
+ <layer name="Ebene 6" width="7" height="7">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>

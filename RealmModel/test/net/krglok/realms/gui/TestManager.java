@@ -338,7 +338,7 @@ public class TestManager
 		int value = 500;
 		double price = data.getPriceList().getBasePrice(itemRef);
 		int delayDays = 10;
-		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays);
+		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays,settle.getSettleType());
 		rModel.OnCommand(buyCommand);
 		doLoop(rModel, 5);
 

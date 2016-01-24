@@ -90,10 +90,13 @@ public class Lehen  extends AbstractSettle
 		this.sales = 0;
 		this.age = 0;
 		this.position = new LocationData("", 0.0, 0.0, 0.0);
-		trader = new Trader();
 		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
 		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
 		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		trader = new Trader();
+		lehenManager = new LehenManager ();
+		tradeManager = new TradeManager();
+		buildManager = new BuildManager();
 	}
 
 	/**
@@ -126,6 +129,10 @@ public class Lehen  extends AbstractSettle
 		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
 		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
 		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		trader = new Trader();
+		lehenManager = new LehenManager ();
+		tradeManager = new TradeManager();
+		buildManager = new BuildManager();
 	}
 
 	public static int getLfdID()
@@ -402,6 +409,7 @@ public class Lehen  extends AbstractSettle
 		// is Sunday get Resources from settlement
 		if (day == 0)
 		{
+			this.msg.add("Day 0 = Tribut einforndern kein Production");
 			warehouse.setStoreCapacity();
 //			System.out.println("Produce Lehen : "+ this.id+" : "+supportId);
 			// supporter material abholen, damit wird der Bedarf gedeckt
@@ -421,19 +429,22 @@ public class Lehen  extends AbstractSettle
 			this.requiredProduction.clear();
 		} else
 		{
+			this.msg.add("Day "+day+"  Unit Production");
 			// unit production
 			for (Building building : buildingList.values())
 			{
 				if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
 				{
-					System.out.println(building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
+					this.msg.add(building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
 		
-					if (building.isEnabled())
+//					if (building.isEnabled())
 					{
+						building.setIsEnabled(true);
 						doTrainStart(data, building);
-					} else
-					{
-						System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
+						data.writeLehen(this);
+//					} else
+//					{
+//						System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
 					}
 				}
 			}
@@ -469,13 +480,13 @@ public class Lehen  extends AbstractSettle
 								recrute.setUnitType(UnitType.MILITIA);
 								UnitMilitia.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
-								building.setIsEnabled(false);
+								building.setIsEnabled(true);
 								building.setTrainCounter(0);
-								System.out.println("[REALMS] GUARDHOUSE "+building.getId()+" : RECRUTE "+recrute.getId() );
+								this.msg.add("[REALMS] GUARDHOUSE "+building.getId()+" : RECRUTE "+recrute.getId() );
 							} else
 							{
 								building.setTrainCounter(0);
-								System.out.println("[REALMS] Guardhouse Train Recrute not found !");
+								this.msg.add("[REALMS] Guardhouse Train Recrute not found !");
 							}
 						} else
 						{
@@ -487,12 +498,19 @@ public class Lehen  extends AbstractSettle
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.ARCHER);
-							UnitArcher.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.ARCHER);
+								UnitArcher.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							} else
+							{
+								building.setTrainCounter(0);
+								this.msg.add("[REALMS] Archery Train Recrute not found !");
+							}
 						} else
 						{
 						}
@@ -502,12 +520,19 @@ public class Lehen  extends AbstractSettle
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.LIGHT_INFANTRY);
-							UnitLightInfantry.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.LIGHT_INFANTRY);
+								UnitLightInfantry.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							} else
+							{
+								building.setTrainCounter(0);
+								this.msg.add("[REALMS] Barrack Train Recrute not found !");
+							}
 						} else
 						{
 						}
@@ -517,12 +542,19 @@ public class Lehen  extends AbstractSettle
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.HEAVY_INFANTRY);
-							UnitHeavyInfantry.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.HEAVY_INFANTRY);
+								UnitHeavyInfantry.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							} else
+							{
+								building.setTrainCounter(0);
+								this.msg.add("[REALMS] Barrack Train Recrute not found !");
+							}
 						} else
 						{
 						}
@@ -532,12 +564,19 @@ public class Lehen  extends AbstractSettle
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.KNIGHT);
-							UnitKnight.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.KNIGHT);
+								UnitKnight.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							} else
+							{
+								building.setTrainCounter(0);
+								this.msg.add("[REALMS] Barrack Train Recrute not found !");
+							}
 						} else
 						{
 						}
@@ -550,63 +589,8 @@ public class Lehen  extends AbstractSettle
 		}
 	}
 
-	/*
-	 * <pre>
-	 * active tick for the Manager 
-	 * the manager is is a finite state machine
-	 * The Lehen Manager realize the functions of a TradeManager but not in the same way 
-	 * Here are the basic supply chain for the lehen
-	 * </pre>
-	 */
-	public void run(RealmModel rModel)
-	{
-		// check for RouteOrders
-		if (delayRoutes > (SELL_DELAY / 20))
-		{
-			checksupport(rModel, rModel.getTradeTransport(), rModel.getSettlements());
-			delayRoutes = 0;
-		} else
-		{
-			delayRoutes++;
-		}
-		
-	}
 	
-	/**
-	 * add Wheat  to Requestlist
-	 * @param rModel
-	 * @param transport
-	 * @param settlements
-	 */
-	private void checksupport(RealmModel rModel,TradeTransport transport, SettlementList settlements)
-	{
-		SettlementList subList = settlements.getSubList(owner);
-		if (this.supportId > 0)
-		{
-			Settlement settle = settlements.getSettlement(supportId);	
-			subList.addSettlement(settle);
-		}
-		int requiredWhet = this.getFoodForSupported();
-		Item item = new Item("WHEAT",requiredWhet);
-		this.requiredProduction.addItem(item);
-	}
 	
-	/**
-	 * count for residents, units in barrack and units in buildings
-	 *  
-	 * @return  count of resident and units
-	 */
-	private int getFoodForSupported()
-	{
-		int value = 2;
-		value = value + resident.getSettlerCount();
-		value = value + barrack.getUnitList().size();
-		for (Building building : buildingList.values())
-		{
-			value = value + building.getSettler();
-		}
-		return  value;
-	}
 
 	public ItemList getrequiredItems()
 	{

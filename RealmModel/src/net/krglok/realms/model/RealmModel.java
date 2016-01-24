@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
+import org.bukkit.block.Biome;
 
 import net.krglok.realms.NpcManager;
 import net.krglok.realms.Realms;
@@ -79,7 +80,7 @@ public class RealmModel
 //	private LogList logList;
 	
 	private OwnerList owners;
-	private SettlementList settlements;
+//	private SettlementList settlements;
 	private CommandQueue commandQueue;				// List von Commands , die abgearbeitet werden muessen
 	private ArrayList<Settlement> tradeQueue;		// List von Settlements , die abgearbeitet werden muessen
 	private ArrayList<Settlement> productionQueue;	// List von Settlements , die abgearbeitet werden muessen
@@ -91,7 +92,7 @@ public class RealmModel
 	private TradeTransport tradeTransport = new TradeTransport();
 	private TradeMarket tradeMarket = new TradeMarket();
 	private ColonyList colonys;				// List of colonys in game
-	private RegimentList regiments; 		// List of Regiments in game 
+//	private RegimentList regiments; 		// List of Regiments in game 
 	private CaseBookList caseBooks;			// List of Books in game
 	private KingdomList kingdoms;			// List of Kingdoms in game
 	private BuildingList buildings;			// List of all buildings in game , make subList for settlements
@@ -141,9 +142,7 @@ public class RealmModel
 //		this.logList = logList;
 		owners = new OwnerList();
 		kingdoms = new KingdomList(realmCounter);
-		settlements = new SettlementList(settlementCounter);
 		colonys     = new ColonyList(colonyCounter);
-		regiments	= new RegimentList(0);
 		caseBooks	= new CaseBookList();
 		this.server = server;
 		this.config = config;
@@ -215,18 +214,18 @@ public class RealmModel
 	 */
 	public SettlementList getSettlements()
 	{
-		return settlements;
+		return this.getData().getSettlements();
 	}
 	
 
-	/**
-	 * replace SettlementList
-	 * @param settlements
-	 */
-	public void setSettlements(SettlementList settlements)
-	{
-		this.settlements = settlements;
-	}
+//	/**
+//	 * replace SettlementList
+//	 * @param settlements
+//	 */
+//	public void setSettlements(SettlementList settlements)
+//	{
+//		 = settlements;
+//	}
 	
 	public HashMap<Integer,Integer> getStoreQueue()
 	{
@@ -279,7 +278,7 @@ public class RealmModel
 
 	public RegimentList getRegiments()
 	{
-		return regiments;
+		return this.getData().getRegiments();
 	}
 
 	/**
@@ -337,8 +336,7 @@ public class RealmModel
 		caseBooks = data.getCaseBooks();
 		owners = data.getOwners();
 		buildings = data.getBuildings();
-		settlements = data.getSettlements();
-		regiments = data.getRegiments();
+//		settlements = data.getSettlements();
 		kingdoms = data.getKingdoms();
 		isInit = isDone;
 		return isInit;
@@ -526,9 +524,9 @@ public class RealmModel
 		try
 		{
 			// age of realms is measured by the first settlement 
-			if (settlements.getSettlement(1) != null)
+			if (this.getData().getSettlements().getSettlement(1) != null)
 			{	
-				dayOfWeek = settlements.getSettlement(1).getDayofWeek();
+				dayOfWeek = this.getData().getSettlements().getSettlement(1).getDayofWeek();
 			}
 //			System.out.println("OnTick : "+modelStatus);
 			// make timer run for trade  every tick 
@@ -701,7 +699,7 @@ public class RealmModel
 	 */
 	private void settlementManagerRun()
 	{
-		for (Settlement settle : settlements.values())
+		for (Settlement settle : this.getData().getSettlements().values())
 		{
 			settle.settleManager().run(this, settle);
 			settle.buildManager().run(this, settle.getWarehouse(),settle);
@@ -714,11 +712,11 @@ public class RealmModel
 	 */
 	private void regimentManagerRun()
 	{
-		if (regiments == null)
+		if (this.getData().getRegiments() == null)
 		{
 			return;
 		}
-		for (Regiment regiment : regiments.values())
+		for (Regiment regiment : this.getData().getRegiments().values())
 		{
 			regiment.run(this);
 		}
@@ -728,7 +726,9 @@ public class RealmModel
 	{
 		for (Lehen lehen : data.getLehen().values())
 		{
-			lehen.run(this);
+			lehen.lehenManager().run(this,lehen);
+			lehen.buildManager().run(this, lehen.getWarehouse(), lehen);
+			lehen.tradeManager().run(this, lehen);
 		}
 	}
 	
@@ -766,12 +766,22 @@ public class RealmModel
 			case NONE :
 				break;
 			case MODELENABLE :
+				break;
 			case MODELDISABLE:
+				break;
 			case CREATECOLONY:
+				break;
 			case BUILDCOLONY:
+				break;
 			case CREATESETTLEMENT:
+				break;
 			case DEPOSITWAREHOUSE:
+				break;
+			case HIRESETTLER:
+				command.execute();
+				break;
 			case WITHDRAWWAREHOUSE:
+				break;
 			case WITHDRAWBANK:
 				command.execute();
 				commandQueue.remove(command);
@@ -789,7 +799,7 @@ public class RealmModel
 
 	private ModelStatus initTradeQueue(String worldName)
 	{
-		for (Settlement settle : settlements.values())
+		for (Settlement settle : this.getData().getSettlements().values())
 		{
 			if (settle.isEnabled() && (settle.getPosition().getWorld().equalsIgnoreCase(worldName)))
 			{
@@ -829,7 +839,7 @@ public class RealmModel
 	private ModelStatus initProductionQueue(String worldName)
 	{
 //		System.out.println("Init Production");
-		for (Settlement settle : settlements.values())
+		for (Settlement settle : this.getData().getSettlements().values())
 		{
 			if (settle.isEnabled() && (settle.getPosition().getWorld().equalsIgnoreCase(worldName)))
 			{
@@ -844,7 +854,7 @@ public class RealmModel
 			}
 		}
 		
-		for (Regiment regiment : regiments.values())
+		for (Regiment regiment : this.getData().getRegiments().values())
 		{
 			if (regiment.isEnabled() && (regiment.getPosition().getWorld().equalsIgnoreCase(worldName)))
 			{
@@ -869,23 +879,20 @@ public class RealmModel
 		if (productionQueue.isEmpty() == false)
 		{
 			Settlement settle = productionQueue.get(0);
-			System.out.println("[REALMS] Settle production:"+settle.getId()+":"+lSize+":"+this.dayOfWeek);
-			if (settle.getId()==6)
-			{
-				System.out.println("[REALMS] Settle production:"+settle.getId()+":"+lSize);
-			}
+			settle.getMsg().clear();
+			settle.getMsg().add("[REALMS] Settle production:"+settle.getId()+":"+lSize+":"+this.dayOfWeek);
 			settle.getReputations().resetDaily();
-			messageData.log("settle");
+			settle.getMsg().add("settler max");
 			settle.setSettlerMax();
-			messageData.log("settler max");
+			settle.getMsg().add("Building enable");
 			settle.checkBuildingsEnabled(server);
-			messageData.log("Building enable");
+			settle.getMsg().add("worker needed");
 			settle.setWorkerNeeded();
-			messageData.log("worker needed");
+			settle.getMsg().add("happiness");
 			settle.doResident(data);
-			messageData.log("happiness");
+			settle.getMsg().add("produce");
 			settle.doProduce(server, data, this.dayOfWeek);
-			messageData.log("produce");
+			settle.getMsg().add("UnitTrain");
 			settle.doUnitTrain(unitFactory);
 			data.writeSettlement(settle);
 			
@@ -898,10 +905,11 @@ public class RealmModel
 		if (lehenProductionQueue.isEmpty() == false)
 		{
 			Lehen lehen = lehenProductionQueue.get(0);
-			System.out.println("[REALMS] lehen produce:"+lehen.getName()+":"+lehen.getId()+" Settle:"+lehen.getSupportId()+" day"+this.dayOfWeek);
+			lehen.getMsg().clear();
+			lehen.getMsg().add("[REALMS] lehen produce:"+lehen.getName()+":"+lehen.getId()+" Settle:"+lehen.getSupportId()+" day"+this.dayOfWeek);
 			lehen.doProduce(server, data, this.dayOfWeek);
+			lehen.getMsg().add("Lehen happiness");
 			lehen.doResident(data);
-			messageData.log("Lehen happiness");
 			lehen.doUnitTrain(unitFactory);
 			data.writeLehen(lehen);
 			lehenProductionQueue.remove(0);
@@ -911,7 +919,8 @@ public class RealmModel
 		if (regimentProductionQueue.isEmpty() == false)
 		{
 			Regiment regiment = regimentProductionQueue.get(0);
-			System.out.println("[REALMS] regiment production ");
+			regiment.getMsg().clear();
+			regiment.getMsg().add("[REALMS] regiment production ");
 			regiment.doProduce(server, data);
 			data.writeRegiment(regiment);
 			regimentProductionQueue.remove(0);
@@ -924,7 +933,7 @@ public class RealmModel
 	
 	private ModelStatus initTaxQueue()
 	{
-		for (Settlement settle : settlements.values())
+		for (Settlement settle : this.getData().getSettlements().values())
 		{
 			if (settle.isEnabled())
 			{
@@ -1103,7 +1112,7 @@ public class RealmModel
 	 */
 	private void doHunter()
 	{
-		for (Settlement settle : settlements.values())
+		for (Settlement settle : this.getData().getSettlements().values())
 		{
 			
 		}
@@ -1112,7 +1121,7 @@ public class RealmModel
 	
 	private void doTrap()
 	{
-		for (Settlement settle : settlements.values())
+		for (Settlement settle : this.getData().getSettlements().values())
 		{
 			
 		}
@@ -1123,7 +1132,7 @@ public class RealmModel
 	 */
 	private void doGateClose()
 	{
-		for (Settlement settle : settlements.values())
+		for (Settlement settle : this.getData().getSettlements().values())
 		{
 			for (Building building : settle.getBuildingList().values())
 			{

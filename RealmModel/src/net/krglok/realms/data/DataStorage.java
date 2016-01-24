@@ -162,13 +162,13 @@ public class DataStorage implements DataInterface
 		initBuildingList();
 		
 		// converter settlements / buildings
-		if (settlementData.checkSettlements() == false)
-		{
-			System.out.println("[REALMS] Read old Settlement and Convert");
-			initSettleData();
-			settlementData.convertSettlements(settlements);
-			convertBuildings(settlements);
-		} else
+//		if (settlementData.checkSettlements() == false)
+//		{
+//			System.out.println("[REALMS] Read old Settlement and Convert");
+//			initSettleData();
+//			settlementData.convertSettlements(settlements);
+//			convertBuildings(settlements);
+//		} else
 		{
 			initSettlementList();
 		}
@@ -239,7 +239,7 @@ public class DataStorage implements DataInterface
 			if (npcs.isEmpty() == false)
 			{
 				settle.getResident().setNpcList(this.getNpcs().getSubListSettle(settle.getId()));
-				settle.getBarrack().setUnitList(this.getNpcs().getSubListUnits(settle.getId()));
+				settle.getBarrack().setUnitList(this.getNpcs().getSubListSettleUnits(settle.getId()));
 			}
 			settlements.putSettlement(settle);
 			int ownerId = settle.getOwnerId();
@@ -277,25 +277,25 @@ public class DataStorage implements DataInterface
 	 * and before initRealms
 	 * initialize missed owners in ownerList
 	 */
-	private void initSettleData()
-	{
-		ArrayList<String> settleInit = settleData.readSettleList();
-		Settlement settle;
-		Owner owner;
-		for (String settleId : settleInit)
-		{
-			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
-			settle.initSettlement(priceList);
-//			plugin.getMessageData().log("SettleRead: "+settleId );
-			System.out.println("[REALMS] read Settle"+settle.getId()+" OwnerId "+"NPC_0");
-			owner = owners.findPlayername(ConfigBasis.NPC_0);
-			settle.setOwner(owner);
-			settle.setOwner(owner);
-//			System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
-			settlements.addSettlement(settle);
-			settle.getResident().setNpcList(this.getNpcs().getSubListSettle(settle.getId()));
-		}
-	}
+//	private void initSettleData()
+//	{
+//		ArrayList<String> settleInit = settleData.readSettleList();
+//		Settlement settle;
+//		Owner owner;
+//		for (String settleId : settleInit)
+//		{
+//			settle = readSettlement(Integer.valueOf(settleId),this.priceList);
+//			settle.initSettlement(priceList);
+////			plugin.getMessageData().log("SettleRead: "+settleId );
+//			System.out.println("[REALMS] read Settle"+settle.getId()+" OwnerId "+"NPC_0");
+//			owner = owners.findPlayername(ConfigBasis.NPC_0);
+//			settle.setOwner(owner);
+//			settle.setOwner(owner);
+////			System.out.println("read Settle"+settle.getId()+" OwnerId "+ref);
+//			settlements.addSettlement(settle);
+//			settle.getResident().setNpcList(this.getNpcs().getSubListSettle(settle.getId()));
+//		}
+//	}
 
 	/**
 	 * write settlement to dataFile
@@ -781,7 +781,7 @@ public class DataStorage implements DataInterface
 			{
 				lehen.getResident().setNpcList(this.getNpcs().getSubListLehen(lehen.getId()));
 //				System.out.println("Lehen "+lehen.getId()+"  resident: "+lehen.getResident().getNpcList().size());
-//				lehen.getBarrack().setUnitList(this.getNpcs().getSubListUnits(lehen.getId()));
+				lehen.getBarrack().setUnitList(this.getNpcs().getSubListLehenUnits(lehen.getId()));
 			}
 
 			lehenList.putLehen(lehen);

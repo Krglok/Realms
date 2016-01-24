@@ -9,11 +9,18 @@ import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.TradeMarketOrder;
+import net.krglok.realms.core.TradeOrder;
+import net.krglok.realms.core.TradeStatus;
+import net.krglok.realms.core.TradeType;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.model.McmdHireSettler;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.tool.LogList;
 
 import org.bukkit.ChatColor;
@@ -29,44 +36,117 @@ public class RealmModelLehenTest {
 	DataStorage data = new DataStorage(dataFolder);
 	
 	
-	private void printWarehouse(AbstractSettle settle)
+	private void printWarehouse(AbstractSettle aSettle)
 	{
 		System.out.println("============================================================");
-		System.out.println("Settlement : "+settle.getId()+" "+settle.getName());
-		System.out.println("Warehouse : "+settle.getWarehouse().getItemMax());
-		for (String itemRef : settle.getWarehouse().getItemList().keySet())
+		System.out.println(aSettle.getSettleType()+" : "+aSettle.getId()+" "+aSettle.getName());
+		System.out.println("Warehouse : "+aSettle.getWarehouse().getItemMax());
+		for (String itemRef : aSettle.getWarehouse().getItemList().keySet())
 		{
-			System.out.println(itemRef+" : "+settle.getWarehouse().getItemList().getValue(itemRef));
+			System.out.println(itemRef+" : "+aSettle.getWarehouse().getItemList().getValue(itemRef));
 		}
 	}
 	
-	private void printBuildingList(Settlement settle)
+	private void printBuildingMsg(AbstractSettle aSettle)
 	{
 		System.out.println("============================================================");
-		System.out.println("Settlement : "+settle.getId()+" "+settle.getName());
-		for (Building building :settle.getBuildingList().values())
+		System.out.println(aSettle.getSettleType()+": "+aSettle.getId()+" "+aSettle.getName());
+		for (Building building :aSettle.getBuildingList().values())
 		{
-			if ((building.getBuildingType() != BuildPlanType.HOME) && (building.getBuildingType() != BuildPlanType.HOUSE))
+			if (building.getMsg().size() > 0)
 			{
 				System.out.println( building.getId()+":"+building.getBuildingType() +":" +building.getWorkerInstalled()+":"+building.isEnabled());
+				for (String s : building.getMsg())
+				{
+					System.out.println(s);
+				}
 			}
 		}
 
 	}
 
-	private void printProductionView(Settlement settle)
+	private void printMilitaryBuildingList(RealmModel rModel)
+	{
+		System.out.println("============================================================");
+		int count = 0;
+		for (Settlement settle : rModel.getData().getSettlements().values())
+		{
+			System.out.println(settle.getSettleType()+": "+settle.getId()+" "+settle.getName());
+			for (Building building :settle.getBuildingList().values())
+			{
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == 500))
+				{
+					count++;
+					System.out.print( building.getId()+":"+ConfigBasis.setStrleft(building.getBuildingType().name(),15));
+					System.out.print(":"+building.getMaxTrain()); 
+					System.out.println(":" +building.getWorkerInstalled()+":"+building.isEnabled());
+				}
+			}
+		}
+		System.out.println("Anzah [" +count+"]");
+
+	}
+	
+	private void printProductionView(AbstractSettle aSettle)
+	{
+		System.out.println("============================================================");
+		System.out.println("Production Messages");
+		for (String s : aSettle.getMsg())
+		{
+			System.out.println(s);
+		}
+	}
+
+	private void printTrainingStatus(AbstractSettle aSettle)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add("Settlement ["+settle.getId()+"] : "+settle.getName());
-		msg.add("Item              |    Day  |    Month |  Store ["+settle.getProductionOverview().getPeriodCount()+"]");
-		for (String ref : settle.getProductionOverview().sortItems())
+		msg.add("============================================================");
+		msg.add("TrainingStatus");
+		msg.add(aSettle.getSettleType()+" ["+aSettle.getId()+"] : "+aSettle.getName());
+		msg.add("Building       |ct| NPC                  |  ");
+		for (Building building : aSettle.getBuildingList().values())
 		{
-			BoardItem bItem = settle.getProductionOverview().get(ref);
-			String name = ConfigBasis.setStrleft(bItem.getName()+"__________", 12);
-			String last = ConfigBasis.setStrright(String.valueOf((int)bItem.getInputValue()), 9);
-			String cycle = ConfigBasis.setStrright(String.valueOf((int)bItem.getInputSum()), 9);
-			String period = ConfigBasis.setStrright(String.valueOf((int)  settle.getWarehouse().getItemList().getValue(bItem.getName())), 6);
-			msg.add(name +"|"+last+"|"+cycle+"|"+period+"|");
+			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500)
+			{
+				String name = building.getId()+":"+ConfigBasis.setStrleft(building.getBuildingType().name()+"__________", 15);
+				String last = ConfigBasis.setStrright(building.getMaxTrain(), 2)+":"+ConfigBasis.setStrright(building.getTrainCounter(), 4);
+				NpcData recrute = aSettle.getBarrack().getUnitList().getBuildingRecrute(building.getId());
+				String cycle = "                 ";
+				if (recrute  != null)
+				{
+					cycle = ":"+recrute.getId()+":"+recrute.getName();
+				}
+				String period = building.isEnabled().toString(); 
+				msg.add(name +"|"+last+"|"+cycle+"|"+period+"|");
+			}
+		}
+		msg.add("");
+		for (String s : msg)
+		{
+			System.out.println(s);
+		}
+	}
+
+	private void printLehenNpc(AbstractSettle aSettle)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add("======================================================");
+		msg.add("NPC List");
+		msg.add(aSettle.getSettleType()+" ["+aSettle.getId()+"] : "+aSettle.getName());
+		msg.add("|NPC                  |  ");
+		for (NpcData npc : aSettle.getResident().getNpcList().values())
+		{
+				String name = ConfigBasis.setStrright(npc.getId(),4)+":"
+						+ConfigBasis.setStrleft(npc.getName()+"__________", 16);
+				String last = ":"+npc.getNpcType()+":"+npc.getUnitType();  
+						
+				String cycle = " W:"+npc.getWorkBuilding()+" H:"+npc.getHomeBuilding();
+				Building building = aSettle.getBuildingList().getBuilding(npc.getHomeBuilding());
+				if (building != null)
+				{
+					cycle = cycle+":"+building.getBuildingType().name();
+				}
+				msg.add(name +"|"+last+"|"+cycle+"|");
 		}
 		msg.add("");
 		for (String s : msg)
@@ -75,18 +155,106 @@ public class RealmModelLehenTest {
 		}
 	}
 	
-	private void simProductioncycle(String world, RealmModel rModel)
+
+	private void printLehenUnit(AbstractSettle aSettle)
 	{
-		
-		rModel.OnProduction(world);
-		for (int i = 0; i < 100; i++) 
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add("======================================================");
+		msg.add("Unit List");
+		msg.add(aSettle.getSettleType()+" ["+aSettle.getId()+"] : "+aSettle.getName());
+		msg.add("|NPC                  |  ");
+		for (NpcData npc : aSettle.getBarrack().getUnitList())
 		{
-		  rModel.OnTick();	
+				String name = ConfigBasis.setStrright(npc.getId(),4)+":"
+						+ConfigBasis.setStrleft(npc.getName()+"__________", 16);
+				String last = ":"+npc.getNpcType()+":"+npc.getUnitType();  
+						
+				String cycle = " W:"+npc.getWorkBuilding();
+				Building building = aSettle.getBuildingList().getBuilding(npc.getWorkBuilding());
+				if (building != null)
+				{
+					cycle = cycle+":"+building.getBuildingType().name();
+				}
+				msg.add(name +"|"+last+"|"+cycle+"|");
+		}
+		msg.add("");
+		for (String s : msg)
+		{
+			System.out.println(s);
 		}
 	}
 	
+	
+	private void printTradeOrders(RealmModel rModel, AbstractSettle aSettle)
+	{
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add("======================================================");
+		msg.add("Trade Orders ");
+		msg.add(aSettle.getSettleType()+" ["+aSettle.getId()+"] : "+aSettle.getName());
+		msg.add("|SELL Order                 |  ");
+		for (TradeMarketOrder order : rModel.getTradeMarket().values())
+		{
+			if (order.getSettleID() == aSettle.getId())
+			{
+				String name = order.getSettleID()+":"+aSettle.getName()+":"+order.ItemRef()+":"+order.value();
+				msg.add(name);
+			}
+		}
+		for (TradeMarketOrder order : rModel.getTradeTransport().values())
+		{
+			if (order.getSettleID() == aSettle.getId())
+			{
+				String name = order.getSettleID()+":"+aSettle.getName()+":"+order.ItemRef()+":"+order.value()+">>"+order.getTargetId();
+				msg.add(name);
+			}
+		}
+		msg.add("");
+		for (String s : msg)
+		{
+			System.out.println(s);
+		}
+	}
+	
+	
+	private void simDayCycle(String world, RealmModel rModel)
+	{
+		int maxTick = 1200;
+		System.out.println("simStart========================");
+		// es sind 1200 cyclen pro Tag
+		int l = 0;
+		for (int i = 0; i < maxTick; i++) 
+		{
+		  // es ist 18:00 und produktionsberechnung
+		  if (i == 900)
+		  {
+			  rModel.OnProduction(world);
+		  } else
+		  {
+			  rModel.OnTick();
+		  }
+		  if (rModel.getData().writeCache.size() > 0)
+		  {
+			  rModel.getData().writeCache.run();
+		  }
+		  System.out.print(">");
+		  l++;
+		  if (l > 80) { l= 0; System.out.println(""); }
+		}
+		// der Cache muss geleert werden
+		while (rModel.getData().writeCache.size() > 0)
+		{
+			  System.out.print(".");
+			  rModel.getData().writeCache.run();
+			  l++;
+			  if (l > 80) { l= 0; System.out.println(""); }
+		}
+		System.out.println("");
+		System.out.println("simEnd  after "+maxTick+" cycles");
+	}
+	
 	@Test
-	public void testOnProduction() {
+	public void testOnProduction() 
+	{
 		ConfigTest config = new ConfigTest();
 		config.initConfigData();
 		config.initRegionBuilding();
@@ -117,18 +285,66 @@ public class RealmModelLehenTest {
 		rModel.OnEnable();
 
 		Settlement settle = rModel.getSettlements().getSettlement(4);
-		Lehen lehen = rModel.getData().getLehen().getLehen(1);
+		Lehen lehen = rModel.getData().getLehen().getLehen(2);
 		
 		settle.getWarehouse().depositItemValue("LOG", 32);
+		settle.getWarehouse().depositItemValue("LEATHER_BOOTS", 32);
+		settle.getWarehouse().depositItemValue("LEATHER_LEGGINGS", 32);
+		settle.getWarehouse().depositItemValue("LEATHER_CHESTPLATE", 32);
+		settle.getWarehouse().depositItemValue("LEATHER_HELMET", 32);
+		settle.getWarehouse().depositItemValue("STONE_SWORD", 32);
+		settle.getWarehouse().depositItemValue("BREAD", 200);
+		
+		TradeOrder sellOrder = new TradeOrder(0, TradeType.SELL, "LEATHER_BOOTS" , 5, 22, 500, 0, TradeStatus.NONE, "Draskoria", 0, SettleType.CITY);
+		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, sellOrder);
+		sellOrder = new TradeOrder(0, TradeType.SELL, "LEATHER_LEGGINGS" , 5, 22, 500, 0, TradeStatus.NONE, "Draskoria", 0, SettleType.CITY);
+		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, sellOrder);
+		sellOrder = new TradeOrder(0, TradeType.SELL, "LEATHER_CHESTPLATE" , 5, 22, 500, 0, TradeStatus.NONE, "Draskoria", 0, SettleType.CITY);
+		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, sellOrder);
+		sellOrder = new TradeOrder(0, TradeType.SELL, "LEATHER_HELMET" , 5, 22, 500, 0, TradeStatus.NONE, "Draskoria", 0, SettleType.CITY);
+		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, sellOrder);
+		sellOrder = new TradeOrder(0, TradeType.SELL, "STONE_SWORD" , 5, 22, 500, 0, TradeStatus.NONE, "Draskoria", 0, SettleType.CITY);
+		settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, sellOrder);
+		
+		rModel.getBuildings().getBuilding(766).setMaxTrain(1);
+		rModel.getBuildings().getBuilding(54).setMaxTrain(1);
+		
+		McmdHireSettler hire = new McmdHireSettler(rModel, 4, 2, 1000);
+		rModel.getcommandQueue().add(hire);
+		
+		rModel.getSettlements().getSettlement(4).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(6).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(7).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(8).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(9).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(11).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(15).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(17).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(18).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(19).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(25).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(26).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(27).getWarehouse().depositItemValue("WHEAT", 320);		
+		
+		for (Building building : rModel.getData().getBuildings().values())
+		{
+			if (BuildPlanType.getBuildGroup(building.getBuildingType()) == 500)
+			{
+				building.setIsEnabled(true);
+			}
+		}
+		
 		
 		String world = "DRASKORIA";
+		// Eine Tagessimulation
+		simDayCycle(world, rModel);
+		simDayCycle(world, rModel);
+		simDayCycle(world, rModel);
 		
-		simProductioncycle(world, rModel);
-		simProductioncycle(world, rModel);
 		
 		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_PRODUCTION);
 
-		isOutput = (expected != actual); //true;
+		isOutput = true; //(expected != actual); //true;
 		if (isOutput)
 		{
 			System.out.println("Lehen Test   =================================================");
@@ -140,9 +356,14 @@ public class RealmModelLehenTest {
 			System.out.println("Production Queue: "+rModel.getProductionQueue().size());
 			System.out.println("ModelStatus  : "+rModel.getModelStatus().name());
 
-			printBuildingList(settle);
+			printProductionView(lehen);
+			printLehenNpc(lehen);
+			printLehenUnit(lehen);
+			printBuildingMsg(lehen);
 			printProductionView(settle);
-			printWarehouse(lehen);
+			printBuildingMsg(settle);
+			printLehenUnit(settle);
+			printTradeOrders(rModel, settle);
 		}
 		assertEquals(expected, actual);
 	}

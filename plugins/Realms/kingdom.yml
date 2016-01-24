@@ -4,8 +4,3 @@ KINGDOM:
     name: Freie Siedler
     ownerId: 0
     isNPC: true
-  '1':
-    id: 1
-    name: Clan Freie Soeldner
-    ownerId: 1
-    isNPC: true

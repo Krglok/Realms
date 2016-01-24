@@ -1277,39 +1277,54 @@ public class Settlement extends AbstractSettle //implements Serializable
 			// redude required list by production cycle 
 			requiredProduction.reduceRequired(); 
 			productionOverview.resetLastAll();
+			this.msg.add("Day "+day);
+			this.msg.add("setStoreCapacity");
 			setStoreCapacity();
+			this.msg.add("initTreasureList");
 			initTreasureList();
+			this.msg.add("expandTreasureList");
 			expandTreasureList(getBiome(), server);
 	//		checkDecay();
+			this.msg.add("checkFoundItems");
 			checkFoundItems(server);
+			this.msg.add("StartBuildingProduction");
 			for (Building building : buildingList.values())
 			{
-				// setze defaultBiome auf Settlement Biome 
-				if (building.getBiome() == null)
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType())!= ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+					&& (BuildPlanType.getBuildGroup(building.getBuildingType())> ConfigBasis.BUILDPLAN_GROUP_HOME)
+					)
 				{
-					building.setBiome(biome);
+					this.msg.add(building.getBuildingType().name()+":"+building.getId()+"  : "+building.getMaxTrain());
+					// loesche letzte Message
+					building.getMsg().clear();
+					// setze defaultBiome auf Settlement Biome 
+					if (building.getBiome() == null)
+					{
+						building.setBiome(biome);
+					}
+					// doProduction on Building
+					doProduction(server, data, building, biome);
+					doService(server, data, building, biome);
 				}
-				// doProduction on Building
-				doProduction(server, data, building, biome);
-					
 				// unit production
 				if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
 				{
-					System.out.println("Train check : "+building.getMaxTrain());
+					this.msg.add("Train check : "+building.getMaxTrain());
 	
-					if (building.isEnabled())
+//					if (building.isEnabled())
 					{
+						building.setIsEnabled(true);
 						doTrainStart(data, building);
-					} else
-					{
-						System.out.println("Train not enabled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
+//					} else
+//					{
+//						System.out.println("Train not enabled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
 					}
 				}
 			}
 			productionOverview.addCycle();
 		} else
 		{
-			
+			this.msg.add("Day 0 = No Production");
 		}
 	}
 
@@ -1366,7 +1381,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 								recrute.setUnitType(UnitType.MILITIA);
 								UnitMilitia.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
-								building.setIsEnabled(false);
+								building.setIsEnabled(true);
 								building.setTrainCounter(0);
 							} else
 							{
@@ -1381,12 +1396,15 @@ public class Settlement extends AbstractSettle //implements Serializable
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.ARCHER);
-							UnitArcher.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.ARCHER);
+								UnitArcher.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							}
 						} else
 						{
 						}
@@ -1396,12 +1414,15 @@ public class Settlement extends AbstractSettle //implements Serializable
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.LIGHT_INFANTRY);
-							UnitLightInfantry.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.LIGHT_INFANTRY);
+								UnitLightInfantry.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							}
 						} else
 						{
 						}
@@ -1411,12 +1432,15 @@ public class Settlement extends AbstractSettle //implements Serializable
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.HEAVY_INFANTRY);
-							UnitHeavyInfantry.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.HEAVY_INFANTRY);
+								UnitHeavyInfantry.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							}
 						} else
 						{
 						}
@@ -1426,12 +1450,15 @@ public class Settlement extends AbstractSettle //implements Serializable
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
-							recrute.setWorkBuilding(0);
-							recrute.setUnitType(UnitType.KNIGHT);
-							UnitKnight.initData(recrute.getUnit());
-							building.addMaxTrain(-1);
-							building.setIsEnabled(false);
-							building.setTrainCounter(0);
+							if (recrute != null)
+							{
+								recrute.setWorkBuilding(0);
+								recrute.setUnitType(UnitType.KNIGHT);
+								UnitKnight.initData(recrute.getUnit());
+								building.addMaxTrain(-1);
+								building.setIsEnabled(true);
+								building.setTrainCounter(0);
+							}
 						} else
 						{
 						}

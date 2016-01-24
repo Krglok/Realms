@@ -31,7 +31,7 @@ public class TickTask implements Runnable
 {
     //private final transient Server server;
     private final Realms plugin;
-    private static long counter = 0;
+//    private static long counter = 0;
     private static boolean isProduction = false;
     private static int prodLimit = (int) ConfigBasis.GameDay;
     private static int taxCounter = 0;
@@ -68,7 +68,6 @@ public class TickTask implements Runnable
 //			taxCounter.put(world.getName(), 0);
 //			System.out.println("[REALMS] world "+world.getName());
 		}
-		counter = 0;
 	}
     
 	public static void setIsProduction(boolean value)
@@ -76,15 +75,6 @@ public class TickTask implements Runnable
 		TickTask.isProduction = value;
 	}
 	
-	public static long getCounter()
-	{
-		return counter;
-	}
-	
-	public static void setCounter(long l)
-	{
-		counter = l;
-	}
 	
 	public static void setProdLimit(int value)
 	{
@@ -117,16 +107,8 @@ public class TickTask implements Runnable
 			return;
 		}
 		
-		counter++;
-//		taxCounter++;
-		// starte speichern der Settlement vor onTick
-		if (counter > prodLimit)
-		{
-			counter = 0;
-		}
 		
 		plugin.getRealmModel().OnTick();
-//		System.out.println("[Realms] Tick "+counter);
 		plugin.doBuildRequest();
 		plugin.doCleanRequest();
 		plugin.doSignRequest();
@@ -161,8 +143,6 @@ public class TickTask implements Runnable
 	//								plugin.getLog().info("[Realms] production calculation : "+world.getName());
 									plugin.getServer().broadcastMessage(ChatColor.BLUE+"[Realms] production calculation on "+world.getName());
 								}
-			//					System.out.println("[Realms] Production");
-			//					plugin.getLog().info("Tax counter "+taxCounter);
 							} else
 							{
 								System.out.println("[Realms] Production "+isProduction+" on "+world.getName());

@@ -71,30 +71,37 @@ public class McmdHireSettler implements iModelCommand
 		double settlePrice  = price / 2;
 		if (npc.isMaried())
 		{
-			if (rModel.getData().getNpcs().get((npc.getNpcHusband())).isAlive())
+			if (rModel.getData().getNpcs().get((npc.getNpcHusband())) != null)
 			{
-				rModel.getData().getNpcs().get((npc.getNpcHusband())).depositMoney(price);
-			} else
-			{
-				int maxChild = rModel.getData().getNpcs().getChildNpc(npc.getId()).values().size();
-				if (maxChild > 0)
+				if (rModel.getData().getNpcs().get((npc.getNpcHusband())).isAlive())
 				{
-					double childPrice = price / maxChild;
-					for (NpcData child :rModel.getData().getNpcs().getChildNpc(npc.getId()).values())
-					{
-						if (child.isAlive())
-						{
-							child.depositMoney(childPrice);
-						} else
-						{
-							npc.depositMoney((childPrice));
-						}
-					}
+					rModel.getData().getNpcs().get((npc.getNpcHusband())).depositMoney(price);
 				} else
 				{
-					npc.depositMoney(npcPrice);
+					int maxChild = rModel.getData().getNpcs().getChildNpc(npc.getId()).values().size();
+					if (maxChild > 0)
+					{
+						double childPrice = price / maxChild;
+						for (NpcData child :rModel.getData().getNpcs().getChildNpc(npc.getId()).values())
+						{
+							if (child.isAlive())
+							{
+								child.depositMoney(childPrice);
+							} else
+							{
+								npc.depositMoney((childPrice));
+							}
+						}
+					} else
+					{
+						npc.depositMoney(npcPrice);
+					}
 				}
+			} else
+			{
+				npc.depositMoney(npcPrice);
 			}
+
 		} else
 		{
 			npc.depositMoney(npcPrice);

@@ -1601,31 +1601,37 @@ public class ServerListener implements Listener
 		if (l0.contains("[WAREHOUSE]"))
 		{
 //			cmdBuildPlanBook(event);
-			String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer()); 
-			Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-			if (settle != null)
+	    	int regionId = findRegionAtLocation(plugin, event.getPlayer());
+	    	Building building = plugin.getData().getBuildings().getBuildingByRegion(regionId);
+			if (building.getSettleId() > 0)
 			{
-				CmdSettleWarehouse cmdWare = new CmdSettleWarehouse();
-				cmdWare.setPara(0, settle.getId());
-				cmdWare.setPara(1, this.lastPage);
-				if (cmdWare.canExecute(plugin, event.getPlayer()))
+				Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(building.getSettleId());
+				if (settle != null)
 				{
-//					cmdWare.execute(plugin, event.getPlayer());
-					cmdWare.execute(plugin, event.getPlayer());
-					lastPage = cmdWare.getPage()+1;
+					CmdSettleWarehouse cmdWare = new CmdSettleWarehouse();
+					cmdWare.setPara(0, settle.getId());
+					cmdWare.setPara(1, this.lastPage);
+					if (cmdWare.canExecute(plugin, event.getPlayer()))
+					{
+	//					cmdWare.execute(plugin, event.getPlayer());
+						cmdWare.execute(plugin, event.getPlayer());
+						lastPage = cmdWare.getPage()+1;
+					}
 				}
-			}
-			Lehen lehen = plugin.getRealmModel().getData().getLehen().findName(sRegion);
-			if (lehen != null)
+			} else
 			{
-				CmdFeudalWarehouse cmdWare = new CmdFeudalWarehouse();
-				cmdWare.setPara(0, lehen.getId());
-				cmdWare.setPara(1, this.lastPage);
-				if (cmdWare.canExecute(plugin, event.getPlayer()))
+				Lehen lehen = plugin.getRealmModel().getData().getLehen().getLehen(building.getLehenId());
+				if (lehen != null)
 				{
-//					cmdWare.execute(plugin, event.getPlayer());
-					cmdWare.execute(plugin, event.getPlayer());
-					lastPage = cmdWare.getPage()+1;
+					CmdFeudalWarehouse cmdWare = new CmdFeudalWarehouse();
+					cmdWare.setPara(0, lehen.getId());
+					cmdWare.setPara(1, this.lastPage);
+					if (cmdWare.canExecute(plugin, event.getPlayer()))
+					{
+	//					cmdWare.execute(plugin, event.getPlayer());
+						cmdWare.execute(plugin, event.getPlayer());
+						lastPage = cmdWare.getPage()+1;
+					}
 				}
 			}
 			return;
@@ -2439,6 +2445,7 @@ public class ServerListener implements Listener
 	
 	}
 	
+	
 	private void cmdBuildingInfo(PlayerInteractEvent event, Block b, Region region)
 	{
 		Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
@@ -2496,6 +2503,7 @@ public class ServerListener implements Listener
 		}
 	}
 
+	
 	private void cmdBuildingRecipe(PlayerInteractEvent event, Block b, Region region)
 	{
 		Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());
@@ -2546,23 +2554,21 @@ public class ServerListener implements Listener
 		}
 	}
 
+	
 	private void cmdInfo(PlayerInteractEvent event)
 	{
-		String sRegion = findSuperRegionAtLocation(plugin, event.getPlayer());
-		BuildPlanType regionType = findBuildingTypeAtLocation(plugin, event.getPlayer());
-		if (BuildPlanType.getBuildGroup(regionType) == 900)
+    	int regionId = findRegionAtLocation(plugin, event.getPlayer());
+    	Building building = plugin.getData().getBuildings().getBuildingByRegion(regionId);
+		if (building != null)
 		{
-			int id = findRegionIdAtLocation(plugin,  event.getPlayer());
-			Building building = plugin.getData().getBuildings().getBuildingByRegion(id);
-			if (building != null)
+			if (building.getLehenId() > 0)
 			{
-				int lehenId = building.getLehenId();
-				Lehen lehen = plugin.getData().getLehen().getLehen(lehenId);
+				Lehen lehen = plugin.getData().getLehen().getLehen(building.getLehenId());
 				if (lehen != null)
 				{
 					CmdFeudalInfo cmd = new CmdFeudalInfo();
-					cmd.setPara(0, lehenId);
-					cmd.setPara(1, 1);
+					cmd.setPara(0, building.getLehenId()); // lehen Id
+					cmd.setPara(1, 1); // page
 					if (cmd.canExecute(plugin, event.getPlayer()))
 					{
 						cmd.execute(plugin, event.getPlayer());
@@ -2576,25 +2582,26 @@ public class ServerListener implements Listener
 				}
 			} else
 			{
-				System.out.println("Building not found ");
-			}
-			return;
-		}
-		System.out.println("BuildingGroup :"+BuildPlanType.getBuildGroup(regionType));
-		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
-		if (settle != null)
-		{
-			CmdSettleInfo cmdInfo = new CmdSettleInfo();
-			cmdInfo.setPara(0, settle.getId());
-			cmdInfo.setPara(1, 1);
-			if (cmdInfo.canExecute(plugin, event.getPlayer()))
-			{
-				cmdInfo.execute(plugin, event.getPlayer());
+				Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(building.getSettleId());
+				if (settle != null)
+				{
+					CmdSettleInfo cmdInfo = new CmdSettleInfo();
+					cmdInfo.setPara(0, settle.getId());
+					cmdInfo.setPara(1, 1);
+					if (cmdInfo.canExecute(plugin, event.getPlayer()))
+					{
+						cmdInfo.execute(plugin, event.getPlayer());
+					}
+				} else
+				{
+					System.out.println("Settlement not found ");
+				}
 			}
 		}
 		
 	}
 
+	
 	private void cmdReputation(PlayerInteractEvent event, Block b)
 	{
     	Player player = (Player) event.getPlayer();
@@ -2663,6 +2670,7 @@ public class ServerListener implements Listener
 
 	}
 	
+	
 	private void doCatapult(PlayerInteractEvent event, Block b)
 	{
 		Chest chest = null;
@@ -2691,6 +2699,7 @@ public class ServerListener implements Listener
 		}
 		
 	}
+	
 	
 	private void cmdDonate(PlayerInteractEvent event, Block b)
 	{
@@ -2735,6 +2744,7 @@ public class ServerListener implements Listener
 		}
 
 	}
+	
 	
 	public BlockFace determineDataOfDirection(BlockFace bf)
 	{
@@ -2862,6 +2872,7 @@ public class ServerListener implements Listener
 
 	}
 	
+	
 	private ItemStack setName(ItemStack is, String name, List<String> lore){
 		ItemMeta IM = is.getItemMeta();
 		if (name != null) {
@@ -2932,6 +2943,7 @@ public class ServerListener implements Listener
 		
 	}
 	
+	
 	private void setupShop(ItemArray stockList, Settlement settle, Player player, Inventory chest, int minAmount)
 	{
 		int[] row1 = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -2952,12 +2964,14 @@ public class ServerListener implements Listener
 		return stockList;
 	}
 
+	
 	private ItemArray shopMaterial(int settleId)
 	{
 		ItemArray stockList = plugin.getData().getSettlements().getSettlement(settleId).getWarehouse().searchItemsInWarehouse(ConfigBasis.initMaterial()).asItemArray();
 		stockList.addAll(plugin.getData().getSettlements().getSettlement(settleId).getWarehouse().searchItemsInWarehouse(ConfigBasis.initTool()).asItemArray());
 		return stockList;
 	}
+	
 	
 	private void cmdSell(PlayerInteractEvent event, Block b, String l1)
 	{

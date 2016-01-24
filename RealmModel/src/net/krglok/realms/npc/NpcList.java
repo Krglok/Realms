@@ -88,7 +88,10 @@ public class NpcList extends HashMap<Integer, NpcData>
 			if (npc.getLehenId() == lehenId)
 			{
 				// achtung hier werden alle NPC genommen, auch di in einem Regiment etc.
-				subList.putNpc(npc);
+				if (npc.getNpcType() != NPCType.MILITARY)
+				{
+					subList.putNpc(npc);
+				}
 			}
 		}
 		
@@ -455,7 +458,11 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return null;
 	}
 
-	
+	/**
+	 * get any NPC that is not UnitType SETTLER 
+	 * 
+	 * @return
+	 */
 	public UnitList getSubListUnits()
 	{
 		UnitList subList = new UnitList();
@@ -469,13 +476,18 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 
-	
-	public UnitList getSubListUnits(int settleId)
+	/**
+	 * get any NPC that is MILITARY and has SettleID
+	 * 
+	 * @param settleId
+	 * @return
+	 */
+	public UnitList getSubListSettleUnits(int settleId)
 	{
 		UnitList subList = new UnitList();
 		for (NpcData npc : this.values())
 		{
-			if (npc.getUnitType() != UnitType.SETTLER)
+			if (npc.getNpcType() == NPCType.MILITARY)
 			{
 				if ((npc.getSettleId() == settleId)
 					&& (npc.getRegimentId() == 0)
@@ -488,7 +500,36 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 	
+
+	/**
+	 * get any NPC that is MILITARY and has lehenID
+	 * @param lehenId
+	 * @return
+	 */
+	public UnitList getSubListLehenUnits(int lehenId)
+	{
+		UnitList subList = new UnitList();
+		for (NpcData npc : this.values())
+		{
+			if (npc.getNpcType() == NPCType.MILITARY)
+			{
+				if ((npc.getLehenId() == lehenId)
+					&& (npc.getRegimentId() == 0)
+					)
+				{
+					subList.putUnit(npc);
+				}
+			}
+		}
+		return subList;
+	}
 	
+	/**
+	 * get any NPC that has regimentID
+	 * 
+	 * @param regimentId
+	 * @return
+	 */
 	public UnitList getSubListRegiment(int regimentId)
 	{
 		UnitList subList = new UnitList();

@@ -106,7 +106,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 				{
 					cost = to.value() * to.getBasePrice();
 					settle.getBank().depositKonto(cost, "Trader "+to.getTargetId(),settle.getId());
-//					System.out.println("[REALMS] End Transport:"+settle.getId()+": Bank :"+ConfigBasis.setStrformat2(cost, 11)+"="+to.ItemRef());
+					settle.getMsg().add("[REALMS] End Transport:"+settle.getId()+": Bank :"+ConfigBasis.setStrformat2(cost, 11)+"="+to.ItemRef());
 					settle.getTrader().setOrderCount(settle.getTrader().getOrderCount()+1);
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount()-1);
 				}
@@ -136,7 +136,7 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 					settle.getWarehouse().depositItemValue(to.ItemRef(), to.value());
 					settle.getTrader().setOrderCount(settle.getTrader().getOrderCount()-1);
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() -1);
-//					System.out.println("[REALMS]  End Transport:"+settle.getId()+":"+to.ItemRef()+":"+to.value()+"  ====");
+					settle.getMsg().add("[REALMS]  End Transport:"+settle.getId()+":"+to.ItemRef()+":"+to.value()+"  ====");
 
 					to.setTargetId(0);
 //					to.setStatus(TradeStatus.NONE);

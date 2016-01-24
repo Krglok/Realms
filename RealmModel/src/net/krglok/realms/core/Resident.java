@@ -799,6 +799,8 @@ public class Resident
 						&& (npc.getNpcType() != NPCType.CRAFTSMAN)
 						&&(npc.getNpcType() != NPCType.FARMER)
 						&&(npc.getNpcType() != NPCType.MAPMAKER)
+						&&(npc.getNpcType() != NPCType.NOBLE)
+						&&(npc.getNpcType() != NPCType.MILITARY)
 						)
 					{
 						System.out.println("Recrute found "+npc.getId()+" : "+npc.getName());

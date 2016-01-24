@@ -1032,7 +1032,7 @@ public class ConfigBasis implements ConfigInterface
 			}
 			if (initWeapon().containsKey(itemRef))
 			{
-				return 32 - (30 * matFactor / 100) + sellLimit;
+				return 16 - (30 * matFactor / 100) + sellLimit;
 			}
 			if (initArmor().containsKey(itemRef))
 			{

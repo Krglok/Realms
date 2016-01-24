@@ -373,7 +373,7 @@ public class CmdRealmsSettler extends RealmsCommand
 			settleNpc.setAge(21);
 			settleNpc.setMoney(10.0);
 			plugin.getData().getNpcs().add(settleNpc);
-			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListUnits(settle.getId()));
+			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListSettleUnits(settle.getId()));
 			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 			plugin.getData().writeNpc(settleNpc);
 			plugin.unitManager.createUnit(settleNpc, plugin.makeLocationData(player.getLocation()));
@@ -390,7 +390,7 @@ public class CmdRealmsSettler extends RealmsCommand
 			settleNpc.setAge(21);
 			settleNpc.setMoney(10.0);
 			plugin.getData().getNpcs().add(settleNpc);
-			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListUnits(settle.getId()));
+			settle.getBarrack().setUnitList(plugin.getData().getNpcs().getSubListSettleUnits(settle.getId()));
 			settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 			plugin.getData().writeNpc(settleNpc);
 			plugin.unitManager.createUnit(settleNpc, plugin.makeLocationData(player.getLocation()));

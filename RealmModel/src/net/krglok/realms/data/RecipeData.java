@@ -170,6 +170,26 @@ public class RecipeData
 			itemList.addItem(Material.COBBLESTONE.name(), 3);
 			itemList.addItem(Material.STICK.name(), 6);
 			break;
+		case COOKED_BEEF :
+			itemList.addItem(Material.COOKED_BEEF.name(), 5);
+			itemList.addItem(Material.RAW_BEEF.name(), 5);
+			itemList.addItem(Material.LOG.name(), 1);
+			break;
+		case COOKED_FISH :
+			itemList.addItem(Material.COOKED_FISH.name(), 5);
+			itemList.addItem(Material.RAW_FISH.name(), 5);
+			itemList.addItem(Material.LOG.name(), 1);
+			break;
+		case COOKED_CHICKEN :
+			itemList.addItem(Material.COOKED_CHICKEN.name(), 5);
+			itemList.addItem(Material.RAW_CHICKEN.name(), 5);
+			itemList.addItem(Material.LOG.name(), 1);
+			break;
+		case GRILLED_PORK :
+			itemList.addItem(Material.GRILLED_PORK.name(), 5);
+			itemList.addItem(Material.PORK.name(), 5);
+			itemList.addItem(Material.LOG.name(), 1);
+			break;
 		default :
 			//itemList = getFoodRecipe(itemRef);
 			break;

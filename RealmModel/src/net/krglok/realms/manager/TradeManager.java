@@ -24,8 +24,8 @@ import net.krglok.realms.model.RealmModel;
  */
 public class TradeManager
 {
-	private final double MAX_VALUE  = 200.0;
-	private final int    MAX_AMOUNT = 200;
+	private final double MAX_VALUE  = 2000.0;
+	private final int    MAX_AMOUNT = 2000;
 	private final int  SELL_DELAY   = 1200;
 	private final int  BUY_DELAY    = 1200;
 	private final int  maxCounter = 30;
@@ -173,9 +173,9 @@ public class TradeManager
 //				
 	}
 
-	public void newBuyOrder(Settlement settle, String itemRef, int amount)
+	public void newBuyOrder(AbstractSettle aSettle, String itemRef, int amount)
 	{
-		buyOrder = new TradeOrder(settle.getId(),TradeType.BUY, itemRef, amount, 0.0, BUY_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0,SettleType.NONE);
+		buyOrder = new TradeOrder(aSettle.getId(),TradeType.BUY, itemRef, amount, 0.0, BUY_DELAY, 0, TradeStatus.READY, aSettle.getPosition().getWorld(), 0,aSettle.getSettleType());
 		
 	}
 	
@@ -187,9 +187,11 @@ public class TradeManager
 	 */
 	public void run(RealmModel rModel, AbstractSettle settle)
 	{
+//		System.out.println("TradeManager "+settle.getSettleType()+":["+settle.getId()+"] ");
 		// check for RouteOrders
 		if (delayRoutes > (SELL_DELAY / 20))
 		{
+//			settle.getMsg().add("checkRoutes");
 			settle.getTrader().checkRoutes(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
 			delayRoutes = 0;
 		} else
@@ -199,6 +201,7 @@ public class TradeManager
 		// check for BuyOrders to fulfill
 		if (delaySell > (SELL_DELAY / 20))
 		{
+//			settle.getMsg().add("checkMarket");
 			settle.getTrader().checkMarket(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
 			delaySell = 0;
 		} else
@@ -208,10 +211,12 @@ public class TradeManager
 		// check for Transport to fulfill
 		if (settle.getSettleType().isLehen(settle.getSettleType()))
 		{
+//			settle.getMsg().add("checkTransport Lehen");
 			rModel.getLehenTransport().fullfillTarget(settle);
 			rModel.getLehenTransport().fullfillSender(settle);
 		} else
 		{
+//			settle.getMsg().add("checkTransport Settlement");
 			rModel.getTradeTransport().fullfillTarget(settle);
 			rModel.getTradeTransport().fullfillSender(settle);
 		}
@@ -220,9 +225,9 @@ public class TradeManager
 		{
 			if (sellCounter > maxCounter)
 			{
-	//			System.out.println("SellOrder amount "+sellOrder.getAmount());
 				if (sellOrder.getAmount() > 0 )
 				{
+					settle.getMsg().add("SellOrder amount "+sellOrder.getAmount());
 					boolean isSellOrder = false;
 					for (TradeMarketOrder tOrder : rModel.getTradeMarket().getSettleOrders(settle.getId(), settle.getSettleType()).values())
 					{
@@ -339,7 +344,7 @@ public class TradeManager
 			} 
 			if(Math.round(sellAmount * sellPrice) > MAX_VALUE)
 			{
-				sellAmount = (int) (MAX_VALUE / sellPrice);
+				sellAmount = (int) ((MAX_VALUE-Math.round(sellAmount * sellPrice)) / sellPrice);
 			}
 			sellOrder.setAmount(sellOrder.getAmount()-sellAmount);
 	

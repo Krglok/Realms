@@ -224,7 +224,7 @@ public class ModelCmdTest
 		someLoops(5, rModel);
 		
 
-		McmdBuyOrder buyOrder = new McmdBuyOrder(rModel, 2, "WOOD_AXE", 5, 1.0, 2);
+		McmdBuyOrder buyOrder = new McmdBuyOrder(rModel, 2, "WOOD_AXE", 5, 1.0, 2,SettleType.HAMLET);
 		rModel.OnCommand(buyOrder);
 		someLoops(25, rModel);
 		

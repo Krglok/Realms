@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -64,6 +65,8 @@ public class Building  implements Serializable
 	private int trainCounter;
 	private int trainTime;
 	private int maxProduction;
+	private ArrayList<String> msg = new ArrayList<String>();
+	
 	/**
 	 * instance of building with new Id;
 	 * buildingType = NONE
@@ -614,27 +617,6 @@ public class Building  implements Serializable
 		this.hsRegion = hsRegion;
 	}
 
-//	/**
-//	 * Only valid if isRegion = false
-//	 * @return the reference for Superregion (name of superregion)
-//	 */
-//	public String getHsSuperRegion()
-//	{
-//		return hsSuperRegion;
-//	}
-//
-//	/**
-//	 * Only valid if isRegion = false
-//	 * set the reference for Superregion (name of superregion)
-//	 * @param hsSuperRegion
-//	 */
-//	public void setHsSuperRegion(String hsSuperRegion)
-//	{
-//		if (isRegion == false)
-//		{
-//			this.hsSuperRegion = hsSuperRegion;
-//		}
-//	}
 
 	/**
 	 * show if building working correctly
@@ -774,6 +756,12 @@ public class Building  implements Serializable
 	{
 		this.storeCapacity = storeCapacity;
 	}
+	
+	public 	ArrayList<String> getMsg()
+	{
+		return this.msg;
+	}
+
 
 	public static Building createRegionBuilding(String typeName, int regionId, String regionType, boolean isRegion)
 	{
@@ -971,6 +959,14 @@ public class Building  implements Serializable
 		case HUNTER :
 			outValues = buildingProd(server,buildingType.name());
 			maxProduction = 5;
+			break;
+		case TAVERNE :
+			outValues.addItem(Material.COOKED_BEEF.name(), 5);
+			outValues.addItem(Material.COOKED_CHICKEN.name(), 5);
+			outValues.addItem(Material.COOKED_FISH.name(), 5);
+//			outValues.addItem(Material.COOKED_MUTTON.name(), 5);
+//			outValues.addItem(Material.COOKED_RABBIT.name(), 5);
+			outValues.addItem(Material.GRILLED_PORK.name(), 5);
 			break;
 		default :
 				outValues = buildingProd(server,buildingType.name());

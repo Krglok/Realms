@@ -4,185 +4,131 @@ SETTLEMENT:
     settleType: CITY
     position: SteamHaven:-469.51819223615206:72.0:-1236.6592548015324
     biome: PLAINS
-    age: 16380
+    age: 9795
     name: NewHaven
     owner: NONE
-    ownerId: 31
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: -80.80999999998812
+    bank: -2.816666653765184
     townhall:
-      workerNeeded: '17'
-      workerCount: '17'
+      workerNeeded: '34'
+      workerCount: '38'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '133'
-      fertilityCounter: '13435.520000000031'
+      settlerCount: '132'
+      fertilityCounter: '16900.800000000032'
       workerCount: '0'
       settlerMax: '133'
-      population: '103'
+      population: '62'
     reputation:
-      Eisenhammer_DONATION: '3'
-      Eisenhammer_TRADE: '3'
-      Eisenhammer_FOOD: '2'
-      ZabulaLegato_TRADE: '3'
+      dradmin_DONATION: '16'
+      dradmin_FOOD: '4'
+      dradmin_VALUABLE: '4'
+      dradmin_REQUIRED: '5'
     routes: {}
     warehouse:
-      itemCount: '2159'
+      itemCount: '720'
       itemMax: '22464'
       isEnabled: 'false'
     itemList:
-      SIGN: '16'
-      EMERALD: '103'
-      WOOL: '10'
-      STICK: '47'
-      LOG: '180'
-      NETHER_STALK: '7'
-      TORCH: '16'
-      WORKBENCH: '16'
-      GLOWSTONE: '1'
-      GLOWSTONE_DUST: '3'
-      WATER: '176'
-      WALL_SIGN: '16'
-      COOKED_BEEF: '9'
-      LAPIS_BLOCK: '8'
-      LEATHER: '13'
-      WOOD_DOOR: '2'
-      CHEST: '16'
+      SIGN: '1'
+      GOLD_NUGGET: '3'
+      WOOL: '15'
+      LOG: '6'
+      LEATHER_CHESTPLATE: '5'
+      WORKBENCH: '1'
+      WATER: '143'
+      LEATHER: '4'
       SEEDS: '9'
-      WOOD_PICKAXE: '16'
-      WOOD: '226'
-      GOLD_ORE: '2'
-      IRON_INGOT: '16'
-      IRON_ORE: '112'
-      WOOD_AXE: '16'
-      COAL: '12'
-      FURNACE: '16'
-      CARROT: '8'
-      PORK: '8'
-      RAW_CHICKEN: '107'
-      SHEARS: '1'
-      FLINT: '4'
-      WHEAT: '139'
-      SOIL: '196'
-      STONE: '1'
-      DIRT: '206'
-      COBBLESTONE: '6'
-      PAPER: '8'
-      DIAMOND: '64'
-      GHAST_TEAR: '8'
-      BED: '16'
-      SAND: '64'
+      CHEST: '1'
+      LEATHER_LEGGINGS: '5'
+      STONE_SWORD: '16'
+      WOOD: '126'
+      IRON_ORE: '37'
+      IRON_INGOT: '12'
+      FURNACE: '1'
+      PORK: '7'
+      RAW_CHICKEN: '47'
+      WHEAT: '15'
+      DIRT: '147'
+      LEATHER_HELMET: '5'
+      COBBLESTONE: '5'
+      LEATHER_BOOTS: '5'
+      SAND: '52'
+      BED: '1'
       FEATHER: '8'
-      RAW_BEEF: '99'
-      GRASS: '64'
-      WOODEN_DOOR: '8'
-      SAPLING: '64'
-      WOOD_HOE: '16'
+      RAW_BEEF: '42'
+      WOODEN_DOOR: '1'
   '2':
     id: 2
     settleType: TOWN
     position: SteamHaven:-519.5118200333327:68.0:-1415.4833680460988
     biome: PLAINS
-    age: 16379
+    age: 9795
     name: Dujar
     owner: NONE
-    ownerId: 31
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 3.190000001110758
+    bank: -15270.560333335636
     townhall:
-      workerNeeded: '12'
-      workerCount: '12'
+      workerNeeded: '26'
+      workerCount: '21'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '26'
-      fertilityCounter: '13406.885000000031'
+      settlerCount: '50'
+      fertilityCounter: '16900.800000000032'
       workerCount: '0'
       settlerMax: '37'
-      population: '23'
-    reputation:
-      dradmin_FOOD: '4'
-      dradmin_REQUIRED: '4'
-    routes:
-      '0':
-        amount: '64'
-        id: '0'
-        price: '1.5'
-        targetId: '1'
-        isEnabled: 'true'
-        itemref: BREAD
+      population: '19'
+    reputation: {}
+    routes: {}
     warehouse:
-      itemCount: '1839'
+      itemCount: '1284'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
-      SIGN: '2'
-      GOLD_NUGGET: '10'
-      EMERALD: '4'
-      WATER_BUCKET: '8'
-      WOOL: '9'
-      STICK: '16'
-      LOG: '212'
-      DISPENSER: '1'
-      TORCH: '16'
-      STEP: '1'
-      WATER: '30'
-      LEATHER: '13'
-      WOOD_DOOR: '1'
-      SEEDS: '9'
-      WOOD_PICKAXE: '16'
-      BREAD: '233'
-      WOOD: '21'
-      IRON_ORE: '112'
+      IRON_ORE: '11'
       IRON_INGOT: '16'
-      WOOD_AXE: '16'
-      CARROT: '7'
+      EMERALD: '2'
       PORK: '8'
-      RAW_CHICKEN: '24'
-      COBBLESTONE_STAIRS: '1'
-      STATIONARY_WATER: '8'
-      FLINT: '8'
-      WHEAT: '58'
-      SOIL: '196'
-      IRON_SPADE: '1'
-      APPLE: '8'
-      IRON_PICKAXE: '2'
-      ENDER_PEARL: '1'
-      ARROW: '29'
-      DIRT: '196'
-      COBBLESTONE: '212'
-      GOLD_HELMET: '1'
-      FENCE: '16'
-      SAND: '64'
+      WOOL: '16'
+      RAW_CHICKEN: '11'
+      STICK: '101'
+      LOG: '26'
+      WHEAT: '97'
+      WATER: '45'
+      COBBLESTONE: '177'
+      DIRT: '174'
+      COOKED_BEEF: '204'
+      SAND: '36'
+      FENCE: '22'
+      LEATHER: '13'
       FEATHER: '8'
-      RAW_BEEF: '24'
-      CROPS: '8'
-      GRASS: '64'
-      BOOKSHELF: '1'
-      SAPLING: '64'
-      WOOD_HOE: '16'
-      GLASS: '4'
-      LEAVES: '64'
+      SEEDS: '9'
+      RAW_BEEF: '11'
+      WOOD_SWORD: '16'
+      WOOD: '281'
   '3':
     id: 3
     settleType: HAMLET
     position: SteamHaven:-819.4781162473687:113.0:-1066.476041578252
     biome: FOREST
-    age: 16355
+    age: 9771
     name: Erfaring
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 2967.5083338044483
+    bank: 35257.8000000115
     townhall:
       workerNeeded: '13'
       workerCount: '13'
@@ -190,190 +136,163 @@ SETTLEMENT:
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '28'
-      fertilityCounter: '13384.770000000031'
+      settlerCount: '45'
+      fertilityCounter: '16900.800000000032'
       workerCount: '0'
       settlerMax: '29'
-      population: '23'
-    reputation: {}
-    routes:
-      '0':
-        amount: '128'
-        id: '0'
-        price: '0.5'
-        targetId: '1'
-        isEnabled: 'true'
-        itemref: LOG
+      population: '19'
+    reputation:
+      dradmin_DONATION: '7'
+      dradmin_FOOD: '2'
+      dradmin_VALUABLE: '3'
+    routes: {}
     warehouse:
-      itemCount: '1624'
+      itemCount: '2382'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
-      SIGN: '2'
-      ENDER_STONE: '8'
-      GOLD_NUGGET: '112'
-      EMERALD: '79'
-      WOOL: '19'
+      ENDER_STONE: '4'
+      GOLD_NUGGET: '113'
+      EMERALD: '80'
+      WOOL: '20'
       STICK: '16'
-      LOG: '148'
-      NETHER_STALK: '8'
-      WATCH: '1'
-      TORCH: '16'
-      WORKBENCH: '1'
-      SADDLE: '1'
-      GLOWSTONE_DUST: '3'
-      WATER: '30'
-      SULPHUR: '2'
-      WOOD_DOOR: '3'
-      EXP_BOTTLE: '8'
-      LADDER: '8'
-      CHEST: '5'
+      LOG: '679'
+      NETHER_STALK: '4'
+      TORCH: '7'
+      WATER: '196'
+      EXP_BOTTLE: '4'
+      LADDER: '4'
+      CHEST: '2'
       SEEDS: '16'
-      WOOD_PICKAXE: '16'
-      BREAD: '3'
-      WOOD_STAIRS: '1'
-      WOOD: '100'
-      IRON_INGOT: '16'
+      WOOD_PICKAXE: '7'
+      WOOD: '196'
+      IRON_INGOT: '17'
       IRON_ORE: '64'
-      WOOD_AXE: '16'
-      COAL: '13'
-      CARROT: '8'
-      GRAVEL: '10'
-      ANVIL: '1'
-      WHEAT: '65'
-      SOIL: '196'
-      SLIME_BALL: '5'
-      DIRT: '196'
-      LEATHER_HELMET: '1'
+      WOOD_AXE: '7'
+      COAL: '7'
+      CARROT: '4'
+      ANVIL: '23'
+      GRAVEL: '5'
+      SOIL: '84'
+      WHEAT: '85'
+      SLIME_BALL: '2'
+      STONE: '144'
+      DIRT: '200'
       COBBLESTONE: '196'
-      DIAMOND_HELMET: '1'
-      RAILS: '8'
-      NAME_TAG: '1'
-      BED: '1'
-      FENCE: '3'
+      DIAMOND: '6'
+      RAILS: '4'
       SAND: '64'
-      REDSTONE: '8'
-      GRASS: '64'
-      BOOKSHELF: '1'
-      WOOD_HOE: '16'
-      LEAVES: '64'
+      REDSTONE: '4'
+      GRASS: '84'
+      WOOD_HOE: '7'
+      LEAVES: '27'
   '4':
     id: 4
     settleType: CITY
     position: DRASKORIA:3274.6082491634193:82.0:-1070.4945489254965
     biome: PLAINS
-    age: 16465
+    age: 9867
     name: Borum
     owner: NONE
-    ownerId: 31
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 370.61166441930345
+    bank: -84.58507175471786
     townhall:
-      workerNeeded: '41'
-      workerCount: '41'
+      workerNeeded: '46'
+      workerCount: '52'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '171'
-      fertilityCounter: '10630.45000000002'
+      settlerCount: '202'
+      fertilityCounter: '26055.3999999999'
       workerCount: '0'
-      settlerMax: '205'
-      population: '143'
+      settlerMax: '215'
+      population: '67'
     reputation:
-      Eisenhammer_REQUIRED: '2'
-      dradmin_DONATION: '3'
-      Eisenhammer_TRADE: '3'
-      dradmin_FOOD: '2'
-      Eisenhammer_FOOD: '2'
+      dradmin_DONATION: '12'
+      dradmin_VALUABLE: '2'
+      dradmin_TRADE: '8'
       dradmin_REQUIRED: '4'
-    routes:
-      '3': &id001
-        amount: '16'
-        id: '3'
-        price: '4.65'
-        targetId: '9'
-        isEnabled: 'true'
-        itemref: WOOD_SWORD
-      '2': *id001
-      '1': *id001
-      '0': *id001
+    routes: {}
     warehouse:
-      itemCount: '5517'
+      itemCount: '116171'
       itemMax: '22464'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      EMERALD: '112'
-      GOLD_NUGGET: '1'
+      LAVA_BUCKET: '1'
+      EMERALD: '592'
       WOOL: '9'
-      IRON_SWORD: '4'
-      LOG: '71'
+      IRON_SWORD: '3'
+      LOG: '180'
       TORCH: '16'
       WORKBENCH: '16'
-      WATER: '191'
-      WALL_SIGN: '16'
+      WATER: '196'
       COOKED_BEEF: '64'
-      WOOD_DOOR: '2'
-      BREAD: '57'
-      WOOD: '2375'
-      STONE_SWORD: '32'
-      WOOD_AXE: '16'
+      WOOD_DOOR: '3'
+      GOLD_INGOT: '1'
+      BREAD: '1098'
+      STONE_SWORD: '681'
+      WOOD: '1'
+      WOOD_AXE: '15'
       LONG_GRASS: '8'
       CARROT: '8'
       PORK: '8'
-      RAW_CHICKEN: '88'
+      RAW_CHICKEN: '695'
       SOIL: '196'
       STONE: '64'
-      IRON_PICKAXE: '5'
       SAND: '64'
       FEATHER: '8'
-      IRON_AXE: '9'
-      GRASS: '64'
       WOODEN_DOOR: '8'
       BOOKSHELF: '1'
-      WOOD_SWORD: '32'
+      WOOD_SWORD: '16'
       WOOD_HOE: '16'
-      STICK: '16'
+      GLASS: '196'
+      WOOD_SPADE: '16'
+      THIN_GLASS: '8'
+      STICK: '5'
       BRICK: '64'
       YELLOW_FLOWER: '8'
-      LEATHER_CHESTPLATE: '32'
+      LEATHER_CHESTPLATE: '701'
       LEATHER: '13'
       SEEDS: '9'
       CHEST: '16'
       WOOD_PICKAXE: '16'
-      LEATHER_LEGGINGS: '33'
+      LEATHER_LEGGINGS: '702'
       COOKED_CHICKEN: '60'
       DIAMOND_HOE: '1'
-      IRON_INGOT: '16'
-      IRON_ORE: '426'
+      IRON_ORE: '1'
+      IRON_INGOT: '69492'
       FURNACE: '16'
-      COAL: '750'
+      COAL: '38419'
+      STONE_PICKAXE: '16'
       APPLE: '8'
+      LEATHER_HELMET: '701'
       DIRT: '196'
-      LEATHER_HELMET: '32'
       COBBLESTONE: '7'
       PAPER: '8'
-      LEATHER_BOOTS: '32'
+      LEATHER_BOOTS: '701'
       BED: '16'
-      FENCE: '4'
-      RAW_BEEF: '97'
+      FENCE: '16'
+      RAW_BEEF: '708'
+      WRITTEN_BOOK: '3'
       LEAVES: '64'
   '5':
     id: 5
     settleType: HAMLET
     position: SteamHaven:-79.0:79.0:-832.0
     biome: SWAMPLAND
-    age: 16350
+    age: 9766
     name: Lozaran
     owner: NONE
-    ownerId: 31
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 5713.613333348489
+    bank: -20.705000003226893
     townhall:
       workerNeeded: '4'
       workerCount: '4'
@@ -381,154 +300,137 @@ SETTLEMENT:
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '13398.95500000003'
+      settlerCount: '22'
+      fertilityCounter: '17001.40000000003'
       workerCount: '0'
       settlerMax: '21'
-      population: '8'
+      population: '13'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '1878'
+      itemCount: '2622'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
-      SIGN: '16'
-      COAL_ORE: '84'
-      COBBLE_WALL: '8'
-      EMERALD: '15'
+      COAL_ORE: '48'
+      SIGN: '9'
+      COBBLE_WALL: '5'
+      GOLD_NUGGET: '53'
+      EMERALD: '112'
       WOOL: '16'
-      IRON_SWORD: '1'
-      STONE_SPADE: '1'
-      LOG: '212'
-      TORCH: '16'
-      WORKBENCH: '11'
-      FENCE_GATE: '16'
-      WATER: '32'
-      WOOD_DOOR: '9'
-      SIGN_POST: '6'
-      WOOD_STAIRS: '8'
-      WOOD: '28'
-      DIAMOND_CHESTPLATE: '2'
-      STONE_SWORD: '1'
-      WOOD_AXE: '16'
-      DIAMOND_BOOTS: '2'
-      BOW: '9'
-      LONG_GRASS: '8'
-      CARROT: '8'
-      STONE_AXE: '2'
-      DIAMOND_PICKAXE: '1'
-      STATIONARY_WATER: '8'
-      CHAINMAIL_LEGGINGS: '1'
-      SOIL: '196'
-      IRON_SPADE: '1'
-      DIAMOND_HELMET: '2'
-      SAND: '25'
-      BOOKSHELF: '4'
-      WOOD_HOE: '16'
-      CHAINMAIL_CHESTPLATE: '2'
-      GLASS: '8'
-      GLASS_BOTTLE: '2'
-      WATER_BUCKET: '8'
-      THIN_GLASS: '8'
+      LOG: '225'
+      TORCH: '9'
+      WORKBENCH: '7'
+      FENCE_GATE: '9'
+      MOSSY_COBBLESTONE: '36'
+      WATER: '180'
+      STEP: '196'
+      WOOD_DOOR: '5'
+      SIGN_POST: '4'
+      WOOD_STAIRS: '5'
+      BREAD: '2'
+      WOOD: '197'
+      WOOD_AXE: '9'
+      LONG_GRASS: '5'
+      CARROT: '5'
+      STATIONARY_WATER: '5'
+      GRAVEL: '21'
+      SOIL: '111'
+      STONE: '114'
+      DIAMOND: '2'
+      SAND: '65'
+      GRASS: '111'
+      BOOKSHELF: '2'
+      WOOD_HOE: '9'
+      GLASS: '5'
+      WATER_BUCKET: '5'
+      THIN_GLASS: '5'
       STICK: '16'
-      DIAMOND_LEGGINGS: '2'
-      BOOK: '7'
-      ROTTEN_FLESH: '8'
-      FISHING_ROD: '1'
-      IRON_FENCE: '8'
-      SPIDER_EYE: '2'
-      MELON_BLOCK: '8'
-      BEDROCK: '1'
-      CHEST: '16'
+      BROWN_MUSHROOM: '1'
+      IRON_FENCE: '5'
+      MELON_BLOCK: '5'
+      CHEST: '9'
       SEEDS: '16'
-      WOOD_PICKAXE: '16'
-      LEATHER_LEGGINGS: '1'
-      WOOD_DOUBLE_STEP: '8'
-      IRON_INGOT: '16'
+      WOOD_PICKAXE: '9'
+      VINE: '32'
+      WOOD_DOUBLE_STEP: '5'
+      IRON_INGOT: '17'
       IRON_ORE: '112'
-      FURNACE: '1'
-      BONE: '5'
-      SMOOTH_BRICK: '8'
-      FLINT: '8'
-      SHEARS: '1'
-      STONE_PICKAXE: '2'
-      WHEAT: '328'
-      APPLE: '8'
-      DIRT: '196'
+      SMOOTH_BRICK: '5'
+      WHEAT: '336'
+      DIRT: '199'
       COBBLESTONE: '244'
-      FENCE: '16'
-      BED: '5'
-      CROPS: '8'
-      STRING: '1'
+      BED: '3'
+      FENCE: '9'
+      CROPS: '5'
   '6':
     id: 6
     settleType: TOWN
     position: DRASKORIA:1954.300000011921:70.0:-1032.300000011921
     biome: FOREST
-    age: 16459
+    age: 9855
     name: Drachenhorst
-    owner: Eisenhammer
-    ownerId: 14
-    tributId: 0
+    owner: NONE
+    ownerId: 2
+    tributId: 1
     isCapital: false
     isActive: true
-    bank: 100.80666693479814
+    bank: 69730.34668614887
     townhall:
-      workerNeeded: '25'
-      workerCount: '22'
+      workerNeeded: '21'
+      workerCount: '23'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '38'
-      fertilityCounter: '10628.15500000002'
+      settlerCount: '72'
+      fertilityCounter: '25451.79999999991'
       workerCount: '0'
-      settlerMax: '41'
-      population: '32'
+      settlerMax: '57'
+      population: '30'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '6012'
-      itemMax: '36288'
+      itemCount: '106749'
+      itemMax: '51840'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '135'
+      GOLD_NUGGET: '997'
       EMERALD: '26'
+      WOOD_SPADE: '16'
       WATER_BUCKET: '8'
-      WOOL: '19'
-      STICK: '48'
-      LOG: '148'
+      WOOL: '13'
+      STICK: '16'
+      LOG: '20'
       TORCH: '5'
       WORKBENCH: '8'
-      WATER: '30'
+      WATER: '196'
       SPIDER_EYE: '2'
       WOOD_DOOR: '3'
       SEEDS: '16'
       CHEST: '16'
       WOOD_PICKAXE: '16'
-      BREAD: '153'
-      WOOD: '102'
+      WOOD: '45'
       IRON_ORE: '64'
-      IRON_INGOT: '16'
+      IRON_INGOT: '62626'
       WOOD_AXE: '16'
-      COAL: '16'
+      COAL: '19696'
       BONE: '3'
       LONG_GRASS: '8'
       CARROT: '8'
       STATIONARY_WATER: '8'
       GRAVEL: '64'
-      WHEAT: '311'
       SOIL: '196'
-      STONE: '64'
+      WHEAT: '387'
+      STONE: '54'
       COBBLESTONE: '196'
       DIRT: '196'
       BED: '2'
       SAND: '64'
-      GRASS: '64'
+      GRASS: '196'
       CROPS: '8'
-      WOOD_HOE: '3885'
+      WOOD_HOE: '21466'
       SAPLING: '2'
       STRING: '6'
       LEAVES: '64'
@@ -537,64 +439,62 @@ SETTLEMENT:
     settleType: CITY
     position: DRASKORIA:353.30000001192093:79.0:-1866.5194136674072
     biome: PLAINS
-    age: 16458
+    age: 9854
     name: Falkenhagen
-    owner: sebbra
-    ownerId: 3
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 5095.304999335725
+    bank: 30446.076516839643
     townhall:
-      workerNeeded: '2'
-      workerCount: '2'
+      workerNeeded: '28'
+      workerCount: '32'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10626.14500000002'
+      settlerCount: '129'
+      fertilityCounter: '25451.79999999991'
       workerCount: '0'
-      settlerMax: '9'
-      population: '8'
+      settlerMax: '125'
+      population: '57'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '1930'
-      itemMax: '6912'
+      itemCount: '65904'
+      itemMax: '22464'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '3'
       EMERALD: '15'
       WOOL: '9'
       STICK: '16'
-      LOG: '212'
+      LOG: '180'
       TORCH: '16'
       WORKBENCH: '11'
       WATER: '196'
       LEATHER: '13'
       WOOD_DOOR: '16'
-      CHEST: '10'
       SEEDS: '9'
+      CHEST: '10'
       WOOD_PICKAXE: '16'
       WOOD: '196'
-      IRON_ORE: '112'
-      IRON_INGOT: '16'
+      IRON_ORE: '16'
+      IRON_INGOT: '63308'
       WOOD_AXE: '16'
       COAL: '16'
       LONG_GRASS: '3'
       CARROT: '8'
       PORK: '8'
-      RAW_CHICKEN: '9'
+      RAW_CHICKEN: '440'
       SOIL: '196'
-      WHEAT: '25'
-      COBBLESTONE: '212'
+      COBBLESTONE: '180'
       DIRT: '196'
       SAND: '64'
       FENCE: '3'
       FEATHER: '8'
-      RAW_BEEF: '8'
+      RAW_BEEF: '447'
       GRASS: '196'
       WOOD_HOE: '16'
       LEAVES: '64'
@@ -602,58 +502,58 @@ SETTLEMENT:
     id: 8
     settleType: TOWN
     position: DRASKORIA:3065.5720473026104:72.0:-54.64852275048187
-    biome: SMALL_MOUNTAINS
-    age: 16450
+    biome: PLAINS
+    age: 9844
     name: Legario
-    owner: Krglok
+    owner: NONE
     ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: -2440.7860010029895
+    bank: 7431.190903273052
     townhall:
-      workerNeeded: '44'
-      workerCount: '28'
+      workerNeeded: '35'
+      workerCount: '33'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '58'
-      fertilityCounter: '10602.46250000002'
+      settlerCount: '72'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '57'
-      population: '43'
-    reputation: {}
+      settlerMax: '61'
+      population: '34'
+    reputation:
+      dradmin_DONATION: '3'
+      dradmin_REQUIRED: '2'
     routes: {}
     warehouse:
-      itemCount: '8798'
+      itemCount: '129805'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
       SIGN: '12'
       LEASH: '5'
-      GOLD_NUGGET: '8'
       WOOL: '9'
-      LOG: '28'
+      LOG: '20'
       TORCH: '16'
       WORKBENCH: '16'
       GLOWSTONE_DUST: '8'
       WATER: '196'
       STEP: '7'
-      COOKED_BEEF: '912'
+      COOKED_BEEF: '976'
       SULPHUR: '4'
       WOOD_DOOR: '1'
       LADDER: '8'
       WOOD_STAIRS: '8'
-      WOOD: '117'
-      STONE_SWORD: '32'
-      GOLD_ORE: '7'
+      WOOD: '61'
+      STONE_SWORD: '16'
       WOOD_AXE: '16'
       LONG_GRASS: '8'
       CARROT: '8'
       STONE_HOE: '1'
       PORK: '8'
-      RAW_CHICKEN: '912'
+      RAW_CHICKEN: '976'
       GRAVEL: '41'
       SOIL: '196'
       STONE: '147'
@@ -661,38 +561,33 @@ SETTLEMENT:
       FEATHER: '8'
       WOOD_SWORD: '10'
       GRASS: '196'
-      WOOD_HOE: '2'
       WOOD_STEP: '8'
       GLASS: '8'
-      STICK: '6'
+      STICK: '1'
       YELLOW_FLOWER: '8'
       ROTTEN_FLESH: '5'
       LEATHER_CHESTPLATE: '32'
-      LAPIS_ORE: '5'
       SPIDER_EYE: '6'
-      LEATHER: '19'
-      SEEDS: '26'
+      SEEDS: '3'
       CHEST: '15'
-      WOOD_PICKAXE: '2'
-      DIAMOND_ORE: '5'
       LEATHER_LEGGINGS: '32'
       EGG: '6'
-      IRON_ORE: '1772'
-      IRON_INGOT: '16'
+      IRON_ORE: '16'
+      IRON_INGOT: '125682'
       COAL: '16'
       SPRUCE_WOOD_STAIRS: '8'
-      FLINT: '64'
-      WHEAT: '59'
+      FLINT: '8'
+      WHEAT: '181'
       APPLE: '2'
       DIRT: '196'
-      COBBLESTONE: '3242'
+      COBBLESTONE: '180'
       LEATHER_HELMET: '32'
       LEATHER_BOOTS: '32'
       BED: '4'
       FENCE: '16'
-      REDSTONE: '5'
-      RAW_BEEF: '19'
+      RAW_BEEF: '144'
       SAPLING: '52'
+      WRITTEN_BOOK: '1'
       STRING: '5'
       LEAVES: '64'
   '9':
@@ -700,425 +595,386 @@ SETTLEMENT:
     settleType: HAMLET
     position: DRASKORIA:3090.0:78.0:-1132.0
     biome: PLAINS
-    age: 16439
+    age: 9833
     name: Furthagen
     owner: NONE
-    ownerId: 31
-    tributId: 0
+    ownerId: 2
+    tributId: 2
     isCapital: false
     isActive: true
-    bank: 2605.328333638579
+    bank: 22273.559999995305
     townhall:
       workerNeeded: '13'
-      workerCount: '5'
+      workerCount: '13'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10596.46500000002'
+      settlerCount: '45'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '21'
-      population: '8'
-    reputation: {}
-    routes:
-      '3':
-        amount: '32'
-        id: '3'
-        price: '5.0'
-        targetId: '4'
-        isEnabled: 'true'
-        itemref: LEATHER
+      settlerMax: '25'
+      population: '15'
+    reputation:
+      dradmin_DONATION: '9'
+    routes: {}
     warehouse:
-      itemCount: '2839'
+      itemCount: '8834'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
       EMERALD: '9'
-      GOLD_NUGGET: '9'
       WOOL: '9'
-      STICK: '16'
+      STICK: '18'
       YELLOW_FLOWER: '3'
-      LOG: '212'
+      LOG: '217'
       TORCH: '16'
       WORKBENCH: '15'
-      WATER: '196'
-      COOKED_BEEF: '336'
-      LEATHER: '13'
+      WATER: '199'
+      COOKED_BEEF: '424'
       WOOD_DOOR: '8'
+      LEATHER: '25'
       BEDROCK: '1'
       SEEDS: '9'
       CHEST: '16'
       WOOD_PICKAXE: '16'
       SIGN_POST: '9'
-      BREAD: '329'
-      WOOD: '196'
-      IRON_INGOT: '16'
-      IRON_ORE: '88'
+      BREAD: '327'
+      WOOD: '197'
+      IRON_INGOT: '17'
+      IRON_ORE: '16'
       WOOD_AXE: '16'
-      DOUBLE_STEP: '8'
       COAL: '16'
+      DOUBLE_STEP: '8'
       FURNACE: '9'
       LONG_GRASS: '8'
       CARROT: '8'
-      PORK: '8'
-      RAW_CHICKEN: '14'
-      WHEAT: '101'
+      PORK: '9'
+      RAW_CHICKEN: '47'
+      COBBLESTONE_STAIRS: '1'
+      WHEAT: '6118'
       SOIL: '196'
       STONE: '196'
-      COBBLESTONE: '212'
-      DIRT: '196'
+      COBBLESTONE: '198'
+      DIRT: '214'
       BED: '5'
-      SAND: '64'
+      SAND: '65'
       FENCE: '16'
       FEATHER: '8'
-      RAW_BEEF: '12'
+      RAW_BEEF: '64'
       CROPS: '8'
       BOOKSHELF: '4'
-      GRASS: '148'
-      WOOD_SWORD: '32'
+      GRASS: '36'
+      WOOD_SWORD: '1'
       WOOD_HOE: '16'
   '10':
     id: 10
     settleType: HAMLET
     position: DRASKORIA:3092.0:77.0:-895.0
     biome: PLAINS
-    age: 16438
+    age: 9832
     name: Sturmwies
     owner: NONE
-    ownerId: 31
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 5935.085333222401
+    bank: 31140.80666667298
     townhall:
-      workerNeeded: '18'
-      workerCount: '5'
+      workerNeeded: '21'
+      workerCount: '17'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10629.855000000021'
+      settlerCount: '46'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
       settlerMax: '37'
-      population: '10'
-    reputation: {}
-    routes:
-      '3':
-        amount: '32'
-        id: '3'
-        price: '1.5'
-        targetId: '4'
-        isEnabled: 'true'
-        itemref: BREAD
+      population: '18'
+    reputation:
+      dradmin_DONATION: '4'
+    routes: {}
     warehouse:
-      itemCount: '9012'
+      itemCount: '8532'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
       LAVA_BUCKET: '8'
-      GOLD_NUGGET: '12'
       EMERALD: '8'
-      WOOL: '9'
+      WATER_BUCKET: '8'
+      WOOL: '11'
+      STICK: '65'
       IRON_CHESTPLATE: '1'
-      LOG: '260'
+      YELLOW_FLOWER: '8'
+      LOG: '66'
       TORCH: '16'
       WORKBENCH: '14'
       GLOWSTONE: '8'
       WATER: '196'
       RED_ROSE: '8'
+      LEATHER: '13'
       WOOD_DOOR: '8'
+      BEDROCK: '1'
+      SEEDS: '265'
+      CHEST: '16'
+      WOOD_PICKAXE: '16'
       SIGN_POST: '9'
       WOOD_STAIRS: '8'
-      BREAD: '585'
-      WOOD: '196'
-      WOOD_AXE: '16'
-      LONG_GRASS: '8'
-      CARROT: '8'
-      PORK: '8'
-      RAW_CHICKEN: '14'
-      STATIONARY_WATER: '8'
-      SOIL: '196'
-      SAND: '64'
-      FEATHER: '8'
-      BOOKSHELF: '4'
-      GRASS: '196'
-      WOOD_HOE: '16'
-      GLASS: '8'
-      WOOD_SPADE: '16'
-      WATER_BUCKET: '8'
-      STICK: '106'
-      YELLOW_FLOWER: '6'
-      LEATHER: '13'
-      BEDROCK: '1'
-      CHEST: '16'
-      SEEDS: '5713'
-      WOOD_PICKAXE: '16'
+      BREAD: '704'
+      WOOD: '236'
       IRON_INGOT: '16'
-      IRON_ORE: '112'
+      IRON_ORE: '16'
+      WOOD_AXE: '16'
       COAL: '16'
       DOUBLE_STEP: '8'
       FURNACE: '8'
+      LONG_GRASS: '8'
+      CARROT: '8'
       SMOOTH_BRICK: '7'
-      WHEAT: '589'
-      COBBLESTONE: '212'
-      DIRT: '196'
-      BED: '5'
+      PORK: '8'
+      RAW_CHICKEN: '383'
+      STATIONARY_WATER: '8'
+      WHEAT: '5267'
+      SOIL: '196'
+      DIRT: '221'
+      COBBLESTONE: '198'
       FENCE: '16'
-      RAW_BEEF: '16'
+      BED: '5'
+      SAND: '65'
+      FEATHER: '43'
+      RAW_BEEF: '84'
+      BOOKSHELF: '4'
+      GRASS: '196'
+      WOOD_HOE: '18'
+      GLASS: '8'
   '11':
     id: 11
     settleType: CITY
     position: DRASKORIA:2524.6425620561977:72.0:1832.6687665695492
-    biome: EXTREME_HILLS_MOUNTAINS
-    age: 16295
+    biome: PLAINS
+    age: 9689
     name: Steingau
-    owner: Krglok
+    owner: NONE
     ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 348.7873335235782
+    bank: 11724.179993619442
     townhall:
-      workerNeeded: '42'
-      workerCount: '5'
-      isEnabled: 'false'
-    resident:
-      cowCount: '0'
-      horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10619.255000000021'
-      workerCount: '0'
-      settlerMax: '73'
-      population: '8'
-    reputation: {}
-    routes: {}
-    warehouse:
-      itemCount: '11164'
-      itemMax: '22464'
-      isEnabled: 'false'
-    itemList:
-      SIGN: '7'
-      EMERALD: '32'
-      GOLD_NUGGET: '6'
-      WOOL: '19'
-      LOG: '412'
-      TORCH: '11'
-      WORKBENCH: '4'
-      WATER: '8'
-      STEP: '4'
-      COOKED_BEEF: '1168'
-      SULPHUR: '8'
-      WOOD_DOOR: '6'
-      GOLD_INGOT: '64'
-      BREAD: '1108'
-      WOOD: '109'
-      WOOD_AXE: '16'
-      BOW: '2'
-      LONG_GRASS: '4'
-      CARROT: '8'
-      PORK: '8'
-      RAW_CHICKEN: '11'
-      STATIONARY_WATER: '6'
-      GRAVEL: '64'
-      SOIL: '196'
-      STONE: '64'
-      SAND: '64'
-      FEATHER: '8'
-      GRASS: '72'
-      WOOD_SWORD: '32'
-      BOOKSHELF: '1'
-      WOOD_HOE: '16'
-      IRON_BOOTS: '1'
-      WATER_BUCKET: '8'
-      STICK: '236'
-      SPIDER_EYE: '2'
-      LEATHER: '23'
-      SEEDS: '9'
-      CHEST: '16'
-      WOOD_PICKAXE: '10'
-      DIAMOND_ORE: '1'
-      IRON_INGOT: '16'
-      IRON_ORE: '55'
-      COAL: '17'
-      FLINT: '64'
-      WHEAT: '201'
-      APPLE: '3'
-      DIRT: '196'
-      COBBLESTONE: '6713'
-      PAPER: '8'
-      FENCE: '5'
-      BED: '2'
-      RAW_BEEF: '8'
-      SAPLING: '40'
-  '12':
-    id: 12
-    settleType: TOWN
-    position: SteamHaven:-1215.6704984377348:103.0:-1210.300000011921
-    biome: PLAINS
-    age: 15896
-    name: Helnrau
-    owner: sebbra
-    ownerId: 3
-    tributId: 0
-    isCapital: false
-    isActive: true
-    bank: -450.1049998409538
-    townhall:
-      workerNeeded: '18'
-      workerCount: '18'
-      isEnabled: 'false'
-    resident:
-      cowCount: '0'
-      horseCount: '0'
-      settlerCount: '44'
-      fertilityCounter: '13445.30000000003'
-      workerCount: '0'
-      settlerMax: '45'
-      population: '35'
-    reputation: {}
-    routes: {}
-    warehouse:
-      itemCount: '3181'
-      itemMax: '36288'
-      isEnabled: 'false'
-    itemList:
-      SIGN: '3'
-      GOLD_NUGGET: '2'
-      EMERALD: '16'
-      WATER_BUCKET: '8'
-      WOOL: '9'
-      STICK: '16'
-      LOG: '212'
-      TORCH: '16'
-      WORKBENCH: '3'
-      WATER: '196'
-      COOKED_BEEF: '720'
-      WOOD_DOOR: '1'
-      LEATHER: '13'
-      SEEDS: '9'
-      CHEST: '5'
-      WOOD_PICKAXE: '16'
-      WOOD_STAIRS: '1'
-      WOOD: '19'
-      IRON_ORE: '112'
-      IRON_INGOT: '16'
-      WOOD_AXE: '16'
-      FURNACE: '1'
-      COAL: '16'
-      CARROT: '8'
-      PORK: '8'
-      RAW_CHICKEN: '23'
-      STATIONARY_WATER: '8'
-      GRAVEL: '49'
-      WHEAT: '704'
-      SOIL: '196'
-      STONE: '2'
-      COBBLESTONE: '212'
-      DIRT: '196'
-      SAND: '64'
-      FEATHER: '8'
-      RAW_BEEF: '27'
-      GRASS: '194'
-      CROPS: '8'
-      WOOD_SWORD: '32'
-      WOOD_HOE: '16'
-  '13':
-    id: 13
-    settleType: HAMLET
-    position: SteamHaven:-27.43239447331125:64.0:-262.42828465469825
-    biome: EXTREME_HILLS
-    age: 15884
-    name: Noevtarn
-    owner: dradmin
-    ownerId: 1
-    tributId: 0
-    isCapital: false
-    isActive: true
-    bank: -396.88833334510196
-    townhall:
-      workerNeeded: '9'
+      workerNeeded: '5'
       workerCount: '9'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '15'
-      fertilityCounter: '13423.305000000031'
+      settlerCount: '65'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '17'
-      population: '14'
+      settlerMax: '57'
+      population: '30'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '1639'
-      itemMax: '17280'
+      itemCount: '108345'
+      itemMax: '22464'
       isEnabled: 'false'
     itemList:
-      REDSTONE_ORE: '40'
-      SIGN: '5'
-      COAL_ORE: '32'
-      EMERALD_ORE: '2'
-      GOLD_NUGGET: '32'
-      EMERALD: '8'
-      WOOL: '26'
+      EMERALD: '16'
+      WOOL: '9'
       STICK: '16'
-      LOG: '20'
-      BROWN_MUSHROOM: '2'
-      TORCH: '16'
-      WORKBENCH: '2'
-      LAPIS_ORE: '48'
-      WATER: '18'
-      CHEST: '2'
-      DIAMOND_ORE: '48'
+      LOG: '180'
+      TORCH: '11'
+      WATER: '196'
+      SULPHUR: '8'
+      LEATHER: '13'
+      SEEDS: '9'
+      CHEST: '14'
+      GOLD_INGOT: '105704'
       WOOD_PICKAXE: '16'
       WOOD: '196'
+      IRON_ORE: '16'
       IRON_INGOT: '16'
-      IRON_ORE: '32'
       WOOD_AXE: '16'
-      COAL: '2'
+      COAL: '8'
       CARROT: '8'
-      WHEAT: '272'
+      PORK: '8'
+      RAW_CHICKEN: '214'
+      WHEAT: '789'
       SOIL: '196'
-      COBBLESTONE: '164'
+      COBBLESTONE: '180'
       DIRT: '196'
       SAND: '64'
-      GRASS: '64'
+      FENCE: '5'
+      FEATHER: '8'
+      RAW_BEEF: '217'
       WOOD_HOE: '16'
-      LEAVES: '64'
-  '14':
-    id: 14
-    settleType: HAMLET
-    position: SteamHaven:576.0:74.0:-29.0
-    biome: EXTREME_HILLS
-    age: 15634
-    name: Salichort
-    owner: dradmin
-    ownerId: 1
+  '12':
+    id: 12
+    settleType: TOWN
+    position: SteamHaven:-1215.6704984377348:103.0:-1210.300000011921
+    biome: PLAINS
+    age: 9312
+    name: Helnrau
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: -165.17333335132685
+    bank: 814.7549999911536
     townhall:
-      workerNeeded: '11'
-      workerCount: '11'
+      workerNeeded: '8'
+      workerCount: '12'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '51'
+      fertilityCounter: '16900.800000000032'
+      workerCount: '0'
+      settlerMax: '45'
+      population: '22'
+    reputation: {}
+    routes: {}
+    warehouse:
+      itemCount: '2702'
+      itemMax: '36288'
+      isEnabled: 'false'
+    itemList:
+      GOLD_NUGGET: '20'
+      EMERALD: '72'
+      WATER_BUCKET: '5'
+      WOOL: '17'
+      STICK: '16'
+      LOG: '212'
+      TORCH: '9'
+      WORKBENCH: '1'
+      WATER: '197'
+      STEP: '99'
+      LEATHER: '13'
+      CHEST: '3'
+      SEEDS: '11'
+      WOOD_PICKAXE: '9'
+      BREAD: '1'
+      WOOD: '204'
+      IRON_ORE: '112'
+      IRON_INGOT: '17'
+      WOOD_AXE: '9'
+      COAL: '9'
+      CARROT: '5'
+      PORK: '9'
+      RAW_CHICKEN: '129'
+      STATIONARY_WATER: '5'
+      GRAVEL: '16'
+      WHEAT: '722'
+      SOIL: '111'
+      STONE: '28'
+      COBBLESTONE: '202'
+      DIRT: '203'
+      DIAMOND: '1'
+      SAND: '67'
+      FEATHER: '8'
+      RAW_BEEF: '118'
+      GRASS: '27'
+      CROPS: '5'
+      WOOD_HOE: '9'
+  '13':
+    id: 13
+    settleType: HAMLET
+    position: SteamHaven:-27.43239447331125:64.0:-262.42828465469825
+    biome: EXTREME_HILLS
+    age: 9300
+    name: Noevtarn
+    owner: NONE
+    ownerId: 2
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 13385.767249994018
+    townhall:
+      workerNeeded: '8'
+      workerCount: '8'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
       settlerCount: '18'
-      fertilityCounter: '13443.93500000003'
+      fertilityCounter: '17001.40000000003'
       workerCount: '0'
-      settlerMax: '21'
-      population: '17'
+      settlerMax: '17'
+      population: '12'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '3268'
+      itemCount: '1918'
       itemMax: '17280'
+      isEnabled: 'false'
+    itemList:
+      REDSTONE_ORE: '9'
+      COAL_ORE: '9'
+      GOLD_NUGGET: '34'
+      EMERALD: '24'
+      WOOL: '26'
+      STICK: '68'
+      LOG: '55'
+      BROWN_MUSHROOM: '9'
+      TORCH: '5'
+      LAPIS_ORE: '33'
+      WATER: '244'
+      STEP: '196'
+      DIAMOND_ORE: '30'
+      WOOD_PICKAXE: '5'
+      BREAD: '1'
+      WOOD: '226'
+      IRON_INGOT: '16'
+      IRON_ORE: '32'
+      WOOD_AXE: '5'
+      COAL: '16'
+      CARROT: '2'
+      ANVIL: '1'
+      WHEAT: '272'
+      SOIL: '48'
+      STONE: '55'
+      COBBLESTONE: '164'
+      DIRT: '199'
+      RED_MUSHROOM: '8'
+      SAND: '64'
+      GRASS: '41'
+      WOOD_HOE: '5'
+      LEAVES: '16'
+  '14':
+    id: 14
+    settleType: HAMLET
+    position: SteamHaven:576.0:74.0:-29.0
+    biome: EXTREME_HILLS
+    age: 9050
+    name: Salichort
+    owner: NONE
+    ownerId: 2
+    tributId: 0
+    isCapital: false
+    isActive: true
+    bank: 4007.2599999972986
+    townhall:
+      workerNeeded: '7'
+      workerCount: '4'
+      isEnabled: 'false'
+    resident:
+      cowCount: '0'
+      horseCount: '0'
+      settlerCount: '14'
+      fertilityCounter: '17111.94500000003'
+      workerCount: '0'
+      settlerMax: '21'
+      population: '10'
+    reputation:
+      dradmin_DONATION: '4'
+    routes: {}
+    warehouse:
+      itemCount: '3019'
+      itemMax: '32832'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
@@ -1126,370 +982,377 @@ SETTLEMENT:
       GOLD_NUGGET: '32'
       EMERALD: '8'
       WOOL: '26'
-      LOG: '244'
+      LOG: '248'
       DISPENSER: '8'
       TORCH: '16'
+      WORKBENCH: '16'
       FENCE_GATE: '15'
       STEP: '196'
-      WATER: '14'
+      WATER: '244'
       RED_ROSE: '8'
-      WOOD_DOOR: '9'
+      WOOD_DOOR: '8'
       LADDER: '8'
       SIGN_POST: '15'
       WOOD_STAIRS: '8'
-      BREAD: '8'
-      WOOD: '196'
+      BREAD: '2'
+      WOOD: '197'
       WOOD_AXE: '16'
       LONG_GRASS: '8'
       CARROT: '8'
       WOOD_PLATE: '8'
       SOIL: '196'
-      RED_MUSHROOM: '332'
+      STONE: '196'
+      RED_MUSHROOM: '8'
       OBSIDIAN: '8'
       SAND: '64'
-      MUSHROOM_SOUP: '321'
       IRON_BLOCK: '8'
-      GRASS: '31'
-      BOOKSHELF: '6'
+      WOOD_SWORD: '3'
+      GRASS: '12'
+      BOOKSHELF: '4'
       WOOD_HOE: '16'
       REDSTONE_ORE: '48'
       EMERALD_ORE: '7'
       THIN_GLASS: '8'
       STICK: '16'
-      BROWN_MUSHROOM: '336'
-      LAPIS_ORE: '48'
+      BROWN_MUSHROOM: '290'
+      LAPIS_ORE: '49'
       BEDROCK: '1'
       CHEST: '16'
       WOOD_PICKAXE: '16'
-      DIAMOND_ORE: '48'
-      IRON_INGOT: '7'
+      DIAMOND_ORE: '49'
+      IRON_INGOT: '17'
       IRON_ORE: '32'
-      COAL: '5'
+      COAL: '18'
       DOUBLE_STEP: '8'
       COBBLESTONE_STAIRS: '8'
       WHEAT: '336'
       PUMPKIN: '30'
+      DIRT: '198'
+      ARROW: '16'
       COBBLESTONE: '164'
-      DIRT: '196'
-      ARROW: '32'
       BED: '16'
-      FENCE: '1'
-      REDSTONE: '8'
+      FENCE: '16'
+      REDSTONE: '2'
   '15':
     id: 15
     settleType: TOWN
     position: DRASKORIA:1944.440832821191:71.0:-348.47531272766247
     biome: PLAINS
-    age: 14794
+    age: 8188
     name: Koenigweg
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: -94.04666671256022
+    bank: 0.5999999942195908
     townhall:
-      workerNeeded: '10'
-      workerCount: '7'
+      workerNeeded: '6'
+      workerCount: '11'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10623.49500000002'
+      settlerCount: '39'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '45'
-      population: '8'
+      settlerMax: '29'
+      population: '12'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2238'
+      itemCount: '1691'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
       IRON_INGOT: '16'
-      IRON_ORE: '112'
+      IRON_ORE: '16'
       WOOD_AXE: '16'
       PORK: '8'
-      WOOL: '9'
-      RAW_CHICKEN: '12'
-      STICK: '16'
-      LOG: '212'
+      WOOL: '10'
+      RAW_CHICKEN: '61'
+      STICK: '18'
+      LOG: '181'
+      WHEAT: '215'
       SOIL: '196'
-      WHEAT: '712'
-      COBBLESTONE: '212'
-      DIRT: '196'
-      WATER: '196'
+      WATER: '199'
+      COBBLESTONE: '180'
+      DIRT: '199'
       SAND: '64'
       LEATHER: '13'
       FEATHER: '8'
       SEEDS: '9'
       WOOD_PICKAXE: '16'
-      RAW_BEEF: '19'
+      RAW_BEEF: '69'
+      BREAD: '1'
       WOOD: '196'
   '17':
     id: 17
     settleType: CITY
     position: DRASKORIA:2368.4325539298684:73.0:41.464796231739186
     biome: PLAINS
-    age: 14727
+    age: 8121
     name: Koelln
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 2556.1700000084893
+    bank: 43390.799580691084
     townhall:
-      workerNeeded: '35'
-      workerCount: '5'
+      workerNeeded: '25'
+      workerCount: '38'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10626.11500000002'
+      settlerCount: '84'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '65'
-      population: '10'
+      settlerMax: '110'
+      population: '41'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '3429'
-      itemMax: '6912'
+      itemCount: '25238'
+      itemMax: '29376'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '17'
       EMERALD: '3'
       WATER_BUCKET: '8'
-      WOOL: '9'
-      STICK: '326'
+      WOOL: '20'
+      STICK: '29'
+      GRILLED_PORK: '38'
       YELLOW_FLOWER: '3'
-      LOG: '200'
+      LOG: '220'
       ROTTEN_FLESH: '8'
       TORCH: '16'
       WORKBENCH: '16'
-      WATER: '196'
+      WATER: '201'
       RED_ROSE: '3'
-      COOKED_BEEF: '20'
-      LEATHER: '13'
+      COOKED_BEEF: '60'
+      LEATHER: '16'
       WOOD_DOOR: '1'
       CLAY: '64'
       LADDER: '8'
-      SEEDS: '9'
+      SEEDS: '9755'
       CHEST: '16'
       WOOD_PICKAXE: '16'
-      BREAD: '468'
+      COOKED_CHICKEN: '40'
+      BREAD: '421'
       WOOD_STAIRS: '1'
-      STONE_SWORD: '13'
-      WOOD: '113'
-      IRON_ORE: '112'
-      IRON_INGOT: '16'
+      WOOD: '80'
+      IRON_INGOT: '17'
+      IRON_ORE: '17'
       WOOD_AXE: '16'
-      COAL: '2'
       FURNACE: '16'
+      COAL: '16'
       LONG_GRASS: '8'
       SMOOTH_BRICK: '8'
       PORK: '8'
-      RAW_CHICKEN: '9'
+      RAW_CHICKEN: '172'
       STATIONARY_WATER: '8'
+      COOKED_FISH: '10'
       SOIL: '196'
-      WHEAT: '568'
+      WHEAT: '12562'
       STONE: '196'
-      LEATHER_HELMET: '1'
-      DIRT: '196'
-      COBBLESTONE: '212'
+      COBBLESTONE: '180'
+      DIRT: '239'
       PAPER: '8'
+      SAND: '67'
       BED: '10'
-      SAND: '64'
-      FEATHER: '8'
-      RAW_BEEF: '8'
+      FEATHER: '9'
+      RAW_BEEF: '179'
       GRASS: '196'
+      WOOD_HOE: '41'
   '16':
     id: 16
     settleType: TOWN
     position: DRASKORIA:1417.5787424776886:72.0:400.48697872675183
     biome: PLAINS
-    age: 14793
+    age: 8187
     name: Steinheim
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: -151.52666671080985
+    bank: -7.200000012054447
     townhall:
-      workerNeeded: '9'
-      workerCount: '6'
+      workerNeeded: '10'
+      workerCount: '16'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10623.49500000002'
+      settlerCount: '38'
+      fertilityCounter: '25451.79999999991'
       workerCount: '0'
       settlerMax: '45'
-      population: '8'
+      population: '22'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2489'
+      itemCount: '2165'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
       SIGN: '10'
-      WOOL: '9'
-      STICK: '16'
-      LOG: '212'
+      WOOL: '12'
+      STICK: '20'
+      LOG: '206'
       WORKBENCH: '10'
-      WATER: '196'
+      WATER: '198'
       LEATHER: '13'
       CHEST: '10'
-      SEEDS: '9'
+      SEEDS: '14'
       WOOD_PICKAXE: '16'
-      WOOD: '196'
-      IRON_INGOT: '16'
-      IRON_ORE: '112'
+      WOOD: '198'
+      IRON_ORE: '16'
+      IRON_INGOT: '18'
       WOOD_AXE: '16'
       CARROT: '3'
       PORK: '8'
-      RAW_CHICKEN: '20'
-      WHEAT: '712'
+      RAW_CHICKEN: '127'
+      WHEAT: '268'
       SOIL: '196'
       STONE: '196'
-      DIRT: '196'
-      COBBLESTONE: '212'
-      SAND: '64'
+      DIRT: '206'
+      COBBLESTONE: '198'
       BED: '10'
+      SAND: '67'
       FEATHER: '8'
-      RAW_BEEF: '15'
+      RAW_BEEF: '112'
       WOODEN_DOOR: '8'
   '19':
     id: 19
     settleType: METROPOLIS
     position: DRASKORIA:-3308.3173099811893:70.0:3784.316254556179
     biome: PLAINS
-    age: 14459
+    age: 7852
     name: Whurola
-    owner: Nikoda
-    ownerId: 25
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: -357.29400099899203
+    bank: 312102.73982698144
     townhall:
-      workerNeeded: '48'
-      workerCount: '56'
+      workerNeeded: '75'
+      workerCount: '92'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '202'
-      fertilityCounter: '10593.22500000002'
+      settlerCount: '275'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '245'
-      population: '165'
-    reputation: {}
+      settlerMax: '311'
+      population: '93'
+    reputation:
+      dradmin_DONATION: '14'
+      dradmin_FOOD: '2'
+      dradmin_REQUIRED: '6'
     routes: {}
     warehouse:
-      itemCount: '37049'
+      itemCount: '48856'
       itemMax: '44928'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '52'
       WOOL: '9'
       STONE_SPADE: '7'
-      LOG: '11'
+      LOG: '10'
       TORCH: '16'
       WORKBENCH: '16'
       WATER: '196'
-      COOKED_BEEF: '3920'
+      RED_ROSE: '1'
+      COOKED_BEEF: '1314'
       WOOD_DOOR: '7'
       CLAY: '64'
       LADDER: '8'
       GOLD_INGOT: '5'
-      BREAD: '850'
-      STONE_SWORD: '32'
-      WOOD: '23'
-      WOOD_AXE: '16'
+      STONE_SWORD: '16'
+      WOOD: '18'
+      WOOD_AXE: '15'
       LONG_GRASS: '8'
-      CARROT: '8'
+      CARROT: '4256'
       STONE_AXE: '7'
       PORK: '8'
       STONE_HOE: '7'
-      RAW_CHICKEN: '91'
+      RAW_CHICKEN: '2152'
       STATIONARY_WATER: '8'
       GRAVEL: '47'
       SOIL: '196'
       STONE: '196'
       SAND: '64'
       FEATHER: '8'
-      WOOD_SWORD: '32'
+      WOOD_SWORD: '16'
       GRASS: '196'
-      WOOD_HOE: '16'
       WOOD_STEP: '8'
       WATER_BUCKET: '8'
       THIN_GLASS: '8'
-      STICK: '36'
-      LEATHER_CHESTPLATE: '9'
-      LEATHER: '13'
+      STICK: '16'
+      YELLOW_FLOWER: '1'
+      LEATHER_CHESTPLATE: '32'
       CHEST: '16'
-      SEEDS: '26325'
+      SEEDS: '3'
       WOOD_PICKAXE: '16'
-      LEATHER_LEGGINGS: '10'
-      IRON_INGOT: '16'
-      IRON_ORE: '198'
+      LEATHER_LEGGINGS: '32'
+      IRON_INGOT: '38692'
+      IRON_ORE: '16'
       FURNACE: '16'
-      WHEAT: '1062'
-      DIRT: '196'
-      COBBLESTONE: '2808'
+      COAL: '16'
+      FLINT: '2'
       LEATHER_HELMET: '32'
-      LEATHER_BOOTS: '12'
+      ARROW: '16'
+      COBBLESTONE: '8'
+      DIRT: '196'
+      LEATHER_BOOTS: '32'
       FENCE: '16'
       BED: '9'
-      RAW_BEEF: '94'
-      WRITTEN_BOOK: '1'
+      RAW_BEEF: '454'
+      WRITTEN_BOOK: '4'
   '18':
     id: 18
     settleType: HAMLET
     position: DRASKORIA:-108.38533455190455:71.0:-2365.6312313824333
     biome: FOREST_HILLS
-    age: 14660
+    age: 8053
     name: Kieckut
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 8314.146667299028
+    bank: 73230.40666662635
     townhall:
-      workerNeeded: '7'
-      workerCount: '7'
+      workerNeeded: '20'
+      workerCount: '17'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '21'
-      fertilityCounter: '10597.86750000002'
+      settlerCount: '46'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '21'
-      population: '17'
+      settlerMax: '37'
+      population: '18'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2310'
+      itemCount: '88664'
       itemMax: '32832'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '97'
+      GOLD_NUGGET: '997'
       COMPASS: '2'
       EMERALD: '31'
-      WOOL: '19'
-      STICK: '166'
-      LOG: '1'
+      WOOL: '13'
+      STICK: '16'
+      LOG: '9'
       TORCH: '16'
       WORKBENCH: '16'
       GLOWSTONE: '8'
@@ -1498,197 +1361,206 @@ SETTLEMENT:
       CHAINMAIL_HELMET: '7'
       CHEST: '16'
       SEEDS: '16'
-      WOOD_PICKAXE: '16'
-      BREAD: '53'
-      WOOD: '196'
+      WOOD_PICKAXE: '1'
+      WOOD: '17'
       IRON_INGOT: '16'
       IRON_ORE: '64'
       WOOD_AXE: '16'
       FURNACE: '16'
-      COAL: '16'
+      COAL: '86056'
       LONG_GRASS: '8'
-      FLINT: '20'
+      FLINT: '64'
       SOIL: '196'
-      WHEAT: '329'
+      WHEAT: '121'
       APPLE: '8'
       COBBLESTONE: '196'
       DIRT: '196'
       SAND: '64'
       GRASS: '196'
-      WOOD_HOE: '16'
       LEAVES: '64'
   '21':
     id: 21
     settleType: TOWN
     position: DRASKORIA:-2481.699999988079:71.0:5038.300000011921
-    biome: FOREST
-    age: 14155
+    biome: PLAINS
+    age: 7548
     name: Brasweg
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 4638.506666726405
+    bank: -447.0540350580556
     townhall:
-      workerNeeded: '13'
+      workerNeeded: '14'
       workerCount: '13'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '21'
-      fertilityCounter: '10610.15000000002'
+      settlerCount: '45'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '21'
-      population: '17'
+      settlerMax: '26'
+      population: '14'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2205'
+      itemCount: '25835'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '18'
-      WOOL: '17'
-      STICK: '16'
-      LOG: '148'
+      WOOL: '10'
+      STICK: '107'
+      GRILLED_PORK: '38'
+      LOG: '302'
+      YELLOW_FLOWER: '1'
       TORCH: '16'
       WORKBENCH: '1'
-      WATER: '196'
+      WATER: '198'
+      COOKED_BEEF: '40'
       WOOD_DOOR: '5'
       LEATHER: '13'
+      SEEDS: '12'
       CHEST: '16'
-      SEEDS: '13'
       WOOD_PICKAXE: '16'
-      WOOD: '186'
-      IRON_ORE: '53'
+      COOKED_CHICKEN: '40'
+      BREAD: '46'
+      WOOD: '287'
+      IRON_ORE: '16'
       IRON_INGOT: '16'
       WOOD_AXE: '16'
       COAL: '16'
       LONG_GRASS: '8'
-      PORK: '8'
-      RAW_CHICKEN: '14'
-      WHEAT: '15'
+      PORK: '9'
+      RAW_CHICKEN: '49'
+      COOKED_FISH: '10'
+      WHEAT: '87'
       SOIL: '196'
-      DIRT: '196'
-      COBBLESTONE: '196'
+      DIRT: '208'
+      COBBLESTONE: '180'
       BED: '1'
       SAND: '64'
       FEATHER: '8'
-      RAW_BEEF: '10'
+      RAW_BEEF: '48'
       GRASS: '196'
-      WOOD_HOE: '451'
+      WOOD_HOE: '23479'
       LEAVES: '64'
   '20':
     id: 20
     settleType: TOWN
     position: DRASKORIA:-3480.5400252400545:69.0:4076.4394092694947
-    biome: OCEAN
-    age: 14455
+    biome: PLAINS
+    age: 7847
     name: WhurolaHafen
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 1798.1766667577333
+    bank: -135.82061120415523
     townhall:
-      workerNeeded: '12'
-      workerCount: '16'
+      workerNeeded: '21'
+      workerCount: '22'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '44'
-      fertilityCounter: '10563.83000000002'
+      settlerCount: '53'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '49'
-      population: '36'
+      settlerMax: '54'
+      population: '28'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2578'
+      itemCount: '2803'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '64'
-      WOOL: '19'
-      STICK: '16'
-      LOG: '113'
+      GOLD_NUGGET: '421'
+      WOOL: '14'
+      STICK: '18'
+      GRILLED_PORK: '38'
       YELLOW_FLOWER: '7'
+      LOG: '8'
       TORCH: '16'
+      LEATHER_CHESTPLATE: '3'
       WORKBENCH: '16'
-      WATER: '196'
+      WATER: '201'
+      COOKED_BEEF: '40'
       RED_ROSE: '2'
+      LEATHER: '14'
       WOOD_DOOR: '7'
-      LEATHER: '13'
       LADDER: '8'
       CHEST: '16'
       SEEDS: '16'
       WOOD_PICKAXE: '16'
-      WOOD: '126'
-      IRON_ORE: '112'
+      COOKED_CHICKEN: '40'
+      BREAD: '30'
+      LEATHER_LEGGINGS: '1'
+      STONE_SWORD: '1'
+      WOOD: '158'
       IRON_INGOT: '16'
+      IRON_ORE: '17'
       WOOD_AXE: '16'
-      FURNACE: '16'
       COAL: '16'
+      FURNACE: '16'
       LONG_GRASS: '8'
       PORK: '8'
-      RAW_CHICKEN: '30'
+      RAW_CHICKEN: '110'
+      COOKED_FISH: '10'
       SOIL: '196'
-      WHEAT: '769'
-      COBBLESTONE: '212'
-      DIRT: '196'
+      WHEAT: '798'
+      COBBLESTONE: '67'
+      DIRT: '210'
+      LEATHER_HELMET: '2'
+      LEATHER_BOOTS: '1'
       BED: '6'
       FENCE: '16'
-      SAND: '64'
-      FEATHER: '8'
-      RAW_BEEF: '24'
-      GRASS: '196'
-      WOOD_HOE: '2'
+      SAND: '67'
+      FEATHER: '9'
+      RAW_BEEF: '107'
   '23':
     id: 23
     settleType: HAMLET
     position: DRASKORIA:-2327.0:73.0:3100.0
-    biome: EXTREME_HILLS_MOUNTAINS
-    age: 14002
+    biome: PLAINS
+    age: 7394
     name: Utklamm
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 6897.026666661649
+    bank: -5478.2433333326035
     townhall:
-      workerNeeded: '4'
-      workerCount: '4'
+      workerNeeded: '10'
+      workerCount: '11'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10596.46500000002'
+      settlerCount: '22'
+      fertilityCounter: '25451.79999999991'
       workerCount: '0'
       settlerMax: '21'
-      population: '8'
+      population: '13'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2100'
+      itemCount: '34945'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '11'
-      WOOL: '19'
+      WOOL: '9'
       STICK: '16'
-      LOG: '45'
+      LOG: '180'
       TORCH: '16'
       WORKBENCH: '6'
-      LAPIS_ORE: '1'
       WATER: '196'
       RED_ROSE: '1'
       WOOD_DOOR: '8'
@@ -1696,28 +1568,25 @@ SETTLEMENT:
       BEDROCK: '1'
       SEEDS: '9'
       CHEST: '16'
-      DIAMOND_ORE: '2'
       WOOD_PICKAXE: '16'
-      GOLD_ORE: '1'
       WOOD: '196'
-      IRON_ORE: '16'
-      IRON_INGOT: '16'
+      IRON_ORE: '7'
+      IRON_INGOT: '32895'
       WOOD_AXE: '16'
-      COAL: '11'
+      COAL: '6'
       LONG_GRASS: '8'
       PORK: '8'
-      RAW_CHICKEN: '10'
+      RAW_CHICKEN: '62'
       DOUBLE_PLANT: '6'
-      WHEAT: '328'
+      WHEAT: '57'
       SOIL: '196'
       STONE: '196'
       DIRT: '196'
-      COBBLESTONE: '132'
+      COBBLESTONE: '180'
       BED: '5'
       SAND: '64'
       FEATHER: '8'
-      REDSTONE: '1'
-      RAW_BEEF: '13'
+      RAW_BEEF: '56'
       GRASS: '196'
       BOOKSHELF: '4'
       WOOD_HOE: '16'
@@ -1726,139 +1595,141 @@ SETTLEMENT:
     id: 22
     settleType: TOWN
     position: DRASKORIA:-3632.4611508878415:66.0:2337.55356886976
-    biome: FOREST
-    age: 14027
+    biome: PLAINS
+    age: 7419
     name: Elblingen
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 1471.6333332821844
+    bank: 16377.501651481107
     townhall:
-      workerNeeded: '8'
-      workerCount: '8'
+      workerNeeded: '12'
+      workerCount: '10'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '32'
-      fertilityCounter: '10623.40000000002'
+      settlerCount: '48'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
       settlerMax: '33'
-      population: '26'
+      population: '17'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2265'
+      itemCount: '2892'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '24'
-      WOOL: '19'
-      STICK: '16'
-      LOG: '148'
+      WOOL: '13'
+      STICK: '20'
+      GRILLED_PORK: '68'
+      LOG: '181'
       TORCH: '16'
       WORKBENCH: '16'
-      WATER: '196'
-      COOKED_BEEF: '48'
+      WATER: '198'
+      COOKED_BEEF: '128'
       WOOD_DOOR: '5'
       LEATHER: '13'
       LADDER: '8'
-      SEEDS: '16'
+      SEEDS: '13'
       CHEST: '16'
       WOOD_PICKAXE: '16'
-      WOOD: '196'
-      IRON_ORE: '64'
-      IRON_INGOT: '16'
+      BREAD: '3'
+      COOKED_CHICKEN: '80'
+      WOOD: '198'
+      IRON_ORE: '17'
+      IRON_INGOT: '17'
       WOOD_AXE: '16'
       BONE: '8'
       LONG_GRASS: '8'
       PORK: '8'
-      RAW_CHICKEN: '15'
+      RAW_CHICKEN: '122'
+      COOKED_FISH: '29'
+      WHEAT: '697'
       SOIL: '196'
-      WHEAT: '502'
       COBBLESTONE: '161'
-      DIRT: '196'
+      DIRT: '210'
       BED: '1'
-      SAND: '64'
+      SAND: '69'
       FEATHER: '8'
-      RAW_BEEF: '21'
+      RAW_BEEF: '104'
       GRASS: '196'
       WOOD_HOE: '16'
   '25':
     id: 25
     settleType: TOWN
     position: DRASKORIA:-3448.6556693356483:65.0:-2208.698955063476
-    biome: OCEAN
-    age: 13903
+    biome: PLAINS
+    age: 7295
     name: AndamarHafen
-    owner: dradmin
-    ownerId: 1
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 1453.6216668104641
+    bank: 18461.192308365033
     townhall:
       workerNeeded: '8'
-      workerCount: '8'
+      workerCount: '11'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '52'
-      fertilityCounter: '10619.960000000021'
+      settlerCount: '72'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
       settlerMax: '57'
-      population: '44'
+      population: '31'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2528'
+      itemCount: '42550'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
-      GOLD_NUGGET: '9'
-      WOOL: '19'
-      STICK: '16'
-      LOG: '223'
-      TORCH: '7'
-      WATER: '196'
-      WOOD_DOOR: '5'
-      LEATHER: '13'
-      SEEDS: '16'
-      CHEST: '16'
-      WOOD_PICKAXE: '16'
-      WOOD: '196'
-      IRON_ORE: '128'
-      IRON_INGOT: '16'
+      IRON_INGOT: '40130'
+      IRON_ORE: '16'
       WOOD_AXE: '16'
       PORK: '8'
-      RAW_CHICKEN: '36'
-      WHEAT: '737'
+      WOOL: '9'
+      RAW_CHICKEN: '280'
+      STICK: '16'
+      LOG: '180'
       SOIL: '196'
+      WHEAT: '47'
+      TORCH: '7'
       STONE: '23'
-      DIRT: '196'
       COBBLESTONE: '121'
+      DIRT: '196'
+      WATER: '196'
       SAND: '64'
+      LEATHER: '13'
+      WOOD_DOOR: '5'
       FEATHER: '8'
-      RAW_BEEF: '35'
+      CHEST: '16'
+      SEEDS: '9'
+      RAW_BEEF: '250'
+      WOOD_PICKAXE: '16'
       GRASS: '196'
       WOOD_HOE: '16'
+      WOOD: '196'
   '24':
     id: 24
     settleType: HAMLET
     position: DRASKORIA:-259.0:65.0:-3964.0
     biome: FOREST
-    age: 13970
+    age: 7362
     name: Holzheim
-    owner: NPC1
-    ownerId: 4
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 584.9599999747754
+    bank: 5051.353333326052
     townhall:
       workerNeeded: '4'
       workerCount: '4'
@@ -1866,119 +1737,120 @@ SETTLEMENT:
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '21'
-      fertilityCounter: '10593.47500000002'
+      settlerCount: '22'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
       settlerMax: '21'
-      population: '17'
+      population: '15'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2105'
+      itemCount: '3173'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
       COAL_ORE: '4'
-      GOLD_NUGGET: '83'
-      WOOL: '19'
-      STICK: '16'
-      LOG: '148'
+      GOLD_NUGGET: '1001'
+      WOOL: '15'
+      STICK: '17'
+      LOG: '206'
+      BROWN_MUSHROOM: '2'
       TORCH: '16'
       WORKBENCH: '6'
-      WATER: '196'
+      WATER: '197'
       WOOD_DOOR: '8'
       CLAY: '52'
       BEDROCK: '1'
+      SEEDS: '18'
       CHEST: '16'
-      SEEDS: '16'
       SIGN_POST: '4'
       WOOD_PICKAXE: '16'
+      BREAD: '1'
       WOOD: '196'
-      IRON_INGOT: '16'
+      IRON_INGOT: '19'
       IRON_ORE: '64'
       WOOD_AXE: '16'
       LONG_GRASS: '4'
       GRAVEL: '16'
-      WHEAT: '318'
+      WHEAT: '366'
       SOIL: '196'
       STONE: '196'
-      DIRT: '196'
-      COBBLESTONE: '196'
+      DIRT: '205'
+      COBBLESTONE: '220'
       BED: '5'
-      SAND: '64'
+      SAND: '69'
       BOOKSHELF: '4'
       WOOD_HOE: '16'
   '27':
     id: 27
     settleType: TOWN
     position: DRASKORIA:-2679.411906350951:71.0:-1838.4460186128515
-    biome: FOREST
-    age: 13898
+    biome: PLAINS
+    age: 7290
     name: Drachenwald
-    owner: Emrys_Moonchild
-    ownerId: 5
+    owner: NONE
+    ownerId: 2
     tributId: 0
     isCapital: false
     isActive: true
-    bank: 2488.213333217786
+    bank: -294.097681575633
     townhall:
-      workerNeeded: '0'
-      workerCount: '0'
+      workerNeeded: '18'
+      workerCount: '23'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10626.07000000002'
+      settlerCount: '101'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
-      settlerMax: '33'
-      population: '8'
+      settlerMax: '85'
+      population: '49'
     reputation: {}
     routes: {}
     warehouse:
-      itemCount: '2001'
-      itemMax: '20736'
+      itemCount: '43038'
+      itemMax: '36288'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '18'
       WATER_BUCKET: '8'
-      WOOL: '19'
-      STICK: '16'
-      LOG: '148'
+      WOOL: '9'
+      GRILLED_PORK: '8'
+      STICK: '1'
+      LOG: '180'
       TORCH: '16'
       WORKBENCH: '13'
       FENCE_GATE: '4'
       WATER: '196'
       MOSSY_COBBLESTONE: '7'
-      COOKED_BEEF: '30'
+      LEATHER: '13'
       WOOD_DOOR: '7'
-      LEATHER: '16'
-      SEEDS: '16'
+      SEEDS: '9'
       CHEST: '16'
       WOOD_PICKAXE: '16'
       WOOD: '196'
       POTATO_ITEM: '8'
-      IRON_ORE: '64'
-      IRON_INGOT: '16'
+      IRON_ORE: '16'
+      IRON_INGOT: '40280'
       WOOD_AXE: '16'
       FURNACE: '14'
       COAL: '16'
       LONG_GRASS: '8'
+      CARROT: '1'
       PORK: '8'
-      RAW_CHICKEN: '8'
+      RAW_CHICKEN: '314'
       STATIONARY_WATER: '8'
       CARROT_ITEM: '8'
       SOIL: '196'
-      WHEAT: '82'
       APPLE: '8'
       DIRT: '196'
-      COBBLESTONE: '196'
+      COBBLESTONE: '180'
       BAKED_POTATO: '5'
       FENCE: '16'
       SAND: '64'
       FEATHER: '8'
-      RAW_BEEF: '8'
+      RAW_BEEF: '343'
       CROPS: '8'
       GRASS: '196'
       WOOD_HOE: '16'
@@ -1988,39 +1860,40 @@ SETTLEMENT:
     id: 26
     settleType: TOWN
     position: DRASKORIA:-3119.8048678125774:68.0:-992.4658948240449
-    biome: FOREST
-    age: 13900
+    biome: PLAINS
+    age: 7292
     name: Andamar
-    owner: Emrys_Moonchild
-    ownerId: 5
-    tributId: 4
+    owner: NONE
+    ownerId: 2
+    tributId: 0
     isCapital: false
     isActive: true
-    bank: 908.4450001806065
+    bank: 1023.7053500856523
     townhall:
-      workerNeeded: '11'
-      workerCount: '11'
+      workerNeeded: '12'
+      workerCount: '14'
       isEnabled: 'false'
     resident:
       cowCount: '0'
       horseCount: '0'
-      settlerCount: '65'
-      fertilityCounter: '10621.550000000021'
+      settlerCount: '74'
+      fertilityCounter: '25351.19999999991'
       workerCount: '0'
       settlerMax: '65'
-      population: '50'
-    reputation: {}
+      population: '34'
+    reputation:
+      dradmin_FOOD: '3'
+      dradmin_REQUIRED: '3'
     routes: {}
     warehouse:
-      itemCount: '2081'
+      itemCount: '42822'
       itemMax: '36288'
       isEnabled: 'false'
     itemList:
       SIGN: '16'
-      GOLD_NUGGET: '42'
-      WOOL: '19'
+      WOOL: '9'
       STICK: '16'
-      LOG: '148'
+      LOG: '180'
       TORCH: '16'
       GLOWSTONE: '8'
       WORKBENCH: '9'
@@ -2028,348 +1901,23 @@ SETTLEMENT:
       WATER: '196'
       WOOD_DOOR: '3'
       LEATHER: '13'
-      SEEDS: '16'
+      SEEDS: '9'
       CHEST: '16'
       WOOD_PICKAXE: '16'
-      BREAD: '189'
       WOOD: '196'
-      IRON_ORE: '64'
-      IRON_INGOT: '16'
+      IRON_ORE: '16'
+      IRON_INGOT: '40288'
       WOOD_AXE: '16'
       FURNACE: '12'
       COAL: '16'
       PORK: '8'
-      RAW_CHICKEN: '37'
+      RAW_CHICKEN: '284'
       SOIL: '196'
-      WHEAT: '30'
-      COBBLESTONE: '196'
+      COBBLESTONE: '180'
       DIRT: '196'
       SAND: '64'
       FENCE: '16'
       FEATHER: '8'
-      RAW_BEEF: '39'
+      RAW_BEEF: '252'
       GRASS: '167'
       WOOD_HOE: '16'
-  '29':
-    id: 29
-    settleType: HAMLET
-    position: DRASKORIA:-2853.528557979168:85.0:4302.447733534896
-    biome: SMALL_MOUNTAINS
-    age: 3092
-    name: Selemgar
-    owner: Balathrus
-    ownerId: 6
-    tributId: 0
-    isCapital: false
-    isActive: true
-    bank: 80.17999999999994
-    townhall:
-      workerNeeded: '0'
-      workerCount: '0'
-      isEnabled: 'false'
-    resident:
-      cowCount: '0'
-      horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10563.00000000002'
-      workerCount: '0'
-      settlerMax: '5'
-      population: '0'
-    reputation: {}
-    routes: {}
-    warehouse:
-      itemCount: '1608'
-      itemMax: '17280'
-      isEnabled: 'false'
-    itemList:
-      COAL_ORE: '10'
-      GOLD_NUGGET: '27'
-      WOOL: '9'
-      STICK: '16'
-      LOG: '196'
-      INK_SACK: '6'
-      TORCH: '16'
-      WORKBENCH: '6'
-      WATER: '69'
-      GOLD_RECORD: '4'
-      WOOD_DOOR: '8'
-      BEDROCK: '1'
-      SEEDS: '16'
-      CHEST: '16'
-      WOOD_PICKAXE: '16'
-      WOOD: '196'
-      IRON_ORE: '28'
-      IRON_INGOT: '16'
-      WOOD_AXE: '16'
-      LONG_GRASS: '8'
-      GREEN_RECORD: '4'
-      SMOOTH_BRICK: '8'
-      RAW_CHICKEN: '1'
-      COBBLESTONE_STAIRS: '8'
-      SOIL: '196'
-      STONE: '196'
-      APPLE: '8'
-      DIRT: '29'
-      COBBLESTONE: '164'
-      NAME_TAG: '3'
-      SAND: '31'
-      GRASS: '196'
-      BOOKSHELF: '4'
-      WOOD_HOE: '16'
-      SAPLING: '64'
-  '28':
-    id: 28
-    settleType: CITY
-    position: Morser:5.460386231004409:120.0:-211.4634643902388
-    biome: DESERT
-    age: 3198
-    name: Morser
-    owner: Balathrus
-    ownerId: 6
-    tributId: 0
-    isCapital: false
-    isActive: true
-    bank: 2728.486666667588
-    townhall:
-      workerNeeded: '10'
-      workerCount: '10'
-      isEnabled: 'false'
-    resident:
-      cowCount: '0'
-      horseCount: '0'
-      settlerCount: '108'
-      fertilityCounter: '439.0799999999999'
-      workerCount: '0'
-      settlerMax: '341'
-      population: '107'
-    reputation: {}
-    routes: {}
-    warehouse:
-      itemCount: '4733'
-      itemMax: '38016'
-      isEnabled: 'false'
-    itemList:
-      IRON_ORE: '220'
-      IRON_INGOT: '358'
-      WOOD_AXE: '196'
-      GOLD_NUGGET: '291'
-      WOOL: '13'
-      RAW_CHICKEN: '61'
-      STICK: '26'
-      LOG: '244'
-      SOIL: '1706'
-      WHEAT: '82'
-      DIRT: '444'
-      COBBLESTONE: '244'
-      WATER: '260'
-      SAND: '16'
-      FEATHER: '8'
-      SEEDS: '19'
-      WOOD_PICKAXE: '48'
-      BREAD: '1'
-      WOOD_HOE: '218'
-      WOOD: '278'
-  '30':
-    id: 30
-    settleType: HAMLET
-    position: DRASKORIA:2872.452455028566:78.0:-993.5484726856673
-    biome: PLAINS
-    age: 2626
-    name: HausKriant
-    owner: dradmin
-    ownerId: 1
-    tributId: 0
-    isCapital: false
-    isActive: true
-    bank: 2826.106666671754
-    townhall:
-      workerNeeded: '6'
-      workerCount: '4'
-      isEnabled: 'false'
-    resident:
-      cowCount: '0'
-      horseCount: '0'
-      settlerCount: '5'
-      fertilityCounter: '10622.96500000002'
-      workerCount: '0'
-      settlerMax: '13'
-      population: '8'
-    reputation: {}
-    routes: {}
-    warehouse:
-      itemCount: '1360'
-      itemMax: '17280'
-      isEnabled: 'false'
-    itemList:
-      SIGN: '9'
-      LEASH: '2'
-      GOLD_NUGGET: '20'
-      IRON_HELMET: '1'
-      WOOL: '9'
-      IRON_SWORD: '32'
-      STICK: '16'
-      IRON_CHESTPLATE: '2'
-      LOG: '212'
-      SADDLE: '1'
-      WATER: '28'
-      TNT: '8'
-      LEATHER: '11'
-      SEEDS: '9'
-      MELON: '8'
-      WOOD_PICKAXE: '13'
-      WOOD: '31'
-      IRON_ORE: '12'
-      IRON_INGOT: '16'
-      WOOD_AXE: '13'
-      PORK: '3'
-      RAW_CHICKEN: '6'
-      SOIL: '196'
-      WHEAT: '200'
-      DIRT: '196'
-      COBBLESTONE: '212'
-      LEATHER_HELMET: '1'
-      PAPER: '8'
-      LEATHER_BOOTS: '32'
-      SAND: '26'
-      FENCE: '1'
-      FEATHER: '7'
-      RAW_BEEF: '6'
-      WOOD_HOE: '13'
-  '31':
-    id: 31
-    settleType: TOWN
-    position: DRASKORIA:584.5354927856232:66.0:7465.468348860008
-    biome: FOREST
-    age: 947
-    name: Dunkelberg
-    owner: Eisenhammer
-    ownerId: 14
-    tributId: 0
-    isCapital: false
-    isActive: true
-    bank: 3491.7700000168943
-    townhall:
-      workerNeeded: '14'
-      workerCount: '11'
-      isEnabled: 'false'
-    resident:
-      cowCount: '0'
-      horseCount: '0'
-      settlerCount: '22'
-      fertilityCounter: '10630.16500000002'
-      workerCount: '0'
-      settlerMax: '29'
-      population: '20'
-    reputation:
-      Eisenhammer_DONATION: '30'
-      Eisenhammer_FOOD: '5'
-      Eisenhammer_VALUABLE: '3'
-    routes: {}
-    warehouse:
-      itemCount: '1899'
-      itemMax: '36288'
-      isEnabled: 'false'
-    itemList:
-      WOOD_BUTTON: '4'
-      EMERALD: '27'
-      GOLD_NUGGET: '36'
-      WOOL: '19'
-      STICK: '16'
-      LOG: '148'
-      ROTTEN_FLESH: '8'
-      WORKBENCH: '5'
-      FENCE_GATE: '1'
-      WALL_SIGN: '3'
-      WATER: '25'
-      SULPHUR: '5'
-      LEATHER: '1'
-      WOOD_DOOR: '5'
-      SEEDS: '16'
-      CHEST: '6'
-      WOOD_STAIRS: '8'
-      EGG: '4'
-      WOOD: '19'
-      IRON_ORE: '16'
-      IRON_INGOT: '16'
-      WOOD_AXE: '1'
-      FURNACE: '3'
-      BONE: '4'
-      PORK: '1'
-      RAW_CHICKEN: '2'
-      CARROT_ITEM: '8'
-      GRAVEL: '64'
-      WHEAT: '714'
-      SOIL: '196'
-      STONE: '55'
-      IRON_PICKAXE: '1'
-      MUTTON: '1'
-      COBBLESTONE: '196'
-      DIRT: '196'
-      FENCE: '16'
-      SAND: '23'
-      FEATHER: '2'
-      RAW_BEEF: '1'
-      GLASS: '24'
-      STRING: '2'
-  '32':
-    id: 32
-    settleType: HAMLET
-    position: DRASKORIA:-4669.0:73.0:6122.0
-    biome: FOREST
-    age: 283
-    name: Ockholm
-    owner: NONE
-    ownerId: 31
-    tributId: 0
-    isCapital: false
-    isActive: true
-    bank: 3050.089999999894
-    townhall:
-      workerNeeded: '15'
-      workerCount: '10'
-      isEnabled: 'false'
-    resident:
-      cowCount: '0'
-      horseCount: '0'
-      settlerCount: '10'
-      fertilityCounter: '10361.200000000019'
-      workerCount: '0'
-      settlerMax: '21'
-      population: '11'
-    reputation:
-      dradmin_TRADE: '3'
-    routes: {}
-    warehouse:
-      itemCount: '3766'
-      itemMax: '17280'
-      isEnabled: 'false'
-    itemList:
-      WOOL: '19'
-      STICK: '16'
-      BROWN_MUSHROOM: '50'
-      LOG: '543'
-      TORCH: '16'
-      WORKBENCH: '6'
-      WATER: '2'
-      WOOD_DOOR: '8'
-      BEDROCK: '1'
-      CHEST: '16'
-      SEEDS: '1'
-      WOOD_PICKAXE: '16'
-      VINE: '45'
-      BREAD: '462'
-      WOOD: '196'
-      IRON_ORE: '4'
-      IRON_INGOT: '6'
-      WOOD_AXE: '16'
-      COOKED_FISH: '1642'
-      WHEAT: '104'
-      STONE: '64'
-      COBBLESTONE: '196'
-      DIRT: '196'
-      RED_MUSHROOM: '50'
-      SAND: '2'
-      BED: '5'
-      BOOKSHELF: '4'
-      WOOD_HOE: '16'
-      LEAVES: '64'

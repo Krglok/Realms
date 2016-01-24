@@ -1,23 +1,21 @@
-# 
+#------------------#
 # General Settings #
+#------------------#
+# updatecheck, check for new version and give a message to the server console #
 updatecheck: false
+# autoupdate, is not implemented now and should always false #
 autoupdate: false
-plugin_name: Realms
-plugin_ver: 0.1.0
+# logList, if true all production and orders and happiness on every production cycle will be stored
+# new option for protokoll files 
+# logList, if true all production and orders and happiness on every production cycle will be stored
+loglist: false 
+plugin_name: "Realms"
+plugin_ver : "0.8.4"
 realmCounter: 0
 settlementCounter: 0
 buildingCounter: 0
-superSettleTypes:
-  SETTLE_HAMLET: Siedlung
-  SETTLE_CASTLE: Burg
-  SETTLE_TOWN: Dorf
-  SETTLE_CITY: Stadt
-  SETTLE_METRO: Metropole
-regionBuildingTypes:
-  haus_einfach: BUILDING_HOME
-  haus_gross: BUILDING_HOME
-  haupthaus: BUILDING_HALL
-  taverne: BUILDING_ENTERTAIN
-  markt: BUILDING_WAREHOUSE
-  kornfeld: BUILDING_PROD
-  holzfaeller: BUILDING_PROD
+realmCounter: 0
+settlementCounter: 0
+buildingCounter: 0
+initBuildingPos: false
+

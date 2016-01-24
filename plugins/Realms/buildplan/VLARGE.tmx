@@ -4,7 +4,7 @@
   <property name="offset" value="-1"/>
  </properties>
  <tileset firstgid="1" source="MC Realms.tsx"/>
- <layer name="Ebene 0" width="13" height="13" visible="0">
+ <layer name="Ebene 0" width="13" height="13">
   <data>
    <tile gid="25"/>
    <tile gid="25"/>
@@ -177,7 +177,7 @@
    <tile gid="1"/>
   </data>
  </layer>
- <layer name="Ebene 1 boden" width="13" height="13" visible="0">
+ <layer name="Ebene 1 boden" width="13" height="13">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -523,7 +523,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Ebene 3" width="13" height="13" visible="0">
+ <layer name="Ebene 3" width="13" height="13">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>

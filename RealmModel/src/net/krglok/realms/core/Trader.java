@@ -364,6 +364,7 @@ public class Trader
 					if (tradeTransport.countSender(settle.getId(),settle.getSettleType()) < caravanMax)
 					{
 						distance = settle.getPosition().distance2D(targets.getSettlement(tmo.getSettleID()).getPosition());
+						settle.getMsg().add("[REALMS] Make Transport "+settle.getId()+" to "+tmo.getSettleID()+" : "+ tmo.ItemRef());
 						makeTransportOrder(tmo, foundOrder, tradeTransport, settle, distance );
 					} else
 					{
@@ -433,7 +434,8 @@ public class Trader
 								// target has enough space in warehouse
 								if (targets.getSettlement(rOrder.getTargetId()).getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
 								{
-//									System.out.println("[REALMS] Make route "+settle.getId()+" to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
+//									System.out.println(
+									settle.getMsg().add("[REALMS] Make route "+settle.getId()+" to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
 									makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, targets);
 								}
 							}

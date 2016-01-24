@@ -309,7 +309,6 @@ public final class Realms extends JavaPlugin
         //Setup repeating sync task for calculating model
         long actualTime = this.getServer().getWorlds().get(0).getTime();
         tick = new TickTask(this);
-        TickTask.setCounter(actualTime/ConfigBasis.RealmTick);
         // parameter plugin, Runnable , DealyTick to start, Tick to run
         getServer().getScheduler().scheduleSyncRepeatingTask(this, tick, ConfigBasis.DelayTick, ConfigBasis.RealmTick);
         Date date = new Date();

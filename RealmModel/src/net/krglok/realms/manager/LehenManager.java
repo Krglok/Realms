@@ -6,11 +6,14 @@ import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.core.AbstractSettle;
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.RouteOrder;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.core.TradeTransport;
@@ -55,31 +58,69 @@ public class LehenManager
 	{
 		delayRoutes = 0;
 		lStatus = LehenStatus.NONE;
+		this.cmdBuilder = new  ArrayList<McmdBuilder>();
+		this.cmdBuy = new ArrayList<McmdBuyOrder>();
+		this.cmdSell = new ArrayList<McmdSellOrder>();
+		this.buyList = new ItemList();
+		this.dontSell = new ItemList();
 	}
 
     public void run(RealmModel rModel, Lehen lehen)
     {
-	    //  not on each tick 
+
+		// check for optional actions
 		if (checkCounter <= 0)
 		{
+			System.out.println("LehenManager");
 		
-			System.out.println("1");
+			System.out.println("1 getModelCommands");
 			getModelCommands(rModel, lehen);
-//			System.out.println("6");
+			// check for hunger
+//			System.out.println("2");
+//			checkHunger ( rModel,  settle);
+			//check for money
+//			System.out.println("3");
+//			checkMoneyLevel( rModel,  settle);
+			// check for Required Items
+			System.out.println("4 checksupport");
+			// check for required Food
+			checksupport(rModel, rModel.getTradeTransport(), lehen);
+
+			System.out.println("4 checkRequiredMaterials");
+			if (checkRequiredMaterials(rModel,  lehen))
+			{
+				System.out.println("4.1 buyRequiredMaterials");
+				buyRequiredMaterials(rModel, lehen);
+			}
+	
+			// check for overstocking
+//			System.out.println("5");
+//			checkOverStockSell( rModel,  lehen);
+			// check for overpopulation
+			
+			System.out.println("6 checkBuildMaterials");
 			if (checkBuildMaterials(rModel, lehen))
 			{
-		//				System.out.println("6.1");
+				System.out.println("6.1  buildOrder");
 				buildOrder(rModel,lehen);
 				checkCounter = 0;
 			} else
 			{	
-		//				System.out.println("6.2");
+				System.out.println("6.2  buyBuildMaterials");
 				buyBuildMaterials(rModel, lehen);
 				checkCounter = 100;
 			}
-
+//			System.out.println("7");
+//			checkSellOrder(rModel, lehen);
+//			System.out.println("8");
+//			sellOrder(rModel,lehen);
+			System.out.println("9 sendBuyOrderToTrader");
+			sendBuyOrderToTrader( rModel, lehen);
+		} else
+		{
+			checkCounter--;
 		}
-    	
+		
     }
 
 	
@@ -148,7 +189,7 @@ public class LehenManager
 					McmdBuyOrder buy = (McmdBuyOrder) Mcmd;
 					if (buy.getSettleId() == lehen.getId())
 					{
-						cmdBuy.add(new McmdBuyOrder(rModel, buy.getSettleId(), buy.getItemRef(), buy.getAmount(), buy.getPrice(), buy.getDelayDays()));
+						cmdBuy.add(new McmdBuyOrder(rModel, buy.getSettleId(), buy.getItemRef(), buy.getAmount(), buy.getPrice(), buy.getDelayDays(),lehen.getSettleType()));
 						removeCmd.add(Mcmd);
 					}
 					
@@ -184,6 +225,58 @@ public class LehenManager
 	}
 
 	/**
+	 * check for required material for production
+	 * add the material to the buy list
+	 *  
+	 * @param rModel
+	 * @param settle
+	 * @return
+	 */
+	private boolean checkRequiredMaterials(RealmModel rModel, Lehen lehen)
+	{
+			buyList.clear();
+//			System.out.println(settle.getId()+"/"+ settle.getRequiredProduction().size());
+			for (Item item : lehen.getRequiredProduction().values())
+			{
+				buyList.addItem(new Item(item.ItemRef(), item.value()));
+			}
+			
+			if (buyList.isEmpty())
+			{
+				return false;
+			} else
+			{
+				return true;
+			}
+	}
+	
+	/**
+	 * buy the required material for production
+	 * add buy order to cmdBuy.queue
+	 * 
+	 * @param rModel
+	 * @param settle
+	 */
+	private void buyRequiredMaterials(RealmModel rModel, Lehen lehen)
+	{
+		for (Item item : buyList.values())
+		{
+			if (lehen.getTrader().getBuyOrders().containsKey(item.ItemRef()) == false)
+			{
+				boolean isCmdFound = false;
+				
+				if (isCmdFound == false)				
+				{
+//					System.out.println(item.ItemRef()+":"+item.value());
+					cmdBuy.add(new McmdBuyOrder(rModel, lehen.getId(), item.ItemRef(), item.value(), 0.0, 5,lehen.getSettleType()));
+					dontSell.addItem(new Item(item.ItemRef(), item.value()));
+				}
+			}
+		}
+		buyList.clear();
+	}
+	
+	/**
 	 * Buy material for build the BuildPlanType
 	 * add buy order to cmdBuy.queue
 	 * 
@@ -208,7 +301,7 @@ public class LehenManager
 				if (isCmdFound == false)				
 				{
 //					System.out.println(item.ItemRef()+":"+item.value());
-					cmdBuy.add(new McmdBuyOrder(rModel, lehen.getId(), item.ItemRef(), item.value(), 0.0, 5));
+					cmdBuy.add(new McmdBuyOrder(rModel, lehen.getId(), item.ItemRef(), item.value(), 0.0, 5,lehen.getSettleType()));
 					dontSell.addItem(new Item(item.ItemRef(), item.value()));
 					System.out.println("Settle send buy order for build : "+item.ItemRef());
 				}
@@ -324,6 +417,57 @@ public class LehenManager
 			}
 		}
 		return needMat;
+	}
+	
+	/**
+	 * add Wheat  to Requestlist
+	 * @param rModel
+	 * @param transport
+	 * @param settlements
+	 */
+	private void checksupport(RealmModel rModel,TradeTransport transport,Lehen lehen)
+	{
+		SettlementList subList = rModel.getSettlements().getSubList(lehen.getOwner());
+		if (lehen.getSupportId() > 0)
+		{
+			Settlement settle = rModel.getSettlements().getSettlement(lehen.getSupportId());	
+			subList.addSettlement(settle);
+		}
+		int requiredWhet = getFoodForSupported(lehen);
+		Item item = new Item("WHEAT",requiredWhet);
+		lehen.getRequiredProduction().addItem(item);
+	}
+
+	/**
+	 * count for residents, units in barrack and units in buildings
+	 *  
+	 * @return  count of resident and units
+	 */
+	private int getFoodForSupported(Lehen lehen)
+	{
+		int value = 2;
+		value = value + lehen.getResident().getSettlerCount();
+		value = value + lehen.getBarrack().getUnitList().size();
+		for (Building building : lehen.getBuildingList().values())
+		{
+			value = value + building.getSettler();
+		}
+		return  value;
+	}
+
+	private void sendBuyOrderToTrader(RealmModel rModel,Lehen lehen)
+	{
+		if (lehen.tradeManager().isBuyActiv() == false)
+		{
+			if (cmdBuy.isEmpty() == false)
+			{
+				McmdBuyOrder buyOrder = cmdBuy.get(0);
+				lehen.tradeManager().newBuyOrder(lehen, buyOrder.getItemRef(), buyOrder.getAmount());
+				System.out.println("sendBuyOrderToTrader "+buyOrder.getItemRef());
+				cmdBuy.remove(0);
+			}
+		}
+		
 	}
 	
 }

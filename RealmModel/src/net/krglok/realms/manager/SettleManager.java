@@ -138,7 +138,7 @@ public class SettleManager
 //			System.out.println("8");
 			sellOrder(rModel,settle);
 //			System.out.println("9");
-			buyOrder( rModel, settle);
+			sendBuyOrderToTrader( rModel, settle);
 		} else
 		{
 			checkCounter--;
@@ -177,7 +177,7 @@ public class SettleManager
 					McmdBuyOrder buy = (McmdBuyOrder) Mcmd;
 					if (buy.getSettleId() == settle.getId())
 					{
-						cmdBuy.add(new McmdBuyOrder(rModel, buy.getSettleId(), buy.getItemRef(), buy.getAmount(), buy.getPrice(), buy.getDelayDays()));
+						cmdBuy.add(new McmdBuyOrder(rModel, buy.getSettleId(), buy.getItemRef(), buy.getAmount(), buy.getPrice(), buy.getDelayDays(),settle.getSettleType()));
 						removeCmd.add(Mcmd);
 					}
 					
@@ -260,7 +260,7 @@ public class SettleManager
 	}
 	
 	
-	private void buyOrder(RealmModel rModel,Settlement settle)
+	private void sendBuyOrderToTrader(RealmModel rModel,Settlement settle)
 	{
 		if (settle.tradeManager().isBuyActiv() == false)
 		{
@@ -336,7 +336,7 @@ public class SettleManager
 
 	private int getMinStorage(RealmModel rModel, Settlement settle, String itemRef)
 	{
-		int biomeFactor = rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef));
+		int biomeFactor = Math.abs(rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef)));
 		int sellLimit = 0;
 		if (dontSell.containsKey(itemRef))
 		{
@@ -566,7 +566,7 @@ public class SettleManager
 				if (isCmdFound == false)				
 				{
 //					System.out.println(item.ItemRef()+":"+item.value());
-					cmdBuy.add(new McmdBuyOrder(rModel, settle.getId(), item.ItemRef(), item.value(), 0.0, 5));
+					cmdBuy.add(new McmdBuyOrder(rModel, settle.getId(), item.ItemRef(), item.value(), 0.0, 5,settle.getSettleType()));
 					dontSell.addItem(new Item(item.ItemRef(), item.value()));
 					System.out.println("Settle send buy order for build : "+item.ItemRef());
 				}
@@ -619,7 +619,7 @@ public class SettleManager
 				if (isCmdFound == false)				
 				{
 //					System.out.println(item.ItemRef()+":"+item.value());
-					cmdBuy.add(new McmdBuyOrder(rModel, settle.getId(), item.ItemRef(), item.value(), 0.0, 5));
+					cmdBuy.add(new McmdBuyOrder(rModel, settle.getId(), item.ItemRef(), item.value(), 0.0, 5,settle.getSettleType()));
 					dontSell.addItem(new Item(item.ItemRef(), item.value()));
 				}
 			}
