@@ -194,6 +194,24 @@ public class RealmModelLehenTest {
 		msg.add("|SELL Order                 |  ");
 		for (TradeMarketOrder order : rModel.getTradeMarket().values())
 		{
+			if (order.getSettleType() == aSettle.getSettleType())
+			{
+				if (order.getSettleID() == aSettle.getId())
+				{
+					String name = order.getSettleID()+":"+aSettle.getName()+":"+order.ItemRef()+":"+order.value();
+					msg.add(name);
+				}
+			}
+		}
+		msg.add("|BUY Order                 |  ");
+		for (TradeOrder order : aSettle.getTrader().getBuyOrders().values())
+		{
+				String name = order.getTargetId()+":"+aSettle.getName()+":"+order.ItemRef()+":"+order.value();
+				msg.add(name);
+		}
+		msg.add("|TRANSPORT Order                 |  ");
+		for (TradeMarketOrder order : rModel.getTradeMarket().values())
+		{
 			if (order.getSettleID() == aSettle.getId())
 			{
 				String name = order.getSettleID()+":"+aSettle.getName()+":"+order.ItemRef()+":"+order.value();
@@ -339,7 +357,13 @@ public class RealmModelLehenTest {
 		// Eine Tagessimulation
 		simDayCycle(world, rModel);
 		simDayCycle(world, rModel);
-		simDayCycle(world, rModel);
+//		simDayCycle(world, rModel);
+//		simDayCycle(world, rModel);
+//		simDayCycle(world, rModel);
+//		simDayCycle(world, rModel);
+//		simDayCycle(world, rModel);
+//		simDayCycle(world, rModel);
+//		simDayCycle(world, rModel);
 		
 		
 		actual =  (rModel.getModelStatus() == ModelStatus.MODEL_PRODUCTION);
@@ -360,10 +384,11 @@ public class RealmModelLehenTest {
 			printLehenNpc(lehen);
 			printLehenUnit(lehen);
 			printBuildingMsg(lehen);
-			printProductionView(settle);
-			printBuildingMsg(settle);
-			printLehenUnit(settle);
-			printTradeOrders(rModel, settle);
+			printTradeOrders(rModel, lehen);
+//			printProductionView(settle);
+//			printBuildingMsg(settle);
+//			printLehenUnit(settle);
+//			printTradeOrders(rModel, settle);
 		}
 		assertEquals(expected, actual);
 	}

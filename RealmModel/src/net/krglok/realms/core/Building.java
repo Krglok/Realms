@@ -904,6 +904,21 @@ public class Building  implements Serializable
 		case ARCHER:
 			outValues = UnitArcher.getRequiredList();
 			break;
+		case LIGHT_INFANTRY:
+			outValues = UnitArcher.getRequiredList();
+			break;
+		case HEAVY_INFANTRY:
+			outValues = UnitArcher.getRequiredList();
+			break;
+		case KNIGHT:
+			outValues = UnitArcher.getRequiredList();
+			break;
+		case COMMANDER:
+			outValues = UnitArcher.getRequiredList();
+			break;
+		case CAVALRY:
+			outValues = UnitArcher.getRequiredList();
+			break;
 		default :
 		}
 		return outValues;

@@ -389,6 +389,7 @@ public class TradeManager
 		}
 		TradeOrder order = new TradeOrder(-1, TradeType.BUY, buyOrder.ItemRef(), buyAmount, buyPrice, BUY_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0,SettleType.NONE);
 		settle.getTrader().makeBuyOrder(order);
+		settle.getMsg().add("Trader Make BuyOrder "+buyOrder.ItemRef());
 	}
 	
 	/**

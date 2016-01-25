@@ -352,10 +352,12 @@ public class Trader
 		{
 			return;
 		}
+		settle.getMsg().add("[REALMS] checkMarket ");
 		for (String sRef : tradeMarket.sortItems())
 		{
 			TradeMarketOrder tmo = tradeMarket.get(Integer.valueOf(sRef));
 			foundOrder = checkBuyOrder(tmo.ItemRef(), tmo.value(), tmo.getBasePrice());
+			settle.getMsg().add("[REALMS] check BUY Order "+settle.getId()+" from "+tmo.getSettleID()+" : "+ tmo.ItemRef());
 			if ( foundOrder != null)
 			{
 				if (settle.getPosition().getWorld().equalsIgnoreCase(foundOrder.getWorld())==true)

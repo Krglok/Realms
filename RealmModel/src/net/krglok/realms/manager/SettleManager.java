@@ -102,9 +102,6 @@ public class SettleManager
 		
 //			System.out.println("1");
 			getModelCommands(rModel, settle);
-			// check for hunger
-//			System.out.println("2");
-			checkHunger ( rModel,  settle);
 			//check for money
 //			System.out.println("3");
 			checkMoneyLevel( rModel,  settle);

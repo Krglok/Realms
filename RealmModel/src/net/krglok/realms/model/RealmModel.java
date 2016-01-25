@@ -69,7 +69,7 @@ import net.krglok.realms.unit.UnitFactory;
 public class RealmModel
 {
 	private static final String REALM_MODEL = "RealmModel";
-	private static final String REALM_MODEL_VER = "0.9.5";
+	private static final String REALM_MODEL_VER = "0.9.5.3";
 	private static int garbageCounterLimit = 57;
 	
 	private ModelStatus modelStatus;
@@ -905,7 +905,7 @@ public class RealmModel
 		if (lehenProductionQueue.isEmpty() == false)
 		{
 			Lehen lehen = lehenProductionQueue.get(0);
-			lehen.getMsg().clear();
+//			lehen.getMsg().clear();
 			lehen.getMsg().add("[REALMS] lehen produce:"+lehen.getName()+":"+lehen.getId()+" Settle:"+lehen.getSupportId()+" day"+this.dayOfWeek);
 			lehen.doProduce(server, data, this.dayOfWeek);
 			lehen.getMsg().add("Lehen happiness");

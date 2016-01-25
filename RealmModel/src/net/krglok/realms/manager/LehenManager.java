@@ -16,7 +16,9 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
+import net.krglok.realms.core.TradeStatus;
 import net.krglok.realms.core.TradeTransport;
+import net.krglok.realms.core.TradeType;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.model.CommandQueue;
 import net.krglok.realms.model.McmdBuilder;
@@ -73,7 +75,7 @@ public class LehenManager
 		{
 			System.out.println("LehenManager");
 		
-			System.out.println("1 getModelCommands");
+//			System.out.println("1 getModelCommands");
 			getModelCommands(rModel, lehen);
 			// check for hunger
 //			System.out.println("2");
@@ -82,12 +84,13 @@ public class LehenManager
 //			System.out.println("3");
 //			checkMoneyLevel( rModel,  settle);
 			// check for Required Items
-			System.out.println("4 checksupport");
+			System.out.println("4 checkRequiredFood and Material");
 			// check for required Food
-			checksupport(rModel, rModel.getTradeTransport(), lehen);
+			checkRequiredFood(rModel, lehen);
+			checkRequiredMaterials(rModel, lehen);
 
-			System.out.println("4 checkRequiredMaterials");
-			if (checkRequiredMaterials(rModel,  lehen))
+//			System.out.println("4 checkRequiredMaterials");
+			if (checkBuyList(rModel,  lehen))
 			{
 				System.out.println("4.1 buyRequiredMaterials");
 				buyRequiredMaterials(rModel, lehen);
@@ -98,7 +101,7 @@ public class LehenManager
 //			checkOverStockSell( rModel,  lehen);
 			// check for overpopulation
 			
-			System.out.println("6 checkBuildMaterials");
+//			System.out.println("6 checkBuildMaterials");
 			if (checkBuildMaterials(rModel, lehen))
 			{
 				System.out.println("6.1  buildOrder");
@@ -232,7 +235,7 @@ public class LehenManager
 	 * @param settle
 	 * @return
 	 */
-	private boolean checkRequiredMaterials(RealmModel rModel, Lehen lehen)
+	private boolean checkBuyList(RealmModel rModel, Lehen lehen)
 	{
 			buyList.clear();
 //			System.out.println(settle.getId()+"/"+ settle.getRequiredProduction().size());
@@ -268,7 +271,10 @@ public class LehenManager
 				if (isCmdFound == false)				
 				{
 //					System.out.println(item.ItemRef()+":"+item.value());
-					cmdBuy.add(new McmdBuyOrder(rModel, lehen.getId(), item.ItemRef(), item.value(), 0.0, 5,lehen.getSettleType()));
+					double price = rModel.getData().getPriceList().getBasePrice(item.ItemRef())*0.75; 
+					long maxTicks = 100;
+					lehen.getTrader().getBuyOrders().addTradeOrder(TradeType.BUY, item.ItemRef(), item.value(), price, maxTicks, 0, TradeStatus.NONE, lehen.getPosition().getWorld(), lehen.getId(), lehen.getSettleType());
+//					cmdBuy.add(new McmdBuyOrder(rModel, lehen.getId(), item.ItemRef(), item.value(), 0.0, 5,lehen.getSettleType()));
 					dontSell.addItem(new Item(item.ItemRef(), item.value()));
 				}
 			}
@@ -420,41 +426,85 @@ public class LehenManager
 	}
 	
 	/**
+	 * check the required items for the training of units in the Buildings
+	 * of the lehen.
+	 * 
+	 * @param rModel
+	 * @param lehen
+	 */
+	private void checkRequiredMaterials(RealmModel rModel, Lehen lehen)
+	{
+		ItemList ingredients;
+		for (Building building : lehen.getBuildingList().values())
+		{
+			ingredients = building.militaryProduction();
+			int minStock = lehen.getBuildingList().getBuildTypeList().get(building.getBuildingType().name())+1;
+			for (Item item : ingredients.values())
+			{
+				if (item.value() < minStock)
+				{
+					Item rItem = new Item(item.ItemRef(),(minStock-item.value()));
+					lehen.getRequiredProduction().addItem(item);
+					lehen.getMsg().add("Required Material "+item.ItemRef()+":"+(minStock-item.value()));
+				}
+			}
+		}
+	}
+	
+	/**
 	 * add Wheat  to Requestlist
 	 * @param rModel
 	 * @param transport
 	 * @param settlements
 	 */
-	private void checksupport(RealmModel rModel,TradeTransport transport,Lehen lehen)
+	private void checkRequiredFood(RealmModel rModel,Lehen lehen)
 	{
-		SettlementList subList = rModel.getSettlements().getSubList(lehen.getOwner());
-		if (lehen.getSupportId() > 0)
+		int required = requiredWheatForSupported(lehen);
+		if (lehen.getWarehouse().getItemList().getValue("WHEAT") < required)
 		{
-			Settlement settle = rModel.getSettlements().getSettlement(lehen.getSupportId());	
-			subList.addSettlement(settle);
+			Item item = new Item("WHEAT",required);
+			lehen.getRequiredProduction().addItem(item);
+			lehen.getMsg().add("Required Food "+"WHEAT :"+required);
 		}
-		int requiredWhet = getFoodForSupported(lehen);
-		Item item = new Item("WHEAT",requiredWhet);
-		lehen.getRequiredProduction().addItem(item);
+		required = requiredBreadForLehen(lehen);
+		if (lehen.getWarehouse().getItemList().getValue("BREAD") < required)
+		{
+			Item item = new Item("BREAD",required);
+			lehen.getRequiredProduction().addItem(item);
+			lehen.getMsg().add("Required Food "+"BREAD :"+required);
+		}
 	}
 
 	/**
-	 * count for residents, units in barrack and units in buildings
+	 * count for residents, units in barrack 
 	 *  
 	 * @return  count of resident and units
 	 */
-	private int getFoodForSupported(Lehen lehen)
+	private int requiredWheatForSupported(Lehen lehen)
 	{
 		int value = 2;
 		value = value + lehen.getResident().getSettlerCount();
 		value = value + lehen.getBarrack().getUnitList().size();
-		for (Building building : lehen.getBuildingList().values())
-		{
-			value = value + building.getSettler();
-		}
 		return  value;
 	}
 
+	/**
+	 * count unitlist and Building for required Bread;
+	 * Building need Bread for training
+	 * 
+	 * @param lehen
+	 * @return
+	 */
+	private int requiredBreadForLehen(Lehen lehen)
+	{
+		int value = 2;
+		value = value + lehen.getBarrack().getUnitList().size();
+		value = value + lehen.getBuildingList().size();
+		
+		return value;
+	}
+	
+	
 	private void sendBuyOrderToTrader(RealmModel rModel,Lehen lehen)
 	{
 		if (lehen.tradeManager().isBuyActiv() == false)
@@ -463,7 +513,7 @@ public class LehenManager
 			{
 				McmdBuyOrder buyOrder = cmdBuy.get(0);
 				lehen.tradeManager().newBuyOrder(lehen, buyOrder.getItemRef(), buyOrder.getAmount());
-				System.out.println("sendBuyOrderToTrader "+buyOrder.getItemRef());
+				lehen.getMsg().add("sendBuyOrderToTrader "+buyOrder.getItemRef());
 				cmdBuy.remove(0);
 			}
 		}
