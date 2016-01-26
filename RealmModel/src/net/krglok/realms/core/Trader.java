@@ -1,5 +1,8 @@
 package net.krglok.realms.core;
 
+import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.model.RealmModel;
+
 
 /**
  * <pre>
@@ -416,8 +419,9 @@ public class Trader
 	 * @param settle
 	 * @param settlements
 	 */
-	public void checkRoutes(TradeMarket tradeMarket, TradeTransport tradeTransport, AbstractSettle settle, SettlementList targets)
+	public void checkRoutes(TradeMarket tradeMarket, TradeTransport tradeTransport, AbstractSettle settle, DataStorage data)
 	{
+		
 		// es wird eine zusätzliche Caravan erzeugt, damit der TRansport nicht vollstaendig unterdrueckt wird 
 		if (tradeTransport.countSender(settle.getId(),settle.getSettleType()) <= caravanMax)
 		{
@@ -431,14 +435,23 @@ public class Trader
 						if (settle.getWarehouse().getItemList().getValue(rOrder.ItemRef()) >= rOrder.value())
 						{
 							// target exist
-							if (targets.containsKey(rOrder.getTargetId()))
+							AbstractSettle aSettle  = null;
+							if (SettleType.isLehen(rOrder.getTargetTyp()))
+							{
+								aSettle = data.getLehen().getLehen(rOrder.getTargetId());
+							} else
+							{
+								aSettle = data.getSettlements().getSettlement(rOrder.getTargetId());
+							}
+							
+							if (aSettle != null)
 							{
 								// target has enough space in warehouse
-								if (targets.getSettlement(rOrder.getTargetId()).getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
+								if (aSettle.getWarehouse().getFreeCapacity() > ConfigBasis.WAREHOUSE_SPARE_STORE)
 								{
 //									System.out.println(
-									settle.getMsg().add("[REALMS] Make route "+settle.getId()+" to "+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
-									makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, targets);
+									settle.getMsg().add("[REALMS] Make route "+settle.getId()+" to "+rOrder.getTargetTyp().name()+":"+rOrder.getTargetId()+" : "+ rOrder.ItemRef());
+									makeRouteOrder(tradeMarket, rOrder, tradeTransport, settle, aSettle);
 								}
 							}
 						}
@@ -485,9 +498,9 @@ public class Trader
 	 * @param settle
 	 * @param settlements
 	 */
-	public void makeRouteOrder(TradeMarket tradeMarket, RouteOrder rOrder,  TradeTransport transport, AbstractSettle settle, SettlementList targets)
+	public void makeRouteOrder(TradeMarket tradeMarket, RouteOrder rOrder,  TradeTransport transport, AbstractSettle settle, AbstractSettle targetSettle)
 	{
-		Settlement targetSettle = targets.getSettlement(rOrder.getTargetId());
+//		Settlement targetSettle = targets.getSettlement(rOrder.getTargetId());
 		
 		double distance = settle.getPosition().distance2D(targetSettle.getPosition());
 

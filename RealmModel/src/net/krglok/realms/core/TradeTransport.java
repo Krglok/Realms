@@ -102,13 +102,16 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (to.getStatus() == TradeStatus.DECLINE)
 			{
-				if (to.getSettleID() == settle.getId())
+				if (to.getSettleType() == settle.getSettleType())
 				{
-					cost = to.value() * to.getBasePrice();
-					settle.getBank().depositKonto(cost, "Trader "+to.getTargetId(),settle.getId());
-					settle.getMsg().add("[REALMS] End Transport:"+settle.getId()+": Bank :"+ConfigBasis.setStrformat2(cost, 11)+"="+to.ItemRef());
-					settle.getTrader().setOrderCount(settle.getTrader().getOrderCount()+1);
-					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount()-1);
+					if (to.getSettleID() == settle.getId())
+					{
+						cost = to.value() * to.getBasePrice();
+						settle.getBank().depositKonto(cost, "Trader "+to.getTargetId(),settle.getId());
+						settle.getMsg().add("[REALMS] End Transport:"+settle.getId()+": Bank :"+ConfigBasis.setStrformat2(cost, 11)+" for "+to.ItemRef());
+						settle.getTrader().setOrderCount(settle.getTrader().getOrderCount()+1);
+						settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount()-1);
+					}
 				}
 				if (to.getTargetId() == 0)
 				{
@@ -131,15 +134,18 @@ public class TradeTransport extends HashMap<Integer,TradeMarketOrder>
 		{
 			if (to.getStatus() == TradeStatus.DECLINE)
 			{
-				if (to.getTargetId() == settle.getId())
+				if (to.getTargetType() == settle.getSettleType())
 				{
-					settle.getWarehouse().depositItemValue(to.ItemRef(), to.value());
-					settle.getTrader().setOrderCount(settle.getTrader().getOrderCount()-1);
-					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() -1);
-					settle.getMsg().add("[REALMS]  End Transport:"+settle.getId()+":"+to.ItemRef()+":"+to.value()+"  ====");
-
-					to.setTargetId(0);
-//					to.setStatus(TradeStatus.NONE);
+					if (to.getTargetId() == settle.getId())
+					{
+						settle.getWarehouse().depositItemValue(to.ItemRef(), to.value());
+						settle.getTrader().setOrderCount(settle.getTrader().getOrderCount()-1);
+						settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() -1);
+						settle.getMsg().add("[REALMS]  End Transport:"+settle.getId()+":"+to.ItemRef()+":"+to.value()+"  ====");
+	
+						to.setTargetId(0);
+	//					to.setStatus(TradeStatus.NONE);
+					}
 				}
 			}
 		}

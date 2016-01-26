@@ -27,6 +27,7 @@ public class RouteOrder extends ItemPrice
 	private int targetId;
 	private boolean isEnabled;
 	private boolean isActive;
+	private SettleType targetType;
 	
 	/**
 	 * default to isEnabled = true and isActive = false
@@ -53,13 +54,14 @@ public class RouteOrder extends ItemPrice
 	 * @param price
 	 * @param isEnabled
 	 */
-	public RouteOrder(int orderId, int targeitId, String itemRef, int amount, Double price, boolean isEnabled)
+	public RouteOrder(int orderId, int targeitId, String itemRef, int amount, Double price, boolean isEnabled, SettleType targetType)
 	{
 		super(itemRef, amount, price);
 		this.id = orderId;
 		this.targetId = targeitId;
 		this.isEnabled = isEnabled;
 		this.isActive = false;
+		this.targetType = targetType;
 	}
 
 	/**
@@ -100,6 +102,16 @@ public class RouteOrder extends ItemPrice
 		this.targetId = targetId;
 	}
 
+	public SettleType getTargetTyp()
+	{
+		return targetType;
+	}
+	
+	public void setTargetType(SettleType targetType)
+	{
+		this.targetType = targetType;
+	}
+	
 	public boolean isEnabled()
 	{
 		return isEnabled;

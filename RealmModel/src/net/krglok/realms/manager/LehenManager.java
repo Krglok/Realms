@@ -88,7 +88,9 @@ public class LehenManager
 			// check for required Food
 			checkRequiredFood(rModel, lehen);
 			checkRequiredMaterials(rModel, lehen);
-
+			checkSupportRoutes(rModel,lehen);
+			
+			
 //			System.out.println("4 checkRequiredMaterials");
 			if (checkBuyList(rModel,  lehen))
 			{
@@ -144,20 +146,61 @@ public class LehenManager
     }
     
     /**
+     * check for the required Items the support from SupportSettlement
+     * entfernt items aus requiredList , die im SupportSettlement geholt werden
+     * 
+     * @param rModel
+     * @param lehen
+     */
+    private void checkSupportRoutes(RealmModel rModel, Lehen lehen)
+    {
+    	ItemList supportItems = new ItemList();
+    	Settlement settle = rModel.getData().getSettlements().getSettlement(lehen.getSupportId());
+    	// Liste kopieren
+    	for (Item required : lehen.getrequiredItems().values())
+    	{
+    		supportItems.addItem(required);
+    	}
+    	for (Item required : supportItems.values())
+    	{
+    		int stock = settle.getWarehouse().getItemList().getValue(required.ItemRef());
+    		int dif = required.value()-stock;
+    		if ( stock < required.value())
+    		{
+    			required.setValue(stock);
+    		}
+   			startNextTransport(rModel, lehen, required);
+   			if (dif <= 0)
+   			{
+    			lehen.getrequiredItems().remove(required).ItemRef();
+    		} else
+    		{
+   				required.setValue(dif);
+    		}
+    	}
+    }
+    
+    /**
      * Make a transport order for the next item in required list.
      * no special priority 
      * 
      * @param rModel
      * @param lehen
      */
-    private void startNextTransport(RealmModel rModel, Lehen lehen)
+    private void startNextTransport(RealmModel rModel, Lehen lehen, Item item)
     {
-    	Item item = lehen.getrequiredItems().values().iterator().next();
+//    	Item item = lehen.getrequiredItems().values().iterator().next();
     	Double price = rModel.getData().getPriceList().getBasePrice(item.ItemRef()); 
-    	RouteOrder rOrder = new RouteOrder(0, lehen.getId(), item.ItemRef(), item.value(), price, true);
-		lehen.getTrader().makeRouteOrder(rModel.getTradeMarket(), rOrder, rModel.getTradeTransport(), lehen, rModel.getSettlements());
+    	RouteOrder rOrder = new RouteOrder(0, lehen.getId(), item.ItemRef(), item.value(), price, true,lehen.getSettleType());
+    	Settlement settle = rModel.getData().getSettlements().getSettlement(lehen.getSupportId());
+    	if (settle != null)
+    	{
+    		System.out.println("ROUTE Logik geaendert Route from settle TO lehen ");
+    		
+    		settle.getTrader().makeRouteOrder(rModel.getTradeMarket(), rOrder, rModel.getTradeTransport(), settle, lehen);
+//        	lehen.getrequiredItems().remove(item.ItemRef());
+    	}
 		// item can remove by itenname, because items are unique in the list
-		lehen.getrequiredItems().remove(item.ItemRef());
     }
     
 	private void getModelCommands(RealmModel rModel, Lehen lehen)

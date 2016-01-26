@@ -115,6 +115,7 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	    {
 	        values.put("id",String.valueOf(rOrder.getId()));
 	        values.put("targetId",String.valueOf(rOrder.getTargetId()));
+	        values.put( "targetType",rOrder.getTargetTyp().name());
 	        values.put("itemref",rOrder.ItemRef());
 	        values.put( "amount",String.valueOf(rOrder.value()));
 	        values.put( "price",String.valueOf(rOrder.getBasePrice()));
@@ -233,7 +234,8 @@ public class DataStoreSettlement extends AbstractDataStore<Settlement>
 	    		int amount = Integer.valueOf(data.getString( "routes."+ref+".amount"));
 	    		double price= Double.valueOf(data.getString("routes."+ref+".price"));
 	    		boolean isEnabled = data.getBoolean("routes."+ref+".isEnabled",true);
-	            RouteOrder rOrder = new RouteOrder(orderId, targeitId, itemRef, amount, price, isEnabled);
+		        SettleType targetType = SettleType.getSettleType(data.getString( "routes."+ref+".targetType","NONE"));
+	            RouteOrder rOrder = new RouteOrder(orderId, targeitId, itemRef, amount, price, isEnabled,targetType);
 //	            System.out.println("[REALMS] RouteOrder Id:"+rOrder.getId());
 	            routeOrderList.addRouteOrder(rOrder);
 	    	}    

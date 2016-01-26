@@ -91,11 +91,16 @@ public class CmdSettleRoute extends RealmsCommand
 	public void execute(Realms plugin, CommandSender sender)
 	{
     	ArrayList<String> msg = new ArrayList<String>();
-		
+    	Settlement target = plugin.getData().getSettlements().getSettlement(targetID);
+    	if (target == null)
+    	{
+			msg.add(ChatColor.RED+"No Settlement ["+target.getId()+"] ");
+			plugin.getMessageData().printPage(sender, msg, page);
+    	}
 		Settlement settle = plugin.getData().getSettlements().getSettlement(settleID);
 		Double price = plugin.getData().getPriceList().getBasePrice(itemRef);
 		if (price < 0.1) { price = 0.1; }
-		RouteOrder rOrder = new RouteOrder(1, targetID, itemRef, amount, price, true);
+		RouteOrder rOrder = new RouteOrder(1, targetID, itemRef, amount, price, true,target.getSettleType());
 		if (settle.getTrader().getRouteOrders().contains(itemRef) == false)
 		{
 			if (settle.getTrader().getRouteOrders().size() < settle.getTrader().getOrderMax())

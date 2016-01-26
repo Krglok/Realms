@@ -192,7 +192,7 @@ public class TradeManager
 		if (delayRoutes > (SELL_DELAY / 20))
 		{
 //			settle.getMsg().add("checkRoutes");
-			settle.getTrader().checkRoutes(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getSettlements());
+			settle.getTrader().checkRoutes(rModel.getTradeMarket(), rModel.getTradeTransport(), settle, rModel.getData());
 			delayRoutes = 0;
 		} else
 		{
@@ -209,17 +209,17 @@ public class TradeManager
 			delaySell++;
 		}
 		// check for Transport to fulfill
-		if (settle.getSettleType().isLehen(settle.getSettleType()))
-		{
-//			settle.getMsg().add("checkTransport Lehen");
-			rModel.getLehenTransport().fullfillTarget(settle);
-			rModel.getLehenTransport().fullfillSender(settle);
-		} else
-		{
+//		if (settle.getSettleType().isLehen(settle.getSettleType()))
+//		{
+////			settle.getMsg().add("checkTransport Lehen");
+//			rModel.getLehenTransport().fullfillTarget(settle);
+//			rModel.getLehenTransport().fullfillSender(settle);
+//		} else
+//		{
 //			settle.getMsg().add("checkTransport Settlement");
 			rModel.getTradeTransport().fullfillTarget(settle);
 			rModel.getTradeTransport().fullfillSender(settle);
-		}
+//		}
 		// work on Sell Command
 		if (sellOrder != null)
 		{

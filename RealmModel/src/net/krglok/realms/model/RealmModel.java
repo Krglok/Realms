@@ -96,7 +96,7 @@ public class RealmModel
 	private CaseBookList caseBooks;			// List of Books in game
 	private KingdomList kingdoms;			// List of Kingdoms in game
 	private BuildingList buildings;			// List of all buildings in game , make subList for settlements
-	private TradeTransport lehenTransport = new TradeTransport();
+//	private TradeTransport lehenTransport = new TradeTransport();
 	
 //	public NpcManager npcManager;
 	private UnitFactory unitFactory = new UnitFactory();
@@ -263,9 +263,9 @@ public class RealmModel
 		return tradeTransport;
 	}
 
-	public TradeTransport getLehenTransport() {
-		return lehenTransport;
-	}
+//	public TradeTransport getLehenTransport() {
+//		return lehenTransport;
+//	}
 
 
 	/**
