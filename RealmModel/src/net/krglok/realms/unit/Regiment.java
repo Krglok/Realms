@@ -82,6 +82,7 @@ public class Regiment extends AbstractSettle
 	private boolean isUncamp;
 	private boolean isPlayer;
 	private int supportId;
+	private int lehenId;
 	
 	private double hungerCounter = 0.0;
 	private double foodConsumCounter = 0.0;
@@ -523,7 +524,7 @@ public class Regiment extends AbstractSettle
 		case IDLE :
 			doWait(rModel);
 			
-			// raiderMabager only activ in NPC Mode
+			// raiderManager only activ in NPC Mode
 			if (isPlayer == false)
 			{
 				if (regimentType == RegimentType.RAIDER)
@@ -537,6 +538,12 @@ public class Regiment extends AbstractSettle
 					{
 						startMove();
 					}
+				}
+			} else
+			{
+				if (regimentType == RegimentType.ARMY)
+				{
+					
 				}
 			}
 			break;
@@ -987,6 +994,18 @@ public class Regiment extends AbstractSettle
 		this.supportId = supporter;
 	}
 
+	public int getLehenId()
+	{
+		return lehenId;
+	}
+	
+	
+	public void setLehenId(int value)
+	{
+		this.lehenId = lehenId;
+	}
+	
+	
 	/**
 	 * run the raiderManager for 1 tick
 	 * communication with the world due to commandLists in RealmModel

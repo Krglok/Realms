@@ -1090,9 +1090,12 @@ public class Building  implements Serializable
 	
 	public boolean isTrainReady()
 	{
-		if (this.trainCounter >= this.trainTime)
+		if (maxProduction > 0)
 		{
-			return true;
+			if (this.trainCounter >= this.trainTime)
+			{
+				return true;
+			}
 		}
 		return false;
 	}

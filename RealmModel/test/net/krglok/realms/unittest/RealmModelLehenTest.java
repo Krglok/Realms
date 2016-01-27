@@ -51,6 +51,7 @@ public class RealmModelLehenTest {
 	{
 		System.out.println("============================================================");
 		System.out.println(aSettle.getSettleType()+": "+aSettle.getId()+" "+aSettle.getName());
+		System.out.println("printBuildingMsg");
 		for (Building building :aSettle.getBuildingList().values())
 		{
 			if (building.getMsg().size() > 0)
@@ -339,7 +340,8 @@ public class RealmModelLehenTest {
 		rModel.getSettlements().getSettlement(15).getWarehouse().depositItemValue("WHEAT", 320);		
 		rModel.getSettlements().getSettlement(17).getWarehouse().depositItemValue("WHEAT", 320);		
 		rModel.getSettlements().getSettlement(18).getWarehouse().depositItemValue("WHEAT", 320);		
-		rModel.getSettlements().getSettlement(19).getWarehouse().depositItemValue("WHEAT", 320);		
+		rModel.getSettlements().getSettlement(19).getWarehouse().depositItemValue("WHEAT", 620);		
+		rModel.getSettlements().getSettlement(23).getWarehouse().depositItemValue("WHEAT", 320);		
 		rModel.getSettlements().getSettlement(25).getWarehouse().depositItemValue("WHEAT", 320);		
 		rModel.getSettlements().getSettlement(26).getWarehouse().depositItemValue("WHEAT", 320);		
 		rModel.getSettlements().getSettlement(27).getWarehouse().depositItemValue("WHEAT", 320);		
@@ -352,7 +354,8 @@ public class RealmModelLehenTest {
 			}
 		}
 		
-		
+		rModel.getData().getBuildings().getBuilding(801).setMaxTrain(1);
+		rModel.getData().getBuildings().getBuilding(801).setTrainCounter(3);
 		String world = "DRASKORIA";
 		// Eine Tagessimulation
 		simDayCycle(world, rModel);
@@ -384,7 +387,7 @@ public class RealmModelLehenTest {
 			printLehenNpc(lehen);
 			printLehenUnit(lehen);
 			printBuildingMsg(lehen);
-			printTradeOrders(rModel, lehen);
+//			printTradeOrders(rModel, lehen);
 //			printProductionView(settle);
 //			printBuildingMsg(settle);
 //			printLehenUnit(settle);

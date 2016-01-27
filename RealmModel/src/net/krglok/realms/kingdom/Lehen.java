@@ -486,7 +486,7 @@ public class Lehen  extends AbstractSettle
 							} else
 							{
 								building.setTrainCounter(0);
-								this.msg.add("[REALMS] Guardhouse Train Recrute not found !");
+								this.msg.add("[REALMS] Guardhouse Train Recrute not found ! "+building.getId());
 							}
 						} else
 						{

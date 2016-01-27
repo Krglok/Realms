@@ -355,12 +355,12 @@ public class Trader
 		{
 			return;
 		}
-		settle.getMsg().add("[REALMS] checkMarket ");
+//		settle.getMsg().add("[REALMS] checkMarket ");
 		for (String sRef : tradeMarket.sortItems())
 		{
 			TradeMarketOrder tmo = tradeMarket.get(Integer.valueOf(sRef));
 			foundOrder = checkBuyOrder(tmo.ItemRef(), tmo.value(), tmo.getBasePrice());
-			settle.getMsg().add("[REALMS] check BUY Order "+settle.getId()+" from "+tmo.getSettleID()+" : "+ tmo.ItemRef());
+//			settle.getMsg().add("[REALMS] check BUY Order "+settle.getId()+" from "+tmo.getSettleID()+" : "+ tmo.ItemRef());
 			if ( foundOrder != null)
 			{
 				if (settle.getPosition().getWorld().equalsIgnoreCase(foundOrder.getWorld())==true)
@@ -545,7 +545,7 @@ public class Trader
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() +1);
 					settle.getWarehouse().withdrawItemValue(itemRef, amount);
 					targetSettle.getBank().withdrawKonto(cost, "Trader "+settle.getId(),settle.getId());
-//					System.out.println("[REALMS] ROUTE   "+settle.getId()+">"+targetSettle.getId()+":"+rOrder.ItemRef()+":"+amount+"="+ConfigBasis.setStrformat2(cost, 11));
+					System.out.println("[REALMS] ROUTE   "+settle.getId()+">"+targetSettle.getId()+":"+rOrder.ItemRef()+":"+amount+"="+ConfigBasis.setStrformat2(cost, 11));
 				}
 			}	
 		}

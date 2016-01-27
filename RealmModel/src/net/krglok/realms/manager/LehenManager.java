@@ -73,7 +73,7 @@ public class LehenManager
 		// check for optional actions
 		if (checkCounter <= 0)
 		{
-			System.out.println("LehenManager");
+//			System.out.println("LehenManager");
 		
 //			System.out.println("1 getModelCommands");
 			getModelCommands(rModel, lehen);
@@ -84,7 +84,7 @@ public class LehenManager
 //			System.out.println("3");
 //			checkMoneyLevel( rModel,  settle);
 			// check for Required Items
-			System.out.println("4 checkRequiredFood and Material");
+//			System.out.println("4 checkRequiredFood and Material");
 			// check for required Food
 			checkRequiredFood(rModel, lehen);
 			checkRequiredMaterials(rModel, lehen);
@@ -94,7 +94,7 @@ public class LehenManager
 //			System.out.println("4 checkRequiredMaterials");
 			if (checkBuyList(rModel,  lehen))
 			{
-				System.out.println("4.1 buyRequiredMaterials");
+//				System.out.println("4.1 buyRequiredMaterials");
 				buyRequiredMaterials(rModel, lehen);
 			}
 	
@@ -106,12 +106,12 @@ public class LehenManager
 //			System.out.println("6 checkBuildMaterials");
 			if (checkBuildMaterials(rModel, lehen))
 			{
-				System.out.println("6.1  buildOrder");
+//				System.out.println("6.1  buildOrder");
 				buildOrder(rModel,lehen);
 				checkCounter = 0;
 			} else
 			{	
-				System.out.println("6.2  buyBuildMaterials");
+//				System.out.println("6.2  buyBuildMaterials");
 				buyBuildMaterials(rModel, lehen);
 				checkCounter = 100;
 			}
@@ -119,7 +119,7 @@ public class LehenManager
 //			checkSellOrder(rModel, lehen);
 //			System.out.println("8");
 //			sellOrder(rModel,lehen);
-			System.out.println("9 sendBuyOrderToTrader");
+//			System.out.println("9 sendBuyOrderToTrader");
 			sendBuyOrderToTrader( rModel, lehen);
 		} else
 		{
@@ -172,7 +172,7 @@ public class LehenManager
    			startNextTransport(rModel, lehen, required);
    			if (dif <= 0)
    			{
-    			lehen.getrequiredItems().remove(required).ItemRef();
+    			lehen.getrequiredItems().remove(required.ItemRef());
     		} else
     		{
    				required.setValue(dif);
@@ -195,7 +195,7 @@ public class LehenManager
     	Settlement settle = rModel.getData().getSettlements().getSettlement(lehen.getSupportId());
     	if (settle != null)
     	{
-    		System.out.println("ROUTE Logik geaendert Route from settle TO lehen ");
+//    		System.out.println("ROUTE Logik geaendert Route from settle TO lehen ");
     		
     		settle.getTrader().makeRouteOrder(rModel.getTradeMarket(), rOrder, rModel.getTradeTransport(), settle, lehen);
 //        	lehen.getrequiredItems().remove(item.ItemRef());
@@ -488,7 +488,7 @@ public class LehenManager
 				{
 					Item rItem = new Item(item.ItemRef(),(minStock-item.value()));
 					lehen.getRequiredProduction().addItem(item);
-					lehen.getMsg().add("Required Material "+item.ItemRef()+":"+(minStock-item.value()));
+//					lehen.getMsg().add("Required Material "+item.ItemRef()+":"+(minStock-item.value()));
 				}
 			}
 		}
