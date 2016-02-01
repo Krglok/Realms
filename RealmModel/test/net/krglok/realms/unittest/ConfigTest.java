@@ -66,8 +66,8 @@ public class ConfigTest implements ConfigInterface
 		regionBuildingTypes = new HashMap<String, String>();
 		superBuildingTypes = new HashMap<String, String>();
 		superSettleTypes = new HashMap<String, String>();
-		realmCounter = 0;
-		settlementCounter = 0;
+		realmCounter = 1;
+		settlementCounter = 28;
 		armorItems = ConfigBasis.initArmor();
 		weaponItems = ConfigBasis.initWeapon();
 		toolItems = ConfigBasis.initTool();

@@ -1,6 +1,9 @@
 package net.krglok.realms.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 import net.krglok.realms.kingdom.Kingdom;
 
@@ -327,4 +330,18 @@ public class SettlementList extends HashMap<Integer,Settlement>
 		return subList;
 	}
 
+	public ArrayList<Integer> sortIntegerList(Set<Integer> set)
+	{
+		ArrayList<Integer> sortedItems = new ArrayList<Integer>();
+		for (Integer s : set)
+		{
+			sortedItems.add(s);
+		} 
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort(sortedItems);
+		}
+		return sortedItems;
+	}
+	
 }

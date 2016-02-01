@@ -30,11 +30,11 @@ public class WarehouseList extends JDialog
 	
 	
 //	private Warehouse warehouse;
-	private final JPanel contentPanel = new JPanel();
-	private JTable table;
-	private static Object[][] dataRows; // = new String[][] {{	"0", "1", "2","3"}, {	"1", "11", "12","13"}};
-	private static String[] colHeader = new String[] {	"0", "1", "2"};
-	private static Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
+	protected final JPanel contentPanel = new JPanel();
+	protected JTable table;
+	protected static Object[][] dataRows; // = new String[][] {{	"0", "1", "2","3"}, {	"1", "11", "12","13"}};
+	protected static String[] colHeader = new String[] {	"0", "1", "2"};
+	protected static Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 		
 	/**
 	 * Launch the application.

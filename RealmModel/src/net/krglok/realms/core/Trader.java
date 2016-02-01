@@ -545,7 +545,7 @@ public class Trader
 					settle.getTrader().setCaravanCount(settle.getTrader().getCaravanCount() +1);
 					settle.getWarehouse().withdrawItemValue(itemRef, amount);
 					targetSettle.getBank().withdrawKonto(cost, "Trader "+settle.getId(),settle.getId());
-					System.out.println("[REALMS] ROUTE   "+settle.getId()+">"+targetSettle.getId()+":"+rOrder.ItemRef()+":"+amount+"="+ConfigBasis.setStrformat2(cost, 11));
+					settle.getMsg().add("[REALMS] ROUTE   "+settle.getId()+">"+targetSettle.getId()+":"+rOrder.ItemRef()+":"+amount+"="+ConfigBasis.setStrformat2(cost, 11));
 				}
 			}	
 		}

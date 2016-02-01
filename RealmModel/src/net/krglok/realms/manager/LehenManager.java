@@ -170,6 +170,7 @@ public class LehenManager
     			required.setValue(stock);
     		}
    			startNextTransport(rModel, lehen, required);
+   			lehen.getMsg().add("Supprt Transport "+required.ItemRef()+":"+required.value());
    			if (dif <= 0)
    			{
     			lehen.getrequiredItems().remove(required.ItemRef());
@@ -213,7 +214,7 @@ public class LehenManager
 		}
 		if (commandQueue.isEmpty() == false)
 		{
-			rModel.messageData.log("Enabled Next Command");
+			lehen.getMsg().add("Enabled Next Command");
 			for (iModelCommand Mcmd : commandQueue)
 			{
 				switch (Mcmd.command())
@@ -352,7 +353,8 @@ public class LehenManager
 //					System.out.println(item.ItemRef()+":"+item.value());
 					cmdBuy.add(new McmdBuyOrder(rModel, lehen.getId(), item.ItemRef(), item.value(), 0.0, 5,lehen.getSettleType()));
 					dontSell.addItem(new Item(item.ItemRef(), item.value()));
-					System.out.println("Settle send buy order for build : "+item.ItemRef());
+					lehen.getMsg().add("Settle send buy order for build : "+item.ItemRef()+":"+item.value());
+					lehen.getMsg().add("Settle dont Sell : "+item.ItemRef()+":"+item.value());
 				}
 			}
 		}
@@ -372,10 +374,10 @@ public class LehenManager
 			{
 				if (cmdBuilder.get(0).canExecute())
 				{
+					lehen.getMsg().add("Settle send build order "+cmdBuilder.get(0).getbType().name());
 					takeBuildingMaterials(rModel,  lehen, cmdBuilder.get(0).getbType());
 					cmdBuilder.get(0).execute();
 					cmdBuilder.remove(0);
-					System.out.println("Settle send build order");
 				}
 			}
 		}
@@ -397,7 +399,7 @@ public class LehenManager
 		buildMat = rModel.getServer().getRegionReagents(bType.name());
 		for (Item item : buildMat.values())
 		{
-			System.out.println("Take Material from Warehouse");
+			lehen.getMsg().add("Take Material from Warehouse");
 			lehen.getWarehouse().getItemList().withdrawItem(item.ItemRef(), item.value());
 		}
 	}
@@ -484,11 +486,11 @@ public class LehenManager
 			int minStock = lehen.getBuildingList().getBuildTypeList().get(building.getBuildingType().name())+1;
 			for (Item item : ingredients.values())
 			{
-				if (item.value() < minStock)
+				if (item.value() > minStock)
 				{
 					Item rItem = new Item(item.ItemRef(),(minStock-item.value()));
 					lehen.getRequiredProduction().addItem(item);
-//					lehen.getMsg().add("Required Material "+item.ItemRef()+":"+(minStock-item.value()));
+					lehen.getMsg().add("Required Material "+item.ItemRef()+"Value:"+item.value()+" Min:"+ minStock+" Dif:"+(minStock-item.value()));
 				}
 			}
 		}

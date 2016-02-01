@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,8 +33,20 @@ import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
+import net.krglok.realms.core.Building;
+import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
+import net.krglok.realms.core.Owner;
+import net.krglok.realms.data.ConfigData;
+import net.krglok.realms.data.DataCalendar;
+import net.krglok.realms.data.DataStorage;
+import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.science.Achivement;
 import net.krglok.realms.tool.SettleManagerTest;
+import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.unittest.ConfigTest;
 import net.krglok.realms.unittest.SettlementDataTest;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -52,22 +65,29 @@ import java.awt.event.TextListener;
 import java.awt.event.TextEvent;
 import javax.swing.JSeparator;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import java.awt.FlowLayout;
+import javax.swing.JProgressBar;
+
 public class TestMain
 {
 
+	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
+	
 	private JFrame frmManagetTest;
 	private static BufferedReader reader;
 	private static PipedOutputStream pOut;
 	private static  TextArea textArea;
 	Image myImage;
-	private  Object[][] dataRows = initDataRow();
-	private String[] columnHeader = new String[] {"ID", "Sender", ">>", "Target", "Item", "amount", "price", "Status", "Count", "Max"};
+	private  String[][] dataRows = initDataRow();
+	private String[] columnHeader = new String[] {"0", "1", "2", "3", "4","5"};
+	private DataCalendar calendar;
 	
-	
-	private TestManager managerTest = new TestManager();
+	private TestManager managerTest; // = new TestManager(dataFolder);
 	private JTextField text_Loops;
 	private JTable table;
-	
+	private JProgressBar progressBar;
+	private JTextField txtListtitel;
 	/**
 	 * Launch the application.
 	 */
@@ -125,8 +145,10 @@ public class TestMain
 	 */
 	public TestMain()
 	{
+		managerTest = new TestManager(dataFolder);
 		initialize();
-	
+		calendar = new DataCalendar(managerTest.data.getSettlements().getSettlement(1).getAge());
+		text_Loops.setText(calendar.getCalendarDateGer());
 	}
 
 
@@ -159,10 +181,6 @@ public class TestMain
 		JMenu mnNewMenu = new JMenu("File");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Open");
-		mntmNewMenuItem_1.setIcon(new ImageIcon(TestMain.class.getResource("/com/sun/java/swing/plaf/windows/icons/Directory.gif")));
-		mnNewMenu.add(mntmNewMenuItem_1);
-		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Close");
 		mnNewMenu.add(mntmNewMenuItem);
 		
@@ -176,49 +194,119 @@ public class TestMain
 		mntmNewMenuItem_2.setSelectedIcon(new ImageIcon(TestMain.class.getResource("/javax/swing/plaf/metal/icons/ocean/close.gif")));
 		mnNewMenu.add(mntmNewMenuItem_2);
 		
-		JMenu mnSettlements = new JMenu("Settlements");
+		JMenu mnSettlements = new JMenu("DataStorage");
 		menuBar.add(mnSettlements);
 		
-		JMenuItem mntmNewhaven = new JMenuItem("NewHaven");
+		JMenuItem mntmNewhaven = new JMenuItem("Settlement");
 		mntmNewhaven.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//show settlement Data
-				showSettleData(1);
+				showSettleData();
 			}
 		});
 		mnSettlements.add(mntmNewhaven);
 		
-		JMenuItem mntmHelnrauu = new JMenuItem("Helnrau");
+		JMenuItem mntmHelnrauu = new JMenuItem("Lehen");
 		mntmHelnrauu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				showSettleData(2);
+				showLehenData();
 			}
 		});
 		mnSettlements.add(mntmHelnrauu);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("SalicStadt");
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Owner");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showSettleData(3);
+//				showSettleData(3);
+				showOwnerData();
 			}
 		});
 		mnSettlements.add(mntmNewMenuItem_3);
 		
-		JMenuItem mntmNetherhome = new JMenuItem("NetherHome");
+		JMenuItem mntmNetherhome = new JMenuItem("Kingdom");
 		mntmNetherhome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				showSettleData(4);
+//				showSettleData(4);
 			}
 		});
 		mnSettlements.add(mntmNetherhome);
 		
+		JMenuItem mntmRegimnter = new JMenuItem("Regimenter");
+		mntmRegimnter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				showRegimentList(table);
+
+			}
+		});
+		mnSettlements.add(mntmRegimnter);
+		
+		JMenu mnNewMenu_1 = new JMenu("New menu");
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Buildings");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				showBuildingList();
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("NPC");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				showNPCList();
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_4);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("PriceList");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				showPriceList(table);
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_5);
+		
+		JPanel panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		frmManagetTest.getContentPane().add(panel_1, BorderLayout.NORTH);
+		
 		JToolBar toolBar = new JToolBar();
-		toolBar.setPreferredSize(new Dimension(13, 33));
+		toolBar.setRollover(true);
+		panel_1.add(toolBar);
 		toolBar.setMinimumSize(new Dimension(13, 33));
 		toolBar.setMaximumSize(new Dimension(13, 33));
-		frmManagetTest.getContentPane().add(toolBar, BorderLayout.NORTH);
 		
-		JButton btn_end = new JButton("");
+		JButton btn_Settle1 = new JButton("");
+		btn_Settle1.setToolTipText("Show the TestSettlement : "+managerTest.data.getSettlements().getSettlement(4).getName());
+		btn_Settle1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Settlement settle = managerTest.data.getSettlements().getSettlement(4);
+				textArea.setText("");
+				for (int i = 0; i < settle.getMsg().size(); i++)
+				{
+					textArea.append(settle.getMsg().get(i)+"\n");
+				}
+				ShowSettle.showMe(settle);
+				//	showSettleData();
+			}
+		});
+		
+		JButton btn_Sell = new JButton("Init Model  ");
+		btn_Sell.setMaximumSize(new Dimension(0, 37));
+		btn_Sell.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				managerTest.rModel. OnEnable();
+			}
+		});
+		
+		JButton btn_end = new JButton("Ende  ");
+		toolBar.add(btn_end);
 		btn_end.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btn_end.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -226,38 +314,27 @@ public class TestMain
 			}
 		});
 		btn_end.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/delete2.png")));
-		btn_end.setMaximumSize(new Dimension(33, 33));
-		btn_end.setMinimumSize(new Dimension(32, 32));
-		toolBar.add(btn_end);
-		
-		JButton btn_Settle = new JButton("");
-		btn_Settle.setToolTipText("Show Settle Data");
-		btn_Settle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//
-				showSettleData(1);
-			}
-		});
-		
-		JButton btn_Sell = new JButton("Sell   ");
-		btn_Sell.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				managerTest.doSellWheat(1);
-			}
-		});
+		btn_end.setMaximumSize(new Dimension(0, 37));
+		btn_end.setMinimumSize(new Dimension(45, 32));
 		btn_Sell.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btn_Sell.setToolTipText("Command sell");
 		btn_Sell.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tcheck.gif")));
 		toolBar.add(btn_Sell);
 		
-		JButton btnLoop = new JButton("Loop 35  ");
+		JButton btnLoop = new JButton("doLoop  ");
+		btnLoop.setMaximumSize(new Dimension(0, 37));
+		btnLoop.setMinimumSize(new Dimension(73, 31));
 		btnLoop.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
 		btnLoop.addActionListener(
 				new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						managerTest.doLoop35(1);
+						text_Loops.setText("1");
+						managerTest.doDayLoop(managerTest.rModel, progressBar);
+						text_Loops.setText("0");
+						calendar.stepDay();
+						text_Loops.setText(calendar.getCalendarDateGer());
 					}
 				}
 		);
@@ -266,12 +343,74 @@ public class TestMain
 		
 		JSeparator separator = new JSeparator();
 		toolBar.add(separator);
-		btn_Settle.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		btn_Settle.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tinfo.gif")));
-		toolBar.add(btn_Settle);
+		btn_Settle1.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btn_Settle1.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/settle_1.png")));
+		toolBar.add(btn_Settle1);
+		
+		JButton btn_Settle2 = new JButton("");
+		btn_Settle2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btn_Settle2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				Settlement settle = managerTest.data.getSettlements().getSettlement(9);
+				textArea.setText("");
+				for (int i = 0; i < settle.getMsg().size(); i++)
+				{
+					textArea.append(settle.getMsg().get(i)+"\n");
+				}
+				
+				ShowSettle.showMe(settle);
+			}
+		});
+		btn_Settle2.setToolTipText("Show the TestSettlement : "+managerTest.data.getSettlements().getSettlement(9).getName());
+		btn_Settle2.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/settle_1.png")));
+		toolBar.add(btn_Settle2);
+		
+		JButton btnLehen = new JButton("");
+		btnLehen.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnLehen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				Lehen lehen = managerTest.data.getLehen().getLehen(2);
+				textArea.setText("");
+				for (int i = 0; i < lehen.getMsg().size(); i++)
+				{
+					textArea.append(lehen.getMsg().get(i)+"\n");
+				}
+				ShowLehen.showMe(lehen,managerTest.data);
+			}
+		});
+		btnLehen.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/lehen_1.png")));
+		btnLehen.setHorizontalAlignment(SwingConstants.LEFT);
+		btnLehen.setToolTipText("Lehen [2]");
+		toolBar.add(btnLehen);
 		
 		JSeparator separator_1 = new JSeparator();
 		toolBar.add(separator_1);
+		
+		JButton btnTransport = new JButton("");
+		btnTransport.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnTransport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				showTransportData();
+			}
+		});
+		btnTransport.setToolTipText("TransportList");
+		toolBar.add(btnTransport);
+		btnTransport.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/trader_1.png")));
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				showMarketData();
+			}
+		});
+		btnNewButton.setToolTipText("Show Marketlist");
+		btnNewButton.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/trader_1.png")));
+		toolBar.add(btnNewButton);
 		
 		JPanel panel = new JPanel();
 		frmManagetTest.getContentPane().add(panel, BorderLayout.CENTER);
@@ -283,11 +422,11 @@ public class TestMain
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(41dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.GLUE_COLSPEC,
+				ColumnSpec.decode("62px:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(25dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
@@ -303,20 +442,8 @@ public class TestMain
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,}));
 		
-		JButton btnNewButton_1 = new JButton("Init Test SettleManager");
-		btnNewButton_1.addActionListener(
-				new ActionListener() 
-				{
-					public void actionPerformed(ActionEvent e) 
-					{
-						managerTest.testSettleMgrModel(1);
-						int l = e.getActionCommand().length();
-						System.out.println("Action "+e.getActionCommand()+":"+l);
-					}
-				}
-		);
-		btnNewButton_1.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
-		panel.add(btnNewButton_1, "2, 2");
+		progressBar = new JProgressBar();
+		panel.add(progressBar, "2, 2, 3, 1");
 		
 		JLabel lblNewLabel = new JLabel("LoopCounter : ");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -326,6 +453,12 @@ public class TestMain
 		text_Loops.setToolTipText("Running Loops");
 		panel.add(text_Loops, "8, 2, left, default");
 		text_Loops.setColumns(10);
+		
+		txtListtitel = new JTextField();
+		txtListtitel.setHorizontalAlignment(SwingConstants.LEFT);
+		txtListtitel.setText("ListTitel");
+		panel.add(txtListtitel, "12, 2, fill, default");
+		txtListtitel.setColumns(10);
 		
 		
 //		TextArea 
@@ -338,35 +471,25 @@ public class TestMain
 		});
 		textArea.setForeground(Color.BLACK);
 		textArea.setFont(new Font("Courier New", Font.PLAIN, 10));
-		textArea.setText("new line");
-		
-		JButton btnNewButton = new JButton("Market");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doMarketList();
-			}
-		});
-		btnNewButton.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_text.gif")));
-		panel.add(btnNewButton, "6, 4");
+		textArea.setText("new line\r\nzeile 2\r\nZeil 3");
 		
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel.add(scrollPane_1, "12, 4, fill, fill");
 		
 		table = new JTable();
+		table.setFont(new Font("Courier New", Font.PLAIN, 9));
 		table.setModel(new DefaultTableModel(
 			dataRows,
 			columnHeader
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(28);
-		table.getColumnModel().getColumn(1).setPreferredWidth(46);
-		table.getColumnModel().getColumn(2).setPreferredWidth(26);
+		table.getColumnModel().getColumn(0).setPreferredWidth(10);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(30);
 		table.getColumnModel().getColumn(3).setPreferredWidth(45);
-		table.getColumnModel().getColumn(4).setPreferredWidth(112);
-		table.getColumnModel().getColumn(5).setPreferredWidth(48);
-		table.getColumnModel().getColumn(7).setPreferredWidth(58);
-		table.getColumnModel().getColumn(8).setPreferredWidth(57);
-		table.getColumnModel().getColumn(9).setPreferredWidth(60);
+		table.getColumnModel().getColumn(4).setPreferredWidth(45);
+//		table.getColumnModel().getColumn(5).setPreferredWidth(45);
+//		table.getColumnModel().getColumn(7).setPreferredWidth(45);
 		scrollPane_1.setViewportView(table);
 		
 	}
@@ -379,13 +502,6 @@ public class TestMain
 	      }
 	    });
 	  }
-
-	private void doMarketList() 
-	{
-		//
-		refreshDataRow();
-		table.repaint();
-	}
 	  
 	private void paintSome(Canvas canvas)
 	{
@@ -395,74 +511,374 @@ public class TestMain
 		canvas.getBufferStrategy().show();
 		
 	}
-	
-	private void showSettleData(int settleId)
+
+
+	private void showMarketData()
 	{
 		try
 		{
-//			ShowSettle dialog = new ShowSettle();
-			ShowSettle.showMe(managerTest.rModel.getSettlements().getSettlement(settleId));
+			
+			columnHeader = new String[] {"ID", "Von", "Nach", "Material", "Price","Tick"};
+			int maxRow = managerTest.rModel.getTradeMarket().size();
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(20);
+			table.getColumnModel().getColumn(2).setPreferredWidth(20);
+			table.getColumnModel().getColumn(3).setPreferredWidth(45);
+//			table.getColumnModel().getColumn(3).getCellRenderer().
+			table.getColumnModel().getColumn(4).setPreferredWidth(45);
+			table.getColumnModel().getColumn(5).setPreferredWidth(45);
+			int row = 0;
+			for (Integer orderId : managerTest.rModel.getTradeMarket().sortInteger())
+			{
+				TradeMarketOrder order = managerTest.rModel.getTradeMarket().getOrder(orderId);
+				table.getModel().setValueAt(ConfigBasis.setStrright(order.getId(),3), row, 0);
+				table.getModel().setValueAt(ConfigBasis.setStrright(order.getSettleID(),3),row,1); 
+				table.getModel().setValueAt(ConfigBasis.setStrright(order.getTargetId() ,3),row,2); 
+				table.getModel().setValueAt(order.ItemRef() ,row,3);
+				table.getModel().setValueAt(ConfigBasis.setStrright(order.value(),3),row,4); 
+				table.getModel().setValueAt(ConfigBasis.setStrformat2(order.getBasePrice(),7),row,5); 
+//				table.getModel().setValueAt(order.isStarted() ,row,5); 
+//				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
+				row++;
+			}
+			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	private  void refreshDataRow()
+	
+	private void showTransportData()
 	{
-		 if (managerTest != null)
-		 {
-			 int index = 0;
-			 if (managerTest.rModel.getTradeMarket().isEmpty() == false)
-			 {
-				 for (TradeMarketOrder order : managerTest.rModel.getTradeMarket().values() )
-				 {
-					 if (index < 200)
-					 {
-						 System.out.println(".");
-						 dataRows[index][0] = order.getId();
-						 dataRows[index][1] = order.getSettleID();
-						 dataRows[index][2] = ">>";
-						 dataRows[index][3] = order.getTargetId();
-						 dataRows[index][4] = order.ItemRef();
-						 dataRows[index][5] = order.value();
-						 dataRows[index][6] = order.getBasePrice();
-						 dataRows[index][7] = order.getStatus().name();
-						 dataRows[index][8] = order.getTickCount();
-						 dataRows[index][9] = order.getMaxTicks();
-					 }
-				 }
-			 }
-		 }
-		 
+		try
+		{
+			
+			columnHeader = new String[] {"ID", "Von", "Nach", "Material", "Price","Tick"};
+			int maxRow = managerTest.rModel.getTradeTransport().size();
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(20);
+			table.getColumnModel().getColumn(2).setPreferredWidth(20);
+			table.getColumnModel().getColumn(3).setPreferredWidth(45);
+//			table.getColumnModel().getColumn(3).getCellRenderer().
+			table.getColumnModel().getColumn(4).setPreferredWidth(45);
+			table.getColumnModel().getColumn(5).setPreferredWidth(45);
+			int row = 0;
+			for ( TradeMarketOrder order : managerTest.rModel.getTradeTransport().values())
+			{
+				table.getModel().setValueAt(ConfigBasis.setStrright(order.getId(),3), row, 0);
+				table.getModel().setValueAt(ConfigBasis.setStrright(order.getSettleID(),3),row,1);; 
+				table.getModel().setValueAt(ConfigBasis.setStrright(order.getTargetId() ,3),row,2);; 
+				table.getModel().setValueAt(order.ItemRef() ,row,3);
+				table.getModel().setValueAt(ConfigBasis.setStrformat2(order.getBasePrice(),7),row,4); 
+				table.getModel().setValueAt(order.isStarted() ,row,5); 
+//				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
+				row++;
+			}
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void showSettleData()
+	{
+		
+		try
+		{
+			
+			columnHeader = new String[] {"ID", "Name", "Type", "Bank", "Betten","Siedler"};
+			int maxRow = managerTest.data.getSettlements().size();
+			dataRows = new  String[maxRow][columnHeader.length];
+//			Class[] colTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,, String.class };
+			OverviewList dialog = new OverviewList();
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			dialog.table.getColumnModel().getColumn(1).setPreferredWidth(100);
+			dialog.table.getColumnModel().getColumn(2).setPreferredWidth(30);
+			dialog.table.getColumnModel().getColumn(3).setPreferredWidth(45);
+//			table.getColumnModel().getColumn(3).getCellRenderer().
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(45);
+			dialog.table.getColumnModel().getColumn(5).setPreferredWidth(45);
+			int row = 0;
+			for (Integer id : managerTest.data.getSettlements().sortIntegerList(managerTest.data.getSettlements().keySet()))
+			{
+				Settlement settle = managerTest.data.getSettlements().getSettlement(id);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(settle.getId(),3), row, 0);
+				dialog.table.getModel().setValueAt(settle.getName(),row,1);; 
+				dialog.table.getModel().setValueAt(settle.getSettleType().name(),row,2);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrformat2(settle.getBank().getKonto(),11),row,3);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerMax(),4),row,4); 
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerCount(),4),row,5);
+//				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
+				row++;
+			}
+			dialog.setVisible(true);
+
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	private void showLehenData()
+	{
+		try
+		{
+			
+			columnHeader = new String[] {"ID", "Name", "Type", "Bank", "Betten","Siedler"};
+			int maxRow = managerTest.data.getLehen().size();
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(100);
+			table.getColumnModel().getColumn(2).setPreferredWidth(30);
+			table.getColumnModel().getColumn(3).setPreferredWidth(45);
+//			table.getColumnModel().getColumn(3).getCellRenderer().
+			table.getColumnModel().getColumn(4).setPreferredWidth(45);
+			table.getColumnModel().getColumn(5).setPreferredWidth(45);
+			int row = 0;
+			for (Lehen settle : managerTest.data.getLehen().values())
+			{
+				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getId(),3), row, 0);
+				table.getModel().setValueAt(settle.getName(),row,1);; 
+				table.getModel().setValueAt(settle.getSettleType().name(),row,2);
+				table.getModel().setValueAt(ConfigBasis.setStrformat2(settle.getBank().getKonto(),11),row,3);
+				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerMax(),4),row,4); 
+				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerCount(),4),row,5);
+//				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
+				row++;
+			}
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void showOwnerData()
+	{
+		try
+		{
+			
+			columnHeader = new String[] {"ID", "Name", "Type", "Bank", "NobleLevel"," "};
+			int maxRow = managerTest.data.getOwners().size();
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(100);
+			table.getColumnModel().getColumn(2).setPreferredWidth(30);
+			table.getColumnModel().getColumn(3).setPreferredWidth(45);
+			table.getColumnModel().getColumn(4).setPreferredWidth(45);
+			table.getColumnModel().getColumn(5).setPreferredWidth(45);
+			int row = 0;
+			for (Owner owner : managerTest.data.getOwners().values())
+			{
+				table.getModel().setValueAt(ConfigBasis.setStrright(owner.getId(),3), row, 0);
+				table.getModel().setValueAt(owner.getPlayerName() ,row,1);; 
+				table.getModel().setValueAt(owner.getIsNPC().toString(),row,2);
+				table.getModel().setValueAt(ConfigBasis.setStrformat2(owner.getBank(),11),row,3);
+				table.getModel().setValueAt(ConfigBasis.setStrleft(owner.getNobleLevel().name(),8) ,row,4);
+				int lastAchiv = owner.getAchivList().size();
+				for (Achivement item :  owner.getAchivList().values())
+				{
+					table.getModel().setValueAt(item.getName() ,row,5);
+				}
+				row++;
+			}
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	private void showBuildingList()
+	{
+		try
+		{
+			
+			columnHeader = new String[] {"ID", "TYPE", "Region", "Settler", "Worker","Settle","Lehen"};
+			int maxRow = managerTest.data.getBuildings().size();
+			System.out.println("Buildings ["+maxRow+"]");
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(60);
+			table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			table.getColumnModel().getColumn(3).setPreferredWidth(35);
+			table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			table.getColumnModel().getColumn(5).setPreferredWidth(35);
+			table.getColumnModel().getColumn(6).setPreferredWidth(35);
+			int row = 0;
+			for (Integer index: managerTest.data.getBuildings().sortIntegerList(managerTest.data.getBuildings().keySet()))
+			{
+				Building building = managerTest.data.getBuildings().getBuilding(index);
+				table.getModel().setValueAt(ConfigBasis.setStrright(building.getId(),3), row, 0);
+				table.getModel().setValueAt(building.getBuildingType().name() ,row,1);; 
+				table.getModel().setValueAt(ConfigBasis.setStrright(building.getHsRegion(),4),row,2);
+				table.getModel().setValueAt(ConfigBasis.setStrright(building.getSettler(),2),row,3);
+				table.getModel().setValueAt(ConfigBasis.setStrright(building.getWorkerNeeded() ,2) ,row,4);
+				table.getModel().setValueAt(ConfigBasis.setStrright(building.getSettleId() ,3) ,row,5);
+				table.getModel().setValueAt(ConfigBasis.setStrright(building.getLehenId() ,3) ,row,6);
+				row++;
+			}
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	private void showNPCList()
+	{
+		try
+		{
+			
+			columnHeader = new String[] {"ID", "Name", "NPCType", "UnitType","Settle","Lehen", "Money"};
+			int maxRow = managerTest.data.getNpcs().size();
+			System.out.println("NPC ["+maxRow+"]");
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(60);
+			table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			table.getColumnModel().getColumn(3).setPreferredWidth(35);
+			table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			table.getColumnModel().getColumn(5).setPreferredWidth(35);
+			table.getColumnModel().getColumn(6).setPreferredWidth(35);
+			int row = 0;
+			for (Integer index: managerTest.data.getNpcs().sortIntegerList(managerTest.data.getNpcs().keySet()))
+			{
+				NpcData npc = managerTest.data.getNpcs().get(index);
+				table.getModel().setValueAt(ConfigBasis.setStrright(npc.getId(),5), row, 0);
+				table.getModel().setValueAt(npc.getName() ,row,1);; 
+				table.getModel().setValueAt(npc.getNpcType().name() ,row,2);; 
+				table.getModel().setValueAt(npc.getUnitType().name() ,row,3);; 
+				table.getModel().setValueAt(ConfigBasis.setStrright(npc.getSettleId() ,4),row,4);
+				table.getModel().setValueAt(ConfigBasis.setStrright(npc.getLehenId() ,2),row,5);
+				table.getModel().setValueAt(ConfigBasis.setStrformat2(npc.getMoney() ,9) ,row,6);
+				row++;
+			}
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	private void showRegimentList(JTable  table)
+	{
+		try
+		{
+			
+			columnHeader = new String[] {"ID", "Name", "Type", "Status","Barrack","Units", "Bank"};
+			int maxRow = managerTest.data.getRegiments().size();
+			System.out.println("NPC ["+maxRow+"]");
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			table.getColumnModel().getColumn(1).setPreferredWidth(60);
+			table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			table.getColumnModel().getColumn(3).setPreferredWidth(35);
+			table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			table.getColumnModel().getColumn(5).setPreferredWidth(35);
+			table.getColumnModel().getColumn(6).setPreferredWidth(35);
+			int row = 0;
+			for (Integer index: managerTest.data.getRegiments().sortIntegerList(managerTest.data.getRegiments().keySet()))
+			{
+				Regiment regiment = managerTest.data.getRegiments().getRegiment(index);
+				table.getModel().setValueAt(ConfigBasis.setStrright(regiment.getId(),5), row, 0);
+				table.getModel().setValueAt(regiment.getName() ,row,1);; 
+				table.getModel().setValueAt(regiment.getRegimentType().name() ,row,2);; 
+				table.getModel().setValueAt(regiment.getRegStatus().name()  ,row,3);; 
+				table.getModel().setValueAt(ConfigBasis.setStrright(regiment.getBarrack().getUnitMax() ,4),row,4);
+				table.getModel().setValueAt(ConfigBasis.setStrright(regiment.getBarrack().getUnitList().size() ,4),row,5);
+				table.getModel().setValueAt(ConfigBasis.setStrformat2(regiment.getBank().getKonto() ,9) ,row,6);
+				row++;
+			}
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	
-	private  Object[][] initDataRow()
+	private void showPriceList(JTable  table)
 	{
-		 Object[][] rows = new  Object[200][10];
+		try
+		{
+			
+			columnHeader = new String[] {"Material", "Price", "Group"};
+			int maxRow = managerTest.data.getPriceList().size();
+			System.out.println("NPC ["+maxRow+"]");
+			dataRows = new  String[maxRow][columnHeader.length];
+//			table = new JTable();
+			table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			table.getColumnModel().getColumn(0).setPreferredWidth(60);
+			table.getColumnModel().getColumn(1).setPreferredWidth(35);
+			table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			int row = 0;
+			for (String itemRef: managerTest.data.getPriceList().sortItems())
+			{
+				double price = managerTest.data.getPriceList().getBasePrice(itemRef);
+				table.getModel().setValueAt(itemRef, row, 0);
+				table.getModel().setValueAt(ConfigBasis.setStrformat2(price ,9) ,row,1);
+				row++;
+			}
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private  String[][] initDataRow()
+	{
+		 String[][] rows = new  String[10][5];
 		 if (managerTest != null)
 		 {
-//			 int index = 0;
-//			 if (managerTest.rModel.getTradeMarket().isEmpty() == false)
-//			 {
-//				 for (TradeMarketOrder order : managerTest.rModel.getTradeMarket().values() )
-//				 {
-//					 if (index < 200)
-//					 {
-//						 rows[index][0] = order.getId();
-//						 rows[index][1] = order.getSettleID();
-//						 rows[index][2] = ">>";
-//						 rows[index][3] = order.getTargetId();
-//						 rows[index][4] = order.ItemRef();
-//						 rows[index][5] = order.value();
-//						 rows[index][6] = order.getBasePrice();
-//						 rows[index][7] = order.getStatus().name();
-//						 rows[index][8] = order.getTickCount();
-//						 rows[index][9] = order.getMaxTicks();
-//					 }
-//				 }
-//			 }
 		 }
 		 return rows;
 	}
@@ -506,4 +922,5 @@ public class TestMain
 	{
 		text_Loops.setText(String.valueOf(managerTest.dayCounter));
 	}
+	
 }

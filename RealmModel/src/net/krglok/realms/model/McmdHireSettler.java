@@ -62,6 +62,11 @@ public class McmdHireSettler implements iModelCommand
 	{
 		Settlement settle = rModel.getData().getSettlements().getSettlement(settleId);
 		Lehen lehen = rModel.getData().getLehen().getLehen(lehenId);
+		if (lehen.getResident().getSettlerMax()<=lehen.getResident().getSettlerCount())
+		{
+			lehen.getMsg().add("[REALMS] Max Resident HIRE Npc "+npc.getId()+" to Lehen "+lehenId+" from "+settleId);
+			return;
+		}
 		if (npc.getNpcType() == NPCType.BEGGAR)
 		{
 			// Beggar cost only the HalfPrice

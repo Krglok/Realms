@@ -408,5 +408,19 @@ public class BuildingList  extends HashMap<String,Building>
 		}
 		return sortedItems;
 	}
+
+	public ArrayList<Integer> sortIntegerList(Set<String> set)
+	{
+		ArrayList<Integer> sortedItems = new ArrayList<Integer>();
+		for (String s : set)
+		{
+			sortedItems.add(Integer.valueOf(s));
+		} 
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort(sortedItems);
+		}
+		return sortedItems;
+	}
 	
 }

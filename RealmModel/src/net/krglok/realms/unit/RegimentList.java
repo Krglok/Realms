@@ -1,6 +1,9 @@
 package net.krglok.realms.unit;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.model.RealmModel;
@@ -122,4 +125,19 @@ public class RegimentList extends HashMap <Integer, Regiment>
 		}
 		return null;
 	}
+	
+	public ArrayList<Integer> sortIntegerList(Set<Integer> set)
+	{
+		ArrayList<Integer> sortedItems = new ArrayList<Integer>();
+		for (Integer s : set)
+		{
+			sortedItems.add(s);
+		} 
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort(sortedItems);
+		}
+		return sortedItems;
+	}
+	
 }

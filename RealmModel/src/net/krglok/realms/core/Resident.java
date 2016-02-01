@@ -782,14 +782,17 @@ public class Resident
 			{
 				if (npc.isBeggar())
 				{
-					return npc;
+					if (npc.isAlive())
+					{
+						return npc;
+					}
 				}
 			}
 		}
-		System.out.println("No beggar ");
+//		System.out.println("No beggar ");
 		for (NpcData npc : npcList.values())
 		{
-//			if (npc.getWorkBuilding() == 0)
+			if (npc.isAlive())
 			{
 //				if ((npc.getGender() != GenderType.WOMAN)
 				if (npc.isChild() == false)
@@ -809,7 +812,7 @@ public class Resident
 				}
 			}
 		}
-		System.out.println("No Settler ");
+//		System.out.println("No Settler ");
 
 		return null;
 	}

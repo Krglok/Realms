@@ -490,9 +490,9 @@ public abstract class AbstractSettle
 						ingredients = server.getRecipe(item.ItemRef());
 						ingredients.remove(item.ItemRef());
 						prodFactor = server.getRecipeFactor(item.ItemRef(),biome, item.value());
-						building.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
-						building.getMsg().add("Ingredients:");
-						building.getMsg().addAll(ingredients.keySet());
+						this.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						this.getMsg().add("Ingredients:");
+						this.getMsg().addAll(ingredients.keySet());
 						break;
 					case BAKERY:
 						if (building.isSlot())
@@ -505,9 +505,9 @@ public abstract class AbstractSettle
 							ingredients = server.getRegionUpkeep(building.getHsRegionType());
 						}
 						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
-						building.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
-						building.getMsg().add("Ingredients:");
-						building.getMsg().addAll(ingredients.keySet());
+						this.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						this.getMsg().add("Ingredients:");
+						this.getMsg().addAll(ingredients.keySet());
 						break;
 					default :
 //						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
@@ -515,9 +515,9 @@ public abstract class AbstractSettle
 						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
 						prodFactor = 1;
 						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
-						building.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
-						building.getMsg().add("Ingredients:");
-						building.getMsg().addAll(ingredients.keySet());
+						this.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						this.getMsg().add("Ingredients:");
+						this.getMsg().addAll(ingredients.keySet());
 						break;
 					}
 //					System.out.println("check");
@@ -564,13 +564,13 @@ public abstract class AbstractSettle
 
 					} else
 					{
-						building.getMsg().add("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
+						this.getMsg().add("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
 					}
 				}
 //				building.addSales(sale);
 			} else
 			{
-				building.getMsg().add(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
+				this.getMsg().add(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
 			}
 		}
 

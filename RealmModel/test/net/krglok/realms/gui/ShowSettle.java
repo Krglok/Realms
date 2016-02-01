@@ -7,7 +7,9 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -19,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
@@ -30,6 +33,10 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
+import javax.swing.JTable;
+import java.awt.Font;
+import javax.swing.JScrollPane;
+import com.jgoodies.forms.layout.Sizes;
 
 public class ShowSettle extends JDialog
 {
@@ -49,6 +56,8 @@ public class ShowSettle extends JDialog
 	private JTextField text_Age;
 	private JTextField text_BuyOrder;
 	private JTextField text_Required;
+	private JTextField textSellOrder;
+	private JTable table_1;
 	
 	/**
 	 * Launch the application.
@@ -62,7 +71,6 @@ public class ShowSettle extends JDialog
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.settle = settle;
-			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -79,27 +87,28 @@ public class ShowSettle extends JDialog
 			@Override
 			public void windowActivated(WindowEvent arg0) {
 				setText();
+				printRequired();
 			}
 		});
 		setTitle("Settlement");
-		setBounds(100, 100, 786, 597);
+		setBounds(100, 100, 820, 591);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		getContentPane().add(contentPanel, BorderLayout.NORTH);
 		contentPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("right:70px"),
+				ColumnSpec.decode("right:70px:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("74px:grow"),
+				ColumnSpec.decode("65px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("max(41dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("90px:grow"),
+				ColumnSpec.decode("104px:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("86px"),
+				ColumnSpec.decode("86px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("108px:grow"),
+				ColumnSpec.decode("89px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("50px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -108,13 +117,22 @@ public class ShowSettle extends JDialog
 				FormFactory.UNRELATED_GAP_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.UNRELATED_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				new RowSpec(RowSpec.CENTER, Sizes.bounded(Sizes.DEFAULT, Sizes.constant("189dlu", false), Sizes.constant("200dlu", false)), 0),
+				FormFactory.RELATED_GAP_ROWSPEC,}));
 		{
 			JLabel lblNewLabel = new JLabel("ID/Name");
 			contentPanel.add(lblNewLabel, "1, 2, right, center");
@@ -150,154 +168,196 @@ public class ShowSettle extends JDialog
 		}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Beds : ");
-			contentPanel.add(lblNewLabel_1, "1, 3, right, default");
+			contentPanel.add(lblNewLabel_1, "1, 4, right, default");
 		}
 		{
 			text_BedSize = new JTextField();
 			text_BedSize.setMinimumSize(new Dimension(6, 10));
 			text_BedSize.setColumns(10);
-			contentPanel.add(text_BedSize, "3, 3, fill, default");
+			contentPanel.add(text_BedSize, "3, 4, fill, default");
 		}
 		{
 			JLabel lblSettler = new JLabel("Settler : ");
 			lblSettler.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(lblSettler, "5, 3, right, default");
+			contentPanel.add(lblSettler, "5, 4, right, default");
 		}
 		{
 			text_SettlerSize = new JTextField();
 			text_SettlerSize.setMinimumSize(new Dimension(6, 10));
 			text_SettlerSize.setColumns(10);
-			contentPanel.add(text_SettlerSize, "7, 3, fill, default");
+			contentPanel.add(text_SettlerSize, "7, 4, fill, default");
 		}
 		{
 			JLabel lblWorker = new JLabel("Worker : ");
 			lblWorker.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(lblWorker, "11, 3, right, default");
+			contentPanel.add(lblWorker, "11, 4, right, default");
 		}
 		{
 			text_WorkerSize = new JTextField();
 			text_WorkerSize.setMinimumSize(new Dimension(6, 10));
 			text_WorkerSize.setColumns(10);
-			contentPanel.add(text_WorkerSize, "13, 3, fill, default");
+			contentPanel.add(text_WorkerSize, "13, 4, fill, default");
 		}
 		{
 			JLabel lblAge = new JLabel("Age : ");
 			lblAge.setHorizontalAlignment(SwingConstants.RIGHT);
-			contentPanel.add(lblAge, "15, 3, right, default");
+			contentPanel.add(lblAge, "15, 4, right, default");
 		}
 		{
 			text_Age = new JTextField();
 			text_Age.setMinimumSize(new Dimension(6, 10));
 			text_Age.setColumns(10);
-			contentPanel.add(text_Age, "17, 3, fill, default");
+			contentPanel.add(text_Age, "17, 4, fill, default");
 		}
 		{
-			JLabel lblBank = new JLabel("Bank : ");
-			contentPanel.add(lblBank, "1, 5, right, default");
-		}
-		{
-			text_Bank = new JTextField();
-			text_Bank.setMinimumSize(new Dimension(6, 10));
-			text_Bank.setColumns(10);
-			contentPanel.add(text_Bank, "3, 5, fill, default");
-		}
-		{
-			JButton btnTransaction = new JButton("Transaction");
-			btnTransaction.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
-			btnTransaction.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					doBankTransaction();
-					
-				}
-			});
-			contentPanel.add(btnTransaction, "5, 5");
+			{
+				JLabel lblBank = new JLabel("Bank : ");
+				contentPanel.add(lblBank, "1, 6, right, default");
+			}
+			{
+				text_Bank = new JTextField();
+				text_Bank.setMinimumSize(new Dimension(6, 10));
+				text_Bank.setColumns(10);
+				contentPanel.add(text_Bank, "3, 6, fill, default");
+			}
 		}
 		{
 			JLabel lblStore = new JLabel("StoreValue : ");
-			contentPanel.add(lblStore, "11, 5, right, default");
+			contentPanel.add(lblStore, "11, 6, right, default");
 		}
 		{
 			text_StoreValue = new JTextField();
 			text_StoreValue.setMinimumSize(new Dimension(6, 10));
 			text_StoreValue.setColumns(10);
-			contentPanel.add(text_StoreValue, "13, 5, fill, default");
+			contentPanel.add(text_StoreValue, "13, 6, fill, default");
 		}
 		{
 			JButton btnNewButton = new JButton("Warehouse");
+			btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
 			btnNewButton.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					doWarehouseList();
 				}
 			});
-			contentPanel.add(btnNewButton, "17, 5");
+			contentPanel.add(btnNewButton, "17, 6");
 		}
 		{
-			JButton btnProduction = new JButton("Production");
-			btnProduction.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					doOverview();
-				}
-			});
-			{
-				JLabel lblRequired = new JLabel("Required : ");
-				contentPanel.add(lblRequired, "1, 7, right, default");
-			}
-			{
-				text_Required = new JTextField();
-				text_Required.setMinimumSize(new Dimension(6, 10));
-				text_Required.setColumns(10);
-				contentPanel.add(text_Required, "3, 7, fill, default");
-			}
-			btnProduction.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
-			contentPanel.add(btnProduction, "5, 7");
 		}
+		{
+			JLabel lblRequired = new JLabel("Required : ");
+			contentPanel.add(lblRequired, "1, 8, right, default");
+		}
+		{
+			text_Required = new JTextField();
+			text_Required.setMinimumSize(new Dimension(6, 10));
+			text_Required.setColumns(10);
+			contentPanel.add(text_Required, "3, 8, fill, default");
+		}
+		JButton btnProduction = new JButton("Production");
+		btnProduction.setHorizontalAlignment(SwingConstants.LEFT);
+		btnProduction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doOverview();
+			}
+		});
+		btnProduction.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+		contentPanel.add(btnProduction, "7, 8");
 		{
 			JLabel lblBuildings = new JLabel("Buildings");
-			contentPanel.add(lblBuildings, "11, 7, right, default");
+			contentPanel.add(lblBuildings, "11, 8, right, default");
 		}
 		{
 			text_BuildingSize = new JTextField();
 			text_BuildingSize.setMinimumSize(new Dimension(6, 10));
 			text_BuildingSize.setColumns(10);
-			contentPanel.add(text_BuildingSize, "13, 7, fill, default");
+			contentPanel.add(text_BuildingSize, "13, 8, fill, default");
 		}
 		{
 			JButton btnBuildings = new JButton("Buildings");
+			btnBuildings.setHorizontalAlignment(SwingConstants.LEFT);
 			btnBuildings.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnBuildings.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					doBuildingList();
 				}
 			});
-			contentPanel.add(btnBuildings, "17, 7");
+			contentPanel.add(btnBuildings, "17, 8");
 		}
 		{
-			JButton btnBuyorder = new JButton("BuyOrder");
-			btnBuyorder.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					doBuyOrderList();
+			JLabel lblBuyorder = new JLabel("BuyOrder : ");
+			contentPanel.add(lblBuyorder, "1, 10, right, default");
+		}
+		{
+			text_BuyOrder = new JTextField();
+			text_BuyOrder.setText("0");
+			text_BuyOrder.setMinimumSize(new Dimension(6, 10));
+			text_BuyOrder.setColumns(10);
+			contentPanel.add(text_BuyOrder, "3, 10, fill, default");
+		}
+		JButton btnBuyorder = new JButton("BuyOrder");
+		btnBuyorder.setHorizontalAlignment(SwingConstants.LEFT);
+		btnBuyorder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				doBuyOrderList();
+			}
+		});
+		btnBuyorder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+		contentPanel.add(btnBuyorder, "7, 10");
+		{
+			JLabel lbl_SellOrder = new JLabel("Sell Order");
+			contentPanel.add(lbl_SellOrder, "1, 12, right, default");
+		}
+		{
+			textSellOrder = new JTextField();
+			textSellOrder.setText("0");
+			contentPanel.add(textSellOrder, "3, 12, fill, default");
+			textSellOrder.setColumns(10);
+		}
+		{
+			JButton buttonSellOrder = new JButton("SellOrder");
+			buttonSellOrder.setHorizontalAlignment(SwingConstants.LEFT);
+			buttonSellOrder.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					//
+					doSellOrder();
 				}
 			});
 			{
-				JLabel lblBuyorder = new JLabel("BuyOrder : ");
-				contentPanel.add(lblBuyorder, "1, 8, right, default");
+				JButton btnTransport = new JButton("Transport");
+				btnTransport.setHorizontalAlignment(SwingConstants.LEFT);
+				btnTransport.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					//
+					}
+				});
+				btnTransport.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+				contentPanel.add(btnTransport, "5, 12");
 			}
+			buttonSellOrder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			contentPanel.add(buttonSellOrder, "7, 12");
+		}
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			contentPanel.add(scrollPane, "1, 16, 7, 1, fill, fill");
 			{
-				text_BuyOrder = new JTextField();
-				text_BuyOrder.setMinimumSize(new Dimension(6, 10));
-				text_BuyOrder.setColumns(10);
-				contentPanel.add(text_BuyOrder, "3, 8, fill, default");
+				table_1 = new JTable();
+				table_1.setModel(new DefaultTableModel(
+						new Object[][] { },
+						new String[] {"Material", "Day", "Week", "Storage"}
+					));
+				
+				scrollPane.setViewportView(table_1);
+				table_1.setFont(new Font("Courier New", Font.PLAIN, 10));
+
 			}
-			btnBuyorder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
-			contentPanel.add(btnBuyorder, "5, 8");
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Close");
+				JButton okButton = new JButton("Cancel");
 				okButton.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/delete.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -329,6 +389,12 @@ public class ShowSettle extends JDialog
 		
 	}
 	
+	private void doSellOrder()
+	{
+//		Object[][] dataRows = new Object[settle.getTrader().getOrders().size()][4];
+	}
+	
+	
 	
 	private void doBuyOrderList()
 	{
@@ -358,14 +424,14 @@ public class ShowSettle extends JDialog
 		int index = 0;
 		for (Building building : settle.getBuildingList().values())
 		{
-//			if (index <100)
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())>100)
 			{
 				dataRows[index][0] = building.getBuildingType().name();
 				dataRows[index][1] = String.valueOf(building.getSettler());
 				dataRows[index][2] = building.getWorkerNeeded();
 //				dataRows[index] = new Object[] {building.getBuildingType().name(), building.getSettler(), "0.0"};
+				index ++;
 			}
-			index ++;
 		}
 		String[] colHeader = new String[] {	"Building", "Beds", "Worker"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
@@ -403,32 +469,49 @@ public class ShowSettle extends JDialog
 		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
 	}
 
+	private void printRequired()
+	{
+		String[] colHeader = new String[] {"ID", "Material", "Amount" };
+		String[][] dataRows = new String[settle.getRequiredProduction().size()][3];
+		int index = 0;
+		for (Item item : settle.getRequiredProduction().values())
+		{
+//			if (index <100)
+			{
+				dataRows[index][0] = ConfigBasis.setStrright(index,3);
+				dataRows[index][1] = item.ItemRef();
+				dataRows[index][2] = ConfigBasis.setStrright(item.value() ,6);
+			}
+			index ++;
+		}
+		table_1.setModel(new DefaultTableModel(dataRows,colHeader));
+	}
+	
 	private void doOverview()
 	{
-		Object[][] dataRows = new Object[settle.getProductionOverview().size()][5];
+		String[][] dataRows = new String[settle.getProductionOverview().size()][5];
 		int index = 0;
 		for (BoardItem item : settle.getProductionOverview().values())
 		{
 //			if (index <100)
 			{
 				dataRows[index][0] = item.getName();
-				dataRows[index][1] = (int)item.getInputValue();
-				dataRows[index][2] = (int)item.getInputSum();
-				dataRows[index][3] = (int)item.getPeriodSum();
-				dataRows[index][4] = "";
+				dataRows[index][1] = ConfigBasis.setStrright(item.getInputValue(),5);
+				dataRows[index][2] = ConfigBasis.setStrright(item.getInputSum(),6);
+				dataRows[index][3] = ConfigBasis.setStrright(item.getPeriodSum(),7);
+				dataRows[index][4] = ConfigBasis.setStrright(settle.getWarehouse().getItemList().getValue(item.getName()),6);
 			}
 			index ++;
 		}
-		String[] colHeader = new String[] {	"Items", "Last","Month","Year"," "};		
+		String[] colHeader =new String[] {"Material", "Last", "Sum", "Period", "Storage"};
+
 		@SuppressWarnings("rawtypes")
-		Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, String.class};
+		Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, Integer.class};
+		
+		
+
 		OverviewList.showMe(dataRows, columnTypes, colHeader, "Production Overview");
 		
-	}
-	
-	private void doBankTransaction()
-	{
-		BankTransActionList.showMe(settle.getBank());
 	}
 	
 	private void closeDialog()

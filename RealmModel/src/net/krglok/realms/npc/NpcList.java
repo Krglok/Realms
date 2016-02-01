@@ -1,6 +1,9 @@
 package net.krglok.realms.npc;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 import net.krglok.realms.unit.UnitList;
 import net.krglok.realms.unit.UnitType;
@@ -547,4 +550,18 @@ public class NpcList extends HashMap<Integer, NpcData>
 		return subList;
 	}
 
+	public ArrayList<Integer> sortIntegerList(Set<Integer> set)
+	{
+		ArrayList<Integer> sortedItems = new ArrayList<Integer>();
+		for (Integer s : set)
+		{
+			sortedItems.add(s);
+		} 
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort(sortedItems);
+		}
+		return sortedItems;
+	}
+	
 }

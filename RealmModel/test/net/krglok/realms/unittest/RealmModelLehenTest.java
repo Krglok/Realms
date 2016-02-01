@@ -355,14 +355,14 @@ public class RealmModelLehenTest {
 		}
 		
 		rModel.getData().getBuildings().getBuilding(801).setMaxTrain(1);
-		rModel.getData().getBuildings().getBuilding(801).setTrainCounter(3);
+//		rModel.getData().getBuildings().getBuilding(801).setTrainCounter(3);
 		String world = "DRASKORIA";
 		// Eine Tagessimulation
 		simDayCycle(world, rModel);
 		simDayCycle(world, rModel);
-//		simDayCycle(world, rModel);
-//		simDayCycle(world, rModel);
-//		simDayCycle(world, rModel);
+		simDayCycle(world, rModel);
+		simDayCycle(world, rModel);
+		simDayCycle(world, rModel);
 //		simDayCycle(world, rModel);
 //		simDayCycle(world, rModel);
 //		simDayCycle(world, rModel);

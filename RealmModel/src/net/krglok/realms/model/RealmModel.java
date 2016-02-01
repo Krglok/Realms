@@ -779,6 +779,7 @@ public class RealmModel
 				break;
 			case HIRESETTLER:
 				command.execute();
+				commandQueue.remove(command);
 				break;
 			case WITHDRAWWAREHOUSE:
 				break;

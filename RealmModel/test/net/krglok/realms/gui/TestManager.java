@@ -4,6 +4,8 @@ package net.krglok.realms.gui;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.JProgressBar;
+
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.ConfigBasis;
@@ -30,27 +32,32 @@ import org.bukkit.entity.Player;
 
 public class TestManager
 {
-	String dataFolder  = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms"; 
-	DataStorage data = new DataStorage(dataFolder);
 	int dayCounter = 0;
 	int month;
 	private ServerTest server;
 	private ConfigTest config;
 	private MessageTest   msg;
 	RealmModel rModel;
-	Settlement settle;
+	DataStorage data; // = new DataStorage(dataFolder);
 
 	
 	
-	public TestManager()
+	public TestManager(String dataFolder)
 	{
-		ServerTest server = new ServerTest(data);
 		LogList logTest = new LogList(dataFolder);
-		DataTest testData = new DataTest();
 		config = new ConfigTest();
+		config.initConfigData();
+		config.initRegionBuilding();
+		config.initSuperSettleTypes();
+		int realmCounter = config.getRealmCounter();
+		int settlementCounter = config.getSettlementCounter();
+		data = new DataStorage(dataFolder);
+		data.initData();
+		ServerTest server = new ServerTest(data);
+
 		msg = new MessageTest();
-		rModel = new RealmModel(0, 0, server, config, data, msg); //, logTest);
-    	rModel.OnEnable();
+		rModel = new RealmModel(realmCounter, settlementCounter, server, config, data, msg); //, logTest);
+//    	rModel.OnEnable();
 		
 	}
 
@@ -273,112 +280,149 @@ public class TestManager
 		}
 
 	}
-
-	private void doDayLoop(RealmModel rModel)
+	
+	private void simDayCycle(String world, RealmModel rModel, JProgressBar progressBar)
 	{
-		for (int i = 0; i < 100; i++)
+		int j = 1;
+		int maxTick = 1200;
+		progressBar.setMaximum(maxTick);
+		progressBar.repaint();
+		System.out.println("simStart========================");
+		// es sind 1200 cyclen pro Tag
+		int l = 0;
+		for (int i = 0; i < maxTick; i++) 
 		{
-			rModel.OnTick();
-			
+			j++;
+		  // es ist 18:00 und produktionsberechnung
+		  if (i == 900)
+		  {
+			  System.out.println("Production Start");
+			  rModel.OnProduction(world);
+		  } else
+		  {
+			  rModel.OnTick();
+		  }
+		  progressBar.setValue(j);
+   		progressBar.repaint();
+		  if (rModel.getData().writeCache.size() > 0)
+		  {
+			  rModel.getData().writeCache.run();
+		  }
+//		  System.out.print(">");
+		  l++;
+		  if (l > 80) { l= 0; System.out.println(""); }
 		}
-		rModel.OnProduction("SteamHaven");
-		dayCounter++;
-		if ((dayCounter % 30) == 0)
+		// der Cache muss geleert werden
+		progressBar.setMaximum(maxTick+rModel.getData().writeCache.size());
+		progressBar.repaint();
+		while (rModel.getData().writeCache.size() > 0)
 		{
-			rModel.OnTax();
-			System.out.println(":");
+			j++;
+			progressBar.setValue(j);
+			progressBar.repaint();
+//			  System.out.print(".");
+			  rModel.getData().writeCache.run();
+			  l++;
+			  if (l > 80) { l= 0; } //System.out.println(""); }
 		}
-		
+//		System.out.println("");
+		System.out.println("simEnd  after "+maxTick+" cycles");
 	}
 
-	private void doLoop(RealmModel rModel, int maxDays)
+
+	public void doDayLoop(RealmModel rModel, JProgressBar progressBar)
+	{
+		simDayCycle("DRASKORIA", rModel, progressBar);		
+	}
+
+	private void doLoop(RealmModel rModel, int maxDays, JProgressBar progressBar)
 	{
 		for (int i = 0; i <= maxDays; i++)
 		{
-			doDayLoop( rModel);
+			doDayLoop( rModel, progressBar);
 			System.out.print("=");
 		}
 	}
 	
-	public void doLoop35(int settleId)
+	public void doLoop35(int settleId, JProgressBar progressBar)
 	{
-		doLoop(rModel, 35);
+		doLoop(rModel, 35,progressBar);
 	}
 
 	public void doColonist(int settleId)
 	{
-		settle = rModel.getSettlements().getSettlement(settleId);
-		String name = "NewColonist";
-		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
-		String owner = "NPC1";
-		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
-		rModel.OnCommand(colonistCommand);
-		doLoop(rModel, 5);
+//		settle = rModel.getSettlements().getSettlement(settleId);
+//		String name = "NewColonist";
+//		LocationData centerPos = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
+//		String owner = "NPC1";
+//		McmdColonistCreate colonistCommand = new McmdColonistCreate(rModel, name, centerPos, owner);
+//		rModel.OnCommand(colonistCommand);
+//		doLoop(rModel, 5);
 
 	}
 	
 	
 	public void dosellNext(int settleId)
 	{
-		settle = rModel.getSettlements().getSettlement(settleId);
-		String itemRef = "WOOL";
-		int value = 500;
-		double price = data.getPriceList().getBasePrice(itemRef);
-		int delayDays = 10;
-		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
-		rModel.OnCommand(sellNext);
-		doLoop(rModel, 5);
+//		settle = rModel.getSettlements().getSettlement(settleId);
+//		String itemRef = "WOOL";
+//		int value = 500;
+//		double price = data.getPriceList().getBasePrice(itemRef);
+//		int delayDays = 10;
+//		McmdSellOrder sellNext = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
+//		rModel.OnCommand(sellNext);
+//		doLoop(rModel, 5);
 
 	}
 	
 	public void doBuyLog(int settleId)
 	{
-		settle = rModel.getSettlements().getSettlement(settleId);
-		String itemRef = "LOG";
-		int value = 500;
-		double price = data.getPriceList().getBasePrice(itemRef);
-		int delayDays = 10;
-		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays,settle.getSettleType());
-		rModel.OnCommand(buyCommand);
-		doLoop(rModel, 5);
+//		settle = rModel.getSettlements().getSettlement(settleId);
+//		String itemRef = "LOG";
+//		int value = 500;
+//		double price = data.getPriceList().getBasePrice(itemRef);
+//		int delayDays = 10;
+//		McmdBuyOrder buyCommand = new McmdBuyOrder(rModel, settleId, itemRef, value, price, delayDays,settle.getSettleType());
+//		rModel.OnCommand(buyCommand);
+//		doLoop(rModel, 5);
 
 	}
 	
 	public void doSellWheat(int settleId)
 	{
-		settle = rModel.getSettlements().getSettlement(settleId);
-		String itemRef = "WHEAT";
-		int value = 500;
-		double price = data.getPriceList().getBasePrice(itemRef);
-		int delayDays = 10;
-		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
-		rModel.OnCommand(sellCommand);
-		doLoop(rModel, 5);
+//		settle = rModel.getSettlements().getSettlement(settleId);
+//		String itemRef = "WHEAT";
+//		int value = 500;
+//		double price = data.getPriceList().getBasePrice(itemRef);
+//		int delayDays = 10;
+//		McmdSellOrder sellCommand = new McmdSellOrder(rModel, settleId, itemRef, value, price, delayDays);
+//		rModel.OnCommand(sellCommand);
+//		doLoop(rModel, 5);
 
 	}
 
 	public void doBuildCommand(int settleId)
 	{
-		settle = rModel.getSettlements().getSettlement(settleId);
-		BuildPlanType bType = BuildPlanType.HOME;
-		LocationData position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
-		Player player = null;
-		McmdBuilder builderCommand    = new McmdBuilder(rModel, settleId, bType, position, player);
-		rModel.OnCommand(builderCommand);
-		doLoop(rModel, 5);
+//		settle = rModel.getSettlements().getSettlement(settleId);
+//		BuildPlanType bType = BuildPlanType.HOME;
+//		LocationData position = new LocationData("SteamHaven", 0.0, 0.0, 0.0);
+//		Player player = null;
+//		McmdBuilder builderCommand    = new McmdBuilder(rModel, settleId, bType, position, player);
+//		rModel.OnCommand(builderCommand);
+//		doLoop(rModel, 5);
 
 	}
 	
 	public void doBankCommand(int settleId)
 	{
-		settle = rModel.getSettlements().getSettlement(settleId);
-
-		double expected = settle.getBank().getKonto();
-		double amount = 1000;
-		String userName = "TestUser";
-		McmdDepositeBank bankCommand = new McmdDepositeBank(rModel, settleId, amount , userName );
-		rModel.OnCommand(bankCommand);
-		doLoop(rModel, 5);
+//		settle = rModel.getSettlements().getSettlement(settleId);
+//
+//		double expected = settle.getBank().getKonto();
+//		double amount = 1000;
+//		String userName = "TestUser";
+//		McmdDepositeBank bankCommand = new McmdDepositeBank(rModel, settleId, amount , userName );
+//		rModel.OnCommand(bankCommand);
+//		doLoop(rModel, 5);
 		
 	}
 	
@@ -392,9 +436,9 @@ public class TestManager
 	public void testSettleMgrModel(int settleId)
 	{
 		// load settlement for test
-		settle = rModel.getSettlements().getSettlement(settleId);
+		Settlement settle = rModel.getSettlements().getSettlement(settleId);
 		// do production loops
-		doLoop(rModel, 5);
+//		doLoop(rModel, 5);
 
 		// make analysis data
 		System.out.println("");

@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
+import javax.swing.ImageIcon;
 
 public class ListEditor extends JDialog
 {
@@ -75,7 +76,7 @@ public class ListEditor extends JDialog
 	public ListEditor()
 	{
 		addWindowListener( new AreYouSure() );
-		setBounds(100, 100, 564, 408);
+		setBounds(100, 100, 566, 411);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -106,6 +107,7 @@ public class ListEditor extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setIcon(new ImageIcon(ListEditor.class.getResource("/net/krglok/realms/gui/check.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						doOK();
@@ -117,6 +119,7 @@ public class ListEditor extends JDialog
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setIcon(new ImageIcon(ListEditor.class.getResource("/net/krglok/realms/gui/error.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						doCancel();
