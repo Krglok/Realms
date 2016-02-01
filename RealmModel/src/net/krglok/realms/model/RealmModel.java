@@ -179,6 +179,10 @@ public class RealmModel
 		return modelStatus;
 	}
 	
+	public MessageInterface getMessageData() {
+		return messageData;
+	}
+
 	public CommandQueue getcommandQueue()
 	{
 		return commandQueue;

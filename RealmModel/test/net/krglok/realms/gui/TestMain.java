@@ -87,7 +87,9 @@ public class TestMain
 	private JTextField text_Loops;
 	private JTable table;
 	private JProgressBar progressBar;
+	private Runnable runProgress;
 	private JTextField txtListtitel;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -445,6 +447,7 @@ public class TestMain
 		progressBar = new JProgressBar();
 		panel.add(progressBar, "2, 2, 3, 1");
 		
+
 		JLabel lblNewLabel = new JLabel("LoopCounter : ");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		panel.add(lblNewLabel, "6, 2, left, default");
@@ -477,7 +480,7 @@ public class TestMain
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel.add(scrollPane_1, "12, 4, fill, fill");
 		
-		table = new JTable();
+		JTable table = new JTable();
 		table.setFont(new Font("Courier New", Font.PLAIN, 9));
 		table.setModel(new DefaultTableModel(
 			dataRows,
@@ -498,7 +501,7 @@ public class TestMain
 	  private static void updateTextArea(final String text) {
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {
-			textArea.append(text);
+//			textArea.append(text);
 	      }
 	    });
 	  }
@@ -922,5 +925,7 @@ public class TestMain
 	{
 		text_Loops.setText(String.valueOf(managerTest.dayCounter));
 	}
+
+	
 	
 }

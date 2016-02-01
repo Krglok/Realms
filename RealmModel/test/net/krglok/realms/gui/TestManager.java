@@ -1,6 +1,7 @@
 package net.krglok.realms.gui;
 
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -281,12 +282,26 @@ public class TestManager
 
 	}
 	
-	private void simDayCycle(String world, RealmModel rModel, JProgressBar progressBar)
+	private void simDayCycle(String world, RealmModel rModel, final JProgressBar progressBar)
 	{
+
 		int j = 1;
 		int maxTick = 1200;
+		
 		progressBar.setMaximum(maxTick);
-		progressBar.repaint();
+		progressBar.setForeground(Color.green);
+//		Runnable runProgress = new Runnable() {
+//		    public void run() 
+//		    {
+//		        // Als Beispiel für eine
+//		        // rechenintensive Operation
+//		        try { Thread.sleep(100); } 
+//		        catch (InterruptedException ex) {}
+//		        progressBar.repaint();
+//		   }
+//		};
+//		Thread thread = new Thread(runProgress);
+//	    thread.start();
 		System.out.println("simStart========================");
 		// es sind 1200 cyclen pro Tag
 		int l = 0;
@@ -303,7 +318,7 @@ public class TestManager
 			  rModel.OnTick();
 		  }
 		  progressBar.setValue(j);
-   		progressBar.repaint();
+		  progressBar.paint(progressBar.getGraphics());   		
 		  if (rModel.getData().writeCache.size() > 0)
 		  {
 			  rModel.getData().writeCache.run();
@@ -315,18 +330,24 @@ public class TestManager
 		// der Cache muss geleert werden
 		progressBar.setMaximum(maxTick+rModel.getData().writeCache.size());
 		progressBar.repaint();
+		progressBar.setForeground(Color.YELLOW);
 		while (rModel.getData().writeCache.size() > 0)
 		{
 			j++;
 			progressBar.setValue(j);
-			progressBar.repaint();
+			
 //			  System.out.print(".");
 			  rModel.getData().writeCache.run();
 			  l++;
-			  if (l > 80) { l= 0; } //System.out.println(""); }
+			  if (l > 80) 
+			  { 
+				  l= 0;
+				  progressBar.paint(progressBar.getGraphics());
+			  } //System.out.println(""); }
 		}
 //		System.out.println("");
 		System.out.println("simEnd  after "+maxTick+" cycles");
+		progressBar.setValue(1);
 	}
 
 

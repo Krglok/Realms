@@ -1,4 +1,4 @@
-package net.krglok.realms.gui;
+
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -18,6 +18,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import net.krglok.realms.core.Item;
+import net.krglok.realms.gui.InteractiveTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class ListEditor extends JDialog
 {
@@ -75,6 +77,7 @@ public class ListEditor extends JDialog
 	 */
 	public ListEditor()
 	{
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListEditor.class.getResource("/net/krglok/realms/gui/achiev_1.png")));
 		addWindowListener( new AreYouSure() );
 		setBounds(100, 100, 566, 411);
 		getContentPane().setLayout(new BorderLayout());
