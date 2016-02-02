@@ -18,6 +18,14 @@ import javax.swing.table.TableColumn;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 
+/**
+ * Nonvisual Prototype for DataList.
+ * Not used yet.
+ * 
+ * @author olaf.duda
+ *
+ */
+
 public class InteractiveForm extends JPanel
 {
     /**

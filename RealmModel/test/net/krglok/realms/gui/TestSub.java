@@ -24,6 +24,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Prototyp for 2D Graphic
+ * 
+ * 
+ * @author olaf.duda
+ *
+ */
+
 public class TestSub extends JFrame
 {
 

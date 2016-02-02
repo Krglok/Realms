@@ -20,6 +20,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.ImageIcon;
 
+/**
+ * Show the internal MessageList of the bank object.
+ * @author olaf.duda
+ *
+ */
 public class BankTransActionList extends JDialog
 {
 

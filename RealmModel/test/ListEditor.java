@@ -28,6 +28,14 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 
+/**
+ * Prototyp for List Editor
+ * not used yet
+ * 
+ * @author olaf.duda
+ *
+ */
+
 public class ListEditor extends JDialog
 {
 

@@ -69,6 +69,22 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.awt.FlowLayout;
 import javax.swing.JProgressBar;
 
+/**
+ * <pre>
+ * GUI for Testrunning of RealmModel.
+ * The GUI show many persistant plugin data shwon as List/Detail Forms 
+ * as JDialog.
+ * The Testrun (Loop) do OnTick for a Gameday (1200 OnTick) and a single
+ * OnProduce Tick.
+ * After the loop is ended the CacheLoop runs until all Data in chache are
+ * write to the SQL-Database.  
+ *  
+ * 
+ * @author olaf.duda
+ *
+ *</pre>
+ */
+
 public class TestMain
 {
 
