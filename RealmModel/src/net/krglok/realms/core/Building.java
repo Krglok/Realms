@@ -300,12 +300,17 @@ public class Building  implements Serializable
 			trainTime = 5; // es sind 5 productionZyklen = 5 inGameTage gemeint
 			return UnitType.MILITIA ;
 		case BARRACK :
-			trainTime = 5; // es sind 5 productionZyklen = 5 inGameTage gemeint
+			trainTime = 10; // es sind 5 productionZyklen = 5 inGameTage gemeint
 			return UnitType.LIGHT_INFANTRY ;
 		case ARCHERY :
 			trainTime = 5; // es sind 5 productionZyklen = 5 inGameTage gemeint
 			return UnitType.ARCHER ;
-			
+		case CASERN :
+			trainTime = 15;
+			return UnitType.HEAVY_INFANTRY;
+		case TOWER :
+			trainTime = 20;
+			return UnitType.CAVALRY;
 		default :
 			return UnitType.NONE;
 		}
@@ -317,6 +322,7 @@ public class Building  implements Serializable
 		{
 		case NONE : return 0;
 		case ARCHERY : return 1;
+		case ARMOURER : return 4;
 		case AXESHOP : return 2;
 		case BAKERY : return 1;
 		case BIBLIOTHEK : return 1;
@@ -329,6 +335,7 @@ public class Building  implements Serializable
 		case COWSHED : return 1;
 		case CARPENTER : return 2;
 		case CABINETMAKER : return 5;
+		case CHAINMAKER : return 4;
 		case DIAMONDMINE : return 10;
 		case DEFENSETOWER : return 1;
 		case FARMHOUSE : return 2;
@@ -344,6 +351,7 @@ public class Building  implements Serializable
 		case HOME : return 0;
 		case HOESHOP : return 1;
 		case HUNTER : return 2;
+		case HORSEBARN : return 1;
 		case KNIFESHOP : return 1;
 		case LIBRARY : return 5;
 		case PICKAXESHOP : return 1;

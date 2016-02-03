@@ -1,0 +1,34 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuild.1
+- denyblockbreak.1
+- denyplayerinteract.1
+- periodicupkeep.1
+- denyfriendlyfire.1
+radius: 5
+requirements:
+- WORKBENCH.1
+- ANVIL.1
+- CHEST.2
+- WALL_SIGN.1
+- STONE.81
+- COBBLESTONE.81
+reagents:
+- GOLD_NUGGET.2
+upkeep:
+- BREAD.4
+- IRON_INGOT.22
+upkeep-chance: 0.001
+output:
+- CHAINMAIL_BOOTS.1
+- CHAINMAIL_CHESTPLATE.1
+- CHAINMAIL_HELMET.1
+- CHAINMAIL_LEGGINGS.1
+money-requirement: 8000.0
+upkeep-money-output: 0.0
+housing: 0
+power-drain: 0.0
+group: production
+biome: [] 
+description: Produce chainmail armor for CHAVALRY
