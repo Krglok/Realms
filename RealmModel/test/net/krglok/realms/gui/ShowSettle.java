@@ -26,8 +26,11 @@ import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
+import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
+import net.krglok.realms.model.RealmModel;
 
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -58,12 +61,13 @@ public class ShowSettle extends JDialog
 	private JTextField text_Required;
 	private JTextField textSellOrder;
 	private JTable table_1;
+	private RealmModel rModel;
 	
 	/**
 	 * Launch the application.
 	 */
 	
-	public static void showMe(Settlement settle)
+	public static void showMe(Settlement settle, RealmModel rModel)
 	{
 		try
 		{
@@ -71,6 +75,7 @@ public class ShowSettle extends JDialog
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.settle = settle;
+			dialog.rModel = rModel;
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -302,6 +307,16 @@ public class ShowSettle extends JDialog
 				doBuyOrderList();
 			}
 		});
+		{
+			JButton btnSellorder = new JButton("SellOrder");
+			btnSellorder.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					doSellOrder();
+				}
+			});
+			btnSellorder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			contentPanel.add(btnSellorder, "5, 10");
+		}
 		btnBuyorder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnBuyorder, "7, 10");
 		{
@@ -315,20 +330,22 @@ public class ShowSettle extends JDialog
 			textSellOrder.setColumns(10);
 		}
 		{
-			JButton buttonSellOrder = new JButton("SellOrder");
+			JButton buttonSellOrder = new JButton("Overstock");
 			buttonSellOrder.setHorizontalAlignment(SwingConstants.LEFT);
 			buttonSellOrder.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//
-					doSellOrder();
+					doOverstock();
+//					doSellOrder();
 				}
 			});
 			{
-				JButton btnTransport = new JButton("Transport");
+				JButton btnTransport = new JButton("DontSell");
 				btnTransport.setHorizontalAlignment(SwingConstants.LEFT);
 				btnTransport.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 					//
+						doDontSell();
 					}
 				});
 				btnTransport.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
@@ -388,12 +405,76 @@ public class ShowSettle extends JDialog
 		text_Required.setText(String.valueOf(settle.getRequiredProduction().size()));
 		
 	}
+
+	private void doDontSell()
+	{
+//		Object[][] dataRows = new Object[settle.getTrader().getOrders().size()][4];
+		ItemList dontSell = settle.settleManager().getDontSell();
+		String[][] dataRows = new String[dontSell.size()][4];
+		int index = 0;
+		for (Item item : dontSell.values())
+		{
+//			if (index <100)
+			{
+				dataRows[index][0] = item.ItemRef();
+				dataRows[index][1] = String.valueOf(item.value());
+				dataRows[index][2] = String.valueOf(settle.getWarehouse().getItemList().getValue(item.ItemRef()));
+				dataRows[index][3] = "";
+			}
+			index ++;
+		}
+		String[] colHeader = new String[] {	"Item", "dontSell", "Stock"," "};
+		Class[] columnTypes = new Class[] {String.class, String.class, String.class, String.class};
+
+		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Overstock List");
+	}
 	
+	private void doOverstock()
+	{
+//		Object[][] dataRows = new Object[settle.getTrader().getOrders().size()][4];
+		ItemList overStock = settle.settleManager().getOverStock(rModel, settle);
+		String[][] dataRows = new String[overStock.size()][4];
+		int index = 0;
+		for (Item item : overStock.values())
+		{
+//			if (index <100)
+			{
+				dataRows[index][0] = item.ItemRef();
+				dataRows[index][1] = String.valueOf(item.value());
+				dataRows[index][2] = String.valueOf(settle.getWarehouse().getItemList().getValue(item.ItemRef()));
+				dataRows[index][3] = "";
+			}
+			index ++;
+		}
+		String[] colHeader = new String[] {	"Item", "overStock", "Stock"," "};
+		Class[] columnTypes = new Class[] {String.class, String.class, String.class, String.class};
+
+		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Overstock List");
+	}
+	
+
 	private void doSellOrder()
 	{
 //		Object[][] dataRows = new Object[settle.getTrader().getOrders().size()][4];
+		rModel.getTradeMarket().getSettleOrders(settle.getId(), settle.getSettleType());
+		String[][] dataRows = new String[rModel.getTradeMarket().getSettleOrders(settle.getId(), settle.getSettleType()).size()][4];
+		int index = 0;
+		for (TradeMarketOrder order : rModel.getTradeMarket().getSettleOrders(settle.getId(), settle.getSettleType()).values())
+		{
+//			if (index <100)
+			{
+				dataRows[index][0] = order.ItemRef();
+				dataRows[index][1] = String.valueOf(order.value());
+				dataRows[index][2] = String.valueOf(settle.getWarehouse().getItemList().getValue(order.ItemRef()));
+				dataRows[index][3] = "";
+			}
+			index ++;
+		}
+		String[] colHeader = new String[] {	"Item", "Amount", "Stock"," "};
+		Class[] columnTypes = new Class[] {String.class, String.class, String.class, String.class};
+
+		WarehouseList.showMe(dataRows, columnTypes, colHeader, "SellOrder List");
 	}
-	
 	
 	
 	private void doBuyOrderList()

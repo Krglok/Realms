@@ -499,7 +499,7 @@ public class BreedMain
 	{
 		try
 		{
-			ShowSettle.showMe(managerTest.rModel.getSettlements().getSettlement(settleId));
+//			ShowSettle.showMe(managerTest.rModel.getSettlements().getSettlement(settleId));
 		} catch (Exception e)
 		{
 			e.printStackTrace();

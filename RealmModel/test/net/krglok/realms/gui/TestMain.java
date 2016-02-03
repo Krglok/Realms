@@ -310,7 +310,7 @@ public class TestMain
 				{
 					textArea.append(settle.getMsg().get(i)+"\n");
 				}
-				ShowSettle.showMe(settle);
+				ShowSettle.showMe(settle,managerTest.rModel);
 				//	showSettleData();
 			}
 		});
@@ -377,7 +377,7 @@ public class TestMain
 					textArea.append(settle.getMsg().get(i)+"\n");
 				}
 				
-				ShowSettle.showMe(settle);
+				ShowSettle.showMe(settle,managerTest.rModel);
 			}
 		});
 		btn_Settle2.setToolTipText("Show the TestSettlement : "+managerTest.data.getSettlements().getSettlement(9).getName());

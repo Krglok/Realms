@@ -1,6 +1,7 @@
 package net.krglok.realms.manager;
 
 import net.krglok.realms.core.AbstractSettle;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
@@ -344,12 +345,13 @@ public class TradeManager
 			} 
 			if(Math.round(sellAmount * sellPrice) > MAX_VALUE)
 			{
-				sellAmount = (int) ((MAX_VALUE-Math.round(sellAmount * sellPrice)) / sellPrice);
+				
+				sellAmount = (int) (MAX_VALUE / sellPrice);    //((MAX_VALUE-Math.round(sellAmount * sellPrice)) / sellPrice);
 			}
 			sellOrder.setAmount(sellOrder.getAmount()-sellAmount);
 	
 			int id = rModel.getTradeMarket().nextLastNumber();
-	//		System.out.println("Market id : "+id);
+			settle.getMsg().add("SellOrder id : "+id+": "+sellOrder.getItemRef()+":"+sellAmount+":"+ConfigBasis.setStrformat2(sellPrice, 7));
 			TradeOrder order = new TradeOrder(id, TradeType.SELL, sellOrder.getItemRef(), sellAmount, sellPrice, SELL_DELAY, 0, TradeStatus.READY, settle.getPosition().getWorld(), 0,SettleType.NONE);
 			settle.getTrader().makeSellOrder(rModel.getTradeMarket(), settle, order);
 			sellOrder.setTarget(sellOrder.getTarget()+sellAmount);

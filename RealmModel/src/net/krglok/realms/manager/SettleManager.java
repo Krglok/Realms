@@ -333,7 +333,8 @@ public class SettleManager
 
 	private int getMinStorage(RealmModel rModel, Settlement settle, String itemRef)
 	{
-		int biomeFactor = Math.abs(rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef)));
+		int biomeFactor = rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef)); //Math.abs(
+		if (biomeFactor < 0) { biomeFactor = 1;}
 		int sellLimit = 0;
 		if (dontSell.containsKey(itemRef))
 		{
