@@ -1,7 +1,7 @@
 REGIMENT:
   '1':
     id: 1
-    age: 469
+    age: 482
     regimentType: RAIDER
     regStatus: IDLE
     position: SteamHaven:-310.0:65.0:-1077.0
@@ -16,7 +16,7 @@ REGIMENT:
     supportId: 0
     MaxUnit: 25
     warehouse:
-      itemCount: '84492'
+      itemCount: '84478'
       itemMax: '17280'
       isEnabled: 'false'
     itemList:
@@ -30,17 +30,16 @@ REGIMENT:
       GLOWSTONE: '1'
       WORKBENCH: '42'
       FENCE_GATE: '7'
-      GLOWSTONE_DUST: '6'
       STEP: '174'
-      WATER: '2639'
+      GLOWSTONE_DUST: '6'
       MOSSY_COBBLESTONE: '28'
+      WATER: '2639'
       COOKED_BEEF: '1273'
       SULPHUR: '2'
       WOOD_DOOR: '13'
       EXP_BOTTLE: '4'
       LADDER: '4'
       WOOD_STAIRS: '5'
-      BREAD: '2'
       WOOD: '7461'
       GOLD_ORE: '2'
       STONE_SWORD: '13'

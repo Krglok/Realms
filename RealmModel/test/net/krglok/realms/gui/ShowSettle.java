@@ -510,11 +510,11 @@ public class ShowSettle extends JDialog
 				dataRows[index][0] = building.getBuildingType().name();
 				dataRows[index][1] = String.valueOf(building.getSettler());
 				dataRows[index][2] = building.getWorkerNeeded();
-//				dataRows[index] = new Object[] {building.getBuildingType().name(), building.getSettler(), "0.0"};
+				dataRows[index][3] = building.isEnabled();
 				index ++;
 			}
 		}
-		String[] colHeader = new String[] {	"Building", "Beds", "Worker"};
+		String[] colHeader = new String[] {	"Building", "Beds", "Worker","Enabled"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 
 		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Building List");

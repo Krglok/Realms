@@ -290,21 +290,10 @@ public class TestManager
 		
 		progressBar.setMaximum(maxTick);
 		progressBar.setForeground(Color.green);
-//		Runnable runProgress = new Runnable() {
-//		    public void run() 
-//		    {
-//		        // Als Beispiel für eine
-//		        // rechenintensive Operation
-//		        try { Thread.sleep(100); } 
-//		        catch (InterruptedException ex) {}
-//		        progressBar.repaint();
-//		   }
-//		};
-//		Thread thread = new Thread(runProgress);
-//	    thread.start();
 		System.out.println("simStart========================");
 		// es sind 1200 cyclen pro Tag
 		int l = 0;
+		j = 1;
 		for (int i = 0; i < maxTick; i++) 
 		{
 			j++;
@@ -312,6 +301,7 @@ public class TestManager
 		  if (i == 900)
 		  {
 			  System.out.println("Production Start");
+			  rModel.OnProduction("SteamHaven");
 			  rModel.OnProduction(world);
 		  } else
 		  {
@@ -323,29 +313,28 @@ public class TestManager
 		  {
 			  rModel.getData().writeCache.run();
 		  }
-//		  System.out.print(">");
 		  l++;
 		  if (l > 80) { l= 0; System.out.println(""); }
 		}
 		// der Cache muss geleert werden
-		progressBar.setMaximum(maxTick+rModel.getData().writeCache.size());
-		progressBar.repaint();
+		j = 1;
+		progressBar.setMaximum(rModel.getData().writeCache.size());
+		progressBar.setValue(1);
 		progressBar.setForeground(Color.YELLOW);
+        progressBar.paint(progressBar.getGraphics());   		
 		while (rModel.getData().writeCache.size() > 0)
 		{
 			j++;
 			progressBar.setValue(j);
 			
-//			  System.out.print(".");
 			  rModel.getData().writeCache.run();
 			  l++;
-			  if (l > 80) 
+			  if (l > 10) 
 			  { 
 				  l= 0;
 				  progressBar.paint(progressBar.getGraphics());
-			  } //System.out.println(""); }
+			  } 
 		}
-//		System.out.println("");
 		System.out.println("simEnd  after "+maxTick+" cycles");
 		progressBar.setValue(1);
 	}

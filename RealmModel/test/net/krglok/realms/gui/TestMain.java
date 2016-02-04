@@ -348,11 +348,12 @@ public class TestMain
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						text_Loops.setText("1");
+						text_Loops.setText("Running");
+						text_Loops.paint(text_Loops.getGraphics());
 						managerTest.doDayLoop(managerTest.rModel, progressBar);
-						text_Loops.setText("0");
 						calendar.stepDay();
 						text_Loops.setText(calendar.getCalendarDateGer());
+						text_Loops.paint(text_Loops.getGraphics());
 					}
 				}
 		);
@@ -496,19 +497,12 @@ public class TestMain
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel.add(scrollPane_1, "12, 4, fill, fill");
 		
-		JTable table = new JTable();
+		table = new JTable();
 		table.setFont(new Font("Courier New", Font.PLAIN, 9));
 		table.setModel(new DefaultTableModel(
 			dataRows,
 			columnHeader
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(10);
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setPreferredWidth(30);
-		table.getColumnModel().getColumn(3).setPreferredWidth(45);
-		table.getColumnModel().getColumn(4).setPreferredWidth(45);
-//		table.getColumnModel().getColumn(5).setPreferredWidth(45);
-//		table.getColumnModel().getColumn(7).setPreferredWidth(45);
 		scrollPane_1.setViewportView(table);
 		
 	}
@@ -536,37 +530,35 @@ public class TestMain
 	{
 		try
 		{
-			
-			columnHeader = new String[] {"ID", "Von", "Nach", "Material", "Price","Tick"};
+			txtListtitel.setText("Trade Market");
+			columnHeader = new String[] {"ID", "Von", "Nach", "Material", "Amount","Price"};
 			int maxRow = managerTest.rModel.getTradeMarket().size();
-			dataRows = new  String[maxRow][columnHeader.length];
-//			table = new JTable();
-			table.setModel(new DefaultTableModel(
-				dataRows,
-				columnHeader
-			));
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(20);
-			table.getColumnModel().getColumn(2).setPreferredWidth(20);
-			table.getColumnModel().getColumn(3).setPreferredWidth(45);
-//			table.getColumnModel().getColumn(3).getCellRenderer().
-			table.getColumnModel().getColumn(4).setPreferredWidth(45);
-			table.getColumnModel().getColumn(5).setPreferredWidth(45);
-			int row = 0;
-			for (Integer orderId : managerTest.rModel.getTradeMarket().sortInteger())
+			if (maxRow > 0)
 			{
-				TradeMarketOrder order = managerTest.rModel.getTradeMarket().getOrder(orderId);
-				table.getModel().setValueAt(ConfigBasis.setStrright(order.getId(),3), row, 0);
-				table.getModel().setValueAt(ConfigBasis.setStrright(order.getSettleID(),3),row,1); 
-				table.getModel().setValueAt(ConfigBasis.setStrright(order.getTargetId() ,3),row,2); 
-				table.getModel().setValueAt(order.ItemRef() ,row,3);
-				table.getModel().setValueAt(ConfigBasis.setStrright(order.value(),3),row,4); 
-				table.getModel().setValueAt(ConfigBasis.setStrformat2(order.getBasePrice(),7),row,5); 
-//				table.getModel().setValueAt(order.isStarted() ,row,5); 
-//				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
-				row++;
+				dataRows = new  String[maxRow][columnHeader.length];
+				int row = 0;
+				for (Integer orderId : managerTest.rModel.getTradeMarket().sortInteger())
+				{
+					TradeMarketOrder order = managerTest.rModel.getTradeMarket().getOrder(orderId);
+					if ((order.getSettleID() == 9) || (order.getSettleID() == 4)
+						|| (order.getTargetId()== 9) || (order.getTargetId()== 4)
+							)
+					{
+						dataRows[row][0]= ConfigBasis.setStrright(order.getId(),3);
+						dataRows[row][1]= ConfigBasis.setStrright(order.getSettleID(),3); 
+						dataRows[row][2]= ConfigBasis.setStrright(order.getTargetId() ,3); 
+						dataRows[row][3]= order.ItemRef();
+						dataRows[row][4]= ConfigBasis.setStrright(order.value(),5); 
+						dataRows[row][5]= ConfigBasis.setStrformat2(order.getBasePrice(),9); 
+						row++;
+					}
+				}
+				table.setModel(new DefaultTableModel(dataRows,columnHeader));
+				table.getColumnModel().getColumn(0).setPreferredWidth(10);
+				table.getColumnModel().getColumn(1).setPreferredWidth(20);
+				table.getColumnModel().getColumn(2).setPreferredWidth(20);
+				table.setFont(new Font("Courier New", Font.PLAIN, 10));
 			}
-			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -581,32 +573,28 @@ public class TestMain
 			
 			columnHeader = new String[] {"ID", "Von", "Nach", "Material", "Price","Tick"};
 			int maxRow = managerTest.rModel.getTradeTransport().size();
-			dataRows = new  String[maxRow][columnHeader.length];
-//			table = new JTable();
-			table.setModel(new DefaultTableModel(
-				dataRows,
-				columnHeader
-			));
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(20);
-			table.getColumnModel().getColumn(2).setPreferredWidth(20);
-			table.getColumnModel().getColumn(3).setPreferredWidth(45);
-//			table.getColumnModel().getColumn(3).getCellRenderer().
-			table.getColumnModel().getColumn(4).setPreferredWidth(45);
-			table.getColumnModel().getColumn(5).setPreferredWidth(45);
-			int row = 0;
-			for ( TradeMarketOrder order : managerTest.rModel.getTradeTransport().values())
-			{
-				table.getModel().setValueAt(ConfigBasis.setStrright(order.getId(),3), row, 0);
-				table.getModel().setValueAt(ConfigBasis.setStrright(order.getSettleID(),3),row,1);; 
-				table.getModel().setValueAt(ConfigBasis.setStrright(order.getTargetId() ,3),row,2);; 
-				table.getModel().setValueAt(order.ItemRef() ,row,3);
-				table.getModel().setValueAt(ConfigBasis.setStrformat2(order.getBasePrice(),7),row,4); 
-				table.getModel().setValueAt(order.isStarted() ,row,5); 
-//				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
-				row++;
+			if (maxRow > 0)
+			{	
+				dataRows = new  String[maxRow][6];
+	//			table = new JTable();
+				int row = 0;
+				for ( TradeMarketOrder order : managerTest.rModel.getTradeTransport().values())
+				{
+					dataRows[row][0]= ConfigBasis.setStrright(order.getId(),3);
+					dataRows[row][1]= ConfigBasis.setStrright(order.getSettleID(),3); 
+					dataRows[row][2]= ConfigBasis.setStrright(order.getTargetId() ,3); 
+					dataRows[row][3]= order.ItemRef();
+					dataRows[row][4]= ConfigBasis.setStrright(order.value(),3); 
+					dataRows[row][5]= ConfigBasis.setStrformat2(order.getBasePrice(),7); 
+					row++;
+				}
+				DefaultTableModel tableModel = new DefaultTableModel(dataRows,columnHeader);
+				table.setModel(tableModel);
+				table.getColumnModel().getColumn(0).setPreferredWidth(10);
+				table.getColumnModel().getColumn(1).setPreferredWidth(20);
+				table.getColumnModel().getColumn(2).setPreferredWidth(20);
+				table.setFont(new Font("Courier New", Font.PLAIN, 10));
 			}
-			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -895,7 +883,7 @@ public class TestMain
 	
 	private  String[][] initDataRow()
 	{
-		 String[][] rows = new  String[10][5];
+		 String[][] rows = new  String[1][5];
 		 if (managerTest != null)
 		 {
 		 }
@@ -939,7 +927,7 @@ public class TestMain
 
 	private void setText()
 	{
-		text_Loops.setText(String.valueOf(managerTest.dayCounter));
+		text_Loops.setText(calendar.getCalendarDateGer());
 	}
 
 	
