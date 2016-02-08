@@ -5,7 +5,7 @@
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
         <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
+            private-accepted="true" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
@@ -19,22 +19,16 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Association
             destinationClassName="net.krglok.realms.gui.DataItemColumnList"
-            endpointName="columns" kind="Simple"/>
+            endpointName="columns" kind="Simple">
+            <Point x="484" y="415"/>
+            <Point x="486" y="487"/>
+        </Association>
         <Association
             destinationClassName="net.krglok.realms.gui.DataItemFieldDefList"
             endpointName="fieldDefs" kind="Simple"/>
         <Communication destinationClassName="net.krglok.realms.gui.DataItem"/>
     </Class>
-    <Class name="net.krglok.realms.gui.DataItemFieldDef" x="795" y="600">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
-    <Class name="net.krglok.realms.gui.DataItemFieldList" x="612" y="197">
+    <Class name="net.krglok.realms.gui.DataItemFieldDef" x="830" y="611">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -53,7 +47,10 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Association
             destinationClassName="net.krglok.realms.gui.DataItemColumnList"
-            endpointName="columns" kind="Simple"/>
+            endpointName="columns" kind="Simple">
+            <Point x="254" y="431"/>
+            <Point x="254" y="486"/>
+        </Association>
         <Association
             destinationClassName="net.krglok.realms.gui.DataItemFieldDefList"
             endpointName="fieldDefs" kind="Simple"/>
@@ -64,7 +61,17 @@
         <Communication destinationClassName="net.krglok.realms.gui.DataItemFieldList"/>
         <Communication destinationClassName="net.krglok.realms.gui.DataItemFieldDefList"/>
     </Class>
-    <Class name="net.krglok.realms.gui.DataItemFieldDefList" x="562" y="378">
+    <Class name="net.krglok.realms.gui.DataItemFieldList" x="612" y="197">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.gui.DataItemField"/>
+    </Class>
+    <Class name="net.krglok.realms.gui.DataItemColumn" x="553" y="601">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -82,10 +89,13 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
         <Association
+            destinationClassName="net.krglok.realms.gui.DataItemColumn"
+            endpointName="column" kind="Simple"/>
+        <Association
             destinationClassName="net.krglok.realms.gui.DataItemFieldDef"
             endpointName="fieldDef" kind="Simple"/>
     </Class>
-    <Class name="net.krglok.realms.gui.DataItemColumn" x="553" y="601">
+    <Class name="net.krglok.realms.gui.DataItemFieldDefList" x="562" y="378">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
