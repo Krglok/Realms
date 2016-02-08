@@ -2,9 +2,11 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.Bank;
 import net.krglok.realms.core.Barrack;
 import net.krglok.realms.core.BoardItem;
@@ -645,6 +647,7 @@ public class SettlementTest
 			
 		}
 		logTest.run();
+		
 
 		assertEquals(expected, actual, 0.1);
 

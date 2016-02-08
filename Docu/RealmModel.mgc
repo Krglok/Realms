@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ClassDiagram>
-    <Class name="net.krglok.realms.model.CommandQueue" x="346" y="661">
+    <Class name="net.krglok.realms.kingdom.Lehen" x="1025" y="494">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -9,7 +9,7 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="net.krglok.realms.core.TradeMarket" x="1228" y="546">
+    <Class name="net.krglok.realms.core.TradeTransport" x="636" y="887">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -18,7 +18,7 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="net.krglok.realms.core.TradeTransport" x="836" y="722">
+    <Class name="net.krglok.realms.core.TradeMarket" x="964" y="879">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -27,7 +27,7 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="net.krglok.realms.model.McmdBuilder" x="127" y="730">
+    <Class name="net.krglok.realms.model.CommandQueue" x="463" y="806">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -35,13 +35,19 @@
             private-accepted="false" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
-        <Extension destinationClassName="net.krglok.realms.model.iModelCommand"/>
-        <Association
-            destinationClassName="net.krglok.realms.model.RealmModel"
-            endpointName="rModel" kind="Simple"/>
-        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
     </Class>
     <Class name="net.krglok.realms.data.DataStorage" x="1628" y="38">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.kingdom.Lehen"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+    </Class>
+    <Class name="net.krglok.realms.model.iModelCommand" x="131" y="956">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -59,7 +65,7 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="net.krglok.realms.model.iModelCommand" x="131" y="956">
+    <Class name="net.krglok.realms.core.Settlement" x="1024" y="30">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -68,12 +74,12 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="net.krglok.realms.model.RealmModel" x="115" y="45">
+    <Class name="net.krglok.realms.model.RealmModel" x="128" y="-24">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
         <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
+            private-accepted="true" protected-accepted="false"
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
         <Association
@@ -83,17 +89,56 @@
             destinationClassName="net.krglok.realms.model.CommandQueue"
             endpointName="commandQueue" kind="Simple"/>
         <Association
+            destinationClassName="net.krglok.realms.core.Settlement"
+            endpointName="taxQueue" kind="Simple">
+            <Point x="709" y="280"/>
+            <Point x="845" y="280"/>
+        </Association>
+        <Association
+            destinationClassName="net.krglok.realms.core.Settlement"
+            endpointName="tradeQueue" kind="Simple">
+            <Point x="857" y="421"/>
+        </Association>
+        <Association
             destinationClassName="net.krglok.realms.core.TradeMarket"
             endpointName="tradeMarket" kind="Simple"/>
         <Association
+            destinationClassName="net.krglok.realms.core.Settlement"
+            endpointName="productionQueue" kind="Simple">
+            <Point x="848" y="349"/>
+        </Association>
+        <Association
             destinationClassName="net.krglok.realms.data.DataStorage"
-            endpointName="data" kind="Simple"/>
+            endpointName="data" kind="Simple">
+            <Point x="641" y="231"/>
+            <Point x="831" y="7"/>
+            <Point x="1306" y="11"/>
+        </Association>
         <Association
             destinationClassName="net.krglok.realms.model.ModelStatus"
             endpointName="modelStatus" kind="Simple"/>
-        <Communication destinationClassName="net.krglok.realms.core.TradeTransport"/>
+        <Association
+            destinationClassName="net.krglok.realms.kingdom.Lehen"
+            endpointName="lehenProductionQueue" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.kingdom.Lehen"/>
         <Communication destinationClassName="net.krglok.realms.core.TradeMarket"/>
+        <Communication destinationClassName="net.krglok.realms.core.TradeTransport"/>
         <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
         <Communication destinationClassName="net.krglok.realms.model.iModelCommand"/>
+        <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+    </Class>
+    <Class name="net.krglok.realms.model.McmdBuilder" x="133" y="767">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="net.krglok.realms.model.iModelCommand"/>
+        <Association
+            destinationClassName="net.krglok.realms.model.RealmModel"
+            endpointName="rModel" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.data.DataStorage"/>
     </Class>
 </ClassDiagram>

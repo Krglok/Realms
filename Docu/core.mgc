@@ -53,9 +53,11 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
         <Communication destinationClassName="net.krglok.realms.core.Warehouse"/>
+        <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
         <Communication destinationClassName="net.krglok.realms.core.Item"/>
         <Communication destinationClassName="net.krglok.realms.core.Bank"/>
         <Communication destinationClassName="net.krglok.realms.core.Settlement"/>
+        <Communication destinationClassName="net.krglok.realms.core.SettleType"/>
         <Communication destinationClassName="net.krglok.realms.core.ItemList"/>
         <Communication destinationClassName="net.krglok.realms.core.LocationData"/>
     </Class>
@@ -77,19 +79,13 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="net.krglok.realms.core.AbstractSettle"/>
-        <Association
-            destinationClassName="net.krglok.realms.core.LocationData"
-            endpointName="position" kind="Simple"/>
         <Association destinationClassName="net.krglok.realms.core.Item"
             endpointName="treasureList" kind="Simple"/>
-        <Association destinationClassName="net.krglok.realms.core.Owner"
-            endpointName="owner" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.Townhall"
             endpointName="townhall" kind="Simple"/>
-        <Association
-            destinationClassName="net.krglok.realms.core.Trader"
-            endpointName="trader" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.core.Owner"
+            endpointName="owner" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.BoardItemList"
             endpointName="taxOverview" kind="Simple"/>
@@ -105,8 +101,8 @@
         <Communication destinationClassName="net.krglok.realms.core.Townhall"/>
         <Communication destinationClassName="net.krglok.realms.core.Owner"/>
         <Communication destinationClassName="net.krglok.realms.core.ItemList"/>
-        <Communication destinationClassName="net.krglok.realms.core.LocationData"/>
         <Communication destinationClassName="net.krglok.realms.unit.UnitList"/>
+        <Communication destinationClassName="net.krglok.realms.core.LocationData"/>
     </Class>
     <Class name="net.krglok.realms.unit.Regiment" x="320" y="1394">
         <AttributesDisplayFilter public-accepted="true"
@@ -119,31 +115,28 @@
         <Extension destinationClassName="net.krglok.realms.core.AbstractSettle">
             <Point x="452" y="828"/>
         </Extension>
-        <Association
-            destinationClassName="net.krglok.realms.core.LocationData"
-            endpointName="position" kind="Simple"/>
+        <Association destinationClassName="net.krglok.realms.core.Owner"
+            endpointName="owner" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.LocationData"
             endpointName="target" kind="Simple"/>
-        <Association destinationClassName="net.krglok.realms.core.Owner"
-            endpointName="owner" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.unit.RegimentStatus"
             endpointName="regStatus" kind="Simple"/>
         <Association
-            destinationClassName="net.krglok.realms.unit.RegimentType"
-            endpointName="regimentType" kind="Simple"/>
-        <Association
             destinationClassName="net.krglok.realms.core.Settlement"
             endpointName="raidTarget" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.unit.RegimentType"
+            endpointName="regimentType" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.BoardItemList"
             endpointName="battleOverview" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.LocationData"
             endpointName="homePosition" kind="Simple"/>
-        <Communication destinationClassName="net.krglok.realms.core.Resident"/>
         <Communication destinationClassName="net.krglok.realms.core.Barrack"/>
+        <Communication destinationClassName="net.krglok.realms.core.Resident"/>
         <Communication destinationClassName="net.krglok.realms.core.Warehouse"/>
         <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
         <Communication destinationClassName="net.krglok.realms.core.Item"/>
@@ -174,17 +167,16 @@
             <Point x="102" y="1826"/>
             <Point x="102" y="372"/>
         </Extension>
-        <Association
-            destinationClassName="net.krglok.realms.core.LocationData"
-            endpointName="position" kind="Simple"/>
         <Association destinationClassName="net.krglok.realms.core.Owner"
             endpointName="owner" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.Trader"
             endpointName="trader" kind="Simple"/>
-        <Communication destinationClassName="net.krglok.realms.core.Resident"/>
         <Communication destinationClassName="net.krglok.realms.core.Barrack"/>
+        <Communication destinationClassName="net.krglok.realms.core.Resident"/>
+        <Communication destinationClassName="net.krglok.realms.core.Warehouse"/>
         <Communication destinationClassName="net.krglok.realms.core.AbstractSettle"/>
+        <Communication destinationClassName="net.krglok.realms.core.Bank"/>
         <Communication destinationClassName="net.krglok.realms.core.Owner"/>
         <Communication destinationClassName="net.krglok.realms.core.ItemList"/>
         <Communication destinationClassName="net.krglok.realms.unit.UnitList"/>
@@ -224,6 +216,9 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
         <Association
+            destinationClassName="net.krglok.realms.core.LocationData"
+            endpointName="position" kind="Simple"/>
+        <Association
             destinationClassName="net.krglok.realms.core.ItemList"
             endpointName="requiredProduction" kind="Simple"/>
         <Association
@@ -232,22 +227,25 @@
         <Association destinationClassName="net.krglok.realms.core.Bank"
             endpointName="bank" kind="Simple"/>
         <Association
+            destinationClassName="net.krglok.realms.core.Trader"
+            endpointName="trader" kind="Simple"/>
+        <Association
             destinationClassName="net.krglok.realms.core.Warehouse"
             endpointName="warehouse" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.Barrack"
             endpointName="barrack" kind="Simple"/>
         <Association
-            destinationClassName="net.krglok.realms.core.SettleType"
-            endpointName="settleType" kind="Simple"/>
+            destinationClassName="net.krglok.realms.core.BuildingList"
+            endpointName="buildingList" kind="Simple"/>
         <Association
             destinationClassName="net.krglok.realms.core.Resident"
             endpointName="resident" kind="Simple"/>
         <Association
-            destinationClassName="net.krglok.realms.core.BuildingList"
-            endpointName="buildingList" kind="Simple"/>
-        <Communication destinationClassName="net.krglok.realms.core.Barrack"/>
+            destinationClassName="net.krglok.realms.core.SettleType"
+            endpointName="settleType" kind="Simple"/>
         <Communication destinationClassName="net.krglok.realms.core.Resident"/>
+        <Communication destinationClassName="net.krglok.realms.core.Barrack"/>
         <Communication destinationClassName="net.krglok.realms.core.Warehouse"/>
         <Communication destinationClassName="net.krglok.realms.core.Item"/>
         <Communication destinationClassName="net.krglok.realms.core.Bank"/>
@@ -282,15 +280,6 @@
             default-accepted="false" static-accepted="false"
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
-    <Class name="net.krglok.realms.core.SettleType" x="130" y="400">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
     <Class name="net.krglok.realms.core.ItemList" x="720" y="778">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
@@ -301,7 +290,7 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Communication destinationClassName="net.krglok.realms.core.Item"/>
     </Class>
-    <Class name="net.krglok.realms.core.LocationData" x="910" y="1978">
+    <Class name="net.krglok.realms.core.SettleType" x="130" y="400">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>
@@ -311,6 +300,15 @@
             accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class name="net.krglok.realms.unit.UnitList" x="1284" y="114">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.core.LocationData" x="910" y="1978">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
             default-accepted="true" static-accepted="false"/>

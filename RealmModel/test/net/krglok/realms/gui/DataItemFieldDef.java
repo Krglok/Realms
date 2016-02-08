@@ -2,43 +2,47 @@ package net.krglok.realms.gui;
 
 public class DataItemFieldDef 
 {
+
+	protected int id; 
 	protected String fieldName;
 	protected String fieldType;
 	
 	/**
 	 * 
 	 */
-	public DataItemFieldDef()
+	public DataItemFieldDef(int id)
 	{
+		this.id = id;
 		this.fieldName = "";
 		this.fieldType = "";
 	}
 
 	/**
+	 * Zum synchronisieren von Field.id und FieldDef.id wird ie ID übergeben;
 	 * 
+	 * @param id
 	 * @param fieldName
 	 * @param fieldTyp
 	 * @param fieldTitel
 	 * @param fieldWidth
 	 */
-	public DataItemFieldDef(String fieldName, String fieldTyp, String fieldTitel, int fieldWidth)
+	public DataItemFieldDef(int id, String fieldName, String fieldTyp)
 	{
+		this.id = id;
 		this.fieldName = fieldName;
 		this.fieldType = fieldTyp;
 	}
 	
-	/**
-	 * 
-	 * @param fieldName
-	 * @param fieldTyp
-	 * @param fieldTitel
-	 */
-	public DataItemFieldDef(String fieldName, String fieldTyp, String fieldTitel)
+	public int getId()
 	{
-		this.fieldName = fieldName;
-		this.fieldType = fieldTyp;
+		return id;
 	}
-
+	
+	public void setId(int id)
+	{
+		this.id = id;
+	}
+	
 	public String getFieldName() {
 		return fieldName;
 	}
@@ -53,7 +57,7 @@ public class DataItemFieldDef
 
 	public void setFieldType(String fieldType) 
 	{
-		if( String.class.getName()==fieldType)
+		if( String.class.getName().equalsIgnoreCase(fieldType))
 		{
 			
 		} else
@@ -61,11 +65,11 @@ public class DataItemFieldDef
 		{
 			
 		} else
-		if( double.class.getName() == fieldType)
+		if( double.class.getName().equalsIgnoreCase(fieldType))
 		{
 			
 		} else
-		if(Boolean.class.getName() == fieldType)
+		if(Boolean.class.getName().equalsIgnoreCase(fieldType))
 		{
 			
 		} else
@@ -75,6 +79,10 @@ public class DataItemFieldDef
 		this.fieldType = fieldType;
 	}
 
+	public void setFieldTyp(Object obj)
+	{
+		this.fieldType = obj.getClass().getName();
+	}
 	
 	
 }
