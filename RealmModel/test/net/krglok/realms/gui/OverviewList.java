@@ -25,6 +25,12 @@ import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.ScrollPaneConstants;
+
+import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
+
+import net.krglok.realms.core.Settlement;
+import net.krglok.realms.model.RealmModel;
+
 import java.awt.Font;
 
 public class OverviewList extends JDialog
@@ -40,6 +46,10 @@ public class OverviewList extends JDialog
 	private static Object[][] dataRows; // = new String[][] {{	"0", "1", "2","3"}, {	"1", "11", "12","13"}};
 	private static String[] colHeader = new String[] {	"ID", "Name", "2", "3","4"};
 	private static Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, String.class};
+	private Class detailType;
+	private Settlement settle;
+	RealmModel rModel;
+	
 
 	/**
 	 * Launch the application.
@@ -56,6 +66,18 @@ public class OverviewList extends JDialog
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.setTitle(titel);
+			dialog.detailType = Object.class;
+			if (dialog.detailType == Object.class)
+			{
+				for ( Component comp : dialog.getComponents())
+				{
+					System.out.println(comp.getName());
+//					if (comp.getName().equalsIgnoreCase("btn_Select"))
+//					{
+//						comp.setVisible(false);
+//					}
+				}
+			}
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -94,6 +116,7 @@ public class OverviewList extends JDialog
 				JButton btn_Select = new JButton("Edit");
 				btn_Select.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						ShowSettlement();
 						
 					}
 				});
@@ -135,4 +158,22 @@ public class OverviewList extends JDialog
 		}
 	}
 
+	private void ShowSettlement()
+	{
+			int rowIndex = table.getSelectedRow();
+			if (rowIndex > 0)
+			{
+				int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
+				settle = rModel.getData().getSettlements().getSettlement(id);
+				if (settle != null)
+				{
+					ShowSettle.showMe(settle, rModel);
+				}
+			}
+	}
+	
+	public void setDetailClass(Class detailClass)
+	{
+		this.detailType = detailClass;
+	}
 }

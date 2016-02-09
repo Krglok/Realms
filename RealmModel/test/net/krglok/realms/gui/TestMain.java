@@ -627,7 +627,7 @@ public class TestMain
 			for (Integer id : managerTest.data.getSettlements().sortIntegerList(managerTest.data.getSettlements().keySet()))
 			{
 				Settlement settle = managerTest.data.getSettlements().getSettlement(id);
-				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(settle.getId(),3), row, 0);
+				dialog.table.getModel().setValueAt(String.valueOf(settle.getId()), row, 0);
 				dialog.table.getModel().setValueAt(settle.getName(),row,1);; 
 				dialog.table.getModel().setValueAt(settle.getSettleType().name(),row,2);
 				dialog.table.getModel().setValueAt(ConfigBasis.setStrformat2(settle.getBank().getKonto(),11),row,3);
@@ -636,6 +636,8 @@ public class TestMain
 //				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
 				row++;
 			}
+			dialog.setDetailClass(Settlement.class);
+			dialog.rModel = managerTest.rModel;
 			dialog.setVisible(true);
 
 			
