@@ -887,6 +887,21 @@ public class ConfigBasis implements ConfigInterface
 		return subList;
 	}
 	
+	public static ItemGroup getItemGroup(String itemRef)
+	{
+		if (initFoodMaterial().getItem(itemRef) != null) { return ItemGroup.FOOD; } 
+		if (initArmor().getItem(itemRef) != null) { return ItemGroup.ARMOR; } 
+		if (initBuildMaterial().getItem(itemRef) != null) { return ItemGroup.BUILDMATERIAL; } 
+		if (initMaterial().getItem(itemRef) != null) { return ItemGroup.MATERIAL; } 
+		if (initOre().getItem(itemRef) != null) { return ItemGroup.ORE; } 
+		if (initRawMaterial().getItem(itemRef) != null) { return ItemGroup.RAW; } 
+		if (initValuables().getItem(itemRef) != null) { return ItemGroup.VALUABLE; } 
+		if (initWeapon().getItem(itemRef) != null) { return ItemGroup.WEAPON; } 
+			
+		return ItemGroup.NONE;
+	}
+	
+	
 	public static int getCreateMinPower(SettleType sType)
 	{
 		switch(sType)

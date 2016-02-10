@@ -219,7 +219,7 @@ public class TestMain
 		mntmNewhaven.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//show settlement Data
-				showSettleData();
+				showSettleList();
 			}
 		});
 		mnSettlements.add(mntmNewhaven);
@@ -227,7 +227,7 @@ public class TestMain
 		JMenuItem mntmHelnrauu = new JMenuItem("Lehen");
 		mntmHelnrauu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				showLehenData();
+				showLehenList();
 			}
 		});
 		mnSettlements.add(mntmHelnrauu);
@@ -570,7 +570,8 @@ public class TestMain
 	{
 		try
 		{
-			
+			txtListtitel.setText("Transport List");
+
 			columnHeader = new String[] {"ID", "Von", "Nach", "Material", "Price","Tick"};
 			int maxRow = managerTest.rModel.getTradeTransport().size();
 			if (maxRow > 0)
@@ -601,7 +602,7 @@ public class TestMain
 		}
 	}
 	
-	private void showSettleData()
+	private void showSettleList()
 	{
 		
 		try
@@ -636,6 +637,7 @@ public class TestMain
 //				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
 				row++;
 			}
+			dialog.setTitle("Settlement Liste");
 			dialog.setDetailClass(Settlement.class);
 			dialog.rModel = managerTest.rModel;
 			dialog.setVisible(true);
@@ -647,7 +649,7 @@ public class TestMain
 		}
 	}
 
-	private void showLehenData()
+	private void showLehenList()
 	{
 		try
 		{
@@ -656,29 +658,39 @@ public class TestMain
 			int maxRow = managerTest.data.getLehen().size();
 			dataRows = new  String[maxRow][columnHeader.length];
 //			table = new JTable();
-			table.setModel(new DefaultTableModel(
+			OverviewList dialog = new OverviewList();
+			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
 			));
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(100);
-			table.getColumnModel().getColumn(2).setPreferredWidth(30);
-			table.getColumnModel().getColumn(3).setPreferredWidth(45);
+			
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			dialog.table.getColumnModel().getColumn(1).setPreferredWidth(100);
+			dialog.table.getColumnModel().getColumn(2).setPreferredWidth(30);
+			dialog.table.getColumnModel().getColumn(3).setPreferredWidth(45);
 //			table.getColumnModel().getColumn(3).getCellRenderer().
-			table.getColumnModel().getColumn(4).setPreferredWidth(45);
-			table.getColumnModel().getColumn(5).setPreferredWidth(45);
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(45);
+			dialog.table.getColumnModel().getColumn(5).setPreferredWidth(45);
 			int row = 0;
 			for (Lehen settle : managerTest.data.getLehen().values())
 			{
-				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getId(),3), row, 0);
-				table.getModel().setValueAt(settle.getName(),row,1);; 
-				table.getModel().setValueAt(settle.getSettleType().name(),row,2);
-				table.getModel().setValueAt(ConfigBasis.setStrformat2(settle.getBank().getKonto(),11),row,3);
-				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerMax(),4),row,4); 
-				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerCount(),4),row,5);
+				dialog.table.getModel().setValueAt(settle.getId(), row, 0);
+				dialog.table.getModel().setValueAt(settle.getName(),row,1);; 
+				dialog.table.getModel().setValueAt(settle.getSettleType().name(),row,2);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrformat2(settle.getBank().getKonto(),11),row,3);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerMax(),4),row,4); 
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(settle.getResident().getSettlerCount(),4),row,5);
 //				table.getModel().setValueAt(ConfigBasis.setStrright(settle.getBuildingList().size(),3),row,6); 
 				row++;
 			}
+			dialog.setTitle("Lehenliste");
+			dialog.setDetailClass(Lehen.class);
+			dialog.rModel = managerTest.rModel;
+			dialog.setVisible(true);
 			
 		} catch (Exception e)
 		{
@@ -690,7 +702,8 @@ public class TestMain
 	{
 		try
 		{
-			
+			txtListtitel.setText("Owner List");
+
 			columnHeader = new String[] {"ID", "Name", "Type", "Bank", "NobleLevel"," "};
 			int maxRow = managerTest.data.getOwners().size();
 			dataRows = new  String[maxRow][columnHeader.length];
@@ -731,7 +744,7 @@ public class TestMain
 	{
 		try
 		{
-			
+			txtListtitel.setText("BuildingList");
 			columnHeader = new String[] {"ID", "TYPE", "Region", "Settler", "Worker","Settle","Lehen"};
 			int maxRow = managerTest.data.getBuildings().size();
 			System.out.println("Buildings ["+maxRow+"]");
@@ -772,7 +785,8 @@ public class TestMain
 	{
 		try
 		{
-			
+			txtListtitel.setText("NPC List");
+
 			columnHeader = new String[] {"ID", "Name", "NPCType", "UnitType","Settle","Lehen", "Money"};
 			int maxRow = managerTest.data.getNpcs().size();
 			System.out.println("NPC ["+maxRow+"]");
@@ -813,7 +827,8 @@ public class TestMain
 	{
 		try
 		{
-			
+			txtListtitel.setText("Regiment List");
+
 			columnHeader = new String[] {"ID", "Name", "Type", "Status","Barrack","Units", "Bank"};
 			int maxRow = managerTest.data.getRegiments().size();
 			System.out.println("NPC ["+maxRow+"]");
@@ -855,7 +870,8 @@ public class TestMain
 	{
 		try
 		{
-			
+			txtListtitel.setText("Price List");
+
 			columnHeader = new String[] {"Material", "Price", "Group"};
 			int maxRow = managerTest.data.getPriceList().size();
 			System.out.println("NPC ["+maxRow+"]");
@@ -874,6 +890,7 @@ public class TestMain
 				double price = managerTest.data.getPriceList().getBasePrice(itemRef);
 				table.getModel().setValueAt(itemRef, row, 0);
 				table.getModel().setValueAt(ConfigBasis.setStrformat2(price ,9) ,row,1);
+				table.getModel().setValueAt(ConfigBasis.getItemGroup(itemRef).name(),row,2);
 				row++;
 			}
 			

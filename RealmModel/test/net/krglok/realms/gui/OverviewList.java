@@ -29,6 +29,7 @@ import javax.swing.ScrollPaneConstants;
 import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
 
 import net.krglok.realms.core.Settlement;
+import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.model.RealmModel;
 
 import java.awt.Font;
@@ -47,7 +48,8 @@ public class OverviewList extends JDialog
 	private static String[] colHeader = new String[] {	"ID", "Name", "2", "3","4"};
 	private static Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, String.class};
 	private Class detailType;
-	private Settlement settle;
+//	private Settlement settle;
+//	private Lehen lehen;
 	RealmModel rModel;
 	
 
@@ -116,7 +118,7 @@ public class OverviewList extends JDialog
 				JButton btn_Select = new JButton("Edit");
 				btn_Select.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						ShowSettlement();
+						showDetail();
 						
 					}
 				});
@@ -158,13 +160,47 @@ public class OverviewList extends JDialog
 		}
 	}
 
-	private void ShowSettlement()
+	private void showDetail()
+	{
+		if (detailType == Object.class)
+		{
+			return;
+		}
+		// Show Settledetail
+		if (detailType == Settlement.class)
+		{
+			showSettlement();
+		}
+		// Show Lehendetail
+		if (detailType == Lehen.class)
+		{
+			showLehen();
+		}
+		
+	}
+	
+	private void showLehen()
+	{
+		int rowIndex = table.getSelectedRow();
+		if (rowIndex >= 0)
+		{
+			int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
+			Lehen lehen = rModel.getData().getLehen().getLehen(id);
+			if (lehen != null)
+			{
+				ShowLehen.showMe(lehen, rModel.getData());
+			}
+		}
+	}
+	
+	
+	private void showSettlement()
 	{
 			int rowIndex = table.getSelectedRow();
 			if (rowIndex > 0)
 			{
 				int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
-				settle = rModel.getData().getSettlements().getSettlement(id);
+				Settlement settle = rModel.getData().getSettlements().getSettlement(id);
 				if (settle != null)
 				{
 					ShowSettle.showMe(settle, rModel);
