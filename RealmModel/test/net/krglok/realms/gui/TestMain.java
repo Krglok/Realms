@@ -259,7 +259,7 @@ public class TestMain
 		});
 		mnSettlements.add(mntmRegimnter);
 		
-		JMenu mnNewMenu_1 = new JMenu("New menu");
+		JMenu mnNewMenu_1 = new JMenu("DataList");
 		menuBar.add(mnNewMenu_1);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Buildings");
@@ -367,7 +367,7 @@ public class TestMain
 		toolBar.add(btn_Settle1);
 		
 		JButton btn_Settle2 = new JButton("");
-		btn_Settle2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btn_Settle2.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btn_Settle2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//
@@ -386,7 +386,7 @@ public class TestMain
 		toolBar.add(btn_Settle2);
 		
 		JButton btnLehen = new JButton("");
-		btnLehen.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnLehen.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btnLehen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//
@@ -408,7 +408,7 @@ public class TestMain
 		toolBar.add(separator_1);
 		
 		JButton btnTransport = new JButton("");
-		btnTransport.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnTransport.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btnTransport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//
@@ -420,7 +420,7 @@ public class TestMain
 		btnTransport.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/trader_1.png")));
 		
 		JButton btnNewButton = new JButton("");
-		btnNewButton.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnNewButton.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//
@@ -430,6 +430,18 @@ public class TestMain
 		btnNewButton.setToolTipText("Show Marketlist");
 		btnNewButton.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/trader_1.png")));
 		toolBar.add(btnNewButton);
+		
+		JButton btnBuilding = new JButton("");
+		btnBuilding.setToolTipText("Show Building Detail");
+		btnBuilding.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Building building = managerTest.rModel.getData().getBuildings().getBuilding(1);
+				ShowBuilding.showMe(building, managerTest.rModel);
+			}
+		});
+		btnBuilding.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btnBuilding.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/build_2.png")));
+		toolBar.add(btnBuilding);
 		
 		JPanel panel = new JPanel();
 		frmManagetTest.getContentPane().add(panel, BorderLayout.CENTER);
