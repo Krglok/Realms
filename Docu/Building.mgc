@@ -14,15 +14,6 @@
         <Association destinationClassName="net.krglok.realms.core.Item"
             endpointName="itemList" kind="Simple"/>
     </Class>
-    <Class name="net.krglok.realms.builder.BuildPlanType" x="905" y="83">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
     <Class name="net.krglok.realms.builder.BuildPlanMap" x="316" y="770">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
@@ -33,6 +24,15 @@
             accessors-accepted="false" constructors-accepted="false"/>
         <Extension destinationClassName="net.krglok.realms.builder.BuildPlan"/>
         <Communication destinationClassName="net.krglok.realms.builder.BuildPlan"/>
+    </Class>
+    <Class name="net.krglok.realms.builder.BuildPlanType" x="905" y="83">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class name="net.krglok.realms.core.Item" x="534" y="87">
         <AttributesDisplayFilter public-accepted="true"
@@ -55,15 +55,6 @@
             destinationClassName="net.krglok.realms.builder.BuildPlanType"
             endpointName="buildingType" kind="Simple"/>
     </Class>
-    <Class name="net.krglok.realms.core.LocationData" x="657" y="247">
-        <AttributesDisplayFilter public-accepted="true"
-            private-accepted="true" protected-accepted="true"
-            default-accepted="true" static-accepted="false"/>
-        <MethodDisplayFilter public-accepted="true"
-            private-accepted="false" protected-accepted="false"
-            default-accepted="false" static-accepted="false"
-            accessors-accepted="false" constructors-accepted="false"/>
-    </Class>
     <Class name="net.krglok.realms.core.Building" x="175" y="94">
         <AttributesDisplayFilter public-accepted="true"
             private-accepted="true" protected-accepted="true"
@@ -82,6 +73,15 @@
             endpointName="buildingType" kind="Simple"/>
         <Communication destinationClassName="net.krglok.realms.builder.BuildPlanType"/>
         <Communication destinationClassName="net.krglok.realms.core.Item"/>
+    </Class>
+    <Class name="net.krglok.realms.core.LocationData" x="657" y="247">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
     </Class>
     <Class name="net.krglok.realms.builder.BuildPosition" x="555" y="583">
         <AttributesDisplayFilter public-accepted="true"
