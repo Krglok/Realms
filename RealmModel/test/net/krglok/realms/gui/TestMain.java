@@ -203,6 +203,7 @@ public class TestMain
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Exit");
+		mntmNewMenuItem_2.setMnemonic(KeyEvent.VK_ESCAPE);
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				closeDialog();
@@ -310,7 +311,7 @@ public class TestMain
 				{
 					textArea.append(settle.getMsg().get(i)+"\n");
 				}
-				ShowSettle.showMe(settle,managerTest.rModel);
+				Settle_DFM.showMe(settle,managerTest.rModel);
 				//	showSettleData();
 			}
 		});
@@ -378,7 +379,7 @@ public class TestMain
 					textArea.append(settle.getMsg().get(i)+"\n");
 				}
 				
-				ShowSettle.showMe(settle,managerTest.rModel);
+				Settle_DFM.showMe(settle,managerTest.rModel);
 			}
 		});
 		btn_Settle2.setToolTipText("Show the TestSettlement : "+managerTest.data.getSettlements().getSettlement(9).getName());
@@ -396,7 +397,7 @@ public class TestMain
 				{
 					textArea.append(lehen.getMsg().get(i)+"\n");
 				}
-				ShowLehen.showMe(lehen,managerTest.data);
+				Lehen_DFM.showMe(lehen,managerTest.data);
 			}
 		});
 		btnLehen.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/lehen_1.png")));
@@ -436,7 +437,7 @@ public class TestMain
 		btnBuilding.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Building building = managerTest.rModel.getData().getBuildings().getBuilding(1);
-				ShowBuilding.showMe(building, managerTest.rModel);
+				Building_DFM.showMe(building, managerTest.rModel);
 			}
 		});
 		btnBuilding.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
@@ -624,7 +625,7 @@ public class TestMain
 			int maxRow = managerTest.data.getSettlements().size();
 			dataRows = new  String[maxRow][columnHeader.length];
 //			Class[] colTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,, String.class };
-			OverviewList dialog = new OverviewList();
+			Overview_Browser dialog = new Overview_Browser();
 			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
@@ -670,7 +671,7 @@ public class TestMain
 			int maxRow = managerTest.data.getLehen().size();
 			dataRows = new  String[maxRow][columnHeader.length];
 //			table = new JTable();
-			OverviewList dialog = new OverviewList();
+			Overview_Browser dialog = new Overview_Browser();
 			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
@@ -758,34 +759,44 @@ public class TestMain
 		{
 			txtListtitel.setText("BuildingList");
 			columnHeader = new String[] {"ID", "TYPE", "Region", "Settler", "Worker","Settle","Lehen"};
-			int maxRow = managerTest.data.getBuildings().size();
-			System.out.println("Buildings ["+maxRow+"]");
-			dataRows = new  String[maxRow][columnHeader.length];
-//			table = new JTable();
-			table.setModel(new DefaultTableModel(
+			Overview_Browser dialog = new Overview_Browser();
+			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
 			));
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(60);
-			table.getColumnModel().getColumn(2).setPreferredWidth(35);
-			table.getColumnModel().getColumn(3).setPreferredWidth(35);
-			table.getColumnModel().getColumn(4).setPreferredWidth(35);
-			table.getColumnModel().getColumn(5).setPreferredWidth(35);
-			table.getColumnModel().getColumn(6).setPreferredWidth(35);
+
+			int maxRow = managerTest.data.getBuildings().size();
+			System.out.println("Buildings ["+maxRow+"]");
+			dataRows = new  String[maxRow][columnHeader.length];
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			dialog.table.getColumnModel().getColumn(1).setPreferredWidth(60);
+			dialog.table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(3).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(5).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(6).setPreferredWidth(35);
 			int row = 0;
 			for (Integer index: managerTest.data.getBuildings().sortIntegerList(managerTest.data.getBuildings().keySet()))
 			{
 				Building building = managerTest.data.getBuildings().getBuilding(index);
-				table.getModel().setValueAt(ConfigBasis.setStrright(building.getId(),3), row, 0);
-				table.getModel().setValueAt(building.getBuildingType().name() ,row,1);; 
-				table.getModel().setValueAt(ConfigBasis.setStrright(building.getHsRegion(),4),row,2);
-				table.getModel().setValueAt(ConfigBasis.setStrright(building.getSettler(),2),row,3);
-				table.getModel().setValueAt(ConfigBasis.setStrright(building.getWorkerNeeded() ,2) ,row,4);
-				table.getModel().setValueAt(ConfigBasis.setStrright(building.getSettleId() ,3) ,row,5);
-				table.getModel().setValueAt(ConfigBasis.setStrright(building.getLehenId() ,3) ,row,6);
+				dialog.table.getModel().setValueAt(building.getId(), row, 0);
+				dialog.table.getModel().setValueAt(building.getBuildingType().name() ,row,1);; 
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(building.getHsRegion(),4),row,2);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(building.getSettler(),2),row,3);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(building.getWorkerNeeded() ,2) ,row,4);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(building.getSettleId() ,3) ,row,5);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(building.getLehenId() ,3) ,row,6);
 				row++;
 			}
+			dialog.setTitle("Building Liste");
+			dialog.setDetailClass(Building.class);
+			dialog.rModel = managerTest.rModel;
+			dialog.setVisible(true);
+			
 			
 		} catch (Exception e)
 		{

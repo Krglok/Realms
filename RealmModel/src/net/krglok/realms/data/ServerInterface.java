@@ -92,4 +92,9 @@ public interface ServerInterface
 	
 	public Region getRegionAt(LocationData pos);
 	
+	public void initRegionConfig();
+	
+	public void initSuperRegionConfig();
+
+
 }

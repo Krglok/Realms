@@ -171,7 +171,7 @@ public class KnowledgeData
 		kNode.adRequirement(AchivementName.SMELTER);
 
 		kNode.addBuildPlan(BuildPlanType.PIGPEN);
-		kNode.addBuildPlan(BuildPlanType.WEAPONSMIH);
+		kNode.addBuildPlan(BuildPlanType.WEAPONSMITH);
 		kNode.addBuildPlan(BuildPlanType.ARMOURER);
 		kNode.addBuildPlan(BuildPlanType.CHAINMAKER);
 		kNode.addBuildPlan(BuildPlanType.HORSEBARN);

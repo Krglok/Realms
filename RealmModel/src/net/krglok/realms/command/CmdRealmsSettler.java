@@ -409,7 +409,7 @@ public class CmdRealmsSettler extends RealmsCommand
 	{
 		System.out.println("Spawn Settler ");
     	ArrayList<String> msg = new ArrayList<String>();
-		Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
+		Region region = findRegionAtPosition(plugin, player.getLocation());
 		if (region != null)
 		{
 			Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
@@ -462,7 +462,7 @@ public class CmdRealmsSettler extends RealmsCommand
     	NpcData nobleNpc = null;
     	NpcData nobleHusband = null;
 
-		Region region = findRegionAtPosition(plugin, player.getTargetBlock(null, 6).getLocation());
+		Region region = findRegionAtPosition(plugin, player.getLocation());
 		if (region != null)
 		{
 			Building building = plugin.getData().getBuildings().getBuildingByRegion(region.getID());

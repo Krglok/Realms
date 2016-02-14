@@ -84,36 +84,37 @@ public class CmdRealmsSign extends RealmsCommand
 		int edge = radius * 2 -1;
 		Player player = (Player) sender;
 		Location pos = new Location(player.getLocation().getWorld(), player.getLocation().getX()-radius, player.getLocation().getY(), player.getLocation().getZ()-radius);
-		Block lookAt =  player.getTargetBlock(null, 6);   
-				//new Location(player.getLocation().getWorld(),0.0, player.getLocation().getX(),0.0);
-		
-		if (lookAt.getType()!= Material.AIR)
-		{
-			System.out.println("pos "+(int) lookAt.getX()+":"+(int) lookAt.getY()+"."+lookAt.getType());
-		}
-		switch (lookAt.getType())
-		{
-		case WALL_SIGN:  // sign on the wall
-			Sign sBlock =	((Sign) lookAt.getState());
-			String[] signText = sBlock.getLines();
-			if ((page >= 0) && (page <= 3))
-			{
-				text = text.replaceAll("[_]", " ");
-//						((Sign) b.getState())
-				sBlock.setLine(page, text);
-				sBlock.update(true);
-			}
-			for (int k = 0; k < signText.length; k++)
-			{
-				System.out.println(sBlock.getLines()[k]);
-			}
-			break;
-			
-		default:
-		}
-		System.out.println("Text:"+text);
-		page = 0;
-		text = "";
+		return;
+//		Block lookAt =  player.getTargetBlock(null, 6);   
+//				//new Location(player.getLocation().getWorld(),0.0, player.getLocation().getX(),0.0);
+//		
+//		if (lookAt.getType()!= Material.AIR)
+//		{
+//			System.out.println("pos "+(int) lookAt.getX()+":"+(int) lookAt.getY()+"."+lookAt.getType());
+//		}
+//		switch (lookAt.getType())
+//		{
+//		case WALL_SIGN:  // sign on the wall
+//			Sign sBlock =	((Sign) lookAt.getState());
+//			String[] signText = sBlock.getLines();
+//			if ((page >= 0) && (page <= 3))
+//			{
+//				text = text.replaceAll("[_]", " ");
+////						((Sign) b.getState())
+//				sBlock.setLine(page, text);
+//				sBlock.update(true);
+//			}
+//			for (int k = 0; k < signText.length; k++)
+//			{
+//				System.out.println(sBlock.getLines()[k]);
+//			}
+//			break;
+//			
+//		default:
+//		}
+//		System.out.println("Text:"+text);
+//		page = 0;
+//		text = "";
 				
 	}
 

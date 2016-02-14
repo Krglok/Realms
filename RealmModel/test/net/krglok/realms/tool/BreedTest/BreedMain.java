@@ -35,7 +35,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.TableModelEvent;
 
 import net.krglok.realms.core.TradeMarketOrder;
-import net.krglok.realms.gui.ShowSettle;
+import net.krglok.realms.gui.Settle_DFM;
 import net.krglok.realms.tool.SettleManagerTest;
 import net.krglok.realms.unittest.SettlementDataTest;
 import java.awt.event.KeyAdapter;

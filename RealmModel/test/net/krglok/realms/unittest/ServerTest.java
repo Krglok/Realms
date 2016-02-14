@@ -1,14 +1,18 @@
 package net.krglok.realms.unittest;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.RecipeData;
@@ -20,6 +24,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
+
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class ServerTest  implements ServerInterface // extends ServerData
 {
@@ -35,6 +41,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	
 	ArrayList<String> playerNameList;
 	ArrayList<String> offPlayerNameList;
+	HashMap<String, RegionConfig> regionConfigList = new HashMap<String, RegionConfig>();
+	HashMap<String, SuperRegionConfig> superRegionConfigList = new HashMap<String, SuperRegionConfig>();
 	
 	// ItemList = HashMap<String, Integer> 
 	HashMap<Integer,ItemList> prodStore = new HashMap<Integer, ItemList>();
@@ -60,6 +68,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		getItemNameList();
 		getPlayerNameList();
 		recipeData = new RecipeData();
+		initRegionConfig();
+		initSuperRegionConfig();
 	}
 
 	@Override
@@ -232,10 +242,11 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public ItemList getRegionOutput(String regionType)
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
-        String sRegionFile = regionType + ".yml";
-		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+//        String sRegionFile = regionType + ".yml";
+//		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
 		
+		RegionConfig region = regionConfigList.get(regionType);
 		ItemList rList = new ItemList();
 		if (region != null)
 		{
@@ -250,10 +261,11 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public ItemList getRegionUpkeep(String regionType)
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
-        String sRegionFile = regionType + ".yml";
-		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+//        String sRegionFile = regionType + ".yml";
+//		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
 		
+		RegionConfig region = regionConfigList.get(regionType);
 		ItemList rList = new ItemList();
 		if (region != null)
 		{
@@ -273,10 +285,11 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public double getRegionUpkeepMoney(String regionType)
 	{
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
-        String sRegionFile = regionType + ".yml";
-		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
+//		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+//        String sRegionFile = regionType + ".yml";
+//		RegionConfig region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile );
 		
+		RegionConfig region = regionConfigList.get(regionType);
 		if (region != null)
 		{
 			return region.getMoneyOutput();
@@ -727,145 +740,78 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		Location loc = new Location(null, (double) 0.0, (double) 0.0, (double) 0.0);
 		int id = 0;
 		Region region;
-		if (superRegionName.equalsIgnoreCase("Dunjar"))
-		{
-			id++;
-			region = new Region(id, loc, "haupthaus", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "kornfeld", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "kornfeld", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "holzfaeller", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "steinbruch", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "schreiner", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "tischler", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "schaefer", null, null);
-			rList.add(region);
-		}		
 
-		if (superRegionName.equalsIgnoreCase("NewHaven"))
-		{
-			id++;
-			region = new Region(id, loc, "haupthaus", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "markt", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "taverne", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "kornfeld", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "kornfeld", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "holzfaeller", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "steinbruch", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "kornfeld", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "schreiner", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "tischler", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "schaefer", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "bauern_haus", null, null);
-			rList.add(region);
-		} else
-		{
-			id++;
-			region = new Region(id, loc, "haupthaus", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "haus_einfach", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "kornfeld", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "kornfeld", null, null);
-			rList.add(region);
-			id++;
-			region = new Region(id, loc, "schaefer", null, null);
-			rList.add(region);
-		}		
 			
 		
 		return rList;
 	}
+	
+	private SuperRegionConfig getSuperRegionConfig(String regionName)
+	{
+        SuperRegionConfig region = null;
+        if (SettleType.getSettleType(regionName) != SettleType.NONE)
+        {
+			String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+	        File regionFile = new File(path, "SuperRegionConfig\\"+regionName+".yml");
+	        if (!regionFile.exists()) 
+	        {
+//	        	System.out.println("SuperRegionFile not found :"+regionName);
+	            return region;
+	        }
+        	region= StrongholdTools.getSuperRegionConfig(path+"\\SuperRegionConfig", regionName+".yml");
+        }
+        return region;
+	}
+	
+	public void initSuperRegionConfig()
+	{
+		for (SettleType bType : SettleType.values())
+		{
+			SuperRegionConfig rConfig = getSuperRegionConfig(bType.name());
+			if (rConfig != null)
+			{
+				superRegionConfigList.put(bType.name(), rConfig);
+			}
+		}
+	}
+	
+	
+	
+	/**
+	 * Liest die Region Config Datei ein.
+	 * 
+	 * @param regionName
+	 * @return
+	 */
+	private RegionConfig getRegionConfig(String regionName)
+	{
+        RegionConfig region = null;
+        if (BuildPlanType.getBuildPlanType(regionName)!=BuildPlanType.NONE)
+        {
+			String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+	        File regionFile = new File(path, "RegionConfig\\"+regionName+".yml");
+	        if (!regionFile.exists()) 
+	        {
+//	        	System.out.println("RegionFile not found :"+regionName);
+	            return region;
+	        }
+        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", regionName+".yml");
+        }
+        return region;
+	}
+
+	public void initRegionConfig()
+	{
+		for (BuildPlanType bType : BuildPlanType.values())
+		{
+			RegionConfig rConfig = getRegionConfig(bType.name());
+			if (rConfig != null)
+			{
+				regionConfigList.put(bType.name(), rConfig);
+			}
+		}
+	}
+	
 
 	@Override
 	public String getRegionType(int id)
@@ -883,9 +829,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public ItemList getRegionReagents(String regionType)
 	{
-		ItemList items = new ItemList();
-		items.addItem(new Item("GOLD_NUGGET",1 ));
-		return items;
+		RegionConfig region = regionConfigList.get(regionType);
+		return region.getReagentsItem();
 	}
 
 	@Override
@@ -899,6 +844,8 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	public double getRegionTypeCost(String regionType)
 	{
 		// TODO Auto-generated method stub
-		return 0;
+		RegionConfig region = regionConfigList.get(regionType);
+		
+		return region.getMoneyRequirement();
 	}
 }

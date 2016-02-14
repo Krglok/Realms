@@ -57,5 +57,37 @@ public class TestServerTest
 
 		assertEquals(expected, actual);
 	}
+
+	@Test
+	public void testGetRegionConfigList()
+	{
+		
+		System.out.println(" ");
+		System.out.println("== REGION CONFIG :"+server.regionConfigList.size());
+		for (String key : server.regionConfigList.keySet())
+		{
+			System.out.println(key);
+		}
+		int expected = 138;
+		int actual = server.regionConfigList.size(); 
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testGetSuperRegionConfigList()
+	{
+		
+		System.out.println(" ");
+		System.out.println("== SUPERREGION CONFIG :"+server.superRegionConfigList.size());
+		for (String key : server.superRegionConfigList.keySet())
+		{
+			System.out.println(key);
+		}
+		int expected = 138;
+		int actual = server.superRegionConfigList.size(); 
+
+		assertEquals(expected, actual);
+	}
 	
 }

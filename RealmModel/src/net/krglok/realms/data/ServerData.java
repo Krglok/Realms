@@ -1,5 +1,6 @@
 package net.krglok.realms.data;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,22 +12,36 @@ import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+
+import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionType;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
 import net.krglok.realms.Realms;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.RegionLocation;
+import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.SettleType;
+import net.krglok.realms.tool.StrongholdTools;
+import net.krglok.realms.unittest.RegionConfig;
+import net.krglok.realms.unittest.SuperRegionConfig;
 
 /**
  * here will be the Data from the Server are transformed to RealData
- * Realm get data from server trough this interface
+ * Realms get data from server through this class
+ * Realms get data from HeroStronghold  through this interface class
+ * 
  * @author Windu
  *
  */
@@ -43,11 +58,17 @@ public class ServerData implements ServerInterface
 	public static final int FAKTOR_P = 25;
 	public static final int FAKTOR_PP = 50;
 	public static final int FAKTOR_PPP = 75;
+
+	
+	HashMap<String, RegionConfig> regionConfigList = new HashMap<String, RegionConfig>();
+	HashMap<String, SuperRegionConfig> superRegionConfigList = new HashMap<String, SuperRegionConfig>();
 	
 	public ServerData(Realms plugin)
 	{
 		this.plugin = plugin; 
 		recipeData = new RecipeData();
+		initRegionConfig();
+		initSuperRegionConfig();
 	}
 
 	public RecipeData getRecipeData()
@@ -880,6 +901,106 @@ public class ServerData implements ServerInterface
 	{
 		World world = plugin.getServer().getWorld(pos.getWorld());
 		return plugin.stronghold.getRegionManager().getRegion(new Location (world, pos.getX(),pos.getY(),pos.getZ())); 
+	}
+
+	
+	/**
+	 * Liest die Region Config aus  HeroStronghold aus
+	 * 
+	 * @param regionName
+	 * @return
+	 */
+	private RegionConfig getRegionConfig(String regionName)
+	{
+        RegionConfig regionConfig = null;
+        if (BuildPlanType.getBuildPlanType(regionName)!=BuildPlanType.NONE)
+        {
+			String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+	        File regionFile = new File(path, "RegionConfig\\"+regionName+".yml");
+	        if (!regionFile.exists()) 
+	        {
+//	        	System.out.println("RegionFile not found :"+regionName);
+	            return regionConfig;
+	        }
+//        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", regionName+".yml");
+	        RegionType rConfig = plugin.stronghold.getRegionManager().getRegionType(regionName);
+
+            regionConfig = new RegionConfig(regionName,
+                    rConfig.getGroup(),
+                    new ArrayList<String>(),
+                    new ArrayList<String>(),
+                    rConfig.getEffects(),
+                    rConfig.getRawBuildRadius(),
+                    rConfig.getRadius(),
+                    rConfig.getRequirements(),
+                    rConfig.getSuperRegions(),
+                    rConfig.getReagents(),
+                    rConfig.getUpkeep(),
+                    rConfig.getOutput(),
+                    rConfig.getUpkeepChance(),
+                    rConfig.getMoneyRequirement(),
+                    rConfig.getMoneyOutput(),
+                    rConfig.getExp(),
+                    rConfig.getDescription(),
+                    rConfig.getPowerDrain(),
+                    rConfig.getHousing(),
+                    rConfig.getBiome());
+        }
+        return regionConfig;
+	}
+	
+	@Override
+	public void initRegionConfig()
+	{
+		for (BuildPlanType bType : BuildPlanType.values())
+		{
+			RegionConfig rConfig = getRegionConfig(bType.name());
+			if (rConfig != null)
+			{
+				regionConfigList.put(bType.name(), rConfig);
+			}
+		}
+	}
+
+	
+	private SuperRegionConfig getSuperRegionConfig(String sRegionName)
+	{
+		SuperRegionConfig  sRegionConfig = null;
+        try 
+        {
+        	SuperRegionType rConfig = plugin.stronghold.getRegionManager().getSuperRegionType(sRegionName);
+            sRegionConfig = new SuperRegionConfig(sRegionName,
+            		rConfig.getEffects(),
+                    rConfig.getRadius(),
+                    rConfig.getRequirements(),
+                    rConfig.getMoneyRequirement(),
+                    rConfig.getOutput(),
+                    rConfig.getChildren(),
+                    rConfig.getMaxPower(),
+                    rConfig.getDailyPower(),
+                    rConfig.getCharter(),
+                    rConfig.getExp(),
+                    rConfig.getCentralStructure(),
+                    rConfig.getDescription(),
+                    rConfig.getPopulation());
+        } catch (Exception e) {
+        	System.out.println("[REALMS] failed to load " + sRegionName);
+        }
+		return sRegionConfig;
+	}
+	
+	@Override
+	public void initSuperRegionConfig()
+	{
+		for (SettleType bType : SettleType.values())
+		{
+			SuperRegionConfig rConfig = getSuperRegionConfig(bType.name());
+			if (rConfig != null)
+			{
+				superRegionConfigList.put(bType.name(), rConfig);
+			}
+		}
+		
 	}
 
 	

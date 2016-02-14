@@ -3,11 +3,14 @@ package net.krglok.realms.npc;
 /**
  * the ethno types define races that build urban structures.
  * 
+ * DEFAULT means that no Ethno is selected
+ * 
  * @author Windu
  *
  */
 public enum EthnosType
 {
+	DEFAULT,
 	HUMAN,
 	ELF,
 	DWARF,

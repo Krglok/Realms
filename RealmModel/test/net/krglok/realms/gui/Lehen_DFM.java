@@ -37,7 +37,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ShowLehen extends JDialog
+public class Lehen_DFM extends JDialog
 {
 
 	private final JPanel contentPanel = new JPanel();
@@ -73,7 +73,7 @@ public class ShowLehen extends JDialog
 	{
 		try
 		{
-			ShowLehen dialog = new ShowLehen();
+			Lehen_DFM dialog = new Lehen_DFM();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.lehen = lehen;
@@ -89,7 +89,7 @@ public class ShowLehen extends JDialog
 	/**
 	 * Create the dialog.
 	 */
-	public ShowLehen()
+	public Lehen_DFM()
 	{
 		setTitle("Lehen ");
 		addWindowListener(new WindowAdapter() {
@@ -235,7 +235,7 @@ public class ShowLehen extends JDialog
 		{
 			JButton btn_Required = new JButton("Required");
 			btn_Required.setHorizontalAlignment(SwingConstants.LEFT);
-			btn_Required.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/check.png")));
+			btn_Required.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btn_Required, "8, 8");
 		}
 		{
@@ -255,7 +255,7 @@ public class ShowLehen extends JDialog
 				}
 			});
 			btn_Warehouse.setHorizontalAlignment(SwingConstants.LEFT);
-			btn_Warehouse.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/check.png")));
+			btn_Warehouse.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btn_Warehouse, "18, 8");
 		}
 		{
@@ -276,7 +276,7 @@ public class ShowLehen extends JDialog
 				}
 			});
 			btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
-			btnNewButton.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnNewButton.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btnNewButton, "8, 10");
 		}
 		{
@@ -297,7 +297,7 @@ public class ShowLehen extends JDialog
 				}
 			});
 			btnBuildings.setHorizontalAlignment(SwingConstants.LEFT);
-			btnBuildings.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnBuildings.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btnBuildings, "18, 10");
 		}
 		{
@@ -311,7 +311,7 @@ public class ShowLehen extends JDialog
 		}
 		{
 			JButton btnRoutes = new JButton("Routes");
-			btnRoutes.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnRoutes.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnRoutes.setHorizontalAlignment(SwingConstants.LEFT);
 			contentPanel.add(btnRoutes, "8, 12");
 		}
@@ -333,7 +333,7 @@ public class ShowLehen extends JDialog
 				}
 			});
 			btnUnits.setHorizontalAlignment(SwingConstants.LEFT);
-			btnUnits.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnUnits.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btnUnits, "18, 12");
 		}
 		{
@@ -366,7 +366,7 @@ public class ShowLehen extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/check.png")));
+				okButton.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						closeDialog();
@@ -378,7 +378,7 @@ public class ShowLehen extends JDialog
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setIcon(new ImageIcon(ShowLehen.class.getResource("/net/krglok/realms/gui/delete.png")));
+				cancelButton.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/delete.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						//
@@ -455,7 +455,7 @@ public class ShowLehen extends JDialog
 		String[] colHeader = new String[] {	"ID", "Name", "UnitType","Home","Work"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Buy Orders");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Buy Orders");
 	}
 	
 	private void doBuyOrderList()
@@ -476,7 +476,7 @@ public class ShowLehen extends JDialog
 		String[] colHeader = new String[] {	"Item", "amount", "price","Status"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Buy Orders");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Buy Orders");
 	}
 	
 	
@@ -498,7 +498,7 @@ public class ShowLehen extends JDialog
 		String[] colHeader = new String[] {	"Building", "Beds", "Worker"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Building List");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Building List");
 	}
 	
 	private void doWarehouseList()
@@ -528,7 +528,7 @@ public class ShowLehen extends JDialog
 		String[] colHeader = new String[] {	"Items", "Amount","Required"};		
 		@SuppressWarnings("rawtypes")
 		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
 	}
 	
 }

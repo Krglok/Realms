@@ -15,7 +15,6 @@ requirements:
 reagents:
 - GOLD_NUGGET.5
 - SADDLE.1
-- IRON_HORSE_ARMOR.1
 upkeep:
 - WHEAT.3
 upkeep-chance: 0.001

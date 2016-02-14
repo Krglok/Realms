@@ -41,7 +41,7 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 import com.jgoodies.forms.layout.Sizes;
 
-public class ShowSettle extends JDialog
+public class Settle_DFM extends JDialog
 {
 
 	private final JPanel contentPanel = new JPanel();
@@ -71,7 +71,7 @@ public class ShowSettle extends JDialog
 	{
 		try
 		{
-			ShowSettle dialog = new ShowSettle();
+			Settle_DFM dialog = new Settle_DFM();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.settle = settle;
@@ -86,7 +86,7 @@ public class ShowSettle extends JDialog
 	/**
 	 * Create the dialog.
 	 */
-	public ShowSettle()
+	public Settle_DFM()
 	{
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -239,7 +239,7 @@ public class ShowSettle extends JDialog
 		{
 			JButton btnNewButton = new JButton("Warehouse");
 			btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
-			btnNewButton.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnNewButton.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					doWarehouseList();
@@ -266,7 +266,7 @@ public class ShowSettle extends JDialog
 				doOverview();
 			}
 		});
-		btnProduction.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+		btnProduction.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnProduction, "7, 8");
 		{
 			JLabel lblBuildings = new JLabel("Buildings");
@@ -281,7 +281,7 @@ public class ShowSettle extends JDialog
 		{
 			JButton btnBuildings = new JButton("Buildings");
 			btnBuildings.setHorizontalAlignment(SwingConstants.LEFT);
-			btnBuildings.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnBuildings.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			btnBuildings.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					doBuildingList();
@@ -314,10 +314,10 @@ public class ShowSettle extends JDialog
 					doSellOrder();
 				}
 			});
-			btnSellorder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnSellorder.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btnSellorder, "5, 10");
 		}
-		btnBuyorder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+		btnBuyorder.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnBuyorder, "7, 10");
 		{
 			JLabel lbl_SellOrder = new JLabel("Sell Order");
@@ -348,10 +348,10 @@ public class ShowSettle extends JDialog
 						doDontSell();
 					}
 				});
-				btnTransport.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+				btnTransport.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 				contentPanel.add(btnTransport, "5, 12");
 			}
-			buttonSellOrder.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/check.png")));
+			buttonSellOrder.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(buttonSellOrder, "7, 12");
 		}
 		{
@@ -375,7 +375,7 @@ public class ShowSettle extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Cancel");
-				okButton.setIcon(new ImageIcon(ShowSettle.class.getResource("/net/krglok/realms/gui/delete.png")));
+				okButton.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/delete.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						closeDialog();
@@ -426,7 +426,7 @@ public class ShowSettle extends JDialog
 		String[] colHeader = new String[] {	"Item", "dontSell", "Stock"," "};
 		Class[] columnTypes = new Class[] {String.class, String.class, String.class, String.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Overstock List");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Overstock List");
 	}
 	
 	private void doOverstock()
@@ -449,7 +449,7 @@ public class ShowSettle extends JDialog
 		String[] colHeader = new String[] {	"Item", "overStock", "Stock"," "};
 		Class[] columnTypes = new Class[] {String.class, String.class, String.class, String.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Overstock List");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Overstock List");
 	}
 	
 
@@ -473,7 +473,7 @@ public class ShowSettle extends JDialog
 		String[] colHeader = new String[] {	"Item", "Amount", "Stock"," "};
 		Class[] columnTypes = new Class[] {String.class, String.class, String.class, String.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "SellOrder List");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "SellOrder List");
 	}
 	
 	
@@ -495,7 +495,7 @@ public class ShowSettle extends JDialog
 		String[] colHeader = new String[] {	"Item", "amount", "price","Status"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Buy Orders");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Buy Orders");
 	}
 	
 	
@@ -517,7 +517,7 @@ public class ShowSettle extends JDialog
 		String[] colHeader = new String[] {	"Building", "Beds", "Worker","Enabled"};
 		Class[] columnTypes = new Class[] {String.class, Integer.class, Double.class};
 
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Building List");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Building List");
 	}
 	
 	private void doWarehouseList()
@@ -547,7 +547,7 @@ public class ShowSettle extends JDialog
 		String[] colHeader = new String[] {	"Items", "Amount","Required"};		
 		@SuppressWarnings("rawtypes")
 		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
-		WarehouseList.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
 	}
 
 	private void printRequired()
@@ -591,7 +591,7 @@ public class ShowSettle extends JDialog
 		
 		
 
-		OverviewList.showMe(dataRows, columnTypes, colHeader, "Production Overview");
+		Overview_Browser.showMe(dataRows, columnTypes, colHeader, "Production Overview");
 		
 	}
 	

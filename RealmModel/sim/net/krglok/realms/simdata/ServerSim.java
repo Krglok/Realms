@@ -216,5 +216,19 @@ public class ServerSim implements ServerInterface
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void initRegionConfig()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initSuperRegionConfig()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -25,7 +25,7 @@ import java.awt.ScrollPane;
 import java.awt.Scrollbar;
 
 
-public class WarehouseList extends JDialog
+public class Item_Browser extends JDialog
 {
 	
 	
@@ -46,7 +46,7 @@ public class WarehouseList extends JDialog
 			dataRows = data;
 			colHeader = header;
 			columnTypes = colTypes;
-			WarehouseList dialog = new WarehouseList();
+			Item_Browser dialog = new Item_Browser();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.setTitle(titel);
@@ -59,7 +59,7 @@ public class WarehouseList extends JDialog
 	/**
 	 * Create the dialog.
 	 */
-	public WarehouseList()
+	public Item_Browser()
 	{
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -105,7 +105,7 @@ public class WarehouseList extends JDialog
 						closeDialog();
 					}
 				});
-				okButton.setIcon(new ImageIcon(WarehouseList.class.getResource("/net/krglok/realms/gui/delete.png")));
+				okButton.setIcon(new ImageIcon(Item_Browser.class.getResource("/net/krglok/realms/gui/delete.png")));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

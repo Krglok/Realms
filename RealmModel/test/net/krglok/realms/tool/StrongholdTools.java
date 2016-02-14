@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unittest.RegionConfig;
+import net.krglok.realms.unittest.SuperRegionConfig;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -26,11 +28,13 @@ public class StrongholdTools
 	}
 
 	
-    public static ArrayList<ItemStack> processItemStackList(List<String> input, String filename) {
+    public static ArrayList<ItemStack> processItemStackList(List<String> input, String filename) 
+    {
         ArrayList<ItemStack> returnList = new ArrayList<ItemStack>();
         for (String current : input) {
             String[] params = current.split("\\.");
-            if (Material.getMaterial(params[0]) != null) {
+            if (Material.getMaterial(params[0]) != null) 
+            {
                 ItemStack is;
                 if (params.length < 3) {
                     is = new ItemStack(Material.getMaterial(params[0]),Integer.parseInt(params[1]));
@@ -45,6 +49,26 @@ public class StrongholdTools
         return returnList;
     }
 	
+    public static Map<String, Integer> processStackList(List<String> input, String filename) 
+    {
+    	HashMap<String, Integer> returnList = new HashMap<String, Integer>();
+        for (String current : input) 
+        {
+            String[] params = current.split("\\.");
+            if (params[0] != "") 
+            {
+                if (params.length > 1) 
+                {
+                    returnList.put(params[0],Integer.valueOf(params[1]));
+                }
+            } else 
+            {
+            	System.out.println("[REALMS] could not find required Region " + params[0] + " in " + filename);
+            }
+        }
+        return returnList;
+    }
+    
 	
 	@SuppressWarnings("unused")
 	public static RegionConfig getRegionConfig(String pathName, String sRegionFile)
@@ -237,4 +261,35 @@ public class StrongholdTools
         }
 		return rList;
 	}
+	
+	public static SuperRegionConfig getSuperRegionConfig(String pathName,String sRegionFile)
+	{
+        try 
+        {
+    		File currentRegionFile = new File(pathName,sRegionFile);
+    		FileConfiguration rConfig = new YamlConfiguration();
+            rConfig.load(currentRegionFile);
+            String regionName = currentRegionFile.getName().replace(".yml", "");
+            SuperRegionConfig sRegionConfig = new SuperRegionConfig(regionName,
+            		(ArrayList<String>) rConfig.getStringList("effects"),
+                    (int) Math.pow(rConfig.getInt("radius"), 2),
+                    processStackList(rConfig.getStringList("requirements"), currentRegionFile.getName()),
+//                    processRegionTypeMap(rConfig.getStringList("requirements")),
+                    rConfig.getDouble("money-requirement", 0),
+                    rConfig.getDouble("money-output-daily", 0),
+                    rConfig.getStringList("children"),
+                    rConfig.getInt("max-power", 100),
+                    rConfig.getInt("daily-power-increase", 10),
+                    rConfig.getInt("charter", 0),
+                    rConfig.getDouble("exp", 0),
+                    rConfig.getString("central-structure"),
+                    rConfig.getString("description"),
+                    rConfig.getInt("population", 0));
+            return sRegionConfig;
+        } catch (Exception e) {
+        	System.out.println("[REALMS] failed to load " + sRegionFile);
+        }
+		return null;
+	}
+	
 }
