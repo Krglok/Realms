@@ -459,7 +459,7 @@ public class Lehen  extends AbstractSettle
 	 * @param server
 	 * @param data
 	 */
-	public void doUnitTrain(UnitFactory unitFactory)
+	public void doUnitTrain(UnitFactory unitFactory, DataInterface data)
 	{
 		for (Building building : buildingList.values())
 		{
@@ -482,6 +482,7 @@ public class Lehen  extends AbstractSettle
 								building.addMaxTrain(-1);
 								building.setIsEnabled(true);
 								building.setTrainCounter(0);
+								data.writeNpc(recrute);
 								this.msg.add("[REALMS] GUARDHOUSE "+building.getId()+" : RECRUTE "+recrute.getId() );
 							} else
 							{
@@ -506,6 +507,7 @@ public class Lehen  extends AbstractSettle
 								building.addMaxTrain(-1);
 								building.setIsEnabled(true);
 								building.setTrainCounter(0);
+								data.writeNpc(recrute);
 							} else
 							{
 								building.setTrainCounter(0);
@@ -528,6 +530,7 @@ public class Lehen  extends AbstractSettle
 								building.addMaxTrain(-1);
 								building.setIsEnabled(true);
 								building.setTrainCounter(0);
+								data.writeNpc(recrute);
 							} else
 							{
 								building.setTrainCounter(0);
@@ -550,6 +553,7 @@ public class Lehen  extends AbstractSettle
 								building.addMaxTrain(-1);
 								building.setIsEnabled(true);
 								building.setTrainCounter(0);
+								data.writeNpc(recrute);
 							} else
 							{
 								building.setTrainCounter(0);
@@ -572,6 +576,7 @@ public class Lehen  extends AbstractSettle
 								building.addMaxTrain(-1);
 								building.setIsEnabled(true);
 								building.setTrainCounter(0);
+								data.writeNpc(recrute);
 							} else
 							{
 								building.setTrainCounter(0);

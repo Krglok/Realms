@@ -65,6 +65,7 @@ public class Lehen_DFM extends JDialog
 
 	private Lehen lehen;
 	private DataStorage data;
+	private JTextField txtOwner;
 	
 	/**
 	 * Launch the application.
@@ -75,9 +76,9 @@ public class Lehen_DFM extends JDialog
 		{
 			Lehen_DFM dialog = new Lehen_DFM();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
 			dialog.lehen = lehen;
 			dialog.data = data;
+			dialog.setVisible(true);
 			
 		} catch (Exception e)
 		{
@@ -96,10 +97,10 @@ public class Lehen_DFM extends JDialog
 			@Override
 			public void windowActivated(WindowEvent e) {
 				//
-				setText();
+				updateForm();
 			}
 		});
-		setBounds(100, 100, 828, 447);
+		setBounds(100, 100, 828, 524);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -138,6 +139,8 @@ public class Lehen_DFM extends JDialog
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(113dlu;default):grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
@@ -156,172 +159,17 @@ public class Lehen_DFM extends JDialog
 			ed_Name.setColumns(10);
 		}
 		{
-			JLabel lblAge = new JLabel("Age");
-			contentPanel.add(lblAge, "12, 2, right, default");
-		}
-		{
-			ed_Age = new JTextField();
-			contentPanel.add(ed_Age, "14, 2, fill, default");
-			ed_Age.setColumns(10);
-		}
-		{
-			JLabel lblLehentyp = new JLabel("LehenTyp");
-			contentPanel.add(lblLehentyp, "16, 2, right, default");
-		}
-		{
-			ed_SettleTyp = new JTextField();
-			contentPanel.add(ed_SettleTyp, "18, 2, fill, default");
-			ed_SettleTyp.setColumns(10);
-		}
-		{
-			JLabel lblSupportid = new JLabel("SupportID");
-			contentPanel.add(lblSupportid, "2, 4, right, default");
-		}
-		{
-			ed_SupportId = new JTextField();
-			contentPanel.add(ed_SupportId, "4, 4, fill, default");
-			ed_SupportId.setColumns(10);
-		}
-		{
-			ed_SupportName = new JTextField();
-			contentPanel.add(ed_SupportName, "6, 4, 3, 1, fill, default");
-			ed_SupportName.setColumns(10);
-		}
-		{
-			JLabel lblBeds = new JLabel("Beds");
-			contentPanel.add(lblBeds, "12, 4, right, default");
-		}
-		{
-			ed_Beds = new JTextField();
-			contentPanel.add(ed_Beds, "14, 4, fill, default");
-			ed_Beds.setColumns(10);
-		}
-		{
-			JLabel lblSettler = new JLabel("Settler");
-			contentPanel.add(lblSettler, "16, 4, right, default");
-		}
-		{
-			ed_Settler = new JTextField();
-			contentPanel.add(ed_Settler, "18, 4, fill, default");
-			ed_Settler.setColumns(10);
-		}
-		{
-			JLabel lblBank = new JLabel("Bank");
-			contentPanel.add(lblBank, "2, 6, right, default");
-		}
-		{
-			ed_Bank = new JTextField();
-			contentPanel.add(ed_Bank, "4, 6, fill, default");
-			ed_Bank.setColumns(10);
-		}
-		{
 			JLabel lblBarrack = new JLabel("Barrack");
-			contentPanel.add(lblBarrack, "12, 6, right, default");
+			contentPanel.add(lblBarrack, "12, 2, right, default");
 		}
 		{
 			ed_Barrack = new JTextField();
-			contentPanel.add(ed_Barrack, "14, 6, fill, default");
+			contentPanel.add(ed_Barrack, "14, 2, fill, default");
 			ed_Barrack.setColumns(10);
 		}
 		{
-			JLabel lblRequired = new JLabel("Required");
-			contentPanel.add(lblRequired, "2, 8, right, default");
-		}
-		{
-			ed_Required = new JTextField();
-			contentPanel.add(ed_Required, "4, 8, fill, default");
-			ed_Required.setColumns(10);
-		}
-		{
-			JButton btn_Required = new JButton("Required");
-			btn_Required.setHorizontalAlignment(SwingConstants.LEFT);
-			btn_Required.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
-			contentPanel.add(btn_Required, "8, 8");
-		}
-		{
-			JLabel lblStoreage = new JLabel("Storeage");
-			contentPanel.add(lblStoreage, "12, 8, right, default");
-		}
-		{
-			ed_Storage = new JTextField();
-			contentPanel.add(ed_Storage, "14, 8, fill, default");
-			ed_Storage.setColumns(10);
-		}
-		{
-			JButton btn_Warehouse = new JButton("Warehouse");
-			btn_Warehouse.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					doWarehouseList();
-				}
-			});
-			btn_Warehouse.setHorizontalAlignment(SwingConstants.LEFT);
-			btn_Warehouse.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
-			contentPanel.add(btn_Warehouse, "18, 8");
-		}
-		{
-			JLabel lblBuyorder = new JLabel("BuyOrder");
-			contentPanel.add(lblBuyorder, "2, 10, right, default");
-		}
-		{
-			ed_BuyOrder = new JTextField();
-			contentPanel.add(ed_BuyOrder, "4, 10, fill, default");
-			ed_BuyOrder.setColumns(10);
-		}
-		{
-			JButton btnNewButton = new JButton("BuyOrders");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//
-					doBuyOrderList();
-				}
-			});
-			btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
-			btnNewButton.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
-			contentPanel.add(btnNewButton, "8, 10");
-		}
-		{
-			JLabel lblBuildings = new JLabel("Buildings");
-			contentPanel.add(lblBuildings, "12, 10, right, default");
-		}
-		{
-			ed_Buildings = new JTextField();
-			contentPanel.add(ed_Buildings, "14, 10, fill, default");
-			ed_Buildings.setColumns(10);
-		}
-		{
-			JButton btnBuildings = new JButton("Buildings");
-			btnBuildings.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//
-					doBuildingList();
-				}
-			});
-			btnBuildings.setHorizontalAlignment(SwingConstants.LEFT);
-			btnBuildings.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
-			contentPanel.add(btnBuildings, "18, 10");
-		}
-		{
-			JLabel lblRoute = new JLabel("Route");
-			contentPanel.add(lblRoute, "2, 12, right, default");
-		}
-		{
-			ed_Routes = new JTextField();
-			contentPanel.add(ed_Routes, "4, 12, fill, default");
-			ed_Routes.setColumns(10);
-		}
-		{
-			JButton btnRoutes = new JButton("Routes");
-			btnRoutes.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
-			btnRoutes.setHorizontalAlignment(SwingConstants.LEFT);
-			contentPanel.add(btnRoutes, "8, 12");
-		}
-		{
-			JLabel lblUnits = new JLabel("Units");
-			contentPanel.add(lblUnits, "12, 12, right, default");
-		}
-		{
 			ed_Units = new JTextField();
-			contentPanel.add(ed_Units, "14, 12, fill, default");
+			contentPanel.add(ed_Units, "16, 2, fill, default");
 			ed_Units.setColumns(10);
 		}
 		{
@@ -334,11 +182,157 @@ public class Lehen_DFM extends JDialog
 			});
 			btnUnits.setHorizontalAlignment(SwingConstants.LEFT);
 			btnUnits.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
-			contentPanel.add(btnUnits, "18, 12");
+			contentPanel.add(btnUnits, "18, 2");
+		}
+		{
+			JLabel lblLehentyp = new JLabel("LehenTyp");
+			contentPanel.add(lblLehentyp, "2, 4, right, default");
+		}
+		{
+			ed_SettleTyp = new JTextField();
+			contentPanel.add(ed_SettleTyp, "4, 4, fill, default");
+			ed_SettleTyp.setColumns(10);
+		}
+		{
+			JLabel lblAge = new JLabel("Age");
+			contentPanel.add(lblAge, "6, 4, right, default");
+		}
+		{
+			ed_Age = new JTextField();
+			contentPanel.add(ed_Age, "8, 4, fill, default");
+			ed_Age.setColumns(10);
+		}
+		{
+			JLabel lblBuildings = new JLabel("Buildings");
+			contentPanel.add(lblBuildings, "12, 4, right, default");
+		}
+		{
+			ed_Buildings = new JTextField();
+			contentPanel.add(ed_Buildings, "14, 4, fill, default");
+			ed_Buildings.setColumns(10);
+		}
+		JButton btnBuildings = new JButton("Buildings");
+		btnBuildings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				doBuildingList();
+			}
+		});
+		btnBuildings.setHorizontalAlignment(SwingConstants.LEFT);
+		btnBuildings.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+		contentPanel.add(btnBuildings, "18, 4");
+		{
+			JLabel lblSupportid = new JLabel("SupportID");
+			contentPanel.add(lblSupportid, "2, 6, right, default");
+		}
+		{
+			ed_SupportId = new JTextField();
+			contentPanel.add(ed_SupportId, "4, 6, fill, default");
+			ed_SupportId.setColumns(10);
+		}
+		{
+			ed_SupportName = new JTextField();
+			contentPanel.add(ed_SupportName, "6, 6, 3, 1, fill, default");
+			ed_SupportName.setColumns(10);
+		}
+		{
+			JLabel lblStoreage = new JLabel("Storeage");
+			contentPanel.add(lblStoreage, "12, 6, right, default");
+		}
+		{
+			ed_Storage = new JTextField();
+			contentPanel.add(ed_Storage, "14, 6, fill, default");
+			ed_Storage.setColumns(10);
+		}
+		JButton btn_Warehouse = new JButton("Warehouse");
+		btn_Warehouse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doWarehouseList();
+			}
+		});
+		btn_Warehouse.setHorizontalAlignment(SwingConstants.LEFT);
+		btn_Warehouse.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+		contentPanel.add(btn_Warehouse, "18, 6");
+		{
+			{
+				JLabel lblBank = new JLabel("Bank");
+				contentPanel.add(lblBank, "2, 8, right, default");
+			}
+			{
+				ed_Bank = new JTextField();
+				contentPanel.add(ed_Bank, "4, 8, fill, default");
+				ed_Bank.setColumns(10);
+			}
+		}
+		{
+			JLabel lblRequired = new JLabel("Required");
+			contentPanel.add(lblRequired, "12, 8, right, default");
+		}
+		{
+			ed_Required = new JTextField();
+			contentPanel.add(ed_Required, "14, 8, fill, default");
+			ed_Required.setColumns(10);
+		}
+		{
+			JButton btn_Required = new JButton("Required");
+			btn_Required.setHorizontalAlignment(SwingConstants.LEFT);
+			btn_Required.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+			contentPanel.add(btn_Required, "18, 8");
+		}
+		{
+			JLabel lblBeds = new JLabel("Beds");
+			contentPanel.add(lblBeds, "2, 10, right, default");
+		}
+		{
+			ed_Beds = new JTextField();
+			contentPanel.add(ed_Beds, "4, 10, fill, default");
+			ed_Beds.setColumns(10);
+		}
+		{
+			JLabel lblSettler = new JLabel("Settler");
+			contentPanel.add(lblSettler, "6, 10, right, default");
+		}
+		{
+			ed_Settler = new JTextField();
+			contentPanel.add(ed_Settler, "8, 10, fill, default");
+			ed_Settler.setColumns(10);
+		}
+		{
+		}
+		{
+			{
+				JLabel lblBuyorder = new JLabel("BuyOrder");
+				contentPanel.add(lblBuyorder, "12, 10, right, default");
+			}
+			{
+				ed_BuyOrder = new JTextField();
+				contentPanel.add(ed_BuyOrder, "14, 10, fill, default");
+				ed_BuyOrder.setColumns(10);
+			}
+		}
+		JButton btnNewButton = new JButton("BuyOrders");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//
+				doBuyOrderList();
+			}
+		});
+		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
+		btnNewButton.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+		contentPanel.add(btnNewButton, "18, 10");
+		{
+			JLabel lblOwner = new JLabel("Owner");
+			contentPanel.add(lblOwner, "2, 12, right, default");
+		}
+		{
+			txtOwner = new JTextField();
+			txtOwner.setText("Owner");
+			contentPanel.add(txtOwner, "4, 12, fill, default");
+			txtOwner.setColumns(10);
 		}
 		{
 			JScrollPane scrollPane = new JScrollPane();
-			contentPanel.add(scrollPane, "2, 14, 7, 1, fill, fill");
+			contentPanel.add(scrollPane, "2, 16, 7, 1, fill, fill");
 			{
 				table = new JTable();
 				table.setModel(new DefaultTableModel(
@@ -359,6 +353,21 @@ public class Lehen_DFM extends JDialog
 				table.getColumnModel().getColumn(2).setMaxWidth(55);
 				scrollPane.setViewportView(table);
 			}
+		}
+		{
+			JLabel lblRoute = new JLabel("Route");
+			contentPanel.add(lblRoute, "12, 12, right, default");
+		}
+		{
+			ed_Routes = new JTextField();
+			contentPanel.add(ed_Routes, "14, 12, fill, default");
+			ed_Routes.setColumns(10);
+		}
+		{
+			JButton btnRoutes = new JButton("Routes");
+			btnRoutes.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnRoutes.setHorizontalAlignment(SwingConstants.LEFT);
+			contentPanel.add(btnRoutes, "18, 12");
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -397,7 +406,7 @@ public class Lehen_DFM extends JDialog
 	}
 	
 
-	private void setText()
+	private void updateForm()
 	{
 		ed_Id.setText(String.valueOf(lehen.getId()));
 		ed_Name.setText(lehen.getName());

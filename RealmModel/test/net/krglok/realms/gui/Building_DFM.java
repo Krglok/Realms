@@ -53,10 +53,10 @@ public class Building_DFM extends JDialog
 	private JTextField txtSlot_2;
 	private JTextField txtSlot_3;
 	private JTextField txtSlot_4;
+	private JTextField txtSale;
 
 	public Building building;
 	public RealmModel rModel;
-	private JTextField txtSale;
 	
 	/**
 	 * Launch the application.
@@ -475,23 +475,23 @@ public class Building_DFM extends JDialog
 		txtTraintype.setText(building.getTrainType().name());
 		txtTraintime.setText(String.valueOf(building.getTrainTime()));
 		txtTraincounter.setText(String.valueOf(building.getTrainCounter()));
-		if (building.getSlots().length > 0)
+		if (building.getSlots()[0] != null)
 		{
 			txtSlot.setText(building.getSlots()[0].ItemRef());
 		} else
-		if (building.getSlots().length > 1)
+		if (building.getSlots()[1] != null)
 		{
 			txtSlot.setText(building.getSlots()[1].ItemRef());
 		} else
-		if (building.getSlots().length > 2)
+		if (building.getSlots()[2] != null)
 		{
 			txtSlot.setText(building.getSlots()[2].ItemRef());
 		} else
-		if (building.getSlots().length > 3)
+		if (building.getSlots()[3] != null)
 		{
 			txtSlot.setText(building.getSlots()[3].ItemRef());
 		} else
-		if (building.getSlots().length > 4)
+		if (building.getSlots()[4] != null)
 		{
 			txtSlot.setText(building.getSlots()[4].ItemRef());
 		} 
@@ -500,7 +500,9 @@ public class Building_DFM extends JDialog
 
 	private void showRecipe()
 	{
-		ItemList iList = rModel.getServer().getRegionOutput(building.getBuildingType().name());
+		
+		ItemList iList = rModel.getServer().getRecipeProd("",building.getBuildingType().name());
+//		rModel.getServer().get
 		Object[][] dataRows = new Object[iList.size()][3];
 		int index = 0;
 		for (String itemRef : iList.sortItems())
@@ -523,7 +525,7 @@ public class Building_DFM extends JDialog
 				}
 			}
 		}
-		String[] colHeader = new String[] {	"Items", "Amount","Required"};		
+		String[] colHeader = new String[] {	"Items", "Amount"};		
 		@SuppressWarnings("rawtypes")
 		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
 		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Recipe");

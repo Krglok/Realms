@@ -26,6 +26,8 @@ import net.krglok.realms.model.McmdBuyOrder;
 import net.krglok.realms.model.McmdSellOrder;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.model.iModelCommand;
+import net.krglok.realms.npc.NpcData;
+import net.krglok.realms.unit.UnitType;
 
 /**
  * Der Lehen manager steuert die internen automatischen Abläufe des Lehens
@@ -97,7 +99,8 @@ public class LehenManager
 //				System.out.println("4.1 buyRequiredMaterials");
 				buyRequiredMaterials(rModel, lehen);
 			}
-	
+			// check Rookie without Training
+			checkRookie(rModel, lehen);			
 			// check for overstocking
 //			System.out.println("5");
 //			checkOverStockSell( rModel,  lehen);
@@ -563,6 +566,24 @@ public class LehenManager
 			}
 		}
 		
+	}
+
+	private void checkRookie(RealmModel rModel,Lehen lehen)
+	{
+		for (NpcData npc : lehen.getBarrack().getUnitList())
+		{
+			if (npc.isAlive())
+			{
+				if (npc.getUnitType()==UnitType.ROOKIE)
+				{
+					if (rModel.getData().getBuildings().getBuilding(npc.getWorkBuilding()).getTrainCounter() < 1)
+					{
+						rModel.getData().getBuildings().getBuilding(npc.getWorkBuilding()).addTrainCounter(1);
+						System.out.println("REALMS Activate Train on "+ npc.getWorkBuilding());
+					}
+				}
+			}
+		}
 	}
 	
 }

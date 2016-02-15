@@ -32,10 +32,13 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NpcData;
 
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class Overview_Browser extends JDialog
+public class DataList_MFM extends JDialog
 {
 
 	/**
@@ -44,13 +47,11 @@ public class Overview_Browser extends JDialog
 	private static final long serialVersionUID = 679818721067803828L;
 	private final JPanel contentPanel = new JPanel();
 	public JTable table;
-	public Overview_Browser dialog ;
+	public DataList_MFM dialog ;
 	private static Object[][] dataRows; // = new String[][] {{	"0", "1", "2","3"}, {	"1", "11", "12","13"}};
 	private static String[] colHeader = new String[] {	"ID", "Name", "2", "3","4"};
 	private static Class[] columnTypes = new Class[] {String.class, Integer.class, Integer.class, Integer.class, String.class};
 	private Class detailType;
-//	private Settlement settle;
-//	private Lehen lehen;
 	RealmModel rModel;
 	
 
@@ -65,7 +66,7 @@ public class Overview_Browser extends JDialog
 			colHeader = header;
 			columnTypes = colTypes;
 
-			Overview_Browser dialog = new Overview_Browser();
+			DataList_MFM dialog = new DataList_MFM();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			dialog.setTitle(titel);
@@ -90,9 +91,9 @@ public class Overview_Browser extends JDialog
 	/**
 	 * Create the dialog.
 	 */
-	public Overview_Browser()
+	public DataList_MFM()
 	{
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Overview_Browser.class.getResource("/net/krglok/realms/gui/_tinfo.gif")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DataList_MFM.class.getResource("/net/krglok/realms/gui/_tinfo.gif")));
 		setTitle("DatenListe");
 		setBounds(100, 100, 491, 500);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -108,10 +109,10 @@ public class Overview_Browser extends JDialog
 				toolBar.add(ok_Cancel);
 				ok_Cancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Overview_Browser.this.dispose();
+						DataList_MFM.this.dispose();
 					}
 				});
-				ok_Cancel.setIcon(new ImageIcon(Overview_Browser.class.getResource("/net/krglok/realms/gui/delete.png")));
+				ok_Cancel.setIcon(new ImageIcon(DataList_MFM.class.getResource("/net/krglok/realms/gui/delete.png")));
 				ok_Cancel.setActionCommand("OK");
 				getRootPane().setDefaultButton(ok_Cancel);
 			}
@@ -126,7 +127,7 @@ public class Overview_Browser extends JDialog
 				btn_Select.setVerticalAlignment(SwingConstants.BOTTOM);
 				btn_Select.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 				btn_Select.setHorizontalTextPosition(SwingConstants.LEFT);
-				btn_Select.setIcon(new ImageIcon(Overview_Browser.class.getResource("/net/krglok/realms/gui/check.png")));
+				btn_Select.setIcon(new ImageIcon(DataList_MFM.class.getResource("/net/krglok/realms/gui/check.png")));
 				btn_Select.setToolTipText("Command sell");
 				btn_Select.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 				toolBar.add(btn_Select);
@@ -138,6 +139,12 @@ public class Overview_Browser extends JDialog
 		{
 			{
 				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						showDetail();
+					}
+				});
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 				scrollPane.setViewportBorder(new LineBorder(new Color(0, 0, 0)));
 				contentPanel.add(scrollPane);
@@ -182,20 +189,22 @@ public class Overview_Browser extends JDialog
 		{
 			showBuilding();
 		}
+		// Show NpcData Detail
+		if (detailType == NpcData.class)
+		{
+			showNpc();
+		}
 		
 	}
 
 	private void showBuilding()
 	{
 		int rowIndex = table.getSelectedRow();
-		if (rowIndex >= 0)
+		int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
+		Building building = rModel.getData().getBuildings().getBuilding(id);
+		if (building != null)
 		{
-			int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
-			Building building = rModel.getData().getBuildings().getBuilding(id);
-			if (building != null)
-			{
-				Building_DFM.showMe(building, rModel);
-			}
+			Building_DFM.showMe(building, rModel);
 		}
 	}
 	
@@ -203,30 +212,35 @@ public class Overview_Browser extends JDialog
 	private void showLehen()
 	{
 		int rowIndex = table.getSelectedRow();
-		if (rowIndex >= 0)
+		int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
+		Lehen lehen = rModel.getData().getLehen().getLehen(id);
+		if (lehen != null)
 		{
-			int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
-			Lehen lehen = rModel.getData().getLehen().getLehen(id);
-			if (lehen != null)
-			{
-				Lehen_DFM.showMe(lehen, rModel.getData());
-			}
+			Lehen_DFM.showMe(lehen, rModel.getData());
 		}
 	}
 	
 	
 	private void showSettlement()
 	{
-			int rowIndex = table.getSelectedRow();
-			if (rowIndex > 0)
-			{
-				int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
-				Settlement settle = rModel.getData().getSettlements().getSettlement(id);
-				if (settle != null)
-				{
-					Settle_DFM.showMe(settle, rModel);
-				}
-			}
+		int rowIndex = table.getSelectedRow();
+		int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
+		Settlement settle = rModel.getData().getSettlements().getSettlement(id);
+		if (settle != null)
+		{
+			Settle_DFM.showMe(settle, rModel);
+		}
+	}
+
+	private void showNpc()
+	{
+		int rowIndex = table.getSelectedRow();
+		int id =  Integer.valueOf(table.getModel().getValueAt(rowIndex, 0).toString());
+		NpcData npc= rModel.getData().getNpcs().get(id);
+		if (npc != null)
+		{
+			Npc_DFM.showMe(npc, rModel);
+		}
 	}
 	
 	public void setDetailClass(Class detailClass)

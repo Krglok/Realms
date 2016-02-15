@@ -625,7 +625,7 @@ public class TestMain
 			int maxRow = managerTest.data.getSettlements().size();
 			dataRows = new  String[maxRow][columnHeader.length];
 //			Class[] colTypes = new Class[] { String.class, String.class, String.class, String.class, String.class,, String.class };
-			Overview_Browser dialog = new Overview_Browser();
+			DataList_MFM dialog = new DataList_MFM();
 			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
@@ -671,7 +671,7 @@ public class TestMain
 			int maxRow = managerTest.data.getLehen().size();
 			dataRows = new  String[maxRow][columnHeader.length];
 //			table = new JTable();
-			Overview_Browser dialog = new Overview_Browser();
+			DataList_MFM dialog = new DataList_MFM();
 			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
@@ -759,7 +759,7 @@ public class TestMain
 		{
 			txtListtitel.setText("BuildingList");
 			columnHeader = new String[] {"ID", "TYPE", "Region", "Settler", "Worker","Settle","Lehen"};
-			Overview_Browser dialog = new Overview_Browser();
+			DataList_MFM dialog = new DataList_MFM();
 			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
@@ -797,7 +797,6 @@ public class TestMain
 			dialog.rModel = managerTest.rModel;
 			dialog.setVisible(true);
 			
-			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -814,31 +813,39 @@ public class TestMain
 			int maxRow = managerTest.data.getNpcs().size();
 			System.out.println("NPC ["+maxRow+"]");
 			dataRows = new  String[maxRow][columnHeader.length];
-//			table = new JTable();
-			table.setModel(new DefaultTableModel(
+			DataList_MFM dialog = new DataList_MFM();
+			dialog.table.setModel(new DefaultTableModel(
 				dataRows,
 				columnHeader
 			));
-			table.getColumnModel().getColumn(0).setPreferredWidth(10);
-			table.getColumnModel().getColumn(1).setPreferredWidth(60);
-			table.getColumnModel().getColumn(2).setPreferredWidth(35);
-			table.getColumnModel().getColumn(3).setPreferredWidth(35);
-			table.getColumnModel().getColumn(4).setPreferredWidth(35);
-			table.getColumnModel().getColumn(5).setPreferredWidth(35);
-			table.getColumnModel().getColumn(6).setPreferredWidth(35);
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			dialog.table.getColumnModel().getColumn(1).setPreferredWidth(60);
+			dialog.table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(3).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(5).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(6).setPreferredWidth(35);
 			int row = 0;
 			for (Integer index: managerTest.data.getNpcs().sortIntegerList(managerTest.data.getNpcs().keySet()))
 			{
 				NpcData npc = managerTest.data.getNpcs().get(index);
-				table.getModel().setValueAt(ConfigBasis.setStrright(npc.getId(),5), row, 0);
-				table.getModel().setValueAt(npc.getName() ,row,1);; 
-				table.getModel().setValueAt(npc.getNpcType().name() ,row,2);; 
-				table.getModel().setValueAt(npc.getUnitType().name() ,row,3);; 
-				table.getModel().setValueAt(ConfigBasis.setStrright(npc.getSettleId() ,4),row,4);
-				table.getModel().setValueAt(ConfigBasis.setStrright(npc.getLehenId() ,2),row,5);
-				table.getModel().setValueAt(ConfigBasis.setStrformat2(npc.getMoney() ,9) ,row,6);
+				dialog.table.getModel().setValueAt(npc.getId(), row, 0);
+				dialog.table.getModel().setValueAt(npc.getName() ,row,1);; 
+				dialog.table.getModel().setValueAt(npc.getNpcType().name() ,row,2);; 
+				dialog.table.getModel().setValueAt(npc.getUnitType().name() ,row,3);; 
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getSettleId() ,4),row,4);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getLehenId() ,2),row,5);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrformat2(npc.getMoney() ,9) ,row,6);
 				row++;
 			}
+			dialog.setTitle("Npc Liste");
+			dialog.setDetailClass(NpcData.class);
+			dialog.rModel = managerTest.rModel;
+			dialog.setVisible(true);
 			
 		} catch (Exception e)
 		{

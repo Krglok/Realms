@@ -212,7 +212,7 @@ public class LehenTrainTest
 			}
 			lehen.doResident(data);
 			lehen.doProduce(server,data,dayCounter);
-			lehen.doUnitTrain(unitFactory);
+			lehen.doUnitTrain(unitFactory,data);
 			
 			showSettler = true;	
 			isMonth = false;

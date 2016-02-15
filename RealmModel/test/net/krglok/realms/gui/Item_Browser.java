@@ -61,6 +61,7 @@ public class Item_Browser extends JDialog
 	 */
 	public Item_Browser()
 	{
+		setTitle("Itemlist");
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -85,9 +86,9 @@ public class Item_Browser extends JDialog
 			table.getColumnModel().getColumn(0).setMinWidth(35);
 			table.getColumnModel().getColumn(0).setMaxWidth(250);
 			table.getColumnModel().getColumn(1).setResizable(true);
-			table.getColumnModel().getColumn(2).setResizable(false);
-			table.getColumnModel().getColumn(2).setPreferredWidth(105);
-			table.getColumnModel().getColumn(2).setMaxWidth(175);
+//			table.getColumnModel().getColumn(2).setResizable(false);
+//			table.getColumnModel().getColumn(2).setPreferredWidth(105);
+//			table.getColumnModel().getColumn(2).setMaxWidth(175);
 			contentPanel.add(table, BorderLayout.CENTER);
 		}
 		{
