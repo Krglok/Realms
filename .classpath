@@ -12,6 +12,6 @@
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/citizensapi-2.0.11-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/dynmap-HEAD.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/sentry.jar" sourcepath="/CitizenSentry"/>
-	<classpathentry kind="lib" path="D:/GIT/PluginRef/spigot-1.8.3.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.8-R0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

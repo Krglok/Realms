@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="net.krglok.realms.unittest.RegionConfig" x="467" y="80">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.tool.StrongholdTools" x="767" y="24">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="true"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="false" static-accepted="true"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.unittest.RegionConfig"/>
+    </Class>
+    <Class name="net.krglok.realms.tool.SuperRegionData" x="1022" y="309">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.data.ServerData" x="32" y="61">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.unittest.SuperRegionConfig"
+            endpointName="superRegionConfigList" kind="Simple">
+            <Point x="363" y="388"/>
+        </Association>
+        <Association
+            destinationClassName="net.krglok.realms.unittest.RegionConfig"
+            endpointName="regionConfigList" kind="Simple"/>
+    </Class>
+    <Class name="net.krglok.realms.unittest.SuperRegionConfig" x="468" y="464">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="net.krglok.realms.tool.RegionData" x="1023" y="130">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Communication destinationClassName="net.krglok.realms.unittest.RegionConfig"/>
+    </Class>
+    <Class name="net.krglok.realms.unittest.ServerTest" x="26" y="523">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="net.krglok.realms.unittest.SuperRegionConfig"
+            endpointName="superRegionConfigList" kind="Simple"/>
+        <Association
+            destinationClassName="net.krglok.realms.unittest.RegionConfig"
+            endpointName="regionConfigList" kind="Simple"/>
+        <Communication destinationClassName="net.krglok.realms.unittest.RegionConfig"/>
+        <Communication destinationClassName="net.krglok.realms.tool.StrongholdTools"/>
+        <Communication destinationClassName="net.krglok.realms.tool.SuperRegionData"/>
+    </Class>
+</ClassDiagram>
