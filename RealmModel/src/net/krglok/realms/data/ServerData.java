@@ -67,8 +67,8 @@ public class ServerData implements ServerInterface
 	{
 		this.plugin = plugin; 
 		recipeData = new RecipeData();
-		initRegionConfig();
-		initSuperRegionConfig();
+//		initRegionConfig();
+//		initSuperRegionConfig();
 	}
 
 	public RecipeData getRecipeData()
@@ -952,6 +952,7 @@ public class ServerData implements ServerInterface
 	@Override
 	public void initRegionConfig()
 	{
+		regionConfigList = new HashMap<String, RegionConfig>();
 		for (BuildPlanType bType : BuildPlanType.values())
 		{
 			RegionConfig rConfig = getRegionConfig(bType.name());
@@ -992,6 +993,7 @@ public class ServerData implements ServerInterface
 	@Override
 	public void initSuperRegionConfig()
 	{
+		superRegionConfigList = new HashMap<String, SuperRegionConfig>();
 		for (SettleType bType : SettleType.values())
 		{
 			SuperRegionConfig rConfig = getSuperRegionConfig(bType.name());

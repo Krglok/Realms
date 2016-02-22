@@ -105,6 +105,7 @@ public class TestMain
 	private JProgressBar progressBar;
 	private Runnable runProgress;
 	private JTextField txtListtitel;
+	JToolBar toolBar;
 	
 	/**
 	 * Launch the application.
@@ -295,7 +296,7 @@ public class TestMain
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		frmManagetTest.getContentPane().add(panel_1, BorderLayout.NORTH);
 		
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		toolBar.setRollover(true);
 		panel_1.add(toolBar);
 		toolBar.setMinimumSize(new Dimension(13, 33));
@@ -349,12 +350,14 @@ public class TestMain
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
+						toolBar.setEnabled(false);
 						text_Loops.setText("Running");
 						text_Loops.paint(text_Loops.getGraphics());
 						managerTest.doDayLoop(managerTest.rModel, progressBar);
 						calendar.stepDay();
 						text_Loops.setText(calendar.getCalendarDateGer());
 						text_Loops.paint(text_Loops.getGraphics());
+						toolBar.setEnabled(true);
 					}
 				}
 		);

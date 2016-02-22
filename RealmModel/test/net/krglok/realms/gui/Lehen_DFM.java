@@ -36,6 +36,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class Lehen_DFM extends JDialog
 {
@@ -66,6 +68,7 @@ public class Lehen_DFM extends JDialog
 	private Lehen lehen;
 	private DataStorage data;
 	private JTextField txtOwner;
+	private final Action action = new SwingAction();
 	
 	/**
 	 * Launch the application.
@@ -370,6 +373,16 @@ public class Lehen_DFM extends JDialog
 			contentPanel.add(btnRoutes, "18, 12");
 		}
 		{
+			JButton btnMessages = new JButton("Messages");
+			btnMessages.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					showMessage();
+				}
+			});
+			btnMessages.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/_text.gif")));
+			contentPanel.add(btnMessages, "18, 16, default, top");
+		}
+		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -539,5 +552,18 @@ public class Lehen_DFM extends JDialog
 		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
 		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Warehouse List");
 	}
+
+	private void showMessage()
+	{
+		MessageBrowser.showMe(lehen.getSettleType().name(),lehen.getMsg());		
+	}
 	
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
+	}
 }

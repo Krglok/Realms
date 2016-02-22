@@ -652,6 +652,7 @@ public abstract class AbstractSettle
 				}
 			} else
 			{
+				building.getMsg().add("GUARDHOUSE NO train : "+building.getMaxTrain());
 //				System.out.println("GUARDHOUSE NO train : "+building.getMaxTrain());
 			}
 			break;

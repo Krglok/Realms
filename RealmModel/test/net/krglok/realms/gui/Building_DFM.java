@@ -325,6 +325,7 @@ public class Building_DFM extends JDialog
 			btnMessage.setIcon(new ImageIcon(Building_DFM.class.getResource("/net/krglok/realms/gui/_tinfo16.gif")));
 			btnMessage.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					showMessage();
 				}
 			});
 			contentPanel.add(btnMessage, "14, 17, fill, default");
@@ -425,6 +426,8 @@ public class Building_DFM extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setEnabled(false);
+				okButton.setIcon(new ImageIcon(Building_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 				okButton.setMnemonic(KeyEvent.VK_ENTER);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -437,6 +440,7 @@ public class Building_DFM extends JDialog
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setIcon(new ImageIcon(Building_DFM.class.getResource("/net/krglok/realms/gui/error.png")));
 				cancelButton.setMnemonic(KeyEvent.VK_ESCAPE);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -531,5 +535,9 @@ public class Building_DFM extends JDialog
 		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Recipe");
 		
 	}
-	
+
+	private void showMessage()
+	{
+		MessageBrowser.showMe(building.getBuildingType().name(),building.getMsg());		
+	}
 }

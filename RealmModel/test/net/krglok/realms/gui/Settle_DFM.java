@@ -359,6 +359,16 @@ public class Settle_DFM extends JDialog
 			}
 		}
 		{
+			JButton btnMessage = new JButton("Message");
+			btnMessage.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					showMessage();
+				}
+			});
+			btnMessage.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/_text.gif")));
+			contentPanel.add(btnMessage, "17, 16, fill, top");
+		}
+		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -587,6 +597,11 @@ public class Settle_DFM extends JDialog
 	private void closeDialog()
 	{
 		this.dispose();
+	}
+
+	private void showMessage()
+	{
+		MessageBrowser.showMe(settle.getSettleType().name(),settle.getMsg());		
 	}
 	
 }

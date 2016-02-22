@@ -578,6 +578,10 @@ public class LehenManager
 				{
 					if (rModel.getData().getBuildings().getBuilding(npc.getWorkBuilding()).getTrainCounter() < 1)
 					{
+						if (rModel.getData().getBuildings().getBuilding(npc.getWorkBuilding()).getMaxTrain() < 1)
+						{
+							rModel.getData().getBuildings().getBuilding(npc.getWorkBuilding()).setMaxTrain(1);
+						}
 						rModel.getData().getBuildings().getBuilding(npc.getWorkBuilding()).addTrainCounter(1);
 						System.out.println("REALMS Activate Train on "+ npc.getWorkBuilding());
 					}
