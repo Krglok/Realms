@@ -17,15 +17,12 @@ public class MaterialBuildPlanList extends HashMap<String, BuildPlanList>
 	
 	public void addMaterialBuildPlan(String materialName, BuildPlanType buildPlan)
 	{
-		if (this.containsKey(materialName))
-		{
-			return;
-		}
 		BuildPlanList bList; 
-		if (this.containsKey(materialName))
+		bList = this.get(materialName);
+		if (bList != null)
 		{
-			bList = this.get(materialName);
 			bList.add(buildPlan);
+//			this.put(materialName, bList);
 		} else
 		{
 			bList = new BuildPlanList();
