@@ -1,9 +1,14 @@
 package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.data.DataStorage;
 
 import org.junit.Test;
@@ -64,9 +69,9 @@ public class TestServerTest
 		
 		System.out.println(" ");
 		System.out.println("== REGION CONFIG :"+server.regionConfigList.size());
-		for (String key : server.regionConfigList.keySet())
+		for (BuildPlanType key : server.regionConfigList.keySet())
 		{
-			System.out.println(key);
+			System.out.println(key.name());
 		}
 		int expected = 138;
 		int actual = server.regionConfigList.size(); 
@@ -80,14 +85,48 @@ public class TestServerTest
 		
 		System.out.println(" ");
 		System.out.println("== SUPERREGION CONFIG :"+server.superRegionConfigList.size());
-		for (String key : server.superRegionConfigList.keySet())
+		for (SettleType key : server.superRegionConfigList.keySet())
 		{
-			System.out.println(key);
+			System.out.println(key.name());
 		}
 		int expected = 138;
 		int actual = server.superRegionConfigList.size(); 
 
 		assertEquals(expected, actual);
 	}
+
+	
+	public ArrayList<String> sortItems()
+	{
+		ArrayList<String> sortedItems = new ArrayList<String>();
+		for (String s : server.materialBuildPlanList.keySet())
+		{
+			sortedItems.add(s);
+		}
+		if (sortedItems.size() > 1)
+		{
+			Collections.sort
+			(sortedItems,  String.CASE_INSENSITIVE_ORDER);
+		}
+		return sortedItems;
+	}
+	
+	@Test
+	public void testMatrialBuildPlanList()
+	{
+		
+		System.out.println(" ");
+		System.out.println("== MATERIAL BUILDPLAN :"+server.materialBuildPlanList.size());
+		for (String key : sortItems())
+		{
+			for (BuildPlanType bType : server.materialBuildPlanList.get(key))
+			System.out.println(key+":"+bType.name());
+		}
+		int expected = 138;
+		int actual = server.superRegionConfigList.size(); 
+
+		assertEquals(expected, actual);
+	}
+	
 	
 }

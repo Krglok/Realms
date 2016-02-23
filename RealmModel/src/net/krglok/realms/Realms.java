@@ -262,6 +262,18 @@ public final class Realms extends JavaPlugin
        
         boolean isReady = true; // flag for Init contrll
 		// Vault economy
+        if (stronghold != null)
+        {
+        	server.initRegionConfig();
+        	server.initSuperRegionConfig();
+    		log.info("[Realms] Stronghold RegionConfig succesfull loaded !");
+        } else
+        {
+        	isReady = false;
+    		log.info("[Realms] Stronghold not properly read !");
+        }
+
+        
         configData = new ConfigData(this.configFile);
         if (configData == null)
         {

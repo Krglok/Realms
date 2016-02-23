@@ -27,20 +27,24 @@ import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.builder.RegionConfig;
+import net.krglok.realms.builder.RegionConfigList;
 import net.krglok.realms.builder.RegionLocation;
+import net.krglok.realms.builder.SuperRegionConfig;
+import net.krglok.realms.builder.SuperRegionConfigList;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
+import net.krglok.realms.manager.MaterialBuildPlanList;
 import net.krglok.realms.tool.StrongholdTools;
-import net.krglok.realms.unittest.RegionConfig;
-import net.krglok.realms.unittest.SuperRegionConfig;
 
 /**
  * here will be the Data from the Server are transformed to RealData
  * Realms get data from server through this class
  * Realms get data from HeroStronghold  through this interface class
+ * the Stronghold Region/SuperRegionCobfig loaded in plugin.OnEnable
  * 
  * @author Windu
  *
@@ -60,15 +64,14 @@ public class ServerData implements ServerInterface
 	public static final int FAKTOR_PPP = 75;
 
 	
-	HashMap<String, RegionConfig> regionConfigList = new HashMap<String, RegionConfig>();
-	HashMap<String, SuperRegionConfig> superRegionConfigList = new HashMap<String, SuperRegionConfig>();
+	private RegionConfigList regionConfigList = new RegionConfigList();
+	private SuperRegionConfigList superRegionConfigList = new SuperRegionConfigList();
+	private MaterialBuildPlanList materialBuildPlanList = new MaterialBuildPlanList();
 	
 	public ServerData(Realms plugin)
 	{
 		this.plugin = plugin; 
 		recipeData = new RecipeData();
-//		initRegionConfig();
-//		initSuperRegionConfig();
 	}
 
 	public RecipeData getRecipeData()
@@ -952,13 +955,13 @@ public class ServerData implements ServerInterface
 	@Override
 	public void initRegionConfig()
 	{
-		regionConfigList = new HashMap<String, RegionConfig>();
+		regionConfigList = new RegionConfigList();
 		for (BuildPlanType bType : BuildPlanType.values())
 		{
 			RegionConfig rConfig = getRegionConfig(bType.name());
 			if (rConfig != null)
 			{
-				regionConfigList.put(bType.name(), rConfig);
+				regionConfigList.put(bType, rConfig);
 			}
 		}
 	}
@@ -993,17 +996,30 @@ public class ServerData implements ServerInterface
 	@Override
 	public void initSuperRegionConfig()
 	{
-		superRegionConfigList = new HashMap<String, SuperRegionConfig>();
+		superRegionConfigList = new SuperRegionConfigList();
 		for (SettleType bType : SettleType.values())
 		{
 			SuperRegionConfig rConfig = getSuperRegionConfig(bType.name());
 			if (rConfig != null)
 			{
-				superRegionConfigList.put(bType.name(), rConfig);
+				superRegionConfigList.put(bType, rConfig);
 			}
 		}
 		
 	}
 
+	
+	@Override
+	public void initMaterialBuildPlanList()
+	{
+		for (RegionConfig rConfig : regionConfigList.values())
+		{
+			for (ItemStack item : rConfig.getOutput())
+			{
+				materialBuildPlanList.addMaterialBuildPlan(item.getType().name(), BuildPlanType.getBuildPlanType(rConfig.getName()));
+			}
+		}
+	}
+	
 	
 }

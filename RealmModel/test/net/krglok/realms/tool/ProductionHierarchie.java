@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.krglok.realms.unittest.RegionConfig;
+import net.krglok.realms.builder.RegionConfig;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

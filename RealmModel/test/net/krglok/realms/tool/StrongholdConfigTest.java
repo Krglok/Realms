@@ -3,8 +3,8 @@ package net.krglok.realms.tool;
 import java.io.File;
 import java.util.HashMap;
 
+import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.unittest.RegionConfig;
 
 
 import org.bukkit.inventory.ItemStack;

@@ -7,6 +7,10 @@ import java.util.HashMap;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.builder.RegionConfig;
+import net.krglok.realms.builder.RegionConfigList;
+import net.krglok.realms.builder.SuperRegionConfig;
+import net.krglok.realms.builder.SuperRegionConfigList;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -17,6 +21,7 @@ import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.data.RecipeData;
 import net.krglok.realms.data.ServerInterface;
+import net.krglok.realms.manager.MaterialBuildPlanList;
 import net.krglok.realms.tool.StrongholdTools;
 import net.krglok.realms.tool.SuperRegionData;
 
@@ -41,8 +46,9 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	
 	ArrayList<String> playerNameList;
 	ArrayList<String> offPlayerNameList;
-	HashMap<String, RegionConfig> regionConfigList = new HashMap<String, RegionConfig>();
-	HashMap<String, SuperRegionConfig> superRegionConfigList = new HashMap<String, SuperRegionConfig>();
+	RegionConfigList regionConfigList = new RegionConfigList();
+	SuperRegionConfigList superRegionConfigList = new SuperRegionConfigList();
+	MaterialBuildPlanList materialBuildPlanList = new MaterialBuildPlanList();
 	
 	// ItemList = HashMap<String, Integer> 
 	HashMap<Integer,ItemList> prodStore = new HashMap<Integer, ItemList>();
@@ -70,6 +76,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 		recipeData = new RecipeData();
 		initRegionConfig();
 		initSuperRegionConfig();
+		initMaterialBuildPlanList();
 	}
 
 	@Override
@@ -770,7 +777,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 			SuperRegionConfig rConfig = getSuperRegionConfig(bType.name());
 			if (rConfig != null)
 			{
-				superRegionConfigList.put(bType.name(), rConfig);
+				superRegionConfigList.put(bType, rConfig);
 			}
 		}
 	}
@@ -807,7 +814,7 @@ public class ServerTest  implements ServerInterface // extends ServerData
 			RegionConfig rConfig = getRegionConfig(bType.name());
 			if (rConfig != null)
 			{
-				regionConfigList.put(bType.name(), rConfig);
+				regionConfigList.put(bType, rConfig);
 			}
 		}
 	}
@@ -836,16 +843,27 @@ public class ServerTest  implements ServerInterface // extends ServerData
 	@Override
 	public Region getRegionAt(LocationData pos)
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public double getRegionTypeCost(String regionType)
 	{
-		// TODO Auto-generated method stub
 		RegionConfig region = regionConfigList.get(regionType);
 		
 		return region.getMoneyRequirement();
+	}
+
+	@Override
+	public void initMaterialBuildPlanList() 
+	{
+		for (RegionConfig rConfig : regionConfigList.values())
+		{
+			for (ItemStack item : rConfig.getOutput())
+			{
+				materialBuildPlanList.addMaterialBuildPlan(item.getType().name(), BuildPlanType.getBuildPlanType(rConfig.getName()));
+			}
+		}
+		
 	}
 }

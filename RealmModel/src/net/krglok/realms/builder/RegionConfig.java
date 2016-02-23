@@ -1,4 +1,4 @@
-package net.krglok.realms.unittest;
+package net.krglok.realms.builder;
 
 import java.util.ArrayList;
 import java.util.List;

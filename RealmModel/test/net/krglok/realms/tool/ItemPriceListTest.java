@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
@@ -19,7 +20,6 @@ import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.manager.CraftManager;
 import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.unittest.ConfigTest;
-import net.krglok.realms.unittest.RegionConfig;
 import net.krglok.realms.unittest.ServerTest;
 
 import org.bukkit.Material;

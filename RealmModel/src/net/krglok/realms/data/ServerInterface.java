@@ -96,5 +96,7 @@ public interface ServerInterface
 	
 	public void initSuperRegionConfig();
 
+	public void initMaterialBuildPlanList();
+
 
 }

@@ -252,6 +252,12 @@ public class SimServer implements ServerInterface
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void initMaterialBuildPlanList() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

@@ -2,8 +2,8 @@ package net.krglok.realms.tool;
 
 import java.util.ArrayList;
 
+import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.core.LocationData;
-import net.krglok.realms.unittest.RegionConfig;
 
 public class RegionData
 {

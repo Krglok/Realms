@@ -230,5 +230,11 @@ public class ServerSim implements ServerInterface
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void initMaterialBuildPlanList() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.krglok.realms.builder.BuildPlanType;
+import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ConfigBasis;
@@ -17,7 +18,6 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.SettlementList;
 import net.krglok.realms.unittest.ConfigTest;
 import net.krglok.realms.unittest.DataTest;
-import net.krglok.realms.unittest.RegionConfig;
 import net.krglok.realms.unittest.ServerTest;
 
 import org.bukkit.Material;
