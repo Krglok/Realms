@@ -1,7 +1,7 @@
 REGIMENT:
   '1':
     id: 1
-    age: 500
+    age: 502
     regimentType: RAIDER
     regStatus: IDLE
     position: SteamHaven:-310.0:65.0:-1077.0

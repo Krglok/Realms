@@ -322,6 +322,16 @@ public class Settle_DFM extends JDialog
 				doSellOrder();
 			}
 		});
+		{
+			JButton btnBankmsg = new JButton("BankMsg");
+			btnBankmsg.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					showBankMessage();
+				}
+			});
+			btnBankmsg.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/_text.gif")));
+			contentPanel.add(btnBankmsg, "5, 12, 3, 1");
+		}
 		btnSellorder.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnSellorder, "17, 12, fill, default");
 		{
@@ -604,4 +614,8 @@ public class Settle_DFM extends JDialog
 		MessageBrowser.showMe(settle.getSettleType().name(),settle.getMsg());		
 	}
 	
+	private void showBankMessage()
+	{
+		MessageBrowser.showMe(settle.getName()+"/ Bank",settle.getBank().getMsg());		
+	}
 }

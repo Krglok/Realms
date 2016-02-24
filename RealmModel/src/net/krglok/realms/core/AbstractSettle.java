@@ -554,6 +554,7 @@ public abstract class AbstractSettle
 						building.addSales(salary);
 						// das Settlement bezahlt die NPC
 						bank.depositKonto(-salary, "ProdSale ", getId());
+						bank.depositKonto(cost, "Cost ", getId());
 
 						// money to Settlement is deleted , because the settlement get the item !
 //						bank.depositKonto(salary/2.0, "ProdSale ", getId());
@@ -900,12 +901,12 @@ public abstract class AbstractSettle
 						)
 					{
 						double salery = 2.0;
-						bank.withdrawKonto(salery, "MANAGER", this.id);
+						bank.withdrawKonto(salery, "Food Manager", this.id);
 						npc.depositMoney(salery);
 					}
 					if (this.settleType == SettleType.LEHEN_1)
 					{
-						System.out.println("[REALMS] consumFood "+npc.getId()+": "+npc.getNpcType());
+						msg.add("[REALMS] consumFood "+npc.getId()+": "+npc.getNpcType());
 					}
 					checkNpcFeed(npc, 1,npc,data);
 					
@@ -914,7 +915,7 @@ public abstract class AbstractSettle
 			{
 				if (this.settleType == SettleType.LEHEN_1)
 				{
-					System.out.println("[REALMS] isDead "+npc.getId()+": "+npc.getNpcType());
+					msg.add("[REALMS] isDead "+npc.getId()+": "+npc.getNpcType());
 				}
 				
 			}

@@ -1,7 +1,9 @@
 package net.krglok.realms.core;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -24,6 +26,7 @@ public class Bank  implements Serializable
 	private Double konto;
 //	private LogList transactionList;
 	private ItemList valuables;
+	protected ArrayList<String> msg = new ArrayList<String>();
 	
 //	public Bank(LogList LogList)
 //	{
@@ -37,7 +40,23 @@ public class Bank  implements Serializable
 		setIsEnabled(false);
 		konto = Double.valueOf(0.0);
 //		transactionList = logList;
-		valuables = ConfigBasis.initValuables();
+		setValuables(ConfigBasis.initValuables());
+	}
+
+	public ItemList getValuables() {
+		return valuables;
+	}
+
+	public void setValuables(ItemList valuables) {
+		this.valuables = valuables;
+	}
+
+	public ArrayList<String> getMsg() {
+		return msg;
+	}
+
+	public void setMsg(ArrayList<String> msg) {
+		this.msg = msg;
 	}
 
 	public ArrayList<String> setKredit(String itemRef, int amount, ItemPriceList pricelist, ItemList inventory, int settleId)
@@ -110,9 +129,10 @@ public class Bank  implements Serializable
 	 * @param user
 	 * @return new value of konto
 	 */
-	public double depositKonto (Double value, String user, int SettleId)
+	public double depositKonto (Double value, String user, int settleId)
 	{
 		konto = konto + value;
+		transactionText(user, "Deposit ", settleId,value);
 //		if (transactionList != null)
 //		{
 //			transactionList.addBank(DEPOSIT,user, SettleId,  value);
@@ -133,6 +153,7 @@ public class Bank  implements Serializable
 		if (konto >= value)
 		{
 			konto = konto - value;
+			transactionText(user, "Withdraw ", settleId,value);
 //			if (transactionList != null)
 //			{
 //				transactionList.addBank(WITHDRAW, user, settleId, value);
@@ -183,5 +204,21 @@ public class Bank  implements Serializable
 //			transactionList.getLogList().clear();
 //		}
 //	}
-	
+
+	public void transactionText(String user, String text, int SettleId,double value)
+	{
+		String DataType = "BANK";
+		Date date = new Date();
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+//		String formattedDate = sdf.format(date);
+		String transaction = //formattedDate 
+				 DataType
+				+ ":" + user 
+				+ ":" + text
+				+":" + String.valueOf(SettleId) 
+				+ ":" + ConfigBasis.setStrformat2(value,7)
+				+ ":" + ConfigBasis.setStrformat2(konto,10);
+		msg.add(transaction);
+	}
+
 }
