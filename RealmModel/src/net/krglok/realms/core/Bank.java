@@ -101,6 +101,7 @@ public class Bank  implements Serializable
 	public void initKonto(Double konto, int settleId)
 	{
 		this.konto = konto;
+		transactionText("Admin", "Init", settleId,konto);
 //		if (transactionList != null)
 //		{
 //			transactionList.addBank("Init Konto ", "Admin", settleId, konto);

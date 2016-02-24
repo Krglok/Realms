@@ -403,7 +403,13 @@ public abstract class AbstractSettle
 						if ((sale - cost) > 0.0)
 						{
 							// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
-							account = (sale-cost); 
+							if (cost > 0.0)
+							{
+								account = cost;
+							} else
+							{
+								account = sale;
+							}
 						} else
 						{
 							// berechne Minimal Ertrag
@@ -419,12 +425,8 @@ public abstract class AbstractSettle
 						// Ertrag / Einkommen des Building
 						building.addSales(salary);
 						// das Settlement bezahlt die NPC
-						bank.depositKonto(-salary, "ProdSale ", getId());
+						bank.depositKonto(salary, "Service ", getId());
 
-						// money to Settlement is deleted , because the settlement get the item !
-//						bank.depositKonto(salary/2.0, "ProdSale ", getId());
-//						bank.depositKonto(salary/10.0, "ProdSale ", getId());
-						
 						// material consum get from warehouse
 						consumStock(prodFactor, ingredients);
 
@@ -469,6 +471,7 @@ public abstract class AbstractSettle
 			|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 600)
 			)
 		{
+			this.msg.add("Produce " +building.getBuildingType()+":"+building.isEnabled()+":"+building.isIdleReady());
 			if ((building.isEnabled())
 				&& building.isIdleReady()	
 				)
@@ -505,9 +508,9 @@ public abstract class AbstractSettle
 							ingredients = server.getRegionUpkeep(building.getHsRegionType());
 						}
 						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
-						this.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
-						this.getMsg().add("Ingredients:");
-						this.getMsg().addAll(ingredients.keySet());
+						this.msg.add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						this.msg.add("Ingredients:");
+						this.msg.addAll(ingredients.keySet());
 						break;
 					default :
 //						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
@@ -515,9 +518,9 @@ public abstract class AbstractSettle
 						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
 						prodFactor = 1;
 						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
-						this.getMsg().add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
-						this.getMsg().add("Ingredients:");
-						this.getMsg().addAll(ingredients.keySet());
+						this.msg.add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
+						this.msg.add("Ingredients:");
+						this.msg.addAll(ingredients.keySet());
 						break;
 					}
 //					System.out.println("check");
@@ -526,6 +529,7 @@ public abstract class AbstractSettle
 //						iValue = item.value();
 						// berechne die MaterialKosten der Produktion
 						cost = server.getRecipePrice(item.ItemRef(), ingredients);
+						bank.depositKonto(cost, "Production Cost ", getId());
 						// berechne Verkaufpreis der Produktion
 						for (Item product : products)
 						{
@@ -534,27 +538,30 @@ public abstract class AbstractSettle
 							warehouse.depositItemValue(product.ItemRef(),iValue);
 							productionOverview.addCycleValue(product.ItemRef(), iValue);
 						}
-						if ((sale - cost) > 0.0)
+						if ((sale) > (2*cost))
 						{
 							// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
-							account = (sale-cost); 
+							account = cost; 
 						} else
 						{
 							// berechne Minimal Ertrag
-							account =  1.0 * (double) iValue;
+							account =  sale - cost;   //1.0 * (double) iValue;
 						}
 						// berechnet Ertrag 
 						double salary = account / 2.0; //* 3.0 * 2.0;
 						// Nicht weniger als 1 Kupfer pro Tag
-						if (account < 1.0) { account = 1.0; }
+						if (account < 1.0) 
+						{ 
+							account = 1.0;
+							salary  = 0.5; 
+						}
 						// Ertrag , EInkommen des NPC
 						setWorkerSale( building,  salary);
-						account = account - salary;
+//						account = account - salary;
 						// Ertrag / Einkommen des Building
 						building.addSales(salary);
 						// das Settlement bezahlt die NPC
-						bank.depositKonto(-salary, "ProdSale ", getId());
-						bank.depositKonto(cost, "Cost ", getId());
+						bank.depositKonto(-salary, "Work Salary ", getId());
 
 						// money to Settlement is deleted , because the settlement get the item !
 //						bank.depositKonto(salary/2.0, "ProdSale ", getId());
@@ -565,13 +572,13 @@ public abstract class AbstractSettle
 
 					} else
 					{
-						this.getMsg().add("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
+						this.msg.add("No stock for produce " +building.getHsRegionType()+"|"+item.ItemRef()+":"+item.value()+"*"+prodFactor);
 					}
 				}
 //				building.addSales(sale);
 			} else
 			{
-				this.getMsg().add(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
+				this.msg.add(this.getId()+" :doEnable:"+building.getHsRegionType()+":"+building.isEnabled());
 			}
 		}
 
