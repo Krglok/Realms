@@ -54,7 +54,7 @@ public class TestManager
 		int settlementCounter = config.getSettlementCounter();
 		data = new DataStorage(dataFolder);
 		data.initData();
-		ServerTest server = new ServerTest(data);
+		server = new ServerTest(data);
 
 		msg = new MessageTest();
 		rModel = new RealmModel(realmCounter, settlementCounter, server, config, data, msg); //, logTest);
@@ -339,10 +339,86 @@ public class TestManager
 		progressBar.setValue(1);
 	}
 
+	private void simDayCycle(String world, RealmModel rModel, final JProgressBar progressBar, int settleId)
+	{
+
+		int j = 1;
+		int maxTick = 1200;
+		
+		progressBar.setMaximum(maxTick);
+		progressBar.setForeground(Color.green);
+		System.out.println("simStart========================");
+		// es sind 1200 cyclen pro Tag
+		int l = 0;
+		j = 1;
+		for (int i = 0; i < maxTick; i++) 
+		{
+			j++;
+		  // es ist 18:00 und produktionsberechnung
+		  if (i == 900)
+		  {
+			  Settlement settle = rModel.getData().getSettlements().getSettlement(settleId);
+				settle.getMsg().clear();
+				settle.getMsg().add("[REALMS] Settle production:"+settle.getId()+":"+rModel.getDayOfWeek());
+				settle.getReputations().resetDaily();
+				settle.getMsg().add("settler max");
+				settle.setSettlerMax();
+				settle.getMsg().add("Building enable");
+				settle.checkBuildingsEnabled(server);
+				settle.getMsg().add("worker needed");
+				settle.setWorkerNeeded();
+				settle.getMsg().add("happiness");
+				settle.doResident(data);
+				settle.getMsg().add("produce");
+				settle.doProduce(server, data, rModel.getDayOfWeek());
+				settle.getMsg().add("UnitTrain");
+				settle.doUnitTrain(rModel.getUnitFactory());
+				data.writeSettlement(settle);
+		  } else
+		  {
+			  rModel.OnTick();
+		  }
+		  progressBar.setValue(j);
+		  progressBar.paint(progressBar.getGraphics());   		
+		  if (rModel.getData().writeCache.size() > 0)
+		  {
+			  rModel.getData().writeCache.run();
+		  }
+		  l++;
+		  if (l > 80) { l= 0; System.out.println(""); }
+		}
+		// der Cache muss geleert werden
+		j = 1;
+		progressBar.setMaximum(rModel.getData().writeCache.size());
+		progressBar.setValue(1);
+		progressBar.setForeground(Color.YELLOW);
+        progressBar.paint(progressBar.getGraphics());   		
+		while (rModel.getData().writeCache.size() > 0)
+		{
+			j++;
+			progressBar.setValue(j);
+			
+			  rModel.getData().writeCache.run();
+			  l++;
+			  if (l > 10) 
+			  { 
+				  l= 0;
+				  progressBar.paint(progressBar.getGraphics());
+			  } 
+		}
+		System.out.println("simEnd  after "+maxTick+" cycles");
+		progressBar.setValue(1);
+	}
+	
 
 	public void doDayLoop(RealmModel rModel, JProgressBar progressBar)
 	{
 		simDayCycle("DRASKORIA", rModel, progressBar);		
+	}
+
+	public void doDayLoop(RealmModel rModel, JProgressBar progressBar, int settleId)
+	{
+		simDayCycle("DRASKORIA", rModel, progressBar,settleId);		
 	}
 
 	private void doLoop(RealmModel rModel, int maxDays, JProgressBar progressBar)
@@ -353,6 +429,16 @@ public class TestManager
 			System.out.print("=");
 		}
 	}
+
+	private void doLoop(RealmModel rModel, int maxDays, JProgressBar progressBar, int settleId)
+	{
+		for (int i = 0; i <= maxDays; i++)
+		{
+			doDayLoop( rModel, progressBar);
+			System.out.print("=");
+		}
+	}
+	
 	
 	public void doLoop35(int settleId, JProgressBar progressBar)
 	{

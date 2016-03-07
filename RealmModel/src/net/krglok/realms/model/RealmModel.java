@@ -247,6 +247,11 @@ public class RealmModel
 		return data;
 	}
 
+	public int getDayOfWeek()
+	{
+		return dayOfWeek;
+	}
+
 	public ConfigInterface getConfig()
 	{
 		return config;
@@ -302,6 +307,11 @@ public class RealmModel
 		return kingdoms;
 	}
 
+
+	public UnitFactory getUnitFactory()
+	{
+		return unitFactory;
+	}
 
 	/**
 	 * activate the model run by set ModelStatus = MODEL_ENABLED
@@ -774,10 +784,16 @@ public class RealmModel
 			case MODELDISABLE:
 				break;
 			case CREATECOLONY:
+				command.execute();
+				commandQueue.remove(command);
 				break;
 			case BUILDCOLONY:
+				command.execute();
+				commandQueue.remove(command);
 				break;
 			case CREATESETTLEMENT:
+				command.execute();
+				commandQueue.remove(command);
 				break;
 			case DEPOSITWAREHOUSE:
 				break;

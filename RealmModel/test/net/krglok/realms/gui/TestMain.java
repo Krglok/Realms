@@ -106,6 +106,8 @@ public class TestMain
 	private Runnable runProgress;
 	private JTextField txtListtitel;
 	JToolBar toolBar;
+	JButton btnLoop;
+	JButton btnSettleloop;
 	
 	/**
 	 * Launch the application.
@@ -322,6 +324,8 @@ public class TestMain
 		btn_Sell.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				managerTest.rModel. OnEnable();
+				btnSettleloop.setEnabled(true);
+				btnLoop.setEnabled(true);
 			}
 		});
 		
@@ -341,7 +345,7 @@ public class TestMain
 		btn_Sell.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tcheck.gif")));
 		toolBar.add(btn_Sell);
 		
-		JButton btnLoop = new JButton("doLoop  ");
+		btnLoop = new JButton("doLoop  ");
 		btnLoop.setMaximumSize(new Dimension(0, 37));
 		btnLoop.setMinimumSize(new Dimension(73, 31));
 		btnLoop.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
@@ -350,19 +354,22 @@ public class TestMain
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						toolBar.setEnabled(false);
-						text_Loops.setText("Running");
-						text_Loops.paint(text_Loops.getGraphics());
-						managerTest.doDayLoop(managerTest.rModel, progressBar);
-						calendar.stepDay();
-						text_Loops.setText(calendar.getCalendarDateGer());
-						text_Loops.paint(text_Loops.getGraphics());
-						toolBar.setEnabled(true);
+						doLoop();
 					}
 				}
 		);
 		btnLoop.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		toolBar.add(btnLoop);
+		
+		btnSettleloop = new JButton("SettleLoop");
+		btnSettleloop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doLoopSettle();
+			}
+		});
+		btnSettleloop.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+		btnSettleloop.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
+		toolBar.add(btnSettleloop);
 		
 		JSeparator separator = new JSeparator();
 		toolBar.add(separator);
@@ -400,7 +407,7 @@ public class TestMain
 				{
 					textArea.append(lehen.getMsg().get(i)+"\n");
 				}
-				Lehen_DFM.showMe(lehen,managerTest.data);
+				Lehen_DFM.showMe(lehen,managerTest.rModel);
 			}
 		});
 		btnLehen.setIcon(new ImageIcon(TestMain.class.getResource("/net/krglok/realms/resources/lehen_1.png")));
@@ -519,6 +526,9 @@ public class TestMain
 			dataRows,
 			columnHeader
 		));
+		btnSettleloop.setEnabled(false);
+		btnLoop.setEnabled(false);
+
 		scrollPane_1.setViewportView(table);
 		
 	}
@@ -541,7 +551,36 @@ public class TestMain
 		
 	}
 
+	private void doLoop()
+	{
+		toolBar.setEnabled(false);
+		text_Loops.setText("Running");
+		text_Loops.paint(text_Loops.getGraphics());
+		managerTest.doDayLoop(managerTest.rModel, progressBar);
+		calendar.stepDay();
+		text_Loops.setText(calendar.getCalendarDateGer());
+		text_Loops.paint(text_Loops.getGraphics());
+		toolBar.setEnabled(true);
+	}
 
+	private void doLoopSettle()
+	{
+		int settleId = 1;
+		btnSettleloop.setEnabled(false);
+		btnLoop.setEnabled(false);
+		toolBar.setEnabled(false);
+		text_Loops.setText("Running");
+		text_Loops.paint(text_Loops.getGraphics());
+		managerTest.doDayLoop(managerTest.rModel, progressBar, settleId);
+		calendar.stepDay();
+		text_Loops.setText(calendar.getCalendarDateGer());
+		text_Loops.paint(text_Loops.getGraphics());
+		toolBar.setEnabled(true);
+		btnSettleloop.setEnabled(true);
+		btnLoop.setEnabled(true);
+	}
+	
+	
 	private void showMarketData()
 	{
 		try
@@ -556,9 +595,9 @@ public class TestMain
 				for (Integer orderId : managerTest.rModel.getTradeMarket().sortInteger())
 				{
 					TradeMarketOrder order = managerTest.rModel.getTradeMarket().getOrder(orderId);
-					if ((order.getSettleID() == 9) || (order.getSettleID() == 4)
-						|| (order.getTargetId()== 9) || (order.getTargetId()== 4)
-							)
+//					if ((order.getSettleID() == 9) || (order.getSettleID() == 4)
+//						|| (order.getTargetId()== 9) || (order.getTargetId()== 4)
+//							)
 					{
 						dataRows[row][0]= ConfigBasis.setStrright(order.getId(),3);
 						dataRows[row][1]= ConfigBasis.setStrright(order.getSettleID(),3); 

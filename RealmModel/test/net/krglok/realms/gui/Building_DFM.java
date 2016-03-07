@@ -417,7 +417,7 @@ public class Building_DFM extends JDialog
 		{
 			txtPosition = new JTextField();
 			txtPosition.setText("Position");
-			contentPanel.add(txtPosition, "4, 29, fill, default");
+			contentPanel.add(txtPosition, "4, 29, 7, 1, fill, default");
 			txtPosition.setColumns(10);
 		}
 		{

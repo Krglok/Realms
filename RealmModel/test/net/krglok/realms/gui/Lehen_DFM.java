@@ -30,6 +30,7 @@ import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.kingdom.Lehen;
+import net.krglok.realms.model.RealmModel;
 import net.krglok.realms.npc.NpcData;
 
 import java.awt.event.WindowAdapter;
@@ -47,7 +48,6 @@ public class Lehen_DFM extends JDialog
 	private JTextField ed_Name;
 	private JTextField ed_Beds;
 	private JTextField ed_Settler;
-	private JTextField ed_Units;
 	private JTextField ed_SettleTyp;
 	private JTextField ed_Age;
 	private JTextField ed_Bank;
@@ -66,21 +66,22 @@ public class Lehen_DFM extends JDialog
 	private Class[] columnTypes = new Class[] {	String.class, String.class, String.class};
 
 	private Lehen lehen;
-	private DataStorage data;
+//	private DataStorage data;
+	private RealmModel rModel;
 	private JTextField txtOwner;
 	private final Action action = new SwingAction();
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void showMe(Lehen lehen, DataStorage data)
+	public static void showMe(Lehen lehen,RealmModel rModel)
 	{
 		try
 		{
 			Lehen_DFM dialog = new Lehen_DFM();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.lehen = lehen;
-			dialog.data = data;
+			dialog.rModel = rModel;
 			dialog.setVisible(true);
 			
 		} catch (Exception e)
@@ -103,31 +104,31 @@ public class Lehen_DFM extends JDialog
 				updateForm();
 			}
 		});
-		setBounds(100, 100, 828, 524);
+		setBounds(100, 100, 707, 524);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				new ColumnSpec(ColumnSpec.FILL, Sizes.bounded(Sizes.DEFAULT, Sizes.constant("31dlu", true), Sizes.constant("49dlu", true)), 1),
+				new ColumnSpec(ColumnSpec.FILL, Sizes.bounded(Sizes.DEFAULT, Sizes.constant("31dlu", true), Sizes.constant("49dlu", true)), 0),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("40dlu:grow"),
+				ColumnSpec.decode("40dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("38dlu:grow"),
+				ColumnSpec.decode("38dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("65dlu:grow"),
+				ColumnSpec.decode("41dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("min(10dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("50dlu"),
+				ColumnSpec.decode("62dlu:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("40dlu:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("min(40dlu;default)"),
+				ColumnSpec.decode("50dlu"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("71dlu:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -158,22 +159,8 @@ public class Lehen_DFM extends JDialog
 		}
 		{
 			ed_Name = new JTextField();
-			contentPanel.add(ed_Name, "6, 2, 3, 1, default, center");
+			contentPanel.add(ed_Name, "6, 2, 5, 1, default, center");
 			ed_Name.setColumns(10);
-		}
-		{
-			JLabel lblBarrack = new JLabel("Barrack");
-			contentPanel.add(lblBarrack, "12, 2, right, default");
-		}
-		{
-			ed_Barrack = new JTextField();
-			contentPanel.add(ed_Barrack, "14, 2, fill, default");
-			ed_Barrack.setColumns(10);
-		}
-		{
-			ed_Units = new JTextField();
-			contentPanel.add(ed_Units, "16, 2, fill, default");
-			ed_Units.setColumns(10);
 		}
 		{
 			JButton btnUnits = new JButton("Units");
@@ -183,6 +170,15 @@ public class Lehen_DFM extends JDialog
 					doUnitList();
 				}
 			});
+			{
+				JLabel lblBarrack = new JLabel("Barrack");
+				contentPanel.add(lblBarrack, "14, 2, right, default");
+			}
+			{
+				ed_Barrack = new JTextField();
+				contentPanel.add(ed_Barrack, "16, 2, fill, default");
+				ed_Barrack.setColumns(10);
+			}
 			btnUnits.setHorizontalAlignment(SwingConstants.LEFT);
 			btnUnits.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 			contentPanel.add(btnUnits, "18, 2");
@@ -205,15 +201,6 @@ public class Lehen_DFM extends JDialog
 			contentPanel.add(ed_Age, "8, 4, fill, default");
 			ed_Age.setColumns(10);
 		}
-		{
-			JLabel lblBuildings = new JLabel("Buildings");
-			contentPanel.add(lblBuildings, "12, 4, right, default");
-		}
-		{
-			ed_Buildings = new JTextField();
-			contentPanel.add(ed_Buildings, "14, 4, fill, default");
-			ed_Buildings.setColumns(10);
-		}
 		JButton btnBuildings = new JButton("Buildings");
 		btnBuildings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -221,6 +208,15 @@ public class Lehen_DFM extends JDialog
 				doBuildingList();
 			}
 		});
+		{
+			JLabel lblBuildings = new JLabel("Buildings");
+			contentPanel.add(lblBuildings, "14, 4, right, default");
+		}
+		{
+			ed_Buildings = new JTextField();
+			contentPanel.add(ed_Buildings, "16, 4, fill, default");
+			ed_Buildings.setColumns(10);
+		}
 		btnBuildings.setHorizontalAlignment(SwingConstants.LEFT);
 		btnBuildings.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnBuildings, "18, 4");
@@ -238,21 +234,21 @@ public class Lehen_DFM extends JDialog
 			contentPanel.add(ed_SupportName, "6, 6, 3, 1, fill, default");
 			ed_SupportName.setColumns(10);
 		}
-		{
-			JLabel lblStoreage = new JLabel("Storeage");
-			contentPanel.add(lblStoreage, "12, 6, right, default");
-		}
-		{
-			ed_Storage = new JTextField();
-			contentPanel.add(ed_Storage, "14, 6, fill, default");
-			ed_Storage.setColumns(10);
-		}
 		JButton btn_Warehouse = new JButton("Warehouse");
 		btn_Warehouse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				doWarehouseList();
 			}
 		});
+		{
+			JLabel lblStoreage = new JLabel("Storeage");
+			contentPanel.add(lblStoreage, "14, 6, right, default");
+		}
+		{
+			ed_Storage = new JTextField();
+			contentPanel.add(ed_Storage, "16, 6, fill, default");
+			ed_Storage.setColumns(10);
+		}
 		btn_Warehouse.setHorizontalAlignment(SwingConstants.LEFT);
 		btn_Warehouse.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btn_Warehouse, "18, 6");
@@ -268,12 +264,23 @@ public class Lehen_DFM extends JDialog
 			}
 		}
 		{
+			JButton btnBank = new JButton("Bank");
+			btnBank.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					showBankMessage();
+				}
+			});
+			btnBank.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+			btnBank.setHorizontalAlignment(SwingConstants.LEFT);
+			contentPanel.add(btnBank, "12, 8");
+		}
+		{
 			JLabel lblRequired = new JLabel("Required");
-			contentPanel.add(lblRequired, "12, 8, right, default");
+			contentPanel.add(lblRequired, "14, 8, right, default");
 		}
 		{
 			ed_Required = new JTextField();
-			contentPanel.add(ed_Required, "14, 8, fill, default");
+			contentPanel.add(ed_Required, "16, 8, fill, default");
 			ed_Required.setColumns(10);
 		}
 		{
@@ -300,19 +307,6 @@ public class Lehen_DFM extends JDialog
 			contentPanel.add(ed_Settler, "8, 10, fill, default");
 			ed_Settler.setColumns(10);
 		}
-		{
-		}
-		{
-			{
-				JLabel lblBuyorder = new JLabel("BuyOrder");
-				contentPanel.add(lblBuyorder, "12, 10, right, default");
-			}
-			{
-				ed_BuyOrder = new JTextField();
-				contentPanel.add(ed_BuyOrder, "14, 10, fill, default");
-				ed_BuyOrder.setColumns(10);
-			}
-		}
 		JButton btnNewButton = new JButton("BuyOrders");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -320,6 +314,26 @@ public class Lehen_DFM extends JDialog
 				doBuyOrderList();
 			}
 		});
+		{
+			JButton btnNpc = new JButton("NPC");
+			btnNpc.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					showNPCList();
+				}
+			});
+			btnNpc.setHorizontalAlignment(SwingConstants.LEFT);
+			btnNpc.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+			contentPanel.add(btnNpc, "12, 10, fill, default");
+		}
+		{
+			JLabel lblBuyorder = new JLabel("BuyOrder");
+			contentPanel.add(lblBuyorder, "14, 10, right, default");
+		}
+		{
+			ed_BuyOrder = new JTextField();
+			contentPanel.add(ed_BuyOrder, "16, 10, fill, default");
+			ed_BuyOrder.setColumns(10);
+		}
 		btnNewButton.setHorizontalAlignment(SwingConstants.LEFT);
 		btnNewButton.setIcon(new ImageIcon(Lehen_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnNewButton, "18, 10");
@@ -332,6 +346,15 @@ public class Lehen_DFM extends JDialog
 			txtOwner.setText("Owner");
 			contentPanel.add(txtOwner, "4, 12, fill, default");
 			txtOwner.setColumns(10);
+		}
+		{
+			JLabel lblRoute = new JLabel("Route");
+			contentPanel.add(lblRoute, "14, 12, right, default");
+		}
+		{
+			ed_Routes = new JTextField();
+			contentPanel.add(ed_Routes, "16, 12, fill, default");
+			ed_Routes.setColumns(10);
 		}
 		{
 			JScrollPane scrollPane = new JScrollPane();
@@ -356,15 +379,6 @@ public class Lehen_DFM extends JDialog
 				table.getColumnModel().getColumn(2).setMaxWidth(55);
 				scrollPane.setViewportView(table);
 			}
-		}
-		{
-			JLabel lblRoute = new JLabel("Route");
-			contentPanel.add(lblRoute, "12, 12, right, default");
-		}
-		{
-			ed_Routes = new JTextField();
-			contentPanel.add(ed_Routes, "14, 12, fill, default");
-			ed_Routes.setColumns(10);
 		}
 		{
 			JButton btnRoutes = new JButton("Routes");
@@ -425,7 +439,7 @@ public class Lehen_DFM extends JDialog
 		ed_Name.setText(lehen.getName());
 		ed_SettleTyp.setText(lehen.getSettleType().name());
 		ed_SupportId.setText(String.valueOf(lehen.getSupportId()));
-		Settlement settle = data.getSettlements().getSettlement(lehen.getSupportId());
+		Settlement settle = rModel.getData().getSettlements().getSettlement(lehen.getSupportId());
 		if (settle != null)
 		{
 			ed_SupportName.setText(settle.getName());
@@ -437,7 +451,7 @@ public class Lehen_DFM extends JDialog
 		ed_BuyOrder.setText(String.valueOf(lehen.getTrader().getBuyOrders().size()));
 		ed_Routes.setText(String.valueOf(lehen.getTrader().getRouteOrders().size()));
 		ed_Buildings.setText(String.valueOf(lehen.getBuildingList().size()));
-		ed_Units.setText(String.valueOf(lehen.getBarrack().getUnitList().size()));
+//		ed_Units.setText(String.valueOf(lehen.getBarrack().getUnitList().size()));
 	}
 	
 	private void printRequired()
@@ -566,4 +580,60 @@ public class Lehen_DFM extends JDialog
 		public void actionPerformed(ActionEvent e) {
 		}
 	}
+	
+	private void showBankMessage()
+	{
+		MessageBrowser.showMe(lehen.getName()+"/ Bank",lehen.getBank().getMsg());		
+	}
+
+	private void showNPCList()
+	{
+		try
+		{
+			String[]columnHeader = new String[] {"ID", "Name", "NPCType", "UnitType","Age","Settle","Lehen", "Money"};
+			int maxRow =  lehen.getResident().getNpcList().size();
+			System.out.println("NPC ["+maxRow+"]");
+			String[][] dataRows = new  String[maxRow][columnHeader.length];
+			DataList_MFM dialog = new DataList_MFM();
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			dialog.table.getColumnModel().getColumn(1).setPreferredWidth(60);
+			dialog.table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(3).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(5).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(6).setPreferredWidth(35);
+			int row = 0;
+			for (Integer index: lehen.getResident().getNpcList().sortIntegerList(lehen.getResident().getNpcList().keySet()))
+			{
+				NpcData npc = lehen.getResident().getNpcList().get(index);
+				dialog.table.getModel().setValueAt(npc.getId(), row, 0);
+				dialog.table.getModel().setValueAt(npc.getName() ,row,1);; 
+				dialog.table.getModel().setValueAt(npc.getNpcType().name() ,row,2);; 
+				dialog.table.getModel().setValueAt(npc.getUnitType().name() ,row,3);; 
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getAge() ,3),row,4);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getSettleId() ,4),row,5);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getLehenId() ,2),row,6);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrformat2(npc.getMoney() ,9) ,row,7);
+				row++;
+			}
+			dialog.setTitle("Npc Liste");
+			dialog.setDetailClass(NpcData.class);
+			dialog.rModel = rModel;
+			dialog.setVisible(true);
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 }

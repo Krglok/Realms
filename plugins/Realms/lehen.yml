@@ -8,11 +8,11 @@ LEHEN:
     kingdomId: 0
     parentId: 0
     supportId: 6
-    bank: 27961.999999999443
+    bank: 27983.99999999941
     position: DRASKORIA:1953.4054664794805:70.0:-1031.490237903255
     isEnabled: true
     warehouse:
-      itemCount: '9563'
+      itemCount: '9733'
       itemMax: '17280'
       isEnabled: 'true'
     itemList:
@@ -23,9 +23,10 @@ LEHEN:
       WATER: '144'
       EMERALD: '96'
       WOOL: '60'
+      STICK: '218'
       LOG: '454'
       WOOD: '7'
-      WHEAT: '7877'
+      WHEAT: '7829'
   '2':
     id: 2
     name: Furtwacht
@@ -35,16 +36,16 @@ LEHEN:
     kingdomId: 0
     parentId: 0
     supportId: 9
-    bank: 4341.450000000031
+    bank: 4198.9500000000335
     position: DRASKORIA:3087.387323391768:78.0:-1213.5690546774665
     isEnabled: true
     warehouse:
-      itemCount: '684'
+      itemCount: '698'
       itemMax: '17280'
       isEnabled: 'true'
     itemList:
-      COOKED_BEEF: '2'
       STICK: '35'
+      BREAD: '23'
       AIR: '160'
-      WHEAT: '482'
+      WHEAT: '475'
       WOOD: '5'

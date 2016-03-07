@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.ItemLocation;
+import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.LocationData;
+import net.krglok.realms.core.Owner;
 import net.krglok.realms.model.McmdColonistCreate;
 
 import org.bukkit.ChatColor;
@@ -22,7 +24,7 @@ public class CmdColonistCreate extends RealmsCommand
 {
 	private String name;
 	LocationData position;
-	private String owner;
+	private String ownerName;
 
 	public CmdColonistCreate( )
 	{
@@ -37,7 +39,7 @@ public class CmdColonistCreate extends RealmsCommand
 		requiredArgs = 4;
 		position = new LocationData("", 0.0, 0.0, 0.0);
 		this.name = "";
-		this.owner = "";
+		this.ownerName = "";
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class CmdColonistCreate extends RealmsCommand
 				name = value;
 			break;
 		case 4 :
-			owner = value;
+			ownerName = value;
 		break;
 		default:
 			break;
@@ -105,19 +107,26 @@ public class CmdColonistCreate extends RealmsCommand
 		String world = player.getLocation().getWorld().getName();
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
-		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, center, owner));
-		World worldMap = player.getLocation().getWorld();
-		
-		String[] signText = new String[] {"COLONIST", name, owner, "[NEW]" };
-		plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
-		msg.add("[Realm] Colony created at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
-		msg.add(" ");
-		plugin.getMessageData().printPage(sender, msg, 1);
-		position.setX(0);
-		position.setY(0);
-		position.setZ(0);
+		Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString());
+		int ownerId = owner.getId(); 
+		Colony colony = Colony.newColony(name, center, String.valueOf(ownerId));
+//		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, center, owner));
+		if (colony != null)
+		{
+			plugin.getRealmModel().getColonys().addColony(colony);
+			World worldMap = player.getLocation().getWorld();
+			
+			String[] signText = new String[] {"COLONIST", name, player.getDisplayName(), "[NEW]" };
+			plugin.setSign(worldMap, new ItemLocation(Material.SIGN_POST,center), signText);
+			msg.add("[Realm] Colony created at "+(int)center.getX()+":"+(int)center.getY()+":"+(int)center.getZ());
+			msg.add(" ");
+			plugin.getMessageData().printPage(sender, msg, 1);
+			position.setX(0);
+			position.setY(0);
+			position.setZ(0);
+		}
 		name = "";
-		owner = "";
+		ownerName = "";
 	}
 
 	@Override

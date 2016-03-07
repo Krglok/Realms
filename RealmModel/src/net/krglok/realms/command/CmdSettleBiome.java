@@ -79,7 +79,7 @@ public class CmdSettleBiome extends RealmsCommand
 		int factor;
 		for (Item item : items.values() )
 		{
-			factor = plugin.getServerData().getBioneFactor(biome, Material.getMaterial(item.ItemRef()));
+			factor = plugin.getServerData().getBiomeFactor(biome, Material.getMaterial(item.ItemRef()));
 			if (factor != 0)
 			{
 				String name = ConfigBasis.setStrleft(item.ItemRef()+"__________", 12);

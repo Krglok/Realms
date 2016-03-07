@@ -2,9 +2,9 @@ CAMPPOS:
   '1':
     id: 1
     settleId: 1
-    position: SteamHaven:-300.0:64.0:-1417.0
+    position: SteamHaven:-290.0:64.0:-1417.0
     face: NORTH
-    redo: 2
+    redo: 3
     activ: true
     camp: false
     valid: false

@@ -247,11 +247,11 @@ public class SettleManagerTest
 			Item item = settle.getWarehouse().getItemList().get(id);
 			System.out.print("|"+ConfigBasis.setStrleft(item.ItemRef(),12)+"");
 			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(item.value()),5));
-			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(item.ItemRef()))),5));
+			System.out.print("|"+ConfigBasis.setStrright(String.valueOf(rModel.getServer().getBiomeFactor( settle.getBiome(), Material.getMaterial(item.ItemRef()))),5));
 			System.out.print("|"+ConfigBasis.setStrright(
 					String.valueOf(
 							64 - 
-							(64 * rModel.getServer().getBioneFactor
+							(64 * rModel.getServer().getBiomeFactor
 									( settle.getBiome(), Material.getMaterial
 											(item.ItemRef())
 											)/ 100)),5));

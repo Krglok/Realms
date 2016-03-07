@@ -12,6 +12,7 @@ import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.ConfigBiome;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.Settlement;
@@ -330,8 +331,8 @@ public class SettlementReportTest
 		ItemList subList = new ItemList();
 		for (Item item : materialList.values())
 		{
-			int faktor = server.getBioneFactor(biome , Material. getMaterial(item.ItemRef()));
-			if (faktor > server.FAKTOR_0)
+			int faktor = server.getBiomeFactor(biome , Material. getMaterial(item.ItemRef()));
+			if (faktor > ConfigBiome.FAKTOR_0)
 			{
 	    		subList.addItem(item.ItemRef(), faktor);
 			}
@@ -401,8 +402,8 @@ public class SettlementReportTest
 		ItemList subList = new ItemList();
 		for (Item item : materialList.values())
 		{
-			int faktor = server.getBioneFactor(biome , Material. getMaterial(item.ItemRef()));
-			if (faktor == server.FAKTOR_0)
+			int faktor = server.getBiomeFactor(biome , Material. getMaterial(item.ItemRef()));
+			if (faktor == ConfigBiome.FAKTOR_0)
 			{
 	    		subList.addItem(item.ItemRef(), faktor);
 			}
@@ -472,8 +473,8 @@ public class SettlementReportTest
 		ItemList subList = new ItemList();
 		for (Item item : materialList.values())
 		{
-			int faktor = server.getBioneFactor(biome , Material. getMaterial(item.ItemRef()));
-			if (faktor < server.FAKTOR_0)
+			int faktor = server.getBiomeFactor(biome , Material. getMaterial(item.ItemRef()));
+			if (faktor < ConfigBiome.FAKTOR_0)
 			{
 	    		subList.addItem(item.ItemRef(), faktor);
 			}

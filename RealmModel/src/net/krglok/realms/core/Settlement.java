@@ -725,7 +725,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 	private void addTreasure2List(ServerInterface server, Biome biome, Material mat)
 	{
 		int matFactor  = 0;
-		matFactor = server.getBioneFactor( biome, mat);
+		matFactor = server.getBiomeFactor( biome, mat);
 		if (matFactor > 0)
 		{
 			int anz = matFactor / 25;
@@ -1277,6 +1277,8 @@ public class Settlement extends AbstractSettle //implements Serializable
 			// redude required list by production cycle 
 			requiredProduction.reduceRequired(); 
 			productionOverview.resetLastAll();
+			prodAnalyse.clear();
+
 			this.msg.add("Day "+day);
 			this.msg.add("setStoreCapacity");
 			setStoreCapacity();

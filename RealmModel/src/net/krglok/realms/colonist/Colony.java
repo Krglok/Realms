@@ -151,9 +151,9 @@ public class Colony
 		this.prepareLevel = 41;
 		this.prepareRow = 0;
 		this.prepareCol = 0;
-		this.prepareRadius= 21;
+		this.prepareRadius= 31;
 		this.prepareOffset= 0;
-		this.prepareMaxLevel = 21;
+		this.prepareMaxLevel = 31;
 		this.biome = null;
 		this.biomeRequest = new ArrayList<BiomeLocation>();
 		this.timeout = 0;
@@ -173,7 +173,7 @@ public class Colony
 		Colony colony = new Colony ( name,  position,  ownerId); //, logList);
 		colony.newSuperRegion = new RegionLocation("HAMLET", position, ownerId, name);
 
-		colony.getWarehouse().depositItemValue(Material.BED.name(), 5);
+		colony.getWarehouse().depositItemValue(Material.BED.name(), 6);
 		colony.getWarehouse().depositItemValue(Material.WOOL.name(), 120);
 		colony.getWarehouse().depositItemValue(Material.LOG.name(), 250);
 		colony.getWarehouse().depositItemValue(Material.WHEAT.name(), 100);
@@ -190,6 +190,7 @@ public class Colony
 		colony.getWarehouse().depositItemValue(Material.WOOD.name(), 500);
 		colony.getWarehouse().depositItemValue(Material.RED_MUSHROOM.name(), 50);
 		colony.getWarehouse().depositItemValue(Material.BROWN_MUSHROOM.name(), 50);
+		colony.getWarehouse().depositItemValue(Material.GOLD_NUGGET.name(), 10);
 		return colony;
 		
 	}

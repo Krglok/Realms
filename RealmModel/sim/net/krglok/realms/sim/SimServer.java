@@ -163,7 +163,7 @@ public class SimServer implements ServerInterface
 	}
 
 	@Override
-	public int getBioneFactor(Biome biome, Material mat)
+	public int getBiomeFactor(Biome biome, Material mat)
 	{
 		// TODO Auto-generated method stub
 		return 0;
@@ -257,6 +257,20 @@ public class SimServer implements ServerInterface
 	public void initMaterialBuildPlanList() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ItemList getBiomeMaterial(Biome biome)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemList getBiomeNeutralMaterial(Biome biome)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

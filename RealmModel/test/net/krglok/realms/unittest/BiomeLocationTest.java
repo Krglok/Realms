@@ -316,9 +316,9 @@ public class BiomeLocationTest
 	{
 		showModifiedItems(Biome.PLAINS);
 		showModifiedItems(Biome.OCEAN);
-		showModifiedItems(Biome.SMALL_MOUNTAINS);
+		showModifiedItems(Biome.SMALLER_EXTREME_HILLS);
 		showModifiedItems(Biome.FOREST);
-		showModifiedItems(Biome.BIRCH_FOREST_HILLS_MOUNTAINS);
+		showModifiedItems(Biome.BIRCH_FOREST_HILLS);
 
 	}
 	

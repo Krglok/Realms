@@ -460,6 +460,9 @@ public class CmdSettleCreate extends RealmsCommand
 		{
 			ArrayList<SettleType> aList = new ArrayList<SettleType>();
 			aList.addAll(plugin.getRealmModel().getKnowledgeData().getKnowledgeList().getSettlePermission(owner.getAchivList()));
+			aList.add(SettleType.CLAIM);
+			aList.add(SettleType.BERTH);
+			
 			if (aList.contains(settleType) == false)
 			{
 				errorMsg.add(ChatColor.RED+"You not have the required Techlevel !");

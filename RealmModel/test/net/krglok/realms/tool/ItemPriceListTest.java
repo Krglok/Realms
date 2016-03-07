@@ -501,7 +501,7 @@ public class ItemPriceListTest
 	private int getMinStorage(ServerTest server, Biome biome, String itemRef)
 	{
 		ConfigTest config = new ConfigTest();
-		int matFactor = server.getBioneFactor( biome, Material.getMaterial(itemRef));
+		int matFactor = server.getBiomeFactor( biome, Material.getMaterial(itemRef));
 		int sellLimit = 0;
 		if (itemRef.equalsIgnoreCase(Material.COBBLESTONE.name()))
 		{

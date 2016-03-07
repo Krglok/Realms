@@ -1,6 +1,7 @@
 package net.krglok.realms.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -69,6 +70,7 @@ public abstract class AbstractSettle
 	protected BoardItemList productionOverview;
 	protected ReputationList reputations;
 	protected ArrayList<String> msg = new ArrayList<String>();
+	protected ItemPriceList prodAnalyse = new ItemPriceList();
 
 	
 	public AbstractSettle()
@@ -260,6 +262,11 @@ public abstract class AbstractSettle
 		return requiredProduction;
 	}
 	
+	public ItemPriceList getProdAnalyse()
+	{
+		return prodAnalyse;
+	}
+
 	public 	ArrayList<String> getMsg()
 	{
 		return this.msg;
@@ -464,7 +471,7 @@ public abstract class AbstractSettle
 		double account = 0.0; 
 		ItemArray products;
 		ItemList ingredients;
-
+		
 		building.setSales(0.0);
 		if ((BuildPlanType.getBuildGroup(building.getBuildingType())== 200)
 			|| (BuildPlanType.getBuildGroup(building.getBuildingType())== 300)
@@ -486,7 +493,6 @@ public abstract class AbstractSettle
 				if (products.size() > 0)
 				{
 					Item item = products.get(0);
-					
 					switch(building.getBuildingType())
 					{
 					case WORKSHOP:
@@ -516,20 +522,31 @@ public abstract class AbstractSettle
 //						System.out.println("doProd:"+building.getHsRegionType()+":"+BuildPlanType.getBuildGroup(building.getBuildingType()));
 						ingredients = new ItemList();
 						ingredients = server.getRecipeProd(item.ItemRef(),building.getHsRegionType());
-						prodFactor = 1;
 						prodFactor = server.getRecipeFactor(item.ItemRef(), biome, item.value());
 						this.msg.add("Produce :"+this.getId()+" :item: "+item.ItemRef()+" ingred:"+ingredients.size()+": factor:"+prodFactor);
 						this.msg.add("Ingredients:");
 						this.msg.addAll(ingredients.keySet());
 						break;
 					}
+					for (Item prod : products)
+					{
+						int pValue = (int) (prod.value() * prodFactor);
+						prodAnalyse.setItemPrice(new ItemPrice(prod.ItemRef(),pValue,0.0));
+					}
+
+					for (Item prod : ingredients.values())
+					{
+						double pValue = (double) prod.value() * prodFactor;
+						prodAnalyse.setItemPrice(new ItemPrice(prod.ItemRef(),0,pValue));
+					}
 //					System.out.println("check");
 					if (checkStock(prodFactor, ingredients))
 					{
+						
 //						iValue = item.value();
 						// berechne die MaterialKosten der Produktion
 						cost = server.getRecipePrice(item.ItemRef(), ingredients);
-						bank.depositKonto(cost, "Production Cost ", getId());
+						bank.depositKonto(cost, building.getBuildingType().name()+" Production Cost ",getId());
 						// berechne Verkaufpreis der Produktion
 						for (Item product : products)
 						{
@@ -561,7 +578,7 @@ public abstract class AbstractSettle
 						// Ertrag / Einkommen des Building
 						building.addSales(salary);
 						// das Settlement bezahlt die NPC
-						bank.depositKonto(-salary, "Work Salary ", getId());
+						bank.depositKonto(-salary,building.getBuildingType().name()+" Work Salary ", getId());
 
 						// money to Settlement is deleted , because the settlement get the item !
 //						bank.depositKonto(salary/2.0, "ProdSale ", getId());
@@ -723,7 +740,7 @@ public abstract class AbstractSettle
 			}
 		} else
 		{
-			System.out.println("[REALMS] "+this.settleType+" has no required food ! ");
+			msg.add("[REALMS] "+this.settleType+" has no required food ! ");
 			checkNpcFeed(unit, 1,unit,data);
 			if (unit.getHappiness() > -1.0)
 			{
@@ -743,7 +760,7 @@ public abstract class AbstractSettle
 	{
 		if (items.size() == 0)
 		{
-			System.out.println("[REALMS] "+this.settleType+" checkStock NO items ");
+			msg.add("[REALMS] "+this.settleType+" checkStock NO items ");
 			return false;
 		} 
 		int iValue = 0;
@@ -896,24 +913,24 @@ public abstract class AbstractSettle
 						}
 					} else
 					{
-//						System.out.println("Child ");
+						msg.add("[REALMS] Child consum food "+npc.getId()+": "+npc.getNpcType());
 						checkNpcFeed(npc, 1, npc,data);
 					}
 						
 				} else
 				{
-					if ((npc.getNpcType() != NPCType.MANAGER)
-						|| (npc.getNpcType() != NPCType.BUILDER)
-						|| (npc.getNpcType() != NPCType.MAPMAKER)
-						)
-					{
-						double salery = 2.0;
-						bank.withdrawKonto(salery, "Food Manager", this.id);
-						npc.depositMoney(salery);
-					}
+//					if ((npc.getNpcType() != NPCType.MANAGER)
+//						|| (npc.getNpcType() != NPCType.BUILDER)
+//						|| (npc.getNpcType() != NPCType.MAPMAKER)
+//						)
+//					{
+//						double salery = 0.35;
+//						bank.withdrawKonto(salery, "Food Child", this.id);
+//						npc.depositMoney(salery);
+//					}
 					if (this.settleType == SettleType.LEHEN_1)
 					{
-						msg.add("[REALMS] consumFood "+npc.getId()+": "+npc.getNpcType());
+						msg.add("[REALMS] Child consum food "+npc.getId()+": "+npc.getNpcType());
 					}
 					checkNpcFeed(npc, 1,npc,data);
 					
@@ -934,141 +951,51 @@ public abstract class AbstractSettle
 	private void  checkNpcFeed(NpcData npc, int required, NpcData parent, DataInterface data)
 	{
 		double factor = 0.0; 
-		String foodItem = "";
+//		String foodItem = "";
 		int amount = 0;
-		if (npc.getNpcType() != NPCType.CHILD)
-		{
-			// Fish consume before wheat consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = Material.COOKED_FISH.name();
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
+//		if (npc.getNpcType() != NPCType.CHILD)
+//		{
+			for (Item item :ConfigBasis.initFoodMaterial().values())
 			{
-				// check for money for food
-				if (parent.getMoney() > data.getPriceList().getBasePrice(foodItem))
+				String foodItem = item.ItemRef();
+				if (Material.getMaterial(foodItem) != Material.WHEAT)
 				{
-					if (amount > required)
+					amount = warehouse.getItemList().getValue(foodItem);
+					if (amount > 0)
 					{
-						factor = factor + checkConsume(foodItem, amount, required, 0.3,npc,parent,data);
-						
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount, 0.3, npc,parent,data);
+						// check for money for food
+						if (parent.getMoney() > data.getPriceList().getBasePrice(foodItem))
+						{
+							if (amount > required)
+							{
+								factor = factor + checkConsume(foodItem, amount, required, 0.3,npc,parent,data);
+								
+							} else
+							{
+								required = required - amount;
+								factor = factor + checkConsume(foodItem, amount, amount, 0.3, npc,parent,data);
+							}
+							npc.setHappiness(npc.getHappiness() + factor);
+							return ;
+						}
 					}
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
-					}
-			}
-			// Mushroom Soup consume before wheat or mushroom consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = "MUSHROOM_SOUP";
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
-			{
-				// check for money for food
-				if (parent.getMoney() > data.getPriceList().getBasePrice(foodItem))
-				{
-					if (amount > required)
-					{
-						factor = factor + checkConsume(foodItem, amount, required,0.3, npc,parent,data);
-		
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount,0.3, npc,parent,data);
-					}
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
 				}
 			}
-			// Bread consume before wheat consum
-			// if not enough bread then the rest will try to consum wheat
-			foodItem = "BREAD";
-			amount = warehouse.getItemList().getValue(foodItem);
-			if (amount > 0)
-			{
-				// check for money for food
-				if (parent.getMoney() > data.getPriceList().getBasePrice(foodItem))
-				{
-					if (amount > required)
-					{
-						factor = factor + checkConsume(foodItem, amount, required, 0.5, npc,parent,data);
-						
-					} else
-					{
-						required = required - amount;
-						factor = factor + checkConsume(foodItem, amount, amount, 0.5, npc,parent, data);
-					}
-		//			System.out.println("BREAD "+factor+":"+(npc.getHappiness() + factor));
-					npc.setHappiness(npc.getHappiness() + factor);
-					return ;
-				}
-			}
-		}
-		// Mushroom consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "RED_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			// check for money for food
-			if (parent.getMoney() > data.getPriceList().getBasePrice(foodItem))
-			{
-				if (amount > required)
-				{
-					factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent,data);
-					
-				} else
-				{
-					required = required - amount;
-					factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent,data);
-				}
-				npc.setHappiness(npc.getHappiness() + factor);
-				return ;
-			}
-		}
-		// Mushroom consume before wheat consum
-		// if not enough bread then the rest will try to consum wheat
-		foodItem = "BROWN_MUSHROOM";
-		amount = warehouse.getItemList().getValue(foodItem);
-		if (amount > 0)
-		{
-			// check for money for food
-			if (parent.getMoney() > data.getPriceList().getBasePrice(foodItem))
-			{
-				if (amount > required)
-				{
-					factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent,data);
-					
-				} else
-				{
-					required = required - amount;
-					factor = factor + checkConsume(foodItem, amount, amount, 0.0, npc,parent,data);
-				}
-				npc.setHappiness(npc.getHappiness() + factor);
-				return ;
-			}
-		}
+//		}  // if ( isChild)
 
 		//  Wheat is the last consum item
 		//  without wheat the residents are very unhappy
-		foodItem = "WHEAT";
+		String foodItem = "WHEAT";
 		amount = warehouse.getItemList().getValue(foodItem);
 		if (amount > required)
 		{
 			factor = factor + checkConsume(foodItem, amount, required,0.0, npc,parent,data);
-			
 		} else
 		{
 			factor = factor + checkConsume(foodItem, amount, required, 0.0, npc,parent,data);
 		}
-//		if (this.settleType == SettleType.LEHEN_1)
-//		{
-//			System.out.println("[REALMS] checkNpcFeed "+npc.getId()+": "+factor);
-//		}
+		prodAnalyse.setItemPrice(new ItemPrice("FOOD",0,1.0));
 		npc.setHappiness(npc.getHappiness() + factor);
-//		return factor;
 	}
 
 	private double checkConsume(String foodItem , int amount, int required, double happyFactor, NpcData npc, NpcData parent, DataInterface data)
@@ -1078,32 +1005,25 @@ public abstract class AbstractSettle
 		// check for money of food
 		if (parent.getMoney() < cost)
 		{
-//			if (this.settleType == SettleType.LEHEN_1)
-//			{
-//				System.out.println("[REALMS] checkConsume "+npc.getId()+": No food money ! "+npc.hungerCounter);
-//			}
-//			System.out.println("No food money !"+npc.getId());
 			amount = 0;
 		}
 		if (required > amount)
 		{	
-			// keine Versorgung
-			if (resident.getSettlerCount() > 5)
+			// keine Versorgung bei WHEAT anzeigen
+			if (Material.getMaterial(foodItem) == Material.WHEAT)
 			{
-				System.out.println(this.getSettleType()+" :"+this.id+" keine Versorgung :"+npc.getId());
-//				factor = npc.hungerCounter + ((double)required / (double)resident.getSettlerMax()) * -1.0;
-				factor = -0.1;
-				if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
+				if (resident.getSettlerCount() > 5)
 				{
-					npc.foodConsumCounter = npc.foodConsumCounter + factor;
+					msg.add(this.getSettleType()+" :"+this.id+" No Money for "+foodItem+" :"+npc.getId());
+					factor = -0.1;
+					if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
+					{
+						npc.foodConsumCounter = npc.foodConsumCounter + factor;
+					}
+					// setze required food
+					requiredProduction.depositItem(foodItem, required);
+					npc.hungerCounter = npc.hungerCounter + factor ; // hungerCounter + factor;
 				}
-				// setzte required food
-				requiredProduction.depositItem(foodItem, required);
-				npc.hungerCounter = npc.hungerCounter + factor ; // hungerCounter + factor;
-//				if (this.settleType == SettleType.LEHEN_1)
-//				{
-//					System.out.println("[REALMS] checkConsume "+npc.getId()+": hunger "+npc.hungerCounter);
-//				}
 			}
 		} else
 		{
@@ -1111,16 +1031,12 @@ public abstract class AbstractSettle
 			parent.withdrawMoney(cost);
 			bank.depositKonto(cost, "Food", this.id);
 			warehouse.withdrawItemValue(foodItem, required);
-//			System.out.println(foodItem+":"+required);
 			productionOverview.addOutValue(foodItem, (required));
-//			if (npc.foodConsumCounter > MIN_FOODCONSUM_COUNTER)
-//			{
 			npc.foodConsumCounter = npc.foodConsumCounter + (double)required; //((double)resident.getSettlerCount() / 20.0);
 			if (npc.foodConsumCounter > 0)
 			{
 				npc.foodConsumCounter = 0.0; //npc.foodConsumCounter + (double)required; //((double)resident.getSettlerCount() / 20.0);
 			}
-//			}
 			if (npc.foodConsumCounter < 0.0)
 			{
 				
@@ -1132,11 +1048,6 @@ public abstract class AbstractSettle
 				{
 					factor = happyFactor;
 				}
-//				if (this.settleType == SettleType.LEHEN_1)
-//				{
-//					System.out.println("[REALMS] checkConsume "+npc.getId()+": Min Food Consum"+factor);
-//				}
-				//System.out.println("Min Food Consum"+factor);
 			} else
 			{
 				if (npc.getHappiness() < 0.6)
@@ -1148,14 +1059,8 @@ public abstract class AbstractSettle
 					{
 						factor = happyFactor/2;
 					}
-//					if (this.settleType == SettleType.LEHEN_1)
-//					{
-//						System.out.println("[REALMS] checkConsume "+npc.getId()+": Low Happiness "+factor);
-//					}
-//					System.out.println("Low Happiness "+factor);
 				} else
 				{
-//					System.out.println("Normal Happiness"+factor);
 					factor = happyFactor;
 				}
 				npc.foodConsumCounter = 0;

@@ -84,5 +84,24 @@ public class ItemPriceList extends HashMap<String,ItemPrice>
 		}
 		return sortedItems;
 	}
+	
+	/**
+	 * saldiert value und price eines bestehenden ItemPrice
+	 * andernfalls wird der ItemPrice neu gesetzt
+	 * 
+	 * @param iPrice
+	 */
+	public void setItemPrice(ItemPrice iPrice)
+	{
+		if (keySet().contains(iPrice.ItemRef()))
+		{
+			ItemPrice itemPrice = get(iPrice.ItemRef());
+			itemPrice.setBasePrice(itemPrice.getBasePrice()+iPrice.getBasePrice());
+			itemPrice.setValue(itemPrice.value()+iPrice.value());
+		} else
+		{
+			put(iPrice.ItemRef(),iPrice);
+		}
+	}
 
 }

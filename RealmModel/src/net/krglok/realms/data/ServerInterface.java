@@ -72,7 +72,7 @@ public interface ServerInterface
 
 	public ItemList getRecipe(String itemRef);
 	
-	public int getBioneFactor(Biome biome, Material mat);
+	public int getBiomeFactor(Biome biome, Material mat);
 
 	public double getRecipeFactor(String itemRef, Biome biome, int amount);
 
@@ -98,5 +98,8 @@ public interface ServerInterface
 
 	public void initMaterialBuildPlanList();
 
+	public ItemList getBiomeMaterial(Biome biome);
+
+	public ItemList getBiomeNeutralMaterial(Biome biome);
 
 }

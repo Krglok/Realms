@@ -2690,7 +2690,7 @@ public class ServerListener implements Listener
 				event.getPlayer().sendMessage("You triggerd a Catapult");
 				float loud = (float) 20.0;
 				float pitch = (float) 90.0;
-				event.getPlayer().getWorld().playSound(b.getLocation(), Sound.FIREWORK_BLAST, loud, pitch);
+//				event.getPlayer().getWorld().playSound(b.getLocation(), Sound.FIREWORK_BLAST, loud, pitch);
 				shotArrow(b);
 			}
 		} else

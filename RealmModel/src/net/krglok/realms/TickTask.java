@@ -109,7 +109,7 @@ public class TickTask implements Runnable
 		
 		
 		plugin.getRealmModel().OnTick();
-		plugin.doBuildRequest();
+		plugin.doBuildRequest(); // colonist build
 		plugin.doCleanRequest();
 		plugin.doSignRequest();
 		plugin.doScanRequest();

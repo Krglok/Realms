@@ -53,7 +53,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.*; //. CreatureType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -598,32 +598,6 @@ public final class Realms extends JavaPlugin
 	private void doSuperRequest(World world, RegionLocation rLoc )
 	{
 		server.createSuperRegion(world, rLoc);
-//		Location currentLocation = new Location (
-//				world,
-//				rLoc.getPosition().getX(),
-//				rLoc.getPosition().getY(),
-//				rLoc.getPosition().getZ()
-//				);
-//		String arg2 = rLoc.getRegionType();
-//		String arg0 = rLoc.getName();
-//		ArrayList<String> arg3= new ArrayList<String>();
-//		arg3.add(rLoc.getOwner());
-//		Map<String,List<String>> arg4= new HashMap<String,List<String>>();
-////public boolean addSuperRegion(String name, Location loc, String type, List<String> owners, Map<String, List<String>> members, int power, double balance) {
-//		int arg5 = 10;
-//		double arg6 = 10000.0;
-//		if (stronghold.getRegionManager().addSuperRegion(arg0, currentLocation, arg2, arg3, arg4,arg5 , arg6))
-//		{
-//			System.out.println("create SuperRegion"+arg0+" at : "+
-//				 (int)currentLocation.getX()+":"+
-//				 (int)currentLocation.getY()+":"+
-//				 (int)currentLocation.getZ()
-//				 );
-//			
-//		} else
-//		{
-//			System.out.println("Error on Create SuperRegion "+arg0);
-//		}
 	}
 
 	public void spawnRegionAnimal(String regionType, Location spawnLocation, World world )
@@ -631,9 +605,9 @@ public final class Realms extends JavaPlugin
     	if (regionType.equalsIgnoreCase("RABBITBARN"))
     	{
         	spawnLocation.setX(spawnLocation.getX()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.RABBIT);
+        	 world.spawnEntity(spawnLocation, EntityType.RABBIT);
         	spawnLocation.setX(spawnLocation.getY()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.RABBIT);
+        	world.spawnEntity(spawnLocation, EntityType.RABBIT);
 //        	currentLocation.setX(currentLocation.getX()+3);
 //        	world.spawnCreature(currentLocation, CreatureType.RABBIT);
 //        	currentLocation.setX(currentLocation.getY()+3);
@@ -642,30 +616,30 @@ public final class Realms extends JavaPlugin
     	if (regionType.equalsIgnoreCase("CHICKENHOUSE"))
     	{
         	spawnLocation.setX(spawnLocation.getX()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.CHICKEN);
+        	world.spawnEntity(spawnLocation, EntityType.CHICKEN);
         	spawnLocation.setX(spawnLocation.getY()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.CHICKEN);
+        	world.spawnEntity(spawnLocation, EntityType.CHICKEN);
     	} else
     	if (regionType.equalsIgnoreCase("SHEPHERD"))
     	{
         	spawnLocation.setX(spawnLocation.getX()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.SHEEP);
+        	world.spawnEntity(spawnLocation, EntityType.SHEEP);
         	spawnLocation.setX(spawnLocation.getY()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.SHEEP);
+        	world.spawnEntity(spawnLocation, EntityType.SHEEP);
     	} else
     	if (regionType.equalsIgnoreCase("PIGPEN"))
     	{
         	spawnLocation.setX(spawnLocation.getX()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.PIG);
+        	world.spawnEntity(spawnLocation, EntityType.PIG);
         	spawnLocation.setX(spawnLocation.getY()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.PIG);
+        	world.spawnEntity(spawnLocation, EntityType.PIG);
     	} else
     	if (regionType.equalsIgnoreCase("SPIDERSHED"))
     	{
         	spawnLocation.setX(spawnLocation.getX()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.SPIDER);
+        	world.spawnEntity(spawnLocation, EntityType.SPIDER);
         	spawnLocation.setX(spawnLocation.getY()-1);
-        	world.spawnCreature(spawnLocation, CreatureType.SPIDER);
+        	world.spawnEntity(spawnLocation, EntityType.SPIDER);
     	}
 	}
 	
@@ -715,6 +689,8 @@ public final class Realms extends JavaPlugin
 	 * arbeitet die buildRequests ab
 	 * ALLE  Request pro Settlement und Tick werden erledigt
 	 * ALLE Request pro Colony und Tick werden erledigt.
+	 * ALLE Request pro Regiment und Tick werden erledigt
+	 * ALLE ..
 	 * Dadurch bestimmt der RequestSender wieviel bearbeitet wird pro tick!!
 	 */
 	public void doBuildRequest()
@@ -782,7 +758,7 @@ public final class Realms extends JavaPlugin
 			// Abarbeiten der SuperRegionRequest zum create der Superregions
 			if (colony.getSuperRequest() != null)
 			{
-//				System.out.println("SuperRequest");
+				System.out.println("[REALMS] SuperRequest");
 				World world = getServer().getWorld(colony.getSuperRequest().getPosition().getWorld());
 				doSuperRequest(world, colony.getSuperRequest() );
 				colony.setSuperRequest(null);

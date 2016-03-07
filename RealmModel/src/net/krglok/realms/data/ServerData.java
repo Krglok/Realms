@@ -32,6 +32,7 @@ import net.krglok.realms.builder.RegionConfigList;
 import net.krglok.realms.builder.RegionLocation;
 import net.krglok.realms.builder.SuperRegionConfig;
 import net.krglok.realms.builder.SuperRegionConfigList;
+import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
@@ -717,7 +718,7 @@ public class ServerData implements ServerInterface
 	}
 	
 	@Override
-	public int getBioneFactor(Biome biome, Material mat)
+	public int getBiomeFactor(Biome biome, Material mat)
 	{
 		int factor = 0;
 		if (biome == null)
@@ -769,7 +770,7 @@ public class ServerData implements ServerInterface
 	{
 		if (amount >= 8)
 		{
-			double prodFactor = (100.0 + (double) getBioneFactor(biome, Material.getMaterial(itemRef)))/100.0 ;
+			double prodFactor = (100.0 + (double) getBiomeFactor(biome, Material.getMaterial(itemRef)))/100.0 ;
 			return prodFactor;
 		} else
 		{
@@ -918,36 +919,35 @@ public class ServerData implements ServerInterface
         RegionConfig regionConfig = null;
         if (BuildPlanType.getBuildPlanType(regionName)!=BuildPlanType.NONE)
         {
-			String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
-	        File regionFile = new File(path, "RegionConfig\\"+regionName+".yml");
-	        if (!regionFile.exists()) 
-	        {
-//	        	System.out.println("RegionFile not found :"+regionName);
-	            return regionConfig;
-	        }
-//        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", regionName+".yml");
-	        RegionType rConfig = plugin.stronghold.getRegionManager().getRegionType(regionName);
-
-            regionConfig = new RegionConfig(regionName,
-                    rConfig.getGroup(),
-                    new ArrayList<String>(),
-                    new ArrayList<String>(),
-                    rConfig.getEffects(),
-                    rConfig.getRawBuildRadius(),
-                    rConfig.getRadius(),
-                    rConfig.getRequirements(),
-                    rConfig.getSuperRegions(),
-                    rConfig.getReagents(),
-                    rConfig.getUpkeep(),
-                    rConfig.getOutput(),
-                    rConfig.getUpkeepChance(),
-                    rConfig.getMoneyRequirement(),
-                    rConfig.getMoneyOutput(),
-                    rConfig.getExp(),
-                    rConfig.getDescription(),
-                    rConfig.getPowerDrain(),
-                    rConfig.getHousing(),
-                    rConfig.getBiome());
+        	try
+        	{
+	        	RegionType rConfig = plugin.stronghold.getRegionManager().getRegionType(regionName);
+		        if (rConfig != null)
+		        {
+		        	regionConfig = new RegionConfig(regionName,
+	                    rConfig.getGroup(),
+	                    new ArrayList<String>(),
+	                    new ArrayList<String>(),
+	                    rConfig.getEffects(),
+	                    rConfig.getRawBuildRadius(),
+	                    rConfig.getRadius(),
+	                    rConfig.getRequirements(),
+	                    rConfig.getSuperRegions(),
+	                    rConfig.getReagents(),
+	                    rConfig.getUpkeep(),
+	                    rConfig.getOutput(),
+	                    rConfig.getUpkeepChance(),
+	                    rConfig.getMoneyRequirement(),
+	                    rConfig.getMoneyOutput(),
+	                    rConfig.getExp(),
+	                    rConfig.getDescription(),
+	                    rConfig.getPowerDrain(),
+	                    rConfig.getHousing(),
+	                    rConfig.getBiome());
+		        }
+            } catch (Exception e) {
+            	System.out.println("[REALMS] failed to load " + regionName);
+            }
         }
         return regionConfig;
 	}
@@ -973,7 +973,9 @@ public class ServerData implements ServerInterface
         try 
         {
         	SuperRegionType rConfig = plugin.stronghold.getRegionManager().getSuperRegionType(sRegionName);
-            sRegionConfig = new SuperRegionConfig(sRegionName,
+	        if (rConfig != null)
+	        {
+	        	sRegionConfig = new SuperRegionConfig(sRegionName,
             		rConfig.getEffects(),
                     rConfig.getRadius(),
                     rConfig.getRequirements(),
@@ -987,6 +989,7 @@ public class ServerData implements ServerInterface
                     rConfig.getCentralStructure(),
                     rConfig.getDescription(),
                     rConfig.getPopulation());
+	        }
         } catch (Exception e) {
         	System.out.println("[REALMS] failed to load " + sRegionName);
         }
@@ -1019,6 +1022,45 @@ public class ServerData implements ServerInterface
 				materialBuildPlanList.addMaterialBuildPlan(item.getType().name(), BuildPlanType.getBuildPlanType(rConfig.getName()));
 			}
 		}
+	}
+
+	@Override
+	public ItemList getBiomeMaterial(Biome biome)
+	{
+		ItemList itemList = new ItemList();
+		for (Material mat : Material.values())
+		{
+			int factor = getBiomeFactor(biome, mat);
+			if (factor != 0)
+			{
+				itemList.addItem(mat.name(), factor);
+			}
+		}
+		return itemList;
+	}
+
+	@Override
+	public ItemList getBiomeNeutralMaterial(Biome biome)
+	{
+		ItemList refList = ConfigBasis.initArmor();
+		refList.addAll(ConfigBasis.initBuildMaterial());
+		refList.addAll(ConfigBasis.initFoodMaterial());
+		refList.addAll(ConfigBasis.initMaterial());
+		refList.addAll(ConfigBasis.initOre() );
+		refList.addAll(ConfigBasis.initRawMaterial() );
+		refList.addAll(ConfigBasis.initTool() );
+		refList.addAll(ConfigBasis.initValuables());
+		refList.addAll(ConfigBasis.initWeapon());
+		ItemList itemList = new ItemList();
+		for (Item item : refList.values())
+		{
+			int factor = getBiomeFactor(biome,Material.getMaterial(item.ItemRef()));
+			if (factor == 0)
+			{
+				itemList.addItem(item.ItemRef(), factor);
+			}
+		}
+		return itemList;
 	}
 	
 	

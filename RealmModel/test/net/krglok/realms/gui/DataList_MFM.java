@@ -216,7 +216,7 @@ public class DataList_MFM extends JDialog
 		Lehen lehen = rModel.getData().getLehen().getLehen(id);
 		if (lehen != null)
 		{
-			Lehen_DFM.showMe(lehen, rModel.getData());
+			Lehen_DFM.showMe(lehen, rModel);
 		}
 	}
 	

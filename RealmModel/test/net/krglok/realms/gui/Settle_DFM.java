@@ -27,10 +27,12 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.Item;
 import net.krglok.realms.core.ItemList;
+import net.krglok.realms.core.ItemPrice;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;
 import net.krglok.realms.model.RealmModel;
+import net.krglok.realms.npc.NpcData;
 
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -238,6 +240,16 @@ public class Settle_DFM extends JDialog
 //					doSellOrder();
 			}
 		});
+		{
+			JButton btnBiome = new JButton("Biome");
+			btnBiome.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					doBiomeAnalyse();
+				}
+			});
+			btnBiome.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
+			contentPanel.add(btnBiome, "11, 6, 3, 1, left, default");
+		}
 		buttonSellOrder.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(buttonSellOrder, "17, 6, fill, default");
 		{
@@ -269,6 +281,16 @@ public class Settle_DFM extends JDialog
 				doDontSell();
 			}
 		});
+		{
+			JButton btnNpc = new JButton("Npc");
+			btnNpc.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					showNPCList();
+				}
+			});
+			btnNpc.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
+			contentPanel.add(btnNpc, "11, 8");
+		}
 		btnTransport.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnTransport, "17, 8, fill, default");
 		{
@@ -351,6 +373,16 @@ public class Settle_DFM extends JDialog
 				doOverview();
 			}
 		});
+		{
+			JButton btnAnalyse = new JButton("Analyse");
+			btnAnalyse.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					doProdAnalyse();
+				}
+			});
+			btnAnalyse.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/_tdb.gif")));
+			contentPanel.add(btnAnalyse, "11, 14, 3, 1, left, default");
+		}
 		btnProduction.setIcon(new ImageIcon(Settle_DFM.class.getResource("/net/krglok/realms/gui/check.png")));
 		contentPanel.add(btnProduction, "17, 14, fill, default");
 		{
@@ -618,4 +650,98 @@ public class Settle_DFM extends JDialog
 	{
 		MessageBrowser.showMe(settle.getName()+"/ Bank",settle.getBank().getMsg());		
 	}
+
+	private void showNPCList()
+	{
+		try
+		{
+			String[]columnHeader = new String[] {"ID", "Name", "NPCType", "UnitType","Age","Settle","Lehen", "Money"};
+			int maxRow =  settle.getResident().getNpcList().size();
+			System.out.println("NPC ["+maxRow+"]");
+			String[][] dataRows = new  String[maxRow][columnHeader.length];
+			DataList_MFM dialog = new DataList_MFM();
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.setModel(new DefaultTableModel(
+				dataRows,
+				columnHeader
+			));
+			dialog.table.getColumnModel().getColumn(0).setPreferredWidth(10);
+			dialog.table.getColumnModel().getColumn(1).setPreferredWidth(60);
+			dialog.table.getColumnModel().getColumn(2).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(3).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(4).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(5).setPreferredWidth(35);
+			dialog.table.getColumnModel().getColumn(6).setPreferredWidth(35);
+			int row = 0;
+			for (Integer index: settle.getResident().getNpcList().sortIntegerList(settle.getResident().getNpcList().keySet()))
+			{
+				NpcData npc = settle.getResident().getNpcList().get(index);
+				dialog.table.getModel().setValueAt(npc.getId(), row, 0);
+				dialog.table.getModel().setValueAt(npc.getName() ,row,1);; 
+				dialog.table.getModel().setValueAt(npc.getNpcType().name() ,row,2);; 
+				dialog.table.getModel().setValueAt(npc.getUnitType().name() ,row,3);; 
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getAge() ,3),row,4);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getSettleId() ,4),row,5);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrright(npc.getLehenId() ,2),row,6);
+				dialog.table.getModel().setValueAt(ConfigBasis.setStrformat2(npc.getMoney() ,9) ,row,7);
+				row++;
+			}
+			dialog.setTitle("Npc Liste");
+			dialog.setDetailClass(NpcData.class);
+			dialog.rModel = rModel;
+			dialog.setVisible(true);
+			
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	private void doProdAnalyse()
+	{
+		Object[][] dataRows = new Object[settle.getProdAnalyse().size()][3];
+		int index = 0;
+		for (String itemRef : settle.getProdAnalyse().keySet())
+		{
+			ItemPrice item = settle.getProdAnalyse().get(itemRef);
+//			if (index <100)
+			{
+				dataRows[index][0] = item.ItemRef();
+				dataRows[index][1] = item.value();
+				dataRows[index][2] = ConfigBasis.setStrformat2(item.getBasePrice(),7);
+			}
+			index ++;
+		}
+		String[] colHeader = new String[] {	"Items", "Prod","Needed"};		
+		@SuppressWarnings("rawtypes")
+		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Production Analyse");
+	}
+
+	private void doBiomeAnalyse()
+	{
+		ItemList biomeFaktors = rModel.getServer().getBiomeMaterial(settle.getBiome());
+//		biomeFaktors.addAll(rModel.getServer().getBiomeNeutralMaterial(settle.getBiome()));
+		Object[][] dataRows = new Object[biomeFaktors.size()][2];
+		int index = 0;
+		for (String itemRef : biomeFaktors.keySet())
+		{
+			Item item = biomeFaktors.get(itemRef);
+//			if (index <100)
+			{
+				dataRows[index][0] = item.ItemRef();
+				dataRows[index][1] = item.value();
+			}
+			index ++;
+		}
+		String[] colHeader = new String[] {	"Material", "Faktor %"};		
+		@SuppressWarnings("rawtypes")
+		Class[] columnTypes = new Class[] {String.class, Integer.class, String.class};
+		Item_Browser.showMe(dataRows, columnTypes, colHeader, "Biome Analyse");
+	}
+	
 }

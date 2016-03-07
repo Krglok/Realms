@@ -116,6 +116,8 @@ public class CmdRealmsSettlement extends RealmsCommand
     		msg.add(ChatColor.GOLD+"protected Areas"+"\n");
         	msg.addAll(SettlementSection(10, 99,ChatColor.GOLD));
     		msg.add(ChatColor.GREEN+"Commoner Areas"+"\n");
+			msg.add(ChatColor.GREEN+SettleType.BERTH.name()+"\n");
+			msg.add(ChatColor.GREEN+SettleType.CLAIM.name()+"\n");
         	msg.addAll(SettlementSection(100, 399,ChatColor.GREEN));
     		msg.add(ChatColor.LIGHT_PURPLE+"Noble Areas"+"\n");
         	msg.addAll(SettlementSection(500, 600,ChatColor.LIGHT_PURPLE));

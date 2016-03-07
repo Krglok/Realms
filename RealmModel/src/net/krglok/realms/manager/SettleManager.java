@@ -333,7 +333,7 @@ public class SettleManager
 
 	private int getMinStorage(RealmModel rModel, Settlement settle, String itemRef)
 	{
-		int biomeFactor = rModel.getServer().getBioneFactor( settle.getBiome(), Material.getMaterial(itemRef)); //Math.abs(
+		int biomeFactor = rModel.getServer().getBiomeFactor( settle.getBiome(), Material.getMaterial(itemRef)); //Math.abs(
 		if (biomeFactor < 0) { biomeFactor = 1;}
 		int sellLimit = 0;
 		if (dontSell.containsKey(itemRef))
@@ -449,6 +449,23 @@ public class SettleManager
 	
 	private void checkMoneyLevel( RealmModel rModel, Settlement settle)
 	{
+		double minKonto = settle.getResident().getNpcList().size()*10.0;
+		if (settle.getBank().getKonto() < minKonto)
+		{
+			int emeralds = settle.getWarehouse().getItemList().getValue(Material.EMERALD.name());
+			double price = rModel.getData().getPriceList().getBasePrice(Material.EMERALD.name());
+			double dif = minKonto - settle.getBank().getKonto();
+			int needAmount = (int) (dif / price);
+			if (needAmount > emeralds)
+			{
+				settle.getWarehouse().depositItemValue(Material.EMERALD.name(), emeralds);
+				settle.getBank().depositKonto((price*emeralds), "MoneyLevel", settle.getId());
+			} else
+			{
+				settle.getWarehouse().depositItemValue(Material.EMERALD.name(), needAmount);
+				settle.getBank().depositKonto((price*needAmount), "MoneyLevel", settle.getId());
+			}
+		}
 		
 	}
 	
