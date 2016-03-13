@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegionType;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;

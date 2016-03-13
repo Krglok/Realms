@@ -6,27 +6,20 @@ effects:
 - denybucketusenoreagent
 - denyfirenoreagent
 - denyliquidnoreagent
-- denyexplosionnoreagent
 - denyblockbuild
 - denyblockbreak
 - denypvp
 - denybucketuse
 - denyfire
 - denyliquid
-- denyexplosion
-radius: 35
-requirements:
-- HALL.1
-- CABIN.2
-- FIELD.1
-- BUTCHER.1
-central-structure: HALL
-money-requirement: 20000.0
+- powershield
+radius: 40
+money-requirement: 500.0
 money-output-daily: 0.0
-max-power: 200.0
+max-power: 1000.0
 daily-power-increase: 10
 charter: 0
 children:
-- CLAIM
+- BERTH
 exp: 500
-description: Tiny settlement from village.
+description: Smallest settlement for player No buildings needed.

@@ -6,8 +6,8 @@ import java.util.HashMap;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;

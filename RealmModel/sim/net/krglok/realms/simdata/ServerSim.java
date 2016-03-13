@@ -3,8 +3,8 @@ package net.krglok.realms.simdata;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.core.ItemList;
 import net.krglok.realms.core.ItemPriceList;
 import net.krglok.realms.core.LocationData;

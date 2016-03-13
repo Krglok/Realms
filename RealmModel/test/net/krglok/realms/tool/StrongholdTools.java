@@ -7,8 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegionType;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegionType;
 import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.builder.SuperRegionConfig;
 import net.krglok.realms.core.LocationData;

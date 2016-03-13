@@ -15,8 +15,8 @@ reagents:
 - GOLD_NUGGET.1
 upkeep:
 - BREAD.1
-- COBBLESTONE.16
-- COAL.1
+- COBBLESTONE.64
+- COAL.2
 upkeep-chance: 0.01
 output:
 - STONE.16

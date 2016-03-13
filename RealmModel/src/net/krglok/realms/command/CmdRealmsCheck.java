@@ -3,7 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import net.krglok.realms.Realms;
 
 import org.bukkit.ChatColor;

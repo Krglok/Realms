@@ -3,7 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 import java.util.List;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;

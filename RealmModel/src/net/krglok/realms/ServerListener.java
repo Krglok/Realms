@@ -8,9 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.RegionCondition;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.RegionCondition;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.command.CmdFeudalInfo;
 import net.krglok.realms.command.CmdFeudalWarehouse;
@@ -175,7 +175,7 @@ public class ServerListener implements Listener
 	/**
 	 * Handle explosion on settlements.
 	 * Suppress destruction and reduce power instead 
-	 * Work with herostronghold functions and conditions for regions
+	 * Work with Stronghold functions and conditions for regions
 	 * @param event
 	 */
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
@@ -770,7 +770,7 @@ public class ServerListener implements Listener
 	    	Location pos = target.getLocation();
 			ArrayList<Region> targets =  plugin.stronghold.getRegionManager().getContainingRegions(pos);
 	    	ArrayList<String> msg = new ArrayList<String>();
-			msg.add("== HeroStronghold : Region Info");
+			msg.add("== Stronghold : Region Info");
 			if (targets != null)
 			{
 				if (targets.size() > 0)

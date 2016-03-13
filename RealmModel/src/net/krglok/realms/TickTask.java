@@ -2,7 +2,7 @@ package net.krglok.realms;
 
 import java.util.HashMap;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;

@@ -1,0 +1,31 @@
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+- denyblockbuild
+- denyblockbreak
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
+radius: 15
+money-requirement: 50.0
+money-output-daily: 0.0
+max-power: 100.0
+daily-power-increase: 10
+charter: 0
+children:
+- VILLAGE
+- HAMLET
+- TOWN
+- CITY
+- METROPOLIS
+- LEHEN_1
+- LEHEN_2
+- LEHEN_3
+- LEHEN_4
+exp: 10
+description: Can used for boats and airships like in Movecraft, to drop down the anchor and protect the vessel 

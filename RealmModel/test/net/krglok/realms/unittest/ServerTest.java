@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.SuperRegion;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.builder.RegionConfigList;

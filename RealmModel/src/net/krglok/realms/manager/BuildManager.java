@@ -3,7 +3,7 @@ package net.krglok.realms.manager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import net.krglok.realms.builder.BuildPlan;
 import net.krglok.realms.builder.BuildStatus;
 import net.krglok.realms.builder.ItemListLocation;

@@ -2,30 +2,31 @@ effects:
 - denyblockbuildnoreagent
 - denyblockbreaknoreagent
 - denyfriendlyfirenoreagent
+- denypvpnoreagent
+- denybucketusenoreagent
 - denyfirenoreagent
 - denyliquidnoreagent
 - denyexplosionnoreagent
 - denyblockbuild
 - denyblockbreak
+- denypvp
 - denybucketuse
 - denyfire
 - denyliquid
 - denyexplosion
-radius: 15
-money-requirement: 50000.0
+radius: 35
+requirements:
+- HALL.1
+- CABIN.2
+- FIELD.1
+- BUTCHER.1
+central-structure: HALL
+money-requirement: 20000.0
 money-output-daily: 0.0
-max-power: 100.0
+max-power: 200.0
 daily-power-increase: 10
 charter: 0
 children:
-- VILLAGE
-- HAMLET
-- TOWN
-- CITY
-- METROPOLIS
-- LEHEN_1
-- LEHEN_2
-- LEHEN_3
-- LEHEN_4
+- CLAIM
 exp: 500
-description: Can build boats for Movecraft
+description: Tiny settlement for villagers.

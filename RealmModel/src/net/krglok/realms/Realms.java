@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import multitallented.redcastlemedia.bukkit.herostronghold.HeroStronghold;
-import multitallented.redcastlemedia.bukkit.herostronghold.region.Region;
+import multitallented.redcastlemedia.bukkit.stronghold.Stronghold;
+import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import net.aufdemrand.sentry.Sentry;
 import net.citizensnpcs.Citizens;
 import net.krglok.realms.builder.BuildPlanType;
@@ -71,7 +71,7 @@ import org.dynmap.bukkit.DynmapPlugin;
  * <pre>
  * Container for the plugin. Handle the Events.
  * create Task for Tick Handling of the RealmModel. 
- * check interface to HeroStronghold
+ * check interface to Stronghold
  * check interface to Vault
  * check Interface to SignChestShop
  * realize onEnable and make initialization
@@ -119,7 +119,7 @@ public final class Realms extends JavaPlugin
 	@SuppressWarnings("unused")
 	private Update update; // = new Update(projectId, apiKey);
 
-    public HeroStronghold stronghold = null;
+    public Stronghold stronghold = null;
 //    public ShopkeepersPlugin sk = null;
 //    public CitizensAPI npcAPI = null;
     public Citizens npc = null;
@@ -189,13 +189,13 @@ public final class Realms extends JavaPlugin
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(serverListener, this);
 		
-        Plugin currentPlugin = pm.getPlugin("HeroStronghold");
+        Plugin currentPlugin = pm.getPlugin("Stronghold");
         if (currentPlugin != null) {
-            log.info("[Realms] found HeroStronghold !");
-            stronghold = ((HeroStronghold) currentPlugin);
+            log.info("[Realms] found Stronghold !");
+            stronghold = ((Stronghold) currentPlugin);
         } else {
-            log.warning("[Realms] didnt find HeroStronghold.");
-            log.info("[Realms] please install the plugin HeroStronghold .");
+            log.warning("[Realms] didnt find Stronghold.");
+            log.info("[Realms] please install the plugin Stronghold .");
             log.info("[Realms] will NOT Started");
             this.setEnabled(false);
             return;
@@ -644,7 +644,7 @@ public final class Realms extends JavaPlugin
 	}
 	
 	/**
-	 * create a HeroStronghold Region at position
+	 * create a Stronghold Region at position
 	 * No checks will be done
 	 * @param world
 	 * @param rLoc
@@ -739,7 +739,7 @@ public final class Realms extends JavaPlugin
 			}
 			colony.buildManager().getBuildRequest().clear();
 			
-			// Abarbeiten der Region Request zum erstellen von Herostronghold Regions
+			// Abarbeiten der Region Request zum erstellen von Stronghold Regions
 			if (colony.buildManager().getRegionRequest().size() != 0)
 			{
 				World world = getServer().getWorld(colony.buildManager().getRegionRequest().get(0).getPosition().getWorld());
@@ -781,7 +781,7 @@ public final class Realms extends JavaPlugin
 			}
 			regiment.buildManager().getBuildRequest().clear();
 			
-			// Abarbeiten der Region Request zum erstellen von Herostronghold Regions
+			// Abarbeiten der Region Request zum erstellen von Stronghold Regions
 			if (regiment.buildManager().getRegionRequest().size() != 0)
 			{
 				World world = getServer().getWorld(regiment.buildManager().getRegionRequest().get(0).getPosition().getWorld());
