@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="RealmModel/src"/>
-	<classpathentry kind="src" path="RealmModel/test"/>
-	<classpathentry kind="src" path="RealmModel/sim"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="sim"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/GIT/OwnPlugins/Realms/forms-1.3.0.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Vault.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Citizens.jar" sourcepath="D:/GIT/OwnPlugins/CitizensAPI"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/citizensapi-2.0.11-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="D:/GIT/PluginRef/dynmap-HEAD.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/sentry.jar" sourcepath="/CitizenSentry"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.9.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Stronghold.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/dynmap-2.3-alpha-1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

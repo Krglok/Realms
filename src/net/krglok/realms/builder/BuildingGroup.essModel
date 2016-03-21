@@ -1,0 +1,1040 @@
+[Box: ::net.krglok.realms.colonist - ::<<Unknown>>::HashMap]
+X=20
+Y=40
+
+[Box: ::net.krglok.realms.colonist - ::net.krglok.realms.colonist::Colony]
+X=225
+Y=40
+
+[Box: ::net.krglok.realms.colonist - ::net.krglok.realms.colonist::ColonyList]
+X=21
+Y=117
+
+[Diagram: ::net.krglok.realms.colonist]
+OffsetX=0
+OffsetY=0
+Visibility=0
+ShowAssoc=0
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdColonistCreate]
+X=7195
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdColonistList]
+X=6990
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdColonistMove]
+X=8030
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdColonyBuild]
+X=7825
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdColonyHelp]
+X=7620
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdColonyWarehouse]
+X=6785
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalBank]
+X=5965
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalBuild]
+X=5760
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalCreate]
+X=5555
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalFollow]
+X=6580
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalHelp]
+X=6375
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalHire]
+X=6170
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalInfo]
+X=10080
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalList]
+X=9875
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalOwner]
+X=9670
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdFeudalWarehouse]
+X=10695
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomCreate]
+X=10490
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomGive]
+X=10285
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomHelp]
+X=9465
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomInfo]
+X=8645
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomJoin]
+X=8440
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomList]
+X=8235
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomMember]
+X=9260
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomOwner]
+X=9055
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomRelease]
+X=8850
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomRequest]
+X=5350
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdKingdomStructure]
+X=1865
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdOwnerCreate]
+X=1660
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdOwnerHelp]
+X=1455
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdOwnerInfo]
+X=2480
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdOwnerList]
+X=2275
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdOwnerSet]
+X=2070
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdOwnerSettlement]
+X=1250
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmNone]
+X=430
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsActivate]
+X=225
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsBook]
+X=20
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsBookList]
+X=1045
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsBookRead]
+X=840
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsBuilding]
+X=635
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsBuildingList]
+X=4530
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsCheck]
+X=4325
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsDeactivate]
+X=4120
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsGetItem]
+X=5145
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsHelp]
+X=4940
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsMap]
+X=4735
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsMove]
+X=3915
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsPlayer]
+X=3095
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsPrice]
+X=2890
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsPricelistInfo]
+X=2685
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsProduce]
+X=3710
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsRecipeList]
+X=3505
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsSetItem]
+X=3300
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsSettlement]
+X=18291
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsSettler]
+X=18086
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsSign]
+X=17881
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsTax]
+X=18906
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsTech]
+X=18701
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsTest]
+X=18496
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRealmsVersion]
+X=17676
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentCreate]
+X=16856
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentHelp]
+X=16651
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentHome]
+X=16446
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentInfo]
+X=17471
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentList]
+X=17266
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentMove]
+X=17061
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentRaid]
+X=20956
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdRegimentWarehouse]
+X=20751
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleAddBuilding]
+X=20546
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleAddMember]
+X=21571
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleAddOwner]
+X=21366
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleAssume]
+X=21161
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleBank]
+X=20341
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleBiome]
+X=19521
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleBuild]
+X=19316
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleBuilding]
+X=19111
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleBuildingList]
+X=20136
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleBuy]
+X=19931
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleCheck]
+X=19726
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleCreate]
+X=16230
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleCredit]
+X=12745
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleDelete]
+X=12540
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleDestroyBuilding]
+X=12335
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleEvolve]
+X=13360
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleGetItem]
+X=13155
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleHelp]
+X=12950
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleInfo]
+X=12130
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleJoin]
+X=11310
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleList]
+X=11105
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleMarket]
+X=10900
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleNoSell]
+X=11925
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleOwner]
+X=11720
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleProduction]
+X=11515
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleReputation]
+X=15410
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleRequired]
+X=15205
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleRoute]
+X=15000
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleRouteList]
+X=16025
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleSell]
+X=15820
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleSetItem]
+X=15615
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleSettler]
+X=14795
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleTrader]
+X=13975
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleTrain]
+X=13770
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleTraining]
+X=13565
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleWarehouse]
+X=14590
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdSettleWorkshop]
+X=14385
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CmdWallSign]
+X=14180
+Y=707
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::CommandParser]
+X=11056
+Y=5
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::iRealmsCommand]
+X=12542
+Y=1296
+
+[Box: ::net.krglok.realms.command - ::net.krglok.realms.command::RealmsCommand]
+X=10785
+Y=2
+
+[Diagram: ::net.krglok.realms.command]
+OffsetX=0
+OffsetY=10228
+Visibility=0
+ShowAssoc=0
+
+[Box: ::net.krglok.realms - ::<<Unknown>>::JavaPlugin]
+X=1272
+Y=32
+
+[Box: ::net.krglok.realms - ::<<Unknown>>::Listener]
+X=15
+Y=39
+
+[Box: ::net.krglok.realms - ::<<Unknown>>::Runnable]
+X=519
+Y=27
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::CacheTask]
+X=357
+Y=649
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::CommandRealms]
+X=1494
+Y=470
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::NobleManager]
+X=981
+Y=365
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::NobleTask]
+X=745
+Y=359
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::NpcManager]
+X=910
+Y=687
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::NpcTask]
+X=670
+Y=686
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::Realms]
+X=1263
+Y=186
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::ServerListener]
+X=17
+Y=109
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::TaxTask]
+X=267
+Y=317
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::TickTask]
+X=269
+Y=110
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::UnitManager]
+X=981
+Y=101
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::UnitTask]
+X=746
+Y=99
+
+[Box: ::net.krglok.realms - ::net.krglok.realms::Update]
+X=1492
+Y=683
+
+[Diagram: ::net.krglok.realms]
+OffsetX=0
+OffsetY=175
+Visibility=2
+ShowAssoc=0
+
+[Box: ::net.krglok.realms.builder - ::<<Unknown>>::ArrayList]
+X=484
+Y=33
+
+[Box: ::net.krglok.realms.builder - ::<<Unknown>>::HashMap]
+X=26
+Y=34
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::BuildPlan]
+X=743
+Y=33
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::BuildPlanMap]
+X=744
+Y=622
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::BuildPosition]
+X=481
+Y=188
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::BuildPositionList]
+X=483
+Y=121
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::ItemListLocation]
+X=1004
+Y=616
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::ItemLocation]
+X=481
+Y=656
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::RegionConfig]
+X=242
+Y=237
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::RegionConfigList]
+X=24
+Y=120
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::RegionLocation]
+X=479
+Y=389
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::SettleSchema]
+X=1010
+Y=33
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::SuperRegionConfig]
+X=27
+Y=230
+
+[Box: ::net.krglok.realms.builder - ::net.krglok.realms.builder::SuperRegionConfigList]
+X=243
+Y=121
+
+[Diagram: ::net.krglok.realms.builder]
+OffsetX=0
+OffsetY=0
+Visibility=0
+ShowAssoc=0
+
+[Box: ::net.krglok.realms.core - ::<<Unknown>>::ArrayList]
+X=2051
+Y=40
+
+[Box: ::net.krglok.realms.core - ::<<Unknown>>::HashMap]
+X=174
+Y=34
+
+[Box: ::net.krglok.realms.core - ::<<Unknown>>::Serializable]
+X=2593
+Y=40
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::AbstractSettle]
+X=2256
+Y=40
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Bank]
+X=2498
+Y=137
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Barrack]
+X=635
+Y=4121
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::BoardItem]
+X=635
+Y=3324
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::BoardItemList]
+X=1250
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Building]
+X=2696
+Y=136
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::BuildingList]
+X=2070
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::ConfigBasis]
+X=2896
+Y=136
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::ConfigBiome]
+X=430
+Y=4121
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Item]
+X=3150
+Y=40
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::ItemArray]
+X=2275
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::ItemList]
+X=430
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::ItemPrice]
+X=3150
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::ItemPriceList]
+X=635
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::LocationData]
+X=1045
+Y=4121
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Owner]
+X=225
+Y=3324
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::OwnerList]
+X=840
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Resident]
+X=20
+Y=3324
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::RouteOrder]
+X=3218
+Y=3324
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::RouteOrderList]
+X=1455
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Settlement]
+X=2480
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::SettlementList]
+X=1865
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::SignPos]
+X=840
+Y=3324
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::SignPosList]
+X=1045
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Townhall]
+X=20
+Y=4121
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::TradeMarket]
+X=15
+Y=2017
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::TradeMarketOrder]
+X=3013
+Y=4121
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::TradeOrder]
+X=3013
+Y=3324
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::TradeOrderList]
+X=1660
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Trader]
+X=430
+Y=3324
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::TraderRouteTest]
+X=225
+Y=4121
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::TradeTransport]
+X=225
+Y=2020
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.core::Warehouse]
+X=840
+Y=4121
+
+[Box: ::net.krglok.realms.core - ::net.krglok.realms.data::ConfigInterface]
+X=2894
+Y=40
+
+[Diagram: ::net.krglok.realms.core]
+OffsetX=2611
+OffsetY=1831
+Visibility=4
+ShowAssoc=0
+
+[Box: ::net.krglok.realms.manager - ::<<Unknown>>::ArrayList]
+X=13
+Y=42
+
+[Box: ::net.krglok.realms.manager - ::<<Unknown>>::HashMap]
+X=305
+Y=36
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::BiomeLocation]
+X=764
+Y=32
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::BuildManager]
+X=1010
+Y=314
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::BuildPlanList]
+X=9
+Y=147
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::CampPosition]
+X=212
+Y=352
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::CampPositionList]
+X=217
+Y=260
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::CraftManager]
+X=1219
+Y=30
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::HeightAnalysis]
+X=10
+Y=356
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::LehenManager]
+X=760
+Y=451
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::MapManager]
+X=1238
+Y=320
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::MaterialBuildPlanList]
+X=533
+Y=136
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::RaiderManager]
+X=773
+Y=628
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::ReputationData]
+X=439
+Y=355
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::ReputationList]
+X=439
+Y=254
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::SettleManager]
+X=763
+Y=182
+
+[Box: ::net.krglok.realms.manager - ::net.krglok.realms.manager::TradeManager]
+X=1011
+Y=27
+
+[Diagram: ::net.krglok.realms.manager]
+OffsetX=0
+OffsetY=0
+Visibility=2
+ShowAssoc=0
+
+[Box: ::net.krglok.realms.kingdom - ::<<Unknown>>::HashMap]
+X=321
+Y=26
+
+[Box: ::net.krglok.realms.kingdom - ::<<Unknown>>::Trait]
+X=20
+Y=40
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.core::AbstractSettle]
+X=1010
+Y=281
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::JoinRequestList]
+X=271
+Y=555
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::Kingdom]
+X=525
+Y=585
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::KingdomList]
+X=521
+Y=496
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::Lehen]
+X=760
+Y=182
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::LehenList]
+X=761
+Y=117
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::MemberList]
+X=48
+Y=596
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::NobleTrait]
+X=30
+Y=152
+
+[Box: ::net.krglok.realms.kingdom - ::net.krglok.realms.kingdom::Request]
+X=275
+Y=645
+
+[Diagram: ::net.krglok.realms.kingdom]
+OffsetX=0
+OffsetY=0
+Visibility=2
+ShowAssoc=0
+
+[Box: ::net.krglok.realms.data - ::<<Unknown>>::ArrayList]
+X=405
+Y=39
+
+[Box: ::net.krglok.realms.data - ::<<Unknown>>::HashMap]
+X=628
+Y=36
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.core::ConfigBasis]
+X=1705
+Y=27
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::AbstractDataStore]
+X=434
+Y=744
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::BookStringList]
+X=405
+Y=153
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::ConfigData]
+X=2263
+Y=30
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::ConfigInterface]
+X=2002
+Y=34
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataCalendar]
+X=751
+Y=1439
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataInterface]
+X=1151
+Y=861
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStorage]
+X=1153
+Y=27
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreBuilding]
+X=714
+Y=1309
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreCampPos]
+X=12
+Y=970
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreCaseBook]
+X=14
+Y=1309
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreColony]
+X=10
+Y=881
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreKingdom]
+X=862
+Y=876
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreLehen]
+X=874
+Y=982
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreNpc]
+X=481
+Y=1307
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreNpcName]
+X=19
+Y=1148
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreOwner]
+X=254
+Y=1309
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStorePrice]
+X=17
+Y=1223
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreRegiment]
+X=873
+Y=1087
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreSettlement]
+X=865
+Y=1229
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DataStoreTextBook]
+X=16
+Y=1061
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DBCachRef]
+X=257
+Y=1438
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::DBWriteCache]
+X=629
+Y=145
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::IDataStore]
+X=28
+Y=1434
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::KnowledgeData]
+X=497
+Y=1441
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::LogData]
+X=1331
+Y=1560
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::MessageData]
+X=888
+Y=27
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::MessageInterface]
+X=887
+Y=215
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::MessageText]
+X=1011
+Y=1442
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::PriceData]
+X=482
+Y=1583
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::PriceTable]
+X=31
+Y=340
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::RealmData]
+X=1326
+Y=1444
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::RecipeData]
+X=2265
+Y=615
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::RegimentData]
+X=2255
+Y=957
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::ServerData]
+X=1408
+Y=24
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::ServerInterface]
+X=1410
+Y=434
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::SettlementData]
+X=1992
+Y=955
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::SQliteConnection]
+X=41
+Y=508
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::TableData]
+X=122
+Y=40
+
+[Box: ::net.krglok.realms.data - ::net.krglok.realms.data::TableYml]
+X=251
+Y=341
+
+[Diagram: ::net.krglok.realms.data]
+OffsetX=669
+OffsetY=967
+Visibility=2
+ShowAssoc=0
+
