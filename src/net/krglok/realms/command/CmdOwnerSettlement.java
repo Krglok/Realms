@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.CommonLevel;
@@ -18,7 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdOwnerSettlement extends RealmsCommand
+public class CmdOwnerSettlement extends aRealmsCommand
 {
 	private int page;
 	private int ownerId;

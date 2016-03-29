@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanType;
@@ -23,7 +23,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdOwnerInfo extends RealmsCommand
+public class CmdOwnerInfo extends aRealmsCommand
 {
 	private int page;
 	private int ownerId;

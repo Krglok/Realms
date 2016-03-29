@@ -3,7 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanMap;
@@ -18,7 +18,7 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdRegimentHome extends RealmsCommand
+public class CmdRegimentHome extends aRealmsCommand
 {
 	private int regimentId;
 //	LocationData position;

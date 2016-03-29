@@ -274,7 +274,7 @@ public class RealmLoopTest
 				);
 //		String command = RealmsCommandType.REALMS.name();
 //		String subCommand = "version";
-//		RealmsCommand realmCommand = new CmdRealmsVersion();
+//		aRealmsCommand realmCommand = new CmdRealmsVersion();
 		
 		Boolean expected = true; 
 		Boolean actual = false; 

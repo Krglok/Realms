@@ -18,6 +18,7 @@ import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.kingdom.Request;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.unit.Regiment;
+import net.krglok.realms.core.ConfigBasis;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -40,7 +41,7 @@ import org.bukkit.inventory.meta.BookMeta;
  *
  *</pre>
  */
-public abstract class RealmsCommand implements iRealmsCommand
+public abstract class aRealmsCommand implements iRealmsCommand
 {
 	private RealmsCommandType command;
 	private RealmsSubCommandType subCommand;
@@ -51,7 +52,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 	protected String helpPage;
 	
 	
-	public RealmsCommand(RealmsCommandType command, RealmsSubCommandType subCommand)
+	public aRealmsCommand(RealmsCommandType command, RealmsSubCommandType subCommand)
 	{
 		this.command = command; 
 		this.subCommand = subCommand;
@@ -477,7 +478,7 @@ public abstract class RealmsCommand implements iRealmsCommand
 		return false;
 	}
 	
-	public ArrayList<String> getCommandDescription(RealmsCommand[] cmdList
+	public ArrayList<String> getCommandDescription(aRealmsCommand[] cmdList
 			, RealmsCommandType commandType
 			, RealmsSubCommandType subCommandType)
 	{
@@ -496,8 +497,9 @@ public abstract class RealmsCommand implements iRealmsCommand
 	}
 
 
-	public ArrayList<String> makeHelpPage(RealmsCommand[] cmdList, ArrayList<String> msg, String search )
+	public ArrayList<String> makeHelpPage(aRealmsCommand[] cmdList, ArrayList<String> msg, String search )
 	{
+		boolean isFound = false;
 		System.out.println("Word: "+search);
     	if (search == "")
     	{
@@ -531,14 +533,24 @@ public abstract class RealmsCommand implements iRealmsCommand
     	} else
     	{
     		
-//    		RealmsSubCommandType subCommandType = RealmsSubCommandType.searchRealmSubCommandType(search);
-    		String name = search.toUpperCase();
-    		for (RealmsSubCommandType rsc : RealmsSubCommandType.values())
+    		if (isFound == false)
     		{
-    			if (rsc.name().contains(name))
+    	    	msg.add(ChatColor.GREEN+"{"+ConfigBasis.PLUGIN_NAME+"]   Help Page"+ChatColor.RED+"{ CaseSensitive!!}");
+    	    	msg.add(ChatColor.YELLOW+"{ Search for word : "+search+" }");
+
+//				System.out.println("search in CommandList");
+    			for (aRealmsCommand cmd : cmdList)
     			{
-//    				return rsc;
-    				msg.addAll(getCommandDescription(cmdList,  this.command(), rsc));
+//					System.out.println("search in "+cmd.command().name());
+    				for (String desc : cmd.getDescription())
+    				{
+//    					System.out.println("search in "+cmd.command().name()+":"+desc);
+    					if (desc.contains(search) )
+    					{
+    	    				msg.add(cmd.getDescriptionString().get(0));
+    	    				msg.add(">>"+desc);
+    					}
+    				}
     			}
     		}
 

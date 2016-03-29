@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.ConfigBasis;
@@ -24,7 +24,7 @@ import org.dynmap.markers.MarkerIcon;
 import org.dynmap.markers.MarkerSet;
 import org.dynmap.markers.impl.MarkerAPIImpl.AreaMarkerUpdated;
 
-public class CmdRealmsMap extends RealmsCommand
+public class CmdRealmsMap extends aRealmsCommand
 {
 
 	private int sektor;

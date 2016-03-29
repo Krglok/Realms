@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.Common.ItemList;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdRealmsRecipeList extends RealmsCommand
+public class CmdRealmsRecipeList extends aRealmsCommand
 {
 	
 	Integer page ;

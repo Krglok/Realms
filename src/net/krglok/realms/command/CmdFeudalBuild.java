@@ -6,7 +6,7 @@ import java.util.Map;
 import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.stronghold.region.RegionType;
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanType;
@@ -27,7 +27,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CmdFeudalBuild extends RealmsCommand
+public class CmdFeudalBuild extends aRealmsCommand
 {
 	LocationData position;
 	String buildName;

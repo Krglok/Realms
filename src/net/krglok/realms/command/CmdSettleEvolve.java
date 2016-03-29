@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.RegionLocation;
@@ -16,7 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 
-public class CmdSettleEvolve extends RealmsCommand
+public class CmdSettleEvolve extends aRealmsCommand
 {
 
 	private int settleId;

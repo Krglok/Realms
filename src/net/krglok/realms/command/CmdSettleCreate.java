@@ -10,7 +10,7 @@ import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegionType;
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanType;
@@ -30,7 +30,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdSettleCreate extends RealmsCommand
+public class CmdSettleCreate extends aRealmsCommand
 {
 	private String name;
 	private String sType;

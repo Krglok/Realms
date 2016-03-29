@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanType;
@@ -16,7 +16,7 @@ import net.krglok.realms.model.ModelStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdSettleAddBuilding extends RealmsCommand
+public class CmdSettleAddBuilding extends aRealmsCommand
 {
 	private int settleId;
 	private int regionId;

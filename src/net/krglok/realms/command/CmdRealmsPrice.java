@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.ConfigBasis;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-public class CmdRealmsPrice extends RealmsCommand
+public class CmdRealmsPrice extends aRealmsCommand
 {
 	private String itemRef;
 	private double price;

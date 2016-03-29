@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import net.krglok.realms.Realms;
 import net.krglok.realms.Common.Item;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanType;
@@ -18,7 +18,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdSettleWorkshop extends RealmsCommand
+public class CmdSettleWorkshop extends aRealmsCommand
 {
 	private int settleID;
 //	private Integer buildingId ;

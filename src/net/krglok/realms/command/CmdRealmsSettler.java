@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanType;
@@ -30,7 +30,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-public class CmdRealmsSettler extends RealmsCommand
+public class CmdRealmsSettler extends aRealmsCommand
 {
 	private int page; 
 	

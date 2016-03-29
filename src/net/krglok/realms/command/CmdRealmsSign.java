@@ -1,7 +1,7 @@
 package net.krglok.realms.command;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 
@@ -13,7 +13,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdRealmsSign extends RealmsCommand
+public class CmdRealmsSign extends aRealmsCommand
 {
 	private int page; 
 	private String text;

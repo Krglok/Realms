@@ -3,7 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.model.McmdDepositWarehouse;
@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CmdSettleSetItem extends RealmsCommand
+public class CmdSettleSetItem extends aRealmsCommand
 {
 	private int settleID;
 	private String  itemRef;

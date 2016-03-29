@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.Common.Item;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.colonist.Colony;
@@ -14,7 +14,7 @@ import net.krglok.realms.model.ModelStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdColonyWarehouse extends RealmsCommand
+public class CmdColonyWarehouse extends aRealmsCommand
 {
 	private int page;
 	private int colonyId;

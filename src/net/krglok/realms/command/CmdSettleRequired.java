@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.Common.Item;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.ConfigBasis;
@@ -14,7 +14,7 @@ import net.krglok.realms.model.ModelStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdSettleRequired extends RealmsCommand
+public class CmdSettleRequired extends aRealmsCommand
 {
 	int settleID;
 	Integer page ;

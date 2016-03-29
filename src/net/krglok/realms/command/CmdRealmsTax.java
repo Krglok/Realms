@@ -3,7 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.Building;
@@ -14,7 +14,7 @@ import net.krglok.realms.kingdom.Lehen;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdRealmsTax extends RealmsCommand
+public class CmdRealmsTax extends aRealmsCommand
 {
 	private int page; 
 	

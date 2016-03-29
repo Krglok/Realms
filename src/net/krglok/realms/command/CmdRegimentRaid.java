@@ -3,7 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.LocationData;
@@ -15,7 +15,7 @@ import net.krglok.realms.unit.RegimentStatus;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdRegimentRaid extends RealmsCommand
+public class CmdRegimentRaid extends aRealmsCommand
 {
 	int regID;
 	int settleID;

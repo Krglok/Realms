@@ -3,7 +3,7 @@ package net.krglok.realms;
 import java.util.ArrayList;
 
 import net.krglok.realms.Common.CommandParser;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.command.*;
 
@@ -14,29 +14,29 @@ import org.bukkit.command.CommandSender;
 /**
  * 
  * Command handling for the command registered to the plugin
- * every subCommand is a separate instance of abstract class  RealmsCommand
+ * every subCommand is a separate instance of abstract class  aRealmsCommand
  * all active commands must be in the cmdList
  * Basic help for no SubCommand are handled in the parser.  
  * 
  * @author Windu
  *
  */
-public class CommandRealms
+public class CommandList
 {
 	private Realms plugin;
-	private RealmsCommand[] cmdList ;
+	private aRealmsCommand[] cmdList ;
 	CommandParser parser ;
 	
-	public CommandRealms(Realms plugin)
+	public CommandList(Realms plugin)
 	{
 		this.plugin = plugin;
 		cmdList = makeCommandList();
 		parser = new CommandParser(cmdList);
 	}
 
-	private RealmsCommand[] makeCommandList()
+	private aRealmsCommand[] makeCommandList()
 	{
-		RealmsCommand[] commandList = new RealmsCommand[] {
+		aRealmsCommand[] commandList = new aRealmsCommand[] {
 			new CmdRealmNone(),
 			new CmdRealmsActivate(),
 			new CmdRealmsBuildingList(),
@@ -146,7 +146,7 @@ public class CommandRealms
 		return commandList;
 	}
 	
-	public RealmsCommand[] getCmdList()
+	public aRealmsCommand[] getCmdList()
 	{
 		return cmdList;
 	}
@@ -155,7 +155,7 @@ public class CommandRealms
 	{
 		
 		RealmsCommandType cmdType = RealmsCommandType.getRealmCommandType(command.getName()); 
-		RealmsCommand cmd = parser.getRealmsCommand(cmdType, args);
+		aRealmsCommand cmd = parser.getRealmsCommand(cmdType, args);
 		if (cmd != null)
 		{
 			if (cmd.isParserError() == false)
@@ -175,6 +175,7 @@ public class CommandRealms
 		    	ArrayList<String> msg = new ArrayList<String>();
 		    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
 		    	msg.add(ChatColor.RED+"Error in command sysntax ");
+				msg.add(ChatColor.YELLOW + "use /"+command.getName()+" [HELP] for more information");
 		    	msg.addAll(cmd.getErrorMsg());
 				plugin.getMessageData().printPage(sender, msg, 1);
 				
@@ -184,6 +185,7 @@ public class CommandRealms
 	    	ArrayList<String> msg = new ArrayList<String>();
 	    	msg.add(ChatColor.GREEN+plugin.getName()+" Vers.: "+ plugin.getConfigData().getVersion()+" ");
 	    	msg.add(ChatColor.RED+"OOPS Realms Plugin dont find a Command ! ");
+			msg.add(ChatColor.YELLOW + "use /"+command.getName()+" [HELP] for more information");
 			plugin.getMessageData().printPage(sender, msg, 1);
 			
 		}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
 import net.krglok.realms.Common.ItemPrice;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.ConfigBasis;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.BookMeta;
 
-public class CmdRealmsPricelistInfo extends RealmsCommand
+public class CmdRealmsPricelistInfo extends aRealmsCommand
 {
 	private int page;
 

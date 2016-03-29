@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.command.*;
 
 import org.junit.Test;
@@ -12,9 +12,9 @@ import org.junit.Test;
 public class CmdRealmsHelpTest
 {
 
-	private RealmsCommand[] makeCommandList()
+	private aRealmsCommand[] makeCommandList()
 	{
-		RealmsCommand[] commandList = new RealmsCommand[] {
+		aRealmsCommand[] commandList = new aRealmsCommand[] {
 				new CmdRealmNone(),
 				new CmdRealmsActivate(),
 				new CmdRealmsBuildingList(),

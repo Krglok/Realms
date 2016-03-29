@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 
@@ -13,7 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdRealmsCheck extends RealmsCommand
+public class CmdRealmsCheck extends aRealmsCommand
 {
 
 	private String worldName;

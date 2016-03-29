@@ -6,7 +6,7 @@ import java.util.List;
 import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanType;
@@ -18,7 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdSettleOwner extends RealmsCommand
+public class CmdSettleOwner extends aRealmsCommand
 {
 	private int ownerId;
 	private int settleId ;

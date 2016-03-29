@@ -5,15 +5,15 @@ import net.krglok.realms.core.SettleType;
 
 public class CommandParser
 {
-	private RealmsCommand[] commandList;
+	private aRealmsCommand[] commandList;
 
-	public CommandParser(RealmsCommand[] commandList)
+	public CommandParser(aRealmsCommand[] commandList)
 	{
 		this.commandList = commandList;
 	}
 	
 
-	public RealmsCommand getRealmsCommand(RealmsCommandType cmdType, String[] args)
+	public aRealmsCommand getRealmsCommand(RealmsCommandType cmdType, String[] args)
 	{
 	
 		if (args.length == 0)
@@ -30,7 +30,7 @@ public class CommandParser
 		}
 	}
 	
-	private RealmsCommand findSubCommand(RealmsCommandType cmdType, RealmsSubCommandType subCommand)
+	private aRealmsCommand findSubCommand(RealmsCommandType cmdType, RealmsSubCommandType subCommand)
 	{
 		if (commandList.length > 0)
 		{
@@ -49,10 +49,10 @@ public class CommandParser
 	}
 	
 	
-	private RealmsCommand checkParameter (RealmsCommandType cmdType, RealmsSubCommandType subCommand, String[] args )
+	private aRealmsCommand checkParameter (RealmsCommandType cmdType, RealmsSubCommandType subCommand, String[] args )
 	{
 //		args = decreaseArgs(args);
-		RealmsCommand cmd = findSubCommand(cmdType, subCommand);
+		aRealmsCommand cmd = findSubCommand(cmdType, subCommand);
 		// SubCommand NOT found
 		if (cmd == null)
 		{

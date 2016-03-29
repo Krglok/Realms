@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.model.McmdDepositeBank;
@@ -17,7 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CmdSettleCredit extends RealmsCommand
+public class CmdSettleCredit extends aRealmsCommand
 {
 	private int settleID;
 	private int amount ;

@@ -1,4 +1,6 @@
 package net.krglok.realms;
+
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -95,7 +97,7 @@ public final class Realms extends JavaPlugin
 //	private final CommandModel commandModel  = new CommandModel(this);
 //	private final CommandStronghold commandStronghold = new CommandStronghold(this);
 //	private final CommandSettle commandSettle = new CommandSettle(this);
-	private final CommandRealms commandRealms = new CommandRealms(this);
+	private final CommandList commandRealms = new CommandList(this);
 
 	private ConfigData configData; // = new ConfigData(this);
 	private final ServerData server = new ServerData(this);
@@ -1487,7 +1489,7 @@ public final class Realms extends JavaPlugin
 	 * 
 	 * @return the list of valid commands
 	 */
-	public CommandRealms getCommandRealms()
+	public CommandList getCommandRealms()
 	{
 		return commandRealms;
 	}

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Set;
 
 import net.krglok.realms.Common.CommandParser;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.command.CmdRealmNone;
 import net.krglok.realms.command.CmdRealmsActivate;
@@ -43,9 +43,9 @@ import org.junit.Test;
 public class CommandParserTest
 {
 
-	private RealmsCommand[] makeCommandList()
+	private aRealmsCommand[] makeCommandList()
 	{
-		RealmsCommand[] commandList = new RealmsCommand[] {
+		aRealmsCommand[] commandList = new aRealmsCommand[] {
 				new CmdRealmNone(),
 				new CmdRealmsVersion(),
 				new CmdRealmsHelp(),
@@ -194,7 +194,7 @@ public class CommandParserTest
 		}
 		
 		
-		RealmsCommand[] cmdList = makeCommandList();
+		aRealmsCommand[] cmdList = makeCommandList();
 		CommandParser parser = new CommandParser(cmdList);
 		String[] args = new String[] {
 			"help",	
@@ -208,7 +208,7 @@ public class CommandParserTest
 		}
 		System.out.println(s);
 		System.out.println("OUTPUT:");
-		RealmsCommand cmd = parser.getRealmsCommand(RealmsCommandType.REALMS, args);
+		aRealmsCommand cmd = parser.getRealmsCommand(RealmsCommandType.REALMS, args);
 		CommandSender sender = new TestSender();
 		if (cmd != null)
 		{

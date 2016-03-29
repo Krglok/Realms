@@ -3,7 +3,7 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.Settlement;
@@ -15,7 +15,7 @@ import net.krglok.realms.npc.NpcData;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public class CmdSettleDelete extends RealmsCommand {
+public class CmdSettleDelete extends aRealmsCommand {
 	
 	private int settleId;
 	private String name;

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.krglok.realms.Realms;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.science.CaseBook;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.meta.BookMeta;
 
 
 
-public class CmdRealmsBookRead extends RealmsCommand
+public class CmdRealmsBookRead extends aRealmsCommand
 {
 
 	public CmdRealmsBookRead()

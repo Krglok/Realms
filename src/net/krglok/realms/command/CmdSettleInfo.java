@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import net.krglok.realms.Realms;
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemPriceList;
-import net.krglok.realms.Common.RealmsCommand;
+import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.ConfigBasis;
@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class CmdSettleInfo extends RealmsCommand
+public class CmdSettleInfo extends aRealmsCommand
 {
 	int settleID;
 	int buildingId;
