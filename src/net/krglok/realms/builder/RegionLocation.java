@@ -1,6 +1,6 @@
 package net.krglok.realms.builder;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 /**
  * this class contain the data for a RegionRequest.

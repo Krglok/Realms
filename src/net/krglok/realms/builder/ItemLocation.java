@@ -2,7 +2,7 @@ package net.krglok.realms.builder;
 
 import org.bukkit.Material;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 /**
  * <pre>

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
+import net.krglok.realms.Common.LocationData;
+
 /**
  * <pre>
  * Hier werden zentral die Angebote der Trader gespeichert und verwaltet.

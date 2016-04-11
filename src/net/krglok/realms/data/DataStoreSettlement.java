@@ -6,7 +6,7 @@ import java.util.Map;
 
 import net.krglok.realms.Common.AbstractDataStore;
 import net.krglok.realms.Common.ItemList;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.RouteOrder;
 import net.krglok.realms.core.RouteOrderList;
 import net.krglok.realms.core.SettleType;

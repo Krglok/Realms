@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.tool.LogList;

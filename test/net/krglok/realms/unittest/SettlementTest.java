@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import net.krglok.realms.Common.Bank;
 import net.krglok.realms.Common.ItemPriceList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.AbstractSettle;
 import net.krglok.realms.core.Barrack;
@@ -14,7 +15,6 @@ import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.Resident;

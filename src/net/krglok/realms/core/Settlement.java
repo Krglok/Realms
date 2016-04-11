@@ -8,6 +8,7 @@ import net.krglok.realms.Common.Bank;
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
 import net.krglok.realms.Common.ItemPriceList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.DataInterface;
 import net.krglok.realms.data.ServerInterface;

@@ -9,7 +9,7 @@ import net.citizensnpcs.api.util.DataKey;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.Realms;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.unit.UnitType;
 

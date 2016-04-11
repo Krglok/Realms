@@ -7,10 +7,10 @@ import java.util.Map;
 
 import net.krglok.realms.Common.ItemList;
 import net.krglok.realms.Common.ItemPriceList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.BuildingList;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 

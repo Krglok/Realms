@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.krglok.realms.Common.ItemPriceList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.kingdom.Kingdom;
 
 import org.bukkit.block.Biome;

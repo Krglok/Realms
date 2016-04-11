@@ -1,7 +1,7 @@
 package net.krglok.realms.model;
 
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.colonist.Colony;
-import net.krglok.realms.core.LocationData;
 
 public class McmdColonistCreate implements iModelCommand
 {

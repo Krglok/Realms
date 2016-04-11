@@ -3,10 +3,10 @@ package net.krglok.realms.tool;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.MessageText;

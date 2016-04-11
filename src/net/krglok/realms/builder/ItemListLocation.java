@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 /**
  * hold the items for a setChest Request

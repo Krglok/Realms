@@ -2,7 +2,7 @@ package net.krglok.realms;
 
 import java.util.Iterator;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.kingdom.NobleAction;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NPCType;

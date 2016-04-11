@@ -19,8 +19,8 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import javax.swing.JCheckBox;
 
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.LocationData;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

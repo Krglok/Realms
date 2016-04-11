@@ -2,9 +2,9 @@ package net.krglok.realms.model;
 
 import org.bukkit.entity.Player;
 
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.LocationData;
 
 public class McmdBuilder implements iModelCommand
 {

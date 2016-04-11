@@ -13,6 +13,7 @@ import multitallented.redcastlemedia.bukkit.stronghold.region.RegionCondition;
 import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.Common.RealmsPermission;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.command.CmdFeudalInfo;
@@ -34,7 +35,6 @@ import net.krglok.realms.core.Building;
 import net.krglok.realms.core.CommonLevel;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.ItemArray;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
@@ -1425,7 +1425,7 @@ public class ServerListener implements Listener
 						}
 						break;
 					default :
-						event.getPlayer().sendMessage(ChatColor.YELLOW+"You only get Techlevel 1 -4 ");
+						event.getPlayer().sendMessage(ChatColor.YELLOW+"You only can get Techlevel 1 -4 ");
 						break;
 					}
 				}
@@ -1476,7 +1476,7 @@ public class ServerListener implements Listener
 						}
 						break;
 					default :
-						event.getPlayer().sendMessage(ChatColor.YELLOW+"You only get Techlevel 5 -7 ");
+						event.getPlayer().sendMessage(ChatColor.YELLOW+"You only can get Techlevel 5 -7 ");
 						break;
 					}
 				}

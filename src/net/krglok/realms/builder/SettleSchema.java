@@ -2,7 +2,7 @@ package net.krglok.realms.builder;
 
 import org.bukkit.block.Biome;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.maps.PlanMap;
 

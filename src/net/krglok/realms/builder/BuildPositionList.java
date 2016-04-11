@@ -2,7 +2,7 @@ package net.krglok.realms.builder;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 
 public class BuildPositionList extends ArrayList<BuildPosition>

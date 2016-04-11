@@ -1,9 +1,9 @@
 package net.krglok.realms.unittest;
 
 import static org.junit.Assert.assertEquals;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.model.McmdColonistCreate;

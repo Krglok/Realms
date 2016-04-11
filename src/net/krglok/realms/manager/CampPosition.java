@@ -1,6 +1,6 @@
 package net.krglok.realms.manager;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 /**
  * <pre>

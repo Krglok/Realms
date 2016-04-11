@@ -2,10 +2,10 @@ package net.krglok.realms.unittest;
 
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlan;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.manager.BuildManager;
 import net.krglok.realms.tool.LogList;
 

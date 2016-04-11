@@ -9,8 +9,8 @@ import java.util.logging.Handler;
 import java.util.logging.Logger;
 
 import net.krglok.realms.Common.Item;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.OwnerList;
 import net.krglok.realms.core.RouteOrder;
 import net.krglok.realms.core.SettleType;

@@ -2,7 +2,7 @@ package net.krglok.realms.manager;
 
 import org.bukkit.block.Biome;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 public class BiomeLocation
 {

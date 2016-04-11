@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.krglok.realms.Common.ItemList;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.unit.Regiment;
 import net.krglok.realms.unit.RegimentStatus;
 import net.krglok.realms.unit.RegimentType;

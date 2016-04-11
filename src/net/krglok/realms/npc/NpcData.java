@@ -2,8 +2,8 @@ package net.krglok.realms.npc;
 
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.kingdom.NobleAction;
 import net.krglok.realms.unit.AbstractUnit;

@@ -9,7 +9,7 @@ import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.trait.Age;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.VillagerProfession;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;

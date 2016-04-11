@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.krglok.realms.Common.AbstractDataStore;
 import net.krglok.realms.Common.ItemList;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.manager.CampPosition;
 import net.krglok.realms.manager.PositionFace;
 import net.krglok.realms.unit.Regiment;

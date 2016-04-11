@@ -7,7 +7,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.trait.Equipment;
 import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.trait.LookClose;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.kingdom.NobleTrait;
 import net.krglok.realms.npc.NPCType;

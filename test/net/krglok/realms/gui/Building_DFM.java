@@ -18,9 +18,9 @@ import javax.swing.ImageIcon;
 
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.model.RealmModel;
 
 import java.awt.event.ActionListener;

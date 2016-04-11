@@ -1,5 +1,7 @@
 package net.krglok.realms.core;
 
+import net.krglok.realms.Common.LocationData;
+
 /**
  * hold the registered signs of a settlement as List of objects
  * - BuildingId

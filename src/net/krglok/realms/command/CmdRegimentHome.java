@@ -3,13 +3,13 @@ package net.krglok.realms.command;
 import java.util.ArrayList;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.builder.BuildPlanMap;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.ItemLocation;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.unit.Regiment;
 
 import org.bukkit.ChatColor;

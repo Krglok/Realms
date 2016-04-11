@@ -10,7 +10,7 @@ import multitallented.redcastlemedia.bukkit.stronghold.region.Region;
 import multitallented.redcastlemedia.bukkit.stronghold.region.SuperRegion;
 import net.krglok.realms.Common.ItemList;
 import net.krglok.realms.Common.ItemPriceList;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 /**
  * references of HeroSTronghold RegionManager

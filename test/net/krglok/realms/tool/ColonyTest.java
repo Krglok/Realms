@@ -1,10 +1,10 @@
 package net.krglok.realms.tool;
 
 import static org.junit.Assert.fail;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPosition;
 import net.krglok.realms.colonist.Colony;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.data.DataStorage;
 import net.krglok.realms.manager.BuildManager;

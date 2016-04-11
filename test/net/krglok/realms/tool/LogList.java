@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.Common.SQliteConnection;
-import net.krglok.realms.core.LocationData;
 
 /**
  * <pre>

@@ -2,7 +2,7 @@ package net.krglok.realms.manager;
 
 import org.bukkit.Material;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 
 public class HeightAnalysis
 {

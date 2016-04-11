@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.krglok.realms.Realms;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.manager.CampPosition;
 import net.krglok.realms.manager.HeightAnalysis;

@@ -1,8 +1,8 @@
 package net.krglok.realms.data;
 
 import net.krglok.realms.Common.AbstractDataStore;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.colonist.Colony;
-import net.krglok.realms.core.LocationData;
 
 import org.bukkit.configuration.ConfigurationSection;
 

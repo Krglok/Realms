@@ -9,10 +9,10 @@ import javax.swing.JProgressBar;
 
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemPriceList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.BoardItem;
 import net.krglok.realms.core.ConfigBasis;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.core.TradeMarketOrder;
 import net.krglok.realms.core.TradeOrder;

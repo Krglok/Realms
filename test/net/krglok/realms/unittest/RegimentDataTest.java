@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.data.DataStoreRegiment;
 import net.krglok.realms.data.RegimentData;
 import net.krglok.realms.tool.LogList;

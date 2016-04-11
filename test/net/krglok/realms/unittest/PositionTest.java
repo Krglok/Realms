@@ -2,7 +2,7 @@ package net.krglok.realms.unittest;
 
 import static org.junit.Assert.*;
 
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 //import net.krglok.realms.core.Position;
 
 import org.junit.Test;

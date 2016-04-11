@@ -3,7 +3,7 @@ package net.krglok.realms.data;
 import org.bukkit.configuration.ConfigurationSection;
 
 import net.krglok.realms.Common.AbstractDataStore;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.manager.CampPosition;
 import net.krglok.realms.manager.PositionFace;
 

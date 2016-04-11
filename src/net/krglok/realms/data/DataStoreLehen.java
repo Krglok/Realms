@@ -5,7 +5,7 @@ import java.util.Map;
 
 import net.krglok.realms.Common.AbstractDataStore;
 import net.krglok.realms.Common.ItemList;
-import net.krglok.realms.core.LocationData;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.NobleLevel;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.kingdom.Lehen;

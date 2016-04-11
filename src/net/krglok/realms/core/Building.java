@@ -8,6 +8,7 @@ import org.bukkit.block.Biome;
 
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.data.ConfigInterface;
 import net.krglok.realms.data.ServerInterface;

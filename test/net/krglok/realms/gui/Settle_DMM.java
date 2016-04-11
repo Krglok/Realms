@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 
 import org.bukkit.block.Biome;
 
+import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.BoardItemList;
-import net.krglok.realms.core.LocationData;
 import net.krglok.realms.core.Owner;
 import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
