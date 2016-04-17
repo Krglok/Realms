@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="9" height="9" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="offset" value="0"/>
+ </properties>
+ <tileset firstgid="1" name="BlockCSS" tilewidth="16" tileheight="16">
+  <image source="mc_tileset.png" width="384" height="512"/>
+ </tileset>
+ <layer name="Kachelebene 0 Boden" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAOkBymGB8QhtIAA/UFWg==
+  </data>
+ </layer>
+ <layer name="Kachelebene 1" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAOkCQSswKxFhLGZgZIXA8qpodDDTFuCaHAvZOIsAcGAGzOBGE=
+  </data>
+ </layer>
+ <layer name="Kachelebene 2" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAOkARiViCewwjB6GyYPD4A0wMCWgyoNAzAzMQHYHYSsgvdzTB9ML2SBMyAAQClnQeq
+  </data>
+ </layer>
+ <layer name="Kachelebene 3" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAOkARiVjwYJm+CB4Pk5zDitsMVKo9PDQNUDSsB9yK7CWYmTB+ym4kBAIQmBqw=
+  </data>
+ </layer>
+ <layer name="Kachelebene 4" width="9" height="9">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAOkARiVjwYJo8PsJKgxpUK5hDjZmIAAJ7EARg=
+  </data>
+ </layer>
+ <layer name="Kachelebene 5" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAMtIjArERgSQL2SNJZDTFuJsbvAFXuBBc=
+  </data>
+ </layer>
+ <layer name="Kachelebene 6" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAf0CICs1IJE2MXtQAA488DTw==
+  </data>
+ </layer>
+ <layer name="Kachelebene 7" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFlAIAAUQAAQ==
+  </data>
+ </layer>
+ <layer name="Kachelebene 8" width="9" height="9" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFlAIAAUQAAQ==
+  </data>
+ </layer>
+</map>

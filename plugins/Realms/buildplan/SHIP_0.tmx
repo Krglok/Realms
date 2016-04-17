@@ -4,29 +4,29 @@
   <property name="offset" value="-2"/>
  </properties>
  <tileset firstgid="1" source="MC Realms.tsx"/>
- <layer name="Kachelebene 0" width="13" height="13" visible="0">
+ <layer name="Kachelebene 0" width="13" height="13">
   <data encoding="base64" compression="zlib">
-   eJxjYKAeYCVDPQyP6hm5emD6cAEAxuQAoQ==
+   eJxjYKAeYCVDfSIJ+mDqYZgYfYlY8KgewoCcsEbWR05awAUA6hMOmQ==
   </data>
  </layer>
- <layer name="Kachelebene 1" width="13" height="13">
+ <layer name="Kachelebene 1 Wasserlinie" width="13" height="13">
   <data encoding="base64" compression="zlib">
-   eJxjYKAeYCVDPQyTYz4x+hIJ8KmpB+QeOTrYM1j1kBM/MHX40gEAbUYFqQ==
+   eJxjYKAeYCVDfSIJ+kDqlkDZS4jQB5LXQhMjpA+XexIJ6IEBOSR7iNVDij1L0MRoYQ9yOIsg2UNMeJMSP8j6YBgbAACPoAs7
   </data>
  </layer>
- <layer name="Kachelebene 2" width="13" height="13" visible="0">
+ <layer name="Kachelebene 2" width="13" height="13">
   <data encoding="base64" compression="zlib">
-   eJxjYMAOWHGI4wKsaDSx6kmxbyjokSNRDysan1h7hosemDr0sEAGANCoAKY=
+   eJxjYMAOWHGI4wIg9Ykk6IOph2FC+mDqkQEhfbjkaKFHC8qWI0EPNvnB4h9S9WCTJyUt4AoPEAAA1EMDFg==
   </data>
  </layer>
  <layer name="Kachelebene 3" width="13" height="13" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF1ARyNDafFQse7noAavAAnA==
+   eJxjYBgF1ARyFOjVIiDPClXDigXj04MLD7QeXPrQAQDU1AET
   </data>
  </layer>
  <layer name="Kachelebene 4" width="13" height="13" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF1ARyNDZfD4nWQ+ITowcXf6D1oGN0AAB66wLR
+   eJxjYBgF1ARyNDRbD42th0Ucnx5ixOmtBxdGBgCE+wMt
   </data>
  </layer>
  <layer name="Kachelebene 5" width="13" height="13" visible="0">
@@ -34,44 +34,39 @@
    eJxjYBgF1ARyA+2AYQgAKnwAHw==
   </data>
  </layer>
- <layer name="Kachelebene 6" width="13" height="13" visible="0">
+ <layer name="Kachelebene 6  Mitte" width="13" height="13" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6CARCyYWyNHERSMbAAARUQIE
+   eJxjYBgFyCARDyZGjxyRekYB8QAAP5UFDA==
   </data>
  </layer>
  <layer name="Kachelebene 7" width="13" height="13" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6CARCyYWsNLERSMbAADwDgHr
+   eJxjYBgFyCARDyZGjxyRekYB8QAAP5UFDA==
   </data>
  </layer>
  <layer name="Kachelebene 8" width="13" height="13" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6CARCyYWyNHERSMbAAARUQIE
+   eJxjYBgFyCARDyZGjxyRekYB8QAAP5UFDA==
   </data>
  </layer>
  <layer name="Kachelebene 9" width="13" height="13" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6CARCyYWyNHERSMbAAARUQIE
+   eJxjYBgFyCARDyZGjxyRekYB8QAAP5UFDA==
   </data>
  </layer>
  <layer name="Kachelebene 10" width="13" height="13" visible="0">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6CARCyYWyNHERSMbAAARUQIE
+   eJxjYBgFyCARDyZGjxyRekYB8QAAP5UFDA==
   </data>
  </layer>
- <layer name="Kachelebene 11" width="13" height="13" visible="0">
+ <layer name="Kachelebene 11" width="13" height="13">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6CARCyYWyNHERSMbAAARUQIE
+   eJxjYBgFyCARDyZGjxyRekYB8QAAP5UFDA==
   </data>
  </layer>
- <layer name="Kachelebene 12" width="13" height="13" visible="0">
+ <layer name="Kachelebene 12" width="13" height="13">
   <data encoding="base64" compression="zlib">
-   eJxjYBgF6CARCyYWyNHERSMbAAARUQIE
-  </data>
- </layer>
- <layer name="Kachelebene 13" width="13" height="13" visible="0">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgF6EAPCyYWyNHERSMbAACKuwEF
+   eJxjYBgFyEAPD8YFEpGwHBp/FFAOABzPA6c=
   </data>
  </layer>
 </map>

@@ -17,18 +17,13 @@ requirements:
 reagents:
 - EMERALD.5
 upkeep:
-- BREAD.1
-- STICK.5
-- COBBLESTONE.10
+- COAL.1
 upkeep-chance: 0.001
 output:
-- STONE_SWORD.5
-money-requirement: 2000.0
+- IRON_INGOT.1
+money-requirement: 0.0
 upkeep-money-output: 0.0
+housing: 1
 super-regions:
-- HAMLET
-- TOWN
-- CITY
-- METROPOL
-- CASTLE
-description: Produce stonesword for militia
+- VILLAGE
+description: Produce iron ingot in a village.

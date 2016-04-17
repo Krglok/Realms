@@ -37,7 +37,6 @@ public class CmdSettleBuild extends aRealmsCommand
 	String buildName;
 	BuildPlanType bType;
 	int settleId ;
-	
 	public CmdSettleBuild( )
 	{
 		super(RealmsCommandType.SETTLE, RealmsSubCommandType.BUILD);

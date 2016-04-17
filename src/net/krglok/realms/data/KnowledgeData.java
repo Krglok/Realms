@@ -51,7 +51,10 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.QUARRY);
 		kNode.addBuildPlan(BuildPlanType.WHEAT);
 		kNode.addBuildPlan(BuildPlanType.SHEPHERD);
-
+		kNode.addBuildPlan(BuildPlanType.WELL);
+		kNode.addBuildPlan(BuildPlanType.CABIN);
+		kNode.addBuildPlan(BuildPlanType.CHURCH);
+		kNode.addBuildPlan(BuildPlanType.FIELD);
 		return kNode;
 	}
 
@@ -72,9 +75,16 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.FISHERHOOD);
 		kNode.addBuildPlan(BuildPlanType.GATE);
 		
+		kNode.addBuildPlan(BuildPlanType.SMITH);
+		kNode.addBuildPlan(BuildPlanType.BUTCHER);
+		kNode.addBuildPlan(BuildPlanType.LARGEHOUSE);
+		kNode.addBuildPlan(BuildPlanType.SMALLIBRARY);
+
+		
 		kNode.addBuildPlan(BuildPlanType.KEEP);
 
 		kNode.addSettleType(SettleType.HAMLET);
+		kNode.addSettleType(SettleType.VILLAGE);
 
 		return kNode;
 	}

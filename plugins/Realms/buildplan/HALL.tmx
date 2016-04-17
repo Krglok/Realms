@@ -352,7 +352,7 @@
    <tile gid="25"/>
   </data>
  </layer>
- <layer name="Kachelebene 2" width="13" height="13">
+ <layer name="Kachelebene 2" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -698,7 +698,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Kachelebene 4" width="13" height="13">
+ <layer name="Kachelebene 4" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -871,7 +871,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Kachelebene 5" width="13" height="13">
+ <layer name="Kachelebene 5" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>
@@ -1044,7 +1044,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="Kachelebene 6" width="13" height="13">
+ <layer name="Kachelebene 6" width="13" height="13" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="30"/>

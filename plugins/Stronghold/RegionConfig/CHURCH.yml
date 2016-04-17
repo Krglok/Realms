@@ -3,25 +3,20 @@ enemy-classes: []
 effects:
 - denyblockbuild.1
 - denyblockbreak.1
-- denyplayerinteract.1
 - periodicupkeep.1
 - denyfriendlyfire.1
-radius: 3
+radius: 6
 requirements:
 - WOODEN_DOOR.1
-- COBBLESTONE.10
+- COBBLESTONE.121
+- THIN_GLASS.4
+- LADDERS.4
 - TORCH.1
-- LOG.5
 reagents:
-- EMERALD.3
+- EMERALD.12
 upkeep: []
 upkeep-chance: 0.0001
-output: 
-- EMERALD.2
+output: []
 money-requirement: 0.0
 upkeep-money-output: 0.0
-housing: 2
-power-drain: 0.0
-group: home
-biome: [] 
-description: Hold a settler. A basic villager building. Small viilager building can used in realms.
+description: Central building of a VILLAGE. Hold the manager and the central warehouse of VILLAGE.  This is a basic building.

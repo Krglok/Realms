@@ -891,13 +891,27 @@ public class ServerData implements ServerInterface
 	@Override
 	public String getRegionType(int id)
 	{
-		return plugin.stronghold.getRegionManager().getRegionByID(id).getType();
+		Region region = plugin.stronghold.getRegionManager().getRegionByID(id);
+		if (region != null)
+		{
+			return region.getType();
+		} else
+		{
+			return "";
+		}
 	}
 
 	@Override
 	public double getRegionTypeCost(String regionType)
 	{
-		return plugin.stronghold.getRegionManager().getRegionType(regionType).getMoneyRequirement();
+		RegionType region = plugin.stronghold.getRegionManager().getRegionType(regionType);
+		if (region != null)
+		{
+			return region.getMoneyRequirement();
+		} else
+		{
+			return 0.0;
+		}
 	}
 	
 	@Override

@@ -1,3 +1,5 @@
+friendly-classes: []
+enemy-classes: []
 effects:
 - denyblockbuildnoreagent
 - denyblockbreaknoreagent
@@ -14,18 +16,22 @@ effects:
 - denyfire
 - denyliquid
 - denyexplosion
-radius: 35
+radius: 8
 requirements:
-- WELL.1
-- CHURCH.1
-- CABIN.2
-- FIELD.1
-central-structure: CHURCH
+- IRON_DOOR.4
+- WOODEN_DOOR.6
+- CHEST.5
+- WALL_SIGN.4
+- COBBLESTONE.225
+- WOOD.121
+- STONE.121
+reagents:
+- EMERALD.64
+upkeep: []
+upkeep-chance: 0.0001
+output: 
+- EMERALD.5
 money-requirement: 0.0
-money-output-daily: 0.0
-max-power: 200.0
-daily-power-increase: 10
-charter: 0
-children: []
-exp: 500
-description: Tiny settlement for villagers.
+upkeep-money-output: 10.0
+housing: 0
+description: Hold zentral Bank. A place to store your money.

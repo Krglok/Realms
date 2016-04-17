@@ -6,12 +6,12 @@ effects:
 - denyplayerinteract.1
 - periodicupkeep.1
 - denyfriendlyfire.1
-radius: 6
+radius: 9
 requirements:
 - WOODEN_DOOR.1
-- COBBLESTONE.20
-- WOOD.10
-- LOG.8
+- COBBLESTONE.128
+- WOOD.64
+- LOG.16
 reagents:
 - GOLD_NUGGET.1
 upkeep: []

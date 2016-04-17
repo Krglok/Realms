@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="17" height="17" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="offset" value="-4"/>
+ </properties>
+ <tileset firstgid="1" name="BlockCSS" tilewidth="16" tileheight="16">
+  <image source="../../../../../../Program Files (x86)/Tiled/Realms/mc_tileset.png" width="384" height="512"/>
+ </tileset>
+ <layer name="Kachelebene 0" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYAZiSTIwMxoeNWMUj+JRTCoGAEFrCPo=
+  </data>
+ </layer>
+ <layer name="Kachelebene 1" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYAZiSTIwMxoGiZECBoMZNXjMoDQ8RvEoHsWEMQCEugY9
+  </data>
+ </layer>
+ <layer name="Kachelebene 2" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYAZiSTIwMxoGiZECBoMZNXjMoEZ4oIvhw6NmjJoxlM0gN78AAPSPCT8=
+  </data>
+ </layer>
+ <layer name="Kachelebene 3 Boden" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQSliQDD7QZNYPEHaNmEG8GqWlw1Azaxwshu/G5FQBcWxDl
+  </data>
+ </layer>
+ <layer name="Kachelebene 4" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANJJEwMUAOiFmRsBySXkkc8ugAJC6CxF8CxMJIeAmSnAhUPTYzSAHY1MPcCqInYXE7OsblF2xgCRSHQtVo4VFPDb9QKzxIAbjCQw8H7obShNxByC/IZiyhoRmEwgPdL6SkD1LcQS2/wNKwHhLdjcSfhKaOmgAApJIOPw==
+  </data>
+ </layer>
+ <layer name="Kachelebene 5" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYGLADiSRMDbAhMaWA2JWINaD0iC+LVTeFoc8ut16SGxXHPYii7NicRO6GCHAyoDbL3JQMRgfF0b3CyF3gOS0iHAHqX7RQ+NTMzxIAbjCA1ecMmCRGwnhQak7CJmBHqbYwgM5jcNoPST16HkAm1/IATB9AA/TBqU=
+  </data>
+ </layer>
+ <layer name="Kachelebene 6" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYIAAJgZMIImE0QE29SAxViQsB8TCUDlhKB9ZHpcZpABamsFKAibWHSC1WiS6gxQwasaoGeSYgZ5vkQE5+daVAB9ZPQB3MwJa
+  </data>
+ </layer>
+ <layer name="Kachelebene 7" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYEAAJgZUIImEGfCoQ5djhWI5JL2SUD5MjlgzWNHcgSxOihm4MD3N0CKgbij5BTluBsIdxIBRM0gzAzn85ZAwreMFAHxDA0k=
+  </data>
+ </layer>
+ <layer name="Kachelebene 8 X" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYEAFTEhsSSSMTR4XAKlhBWI5JL2SUD4rCWaAwBIgFkbCS0h0ByXyo2bQzgxWPHio+WU4mQGLAzk0mpbxAgAN2gMB
+  </data>
+ </layer>
+ <layer name="Kachelebene 9" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAETFBaEgkjixMDQGrlkPRKQvmkmkGKOC61rlQwgxruGCxmLEETWzJAZrBiwUM1TIeTGaB4kEOjaekOAB49BDc=
+  </data>
+ </layer>
+ <layer name="Kachelebene 10" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYMAOmIBYEgkz4VCHD8DMYKDQDGEkTK4Z+PijZgycGaxIeKj7ZTiZIccAiRM5OrgDAMqxAUs=
+  </data>
+ </layer>
+ <layer name="Kachelebene 11" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANJJEwuUASjSbXDErdwYRGj5oxeMxgHSTuGDUD1Qw5OrkDALxxASQ=
+  </data>
+ </layer>
+ <layer name="Kachelebene 12" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANJJEwuUASjSbXDErdAQJMFOofNWPUjFEzqG8GAHH5AOU=
+  </data>
+ </layer>
+ <layer name="Kachelebene 13" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANJJEwuUASjSbXDErdMQpGwSgYnAAAPbEAyQ==
+  </data>
+ </layer>
+ <layer name="Kachelebene 14" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKBAwAEhAAB
+  </data>
+ </layer>
+ <layer name="Kachelebene 15" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKBAwAEhAAB
+  </data>
+ </layer>
+ <layer name="Kachelebene 16" width="17" height="17" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKBAwAEhAAB
+  </data>
+ </layer>
+</map>

@@ -111,7 +111,11 @@ public class CmdColonistCreate extends aRealmsCommand
 		position.setWorld(world); 
 		LocationData center = new LocationData(world, position.getX(), position.getY(), position.getZ());
 		Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString());
-		int ownerId = owner.getId(); 
+		int ownerId =0;
+		if (owner != null)
+		{
+			ownerId = owner.getId();
+		}
 		Colony colony = Colony.newColony(name, center, String.valueOf(ownerId));
 //		plugin.getRealmModel().OnCommand(new McmdColonistCreate(plugin.getRealmModel(), name, center, owner));
 		if (colony != null)

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="11" height="11" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="offset" value="-1"/>
+ </properties>
+ <tileset firstgid="1" name="BlockCSS" tilewidth="16" tileheight="16">
+  <image source="mc_tileset.png" width="384" height="512"/>
+ </tileset>
+ <layer name="Kachelebene 0" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYB5iWJIAHilqicUAQpwFjA==
+  </data>
+ </layer>
+ <layer name="Kachelebene 1" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYB5imBAYCWqJBSC1APOUAL4=
+  </data>
+ </layer>
+ <layer name="Kachelebene 2" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjZmBgYB5imBAYCWqJBSC1APOUAL4=
+  </data>
+ </layer>
+ <layer name="Kachelebene 3" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBxgLEkkhqklBEaKWmLDDABvlgNK
+  </data>
+ </layer>
+ <layer name="Kachelebene 4" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4IEkkHlWLUAsCwkgYHwAAbw8HEA==
+  </data>
+ </layer>
+ <layer name="Kachelebene 5" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4IImGWbFgOSS1cVAMYi9BMkcLST02c5GBHpJ6bO5hxSKHTS0ueWQ2Gxa1k7Co1cPiRhCQY8AMB1IAACkYBJQ=
+  </data>
+ </layer>
+ <layer name="Kachelebene 6" width="11" height="11">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4IImGWYF4DiMqLQdVW4emDxtgJUEtyHx0YAs1gxVNHJ2Py15c5hLSp4cmDuPLIblHjoF0AAD4YAUx
+  </data>
+ </layer>
+ <layer name="Kachelebene 7" width="11" height="11" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4IImGWbFgORxqsQFWMtQiA1skewmpxSVPjlo9NDUwvhwDZjiQAgAmFgJw
+  </data>
+ </layer>
+ <layer name="Kachelebene 8" width="11" height="11" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4IEkkHlWLUEsKAABnCwbX
+  </data>
+ </layer>
+ <layer name="Kachelebene 9" width="11" height="11" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4oE0kZkCiCZk3VNUSGw6kAAD79QUL
+  </data>
+ </layer>
+ <layer name="Kachelebene 10" width="11" height="11" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwx0AAAHkAAE=
+  </data>
+ </layer>
+</map>

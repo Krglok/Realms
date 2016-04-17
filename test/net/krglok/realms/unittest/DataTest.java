@@ -683,6 +683,7 @@ public class DataTest implements DataInterface
 		case 13: return Material.RED_ROSE;
 		case 14: return Material.YELLOW_FLOWER;
 		case 16: return Material.SAPLING;
+		case 19: return Material.STEP;
 		case 20: return Material.BED_BLOCK;
 		case 25: return Material.COBBLESTONE;
 		case 26: return Material.BEDROCK;
@@ -697,6 +698,8 @@ public class DataTest implements DataInterface
 		case 35: return Material.REDSTONE_BLOCK;
 		case 37: return Material.RED_MUSHROOM;
 		case 38: return Material.BROWN_MUSHROOM;
+		case 42: return Material.WOOD_STEP;
+		case 43: return Material.STONE_SLAB2;
 		case 44: return Material.CAKE_BLOCK;
 		case 45: return Material.PORTAL;
 		case 46: return Material.FENCE;
@@ -784,7 +787,7 @@ public class DataTest implements DataInterface
 		case 166: return Material.CHEST;
 		case 167: return Material.CHEST;
 		case 168: return Material.CHEST;
-
+		case 412: return Material.THIN_GLASS;
 		
 		default : return Material.AIR;
 		}

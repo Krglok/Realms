@@ -14,14 +14,17 @@ requirements:
 - WORKBENCH.1
 - WOOD_STAIRS.5
 - THIN_GLASS.14
-reagents:
-- GOLD_NUGGET.2
-upkeep: 
-- WHEAT.2
-upkeep-chance: 0.001
+- TORCH.1
+reagents: 
+- EMERALD.10
+upkeep: []
+upkeep-chance: 0.0001
 output: 
 - PAPER.1
-money-requirement: 1000.0
+- BOOK.1
+money-requirement: 0.0
 upkeep-money-output: 0.0
 housing: 2
-description: A better and greater villager building. Large villager building can used in realms.
+super-regions:
+- VILLAGE
+description: A better and greater villager building. Large villager building are used in realms.

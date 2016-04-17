@@ -10,6 +10,7 @@ public enum SettleType
 {
 	NONE (0),
 	CLAIM(10),
+	SHIP_0(11),
 	ENCLAVE(20),
 	BERTH(30),
 	VILLAGE(105),

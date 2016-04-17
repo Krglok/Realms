@@ -56,7 +56,18 @@ public enum AchivementName
 	NOBLE1,
 	NOBLE2,
 	NOBLE3,
-	NOBLE4
+	NOBLE4,
+	CABIN,
+	FIELD,
+	CHURCH,
+	WELL,
+	SMITH,
+	BUTCHER,
+	SMALLIBRARY,
+	LARGEHOUSE,
+	VILLAGE,
+	MONEYBANK,
+	XPBANK
 	;
 	
 	public static boolean contains(String value)

@@ -276,6 +276,7 @@ public class ServerListener implements Listener
 
 		if ((event.getPlayer().hasPermission(RealmsPermission.USER.getValue()))
 			|| (event.getPlayer().hasPermission(RealmsPermission.ADMIN.getValue()))
+			|| (event.getPlayer().isOp())
 			)
 		{
 			if(plugin.getData().getOwners().containUuid(event.getPlayer().getUniqueId().toString()) == false)
@@ -890,6 +891,7 @@ public class ServerListener implements Listener
 	    		|| (settleType == SettleType.TOWN)
 	    		|| (settleType == SettleType.CITY)
 	    		|| (settleType == SettleType.METROPOLIS)
+	    		|| (settleType == SettleType.VILLAGE)
 	    		)
 	    	{
 	    		return sRegion.getName();
@@ -912,6 +914,7 @@ public class ServerListener implements Listener
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.TOWN.name()))
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.CITY.name()))
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.METROPOLIS.name()))
+	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.VILLAGE.name()))
 	    		)
 	    	{
 	    		return sRegion;
@@ -1228,6 +1231,7 @@ public class ServerListener implements Listener
 		{
 			if ((building.getBuildingType() == BuildPlanType.HALL)
 				|| (building.getBuildingType() == BuildPlanType.TOWNHALL)
+				|| (building.getBuildingType() == BuildPlanType.CHURCH)
 				|| (building.getBuildingType() == BuildPlanType.KEEP)
 				|| (building.getBuildingType() == BuildPlanType.CASTLE)
 				|| (building.getBuildingType() == BuildPlanType.STRONGHOLD)
@@ -2675,6 +2679,7 @@ public class ServerListener implements Listener
 	{
 		Chest chest = null;
 		Block redstone = null;
+//		Material.
 		if (b.getRelative(BlockFace.UP).getType() == Material.CHEST)
 		{
 			chest = (Chest) b.getRelative(BlockFace.UP).getState();
@@ -2714,7 +2719,8 @@ public class ServerListener implements Listener
 			if (settle != null)
 			{
 				if ((building.getBuildingType() == BuildPlanType.HALL)
-					|| (building.getBuildingType() == BuildPlanType.TOWNHALL))
+					|| (building.getBuildingType() == BuildPlanType.TOWNHALL)
+					|| (building.getBuildingType() == BuildPlanType.CHURCH))
 				{
 					Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
 					player.openInventory(chest);

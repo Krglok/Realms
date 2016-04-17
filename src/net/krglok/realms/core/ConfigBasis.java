@@ -67,6 +67,7 @@ public class ConfigBasis implements ConfigInterface
 	public static final int CHEST_STORE = 1728;
 	public static final int WAREHOUSE_SPARE_STORE = 100;
 	
+	public static final int CHURCH_Settler = 2; 
 	public static final int HALL_Settler = 5; 
 	public static final int HALL_Power = 100; 
 	public static final int TOWN_Power = 1500; 
@@ -430,10 +431,11 @@ public class ConfigBasis implements ConfigInterface
 	{
 		switch (settleType)
 		{
+		case VILLAGE: return 4 * ConfigBasis.CHEST_STORE; 
 		case HAMLET : return 10 * ConfigBasis.CHEST_STORE;
 		case TOWN   : return 12 * ConfigBasis.CHEST_STORE;
-		case CITY   : return 4 * ConfigBasis.CHEST_STORE;
-		case METROPOLIS  : return 4 * ConfigBasis.CHEST_STORE;
+		case CITY   : return 20 * ConfigBasis.CHEST_STORE;
+		case METROPOLIS  : return 30 * ConfigBasis.CHEST_STORE;
 		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
 		case CAMP : return 10 * ConfigBasis.CHEST_STORE;
 		case LEHEN_1 : return 10 * ConfigBasis.CHEST_STORE;
@@ -495,6 +497,7 @@ public class ConfigBasis implements ConfigInterface
 	{
 		switch (settleType)
 		{
+		case VILLAGE : return 1 * ConfigBasis.CHURCH_Settler;
 		case HAMLET : return 1 * ConfigBasis.HALL_Settler;
 		case TOWN   : return 1 * ConfigBasis.HALL_Settler*2;
 		case CITY   : return 2 * ConfigBasis.HALL_Settler*3;
@@ -552,6 +555,9 @@ public class ConfigBasis implements ConfigInterface
 						value = value + ConfigBasis.defaultItemMax(settleType);
 						break;
 					case TOWNHALL :
+						value = value + ConfigBasis.defaultItemMax(settleType);
+						break;
+					case CHURCH :
 						value = value + ConfigBasis.defaultItemMax(settleType);
 						break;
 					default :

@@ -5,22 +5,26 @@ effects:
 - denyblockbreak.1
 - periodicupkeep.1
 - denyfriendlyfire.1
-radius: 5w
+radius: 6
 requirements:
 - WOODEN_DOOR.2
 - WOOD.20
 - COBBLESTONE.10
 - FENCE.6
 - WOOD_STAIRS.2
-- THIN_GLASS.8
+- THIN_GLASS.6
+- TORCH.1
 reagents:
-- GOLD_NUGGET.20
+- EMERALD.6
 upkeep: 
-- WHEAT.3
+- WHEAT.2
 upkeep-chance: 0.001
 output: 
-- COOKED_BEEF.4
-money-requirement: 200.0
+- COOKED_BEEF.1
+- GRILLED_PORK.1
+money-requirement: 0.0
 upkeep-money-output: 0.0
 housing: 2
+super-regions:
+- VILLAGE
 description: A better and greater villager building. Large villager building can used in realms.
