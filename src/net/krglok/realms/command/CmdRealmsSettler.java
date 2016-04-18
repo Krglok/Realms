@@ -12,9 +12,11 @@ import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
 import net.krglok.realms.core.NobleLevel;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.model.ModelStatus;
+import net.krglok.realms.npc.EthnosType;
 import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
@@ -325,6 +327,10 @@ public class CmdRealmsSettler extends aRealmsCommand
 				settleNpc.setHomeBuilding(building.getId());
 				settleNpc.setAge(21);
 				settleNpc.setMoney(10.0);
+				if (settle.getSettleType() == SettleType.VILLAGE)
+				{
+					settleNpc.setEthno(EthnosType.VILLAGER);
+				}
 				plugin.getData().getNpcs().add(settleNpc);
 				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 
 				plugin.getData().writeNpc(settleNpc);
@@ -346,6 +352,10 @@ public class CmdRealmsSettler extends aRealmsCommand
 				settleNpc.setHomeBuilding(building.getId());
 				settleNpc.setAge(31);
 				settleNpc.setMoney(10.0);
+				if (settle.getSettleType() == SettleType.VILLAGE)
+				{
+					settleNpc.setEthno(EthnosType.VILLAGER);
+				}
 				settleNpc.setImmortal(true);
 				plugin.getData().getNpcs().add(settleNpc);
 				settle.getResident().setNpcList(plugin.getData().getNpcs().getSubListSettle(settle.getId())); 

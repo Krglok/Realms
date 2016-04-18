@@ -38,8 +38,52 @@ public class KnowledgeData
 		knList.put(KnowledgeNode.makeTechId(KnowledgeType.TECH.name(), 5), addTech5());
 		knList.put(KnowledgeNode.makeTechId(KnowledgeType.TECH.name(), 6), addTech6());
 		knList.put(KnowledgeNode.makeTechId(KnowledgeType.TECH.name(), 7), addTech7());
+		//addVillage0()
+		knList.put(KnowledgeNode.makeTechId(KnowledgeType.VTECH.name(), 0), addVillage0());
+		knList.put(KnowledgeNode.makeTechId(KnowledgeType.VTECH.name(), 1), addVillage1());
+		knList.put(KnowledgeNode.makeTechId(KnowledgeType.VTECH.name(), 2), addVillage2());
 		
 		isInit = true;
+	}
+	
+
+	private KnowledgeNode addVillage0()
+	{
+		KnowledgeNode kNode = new KnowledgeNode(0, KnowledgeType.VTECH);
+		kNode.setAchievName(AchivementName.VTECH0);
+		kNode.addBuildPlan(BuildPlanType.WELL);
+		kNode.addBuildPlan(BuildPlanType.CABIN);
+		kNode.addBuildPlan(BuildPlanType.FIELD);
+		return kNode;
+	}
+
+	private KnowledgeNode addVillage1()
+	{
+		KnowledgeNode kNode = new KnowledgeNode(1, KnowledgeType.VTECH);
+		kNode.setAchievName(AchivementName.VTECH1);
+		kNode.adRequirement(AchivementName.CABIN);
+		kNode.adRequirement(AchivementName.WELL);
+		kNode.adRequirement(AchivementName.FIELD);
+
+		kNode.addBuildPlan(BuildPlanType.CHURCH);
+
+		kNode.addSettleType(SettleType.VILLAGE);
+
+		return kNode;
+	}
+
+	private KnowledgeNode addVillage2()
+	{
+		KnowledgeNode kNode = new KnowledgeNode(1, KnowledgeType.VTECH);
+		kNode.setAchievName(AchivementName.VTECH1);
+		kNode.adRequirement(AchivementName.CHURCH);
+
+		kNode.addBuildPlan(BuildPlanType.SMITH);
+		kNode.addBuildPlan(BuildPlanType.BUTCHER);
+		kNode.addBuildPlan(BuildPlanType.LARGEHOUSE);
+		kNode.addBuildPlan(BuildPlanType.SMALLIBRARY);
+
+		return kNode;
 	}
 	
 	private KnowledgeNode addTech0()
@@ -53,11 +97,11 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.SHEPHERD);
 		kNode.addBuildPlan(BuildPlanType.WELL);
 		kNode.addBuildPlan(BuildPlanType.CABIN);
-		kNode.addBuildPlan(BuildPlanType.CHURCH);
 		kNode.addBuildPlan(BuildPlanType.FIELD);
 		return kNode;
 	}
 
+	
 	private KnowledgeNode addTech1()
 	{
 		KnowledgeNode kNode = new KnowledgeNode(1, KnowledgeType.TECH);
@@ -75,6 +119,7 @@ public class KnowledgeData
 		kNode.addBuildPlan(BuildPlanType.FISHERHOOD);
 		kNode.addBuildPlan(BuildPlanType.GATE);
 		
+		kNode.addBuildPlan(BuildPlanType.CHURCH);
 		kNode.addBuildPlan(BuildPlanType.SMITH);
 		kNode.addBuildPlan(BuildPlanType.BUTCHER);
 		kNode.addBuildPlan(BuildPlanType.LARGEHOUSE);

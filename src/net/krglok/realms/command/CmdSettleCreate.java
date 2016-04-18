@@ -361,33 +361,64 @@ public class CmdSettleCreate extends aRealmsCommand
 		plugin.getData().writeSettlement(settlement);
 
 		System.out.println("Create individual NPC  ");
-		for (Building building : settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HALL).values())
+		if (settlement.getSettleType() == SettleType.HAMLET)
 		{
-			plugin.getRealmModel().getData().makeManager(building, plugin.getRealmModel().getData().getNpcName());
+			for (Building building : settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HALL).values())
+			{
+				plugin.getRealmModel().getData().makeManager(building, plugin.getRealmModel().getData().getNpcName());
+			}
+			Iterator<Building> iBuilding = settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HOME).values().iterator();
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+			}
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+			}
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+			}
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+			}
 		}
-		Iterator<Building> iBuilding = settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HOME).values().iterator();
-		if (iBuilding.hasNext())
+		if (settlement.getSettleType() == SettleType.VILLAGE)
 		{
-			Building home = iBuilding.next();
-			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+			for (Building building : settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.CHURCH).values())
+			{
+				plugin.getRealmModel().getData().makeVillageManager(building, plugin.getRealmModel().getData().getNpcName());
+			}
+			Iterator<Building> iBuilding = settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HOME).values().iterator();
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+			}
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+			}
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+			}
+			if (iBuilding.hasNext())
+			{
+				Building home = iBuilding.next();
+				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+			}
 		}
-		if (iBuilding.hasNext())
-		{
-			Building home = iBuilding.next();
-			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
-		}
-		if (iBuilding.hasNext())
-		{
-			Building home = iBuilding.next();
-			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
-		}
+
 		System.out.println("Build FULLFILL ");
-		if (iBuilding.hasNext())
-		{
-			Building home = iBuilding.next();
-			plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
-		}
-		
 		for (NpcData npcData : plugin.getData().getNpcs().values())
 		{
 			if (npcData.getSettleId() == settlement.getId())

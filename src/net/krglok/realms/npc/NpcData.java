@@ -124,12 +124,13 @@ public class NpcData
 	}
 	
 	
-	public NpcData(int npcId, NPCType npcType, UnitType unitType, String name, int settleId, int buildingId, GenderType gender, int age)
+	public NpcData(int npcId, NPCType npcType, UnitType unitType, String name, int settleId, int buildingId, GenderType gender, int age, EthnosType ethno)
 	{
 		this.Id = npcId;
 		this.npcType = npcType;
 		this.unitType = unitType;
 		this.settleId = settleId;
+		this.setEthno(ethno);
 		this.gender = gender;
 		this.homeBuilding = buildingId;
 		this.settleId = settleId;

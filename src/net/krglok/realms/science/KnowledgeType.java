@@ -4,7 +4,10 @@ package net.krglok.realms.science;
 public enum KnowledgeType
 {
 	TECH,
-	NOBLE;
+	NOBLE,
+	VTECH
+
+	;
 	
 	public boolean contains(String value)
 	{

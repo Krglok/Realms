@@ -26,6 +26,7 @@ import net.krglok.realms.kingdom.Lehen;
 import net.krglok.realms.kingdom.LehenList;
 import net.krglok.realms.manager.CampPosition;
 import net.krglok.realms.manager.CampPositionList;
+import net.krglok.realms.npc.EthnosType;
 import net.krglok.realms.npc.GenderType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
@@ -1284,6 +1285,36 @@ public class DataStorage implements DataInterface
 		
 	}
 
+	public void makeVillager(Building building,NpcNamen npcNameList)
+	{
+		NpcData npc = new NpcData();
+		String npcName = npcNameList.findName(GenderType.MAN);
+		npc.setNpcType(NPCType.SETTLER);
+		npc.setName(npcName);
+		npc.setEthno(EthnosType.VILLAGER);
+		npc.setGender(GenderType.MAN);
+		npc.setAge(20+makeOlder());
+		npc.setSettleId(building.getSettleId());
+		npc.setHomeBuilding(building.getId());
+		this.getNpcs().add(npc);
+		this.writeNpc(npc);
+	}
+	
+	public void makeVillageManager(Building building, NpcNamen npcNameList)
+	{
+		int max = 5;
+		NpcData father = makeFather(npcNameList);
+		father.setName("Elder "+father.getName());
+		father.setEthno(EthnosType.VILLAGER);
+		father.setImmortal(true);
+		father.setNpcAction(NpcAction.NONE);
+		father.setNpcType(NPCType.MANAGER);
+		father.setSettleId(building.getSettleId());
+		father.setHomeBuilding(building.getId());
+		this.getNpcs().add(father);
+		this.writeNpc(father);
+	}
+	
 	/**
 	 * create a noble family with the given nobleLevel.
 	 * No children are generated

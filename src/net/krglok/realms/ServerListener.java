@@ -1378,7 +1378,9 @@ public class ServerListener implements Listener
 		BuildPlanType region = findBuildingTypeAtLocation(plugin, player);
 		
 		
-		if (region==BuildPlanType.BIBLIOTHEK)
+		if ((region==BuildPlanType.BIBLIOTHEK)
+			|| (region==BuildPlanType.SMALLIBRARY)
+			|| (region==BuildPlanType.LIBRARY))
 		{
 			ItemStack item = event.getPlayer().getItemInHand();
 			if (item.getType() != Material.BOOK)

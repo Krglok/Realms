@@ -10,6 +10,7 @@ import net.citizensnpcs.trait.Age;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.VillagerProfession;
 import net.krglok.realms.Common.LocationData;
+import net.krglok.realms.npc.EthnosType;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.npc.SettlerTrait;
@@ -163,7 +164,7 @@ public class NpcManager
 			if (npc.getUnitType() == UnitType.SETTLER)
 			{
 //			System.out.println("NPC create : "+npc.getId()+":"+npc.getNpcType());
-				int spawnId = doNPCSpawn( npc.getName(), npc.getNpcType(), position,npc.getSettleId(), npc.getHomeBuilding()) ;
+				int spawnId = doNPCSpawn( npc.getName(), npc.getNpcType(), position,npc.getSettleId(), npc.getHomeBuilding(),npc.getEthno()) ;
 				if (spawnId >= 0)
 				{
 					npc.isSpawned = true;
@@ -396,16 +397,28 @@ public class NpcManager
 		}
 	}
 
+	private EntityType getEthnoEntity(EthnosType ethno)
+	{
+		switch (ethno)
+		{
+		case VILLAGER : return EntityType.VILLAGER;
+		case ORC : return EntityType.PIG_ZOMBIE;
+		default:
+			return EntityType.PLAYER; 
+		}
+		
+	}
 	
 	@SuppressWarnings("unused")
-	public int doNPCSpawn(String name, NPCType npcType, LocationData position, int settleId, int buildingId)
+	public int doNPCSpawn(String name, NPCType npcType, LocationData position, int settleId, int buildingId, EthnosType ethno)
 	{
 //		System.out.println("[REALMS) Settler Spawn "+name);
 		NPC npc = null;
 		SettlerTrait sTrait;
 		position.setZ(position.getZ()+1);
+		EntityType entityType = getEthnoEntity(ethno);
 
-		npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
+		npc = CitizensAPI.getNPCRegistry().createNPC(entityType, "Settler");
 		
 		switch(npcType)
 		{
@@ -413,6 +426,10 @@ public class NpcManager
 			npc.setProtected(true);
 			npc.setName(name);
 			sTrait = doAddTrait(npc, npcType, settleId, buildingId);
+			if (entityType == EntityType.VILLAGER)
+			{
+//				npc.addTrait(arg0);
+			}
 			break;
 		case SETTLER:
 //			npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Settler");
