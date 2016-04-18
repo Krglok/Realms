@@ -6,19 +6,35 @@ effects:
 - denyplayerinteract.1
 - periodicupkeep.1
 - denyfriendlyfire.1
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+- denyblockbuild
+- denyblockbreak
+- denybucketuse
+- denyfire
+- denyliquid
+- denyexplosion
 radius: 9
 requirements:
-- WOODEN_DOOR.1
-- COBBLESTONE.128
+- WOODEN_DOOR.2
+- CHEST.6
+- FENCE.8
+- COBBLESTONE.289
 - WOOD.64
-- LOG.16
+- LOG.12
 reagents:
 - GOLD_NUGGET.1
 upkeep: []
 upkeep-chance: 0.001
 output:
 - WHEAT.2
+- WOOL.1
+- FEATHER.2
 money-requirement: 500.0
 upkeep-money-output: 1.0
 housing: 5
-description: Hold settler. A better and greater villager building. Large villager building can used in realms.
+description: Hold settler. A better and greater building. Mostly used by players as station.

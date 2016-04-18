@@ -8,6 +8,7 @@ import net.krglok.realms.Common.aRealmsCommand;
 import net.krglok.realms.Common.RealmsCommandType;
 import net.krglok.realms.Common.RealmsSubCommandType;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.SettleType;
 import net.krglok.realms.core.Settlement;
 import net.krglok.realms.kingdom.Lehen;
 
@@ -158,12 +159,15 @@ public class CmdRealmsMap extends aRealmsCommand
 			for (Settlement settle : plugin.getData().getSettlements().values())
 			{
 				isFind = false;
+				int radius = 10;
 				for (AreaMarker area : markerSet.getAreaMarkers())
 				{
 					String id  = "settle"+String.valueOf(settle.getId());
 					if (area.getLabel().equalsIgnoreCase(id))
 					{
 						isFind = true;
+						SettleType sType = settle.getSettleType();
+						radius = plugin.getServerData().getSuperRegionRadius(sType.name()); 
 					}
 				}
 				if (isFind == false)
@@ -173,10 +177,10 @@ public class CmdRealmsMap extends aRealmsCommand
 					String arg1= settle.getName();
 					boolean arg2= false;
 					String arg3 = settle.getPosition().getWorld();
-					double p1x = settle.getPosition().getX()+40.0; 
-					double p1y = settle.getPosition().getZ()+40.0; 
-					double p2x = settle.getPosition().getX()-40.0; 
-					double p2y = settle.getPosition().getZ()-40.0; 
+					double p1x = settle.getPosition().getX()+radius; 
+					double p1y = settle.getPosition().getZ()+radius; 
+					double p2x = settle.getPosition().getX()-radius; 
+					double p2y = settle.getPosition().getZ()-radius; 
 					double[] arg4 = new double[] {p1x,p2x};
 					double[] arg5 = new double[] {p1y,p2y};
 					boolean arg6 = false;
