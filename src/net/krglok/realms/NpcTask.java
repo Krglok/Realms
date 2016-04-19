@@ -8,6 +8,7 @@ import net.citizensnpcs.trait.Anchors;
 import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.core.Building;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NPCType;
 import net.krglok.realms.npc.NpcAction;
@@ -420,19 +421,23 @@ public class NpcTask implements Runnable
 	{
 		if (npcData.getSettleId() > 0)
 		{
-			Location target = plugin.makeLocation(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition());
-			if (target != null)
+			Settlement settle = plugin.getData().getSettlements().getSettlement(npcData.getSettleId());
+			if (settle != null)
 			{
-//				System.out.println(target.toString());
-    			Block b = target.getBlock();
-    			lastPos = getNextPos();
-    			Location taverne = b.getRelative(lastPos).getLocation();
-    			taverne.setZ(taverne.getZ()+1);
-    			npc.getNavigator().setTarget(taverne);
-    			npc.getNavigator().setPaused(false);
-//				npc.teleport(taverne, TeleportCause.PLUGIN);
-				npcData.setNpcAction(NpcAction.WORK);
-//				System.out.println(npc.getId()+" NPC "+npcData.getNpcType()+" walk to WORK ");
+				Location target = plugin.makeLocation(settle.getPosition());
+				if (target != null)
+				{
+	//				System.out.println(target.toString());
+	    			Block b = target.getBlock();
+	    			lastPos = getNextPos();
+	    			Location taverne = b.getRelative(lastPos).getLocation();
+	    			taverne.setZ(taverne.getZ()+1);
+	    			npc.getNavigator().setTarget(taverne);
+	    			npc.getNavigator().setPaused(false);
+	//				npc.teleport(taverne, TeleportCause.PLUGIN);
+					npcData.setNpcAction(NpcAction.WORK);
+	//				System.out.println(npc.getId()+" NPC "+npcData.getNpcType()+" walk to WORK ");
+				}
 			}
 		}
 		
