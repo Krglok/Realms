@@ -65,7 +65,8 @@ public class KnowledgeData
 		kNode.adRequirement(AchivementName.WELL);
 		kNode.adRequirement(AchivementName.FIELD);
 
-		kNode.addBuildPlan(BuildPlanType.CHURCH);
+		kNode.addBuildPlan(BuildPlanType.LARGEHOUSE);
+		kNode.addBuildPlan(BuildPlanType.PARISHHOUSE);
 
 		kNode.addSettleType(SettleType.VILLAGE);
 
@@ -76,11 +77,11 @@ public class KnowledgeData
 	{
 		KnowledgeNode kNode = new KnowledgeNode(1, KnowledgeType.VTECH);
 		kNode.setAchievName(AchivementName.VTECH1);
-		kNode.adRequirement(AchivementName.CHURCH);
+		kNode.adRequirement(AchivementName.PARISHHOUSE);
 
+		kNode.addBuildPlan(BuildPlanType.CHURCH);
 		kNode.addBuildPlan(BuildPlanType.SMITH);
 		kNode.addBuildPlan(BuildPlanType.BUTCHER);
-		kNode.addBuildPlan(BuildPlanType.LARGEHOUSE);
 		kNode.addBuildPlan(BuildPlanType.SMALLIBRARY);
 
 		return kNode;

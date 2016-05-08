@@ -158,15 +158,17 @@ public class CmdRealmsMap extends aRealmsCommand
 			boolean isFind = false;
 			for (Settlement settle : plugin.getData().getSettlements().values())
 			{
+				int radius = 35;
+				SettleType sType = settle.getSettleType();
+//				radius = plugin.getServerData().getSuperRegionRadius(sType.name()); 
 				isFind = false;
-				int radius = 10;
 				for (AreaMarker area : markerSet.getAreaMarkers())
 				{
 					String id  = "settle"+String.valueOf(settle.getId());
 					if (area.getLabel().equalsIgnoreCase(id))
 					{
 						isFind = true;
-						SettleType sType = settle.getSettleType();
+						sType = settle.getSettleType();
 						radius = plugin.getServerData().getSuperRegionRadius(sType.name()); 
 					}
 				}

@@ -17,10 +17,10 @@ effects:
 radius: 35
 requirements:
 - WELL.1
-- CHURCH.1
+- PARISHHOUSE.1
 - CABIN.2
 - FIELD.1
-central-structure: CHURCH
+central-structure: PARISHHOUSE
 money-requirement: 0.0
 money-output-daily: 0.0
 max-power: 200.0

@@ -14,9 +14,11 @@ requirements:
 - TORCH.1
 reagents:
 - EMERALD.12
-upkeep: []
-upkeep-chance: 0.0001
-output: []
+upkeep: 
+- GOLD_INGOT.1
+upkeep-chance: 0.0001 
+output: 
+- ENDER_PEARL.1
 money-requirement: 0.0
 upkeep-money-output: 0.0
-description: Central building of a VILLAGE. Hold the manager and the central warehouse of VILLAGE.  This is a basic building.
+description: The home of a priest. They produce special items for the village.

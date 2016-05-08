@@ -9,19 +9,17 @@ effects:
 radius: 6
 requirements:
 - WOODEN_DOOR.1
-- BED_BLOCK.4
 - WORKBENCH.1
-- CHEST.2
+- CHEST.4
 - WALL_SIGN.1
 - COBBLESTONE.81
 reagents:
 - EMERALD.1
 upkeep: []
-upkeep-chance: 0.01
+upkeep-chance: 0.0001
 output: 
-- EMERALD.5
-
+- EMERALD.3
 money-requirement: 0.0
 upkeep-money-output: 0.0
 housing: 10
-description: Hold villagers. A better and greater residential building for village
+description: Central building of a VILLAGE. Hold the manager and the central warehouse of VILLAGE.  This is a basic building.

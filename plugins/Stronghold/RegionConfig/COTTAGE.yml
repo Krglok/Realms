@@ -31,9 +31,10 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output:
-- WHEAT.2
+- WHEAT.5
 - WOOL.1
-- FEATHER.2
+- FEATHER.1
+- GRILLED_PORK.1
 money-requirement: 500.0
 upkeep-money-output: 1.0
 housing: 5

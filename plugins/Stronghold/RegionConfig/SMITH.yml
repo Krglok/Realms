@@ -8,11 +8,9 @@ effects:
 - denyfriendlyfire.1
 radius: 5
 requirements:
-- WORKBENCH.1
-- CHEST.2
+- CHEST.1
 - FURNACE.1
 - WALL_SIGN.1
-- STONE.81
 - COBBLESTONE.81
 reagents:
 - EMERALD.5

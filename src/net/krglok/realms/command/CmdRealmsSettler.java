@@ -93,7 +93,10 @@ public class CmdRealmsSettler extends aRealmsCommand
     public boolean checkBuildingSpace(Settlement settle, Building building )
     {
     	int resident = settle.getResident().getNpcList().getBuildingNpc(building.getId()).size();
-    	if (building.getBuildingType() == BuildPlanType.HALL)
+    	if ((building.getBuildingType() == BuildPlanType.HALL)
+    		|| (building.getBuildingType() == BuildPlanType.TOWNHALL)
+    		|| (building.getBuildingType() == BuildPlanType.PARISHHOUSE)    		
+    		)
     	{
         	if (resident < 5)
         	{
@@ -131,6 +134,9 @@ public class CmdRealmsSettler extends aRealmsCommand
 		    	switch (building.getBuildingType())
 		    	{
 		    	case HALL:
+		    	case PARISHHOUSE:
+		    	case TOWNHALL:
+	    			System.out.println("[Realms] NPC creation  MANAGER");
 		    		// only one of each type allowed
 		    		if (residents.getNpcType(NPCType.MANAGER) == null)
 		    		{
@@ -155,15 +161,23 @@ public class CmdRealmsSettler extends aRealmsCommand
 		    		break;
 		    	case HOME:
 		    	case HOUSE:
+		    	case CABIN:
+		    	case LARGEHOUSE:
 		    	case MANSION:
 		    	case FARMHOUSE:
+		    	case COTTAGE:
 		    	case FARM:
+	    			System.out.println("[Realms] NPC creation  SETTLER");
 		    		result = NPCType.SETTLER;
 		    		break;
 		    	default :
+	    			System.out.println("[Realms] NPC creation  BEGGAR");
 		    		result = NPCType.BEGGAR;
 		    		break;
 		    	}
+    		}  else
+    		{
+    			System.out.println("[Realms] No beds for NPC in "+building.getBuildingType());
     		}
     	}
     	return result; //NPCType.BEGGAR;
@@ -428,6 +442,7 @@ public class CmdRealmsSettler extends aRealmsCommand
 			Building building = settle.getBuildingList().getBuildingByRegion(region.getID());
 			if (building != null)
 			{
+		    	System.out.println("Building found in settlement: "+region.getID());
 				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_CONSTRUCT)
 					|| (BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_HOME)
 					)
@@ -442,8 +457,7 @@ public class CmdRealmsSettler extends aRealmsCommand
 						return msg;
 					}
 				}
-				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_MILITARY)
-					)
+				if ((BuildPlanType.getBuildGroup(building.getBuildingType()) == ConfigBasis.BUILDPLAN_GROUP_MILITARY))
 				{
 					
 					UnitType nextUnit = nextFreeUnitType(settle, building, null);
@@ -457,6 +471,7 @@ public class CmdRealmsSettler extends aRealmsCommand
 				}
 			}else
 			{
+		    	System.out.println("Sorry Building not found in settlement: "+region.getID());
 		    	msg.add(ChatColor.RED+"Sorry Building not found in settlement: "+region.getID());
 		    	msg.add(ChatColor.RED+"Is the settlement wrong ?? "+settle.getId());
 			}
@@ -619,8 +634,14 @@ public class CmdRealmsSettler extends aRealmsCommand
 						{
 					    	msg.add(ChatColor.RED+"Sorry No settlement found ");
 						}
+				} else
+				{
+					msg.add(ChatColor.RED+"No region found");
 				}
 			}
+		} else
+		{
+			msg.add(ChatColor.RED+"No Settlement  found");
 		}
 		
 		plugin.getMessageData().printPage(sender, msg, page);

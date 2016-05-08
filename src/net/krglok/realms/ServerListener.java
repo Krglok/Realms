@@ -1231,7 +1231,7 @@ public class ServerListener implements Listener
 		{
 			if ((building.getBuildingType() == BuildPlanType.HALL)
 				|| (building.getBuildingType() == BuildPlanType.TOWNHALL)
-				|| (building.getBuildingType() == BuildPlanType.CHURCH)
+				|| (building.getBuildingType() == BuildPlanType.PARISHHOUSE)
 				|| (building.getBuildingType() == BuildPlanType.KEEP)
 				|| (building.getBuildingType() == BuildPlanType.CASTLE)
 				|| (building.getBuildingType() == BuildPlanType.STRONGHOLD)
@@ -1239,21 +1239,6 @@ public class ServerListener implements Listener
 				)
 				
 			{
-//				if (aSettle.getWarehouse().getFreeCapacity() < 10)
-//				{
-//					player.sendMessage(ChatColor.RED+"No Capacy free in Warehouse");
-//					for (ItemStack itemStack :inventory.getContents())
-//					{
-//						if (itemStack != null)
-//						{
-//							player.getInventory().addItem(new ItemStack(itemStack.getType(),itemStack.getAmount()));
-//						}
-//					}
-//					player.updateInventory();
-//					inventory.clear();
-//					return;
-//				}
-				
 				if (event.getView().getType() == InventoryType.CHEST)
 				{
 //					System.out.println("You are in a HALL closed a Chest");
@@ -1311,6 +1296,7 @@ public class ServerListener implements Listener
 						case HAMLET :
 						case TOWN :
 						case CITY :
+						case VILLAGE:
 						case METROPOLIS:
 							{
 								plugin.getData().writeSettlement((Settlement) aSettle);
@@ -2722,7 +2708,7 @@ public class ServerListener implements Listener
 			{
 				if ((building.getBuildingType() == BuildPlanType.HALL)
 					|| (building.getBuildingType() == BuildPlanType.TOWNHALL)
-					|| (building.getBuildingType() == BuildPlanType.CHURCH))
+					|| (building.getBuildingType() == BuildPlanType.PARISHHOUSE))
 				{
 					Inventory chest = player.getServer().createInventory(null, 3 * 9, donateInv);
 					player.openInventory(chest);

@@ -279,7 +279,8 @@ public abstract class aRealmsCommand implements iRealmsCommand
 	    for (Region region : plugin.stronghold.getRegionManager().getContainingRegions(position))
 	    {
 //	    	System.out.println(region.getType());
-	    	if (region != null)
+	    	
+	    	if (BuildPlanType.getBuildPlanType(region.getType()) != BuildPlanType.NONE)
 	    	{
 	    		return region;
 	    	}
@@ -363,6 +364,7 @@ public abstract class aRealmsCommand implements iRealmsCommand
 	    for (SuperRegion sRegion : plugin.stronghold.getRegionManager().getContainingSuperRegions(position))
 	    {
 	    	if ((sRegion.getType().equalsIgnoreCase( SettleType.HAMLET.name()) )
+		    		|| (sRegion.getType().equalsIgnoreCase( SettleType.VILLAGE.name()))
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.TOWN.name()))
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.CITY.name()))
 	    		|| (sRegion.getType().equalsIgnoreCase( SettleType.METROPOLIS.name()))

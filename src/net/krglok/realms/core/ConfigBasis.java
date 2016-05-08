@@ -457,9 +457,13 @@ public class ConfigBasis implements ConfigInterface
 		case COTTAGE : return 5;
 		case HOME : return SETTLER_COUNT;
 		case HOUSE : return (2 * SETTLER_COUNT);
+		case LARGEHOUSE : return 5;
 		case MANSION : return (3 * SETTLER_COUNT);
 		case FARMHOUSE : return (2 * SETTLER_COUNT);
 		case FARM : return(4 * SETTLER_COUNT);
+		case HALL : return 5;
+		case TOWNHALL : return 5;
+		case PARISHHOUSE : return 3;
 		case COLONY : return 0;
 		case LANE : return 0;
 		case ROAD : return 0;
@@ -859,8 +863,9 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.BROWN_MUSHROOM.name(),0);
 		subList.addItem(Material.COOKED_BEEF.name(),0);
 		subList.addItem(Material.COOKED_CHICKEN.name(),0);
-		subList.addItem(Material.COOKED_FISH.name(),0);
+		subList.addItem(Material.GRILLED_PORK.name(),0);
 		subList.addItem(Material.COOKIE.name(),0);
+		subList.addItem(Material.COOKED_FISH.name(),0);
 		subList.addItem(Material.COOKED_MUTTON.name(),0);
 		subList.addItem(Material.COOKED_RABBIT.name(),0);
 		subList.addItem(Material.RABBIT.name(),0);
