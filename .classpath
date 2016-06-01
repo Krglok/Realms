@@ -10,8 +10,8 @@
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Citizens.jar" sourcepath="D:/GIT/OwnPlugins/CitizensAPI"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/citizensapi-2.0.11-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/sentry.jar" sourcepath="/CitizenSentry"/>
-	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.9.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/Stronghold.jar"/>
 	<classpathentry kind="lib" path="D:/GIT/PluginRef/dynmap-HEAD.jar"/>
+	<classpathentry kind="lib" path="D:/GIT/PluginRef/craftbukkit-1.9.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
