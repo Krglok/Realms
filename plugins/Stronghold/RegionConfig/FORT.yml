@@ -6,21 +6,26 @@ effects:
 - denyplayerinteract.1
 - periodicupkeep.1
 - denyfriendlyfire.1
-radius: 6
+radius: 9
 requirements:
 - WOODEN_DOOR.1
 - BED_BLOCK.4
-- WORKBENCH.1
-- CHEST.2
+- CHEST.4
 - WALL_SIGN.1
-- COBBLESTONE.81
+- WOOD.122
+- LOG.160
 reagents:
-- EMERALD.1
-upkeep: []
-upkeep-chance: 0.01
-output: 
-- EMERALD.5
-money-requirement: 0.0
+- GOLD_NUGGET.10
+- IRON_INGOT.50
+- LEATHER.50
+- WOOL.36
+upkeep: 
+- BREAD.10
+upkeep-chance: 0.001
+output: []
+money-requirement: 5000.0
 upkeep-money-output: 0.0
 housing: 10
-description: Hold villagers. A better and greater residential building for village
+power-drain: 0.0
+biome: [] 
+description: Hold millitary Units in a settlement

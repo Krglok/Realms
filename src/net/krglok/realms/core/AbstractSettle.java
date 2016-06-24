@@ -108,9 +108,26 @@ public abstract class AbstractSettle
 	public AbstractSettle(SettleType settleType)
 	{
 		super();
+		this.id = 0;
 		this.settleType = settleType;
 		// reinit Warehouse
 		this.warehouse = new Warehouse(ConfigBasis.defaultItemMax(settleType)); 
+		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		this.isEnabled = true;
+		this.isActive = true;
+		this.name = ConfigBasis.NEW_SETTLEMENT;
+		this.ownerId = 0;
+		this.ownerName = "";
+		this.tributId = 0;
+		this.age = 0;
+
+		this.bank = new Bank();
+		this.resident = new Resident();
+		this.buildingList = new BuildingList();
+		this.requiredProduction = new ItemList();
+		this.productionOverview = new BoardItemList();
+		this.reputations = new ReputationList();
+
 		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
 	}
 

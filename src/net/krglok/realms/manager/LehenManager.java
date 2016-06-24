@@ -159,6 +159,10 @@ public class LehenManager
     {
     	ItemList supportItems = new ItemList();
     	Settlement settle = rModel.getData().getSettlements().getSettlement(lehen.getSupportId());
+    	if (settle == null) 
+    	{
+    		return;
+    	}
     	// Liste kopieren
     	for (Item required : lehen.getrequiredItems().values())
     	{
