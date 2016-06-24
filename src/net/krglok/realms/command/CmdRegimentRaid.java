@@ -24,7 +24,7 @@ public class CmdRegimentRaid extends aRealmsCommand
 	{
 		super(RealmsCommandType.REGIMENT, RealmsSubCommandType.RAID);
 		description = new String[] {
-				ChatColor.YELLOW+"/settle RAID [RegID] ",
+				ChatColor.YELLOW+"/regiment RAID [RegID] ",
 		    	"Start a Raid of the Settlement nearby",
 		    	"Fight with the Guards and steal ",
 		    	"some Items from the Warehouse ",
