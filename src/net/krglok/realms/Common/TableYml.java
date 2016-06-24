@@ -11,10 +11,11 @@ import net.krglok.realms.npc.NpcData;
  *  * create tables and indices  on given definition
  * use PRIMARY KEY as Integer
  * the table structure is predefined
- * - column 0 = Integer ID
- * - column 1 = Text Section
+ * column dataType  fieldname    description 
+ * 0      Integer   ID           PrimaryKey and identifier of the Listnode
+ * 1      Text      Section      YML-format data of different structures
  * 
- * the column section must be a YML formated text section
+ * the column Section must be a YML formated text section
  * the YML data stored in YML-format in the text-field Section
  * the YML formatted and extracted with the configfile class from Bukkit
 
