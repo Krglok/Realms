@@ -13,7 +13,7 @@ requirements:
 - LADDERS.4
 - TORCH.1
 reagents:
-- EMERALD.12
+- EMERALD.6
 upkeep: 
 - GOLD_INGOT.1
 upkeep-chance: 0.0001 

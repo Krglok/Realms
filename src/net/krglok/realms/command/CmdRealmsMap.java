@@ -188,8 +188,11 @@ public class CmdRealmsMap extends aRealmsCommand
 					boolean arg6 = false;
 					AreaMarker area = markerSet.createAreaMarker(id, arg1, arg2, arg3, arg4, arg5, arg6);
 					//setLineStyle(int weight, double opacity, int color);
-					area.setLineStyle(2, 0.8, 0x00FF00);  //gruen
-					area.setFillStyle(0.1, 0x00FF00);
+					if (area != null)
+					{
+						area.setLineStyle(2, 0.8, 0x00FF00);  //gruen
+						area.setFillStyle(0.1, 0x00FF00);
+					}
 				}
 			}
 			

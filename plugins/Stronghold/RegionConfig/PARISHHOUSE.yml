@@ -14,7 +14,7 @@ requirements:
 - WALL_SIGN.1
 - COBBLESTONE.81
 reagents:
-- EMERALD.1
+- EMERALD.12
 upkeep: []
 upkeep-chance: 0.0001
 output: 
@@ -22,4 +22,4 @@ output:
 money-requirement: 0.0
 upkeep-money-output: 0.0
 housing: 10
-description: Central building of a VILLAGE. Hold the manager and the central warehouse of VILLAGE.  This is a basic building.
+description: Central building of a VILLAGE. Hold the manager and the central warehouse .  This is a basic building.
