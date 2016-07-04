@@ -132,7 +132,7 @@ public class SettlementReportTest
 	
 	public int getRegionWorker(ArrayList<RegionConfig> regionList  ,String regionType)
 	{
-		return Building.getDefaultWorker(BuildPlanType.getBuildPlanType(regionType)); 
+		return ConfigBasis.getDefaultWorker(BuildPlanType.getBuildPlanType(regionType)); 
 	}
 	
 	/**

@@ -96,7 +96,16 @@ public class CmdSettleCreate extends aRealmsCommand
 		return new String[] {String.class.getName(), String.class.getName() };
 	}
 	
-	
+	/**
+	 * Check for requirements of the superregion
+	 * 
+	 * @param plugin
+	 * @param player
+	 * @param superRegionName
+	 * @param regionTypeName
+	 * @param currentLocation
+	 * @return
+	 */
 	private ArrayList<String> createSuperRegion(Realms plugin, Player player, String superRegionName,String regionTypeName, Location currentLocation)
 	{
 		ArrayList<String> msg = new ArrayList<String>();
@@ -251,11 +260,12 @@ public class CmdSettleCreate extends aRealmsCommand
 		if (sRegion == null)
 		{
 			playerName = player.getName();
+			// create a SuperRegion
 			msg.addAll(createSuperRegion(plugin, player, superRegionName, settleType.name(), centerPos));
 			sRegion = plugin.stronghold.getRegionManager().getSuperRegion(superRegionName);
 			if (sRegion == null)
 			{
-				msg.add(ChatColor.GOLD+"[HeroStronghold} NOT find Superregion "+superRegionName+" : "+settleType.name()+ "");
+				msg.add(ChatColor.GOLD+"[Stronghold} NOT find Superregion "+superRegionName+" : "+settleType.name()+ "");
 				plugin.getMessageData().printPage(sender, msg, page);
 				return false;
 			} else
@@ -290,11 +300,14 @@ public class CmdSettleCreate extends aRealmsCommand
 				sRegion.getLocation().getY(),
 				sRegion.getLocation().getZ());
 		msg.add(ChatColor.GOLD+"SettlementOwner: "+playerName);
-		Settlement settlement = new Settlement(owner.getId(), position,  settleType, superRegionName,biome); //, plugin.getRealmModel().getLogList());
+		// create a Settlement
+		Settlement settlement = new Settlement(owner.getId(), position,  settleType, superRegionName,biome); 
 		settlement.setOwner(owner);
+		// set settlement to SettlementList
 		plugin.getRealmModel().getSettlements().addSettlement(settlement);
 
 		msg.add("");
+		// add all regione (Buildings) to the settlement
 		for (Region region : plugin.stronghold.getRegionManager().getContainedRegions(sRegion))
 		{
 //    		msg.add("  "+region.getType()+" : "+ChatColor.YELLOW+region.getID()+" : "+" Owner: "+region.getOwners());
@@ -302,6 +315,7 @@ public class CmdSettleCreate extends aRealmsCommand
 			int hsRegion = region.getID();
 			String hsRegionType = region.getType();
 			BuildPlanType buildingType = plugin.getConfigData().regionToBuildingType(hsRegionType);
+			// dont add the Lehen Building and the  None Group  
 			if ((BuildPlanType.getBuildGroup(buildingType) < 900)
 				&& (BuildPlanType.getBuildGroup(buildingType) >= 10)
 				)
@@ -316,7 +330,8 @@ public class CmdSettleCreate extends aRealmsCommand
 								region.getLocation().getX(), 
 								region.getLocation().getY(),
 								region.getLocation().getZ()),
-								settlement.getId()
+								settlement.getId(),
+								0
 						);
 					plugin.getRealmModel().getBuildings().addBuilding(building);
 					plugin.getData().writeBuilding(building);
@@ -334,7 +349,7 @@ public class CmdSettleCreate extends aRealmsCommand
 			}
 		}
 		
-		// minimum Warehouse on
+		// set minimum Warehouse storage
 		settlement.getWarehouse().depositItemValue("WHEAT",256 );
 		settlement.getWarehouse().depositItemValue("BREAD",64 );
 		settlement.getWarehouse().depositItemValue("WOOD_HOE",settlement.getResident().getSettlerMax());
@@ -391,34 +406,45 @@ public class CmdSettleCreate extends aRealmsCommand
 		}
 		if (settlement.getSettleType() == SettleType.VILLAGE)
 		{
-			for (Building building : settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.CHURCH).values())
+			for (Building building : settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.PARISHHOUSE).values())
 			{
 				plugin.getRealmModel().getData().makeVillageManager(building, plugin.getRealmModel().getData().getNpcName());
 			}
-			Iterator<Building> iBuilding = settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.HOME).values().iterator();
-			if (iBuilding.hasNext())
+			// Small Homes  set Villagers to all Homes
+			Iterator<Building> iBuilding = settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.CABIN).values().iterator();
+			while (iBuilding.hasNext())
 			{
 				Building home = iBuilding.next();
-				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+//				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+				plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
 			}
-			if (iBuilding.hasNext())
+//			if (iBuilding.hasNext())
+//			{
+//				Building home = iBuilding.next();
+//				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+//			}
+//			if (iBuilding.hasNext())
+//			{
+//				Building home = iBuilding.next();
+//				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+//			}
+//			if (iBuilding.hasNext())
+//			{
+//				Building home = iBuilding.next();
+//				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+//			}
+			// large Homes
+			iBuilding = settlement.getBuildingList().getSubList(settlement.getId(), BuildPlanType.LARGEHOUSE).values().iterator();
+			while (iBuilding.hasNext())
 			{
 				Building home = iBuilding.next();
 				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
-			}
-			if (iBuilding.hasNext())
-			{
-				Building home = iBuilding.next();
-				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
-			}
-			if (iBuilding.hasNext())
-			{
-				Building home = iBuilding.next();
-				plugin.getRealmModel().getData().makeVillager(home, plugin.getRealmModel().getData().getNpcName());
+				plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
+				plugin.getRealmModel().getData().makeFamily(home, plugin.getRealmModel().getData().getNpcName(), 0);
 			}
 		}
 
-		System.out.println("Build FULLFILL ");
+		System.out.println("Settlement Build FULLFIL ");
 		for (NpcData npcData : plugin.getData().getNpcs().values())
 		{
 			if (npcData.getSettleId() == settlement.getId())

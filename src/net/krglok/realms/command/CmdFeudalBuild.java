@@ -161,7 +161,7 @@ public class CmdFeudalBuild extends aRealmsCommand
 		}
 		double cost = plugin.getServerData().getRegionTypeCost(buildName);
 		plugin.economy.withdrawPlayer(ownerName, cost);
-		Building building = new Building(bType, region.getID(), iLoc, lehenId);
+		Building building = new Building(bType, region.getID(), iLoc,0, lehenId);
 		plugin.getRealmModel().getBuildings().addBuilding(building);
 		plugin.getRealmModel().getData().writeBuilding(building);
 		

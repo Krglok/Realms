@@ -114,7 +114,8 @@ public class CmdSettleAddBuilding extends aRealmsCommand
 				region.getLocation().getX(), 
 				region.getLocation().getY(),
 				region.getLocation().getZ()),
-				settle.getId()
+				settle.getId(),
+				0
 				);
 		if (plugin.getRealmModel().getBuildings().addBuilding(building))
 		{
@@ -149,11 +150,15 @@ public class CmdSettleAddBuilding extends aRealmsCommand
 			errorMsg.add("");
 			return false;
 		}
-		if ( plugin.getRealmModel().getSettlements().getSettlement(this.settleId).getBuildingList().containRegion(regionId) )
+		Settlement settle = plugin.getRealmModel().getSettlements().getSettlement(settleId);
+		if (settle != null)
 		{
-			errorMsg.add("The region is always in the settlement !");
-			errorMsg.add("");
-			return false;
+			if ( settle.getBuildingList().containRegion(regionId) )
+			{
+				errorMsg.add("The region is always in the settlement !");
+				errorMsg.add("");
+				return false;
+			}
 		}
 		if (sender.isOp())
 		{

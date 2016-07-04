@@ -113,7 +113,8 @@ public class McmdCreateSettle implements iModelCommand
 									region.getLocation().getX(), 
 									region.getLocation().getY(),
 									region.getLocation().getZ()),
-									settlement.getId()
+									settlement.getId(),
+									0
 							);
 						rModel.getBuildings().addBuilding(building);
 						rModel.getData().writeBuilding(building);

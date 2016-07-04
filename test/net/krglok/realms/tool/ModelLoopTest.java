@@ -235,7 +235,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.WOODCUTTER, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.WOODCUTTER, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -244,7 +244,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.AXESHOP, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.AXESHOP, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -253,7 +253,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.HOESHOP, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.HOESHOP, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -262,7 +262,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.CARPENTER, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.CARPENTER, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -271,7 +271,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.WHEAT, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.WHEAT, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -280,7 +280,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.FARMHOUSE, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.FARMHOUSE, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -289,7 +289,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.BAKERY, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.BAKERY, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -298,7 +298,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.HOME, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.HOME, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}
@@ -307,7 +307,7 @@ public class ModelLoopTest
 	{
 		Building newbuilding ;
 		hsRegion++;
-		newbuilding =  new Building(BuildPlanType.SHEPHERD, hsRegion, null,sID);
+		newbuilding =  new Building(BuildPlanType.SHEPHERD, hsRegion, null,sID,0);
 		rModel.getBuildings().addBuilding(newbuilding);
 		rModel.getSettlements().getSettlement(sID).setBuildingList(rModel.getBuildings().getSubList(sID));
 	}

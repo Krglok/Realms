@@ -168,7 +168,7 @@ public class CmdSettleBuild extends aRealmsCommand
 		}
 		double cost = plugin.getServerData().getRegionTypeCost(buildName);
 		plugin.economy.withdrawPlayer(ownerName, cost);
-		Building building = new Building(bType, region.getID(), iLoc, settleId);
+		Building building = new Building(bType, region.getID(), iLoc, settleId,0);
 		plugin.getRealmModel().getBuildings().addBuilding(building);
 		plugin.getRealmModel().getData().writeBuilding(building);
 		

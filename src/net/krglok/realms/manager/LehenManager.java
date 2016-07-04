@@ -265,6 +265,15 @@ public class LehenManager
 					{
 					}
 					break;
+				case HIRESETTLER:
+					if (Mcmd.canExecute())
+					{
+						Mcmd.execute();
+						removeCmd.add(Mcmd);
+					} else
+					{
+					}
+					break;
 				default:
 				}
 			}

@@ -196,7 +196,8 @@ public class CmdFeudalCreate extends aRealmsCommand
 						sRegion.getLocation().getX(), 
 						sRegion.getLocation().getY(),
 						sRegion.getLocation().getZ()),
-						0
+						0,
+						lehen.getId()
 						);
 					building.setLehenId(lehen.getId());
 					plugin.getRealmModel().getBuildings().addBuilding(building);

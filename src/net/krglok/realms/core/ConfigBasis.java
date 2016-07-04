@@ -491,6 +491,78 @@ public class ConfigBasis implements ConfigInterface
 		}
 		
 	}
+	
+	public static int getDefaultWorker(BuildPlanType buildingType)
+	{
+		switch(buildingType)
+		{
+		case NONE : return 0;
+		case ARCHERY : return 1;
+		case ARMOURER : return 4;
+		case ARMOURY : return 3;
+		case AXESHOP : return 2;
+		case BAKERY : return 1;
+		case BIBLIOTHEK : return 1;
+		case BARRACK : return 2;
+		case BRICKWORK : return 2;
+		case BLACKSMITH : return 1;
+		case BOWMAKER : return 1;
+		case BUTCHER : return 2;
+		case CHARBURNER : return 1;
+		case CHICKENHOUSE : return 1;
+		case COWSHED : return 1;
+		case CARPENTER : return 2;
+		case CABINETMAKER : return 5;
+		case CHAINMAKER : return 4;
+		case CHURCH : return 2;
+		case DIAMONDMINE : return 10;
+		case DEFENSETOWER : return 1;
+		case FARMHOUSE : return 2;
+		case FARM : return 5;
+		case FIELD : return 5;
+		case FISHERHOOD : return 1;
+		case FLETCHER : return 1;
+		case GATE : return 2;
+		case GARRISON : return 5;
+		case GUARDHOUSE : return 1;
+		case GOLDMINE : return 5;
+		case GOLDSMELTER : return 5;
+		case HALL : return 0;
+		case HOME : return 0;
+		case HOESHOP : return 1;
+		case HUNTER : return 2;
+		case HORSEBARN : return 1;
+		case KNIFESHOP : return 1;
+		case LIBRARY : return 5;
+		case PICKAXESHOP : return 1;
+		case PIGPEN : return 1;
+		case QUARRY : return 1;
+		case SHEPHERD : return 1;
+		case SMALLIBRARY : return 2;
+		case SMITH : return 2;
+		case SMELTER : return 3;
+		case SPADESHOP : return 1;
+		case SPIDERSHED : return 1;
+		case STONEMINE : return 3;
+		case STONEYARD : return 1;
+		case IRONMINE : return 5;
+		case COALMINE : return 5;
+		case EMERALDMINE : return 5;
+		case TAMER : return 2;
+		case TAVERNE : return 3;
+		case TANNERY : return 4;
+		case TRADER : return 5;
+		case WHEAT : return 1;
+		case WATCHTOWER : return 0;
+		case WAREHOUSE : return 3;
+		case WOODCUTTER : return 1;
+		case WORKSHOP : return 5;
+		default :
+			return 1;
+		}
+		 
+	}
+
 
 	/**
 	 * charge number of unit in settlement without any special military buildings
@@ -879,6 +951,7 @@ public class ConfigBasis implements ConfigInterface
 		subList.addItem(Material.POTATO.name(),0);
 		subList.addItem(Material.POTATO_ITEM.name(),0);
 		subList.addItem(Material.MELON.name(),0);
+		subList.addItem(Material.MELON_BLOCK.name(),0);
 		
 		
 //		subList.addItem(Material..name(),0);

@@ -95,10 +95,9 @@ public enum BuildPlanType
 	STONEYARD(240),
 	SMITH(241),
 	FIELD(242),
-	SMALLIBRARY(243),
+	// 243
 	BUTCHER(244),
 	WELL(245),
-	CHURCH (604),
 	BLACKSMITH (246),
 	TANNERY (302),
 	BOWMAKER (310),
@@ -107,6 +106,8 @@ public enum BuildPlanType
 	WEAPONSMITH (330),
 	ARMOURER (331),
 	CHAINMAKER (340),
+	ARMOURY (341),
+	// Trade Group
 	TRADER (401),
 	// Millitary Group
 	GUARDHOUSE (501),
@@ -121,6 +122,8 @@ public enum BuildPlanType
 	TAVERNE(601),
 	BIBLIOTHEK(602),
 	LIBRARY(603),
+	CHURCH (604),
+	SMALLIBRARY(605),
 	// Lehen Group
 	KEEP (901),
 	CASTLE(902),

@@ -134,7 +134,7 @@ public class Building  implements Serializable
 	 * @param hsRegion
 	 * @param position
 	 */
-	public Building(BuildPlanType buildingType,	int hsRegion, LocationData position,int settleId)
+	public Building(BuildPlanType buildingType,	int hsRegion, LocationData position,int settleId, int lehenId)
 	{
 		COUNTER++;
 		id			= COUNTER;
@@ -143,7 +143,7 @@ public class Building  implements Serializable
 		setWorkerDefault(buildingType);
 		this.workerInstalled = 0;
 		this.settleId = settleId;
-		lehenId = 0;
+		this.lehenId = lehenId;
 		this.hsRegion = hsRegion;
 		this.isEnabled  = true;
 		isActiv 	    = true;
@@ -319,75 +319,11 @@ public class Building  implements Serializable
 		}
 	}
 
-	public static int getDefaultWorker(BuildPlanType buildingType)
-	{
-		switch(buildingType)
-		{
-		case NONE : return 0;
-		case ARCHERY : return 1;
-		case ARMOURER : return 4;
-		case AXESHOP : return 2;
-		case BAKERY : return 1;
-		case BIBLIOTHEK : return 1;
-		case BARRACK : return 2;
-		case BRICKWORK : return 2;
-		case BLACKSMITH : return 1;
-		case BOWMAKER : return 1;
-		case CHARBURNER : return 1;
-		case CHICKENHOUSE : return 1;
-		case COWSHED : return 1;
-		case CARPENTER : return 2;
-		case CABINETMAKER : return 5;
-		case CHAINMAKER : return 4;
-		case DIAMONDMINE : return 10;
-		case DEFENSETOWER : return 1;
-		case FARMHOUSE : return 2;
-		case FARM : return 5;
-		case FISHERHOOD : return 1;
-		case FLETCHER : return 1;
-		case GATE : return 2;
-		case GARRISON : return 5;
-		case GUARDHOUSE : return 1;
-		case GOLDMINE : return 5;
-		case GOLDSMELTER : return 5;
-		case HALL : return 0;
-		case HOME : return 0;
-		case HOESHOP : return 1;
-		case HUNTER : return 2;
-		case HORSEBARN : return 1;
-		case KNIFESHOP : return 1;
-		case LIBRARY : return 5;
-		case PICKAXESHOP : return 1;
-		case PIGPEN : return 1;
-		case QUARRY : return 1;
-		case SHEPHERD : return 1;
-		case SMELTER : return 3;
-		case SPADESHOP : return 1;
-		case SPIDERSHED : return 1;
-		case STONEMINE : return 3;
-		case STONEYARD : return 1;
-		case IRONMINE : return 5;
-		case COALMINE : return 5;
-		case EMERALDMINE : return 5;
-		case TAMER : return 2;
-		case TAVERNE : return 3;
-		case TANNERY : return 4;
-		case TRADER : return 5;
-		case WHEAT : return 1;
-		case WATCHTOWER : return 0;
-		case WAREHOUSE : return 3;
-		case WOODCUTTER : return 1;
-		case WORKSHOP : return 5;
-		default :
-			return 1;
-		}
-		 
-	}
 
 	
 	public void setWorkerDefault(BuildPlanType buildingType)
 	{
-		setWorkerNeeded(getDefaultWorker(buildingType));
+		setWorkerNeeded(ConfigBasis.getDefaultWorker(buildingType));
 	}
 	
 

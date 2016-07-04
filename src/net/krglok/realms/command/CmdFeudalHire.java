@@ -17,7 +17,7 @@ public class CmdFeudalHire extends aRealmsCommand
 	private int lehenId;
 	private int settleId;
 	private double price = 1000.0;
-	private int page = 1;
+//	private int page = 1;
 	
 	public CmdFeudalHire( )
 	{
@@ -53,7 +53,7 @@ public class CmdFeudalHire extends aRealmsCommand
 			lehenId = value;
 			break;
 		case 1:
-			page = value;
+			settleId = value;
 			break;
 		default:
 			break;
@@ -87,7 +87,7 @@ public class CmdFeudalHire extends aRealmsCommand
 		plugin.getRealmModel().getcommandQueue().add(mCmd);
 		msg.add("Command send to Settlement, wait a moment for execution");
 		msg.add(" ");
-		plugin.getMessageData().printPage(sender, msg, page);
+		plugin.getMessageData().printPage(sender, msg, 1);
 		lehenId = 0;
 		settleId= 0;
 	}

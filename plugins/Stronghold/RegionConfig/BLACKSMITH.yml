@@ -15,7 +15,7 @@ requirements:
 - STONE.81
 - COBBLESTONE.81
 reagents:
-- EMERALD.5
+- GOLD_NUGGET.1
 upkeep:
 - BREAD.1
 - STICK.5
