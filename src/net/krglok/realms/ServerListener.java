@@ -2347,8 +2347,8 @@ public class ServerListener implements Listener
     	ArrayList<String> msg = new ArrayList<String>();
 		Sign sign = (Sign) b.getState();
 		sign.getLine(0);
-		String l1 = sign.getLine(1);
-		String l2 = sign.getLine(2);
+		String l1 = sign.getLine(1);	// Hold COMMAND
+		String l2 = sign.getLine(2);	// hold the settleId
 //			System.out.println("SignPost");
 		if (l1 != "")
 		{

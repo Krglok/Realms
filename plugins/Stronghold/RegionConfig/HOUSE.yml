@@ -8,7 +8,7 @@ effects:
 - denyfriendlyfire.1
 radius: 5
 requirements:
-- WOODEN_DOOR.2
+- WOODEN_DOOR.1
 - BED_BLOCK.4
 - WORKBENCH.1
 - CHEST.2

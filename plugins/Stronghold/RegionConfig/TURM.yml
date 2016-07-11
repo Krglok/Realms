@@ -1,0 +1,26 @@
+friendly-classes: []
+enemy-classes: []
+effects:
+- denyblockbuildnoreagent
+- denyblockbreaknoreagent
+- denyfriendlyfirenoreagent
+- denyliquidnoreagent
+- denyexplosionnoreagent
+- denyblockbuild
+- denyblockbreak
+- denybucketuse
+- denyliquid
+- denyexplosion
+radius: 4
+requirements:
+- COBBLESTONE.28
+- LOG.8
+- WOOD.8
+reagents: []
+upkeep: []
+upkeep-chance: 0.001
+output:
+- STATIONARY_WATER.1
+money-requirement: 500.0
+upkeep-money-output: 0.0
+description: Produce wheat for your settlers. This is a basic building.

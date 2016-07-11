@@ -465,12 +465,12 @@ public class ConfigBasis implements ConfigInterface
 		case TOWNHALL : return 5;
 		case PARISHHOUSE : return 3;
 		case COLONY : return 0;
-		case LANE : return 0;
+		case WALLN : return 0;
+		case WALLE : return 0;
 		case ROAD : return 0;
 		case STEEPLE : return 0;
 		case SHIP_0: return 2;
 		case TAVERNE : return 0;
-		case WALL : return 0;
 		case PILLAR : return 0;
 		case GUARDHOUSE : return 5;
 		case ARCHERY : return 5;

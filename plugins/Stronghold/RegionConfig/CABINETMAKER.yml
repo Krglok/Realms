@@ -5,9 +5,9 @@ effects:
 radius: 4
 requirements:
 - WOODEN_DOOR.1
-- BED_BLOCK.2
 - WORKBENCH.1
 - CHEST.1
+- FURNACE.1
 - WALL_SIGN.1
 - COBBLESTONE.49
 reagents:

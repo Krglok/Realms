@@ -586,6 +586,7 @@ public class BuildManager
 		// region erzeugen 
 		if (buildRequest.isEmpty() )
 		{
+			// Check space between buildings
 			if (buildPlan.getBuildingType().getValue() >= 50)
 			{
 				String regionType = rModel.getConfig().getRegionType(buildPlan.getBuildingType());
