@@ -17,6 +17,6 @@ upkeep-chance: 0.001
 output:
 - WOOD.30
 - STICK.30
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -5.0
 description: produce wood and stick for multiple tools and blocks 

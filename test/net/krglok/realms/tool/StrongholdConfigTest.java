@@ -353,38 +353,11 @@ public class StrongholdConfigTest
         		"WHEAT",
         		"WOODCUTTER",
         		"QUARRY",
-        		};
-	}
-
-	private String[] setNetherList()
-	{
-		return new String[] 
-        		{"HALL",
-        		"HOME", 
-        		"MUSHROOM",
-        		"KITCHEN",
-        		"NETHERQUARRY"
-        		};
-	}
-	
-	private String[] setBasisList()
-	{
-		return new String[] 
-        		{
         		"FARMHOUSE",
         		"SHEPHERD",
         		"CARPENTER",
         		"CABINETMAKER",
-        		"BAKERY"
-        		};
-	}
-
-	@SuppressWarnings("unused")
-	private String[] setErweitertList()
-	{
-		return new String[] 
-        		{
-        		"BRICKWORK",
+        		"BAKERY",
         		"CHARBURNER",
 				"AXESHOP",
         		"HOESHOP", 
@@ -393,12 +366,102 @@ public class StrongholdConfigTest
         		"SPADESHOP",
         		"COWSHED",
         		"CHICKENHOUSE",
-        		"FISHERHOOD"
+        		"FISHERHOOD",
+        		"FARM",
+        		"WORKSHOP",
+        		"COWSHED",
+        		"CHICKENHOUSE",
+        		"BRICKWORK",
+        		"STONEMINE",
+        		"SMELTER",
+        		"PIGPEN",
+        		"GOLDSMELTER",
+        		"HUNTER",
+        		"TAMER",
+        		"SPIDERSHED",
+        		"STONEYARD",
+        		"MUSHROOM",
+        		"KITCHEN",
+				"TOWNHALL",
+				"GATE",
+				"CITYGATE",
+				"HOUSE",
+				"MANSION",
+				"COTTAGE",
+				"TAVERNE",
+        		"NETHERQUARRY"
+        		};
+	}
+
+	private String[] setVillageList()
+	{
+		return new String[] 
+        		{
+				"PARISHHOUSE",
+        		"WELL",
+        		"SMITH",
+        		"FIELD",
+        		"BUTCHER",
+				"LARGEHOUSE",
+				"ARMOURY",
+				"CHURCH",
+				"CABIN",
+				"SMALLIBRARY"
+        		};
+	}
+	
+	private String[] setStructureList()
+	{
+		return new String[] 
+        		{
+				"COLONY",
+				"PILLAR",
+				"WALLN",
+				"WALLE",
+				"ROAD",
+				"STEEPLE",
+				"FORT",
+				"SHIP_0",
+				"BOATYARD",
+				"MONEYBANK",
+				"XPBANK",
+				"COALMINE",
+				"IRONMINE",
+				"EMERALDMINE",
+				"GOLDMINE",
+				"DIAMONDMINE"
         		};
 	}
 
 	@SuppressWarnings("unused")
-	private String[] setEnhancedList()
+	private String[] setMilitaryList()
+	{
+		return new String[] 
+        		{
+				"BLACKSMITH",
+				"TANNERY",
+				"BOWMAKER",
+				"FLETCHER",
+				"HORSEBARN",
+				"WEAPONSMITH",
+				"ARMOURER",
+				"CHAINMAKER",
+				"TRADER",
+				"GUARDHOUSE",
+				"WATCHTOWER",
+				"DEFENSETOWER",
+				"ARCHERY",
+				"BARRACK",
+				"TOWER",
+				"CASERN",
+				"GARRISON",
+				"BIBLIOTHEK",
+				"LIBRARY",
+        		};
+	}
+
+	@SuppressWarnings("unused")
+	private String[] setFeudalList()
 	{
 		
 		return new String[] 
@@ -501,7 +564,7 @@ public class StrongholdConfigTest
 //        sList = setNetherList();
 //        sList = setBasisList();
 //        sList = setErweitertList();
-        sList = setEnhancedList();
+        sList = setFeudalList();
 //        sList = new String[]
 //        		{
 //        		"MUSHROOM",
@@ -598,7 +661,7 @@ public class StrongholdConfigTest
 	            System.out.println("======================================================================" );
 
 	            
-	            System.out.println("Material List:" );
+	            System.out.println("TMX  Material List:" );
 	            BuildPlanMap buildPLan;
 
 	    		BuildPlanType bType = BuildPlanType.getBuildPlanType(sTypeName);
@@ -611,6 +674,7 @@ public class StrongholdConfigTest
 		                System.out.print("-"+ConfigBasis.setStrleft(item.ItemRef()+"."+String.valueOf(item.value() ),30) );
 			            System.out.println("" );
 		            }
+		            System.out.println("======================================================================" );
 	    		}
             }
         }

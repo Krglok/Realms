@@ -148,7 +148,7 @@ public class RegionConfig
 
 		public int getRadius()
 		{
-			return radius;
+			return rawRadius;
 		}
 
 		public void setRadius(int radius)

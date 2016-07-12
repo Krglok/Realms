@@ -25,6 +25,6 @@ output:
 - FURNACE.1
 - CHEST.1
 - WALL_SIGN.1
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -5.0
 description: produce equipment for houses like door, bed, workbench, furnace, chest, wallsign

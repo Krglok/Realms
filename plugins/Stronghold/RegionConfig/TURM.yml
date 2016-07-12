@@ -14,13 +14,14 @@ effects:
 radius: 4
 requirements:
 - COBBLESTONE.28
-- LOG.8
 - WOOD.8
-reagents: []
+- STATIONARY_WATER.10
+reagents: 
+- GOLD_INGOT.1
 upkeep: []
 upkeep-chance: 0.001
-output:
-- STATIONARY_WATER.1
-money-requirement: 500.0
+output: 
+- STATIONARY_WATER.5
+money-requirement: 100.0
 upkeep-money-output: 0.0
-description: Produce wheat for your settlers. This is a basic building.
+description: .

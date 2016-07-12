@@ -21,6 +21,6 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - COAL.32
-money-requirement: 1000.0
+money-requirement: 50.0
 upkeep-money-output: -2.0
 description: produce coal from log

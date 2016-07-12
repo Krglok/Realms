@@ -25,7 +25,7 @@ upkeep:
 upkeep-chance: 0.001
 output: 
 - BOOK.1
-money-requirement: 20000.0
+money-requirement: 500.0
 upkeep-money-output: -10.0
 super-regions:
 - Metropolis

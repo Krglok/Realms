@@ -26,6 +26,6 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - GOLD_INGOT.32
-money-requirement: 10000.0
+money-requirement: 1000.0
 upkeep-money-output: 0.0
 description: produce gold from gold_ore.

@@ -28,6 +28,6 @@ output:
 - EMERALD.16
 - FLINT.2
 - COAL.2
-money-requirement: 50000.0
+money-requirement: 2000.0
 upkeep-money-output: 0.0
 description: produce emerald. cant be build automatic

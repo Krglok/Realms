@@ -23,7 +23,7 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - MUSHROOM_SOUP.24
-money-requirement: 5000.0
+money-requirement: 50.0
 upkeep-money-output: 0.0
 biome:
 - HELL

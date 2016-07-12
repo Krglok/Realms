@@ -19,6 +19,6 @@ upkeep-chance: 0.001
 output:
 - RAW_CHICKEN.2
 - FEATHER.4
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -2.0
 description: produce raw cicken and feather. The fence should be closed otherwise the chicken go off.

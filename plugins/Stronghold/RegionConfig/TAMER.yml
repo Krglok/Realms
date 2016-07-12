@@ -20,6 +20,6 @@ upkeep:
 - LEASH.1
 upkeep-chance: 0.001
 output: []
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: 0.0
 description: This is a special building that move nearby animals into the fence. Need a sign with [TAME] for activation.

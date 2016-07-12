@@ -26,6 +26,6 @@ output:
 - ROTTEN_FLESH.1
 - SULPHUR.1
 - SPIDER_EYE.1
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: 0.0
 description: a special building, that hunt nearby monsters on command. must be hold a sign with [HUNT] and click by a player.

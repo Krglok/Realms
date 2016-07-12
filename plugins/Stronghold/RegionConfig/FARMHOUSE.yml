@@ -22,7 +22,7 @@ upkeep-chance: 0.001
 output:
 - WHEAT.64
 - SEEDS.32
-money-requirement: 1500.0
+money-requirement: 150.0
 upkeep-money-output: 1.0
 housing: 8
 power-drain: 0.0

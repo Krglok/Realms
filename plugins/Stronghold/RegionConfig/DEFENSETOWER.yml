@@ -19,7 +19,7 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 1000.0
+money-requirement: 100.0
 upkeep-money-output: -5.0
 housing: 10
 power-drain: 0.0

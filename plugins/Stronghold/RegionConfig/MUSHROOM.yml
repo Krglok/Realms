@@ -13,6 +13,6 @@ upkeep-chance: 0.001
 output:
 - RED_MUSHROOM.8
 - BROWN_MUSHROOM.8
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -1.0
 description: Special buildiing for nether production or biome that cant produce wheat.

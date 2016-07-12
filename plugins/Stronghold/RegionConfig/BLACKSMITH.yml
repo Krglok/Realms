@@ -23,7 +23,7 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - STONE_SWORD.5
-money-requirement: 2000.0
+money-requirement: 200.0
 upkeep-money-output: 0.0
 super-regions:
 - HAMLET

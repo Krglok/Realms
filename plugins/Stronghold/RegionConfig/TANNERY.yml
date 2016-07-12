@@ -24,7 +24,7 @@ output:
 - LEATHER_CHESTPLATE.1
 - LEATHER_HELMET.1
 - LEATHER_LEGGINGS.1
-money-requirement: 2000.0
+money-requirement: 100.0
 upkeep-money-output: 0.0
 housing: 0
 power-drain: 0.0

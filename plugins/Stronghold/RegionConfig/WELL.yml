@@ -16,6 +16,6 @@ upkeep: []
 upkeep-chance: 0.001
 output:
 - STATIONARY_WATER.1
-money-requirement: 500.0
+money-requirement: 0.0
 upkeep-money-output: -1.0
 description: Produce wheat for your settlers. This is a basic building.

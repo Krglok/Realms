@@ -11,6 +11,6 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: 1.0
 description: the center building of a new settlement. only visible until buildup phase of a settlement.

@@ -11,6 +11,7 @@ requirements:
 - LOG.6
 - WOOD.9
 - FURNACE.1
+- STATIONARY_WATER.5
 reagents:
 - GOLD_NUGGET.1
 upkeep: 
@@ -18,7 +19,7 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - COOKED_FISH.10
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -2.0
 biome:
 - OCEAN

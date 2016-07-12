@@ -18,6 +18,6 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - WOOD_SPADE.10
-money-requirement: 500.0
+money-requirement: 100.0
 upkeep-money-output: 0.0
 description: Produce wood_spade. 

@@ -17,6 +17,6 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - GRILLED_PORK.2
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -2.0
 description: Produce grilled_pork. The fence should be closed otherwise the pig go off.

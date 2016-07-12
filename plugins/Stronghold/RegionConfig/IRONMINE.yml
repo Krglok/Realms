@@ -26,6 +26,6 @@ output:
 - IRON_ORE.16
 - FLINT.2
 - COAL.2
-money-requirement: 50000.0
+money-requirement: 5000.0
 upkeep-money-output: 0.0
 description: produce iron_ore. Cant build automatic.

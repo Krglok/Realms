@@ -18,6 +18,6 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 16000.0
+money-requirement: 200.0
 upkeep-money-output: 7.0
 description: Produce entertaiment for your settlers (happiness)  and give taxe to the settlement.

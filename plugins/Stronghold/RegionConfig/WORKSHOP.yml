@@ -23,6 +23,6 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 5000.0
+money-requirement: 200.0
 upkeep-money-output: 0.0
 description: Produce user defined items. This is a special extended building. The owner can specify in 5 slots what should be produced. 

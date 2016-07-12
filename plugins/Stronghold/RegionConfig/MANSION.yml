@@ -21,7 +21,7 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 5000.0
+money-requirement: 500.0
 upkeep-money-output: 4.0
 super-regions:
 - city

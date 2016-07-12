@@ -22,7 +22,7 @@ upkeep:
 - BREAD.1
 upkeep-chance: 0.001
 output: []
-money-requirement: 5000.0
+money-requirement: 500.0
 upkeep-money-output: 0.0
 housing: 10
 power-drain: 0.0

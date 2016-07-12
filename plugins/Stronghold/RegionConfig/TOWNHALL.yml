@@ -21,6 +21,6 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 2000.0
+money-requirement: 200.0
 upkeep-money-output: -10.0
 description: Central building of a CITY or METROPOLIS. Hold the managers and the warehouse.  This is a enhanced building.

@@ -19,6 +19,6 @@ upkeep-chance: 0.001
 output:
 - RABBIT_HIDE.2
 - COOKED_RABBIT.2
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -2.0
 description: produce rabbit hide and cooked rabbit. The fence should be closed otherwise the rabbit go off.

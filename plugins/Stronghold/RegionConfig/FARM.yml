@@ -30,7 +30,7 @@ output:
 - WHEAT.64 
 - SEEDS.15
 - CARROT.15
-money-requirement: 5000.0
+money-requirement: 500.0
 upkeep-money-output: 1.0
 housing: 16
 power-drain: 0.0

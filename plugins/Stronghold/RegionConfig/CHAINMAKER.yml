@@ -25,7 +25,7 @@ output:
 - CHAINMAIL_CHESTPLATE.1
 - CHAINMAIL_HELMET.1
 - CHAINMAIL_LEGGINGS.1
-money-requirement: 8000.0
+money-requirement: 800.0
 upkeep-money-output: 0.0
 housing: 0
 power-drain: 0.0

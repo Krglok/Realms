@@ -29,7 +29,7 @@ upkeep:
 - LOG.5
 upkeep-chance: 0.001
 output: []
-money-requirement: 30000.0
+money-requirement: 3000.0
 upkeep-money-output: 0.0
 daily.power-increase: 30.0
 housing: 10

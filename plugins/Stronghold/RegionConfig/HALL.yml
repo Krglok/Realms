@@ -20,6 +20,6 @@ reagents:
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 2000.0
+money-requirement: 200.0
 upkeep-money-output: -5.0
 description: Central building of a HAMLET or TOWN. Hold the managers and the warehouse.  This is a basic building.

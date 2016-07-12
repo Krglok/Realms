@@ -18,7 +18,7 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - BOW.1
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: 0.0
 super-regions:
 - HAMLET

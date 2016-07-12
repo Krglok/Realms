@@ -18,6 +18,6 @@ upkeep:
 upkeep-chance: 0.001
 output:
 - WOOL.1
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -2.0
 description: Produce wool. This is a basic building.

@@ -11,10 +11,11 @@ requirements:
 - WOODEN_DOOR.2
 - WOOD.32
 - COBBLESTONE.49
-reagents: []
+reagents: 
+- GOLD_INGOT.4
 upkeep: []
 upkeep-chance: 0.001
 output: []
-money-requirement: 15000.0
+money-requirement: 150.0
 upkeep-money-output: 5.0
 description: Hold a lot of chest. This is a extension for your warehouse.

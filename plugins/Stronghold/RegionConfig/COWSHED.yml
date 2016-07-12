@@ -19,6 +19,6 @@ upkeep-chance: 0.001
 output:
 - COOKED_BEEF.2
 - LEATHER.1
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -2.0
 description: produce cooked beef and leather. needed for armor production. The fence should be closed otherwise the cows go off.

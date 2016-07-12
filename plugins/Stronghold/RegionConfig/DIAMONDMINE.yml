@@ -28,6 +28,6 @@ output:
 - DIAMOND.16
 - FLINT.2
 - COAL.2
-money-requirement: 100000.0
+money-requirement: 10000.0
 upkeep-money-output: 0.0
 description: produce diamonds. canz be build automatic

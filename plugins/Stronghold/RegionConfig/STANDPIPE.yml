@@ -1,23 +1,27 @@
 friendly-classes: []
 enemy-classes: []
 effects:
-- periodicupkeep.1
 - denyblockbuild.1
 - denyblockbreak.1
 - denyplayerinteract.1
+- periodicupkeep.1
 - denyfriendlyfire.1
-radius: 4
+radius: 3
 requirements:
-- CHEST.1
-- LOG.10
-- STONE.49
-- WALL_SIGN.1
+- COBBLESTONE.9
+- TORCH.2
+- FENCE.6
+- STATIONARY_WATER.3
 reagents:
 - GOLD_NUGGET.1
 upkeep: []
-upkeep-chance: 0.001
+upkeep-chance: 0.0001
 output:
-- COBBLESTONE.8
+- CLAY_BALL.12 
 money-requirement: 50.0
 upkeep-money-output: 0.0
-description: Produce cobblestone. This is a basic building.
+housing: 0
+power-drain: 0.0
+group: produce
+biome: [] 
+description: Produce clayballs .

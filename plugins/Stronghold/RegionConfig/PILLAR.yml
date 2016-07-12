@@ -14,6 +14,6 @@ upkeep:
 - CARROT.2
 upkeep-chance: 0.001
 output: []
-money-requirement: 50.0
+money-requirement: 0.0
 upkeep-money-output: 0.0
 description: marker for settlement corner. will only used by the build manager.

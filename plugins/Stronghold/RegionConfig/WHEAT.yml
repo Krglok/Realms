@@ -16,6 +16,6 @@ upkeep-chance: 0.001
 output:
 - WHEAT.16
 - SOIL.1
-money-requirement: 500.0
+money-requirement: 50.0
 upkeep-money-output: -1.0
 description: Produce wheat for your settlers. This is a basic building.

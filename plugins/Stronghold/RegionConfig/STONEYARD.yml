@@ -20,6 +20,6 @@ upkeep:
 upkeep-chance: 0.01
 output:
 - STONE.16
-money-requirement: 1000.0
+money-requirement: 100.0
 upkeep-money-output: 0.0
 description: produce stone from cobblestone
