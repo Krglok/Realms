@@ -3,8 +3,14 @@ package net.krglok.realms.tool;
 import java.io.File;
 import java.util.HashMap;
 
+import net.krglok.realms.Common.Item;
+import net.krglok.realms.Common.ItemList;
+import net.krglok.realms.builder.BuildPlanMap;
+import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.builder.RegionConfig;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.manager.BuildManager;
+import net.krglok.realms.unittest.DataTest;
 
 
 import org.bukkit.inventory.ItemStack;
@@ -394,24 +400,88 @@ public class StrongholdConfigTest
 	@SuppressWarnings("unused")
 	private String[] setEnhancedList()
 	{
+		
 		return new String[] 
-        		{"WORKSHOP",
-				"STONEMINE",
-				"SMELTER",
-				"FARM",
-				"PIGPEN",
-        		"NETHER_BRICKWORK",
-				"WARHOUSE",
-				"TAVERNE"
+        		{
+				"KEEP",
+				"CASTLE",
+				"STRONGHOLD",
+				"PALACE",
+				"HEADQUARTER"
         		};
 	}
 	
+	
+	private String getBuildPlanTypeHeader(BuildPlanType bType)
+	{
+			//BUILDING_HOME (100),
+			//BUILDING_PROD (200),
+			//BUILDING_PRODMILITARY (300),
+			//BUILDING_WAREHOUSE (300),
+			//BUILDING_TRADER (400),
+			//BUILDING_MILITARY (500),
+			//BUILDING_ENTERTAIN (600),
+			//BUILDING_EDUCATION (700),
+			//BUILDING_RELIGION (800),
+			//BUILDING_KEEP (900),
+			//BUILDING_GOVERNMENT (1000)
+			if (BuildPlanType.getBuildGroup(bType)==1)
+			{
+				return ("Structure");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==10)
+			{
+				return("Management");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==100)
+			{
+				return("Homes");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==200)
+			{
+				return("Production");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==300)
+			{
+				return("Military Production");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==400)
+			{
+				return("Trader");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==500)
+			{
+				return("Military ");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==600)
+			{
+				return("Entertain");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==700)
+			{
+				return("Education");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==800)
+			{
+				return("Religion");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==900)
+			{
+				return("Feudal");
+			}
+			if (BuildPlanType.getBuildGroup(bType)==1000)
+			{
+				return("Government");
+			}
+			return "??";
+	}
 	
 	@Test
 	public void getStrongholdConstructionMaterial()
 	{
 //		StrongholdTools shTools = new StrongholdTools();
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\HeroStronghold";
+		DataTest testData = new DataTest(); //logTest);
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Stronghold";
         File regionFolder = new File(path, "RegionConfig");
         if (!regionFolder.exists()) {
         	System.out.println("Folder not found !");
@@ -431,58 +501,119 @@ public class StrongholdConfigTest
 //        sList = setNetherList();
 //        sList = setBasisList();
 //        sList = setErweitertList();
-//        sList = setEnhancedList();
-        sList = new String[]
-        		{
-        		"MUSHROOM",
-        		};
+        sList = setEnhancedList();
+//        sList = new String[]
+//        		{
+//        		"MUSHROOM",
+//        		};
+        System.out.println("[Stronghold] Building   Blueprint " );
+        System.out.println("" );
+        System.out.println("123456789012345678901234567890123456789012345678901234567890" );
 
-        System.out.println("[Stronghold] Building              cost" );
         for (File RegionFile : regionFolder.listFiles()) 
         {
         	
         	sRegionFile = RegionFile.getName();
             if ( isInList(sRegionFile,sList))
             {
-	        	region= StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
-	        	
-	            System.out.println(ConfigBasis.setStrleft(sRegionFile.replace(".yml", ""),20)+"  Cost : "+ ConfigBasis.setStrright(String.valueOf(region.getMoneyRequirement()),10));
+	        	region = StrongholdTools.getRegionConfig(path+"\\RegionConfig", sRegionFile);
+	        	String sBiome = "All";
+	        	if (region.getBiome().size() > 0)
+	        	{
+	        		sBiome = region.getBiome().get(0);
+	        	}
+	        	String sTypeName = sRegionFile.replace(".yml", "");
+	            System.out.println("======================================================================" );
+	            System.out.print("Buildplan:"+ConfigBasis.setStrleft(sTypeName,20));
+	            System.out.print(" Group: "+ ConfigBasis.setStrleft(getBuildPlanTypeHeader(BuildPlanType.getBuildPlanType(sTypeName) ),20));
+	            System.out.print(" ID: "+ ConfigBasis.set0right((BuildPlanType.getBuildPlanType(sTypeName).getValue() ),4));
+                System.out.println("");
+	            System.out.println("Biome    :"+ConfigBasis.setStrleft(sBiome,20)+" Radius: "+String.valueOf(region.getRadius()) );
+	            System.out.println("---------------------------------------------------------------------" );
 
-	            for (ItemStack item : region.getRequirements())
+	            
+	            System.out.println("Requirements:                  Reagents:" );
+	            if (region.getRequirements().size() > region.getReagents().size())
 	            {
-	            	required.put(item.getType().name(), 0);
-	            }
-	            for (ItemStack item : region.getReagents())
+		            for (int i=0; i<region.getRequirements().size(); i++)
+		            {
+		            	String sName = region.getRequirements().get(i).getType().name()+"."+String.valueOf(region.getRequirements().get(i).getAmount());
+		                System.out.print("-"+ConfigBasis.setStrleft(sName,30) );
+		                if (region.getReagents().size() > i )
+		                {
+			                System.out.print("-"+ConfigBasis.setStrleft(region.getReagents().get(i).getType().name()+"."+String.valueOf(region.getReagents().get(i).getAmount()),20) );
+		                }
+		                System.out.println("");
+		            }
+	            } else
 	            {
-	            	reagent.put(item.getType().name(), 0);
+		            for (int i=0; i<region.getReagents().size(); i++)
+		            {
+		            	String sName = region.getReagents().get(i).getType().name()+"."+String.valueOf(region.getReagents().get(i).getAmount());
+		                if (region.getRequirements().size() > i )
+		                {
+			                System.out.print("-"+ConfigBasis.setStrleft(region.getRequirements().get(i).getType().name()+"."+String.valueOf(region.getRequirements().get(i).getAmount()),30) );
+		                } else
+		                {
+			                System.out.print("-"+ConfigBasis.setStrleft("",30) );
+		                }
+		                System.out.print("-"+ConfigBasis.setStrleft(sName,20) );
+		                System.out.println("");
+		            }
 	            }
-	            for (String item : region.getSuperRegions())
+	            System.out.println("" );
+	            System.out.println("RequiredMoney:"+ConfigBasis.setStrright(region.getMoneyRequirement(),10) );
+	            System.out.println("---------------------------------------------------------------------" );
+	            System.out.println("Upkeep:                        Output:   " );
+	            if (region.getUpkeep().size() > region.getOutput().size())
 	            {
-	            	superRef.put(item, 0);
-	            }
-	            for (ItemStack item : region.getUpkeep())
+		            for (int i=0; i<region.getUpkeep().size(); i++)
+		            {
+		            	String sName = region.getUpkeep().get(i).getType().name()+"."+String.valueOf(region.getUpkeep().get(i).getAmount());
+		                System.out.print("-"+ConfigBasis.setStrleft(sName,30) );
+		                if (i<region.getOutput().size())
+		                {
+			                System.out.print("-"+ConfigBasis.setStrleft(region.getOutput().get(i).getType().name()+"."+String.valueOf(region.getOutput().get(i).getAmount()),20) );
+		                }
+		                System.out.println("");
+		            }
+	            } else
 	            {
-	            	ingredient.put(item.getType().name(), 0);
+		            for (int i=0; i<region.getOutput().size(); i++)
+		            {
+		            	String sName = region.getOutput().get(i).getType().name()+"."+String.valueOf(region.getOutput().get(i).getAmount());
+		                if (i<region.getUpkeep().size())
+		                {
+			                System.out.print("-"+ConfigBasis.setStrleft(region.getUpkeep().get(i).getType().name()+"."+String.valueOf(region.getUpkeep().get(i).getAmount()),30) );
+		                } else
+		                {
+			                System.out.print("-"+ConfigBasis.setStrleft("",30) );
+		                }
+		                System.out.print("-"+ConfigBasis.setStrleft(sName+"."+String.valueOf(region.getOutput().get(i).getAmount()),20) );
+		                System.out.println("");
+		            }
 	            }
-	            for (ItemStack item : region.getOutput())
-	            {
-	            	product.put(item.getType().name(), 0);
-	            }
+	            System.out.println("" );
+	            System.out.println("UpkeepMoney:"+ConfigBasis.setStrright(region.getMoneyOutput(),10) );
+	            System.out.println("======================================================================" );
+
+	            
+	            System.out.println("Material List:" );
+	            BuildPlanMap buildPLan;
+
+	    		BuildPlanType bType = BuildPlanType.getBuildPlanType(sTypeName);
+	    		buildPLan = testData.readTMXBuildPlan(bType, 4, -1);
+	    		if (buildPLan != null)
+	    		{
+		            ItemList matItems = BuildManager.makeMaterialList(buildPLan);
+		            for (Item item : matItems.values())
+		            {
+		                System.out.print("-"+ConfigBasis.setStrleft(item.ItemRef()+"."+String.valueOf(item.value() ),30) );
+			            System.out.println("" );
+		            }
+	    		}
             }
         }
 
-        showBuildingList( required, sList, regionFolder, path);        
-        
-        showReagentList( reagent, sList, regionFolder, path);
-        
-        showBuildingAllowed(superRef, sList, regionFolder, path );
-
-        showIngredientList(ingredient, sList, regionFolder, path );
-        
-        showProductList(product, sList, regionFolder, path );
-        
-//        Queue<RegionType> myQueue = new Queue<RegionType>();
-		{
-		};
 	}
 }
