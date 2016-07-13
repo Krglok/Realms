@@ -9,7 +9,7 @@ radius: 450
 requirements:
 - STRONGHOLD.1
 central-structure: STRONGHOLD
-money-requirement: 250000.0
+money-requirement: 15000.0
 money-output-daily: 0.0
 max-power: 6000
 daily-power-increase: 20

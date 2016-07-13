@@ -9,7 +9,7 @@ radius: 650
 requirements:
 - PALACE.1
 central-structure: KEEP
-money-requirement: 500000.0
+money-requirement: 30000.0
 money-output-daily: 0.0
 max-power: 9000
 daily-power-increase: 20

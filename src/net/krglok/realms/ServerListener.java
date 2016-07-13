@@ -715,6 +715,7 @@ public class ServerListener implements Listener
 	    		if (l0.contains("[BUILD]"))
 	    		{
 	    			cmdBuildat(event, b);
+	    			return;
 	    		}
 	    		// other signpost Commands
 	    		cmdSignPost(event, b);
@@ -1076,10 +1077,15 @@ public class ServerListener implements Listener
     	if (settleId > 0)
     	{
     		settle = plugin.getData().getSettlements().getSettlement(settleId);
+	    	System.out.println("Found By SettleID "+settleId);
     	} else
     	{
 			String sRegion = findSuperRegionAtLocation(plugin, player); 
 			settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+			if (settle != null)
+			{
+				System.out.println("Found By Location  "+settle.getId());
+			}
     	}
 		iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY(), pos.getZ()+1);
 		if (settle != null)
@@ -1092,6 +1098,7 @@ public class ServerListener implements Listener
 					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
 					McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), settle.getId(), bType, iLoc,player);
 					plugin.getRealmModel().OnCommand(modelCommand);
+			    	System.out.println("BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
 			    	msg.add(ChatColor.GREEN+"BUILD "+bType.name()+" in "+settle.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
 			    	msg.add(" ");
 			    	return true;

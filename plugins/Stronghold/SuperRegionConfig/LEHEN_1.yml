@@ -9,7 +9,7 @@ radius: 200
 requirements:
 - KEEP.1
 central-structure: KEEP
-money-requirement: 50000.0
+money-requirement: 5000.0
 money-output-daily: 0.0
 max-power: 1500
 daily-power-increase: 20

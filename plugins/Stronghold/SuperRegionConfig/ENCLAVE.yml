@@ -13,7 +13,7 @@ effects:
 - denyliquid
 - denyexplosion
 radius: 20
-money-requirement: 20000.0
+money-requirement: 2000.0
 money-output-daily: 0.0
 max-power: 150
 daily-power-increase: 10

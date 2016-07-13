@@ -10,7 +10,7 @@ requirements:
 - DEFENSETOWER.1
 - WATCHTOWER.2
 central-structure: TOWER
-money-requirement: 100000.0
+money-requirement: 10000.0
 money-output-daily: 0.0
 max-power: 5000
 daily-power-increase: 50

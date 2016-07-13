@@ -18,7 +18,7 @@ requirements:
 - DEFENSETOWER.2
 - WATCHTOWER.2
 central-structure: TOWNHALL
-money-requirement: 1200000.0
+money-requirement: 50000.0
 money-output-daily: 0.0
 max-power: 15000
 daily-power-increase: 50

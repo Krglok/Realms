@@ -157,7 +157,7 @@ public class SettleManager
 			{
 				switch (Mcmd.command())
 				{
-				case CREATEBUILDING :
+				case SETTLEBUILDING :
 					McmdBuilder cmd = (McmdBuilder) Mcmd;
 					if (cmd.getSettleId() == settle.getId())
 					{

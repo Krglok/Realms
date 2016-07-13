@@ -226,7 +226,7 @@ public class LehenManager
 			{
 				switch (Mcmd.command())
 				{
-				case CREATEBUILDING :
+				case LEHENBUILDING :
 					McmdBuilder cmd = (McmdBuilder) Mcmd;
 					if (cmd.getSettleId() == lehen.getId())
 					{

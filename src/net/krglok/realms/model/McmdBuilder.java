@@ -8,7 +8,7 @@ import net.krglok.realms.builder.BuildPlanType;
 
 public class McmdBuilder implements iModelCommand
 {
-	private ModelCommandType commandType = ModelCommandType.CREATEBUILDING;
+	private ModelCommandType commandType = ModelCommandType.LEHENBUILDING;
 	private RealmModel rModel;
 	private int settleId; 
 	private BuildPlanType bType;

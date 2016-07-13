@@ -22,7 +22,7 @@ requirements:
 - WOODCUTTER.1
 - QUARRY.1
 central-structure: HALL
-money-requirement: 50000.0
+money-requirement: 5000.0
 money-output-daily: 0.0
 max-power: 500.0
 daily-power-increase: 10

@@ -14,7 +14,7 @@ effects:
 - denyliquid
 - powershield
 radius: 40
-money-requirement: 500.0
+money-requirement: 50.0
 money-output-daily: 0.0
 max-power: 1000.0
 daily-power-increase: 10

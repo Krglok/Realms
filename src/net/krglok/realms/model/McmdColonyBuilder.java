@@ -5,7 +5,7 @@ import net.krglok.realms.builder.BuildPlanType;
 
 public class McmdColonyBuilder  implements iModelCommand
 {
-	private ModelCommandType commandType = ModelCommandType.CREATEBUILDING;
+	private ModelCommandType commandType = ModelCommandType.SETTLEBUILDING;
 	private RealmModel rModel;
 	private BuildPlanType buildPlanType;
 	private LocationData centerPos;

@@ -18,7 +18,7 @@ requirements:
 - WHEAT.6
 - BAKERY.1
 central-structure: TOWNHALL
-money-requirement: 450000.0
+money-requirement: 10000.0
 money-output-daily: 0.0
 max-power: 3000
 daily-power-increase: 50
