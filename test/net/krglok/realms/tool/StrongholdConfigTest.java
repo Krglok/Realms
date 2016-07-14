@@ -561,10 +561,10 @@ public class StrongholdConfigTest
         RegionConfig region;
         String[] sList ;
 //        sList = setStandardList();
-//        sList = setNetherList();
-//        sList = setBasisList();
-//        sList = setErweitertList();
-        sList = setFeudalList();
+//        sList = setMilitaryList();
+//        sList = setVillageList();
+        sList = setStructureList();
+//        sList = setFeudalList();
 //        sList = new String[]
 //        		{
 //        		"MUSHROOM",

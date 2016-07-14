@@ -10,7 +10,7 @@ requirements:
 - WOODEN_DOOR.1
 - COBBLESTONE.121
 - THIN_GLASS.4
-- LADDERS.4
+- LADDER.4
 - TORCH.1
 reagents:
 - EMERALD.6
