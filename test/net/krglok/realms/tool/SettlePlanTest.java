@@ -1,7 +1,13 @@
 package net.krglok.realms.tool;
 
+import java.awt.Point;
+import java.io.File;
+
+import net.krglok.realms.core.Building;
 import net.krglok.realms.core.ConfigBasis;
+import net.krglok.realms.core.Settlement;
 import net.krglok.realms.maps.PlanMap;
+import net.krglok.realms.unittest.DataTest;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -10,6 +16,13 @@ import org.junit.Test;
 public class SettlePlanTest
 {
 
+	private static final char CORNER = '+';
+	private static final char TOPLINE = '-';
+	private static final char SIDELINE = '|';
+	private static final char SPACE = ' ';
+	private static final char CENTER = 'O';
+	private static final char ROAD = '#';
+	
 
 	@SuppressWarnings("unused")
 	private String setStoreString(byte[] planRow)
@@ -24,89 +37,11 @@ public class SettlePlanTest
 		return sRow;
 	}
 	
-//	private void writePlanData(byte[][] planMap, int radius, String name) 
-//	{
-//		try
-//		{
-//			//\\Program Files\\BuckitTest\\plugins\\Realms
-//            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms\\", "plan_"+name+".yml");
-//            if (!DataFile.exists()) 
-//            {
-//            	DataFile.createNewFile();
-//            }
-////            System.out.println(DataFile.exists());
-//            HashMap<String,String> values; // = new HashMap<String,String>();
-//            
-//            FileConfiguration config = new YamlConfiguration();
-//            config.load(DataFile);
-//            
-//            String base = "PLAN";
-//            ConfigurationSection headerSec = config.createSection("HEADER");
-//            config.set(MemorySection.createPath(headerSec, "radius"),radius);
-//            config.set(MemorySection.createPath(headerSec, "name"),name);
-//            ConfigurationSection planSec = config.createSection(base);
-//            for (int i = 0; i < setRegionLength(radius); i++)
-//			{
-//				
-//            	config.set(MemorySection.createPath(planSec, String.valueOf(i)),planMap[i]);
-//            }
-//            config.save(DataFile);
-//			
-//		} catch (Exception e)
-//		{
-//			// TODO: handle exception
-//		}
-//	
-//
-//	}
-	
-	
-	
-//	private byte[][] readPlanData(String name)  
-//	{
-//        String base = "PLAN";
-//		try
-//		{
-//			//\\Program Files\\BuckitTest\\plugins\\Realms
-//            File DataFile = new File("\\GIT\\OwnPlugins\\Realms\\plugins\\Realms\\", "plan_"+name+".yml");
-//            if (!DataFile.exists()) 
-//            {
-//    			System.out.println("File not found  : "+name);
-//    			return null;
-//            }
-//            
-//            FileConfiguration config = new YamlConfiguration();
-//            config.load(DataFile);
-//            
-//            if (config.isConfigurationSection("HEADER"))
-//            {
-//            	int radius = config.getInt("HEADER"+"."+"radius",0);
-//            	String planName = config.getString("HEADER"+"."+"name","");
-//            	
-//            	byte[][] planMap = new byte[setRegionLength(radius)][setRegionLength(radius)];
-//	            if (config.isConfigurationSection(base))
-//	            {
-//	    			Map<String,Object> buildings = config.getConfigurationSection(base).getValues(false);
-//	            	for (String ref : buildings.keySet())
-//	            	{
-//	            		planMap[Integer.valueOf(ref)] = (byte[]) config.get(base+"."+ref);
-////	            		String sRow = config.getString(base+"."+ref,"");
-////	            		planMap[Integer.valueOf(ref)] = getStroreString(sRow, radius);
-//	            	}
-//	            }
-//	    		return planMap;
-//            }
-//		} catch (Exception e)
-//		{
-//		}
-//		return null;
-//	}
-
 
 	
 	private int setRegionLength(int radius)
 	{
-		return (2 * radius);
+		return (2 * radius)-1;
 	}
 	
 	private byte[][] setDefaultHaupthaus(byte[][] planMap, int radius)
@@ -162,17 +97,139 @@ public class SettlePlanTest
 		return planMap;
 	}
 
-	private byte[] makeDefaultRow(int radius)
+	/**
+	 * Erstellt eine Stadtplanzeile mit einer Rasternummerierung 0-9
+	 * jeweils von der Mitte nach links und rechts 
+	 * 0 ist die Mitte
+	 *  
+	 * @param radius
+	 * @return
+	 */
+	private char[] makeScaleCols(int radius)
+	{
+		int offset = radius;
+		int len = setRegionLength(radius);
+		char[] row = makeDefaultRow(radius);
+		int index = 0; 
+		char value = '0';
+		for (int i = 0; i < radius; i++)
+		{
+			if (index > 9) { index = 0;}
+			switch(index)
+			{
+			case 1 : value = '1';
+			break;
+			case 2 : value = '2';
+			break;
+			case 3 : value = '3';
+			break;
+			case 4 : value = '4';
+			break;
+			case 5 : value = '5';
+			break;
+			case 6 : value = '6';
+			break;
+			case 7 : value = '7';
+			break;
+			case 8 : value = '8';
+			break;
+			case 9 : value = '9';
+			break;
+			default : 
+				value = '0';
+			}
+			
+			row[radius+i-1] = value;
+			row[radius-i-1] = value; 
+			index++;
+		}
+		return row;
+	}
+
+	
+	/**
+	 * Erstellt eine Stadtplanzeile mite Begrenzung links und rechts
+	 * die anderen Felder sind leer 
+	 * @param radius
+	 * @return
+	 */
+	private char[] makeDefaultRow(int radius)
 	{
 		int len = setRegionLength(radius);
-		byte[] row = new byte[len];
-		int Dice = 15;
-		for (int i = 0; i < row.length; i++)
+		char[] row = new char[len];
+		row[0] = SIDELINE;
+		row[len-1] = SIDELINE;
+		for (int i = 1; i < row.length-1; i++)
 		{
-			int wuerfel = (int) (Math.random()*Dice+1);
-			byte b = (byte) wuerfel;
+			row[i] = SPACE;
+		}
+		return row;
+	}
 
-			row[i] = b;
+	/**
+	 * Erstellt eine Stadtplanzeile als Markierungwaagerechte Begrentzung
+	 * (oben und unten)
+	 * @param radius
+	 * @return
+	 */
+	private char[] makeTopRow(int radius)
+	{
+		int len = setRegionLength(radius);
+		char[] row = new char[len];
+		row[0] = CORNER;
+		row[len-1] = CORNER;
+		for (int i = 1; i < row.length-1; i++)
+		{
+			row[i] = TOPLINE;
+		}
+		return row;
+	}
+
+	/**
+	 * Erstellt eine Stadtplanzeile mit Zentrum Markierung und ROAD Markierung
+	 * waagerecht
+	 * 
+	 * @param radius
+	 * @return
+	 */
+	private char[] makeCenterRow(int radius)
+	{
+		int len = setRegionLength(radius);
+		char[] row =  makeDefaultRow(radius);
+		for (int i = 1; i < row.length-1; i++)
+		{
+			row[i] = ROAD;
+		}
+		row[radius-1] = CENTER;
+		return row;
+	}
+
+	/**
+	 * Erstellt eine Stadtplanzeile mit zentraler Road Markierung
+	 * in den zentralen Spalten
+	 * @param radius
+	 * @return
+	 */
+	private char[] makeRoadRow(int radius)
+	{
+		int len = setRegionLength(radius);
+		char[] row =  makeDefaultRow(radius);
+		row[radius] = ROAD;
+		row[radius-1] = ROAD;
+		row[radius-2] = ROAD;
+		return row;
+	}
+	
+	private char[] makeFullRoadRow(int radius)
+	{
+		int len = setRegionLength(radius);
+		char[] row =  makeDefaultRow(radius);
+		row[radius] = ROAD;
+		row[radius-1] = ROAD;
+		row[radius-2] = ROAD;
+		for (int i = 1; i < row.length-1; i++)
+		{
+			row[i] = ROAD;
 		}
 		return row;
 	}
@@ -184,114 +241,116 @@ public class SettlePlanTest
 	
 		for (int i = 0; i < line; i++)
 		{
-			if (i == radius)
-			{
-				byte[] center = makeDefaultRow(radius);
-				center[radius] = (byte) 255;
-				planMap[i] = center;
-			} else
-			{
-				planMap[i] = makeDefaultRow(radius);
-			}
 		}
 		
 		return planMap;
 	}
 	
-	private String showMapPlan (byte[] mapRow )
+	
+	/**
+	 * Erstellt den Ausdruck eines leeren Stadplans 
+	 * @param radius
+	 * @param name
+	 */
+	private void printPlan(int radius, String name)
 	{
-		String charRow = "";
-		for (int i = 0; i < mapRow.length; i++) 
-		{
-			switch (mapRow[i])
-			{
-			case 1 : charRow = charRow+'S';
-			break;
-			case 2 : charRow = charRow+'G';
-			break;
-			case 3 : charRow = charRow+'D';
-			break;
-			case 7 : charRow = charRow+'B';
-			break;
-			case 8 : charRow = charRow+'w';
-			break;
-			case 12 : charRow = charRow+'s';
-			break;
-			case 13 : charRow = charRow+'G';
-			break;
-			case 14 : charRow = charRow+'g';
-			break;
-			case 15 : charRow = charRow+'i';
-			break;
-			case 16 : charRow = charRow+'c';
-			break;
-			case 17 : charRow = charRow+'L';
-			break;
-			case 18 : charRow = charRow+'l';
-			break;
-			case 24 : charRow = charRow+'T';
-			break;
-			case 31 : charRow = charRow+'g';
-			break;
-			case 56 : charRow = charRow+'d';
-			break;
-			case 110 : charRow = charRow+'M';
-			break;
-			case 85 : charRow = charRow+'#';
-			break;
-			case (byte) 254: charRow = charRow+'.';
-			break;
-			case (byte) 255: charRow = charRow+'X';
-			break;
-			default :
-				charRow = charRow+' ';
-			}
-		}
+		char[] row ;
 		
-		return charRow;
+		System.out.println(name);
+		row = makeScaleCols(radius);
+		System.out.println(row);
+		row = makeTopRow(radius);
+		System.out.println(row);
+		for (int i = 1; i < radius-2; i++)
+		{
+			row = makeRoadRow(radius);
+			System.out.print(row);
+			System.out.println(String.valueOf(39-i));
+		}
+		row = makeFullRoadRow(radius);
+		System.out.print(row);
+		System.out.println(String.valueOf(1));
+		row = makeCenterRow(radius);
+		System.out.print(row);
+		System.out.println(String.valueOf(0));
+		row = makeFullRoadRow(radius);
+		System.out.print(row);
+		System.out.println(String.valueOf(1));
+		for (int i = 2; i < radius-1; i++)
+		{
+			row = makeRoadRow(radius);
+			System.out.print(row);
+			System.out.println(String.valueOf(i));
+		}
+		row = makeTopRow(radius);
+		System.out.println(row);
+		row = makeScaleCols(radius);
+		System.out.println(row);
 	}
 	
+	/**
+	 * Erstellt eine Liste der Settlements aus der Testdatenbank
+	 * @param data
+	 */
+	private void printsettleList(DataTest data)
+	{
+		System.out.println("Settelements ["+data.getSettlements().size()+"]");
+		for (Settlement settle : data.getSettlements().values())
+		{
+			System.out.println(settle.getId()+ ":"+settle.getName()+":"+ ":"+settle.getSettleType().toString());
+		}
+	}
+
+	private void printBuildingList(DataTest data, Settlement settle)
+	{
+		System.out.println("======================================");
+		System.out.println(settle.getId()+ ":"+settle.getName()+":"+ ":"+settle.getSettleType().toString());
+		for (Building building : data.getBuildings().values())
+		{
+			if (building.getSettleId()==settle.getId())
+			{
+				System.out.println(building.getId()+ ":"+building.getHsRegionType()+":"+ ":"+building.getHsRegion());
+			}
+		}
+	}
+	
+	private Poit getPosition(Settlement settle, Building building )
+	{
+	  Point point = new Point();	
+	  
+	  int dx = 1;
+	  int dy = 1;
+	  
+	  return point;
+	}
+	
+	/**
+	 * Erstellt einen Stadplan fuer ein Settlement
+	 * Die Gebaeude weren als Grundriss (Quadratisch) dargestellt.
+	 * Das Zentrum und das zentrale Strassenkreuz werden markiert.
+	 */
 	@Test
 	public void test()
 	{
-		int radius = 32; 
-		int sektor = 2;
-		String name = "NewHaven";
-		byte[][] mapPlan = makeDefaultMapPlan(radius);
-		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Realms";
+		DataTest testData = new DataTest(); //logTest);
+		String path = "\\GIT\\OwnPlugins\\Realms\\plugins\\Stronghold";
+        File regionFolder = new File(path, "RegionConfig");
+        if (!regionFolder.exists()) {
+        	System.out.println("Folder not found !");
+            return;
+        }
+		int radius = 40; 
+		String name = "HAMLET";
+		int settleId = 3;
 		
+		Settlement settle = testData.getSettlements().getSettlement(settleId);
+
+		printsettleList(testData);		
+		printBuildingList(testData, settle);
+//		printPlan(radius, name);
 		
+	}		
 
-		setDefaultHaupthaus(mapPlan, radius);
-		for (int i = 0; i < setRegionLength(radius); i++)
-		{
-			System.out.println("|"+showMapPlan(mapPlan[i])+"|");
-		}
-		System.out.println("Write File : "+name);
-		PlanMap.writePlanData(name, radius, mapPlan, path, sektor);
-		System.out.println("Clear Plan Data : ");
-		for (int i = 0; i < setRegionLength(radius); i++)
-		{
-			for (int j = 0; j < setRegionLength(radius); j++)
-			{
-				mapPlan[i][j] = 0;
-			}
-		}
-
-		System.out.println("Read File : "+name);
-		PlanMap planMap = PlanMap.readPlanMap(path, name, sektor);
-//		mapPlan = planMap.getPlan();
-		if (mapPlan == null)
-		{
-			System.out.println("Error Read File : "+name);
-		} else
-		{
-			for (int i = 0; i < setRegionLength(radius); i++)
-			{
-				System.out.println(i+" |"+ConfigBasis.showPlanValue(mapPlan[i])+"|");
-			}
-		}
-	}
 
 
 }
