@@ -419,6 +419,33 @@ public abstract class aRealmsCommand implements iRealmsCommand
 		return true;
 	}
 
+	public boolean isLehenOwner(Realms plugin, CommandSender sender, int lehenID)
+	{
+		if (isOpOrAdmin(sender))
+		{
+			return true;
+		}
+		Lehen lehen = plugin.getData().getLehen().getLehen(lehenID);
+		if (lehen == null)
+		{
+			errorMsg.add("Lehen NOT not found:"+lehenID);
+			return false;
+		}
+//		if (settle.getOwnerId() == "")
+//		{
+//			return true;
+//		}
+		Player player = (Player) sender;
+		Owner owner = plugin.getData().getOwners().getOwner(player.getUniqueId().toString()); 
+		if (owner.getId() != lehen.getOwnerId())
+		{
+			errorMsg.add("You are NOT the owner of the Lehen !");
+			return false;
+		}
+		
+		return true;
+	}
+	
 	protected boolean isRegimentOwner(Realms plugin, CommandSender sender, int regID)
 	{
 		if (isOpOrAdmin(sender))

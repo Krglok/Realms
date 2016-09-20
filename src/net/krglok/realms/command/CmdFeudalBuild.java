@@ -42,7 +42,7 @@ public class CmdFeudalBuild extends aRealmsCommand
 		    	"Create a new Building {BUILDING_TYPE}  ",
 		    	"at your current position " +
 		    	"the ID is the Lehen Id, the ID must valid ",
-		    	"the command create the HeroStronghold region ",
+		    	"the command create the Stronghold region ",
 		    	"and a building for Realms ",
 		    	"You must fullfil the requirements ",
 		    	"You must pay the building cost ",
@@ -162,8 +162,8 @@ public class CmdFeudalBuild extends aRealmsCommand
 		double cost = plugin.getServerData().getRegionTypeCost(buildName);
 		plugin.economy.withdrawPlayer(ownerName, cost);
 		Building building = new Building(bType, region.getID(), iLoc,0, lehenId);
-		plugin.getRealmModel().getBuildings().addBuilding(building);
-		plugin.getRealmModel().getData().writeBuilding(building);
+		plugin.getData().getBuildings().addBuilding(building);
+		plugin.getData().writeBuilding(building);
 		
 		if (lehenId != 0)
 		{
@@ -215,13 +215,13 @@ public class CmdFeudalBuild extends aRealmsCommand
 	{
 		if (lehenId > 0)
 		{
-			if (plugin.getRealmModel().getSettlements().containsID(lehenId) == false)
+			if (plugin.getData().getLehen().containsKey(lehenId) == false)
 			{
-				errorMsg.add(ChatColor.RED+"Wrong Settlement ID !");
+				errorMsg.add(ChatColor.RED+"Wrong Lehen ID !");
 				errorMsg.add(getDescription()[0]);
 				return false;
 			}
-			if (isSettleOwner(plugin, sender, lehenId) == false)
+			if (isLehenOwner(plugin, sender, lehenId) == false)
 			{
 				errorMsg.add("ChatColor.RED+You are not the Owner !");
 				errorMsg.add(" ");
@@ -239,8 +239,6 @@ public class CmdFeudalBuild extends aRealmsCommand
 		if (bType == BuildPlanType.NONE)
 		{
 			errorMsg.add(ChatColor.RED+"Wrong BuildPlanType !");
-			errorMsg.add(ChatColor.RED+"NoName Default = WHEAT ");
-			errorMsg.add(getDescription()[0]);
 			return false;
 		}
 
@@ -255,7 +253,7 @@ public class CmdFeudalBuild extends aRealmsCommand
 			} else
 			{
 				errorMsg.add(ChatColor.RED+"Wrong BuildPlanType !");
-				errorMsg.add(ChatColor.RED+"Settlement buildings not allowed ");
+				errorMsg.add(ChatColor.RED+"Only Lehen or Military buildings allowed ");
 				return false;
 			}
 		}

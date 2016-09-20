@@ -1301,7 +1301,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 					&& (BuildPlanType.getBuildGroup(building.getBuildingType())> ConfigBasis.BUILDPLAN_GROUP_HOME)
 					)
 				{
-					this.msg.add(building.getBuildingType().name()+":"+building.getId()+" MaxTRain : "+building.getMaxTrain());
+					this.msg.add(building.getBuildingType().name()+":"+building.getId()+" MaxTrain : "+building.getMaxTrain());
 					// loesche letzte Message
 					building.getMsg().clear();
 					// setze defaultBiome auf Settlement Biome 

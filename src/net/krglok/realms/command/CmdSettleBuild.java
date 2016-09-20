@@ -224,7 +224,7 @@ public class CmdSettleBuild extends aRealmsCommand
 	{
 		if (settleId > 0)
 		{
-			if (plugin.getRealmModel().getSettlements().containsID(settleId) == false)
+			if (plugin.getData().getSettlements().containsID(settleId) == false)
 			{
 				errorMsg.add(ChatColor.RED+"Wrong Settlement ID !");
 				errorMsg.add(getDescription()[0]);

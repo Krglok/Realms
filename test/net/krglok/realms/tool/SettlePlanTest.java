@@ -314,7 +314,7 @@ public class SettlePlanTest
 		}
 	}
 	
-	private Poit getPosition(Settlement settle, Building building )
+	private Point getPosition(Settlement settle, Building building )
 	{
 	  Point point = new Point();	
 	  
