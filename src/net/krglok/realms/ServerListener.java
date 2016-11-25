@@ -1798,7 +1798,7 @@ public class ServerListener implements Listener
 				{
 					sign.setLine(1, String.valueOf(building.getTrainType().name()));
 					sign.update();
-					// incresase maxTrain start training process
+					// increase maxTrain start training process
 					building.addMaxTrain(1);
 					plugin.getData().writeBuilding(building);
 					msg.add("Lehen ["+lehen.getId()+"] : "

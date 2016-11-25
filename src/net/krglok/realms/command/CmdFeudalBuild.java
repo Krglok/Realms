@@ -115,7 +115,7 @@ public class CmdFeudalBuild extends aRealmsCommand
 			plugin.getMessageData().printPage(sender, msg, 1);
 			return;
 		}
-		System.out.println("SettleCommand : Builder");
+		System.out.println("LehenCommand : Builder");
 		ArrayList<String> owners = new ArrayList<String>();
 		owners.add(ownerName);
 		bType = BuildPlanType.valueOf(buildName);
@@ -161,6 +161,7 @@ public class CmdFeudalBuild extends aRealmsCommand
 		}
 		double cost = plugin.getServerData().getRegionTypeCost(buildName);
 		plugin.economy.withdrawPlayer(ownerName, cost);
+		//Building(BuildPlanType buildingType,	int hsRegion, LocationData position,int settleId, int lehenId)
 		Building building = new Building(bType, region.getID(), iLoc,0, lehenId);
 		plugin.getData().getBuildings().addBuilding(building);
 		plugin.getData().writeBuilding(building);

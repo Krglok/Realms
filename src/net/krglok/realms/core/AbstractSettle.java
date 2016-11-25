@@ -679,6 +679,7 @@ public abstract class AbstractSettle
 					} else
 					{
 						building.getMsg().add(this.settleType+" No Traning Start, missing Rookie :"+id+":"+building.getId());
+						System.out.println(this.settleType+" No Traning Start, missing Rookie :"+id+":"+building.getId());
 					}
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
 				} else

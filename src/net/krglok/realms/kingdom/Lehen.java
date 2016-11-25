@@ -409,7 +409,7 @@ public class Lehen  extends AbstractSettle
 		// is Sunday get Resources from settlement
 		if (day == 0)
 		{
-			this.msg.add("Day 0 = Tribut einforndern kein Production");
+			this.msg.add("Day 0 = Tribut einfordern keine Production");
 			warehouse.setStoreCapacity();
 //			System.out.println("Produce Lehen : "+ this.id+" : "+supportId);
 			// supporter material abholen, damit wird der Bedarf gedeckt
@@ -436,6 +436,7 @@ public class Lehen  extends AbstractSettle
 				if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
 				{
 					this.msg.add(building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
+					System.out.println("Lehen :"+this.id+" : "+building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
 		
 //					if (building.isEnabled())
 					{
@@ -470,7 +471,7 @@ public class Lehen  extends AbstractSettle
 				{
 					switch(building.getBuildingType())
 					{
-					case GUARDHOUSE:
+					case GUARDHOUSE: // Training fullfiled
 						if (building.isTrainReady())
 						{
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
@@ -494,7 +495,7 @@ public class Lehen  extends AbstractSettle
 //							System.out.println("Train NOT Ready ["+building.getId()+"] "+building.getTrainCounter()+":"+building.getTrainTime());
 						}
 						break;
-					case ARCHERY:
+					case ARCHERY: // Training fullfiled
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
@@ -517,7 +518,7 @@ public class Lehen  extends AbstractSettle
 						{
 						}
 						break;
-					case BARRACK:
+					case BARRACK: // Training fullfiled
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
@@ -540,7 +541,7 @@ public class Lehen  extends AbstractSettle
 						{
 						}
 						break;
-					case CASERN:
+					case CASERN: // Training fullfiled
 						if (building.isTrainReady())
 						{
 //						System.out.println("GUARD " +item.ItemRef()+":"+item.value()+"*"+prodFactor);
