@@ -1,21 +1,13 @@
-#------------------#
+# 
 # General Settings #
-#------------------#
-# updatecheck, check for new version and give a message to the server console #
-updatecheck: false
-# autoupdate, is not implemented now and should always false #
+updatecheck: true
 autoupdate: false
-# logList, if true all production and orders and happiness on every production cycle will be stored
-# new option for protokoll files 
-# logList, if true all production and orders and happiness on every production cycle will be stored
-loglist: false 
-plugin_name: "Realms"
-plugin_ver : "0.8.4"
+loglist: false
+plugin_name: Realms
+plugin_ver: 0.9.0
 realmCounter: 0
 settlementCounter: 0
 buildingCounter: 0
-realmCounter: 0
-settlementCounter: 0
-buildingCounter: 0
+spawnAnimal: false;
+trackPlayer: true;
 initBuildingPos: false
-

@@ -113,6 +113,8 @@ public class McmdHireSettler implements iModelCommand
 		}
 		npc.setSettleId(0);
 		npc.setLehenId(lehenId);
+		npc.setHomeBuilding(0);
+		npc.setWorkBuilding(0);
 		settle.getResident().setNpcList(rModel.getData().getNpcs().getSubListSettle(settleId));
 		lehen.getResident().getNpcList().add(npc);
 		System.out.println("[REALMS] HIRE Npc "+npc.getId()+" to Lehen "+lehenId+" from "+settleId);

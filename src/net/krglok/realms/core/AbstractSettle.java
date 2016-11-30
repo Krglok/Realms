@@ -648,6 +648,7 @@ public abstract class AbstractSettle
 				if (building.getTrainCounter() == 0)
 				{
 					// new training start
+					System.out.println(this.settleType+" Find Recrute :"+id+":"+building.getId());
 					NpcData recrute = resident.findRecrute();
 					if (recrute != null)
 					{
@@ -674,7 +675,8 @@ public abstract class AbstractSettle
 							data.writeNpc(recrute);
 						} else
 						{
-							building.getMsg().add(this.settleType+"No Traning Start due to Stock");
+							building.getMsg().add(this.settleType+"No traning start due to missing Stock");
+							System.out.println(this.settleType+" No traning start due to missing Stock:"+id+":"+building.getId());
 						}
 					} else
 					{

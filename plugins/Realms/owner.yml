@@ -1,60 +1,6 @@
 OWNER:
   '0':
     id: 0
-    uuid: NPC0
-    nobleLevel: COMMONER
-    commonLevel: MAYOR
-    capital: 0
-    playerName: NPC0
-    realmId: 0
-    isNPC: true
-    Achivement:
-      BOOK_TECH4: 'true'
-      BOOK_TECH0: 'true'
-      BOOK_TECH1: 'true'
-      BOOK_TECH2: 'true'
-      BOOK_TECH3: 'true'
-  '1':
-    id: 1
-    uuid: 51bde8b9-bad8-4461-a375-7b0438c98271
-    nobleLevel: COMMONER
-    commonLevel: SETTLER
-    capital: 0
-    playerName: dradmin
-    realmId: 0
-    isNPC: false
-    sales: 0.0
-    isUser: true
-    lastPosition: Location{world=CraftWorld{name=DRASKORIA},x=3252.770655309616,y=78.0,z=-1054.470681459302,pitch=4.7999415,yaw=-1.5021973}
-    firstLogin: 01-16-2015::04:41:14 PM
-    lastLogin: 01-21-2016::06:38:44 PM
-    lastLogOff: 01-21-2016::06:51:36 PM
-    Achivement:
-      BUILD_TECH6: 'true'
-      BUILD_SHEPHERD: 'true'
-      BUILD_CABINETMAKER: 'true'
-      BOOK_TECH4: 'true'
-      BOOK_TECH5: 'true'
-      BUILD_KNIFESHOP: 'true'
-      BUILD_TANNERY: 'true'
-      BUILD_WORKSHOP: 'true'
-      BOOK_TECH0: 'true'
-      BUILD_WHEAT: 'true'
-      BOOK_TECH1: 'true'
-      BUILD_GUARDHOUSE: 'true'
-      BOOK_TECH2: 'true'
-      BOOK_TECH3: 'true'
-      BUILD_KEEP: 'true'
-      BUILD_QUARRY: 'true'
-      BUILD_HOESHOP: 'true'
-      BUILD_BLACKSMITH: 'true'
-      BUILD_STRONGHOLD: 'true'
-      BUILD_CARPENTER: 'true'
-      BUILD_TECH7: 'true'
-      BUILD_BAKERY: 'true'
-      BOOK_HALL: 'true'
-  '2':
-    id: 2
     uuid: NONE
     nobleLevel: COMMONER
     commonLevel: MAYOR
@@ -63,9 +9,400 @@ OWNER:
     realmId: 0
     isNPC: true
     sales: 0.0
+    isUser: false
     Achivement:
       BOOK_TECH4: 'true'
-      BOOK_TECH0: 'true'
-      BOOK_TECH1: 'true'
       BOOK_TECH2: 'true'
       BOOK_TECH3: 'true'
+      BOOK_TECH0: 'true'
+      BOOK_TECH1: 'true'
+  '1':
+    id: 1
+    uuid: 51bde8b9-bad8-4461-a375-7b0438c98271
+    nobleLevel: COMMONER
+    commonLevel: SENATOR
+    capital: 0
+    playerName: dradmin
+    realmId: 0
+    isNPC: false
+    sales: 3.3999999999999995
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=-74.30000001192093,y=83.0,z=38.30000001192093,pitch=14.099987,yaw=230.10028}
+    firstLogin: 03-05-2016::07:24:45 AM
+    lastLogin: 11-23-2016::09:47:15 PM
+    lastLogOff: 11-23-2016::10:04:34 PM
+    Achivement:
+      BUILD_SMALLIBRARY: 'true'
+      BUILD_KEEP: 'true'
+      BUILD_PARISHHOUSE: 'true'
+      BUILD_CHURCH: 'true'
+      BUILD_TECH7: 'true'
+      BUILD_CABIN: 'true'
+      BUILD_TECH2: 'true'
+      BOOK_TECH5: 'true'
+      BUILD_TECH4: 'true'
+      BUILD_TECH3: 'true'
+      BUILD_TECH6: 'true'
+      BUILD_HALL: 'true'
+      BUILD_WOODCUTTER: 'true'
+      BUILD_STRONGHOLD: 'true'
+      BUILD_CABINETMAKER: 'true'
+      BOOK_TECH0: 'true'
+      BUILD_FIELD: 'true'
+      BOOK_TECH1: 'true'
+      BUILD_TANNERY: 'true'
+      BUILD_VTECH1: 'true'
+      BUILD_BUTCHER: 'true'
+      BUILD_VTECH0: 'true'
+      BUILD_HOME: 'true'
+      BUILD_BLACKSMITH: 'true'
+      BUILD_WHEAT: 'true'
+      BUILD_WELL: 'true'
+      BUILD_GUARDHOUSE: 'true'
+      BUILD_LARGEHOUSE: 'true'
+  '2':
+    id: 2
+    uuid: de82315b-58b1-4ad6-becc-2a96ba2faf32
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Krglok
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=-551.1461143536949,y=63.0,z=-64.71944955037233,pitch=4.737901,yaw=52.24176}
+    firstLogin: 03-05-2016::11:26:22 AM
+    lastLogin: 09-15-2016::08:29:28 PM
+    lastLogOff: 09-15-2016::08:31:14 PM
+    Achivement:
+      BUILD_TECH1: 'true'
+      BOOK_TECH0: 'true'
+      BUILD_HOME: 'true'
+  '3':
+    id: 3
+    uuid: 9c5d87ef-5c2b-4679-ad01-707598769689
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: HansDerBaertige
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=21.3802467999509,y=77.0,z=9.69542593281254,pitch=-2.2499971,yaw=56.550533}
+    firstLogin: 03-27-2016::11:54:18 AM
+    lastLogin: 03-27-2016::11:54:18 AM
+    lastLogOff: 03-27-2016::11:58:05 AM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '4':
+    id: 4
+    uuid: 25d4c119-0fe4-4a1c-bbfb-ca1dd7d2e8c9
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: B3atzGaming
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=-31.332016620157255,y=76.0,z=-69.13967584413406,pitch=38.38216,yaw=-185.88008}
+    firstLogin: 04-04-2016::07:05:03 PM
+    lastLogin: 04-04-2016::07:05:03 PM
+    lastLogOff: 04-04-2016::07:15:04 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '5':
+    id: 5
+    uuid: 6a4803b1-aa20-4f46-aac8-0b8c875e4725
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: MoritzSteinke
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=233.69999998807904,y=64.0,z=-100.95695882641118,pitch=4.4999576,yaw=-52.500153}
+    firstLogin: 04-04-2016::07:07:09 PM
+    lastLogin: 04-07-2016::08:51:25 PM
+    lastLogOff: 04-07-2016::08:51:29 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '6':
+    id: 6
+    uuid: 10cbc67f-27c5-3567-b9cb-190bf1cd62fb
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: andrew3085
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=23.863435707233094,y=63.0,z=-105.3064233319892,pitch=28.067446,yaw=269.67294}
+    firstLogin: 04-15-2016::06:19:41 AM
+    lastLogin: 04-15-2016::06:19:41 AM
+    lastLogOff: 04-15-2016::06:21:26 AM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '7':
+    id: 7
+    uuid: c3336eba-945d-30c7-b899-f3e3afb801ff
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: TristanMoon
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=-97.30000001192093,y=68.0,z=-21.30000001192093,pitch=7.35001,yaw=-253.64558}
+    firstLogin: 04-17-2016::08:35:13 PM
+    lastLogin: 04-17-2016::08:39:39 PM
+    lastLogOff: 04-17-2016::08:49:26 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '8':
+    id: 8
+    uuid: 6b235d51-820e-4b04-b18b-17e408a31a0d
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Frozem12
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=-12.5,y=64.0,z=-9.5,pitch=7.6500163,yaw=201.15015}
+    firstLogin: 04-18-2016::08:30:05 PM
+    lastLogin: 04-18-2016::09:52:51 PM
+    lastLogOff: 04-18-2016::09:59:42 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '9':
+    id: 9
+    uuid: 79aef70f-2757-4a01-b4ef-f739efaa9352
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: TheAlfaTurkey
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=755.4865028761245,y=69.0,z=-763.7796507365092,pitch=16.200014,yaw=98.70093}
+    firstLogin: 04-30-2016::04:05:07 AM
+    lastLogin: 05-03-2016::10:30:36 PM
+    lastLogOff: 05-03-2016::11:31:01 PM
+    Achivement:
+      BUILD_VTECH0: 'true'
+      BUILD_VTECH1: 'true'
+      BUILD_WOODCUTTER: 'true'
+      BOOK_TECH0: 'true'
+      BUILD_HOME: 'true'
+  '10':
+    id: 10
+    uuid: c0e51e5e-b457-467c-a092-c717596bf3f2
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Dylpyckles20
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=-12.5,y=64.0,z=-9.5,pitch=18.450012,yaw=146.54993}
+    firstLogin: 04-30-2016::04:22:36 AM
+    lastLogin: 04-30-2016::04:22:36 AM
+    lastLogOff: 04-30-2016::04:36:39 AM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '11':
+    id: 11
+    uuid: 7cf07dc0-aa70-4b63-a1bd-c20c88378f48
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: _Soulless_
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=-12.5,y=64.0,z=-9.5,pitch=11.550014,yaw=188.09973}
+    firstLogin: 04-30-2016::04:26:46 AM
+    lastLogin: 04-30-2016::04:26:46 AM
+    lastLogOff: 04-30-2016::04:36:06 AM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '12':
+    id: 12
+    uuid: 1d3dfc79-dbed-4a0b-bed8-6b0a11fbbc3f
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Draskoria
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=3.8684506962779186,y=64.0,z=-10.523558249790863,pitch=21.749996,yaw=42.450016}
+    firstLogin: 04-30-2016::06:56:14 AM
+    lastLogin: 04-30-2016::06:56:14 AM
+    lastLogOff: 04-30-2016::06:57:09 AM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '13':
+    id: 13
+    uuid: 495cdd72-4a4a-4fc4-856a-883fd54334b1
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: Mega_Gamer2138
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=751.2834867818889,y=70.0,z=-851.3988550036767,pitch=46.19998,yaw=113.23993}
+    firstLogin: 04-30-2016::05:14:39 PM
+    lastLogin: 04-30-2016::05:30:51 PM
+    lastLogOff: 04-30-2016::06:50:48 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '14':
+    id: 14
+    uuid: e0c38130-d622-42ce-9567-46fa1720af03
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: TheRealBashTV
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=756.2820286885453,y=71.5,z=-763.1628723314188,pitch=28.649954,yaw=-79.5083}
+    firstLogin: 04-30-2016::05:16:04 PM
+    lastLogin: 04-30-2016::05:21:36 PM
+    lastLogOff: 04-30-2016::05:50:44 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '15':
+    id: 15
+    uuid: 438b7c9d-5ca8-47cf-a580-60da3f5c3307
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: JDC01
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=92.86185798081809,y=87.0,z=-444.088388709922,pitch=-4.050028,yaw=-141.1681}
+    firstLogin: 04-30-2016::05:24:45 PM
+    lastLogin: 05-04-2016::07:13:03 PM
+    lastLogOff: 05-04-2016::07:13:31 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '16':
+    id: 16
+    uuid: 36c74cc4-7346-4376-9b19-b3b54b2a2f41
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: werff
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=161.92121128360068,y=68.0,z=-45.604401961468845,pitch=26.100027,yaw=266.24896}
+    firstLogin: 05-07-2016::04:34:32 PM
+    lastLogin: 06-09-2016::06:27:16 PM
+    lastLogOff: 06-09-2016::06:29:30 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '17':
+    id: 17
+    uuid: 6a9ad595-f56e-4662-bdce-fd7dc9498799
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: SlimeEmperor
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=-12.5,y=64.0,z=-9.5,pitch=36.6,yaw=191.25012}
+    firstLogin: 05-23-2016::07:01:20 PM
+    lastLogin: 05-23-2016::07:01:20 PM
+    lastLogOff: 05-23-2016::07:02:19 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '18':
+    id: 18
+    uuid: cfb7d879-4a66-4694-a64e-fb784406c1e1
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: sebbra
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=LargeWorld},x=60.96366446584526,y=75.0,z=88.73616310034133,pitch=11.400078,yaw=291.598}
+    firstLogin: 05-29-2016::01:00:45 PM
+    lastLogin: 05-29-2016::03:54:37 PM
+    lastLogOff: 05-29-2016::07:09:59 PM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '19':
+    id: 19
+    uuid: 6b92b3f5-1b7d-4b14-b81c-e11f9fc79b17
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: finalchild
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Lobby},x=276.6999999880791,y=73.0,z=-71.71046281495771,pitch=6.600043,yaw=-88.50006}
+    firstLogin: 06-27-2016::10:59:13 AM
+    lastLogin: 06-27-2016::10:59:13 AM
+    lastLogOff: 06-27-2016::11:02:37 AM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '20':
+    id: 20
+    uuid: ed3eaf68-14fe-4787-9c75-e749fd43431c
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: WUMBO123
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=-515.7610768382981,y=77.6000000178814,z=-298.25045737136236,pitch=9.900044,yaw=-3.2800293}
+    firstLogin: 07-29-2016::02:47:36 AM
+    lastLogin: 07-29-2016::02:47:36 AM
+    lastLogOff: 07-29-2016::02:53:52 AM
+    Achivement:
+      BOOK_TECH0: 'true'
+  '21':
+    id: 21
+    uuid: 323e263e-636e-41cd-bfe0-333119d03299
+    nobleLevel: COMMONER
+    commonLevel: COLONIST
+    capital: 0
+    playerName: science_of_craft
+    realmId: 0
+    isNPC: false
+    sales: 0.0
+    isUser: true
+    lastPosition: Location{world=CraftWorld{name=Realms},x=5.5,y=71.0,z=-0.5,pitch=0.0,yaw=0.0}
+    firstLogin: 10-14-2016::10:01:01 PM
+    lastLogin: 10-14-2016::10:01:01 PM
+    lastLogOff: 10-14-2016::10:14:29 PM
+    Achivement:
+      BOOK_TECH0: 'true'

@@ -3,6 +3,7 @@ package net.krglok.realms.kingdom;
 import net.krglok.realms.Common.Bank;
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
+import net.krglok.realms.Common.ItemPriceList;
 import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.builder.BuildPlanType;
 import net.krglok.realms.core.AbstractSettle;
@@ -93,6 +94,7 @@ public class Lehen  extends AbstractSettle
 		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
 		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
 		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		this.resident.setSettlerMax(ConfigBasis.defaultUnitMax(settleType));
 		trader = new Trader();
 		lehenManager = new LehenManager ();
 		tradeManager = new TradeManager();
@@ -129,6 +131,7 @@ public class Lehen  extends AbstractSettle
 		this.warehouse.setItemMax(ConfigBasis.defaultItemMax(settleType));
 		this.barrack.setUnitMax(ConfigBasis.defaultUnitMax(settleType));
 		this.barrack.setPowerMax(ConfigBasis.defaultPowerMax(settleType));
+		this.resident.setSettlerMax(ConfigBasis.defaultUnitMax(settleType));
 		trader = new Trader();
 		lehenManager = new LehenManager ();
 		tradeManager = new TradeManager();
@@ -320,6 +323,21 @@ public class Lehen  extends AbstractSettle
 		return true;
 	}
 
+	public void initLehen(ItemPriceList priceList)
+	{
+		int settlerMax = ConfigBasis.defaultUnitMax(settleType);
+		for (Building building : buildingList.values())
+		{
+			if (building.isEnabled())
+			{
+				settlerMax = settlerMax + building.getSettler();
+			}
+		}
+		resident.setSettlerMax(settlerMax);
+		warehouse.setItemMax(ConfigBasis.calcItemMax( buildingList, settleType));
+		tradeManager.setPriceList(priceList);
+	}
+	
 	/**
 	 * do the happy for the lehen
 	 * that is in major the supply of the resident and the units
