@@ -717,6 +717,11 @@ public class ServerListener implements Listener
 	    			cmdBuildat(event, b);
 	    			return;
 	    		}
+	    		if (l0.contains("[BUILDLEHEN]"))
+	    		{
+	    			cmdBuildlehen(event, b);
+	    			return;
+	    		}
 	    		// other signpost Commands
 	    		cmdSignPost(event, b);
 	    		return;
@@ -1123,6 +1128,71 @@ public class ServerListener implements Listener
 	    	return false;
 		}
     }
+
+
+    private boolean buildAtLehen(Location pos, String name, Player player, ArrayList<String> msg,String l2)
+    {
+    	Lehen lehen = null;
+    	LocationData iLoc = null;
+    	int lehenId = 0;
+    	try
+		{
+    		lehenId = Integer.valueOf(l2);
+		} catch (Exception e)
+		{
+			lehenId = 0;
+		}
+    	if (lehenId > 0)
+    	{
+    		lehen = plugin.getData().getLehen().getLehen(lehenId);
+	    	System.out.println("[REALMS] Found By lehenID "+lehenId);
+    	} else
+    	{
+			System.out.println("[REALMS] Lehen not Found "+lehen.getId());
+//			String sRegion = findSuperRegionAtLocation(plugin, player); 
+//			lehen = plugin.getData().getLehen().findName(sRegion);
+//			if (lehen != null)
+//			{
+//				System.out.println("[REALMS] Found By Location  "+lehen.getId());
+//			}
+    	}
+		iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY(), pos.getZ()+1);
+		if (lehen != null)
+		{
+			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
+			{
+//				BuildPlanMap buildPLan = plugin.getRealmModel().getData().readTMXBuildPlan(BuildPlanType.getBuildPlanType(name), 4, -1);
+				if (checkBuildLehen(pos, name, player, msg,lehen))
+				{
+					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
+					McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), lehen.getId(), bType, iLoc,player);
+					plugin.getRealmModel().OnCommand(modelCommand);
+			    	System.out.println("[REALMS] BUILD "+bType.name()+" in "+lehen.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
+			    	msg.add(ChatColor.GREEN+"BUILD "+bType.name()+" in "+lehen.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
+			    	msg.add(" ");
+			    	return true;
+				} else
+				{
+			    	msg.add(" ");
+			    	msg.add(ChatColor.RED+"Above material is not available");
+			    	msg.add("Give Items to warehouse ! ");
+			    	msg.add(" ");
+					return false;
+				}
+			} else
+			{
+		    	msg.add(ChatColor.RED+"No buildPlan set in Line 1");
+		    	msg.add(" ");
+		    	return false;
+			}
+		} else
+		{
+	    	msg.add("ChatColor.RED+Not in Range of a Lehen ");
+	    	msg.add(" ");
+	    	return false;
+		}
+    }
+    
     
     private boolean checkBuild(Location pos, String name, Player player, ArrayList<String> msg, Settlement settle)
     {
@@ -1161,6 +1231,45 @@ public class ServerListener implements Listener
 		}
     }
 
+    
+    private boolean checkBuildLehen(Location pos, String name, Player player, ArrayList<String> msg, Lehen lehen)
+    {
+//		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
+//		String sRegion = findSuperRegionAtLocation(plugin, player); 
+//		Settlement settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		ItemList needMat = new ItemList();
+		if (lehen != null)
+		{
+			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
+			{
+				BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
+				needMat = lehen.lehenManager().checkBuildingMaterials(plugin.getRealmModel(), lehen, bType);
+				if (needMat.isEmpty())
+				{
+					return true;
+				} else
+				{
+					for (Item item : needMat.values())
+					{
+						msg.add(item.ItemRef()+":"+item.value());
+					}
+			    	return false;
+				}
+			} else
+			{
+		    	msg.add("No BuildPlan set in Line 1");
+		    	msg.add(" ");
+		    	return false;
+			}
+		} else
+		{
+	    	msg.add("Not in Range of a Settlement ");
+	    	msg.add(" ");
+	    	return false;
+		}
+    }
+    
+    
     private boolean checkAt(Location pos, String name, Player player, ArrayList<String> msg, String l2)
     {
 //		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
@@ -1213,6 +1322,58 @@ public class ServerListener implements Listener
 		}
     }
 
+    private boolean checkAtLehen(Location pos, String name, Player player, ArrayList<String> msg, String l2)
+    {
+//		LocationData iLoc = new LocationData(pos.getWorld().getName(), pos.getX(), pos.getY()+1, pos.getZ()+1);
+    	Lehen lehen ;
+    	int lehenId = 0;
+    	try
+		{
+    		lehenId = Integer.valueOf(l2);
+		} catch (Exception e)
+		{
+			lehenId = 0;
+		}
+    	if (lehenId > 0)
+    	{
+    		lehen = plugin.getData().getLehen().getLehen(lehenId);
+    	} else
+    	{
+			String sRegion = findSuperRegionAtLocation(plugin, player); 
+			lehen = plugin.getData().getLehen().findName(sRegion);
+    	}
+//		String sRegion = findSuperRegionAtLocation(plugin, player); 
+//		settle = plugin.getRealmModel().getSettlements().findName(sRegion);
+		if (lehen != null)
+		{
+			if (BuildPlanType.getBuildPlanType(name) != BuildPlanType.NONE)
+			{
+				if (checkBuildLehen(pos, name, player, msg,lehen))
+				{
+					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
+			    	msg.add("Ready to BUILD "+bType.name()+" in "+lehen.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
+			    	msg.add(" ");
+			    	return true;
+				} else
+				{
+			    	msg.add("Some Material not available");
+			    	msg.add("Give Items to warehouse ! ");
+					return false;
+				}
+			} else
+			{
+		    	msg.add("No BuildPlan set in Line 1");
+		    	msg.add(" ");
+		    	return false;
+			}
+		} else
+		{
+	    	msg.add("Not in Range of a Lehen ");
+	    	msg.add(" ");
+	    	return false;
+		}
+    }
+    
     private void  checkSettleChest(InventoryCloseEvent event)
     {
     	Player player = (Player) event.getPlayer();
@@ -2375,7 +2536,7 @@ public class ServerListener implements Listener
     	    		&& (event.getAction() == Action.RIGHT_CLICK_BLOCK)
     	    		)
     	    	{
-	    			System.out.println("BuildAt");
+        			System.out.println("[REALMS] Check Build in Settlement");
 	    			if (buildAt( pos, l1, event.getPlayer(), msg,l2))
 	    			{
 				    	msg.add("Build startet  ");
@@ -2399,6 +2560,59 @@ public class ServerListener implements Listener
 	    	}
 		}
 	}
+
+
+	private void cmdBuildlehen(PlayerInteractEvent event, Block b)
+	{
+    	ArrayList<String> msg = new ArrayList<String>();
+		Sign sign = (Sign) b.getState();
+		sign.getLine(0);
+		String l1 = sign.getLine(1);	// Hold COMMAND
+		String l2 = sign.getLine(2);	// hold the settleId
+//			System.out.println("SignPost");
+		if (l1 != "")
+		{
+			if (l2 == "") {	l2 = "0";	}
+			Location pos = b.getLocation();
+	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
+	    	{
+    			System.out.println("[REALMS] Check Build in Lehen");
+	    		checkAt(pos, l1, event.getPlayer(), msg,l2);
+	    		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+	    		return;
+	    	} else
+	    	{
+	    		// start Build with empty hand on RightClick
+    	    	if (
+    	    		(event.getPlayer().getItemInHand().getType() == Material.AIR)
+    	    		&& (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+    	    		)
+    	    	{
+	    			System.out.println("[REALMS] BuildAt in Lehen");
+	    			if (buildAtLehen( pos, l1, event.getPlayer(), msg,l2))
+	    			{
+				    	msg.add("Build startet in Lehen ");
+				    	msg.add(" ");
+		    			sign.setLine(0, "");
+		    			sign.update();
+	    			} else
+	    			{
+				    	msg.add("Build NOT started : "+l1);
+				    	msg.add(" ");
+	    			}
+	    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+	    			return;
+    	    	} else
+    	    	{
+			    	msg.add("Use empty hand for startup build: "+l1);
+			    	msg.add(" ");
+    	    	}
+    			plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
+    			return;
+	    	}
+		}
+	}
+	
 	
 	/**
 	 * out of order 
