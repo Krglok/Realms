@@ -81,13 +81,13 @@ public class CmdSettleSettler extends aRealmsCommand
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add("Settlement ["+plugin.getRealmModel().getSettlements().getSettlement(settleId).getId()
 				+"] : "+ChatColor.YELLOW+plugin.getRealmModel().getSettlements().getSettlement(settleId).getName());
-		msg.add(ChatColor.YELLOW+"Settler|Job|");
+		msg.add(ChatColor.YELLOW+"Settler|Type|Work|Money");
 		for (NpcData npc : plugin.getData().getSettlements().getSettlement(settleId).getResident().getNpcList().values())
 		{
 			String s = ConfigBasis.setStrright(npc.getId(),4)
-					+"|"+ChatColor.YELLOW+ConfigBasis.setStrleft(npc.getName()+"____________",11)
+					+"|"+ConfigBasis.setStrleft(npc.getName()+"____________",11)
 					+"|"+ChatColor.WHITE+ConfigBasis.setStrleft(npc.getNpcType().name(), 7)
-					+ "|"+ChatColor.YELLOW+ConfigBasis.setStrright(npc.getHomeBuilding(),4)
+					+ "|"+ConfigBasis.setStrright(npc.getHomeBuilding(),4)
 					+ "|"+ChatColor.GREEN+ConfigBasis.setStrright(npc.getWorkBuilding(),4)
 					+ "|"+ChatColor.WHITE+ConfigBasis.setStrformat2(npc.getMoney(),8)
 					;

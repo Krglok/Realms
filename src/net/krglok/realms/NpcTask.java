@@ -290,6 +290,7 @@ public class NpcTask implements Runnable
 		case SOUTH: return BlockFace.SOUTH_WEST;
 		case SOUTH_SOUTH_WEST: return BlockFace.WEST;
 		case WEST: return BlockFace.NORTH_WEST;
+		case NORTH_WEST: return BlockFace.NORTH;
 		default:
 			return BlockFace.NORTH;
 		}

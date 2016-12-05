@@ -136,6 +136,7 @@ public class UnitTask implements Runnable
 		case SOUTH: return BlockFace.SOUTH_WEST;
 		case SOUTH_SOUTH_WEST: return BlockFace.WEST;
 		case WEST: return BlockFace.NORTH_WEST;
+		case NORTH_WEST: return BlockFace.NORTH;
 		default:
 			return BlockFace.NORTH;
 		}
@@ -225,6 +226,70 @@ public class UnitTask implements Runnable
 		}
 		
 	}
+
+
+	private void doMilitiaLehen(NpcData npcData, NPC npc)
+	{
+		Location npcRefpos = plugin.makeLocation(npcData.getLocation());
+	    Location actTarget; // = plugin.makeLocation(npcData.getLocation()); 
+		switch (npcData.getUnitAction())
+		{
+		case NONE:
+//			setHomePosition(npcData,npc);
+			npcData.setUnitAction(UnitAction.IDLE);
+			break;
+		case HOME: // ab 6:00 gehen sie auf GUARD
+		    if ((npcRefpos.getWorld().getTime() >= 0) && (npcRefpos.getWorld().getTime() < 11000))
+			{
+				npcData.setUnitAction(UnitAction.IDLE);
+			}
+			break;
+		case GUARD: // bis 22:00 sind sie auf GUARD
+		    if ((npcRefpos.getWorld().getTime() >= 11000) && (npcRefpos.getWorld().getTime() < 16000))
+			{
+				npcData.setUnitAction(UnitAction.IDLE);
+			}
+		    actTarget = plugin.makeLocation(npcData.getLocation()); 
+		    if (distance2D(npc.getEntity().getLocation(),actTarget) >= WANDER_RANGE)
+		    {
+		    	LocationData newPos = npcData.getLocation();
+		    	if (newPos != null)
+		    	{
+		    		setTarget(npc,newPos);
+		    	}
+		    }
+		    if (distance2D(npc.getEntity().getLocation(),actTarget) <= 2.5)
+		    {
+		    	doWander(npcData, npc);
+		    }
+		    EntityType scanTarget = scanEnemy(npc);
+		    if (scanTarget != null)
+		    {
+		    	plugin.getServer().broadcastMessage("Militia see enemy :"+scanTarget.name());
+		    	scanTarget = null;
+		    }
+			
+			break;
+		case NIGHTWATCH:
+			npcData.setUnitAction(UnitAction.IDLE);
+			break;
+		default:
+			// 7:00 bis 17:00 GUARD für MILITIA
+		    if ((npcRefpos.getWorld().getTime() >= 500) && (npcRefpos.getWorld().getTime() < 11000))
+			{
+				npcData.setUnitAction(UnitAction.GUARD);
+			}
+		    // 17:00 bis 6:00 go home
+		    if ((npcRefpos.getWorld().getTime() > 11000) && (npcRefpos.getWorld().getTime() < 23999))
+			{
+				npcData.setUnitAction(UnitAction.HOME);
+				doHome(npcData,npc);
+			}
+			break;
+		}
+		
+	}
+	
 	
 	private LocationData findHighest10(LocationData position)
 	{
@@ -929,6 +994,7 @@ public class UnitTask implements Runnable
 	    				if (plugin.getData().getSettlements().getSettlement(npcData.getSettleId()) != null)
 	    				{
 	    					b = plugin.getLocationBlock(plugin.getData().getSettlements().getSettlement(npcData.getSettleId()).getPosition());
+							System.out.println("[REALMS] Unit Spawn : Settle "+npcData.getSettleId()+" NPC "+npcData.getId());
 	    				} else
 	    				{
 	    					npcData.setSettleId(0);
@@ -949,6 +1015,25 @@ public class UnitTask implements Runnable
 	    				} else
 	    				{
 	    					npcData.setRegimentId(0);
+	    				}
+	    			}
+	    			if (npcData.getLehenId() > 0)
+	    			{
+	    				if (plugin.getData().getLehen().getLehen(npcData.getLehenId()) != null)
+	    				{
+	    					Building building = plugin.getData().getLehen().getLehen(npcData.getLehenId()).getBuildingList().getLehenCentral();
+	    					if (building != null)
+	    					{
+				    			b = plugin.getLocationBlock(plugin.getData().getBuildings().getBuilding(building.getId()).getPosition());
+				    			if (npcData.getHomeBuilding()==0)
+				    			{
+				    				npcData.setHomeBuilding(building.getId());
+				    			}
+								System.out.println("[REALMS] Unit Spawn : Lehen "+npcData.getLehenId()+" NPC "+npcData.getId());
+	    					}
+	    				} else
+	    				{
+	    					npcData.setLehenId(0);
 	    				}
 	    			}
 	    		}

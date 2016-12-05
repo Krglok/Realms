@@ -552,21 +552,52 @@ public class Resident
 								System.out.println("[REALMS] Beggar "+npc.getId()+" rankup to SETTLER ");
 								npc.setNpcType(NPCType.SETTLER);
 							}
+						} else
+						{
+							// Beggar will go to better settlement
+							// Beggar Transfer
+							for (int i = 1; i < data.getSettlements().count()-1; i++)
+							{
+								Settlement newSettle = data.getSettlements().getSettlement(i); 
+								int oldSettleId = npc.getSettleId();
+								Settlement oldSettle = data.getSettlements().getSettlement(oldSettleId); 
+								if (newSettle.getTownhall().getWorkerNeeded()>0)
+								{
+									if (newSettle.getBank().getKonto() > ConfigBasis.ADULT_MONEY)
+									{
+										if (newSettle.getResident().getSettlerMax()>newSettle.getResident().getSettlerCount())
+										{ 
+											npc.setSettleId(newSettle.getId());
+											npc.setHomeBuilding(0);
+											npc.setWorkBuilding(0);
+											npc.setMoney(ConfigBasis.ADULT_MONEY);
+											data.writeNpc(npc);
+											newSettle.getBank().withdrawKonto(ConfigBasis.ADULT_MONEY, "Beggar transfer", newSettle.getId());
+											oldSettle.getResident().setNpcList(data.getNpcs().getSubListSettle(oldSettleId));
+											newSettle.getResident().setNpcList(data.getNpcs().getSubListSettle(oldSettleId));
+										}
+									}
+								}
+							}
 						}
 					}
 				}
+				// Turn child to adult
 				if (npc.isChild())
 				{
-					if (npc.getAge() >= 14)
+					if (npc.getAgeDay() >= ConfigBasis.BREED_ADULT)  //getAge() >= 14)
 					{
-						System.out.println("[REALMS] Child "+npc.getId()+" Growing to Settler with age "+npc.getAge());
+						npc.setAgeDay(ConfigBasis.ADULT_AGE);	// set the Adult age
+						System.out.println("[REALMS] Child "+npc.getId()+" Growing to Adult with age "+npc.getAge());
 						npc.setNpcType(NPCType.SETTLER);
-						npc.depositMoney(10.0);
+						if (npc.getMoney()> 10)
+						{
+							data.getSettlements().getSettlement(npc.getSettleId()).getBank().depositKonto(npc.getMoney(), "Adult money", npc.getSettleId());
+						}
+						npc.setMoney(ConfigBasis.ADULT_MONEY);
+						data.writeNpc(npc);
+						data.getSettlements().getSettlement(npc.getSettleId()).getBank().withdrawKonto(ConfigBasis.ADULT_MONEY, "Adult money", npc.getSettleId());
 					}
-				}
-				if (npc.getId() == 2)
-				{
-					System.out.println("[REALMS] Schwanger "+npc.getId()+":"+npc.getSchwanger());
 				}
 				if (npc.isSchwanger())
 				{
@@ -661,6 +692,8 @@ public class Resident
 			npc.setName(npc.getName()+" +");
 			npc.setAlive(false);
 			npc.setHappiness(ConfigBasis.MAX_HAPPINESS);
+			npc.setWorkBuilding(0);
+			npc.setHomeBuilding(0);
 			checkLegacy(npc);
 		}
 	}

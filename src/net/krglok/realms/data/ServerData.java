@@ -240,7 +240,7 @@ public class ServerData implements ServerInterface
 			{
 				rList.addItem(item.getData().getItemType().name(), item.getAmount());
 			}
-			System.out.println(regionType+":"+rList.size());
+			System.out.println("[REALM] getRegionReagents "+regionType+":"+rList.size());
 		}
 		return rList;
 	}

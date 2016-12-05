@@ -46,8 +46,11 @@ public class ConfigBasis implements ConfigInterface
 	public static double TAVERNE_TAXE = 7.0;	/// Tax for Taverne will modified by settlerCount
 
 	private static final int SETTLER_COUNT = 4; 
-	public static final int BREEDING_DAYS = 270; 
+	public static final int BREEDING_DAYS = 67; // days from pregnant to child birth 
 	public static final int BREEDING_DELAY = -70; 
+	public static final int BREED_ADULT = 1264;  // days until child to adult
+	public static final int ADULT_AGE = (14*12*30); // age of adult child
+	public static final double ADULT_MONEY = 100.0; // money for children at change to adult    
 	
 	public static final int ENTERTAIN_SETTLERS = 50;	/// how many settlers happy thru Entertain
 

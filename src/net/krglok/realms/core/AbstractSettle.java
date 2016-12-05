@@ -974,6 +974,15 @@ public abstract class AbstractSettle
 //		return factor;
 	}
 
+	/**
+	 * calculate NPC food consum.
+	 * npc and parent are equal in case not a child
+	 * npc and parent are different, mother or father, if child
+	 * @param npc
+	 * @param required
+	 * @param parent
+	 * @param data
+	 */
 	private void  checkNpcFeed(NpcData npc, int required, NpcData parent, DataInterface data)
 	{
 		double factor = 0.0; 

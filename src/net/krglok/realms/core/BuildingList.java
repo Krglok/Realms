@@ -305,6 +305,40 @@ public class BuildingList  extends HashMap<String,Building>
 		
 		return subList;
 	}
+	
+	public Building getLehenCentral()
+	{
+		for (Building building : this.values())
+		{
+			if (building.getBuildingType() == BuildPlanType.KEEP)
+			{
+				return building;
+			}
+		}
+		for (Building building : this.values())
+		{
+			if (building.getBuildingType() == BuildPlanType.CASTLE)
+			{
+				return building;
+			}
+		}
+		for (Building building : this.values())
+		{
+			if (building.getBuildingType() == BuildPlanType.STRONGHOLD)
+			{
+				return building;
+			}
+		}
+		for (Building building : this.values())
+		{
+			if (building.getBuildingType() == BuildPlanType.PALACE)
+			{
+				return building;
+			}
+		}
+		return null;
+	}
+
 
 	/**
 	 * check for BuildingGroup 100
@@ -422,5 +456,5 @@ public class BuildingList  extends HashMap<String,Building>
 		}
 		return sortedItems;
 	}
-	
+
 }
