@@ -2577,7 +2577,7 @@ public class ServerListener implements Listener
 	    	if (event.getPlayer().getItemInHand().getType() == Material.BOOK)
 	    	{
     			System.out.println("[REALMS] Check Build in Lehen");
-	    		checkAt(pos, l1, event.getPlayer(), msg,l2);
+	    		checkAtLehen(pos, l1, event.getPlayer(), msg,l2);
 	    		plugin.getMessageData().printPage(event.getPlayer(), msg, 1);
 	    		return;
 	    	} else

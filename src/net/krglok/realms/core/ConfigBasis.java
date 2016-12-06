@@ -439,7 +439,7 @@ public class ConfigBasis implements ConfigInterface
 		case TOWN   : return 12 * ConfigBasis.CHEST_STORE;
 		case CITY   : return 20 * ConfigBasis.CHEST_STORE;
 		case METROPOLIS  : return 30 * ConfigBasis.CHEST_STORE;
-		case FORTRESS : return 4 * ConfigBasis.CHEST_STORE;
+		case FORTRESS : return 10 * ConfigBasis.CHEST_STORE;
 		case CAMP : return 10 * ConfigBasis.CHEST_STORE;
 		case LEHEN_1 : return 10 * ConfigBasis.CHEST_STORE;
 		case LEHEN_2 : return 12 * ConfigBasis.CHEST_STORE;
@@ -617,7 +617,7 @@ public class ConfigBasis implements ConfigInterface
 	 */
 	public static int calcItemMax(BuildingList buildingList, SettleType settleType)
 	{
-		int value = 0;
+		int value = ConfigBasis.defaultItemMax(settleType);
 		if (buildingList != null)
 		{
 			for (Building b : buildingList.values())
@@ -644,10 +644,10 @@ public class ConfigBasis implements ConfigInterface
 				}
 			}
 		}
-		if (value == 0)
-		{
-			value = ConfigBasis.defaultItemMax(settleType);
-		}
+//		if (value == 0)
+//		{
+//			value = ConfigBasis.defaultItemMax(settleType);
+//		}
 		return value;
 	}
 
