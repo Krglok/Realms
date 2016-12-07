@@ -17,11 +17,11 @@ public class McmdBuilderLehen implements iModelCommand
 	
 	
 
-	public McmdBuilderLehen(RealmModel rModel, int settleId, BuildPlanType bType, LocationData position, Player player)
+	public McmdBuilderLehen(RealmModel rModel, int lehenId, BuildPlanType bType, LocationData position, Player player)
 	{
 		super();
 		this.rModel = rModel;
-		this.lehenId = settleId;
+		this.lehenId = lehenId;
 		this.bType = bType;
 		this.position = position;
 		this.player = player;

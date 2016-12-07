@@ -449,7 +449,7 @@ public class SettleManager
 	
 	private void checkMoneyLevel( RealmModel rModel, Settlement settle)
 	{
-		double minKonto = settle.getResident().getNpcList().size()*10.0;
+		double minKonto = settle.getResident().getNpcList().size()*100.0;
 		if (settle.getBank().getKonto() < minKonto)
 		{
 			int emeralds = settle.getWarehouse().getItemList().getValue(Material.EMERALD.name());
@@ -458,11 +458,11 @@ public class SettleManager
 			int needAmount = (int) (dif / price);
 			if (needAmount > emeralds)
 			{
-				settle.getWarehouse().depositItemValue(Material.EMERALD.name(), emeralds);
+				settle.getWarehouse().depositItemValue(Material.EMERALD.name(), -emeralds);
 				settle.getBank().depositKonto((price*emeralds), "MoneyLevel", settle.getId());
 			} else
 			{
-				settle.getWarehouse().depositItemValue(Material.EMERALD.name(), needAmount);
+				settle.getWarehouse().depositItemValue(Material.EMERALD.name(), -needAmount);
 				settle.getBank().depositKonto((price*needAmount), "MoneyLevel", settle.getId());
 			}
 		}

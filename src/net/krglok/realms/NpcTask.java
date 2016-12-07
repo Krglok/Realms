@@ -213,6 +213,7 @@ public class NpcTask implements Runnable
 //		    	}
 //		    	
 //		    	doWork(npc, npcData);
+		    	doTreasure(npc, npcData);
 		    	return;
 		    }
 			break;
@@ -220,7 +221,7 @@ public class NpcTask implements Runnable
 			    if (npcRefpos.getWorld().getTime() > 10000)
 			    {
 			    	npcData.setNpcAction(NpcAction.IDLE);
-//			    	doTreasure(npc, npcData);
+			    	doTreasure(npc, npcData);
 			    }
 			break;
 		default :

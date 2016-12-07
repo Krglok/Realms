@@ -45,6 +45,7 @@ import net.krglok.realms.manager.ReputationData;
 import net.krglok.realms.manager.ReputationStatus;
 import net.krglok.realms.manager.ReputationType;
 import net.krglok.realms.model.McmdBuilder;
+import net.krglok.realms.model.McmdBuilderLehen;
 import net.krglok.realms.model.ModelStatus;
 import net.krglok.realms.npc.NpcData;
 import net.krglok.realms.science.Achivement;
@@ -386,6 +387,7 @@ public class ServerListener implements Listener
     			{
         			player.sendMessage("You bought "+itemStack.getType().name()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 8));
         			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+        			settle.getBank().depositKonto(cost, player.getName(), settle.getId());
         			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
         	    	if (itemStack.getAmount() == 1)
         	    	{
@@ -416,6 +418,7 @@ public class ServerListener implements Listener
     			{
         			player.sendMessage("You bought "+itemStack.getItemMeta().getDisplayName()+":"+amount+":"+ConfigBasis.setStrformat2(cost, 5));
         			plugin.economy.withdrawPlayer(player.getName(), cost).toString();
+        			settle.getBank().depositKonto(cost, player.getName(), settle.getId());
         			player.getInventory().addItem(new ItemStack(itemStack.getType(),amount));
     	    		itemStack.setAmount(itemStack.getAmount()-amount);
         			player.updateInventory();
@@ -1165,7 +1168,7 @@ public class ServerListener implements Listener
 				if (checkBuildLehen(pos, name, player, msg,lehen))
 				{
 					BuildPlanType bType = BuildPlanType.getBuildPlanType(name);
-					McmdBuilder modelCommand = new McmdBuilder(plugin.getRealmModel(), lehen.getId(), bType, iLoc,player);
+					McmdBuilderLehen modelCommand = new McmdBuilderLehen(plugin.getRealmModel(), lehen.getId(), bType, iLoc,player);
 					plugin.getRealmModel().OnCommand(modelCommand);
 			    	System.out.println("[REALMS] BUILD "+bType.name()+" in "+lehen.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
 			    	msg.add(ChatColor.GREEN+"BUILD "+bType.name()+" in "+lehen.getName()+" at "+(int)pos.getX()+":"+(int)pos.getY()+":"+(int)pos.getZ());
