@@ -240,6 +240,20 @@ public class BuildingList  extends HashMap<String,Building>
 		
 		return subList;
 	}
+
+	public BuildingList getSubListLehen(int lehenId)
+	{
+		BuildingList subList = new BuildingList();
+		for (Building building : this.values())
+		{
+			if (building.getLehenId() == lehenId)
+			{
+				subList.put(String.valueOf(building.getId()),building);
+			}
+		}
+		
+		return subList;
+	}
 	
 	
 	/**

@@ -638,11 +638,52 @@ public class BuildManager
 						System.out.println("Settle Building added : "+buildPlan.getBuildingType()+":"+region.getID());
 						Building building = new Building(buildPlan.getBuildingType());
 						building.setHsRegion(region.getID());
-						building.setSettleId(settle.getId());
+						switch (settle.getSettleType())
+						{
+						case VILLAGE :
+						case HAMLET :
+						case TOWN :
+						case CITY :
+						case METROPOLIS :
+						{
+							building.setSettleId(settle.getId());
+						}
+						case LEHEN_1 :
+						case LEHEN_2 :
+						case LEHEN_3 :
+						case LEHEN_4 :
+						{
+							building.setLehenId(settle.getId());
+						}
+						default:
+							break;
+						}
+						
 						rModel.getBuildings().addBuilding(building);
 						rModel.getData().writeBuilding(building);
-						settle.setBuildingList(rModel.getBuildings().getSubList(settle.getId()));
-						System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId());
+						switch (settle.getSettleType())
+						{
+						case VILLAGE :
+						case HAMLET :
+						case TOWN :
+						case CITY :
+						case METROPOLIS :
+						{
+							settle.setBuildingList(rModel.getBuildings().getSubList(settle.getId()));
+							System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId()+" Settle "+settle.getId());
+						}
+						case LEHEN_1 :
+						case LEHEN_2 :
+						case LEHEN_3 :
+						case LEHEN_4 :
+						{
+							settle.setBuildingList(rModel.getBuildings().getSubListLehen(settle.getId()));
+							System.out.println("Building added : "+buildPlan.getBuildingType()+":"+building.getId()+" Lehen "+settle.getId());
+						}
+						default:
+							break;
+						}
+
 					} else
 					{
 						System.out.println("New region NOT found: ");
