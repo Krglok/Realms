@@ -9,6 +9,7 @@ import net.citizensnpcs.api.trait.trait.Equipment.EquipmentSlot;
 import net.citizensnpcs.trait.Age;
 import net.citizensnpcs.trait.LookClose;
 import net.citizensnpcs.trait.VillagerProfession;
+import net.citizensnpcs.trait.waypoint.Waypoints;
 import net.krglok.realms.Common.LocationData;
 import net.krglok.realms.npc.EthnosType;
 import net.krglok.realms.npc.NPCType;

@@ -526,6 +526,10 @@ public abstract class AbstractSettle
 						this.getMsg().add("Ingredients:");
 						this.getMsg().addAll(ingredients.keySet());
 						break;
+					case KEEP:			// the lehen can produce food
+					case CASTLE:
+					case STRONGHOLD:
+					case PALACE:
 					case BAKERY:
 						if (building.isSlot())
 						{
@@ -566,43 +570,48 @@ public abstract class AbstractSettle
 					if (checkStock(prodFactor, ingredients))
 					{
 						
-//						iValue = item.value();
-						// berechne die MaterialKosten der Produktion
-						cost = server.getRecipePrice(item.ItemRef(), ingredients);
-						bank.depositKonto(cost, building.getBuildingType().name()+" Production Cost ",getId());
-						// berechne Verkaufpreis der Produktion
-						for (Item product : products)
-						{
-							iValue = (int)((double) product.value() *prodFactor);
-							sale = sale + (building.calcSales(server,product)*iValue);
-							warehouse.depositItemValue(product.ItemRef(),iValue);
-							productionOverview.addCycleValue(product.ItemRef(), iValue);
+//						// Kostenrechnung nur wenn nicht Lehen
+						if ((SettleType.isLehen(settleType)== false)
+							&& (SettleType.isRegiment(settleType)== false)
+							)
+						{	
+							// berechne die MaterialKosten der Produktion
+							cost = server.getRecipePrice(item.ItemRef(), ingredients);
+							bank.depositKonto(cost, building.getBuildingType().name()+" Production Cost ",getId());
+							// berechne Verkaufpreis der Produktion
+							for (Item product : products)
+							{
+								iValue = (int)((double) product.value() *prodFactor);
+								sale = sale + (building.calcSales(server,product)*iValue);
+								warehouse.depositItemValue(product.ItemRef(),iValue);
+								productionOverview.addCycleValue(product.ItemRef(), iValue);
+							}
+							if ((sale) > (2*cost))
+							{
+								// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
+								account = cost; 
+							} else
+							{
+								// berechne Minimal Ertrag
+								account =  sale - cost;   //1.0 * (double) iValue;
+							}
+							// berechnet Ertrag 
+							double salary = account / 2.0; //* 3.0 * 2.0;
+							// Nicht weniger als 1 Kupfer pro Tag
+							if (account < 1.0) 
+							{ 
+								account = 1.0;
+								salary  = 0.5; 
+							}
+			
+							// Ertrag , Einkommen des NPC
+							setWorkerSale( building,  salary);
+	//						account = account - salary;
+							// Ertrag / Einkommen des Building
+							building.addSales(salary);
+							// das Settlement bezahlt die NPC
+							bank.depositKonto(-salary,building.getBuildingType().name()+" Work Salary ", getId());
 						}
-						if ((sale) > (2*cost))
-						{
-							// berechne Ertrag fuer Building .. der Ertrag wird versteuert !!
-							account = cost; 
-						} else
-						{
-							// berechne Minimal Ertrag
-							account =  sale - cost;   //1.0 * (double) iValue;
-						}
-						// berechnet Ertrag 
-						double salary = account / 2.0; //* 3.0 * 2.0;
-						// Nicht weniger als 1 Kupfer pro Tag
-						if (account < 1.0) 
-						{ 
-							account = 1.0;
-							salary  = 0.5; 
-						}
-						// Ertrag , EInkommen des NPC
-						setWorkerSale( building,  salary);
-//						account = account - salary;
-						// Ertrag / Einkommen des Building
-						building.addSales(salary);
-						// das Settlement bezahlt die NPC
-						bank.depositKonto(-salary,building.getBuildingType().name()+" Work Salary ", getId());
-
 						// money to Settlement is deleted , because the settlement get the item !
 //						bank.depositKonto(salary/2.0, "ProdSale ", getId());
 //						bank.depositKonto(salary/10.0, "ProdSale ", getId());
@@ -656,12 +665,14 @@ public abstract class AbstractSettle
 						prodFactor  = 1.0;
 						if (checkStock(prodFactor, ingredients))
 						{
-							building.getMsg().add(this.settleType+"Traning Start for Rookie settle :"+id+":"+recrute.getId());
+							building.getMsg().add(this.settleType+":"+id+" Traning Start for Rookie  :"+recrute.getId());
+							System.out.println("[REALMS) "+this.settleType+":"+id+" Traning Start for Rookie  :"+recrute.getId());
 							// ausrüstung abbuchen
 							consumStock(prodFactor, ingredients);
 							// Siedler aus vorrat nehmen
 							recrute.setNpcType(NPCType.MILITARY);
 							recrute.setUnitType(UnitType.ROOKIE);
+							recrute.setHomeBuilding(building.getId());
 							recrute.setWorkBuilding(building.getId());
 							if (resident.getNpcList().containsKey(recrute.getId()) == true)
 							{
@@ -694,11 +705,13 @@ public abstract class AbstractSettle
 						building.addTrainCounter(1);
 						data.writeBuilding(building);
 						building.getMsg().add("Traning Consum, training progress");
+						System.out.println("[REALMS] Building:"+building.getId()+"Training progress ");
 					} else
 					{
 						this.requiredProduction.addAll(ingredients);
 						String consum = ingredients.asString();
-						building.getMsg().add("No Traning Consum, "+consum);
+						building.getMsg().add("No Training Consum, "+consum);
+						System.out.println("[REALMS] Building:"+building.getId()+"No Training Consum, "+consum);
 					}
 				}
 			} else

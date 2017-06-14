@@ -1,5 +1,7 @@
 package net.krglok.realms.kingdom;
 
+import org.bukkit.block.Biome;
+
 import net.krglok.realms.Common.Bank;
 import net.krglok.realms.Common.Item;
 import net.krglok.realms.Common.ItemList;
@@ -424,6 +426,8 @@ public class Lehen  extends AbstractSettle
 	{
 		// increment age of the Lehen in production cycles
 		age++;
+		
+		
 		// is Sunday get Resources from settlement
 		if (day == 0)
 		{
@@ -445,26 +449,42 @@ public class Lehen  extends AbstractSettle
 			}
 			//  reset the required itm list
 			this.requiredProduction.clear();
-		} else
-		{
-			this.msg.add("Day "+day+"  Unit Production");
-			// unit production
-			for (Building building : buildingList.values())
-			{
-				if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
-				{
-					this.msg.add(building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
-					System.out.println("Lehen :"+this.id+" : "+building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
+		}
 		
+		this.msg.add("Day "+day+"  Unit Production");
+		// unit production
+		for (Building building : buildingList.values())
+		{
+			// not for Military Building and Homes
+			if ((BuildPlanType.getBuildGroup(building.getBuildingType())!= ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+				&& (BuildPlanType.getBuildGroup(building.getBuildingType())> ConfigBasis.BUILDPLAN_GROUP_HOME)
+				)
+			{
+				this.msg.add(building.getBuildingType().name()+":"+building.getId()+" MaxTrain : "+building.getMaxTrain());
+				// loesche letzte Message
+				building.getMsg().clear();
+				// setze defaultBiome auf Settlement Biome 
+				if (building.getBiome() == null)
+				{
+					building.setBiome(Biome.PLAINS);
+				}
+				// doProduction on Building
+				doProduction(server, data, building, Biome.PLAINS);
+			}
+			// unit production
+			if (BuildPlanType.getBuildGroup(building.getBuildingType())== ConfigBasis.BUILDPLAN_GROUP_MILITARY)
+			{
+				this.msg.add(building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
+				System.out.println("Lehen :"+this.id+" : "+building.getBuildingType().name()+":"+building.getId()+" Max Train : "+building.getMaxTrain());
+	
 //					if (building.isEnabled())
-					{
-						building.setIsEnabled(true);
-						doTrainStart(data, building);
-						data.writeLehen(this);
+				{
+					building.setIsEnabled(true);
+					doTrainStart(data, building);
+					data.writeLehen(this);
 //					} else
 //					{
 //						System.out.println("Train not enaled : "+building.getBuildingType()+" in "+this.id+" "+this.name);
-					}
 				}
 			}
 		}
@@ -495,7 +515,8 @@ public class Lehen  extends AbstractSettle
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setHomeBuilding(building.getId());
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.MILITIA);
 								UnitMilitia.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -520,7 +541,8 @@ public class Lehen  extends AbstractSettle
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setHomeBuilding(building.getId());
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.ARCHER);
 								UnitArcher.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -543,7 +565,8 @@ public class Lehen  extends AbstractSettle
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setHomeBuilding(building.getId());
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.LIGHT_INFANTRY);
 								UnitLightInfantry.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -566,7 +589,8 @@ public class Lehen  extends AbstractSettle
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setHomeBuilding(building.getId());
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.HEAVY_INFANTRY);
 								UnitHeavyInfantry.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -589,7 +613,8 @@ public class Lehen  extends AbstractSettle
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setHomeBuilding(building.getId());
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.KNIGHT);
 								UnitKnight.initData(recrute.getUnit());
 								building.addMaxTrain(-1);

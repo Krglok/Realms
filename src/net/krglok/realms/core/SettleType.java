@@ -60,4 +60,17 @@ public enum SettleType
 		if (settleType == LEHEN_4) return true;
 		return false;
 	}
+
+	public static boolean isRegiment(SettleType settleType)
+	{
+		if (settleType == CAMP) return true;
+		return false;
+	}
+
+	public static boolean isFortress(SettleType settleType)
+	{
+		if (settleType == FORTRESS) return true;
+		return false;
+	}
+	
 }

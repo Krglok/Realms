@@ -1386,7 +1386,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.MILITIA);
 								UnitMilitia.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -1407,7 +1407,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.ARCHER);
 								UnitArcher.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -1425,7 +1425,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.LIGHT_INFANTRY);
 								UnitLightInfantry.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -1443,7 +1443,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.HEAVY_INFANTRY);
 								UnitHeavyInfantry.initData(recrute.getUnit());
 								building.addMaxTrain(-1);
@@ -1461,7 +1461,7 @@ public class Settlement extends AbstractSettle //implements Serializable
 							NpcData recrute = barrack.getUnitList().getBuildingRecrute(building.getId());
 							if (recrute != null)
 							{
-								recrute.setWorkBuilding(0);
+								recrute.setWorkBuilding(building.getId());
 								recrute.setUnitType(UnitType.KNIGHT);
 								UnitKnight.initData(recrute.getUnit());
 								building.addMaxTrain(-1);

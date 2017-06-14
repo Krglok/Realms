@@ -172,6 +172,8 @@ public class UnitTask implements Runnable
 		case NONE:
 			setHomePosition(npcData,npc);
 			npcData.setUnitAction(UnitAction.IDLE);
+    		setEnemy(npcData,npc);
+			
 			break;
 		case HOME: // ab 6:00 gehen sie auf GUARD
 		    if ((npcRefpos.getWorld().getTime() >= 0) && (npcRefpos.getWorld().getTime() < 11000))
@@ -242,6 +244,17 @@ public class UnitTask implements Runnable
 		    if ((npcRefpos.getWorld().getTime() >= 0) && (npcRefpos.getWorld().getTime() < 11000))
 			{
 				npcData.setUnitAction(UnitAction.IDLE);
+			} else
+			{
+			    actTarget = plugin.makeLocation(npcData.getLocation()); 
+			    if (distance2D(npc.getEntity().getLocation(),actTarget) >= 2.5)
+			    {
+			    	LocationData newPos = npcData.getLocation();
+			    	if (newPos != null)
+			    	{
+			    		setTarget(npc,newPos);
+			    	}
+			    }
 			}
 			break;
 		case GUARD: // bis 22:00 sind sie auf GUARD
@@ -273,7 +286,7 @@ public class UnitTask implements Runnable
 		case NIGHTWATCH:
 			npcData.setUnitAction(UnitAction.IDLE);
 			break;
-		default:
+		default: // IDLE
 			// 7:00 bis 17:00 GUARD für MILITIA
 		    if ((npcRefpos.getWorld().getTime() >= 500) && (npcRefpos.getWorld().getTime() < 11000))
 			{
